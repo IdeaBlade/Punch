@@ -1,0 +1,51 @@
+﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
+using Caliburn.Micro;
+using DomainModel;
+using DomainModel.Messages;
+using IdeaBlade.Application.Framework.Core.Persistence;
+using IdeaBlade.Core;
+using IdeaBlade.EntityModel;
+
+namespace TempHire
+{
+    public class EntityManagerInterceptor : EntityManagerInterceptor<TempHireEntities>
+    {
+        private readonly IEventAggregator _eventAggregator;
+        private IEnumerable<object> _retainedRoots;
+
+        [ImportingConstructor]
+        public EntityManagerInterceptor(IEventAggregator eventAggregator)
+        {
+            _eventAggregator = eventAggregator;
+        }
+
+        public override void OnEntityChanged(TempHireEntities source, EntityChangedEventArgs args)
+        {
+            _eventAggregator.Publish(new EntityChangedMessage(args.Entity));
+        }
+
+        public override void OnSaving(TempHireEntities source, EntitySavingEventArgs args)
+        {
+            // Add necessary aggregate root object to the save list for validation and concurrency check
+            _retainedRoots = args.Entities.OfType<IHasRoot>()
+                .Where(e => e.Root != null && !EntityAspect.Wrap(e.Root).IsChanged)
+                .Select(e => e.Root)
+                .Distinct()
+                .ToList();
+
+            _retainedRoots.ForEach(root => EntityAspect.Wrap(root).SetModified());
+            _retainedRoots.ForEach(args.Entities.Add);
+        }
+
+        public override void OnSaved(TempHireEntities source, EntitySavedEventArgs args)
+        {
+            if (args.CompletedSuccessfully)
+                _eventAggregator.Publish(new SavedMessage(args.Entities));
+
+            if (args.HasError)
+                _retainedRoots.ForEach(root => EntityAspect.Wrap(root).RejectChanges());
+        }
+    }
+}

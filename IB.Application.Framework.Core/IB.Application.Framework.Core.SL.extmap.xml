@@ -1,0 +1,11 @@
+﻿<?xml version="1.0"?>
+<manifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <assembly>
+    <name>IB.Application.Framework.Core.SL</name>
+    <version>2.0.2.1</version>
+    <publickeytoken>7d8c7326b555a04a</publickeytoken>
+    <relpath>IB.Application.Framework.Core.SL.dll</relpath>
+    <extension downloadUri="IB.Application.Framework.Core.SL.zip" />
+  </assembly>
+</manifest>

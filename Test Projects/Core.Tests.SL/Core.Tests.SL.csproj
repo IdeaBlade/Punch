@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0D74727E-5C3A-4F77-B769-FD3E976B01F4}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Core.Tests.SL</RootNamespace>
+    <AssemblyName>Core.Tests.SL</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures />
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>Core.Tests.SL.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>Core.Tests.SL.App</SilverlightAppEntry>
+    <TestPageFileName>TestPage.html</TestPageFileName>
+    <CreateTestPage>true</CreateTestPage>
+    <ValidateXaml>true</ValidateXaml>
+    <EnableOutOfBrowser>false</EnableOutOfBrowser>
+    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
+    <UsePlatformExtensions>false</UsePlatformExtensions>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <LinkedServerProject />
+    <SkipPostSharp>True</SkipPostSharp>
+  </PropertyGroup>
+  <!--
+  //
+  // Silverlight Code Coverage Instrumentation
+  // List any libraries or assemblies that you would like to instrument during
+  // a code coverage pass. An example, for ClassLibrary1, is provided, and
+  // commented out below as a starting point:
+  //
+  -->
+  <!--
+  <ItemGroup>
+    <InstrumentSilverlightAssemblies Include="SilverlightClassLibrary1">
+      <Visible>false</Visible>
+    </InstrumentSilverlightAssemblies>
+  </ItemGroup>
+  -->
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>DevForce-Caliburn.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\..\packages\Caliburn.Micro.1.2.0\lib\SL40\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.Core.SL, Version=0.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="IdeaBlade.EntityModel.SL, Version=0.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="IdeaBlade.Linq.SL, Version=0.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="IdeaBlade.TestFramework.SL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IbAsyncTest.1.0\lib\sl40\IdeaBlade.TestFramework.SL.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.Validation.SL, Version=0.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Microsoft.Silverlight.Testing">
+      <HintPath>$(MSBuildExtensionsPath)\..\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Testing\Microsoft.Silverlight.Testing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight">
+      <HintPath>$(MSBuildExtensionsPath)\..\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Testing\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows" />
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Samples\SampleApplication\SampleApplication\DesignTimeSupport\ViewModelLocator.cs">
+      <Link>Helpers\ViewModelLocator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Samples\SampleApplication\SampleApplication\Repository\CustomerRepository.cs">
+      <Link>Helpers\CustomerRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Samples\SampleApplication\SampleApplication\Repository\ICustomerRepository.cs">
+      <Link>Helpers\ICustomerRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Samples\SampleApplication\SampleApplication\ViewModel\CustomerListViewModel.cs">
+      <Link>Helpers\CustomerListViewModel.cs</Link>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CompositionUnitTests.cs" />
+    <Compile Include="EventHandlerUnitTests.cs" />
+    <Compile Include="HarnessUnitTests.cs" />
+    <Compile Include="Helpers\EntityManagerProviderFactory.cs" />
+    <Compile Include="Helpers\InjectionTestClasses.cs" />
+    <Compile Include="Helpers\NonSharedObject.cs" />
+    <Compile Include="Helpers\TestEntityManagerInterceptor.cs" />
+    <Compile Include="Helpers\TestEventHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="OnlineUnitTests.cs" />
+    <Compile Include="Helpers\SharedObject.cs" />
+    <Compile Include="Helpers\SyncInterceptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.config" />
+    <None Include="DevForce-Caliburn.snk" />
+    <None Include="packages.config" />
+    <None Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Caliburn.Micro.Extensions\Caliburn.Micro.Extensions.SL.csproj">
+      <Project>{7ECA6212-BDB6-4325-946E-97D9C227E468}</Project>
+      <Name>Caliburn.Micro.Extensions.SL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IB.Application.Framework.Core\IB.Application.Framework.Core.SL.csproj">
+      <Project>{761B386E-02D2-45DE-B485-1545D50F148F}</Project>
+      <Name>IB.Application.Framework.Core.SL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Samples\SampleApplication\SampleModel\SampleModel.SL.csproj">
+      <Project>{1163F40F-6DF4-433A-9F22-DF7F0E41EAB3}</Project>
+      <Name>SampleModel.SL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <Import Condition="$(SilverlightVersion)=='v3.0'" Project="$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SilverlightToolkit\Tools\v3.0)Microsoft.Silverlight.Toolkit.Build.targets" />
+  <Import Condition="$(SilverlightVersion)=='v4.0'" Project="$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SilverlightToolkit\Tools\v4.0)Microsoft.Silverlight.Toolkit.Build.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+      <UserProperties DocumentXCommentEditorState="&lt;HtmlEditState&gt;&#xA;  &lt;Attributes /&gt;&#xA;&lt;/HtmlEditState&gt;" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

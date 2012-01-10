@@ -1,0 +1,80 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using IdeaBlade.Aop;
+using IdeaBlade.Application.Framework.Core.Persistence;
+using IdeaBlade.EntityModel;
+using IdeaBlade.Validation;
+
+namespace DomainModel
+{
+    [ProvideEntityAspect]
+    [DataContract(IsReference = true)]
+    public class WorkExperienceItem : IHasRoot
+    {
+        internal WorkExperienceItem()
+        {
+        }
+
+        /// <summary>Gets or sets the Id. </summary>
+        [DataMember]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_Id")]
+        public Guid Id { get; internal set; }
+
+        /// <summary>Gets or sets the From. </summary>
+        [DataMember]
+        [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_From")]
+        public DateTime From { get; set; }
+
+        /// <summary>Gets or sets the To. </summary>
+        [DataMember]
+        [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_To")]
+        public DateTime To { get; set; }
+
+        /// <summary>Gets or sets the PositionTitle. </summary>
+        [DataMember]
+        [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_PositionTitle")]
+        public string PositionTitle { get; set; }
+
+        /// <summary>Gets or sets the Company. </summary>
+        [DataMember]
+        [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_Company")]
+        public string Company { get; set; }
+
+        /// <summary>Gets or sets the Location. </summary>
+        [DataMember]
+        [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_Location")]
+        public string Location { get; set; }
+
+        /// <summary>Gets or sets the Description. </summary>
+        [DataMember]
+        [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_Description")]
+        public string Description { get; set; }
+
+        /// <summary>Gets or sets the ResourceId. </summary>
+        [DataMember]
+        [ForeignKey("Resource")]
+        [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_ResourceId")]
+        public Guid ResourceId { get; set; }
+
+        /// <summary>Gets or sets the Resource. </summary>
+        [DataMember]
+        [InverseProperty("WorkExperience")]
+        public Resource Resource { get; set; }
+
+        #region IHasRoot Members
+
+        public object Root
+        {
+            get { return !EntityAspect.Wrap(Resource).IsNullEntity ? Resource : null; }
+        }
+
+        #endregion
+
+        internal static WorkExperienceItem Create()
+        {
+            return new WorkExperienceItem {Id = CombGuid.NewGuid()};
+        }
+    }
+}

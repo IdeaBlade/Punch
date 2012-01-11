@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace TempHire.Repositories
+namespace Common.Repositories
 {
     public interface IRepositoryManager<T>
     {

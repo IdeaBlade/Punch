@@ -1,8 +1,8 @@
-﻿using Cocktail;
+using Cocktail;
 using Security;
 using Security.Composition;
 
-namespace TempHire.EntityManagerProviders
+namespace Common.EntityManagerProviders
 {
     public class DevSecurityEntityManagerProvider : BaseFakeStoreEntityManagerProvider<SecurityEntities>
     {

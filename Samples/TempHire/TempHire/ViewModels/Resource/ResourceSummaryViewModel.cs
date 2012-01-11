@@ -4,7 +4,6 @@ using Caliburn.Micro;
 using Common.Dialog;
 using Common.Errors;
 using Common.Repositories;
-using TempHire.Repositories;
 
 namespace TempHire.ViewModels.Resource
 {

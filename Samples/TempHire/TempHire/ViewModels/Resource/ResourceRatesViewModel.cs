@@ -8,7 +8,6 @@ using Common.Dialog;
 using Common.Errors;
 using Common.Repositories;
 using DomainModel;
-using TempHire.Repositories;
 
 namespace TempHire.ViewModels.Resource
 {

@@ -2,7 +2,7 @@ using Cocktail;
 using DomainModel;
 using Security.Composition;
 
-namespace TempHire.EntityManagerProviders
+namespace Common.EntityManagerProviders
 {
     public class DevTempHireEntityManagerProvider : BaseFakeStoreEntityManagerProvider<TempHireEntities>
     {

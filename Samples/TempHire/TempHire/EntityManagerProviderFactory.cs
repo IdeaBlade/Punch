@@ -3,7 +3,6 @@ using Cocktail;
 using Common.EntityManagerProviders;
 using DomainModel;
 using Security;
-using TempHire.EntityManagerProviders;
 
 namespace TempHire
 {

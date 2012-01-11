@@ -1,7 +1,7 @@
 using Cocktail;
 using DomainModel;
 
-namespace TempHire.EntityManagerProviders
+namespace TempHire.DesignTimeSupport
 {
     public class DesignTimeEntityManagerProvider : BaseDesignTimeEntityManagerProvider<TempHireEntities>
     {

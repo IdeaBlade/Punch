@@ -2,7 +2,6 @@
 using Cocktail;
 using Common.Repositories;
 using DomainModel;
-using TempHire.Repositories;
 
 namespace TempHire.DesignTimeSupport
 {

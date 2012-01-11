@@ -12,7 +12,6 @@ using Common.Repositories;
 using Common.SampleData;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
-using TempHire.Repositories;
 
 namespace TempHire.ViewModels.Resource
 {

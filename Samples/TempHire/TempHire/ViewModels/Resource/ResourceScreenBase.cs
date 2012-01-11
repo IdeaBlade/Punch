@@ -4,7 +4,6 @@ using Cocktail;
 using Common.Errors;
 using Common.Repositories;
 using Common.SampleData;
-using TempHire.Repositories;
 
 namespace TempHire.ViewModels.Resource
 {

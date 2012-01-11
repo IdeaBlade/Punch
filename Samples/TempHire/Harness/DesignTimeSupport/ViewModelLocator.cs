@@ -9,7 +9,6 @@ using Common.Toolbar;
 using Common.Workspace;
 using DomainModel;
 using TempHire.Authentication;
-using TempHire.EntityManagerProviders;
 using TempHire.ViewModels;
 using TempHire.ViewModels.Login;
 using TempHire.ViewModels.Resource;

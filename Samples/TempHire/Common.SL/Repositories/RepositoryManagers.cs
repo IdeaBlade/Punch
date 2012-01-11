@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.ComponentModel.Composition;
 using Cocktail;
-using Common.Repositories;
 
-namespace TempHire.Repositories
+namespace Common.Repositories
 {
     public class RepositoryManager<T> : ObjectManager<Guid,T>, IRepositoryManager<T>
     {

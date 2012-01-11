@@ -12,8 +12,6 @@ using Common.Repositories;
 using Common.Toolbar;
 using Common.Workspace;
 using DomainModel.Projections;
-using IdeaBlade.EntityModel;
-using TempHire.Repositories;
 using Action = System.Action;
 
 namespace TempHire.ViewModels.Resource

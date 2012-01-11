@@ -8,7 +8,6 @@ using Common.Errors;
 using Common.Repositories;
 using DomainModel;
 using IdeaBlade.Core;
-using TempHire.Repositories;
 
 namespace TempHire.ViewModels.Resource
 {

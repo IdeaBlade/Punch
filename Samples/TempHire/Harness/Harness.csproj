@@ -116,18 +116,6 @@
     <Compile Include="..\TempHire\EntityManagerProviderFactory.cs">
       <Link>EntityManagerProviderFactory.cs</Link>
     </Compile>
-    <Compile Include="..\TempHire\EntityManagerProviders\DevSecurityEntityManagerProvider.cs">
-      <Link>EntityManagerProviders\DevSecurityEntityManagerProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\EntityManagerProviders\DevTempHireEntityManagerProvider.cs">
-      <Link>EntityManagerProviders\DevTempHireEntityManagerProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\Repositories\IRepositoryManager.cs">
-      <Link>Repositories\IRepositoryManager.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\Repositories\RepositoryManagers.cs">
-      <Link>Repositories\RepositoryManagers.cs</Link>
-    </Compile>
     <Compile Include="..\TempHire\SyncInterceptor.cs">
       <Link>SyncInterceptor.cs</Link>
     </Compile>
@@ -203,9 +191,9 @@
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authentication\FakeAuthenticationService.cs" />
+    <Compile Include="DesignTimeSupport\DesignTimeEntityManagerProvider.cs" />
     <Compile Include="DesignTimeSupport\DesignTimeResourceRepositoryManager.cs" />
     <Compile Include="DesignTimeSupport\ViewModelLocator.cs" />
-    <Compile Include="EntityManagerProviders\DesignTimeEntityManagerProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

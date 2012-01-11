@@ -395,7 +395,8 @@ namespace Cocktail
                 if (entityAspect.EntityState.IsDeletedOrDetached()) continue;
 
                 var validationErrors = Manager.VerifierEngine.Execute(entity);
-                Validate(entity, validationErrors);
+                foreach (var i in EntityManagerInterceptors)
+                    i.Validate(entity, validationErrors);
                 // Extract only validation errors
                 validationErrors = validationErrors.Errors;
 
@@ -415,16 +416,6 @@ namespace Cocktail
             }
 
             HasValidationError = args.Cancel;
-        }
-
-        /// <summary>
-        /// Override to perform custom validation on a given entity.
-        /// </summary>
-        /// <param name="entity">The entity to be validated</param>
-        /// <param name="validationErrors">A collection to add the validation results</param>
-        protected virtual void Validate(object entity, VerifierResultCollection validationErrors)
-        {
-
         }
 
         private void RetainDeletedEntityKeys(IEnumerable<object> syncEntities)

@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="TempHire.Views.Resource.PhoneTypeSelectorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+             d:DataContext="{Binding Source={StaticResource ViewModelLocator},
+                                     Path=PhoneTypeSelectorViewModel}"
+             d:DesignHeight="100"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+
+    <Grid x:Name="LayoutRoot"
+          Width="230"
+          Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <sdk:Label Content="Select type:" />
+        <ComboBox Grid.Column="1"
+                  Height="25"
+                  Margin="2"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Center"
+                  DisplayMemberPath="Name"
+                  ItemsSource="{Binding PhoneTypes}"
+                  SelectedItem="{Binding SelectedPhoneType,
+                                         Mode=TwoWay}" />
+    </Grid>
+</UserControl>

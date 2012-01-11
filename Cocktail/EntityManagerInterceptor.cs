@@ -17,6 +17,7 @@
 
 using System.ComponentModel.Composition;
 using IdeaBlade.EntityModel;
+using IdeaBlade.Validation;
 
 namespace Cocktail
 {
@@ -94,6 +95,15 @@ namespace Cocktail
         /// <param name="args">The original event arguments.</param>
         /// <param name="source">The source of the event.</param>
         public virtual void OnSaving(T source, EntitySavingEventArgs args)
+        {
+        }
+
+        /// <summary>
+        /// Override to perform custom validation on a given entity.
+        /// </summary>
+        /// <param name="entity">The entity to be validated</param>
+        /// <param name="validationErrors">A collection to add the validation results</param>
+        public virtual void Validate(object entity, VerifierResultCollection validationErrors)
         {
         }
     }

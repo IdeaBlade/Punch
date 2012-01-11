@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3CDF9103-91FB-417E-81A8-AEC269276939}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TempHire</RootNamespace>
+    <AssemblyName>Harness</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures>
+    </SupportedCultures>
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>Harness.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>Harness.App</SilverlightAppEntry>
+    <TestPageFileName>HarnessTestPage.html</TestPageFileName>
+    <CreateTestPage>true</CreateTestPage>
+    <ValidateXaml>true</ValidateXaml>
+    <EnableOutOfBrowser>false</EnableOutOfBrowser>
+    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
+    <UsePlatformExtensions>false</UsePlatformExtensions>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <LinkedServerProject>
+    </LinkedServerProject>
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>4.0.20901.0</ExpressionBlendVersion>
+    <SkipPostSharp>True</SkipPostSharp>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;HARNESS</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Fakestore|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Fakestore\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;HARNESS;FAKESTORE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>Bin\Debug\Harness.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <NoConfig>true</NoConfig>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\..\..\packages\Caliburn.Micro.1.2.0\lib\SL40\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.Core.SL, Version=0.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="IdeaBlade.EntityModel.SL, Version=0.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="IdeaBlade.Validation.SL, Version=0.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.ComponentModel.Composition, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.ComponentModel.Composition.Initialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Data, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Data.Input, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Navigation, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Libs\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\TempHire\EntityManagerInterceptor.cs">
+      <Link>EntityManagerInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\EntityManagerProviderFactory.cs">
+      <Link>EntityManagerProviderFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\EntityManagerProviders\DevSecurityEntityManagerProvider.cs">
+      <Link>EntityManagerProviders\DevSecurityEntityManagerProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\EntityManagerProviders\DevTempHireEntityManagerProvider.cs">
+      <Link>EntityManagerProviders\DevTempHireEntityManagerProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\Repositories\IRepositoryManager.cs">
+      <Link>Repositories\IRepositoryManager.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\Repositories\RepositoryManagers.cs">
+      <Link>Repositories\RepositoryManagers.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\SyncInterceptor.cs">
+      <Link>SyncInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\HomeViewModel.cs">
+      <Link>ViewModels\HomeViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Login\LoginViewModel.cs">
+      <Link>ViewModels\Login\LoginViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\AddressTypeSelectorViewModel.cs">
+      <Link>ViewModels\Resource\AddressTypeSelectorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\IResourceDetailSection.cs">
+      <Link>ViewModels\Resource\IResourceDetailSection.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\PhoneTypeSelectorViewModel.cs">
+      <Link>ViewModels\Resource\PhoneTypeSelectorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\RateTypeSelectorViewModel.cs">
+      <Link>ViewModels\Resource\RateTypeSelectorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\ResourceAddressItemViewModel.cs">
+      <Link>ViewModels\Resource\ResourceAddressItemViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\ResourceAddressListViewModel.cs">
+      <Link>ViewModels\Resource\ResourceAddressListViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\ResourceContactInfoViewModel.cs">
+      <Link>ViewModels\Resource\ResourceContactInfoViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\ResourceDetailViewModel.cs">
+      <Link>ViewModels\Resource\ResourceDetailViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\ResourceManagementViewModel.cs">
+      <Link>ViewModels\Resource\ResourceManagementViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\ResourceNameEditorViewModel.cs">
+      <Link>ViewModels\Resource\ResourceNameEditorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\ResourcePhoneItemViewModel.cs">
+      <Link>ViewModels\Resource\ResourcePhoneItemViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\ResourcePhoneListViewModel.cs">
+      <Link>ViewModels\Resource\ResourcePhoneListViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\ResourceRatesViewModel.cs">
+      <Link>ViewModels\Resource\ResourceRatesViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\ResourceScreenBase.cs">
+      <Link>ViewModels\Resource\ResourceScreenBase.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\ResourceSearchViewModel.cs">
+      <Link>ViewModels\Resource\ResourceSearchViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\ResourceSkillsViewModel.cs">
+      <Link>ViewModels\Resource\ResourceSkillsViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\ResourceSummaryViewModel.cs">
+      <Link>ViewModels\Resource\ResourceSummaryViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Resource\ResourceWorkExperienceViewModel.cs">
+      <Link>ViewModels\Resource\ResourceWorkExperienceViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\ShellViewModel.cs">
+      <Link>ViewModels\ShellViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\Views\Resource\ResourceNameEditorView.xaml.cs">
+      <Link>Views\Resource\ResourceNameEditorView.xaml.cs</Link>
+      <DependentUpon>ResourceNameEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="Authentication\FakeAuthenticationService.cs" />
+    <Compile Include="DesignTimeSupport\DesignTimeResourceRepositoryManager.cs" />
+    <Compile Include="DesignTimeSupport\ViewModelLocator.cs" />
+    <Compile Include="EntityManagerProviders\DesignTimeEntityManagerProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Cocktail\Cocktail.SL.csproj">
+      <Project>{7ECA6212-BDB6-4325-946E-97D9C227E468}</Project>
+      <Name>Cocktail.SL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common.SL\Common.SL.csproj">
+      <Project>{3D676816-91A4-4B53-877E-95FE5B348480}</Project>
+      <Name>Common.SL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainModel.SL\DomainModel.SL.csproj">
+      <Project>{77A1A2B1-66E8-4141-8405-87AB13775FB8}</Project>
+      <Name>DomainModel.SL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Security.SL\Security.SL.csproj">
+      <Project>{DD97F37C-E978-4483-B0BC-CFC49940B560}</Project>
+      <Name>Security.SL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="..\TempHire\Views\HomeView.xaml">
+      <Link>Views\HomeView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Login\LoginView.xaml">
+      <Link>Views\Login\LoginView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Resource\AddressTypeSelectorView.xaml">
+      <Link>Views\Resource\AddressTypeSelectorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Resource\PhoneTypeSelectorView.xaml">
+      <Link>Views\Resource\PhoneTypeSelectorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Resource\RateTypeSelectorView.xaml">
+      <Link>Views\Resource\RateTypeSelectorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Resource\ResourceAddressListView.xaml">
+      <Link>Views\Resource\ResourceAddressListView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Resource\ResourceContactInfoView.xaml">
+      <Link>Views\Resource\ResourceContactInfoView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Resource\ResourceDetailView.xaml">
+      <Link>Views\Resource\ResourceDetailView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Resource\ResourceManagementView.xaml">
+      <Link>Views\Resource\ResourceManagementView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Resource\ResourceNameEditorView.xaml">
+      <Link>Views\Resource\ResourceNameEditorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Resource\ResourcePhoneListView.xaml">
+      <Link>Views\Resource\ResourcePhoneListView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Resource\ResourceRatesView.xaml">
+      <Link>Views\Resource\ResourceRatesView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Resource\ResourceSearchView.xaml">
+      <Link>Views\Resource\ResourceSearchView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Resource\ResourceSkillsView.xaml">
+      <Link>Views\Resource\ResourceSkillsView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Resource\ResourceSummaryView.xaml">
+      <Link>Views\Resource\ResourceSummaryView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Resource\ResourceWorkExperienceView.xaml">
+      <Link>Views\Resource\ResourceWorkExperienceView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\ShellView.xaml">
+      <Link>Views\ShellView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

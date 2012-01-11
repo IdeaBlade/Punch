@@ -72,9 +72,6 @@ namespace Cocktail
 
             CompositionBatch batch = compositionBatch ?? new CompositionBatch();
 
-            if (!ExportExists<IEventAggregator>())
-                batch.AddExportedValue<IEventAggregator>(new EventAggregator());
-
             if (!ExportExists<IAuthenticationProvider>())
                 batch.AddExportedValue<IAuthenticationProvider>(new AuthenticationManagerProvider());
 

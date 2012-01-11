@@ -79,7 +79,7 @@
     <Compile Include="DefaultDebugLogger.cs" />
     <Compile Include="DefaultEntityManagerSyncInterceptor.cs" />
     <Compile Include="DesignModeProber.cs" />
-    <Compile Include="EntityManagerInterceptor.cs" />
+    <Compile Include="EntityManagerDelegate.cs" />
     <Compile Include="EntityManagerSyncInterceptor.cs" />
     <Compile Include="EventDispatcher.cs" />
     <Compile Include="EventFns.cs" />

@@ -187,20 +187,20 @@ namespace Cocktail {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Probed for EntityManagerInterceptor and found {0} matchting exports..
+        ///   Looks up a localized string similar to Probed for EntityManagerDelegate and found {0} matchting exports..
         /// </summary>
-        internal static string ProbedForEntityManagerInterceptorAndFoundMatch {
+        internal static string ProbedForEntityManagerDelegateAndFoundMatch {
             get {
-                return ResourceManager.GetString("ProbedForEntityManagerInterceptorAndFoundMatch", resourceCulture);
+                return ResourceManager.GetString("ProbedForEntityManagerDelegateAndFoundMatch", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Probed for EntityManagerInterceptor and found no matchting exports..
+        ///   Looks up a localized string similar to Probed for EntityManagerDelegate and found no matchting exports..
         /// </summary>
-        internal static string ProbedForEntityManagerInterceptorAndFoundNoMatch {
+        internal static string ProbedForEntityManagerDelegateAndFoundNoMatch {
             get {
-                return ResourceManager.GetString("ProbedForEntityManagerInterceptorAndFoundNoMatch", resourceCulture);
+                return ResourceManager.GetString("ProbedForEntityManagerDelegateAndFoundNoMatch", resourceCulture);
             }
         }
         

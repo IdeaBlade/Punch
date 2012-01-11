@@ -23,15 +23,15 @@ namespace Cocktail
 {
     /// <summary>Internal use.</summary>
     [InheritedExport]
-    public abstract class EntityManagerInterceptor
+    public abstract class EntityManagerDelegate
     {
     }
 
-    /// <summary>Provides the means to safely and conveniently handle events from an EntityManager without risking memory-leaks.</summary>
+    /// <summary>Provides the means to perform tasks in response to events from an EntityManager.</summary>
     /// <typeparam name="T">The EntityManager type for which the events should be intercepted.</typeparam>
-    /// <remarks>To handle events, create a new class extending EntityManagerInterceptor&lt;T&gt; and override the respective method. Multiple
-    /// EntityManagerInterceptors are supported.</remarks>
-    public abstract class EntityManagerInterceptor<T> : EntityManagerInterceptor
+    /// <remarks>To handle events, create a new class extending EntityManagerDelegate&lt;T&gt; and override the respective methods. Multiple
+    /// EntityManagerDelegates are supported.</remarks>
+    public abstract class EntityManagerDelegate<T> : EntityManagerDelegate
         where T : EntityManager
     {
         /// <summary>Called whenever the entityManager is cleared.</summary>
@@ -99,7 +99,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Override to perform custom validation on a given entity.
+        /// Override to perform client-side custom validation on a given entity before saving.
         /// </summary>
         /// <param name="entity">The entity to be validated</param>
         /// <param name="validationErrors">A collection to add the validation results</param>

@@ -39,7 +39,7 @@ namespace Cocktail
         private readonly EventDispatcher<T> _eventDispatcher;
         private IEnumerable<EntityKey> _deletedEntityKeys;
         private IEnumerable<IValidationErrorNotification> _validationErrorNotifiers;
-        private IEnumerable<EntityManagerInterceptor<T>> _entityManagerInterceptors;
+        private IEnumerable<EntityManagerDelegate<T>> _entityManagerInterceptors;
 
         private readonly PartLocator<IEventAggregator> _eventAggregatorLocator;
         private PartLocator<IAuthenticationService> _authenticationServiceLocator;
@@ -61,7 +61,7 @@ namespace Cocktail
                 new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.NonShared, true, Context)
                     .WithDefaultGenerator(() => new DefaultEntityManagerSyncInterceptor());
 
-            _eventDispatcher = new EventDispatcher<T>(EntityManagerInterceptors);
+            _eventDispatcher = new EventDispatcher<T>(EntityManagerDelegates);
             _eventDispatcher.PrincipalChanged += OnPrincipalChanged;
             _eventDispatcher.Querying += OnQuerying;
             _eventDispatcher.Saving += OnSaving;
@@ -73,22 +73,22 @@ namespace Cocktail
                     .With(authenticationService);
         }
 
-        private IEnumerable<EntityManagerInterceptor<T>> EntityManagerInterceptors
+        private IEnumerable<EntityManagerDelegate<T>> EntityManagerDelegates
         {
             get
             {
                 if (_entityManagerInterceptors != null) return _entityManagerInterceptors;
 
-                if (!CompositionHelper.IsConfigured) return new EntityManagerInterceptor<T>[0];
+                if (!CompositionHelper.IsConfigured) return new EntityManagerDelegate<T>[0];
 
-                _entityManagerInterceptors = Context.GetInstances<EntityManagerInterceptor>(CreationPolicy.Any)
-                    .OfType<EntityManagerInterceptor<T>>()
+                _entityManagerInterceptors = Context.GetInstances<EntityManagerDelegate>(CreationPolicy.Any)
+                    .OfType<EntityManagerDelegate<T>>()
                     .ToList();
 
                 TraceFns.WriteLine(_entityManagerInterceptors.Any()
-                                       ? string.Format(StringResources.ProbedForEntityManagerInterceptorAndFoundMatch,
+                                       ? string.Format(StringResources.ProbedForEntityManagerDelegateAndFoundMatch,
                                                        _entityManagerInterceptors.Count())
-                                       : StringResources.ProbedForEntityManagerInterceptorAndFoundNoMatch);
+                                       : StringResources.ProbedForEntityManagerDelegateAndFoundNoMatch);
 
                 return _entityManagerInterceptors;
             }
@@ -395,7 +395,7 @@ namespace Cocktail
                 if (entityAspect.EntityState.IsDeletedOrDetached()) continue;
 
                 var validationErrors = Manager.VerifierEngine.Execute(entity);
-                foreach (var i in EntityManagerInterceptors)
+                foreach (var i in EntityManagerDelegates)
                     i.Validate(entity, validationErrors);
                 // Extract only validation errors
                 validationErrors = validationErrors.Errors;

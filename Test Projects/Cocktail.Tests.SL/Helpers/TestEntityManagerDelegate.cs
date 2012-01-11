@@ -4,7 +4,7 @@ using Test.Model;
 namespace Cocktail.Tests.Helpers
 {
     [PartNotDiscoverable]
-    public class TestEntityManagerInterceptor : EntityManagerInterceptor<NorthwindIBEntities>
+    public class TestEntityManagerDelegate : EntityManagerDelegate<NorthwindIBEntities>
     {
         public int QueryingRaised;
         public int QueriedRaised;

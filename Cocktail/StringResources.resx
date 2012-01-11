@@ -186,11 +186,11 @@
   <data name="CreatingEntityManagerDuringRecompositionNotAllowed" xml:space="preserve">
     <value>Creating an EntityManager during recomposition is not allowed.</value>
   </data>
-  <data name="ProbedForEntityManagerInterceptorAndFoundMatch" xml:space="preserve">
-    <value>Probed for EntityManagerInterceptor and found {0} matchting exports.</value>
+  <data name="ProbedForEntityManagerDelegateAndFoundMatch" xml:space="preserve">
+    <value>Probed for EntityManagerDelegate and found {0} matchting exports.</value>
   </data>
-  <data name="ProbedForEntityManagerInterceptorAndFoundNoMatch" xml:space="preserve">
-    <value>Probed for EntityManagerInterceptor and found no matchting exports.</value>
+  <data name="ProbedForEntityManagerDelegateAndFoundNoMatch" xml:space="preserve">
+    <value>Probed for EntityManagerDelegate and found no matchting exports.</value>
   </data>
   <data name="InvalidUseOfExpiredEntityManager" xml:space="preserve">
     <value>Invalid use of expired EntityManager. The application's principal has changed since this EntityManager was last used. Tip: Do not keep references to EntityManagers. Instead, always obtain the current EntityManager through IEntityManagerProvider&lt;T&gt;.Manager.</value>

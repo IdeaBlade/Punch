@@ -121,9 +121,9 @@ namespace Cocktail.Tests
         [Asynchronous, Timeout(10000)]
         public void ShouldRaiseQueryEvents()
         {
-            var interceptor = new TestEntityManagerInterceptor();
+            var interceptor = new TestEntityManagerDelegate();
             var ctx = new CompositionContext();
-            ctx.AddInstance<EntityManagerInterceptor>(interceptor);
+            ctx.AddInstance<EntityManagerDelegate>(interceptor);
 
             IEntityManagerProvider<NorthwindIBEntities> emp =
                 EntityManagerProviderFactory.CreateTestEntityManagerProvider(ctx);
@@ -159,9 +159,9 @@ namespace Cocktail.Tests
         [Asynchronous, Timeout(10000)]
         public void ShouldRaiseSaveEvents()
         {
-            var interceptor = new TestEntityManagerInterceptor();
+            var interceptor = new TestEntityManagerDelegate();
             var ctx = new CompositionContext();
-            ctx.AddInstance<EntityManagerInterceptor>(interceptor);
+            ctx.AddInstance<EntityManagerDelegate>(interceptor);
 
             IEntityManagerProvider<NorthwindIBEntities> emp =
                 EntityManagerProviderFactory.CreateTestEntityManagerProvider(ctx);
@@ -204,9 +204,9 @@ namespace Cocktail.Tests
         [Tag("Composition")]
         public void ShouldRaiseClearedEvent()
         {
-            var interceptor = new TestEntityManagerInterceptor();
+            var interceptor = new TestEntityManagerDelegate();
             var ctx = new CompositionContext();
-            ctx.AddInstance<EntityManagerInterceptor>(interceptor);
+            ctx.AddInstance<EntityManagerDelegate>(interceptor);
 
             IEntityManagerProvider<NorthwindIBEntities> emp =
                 EntityManagerProviderFactory.CreateTestEntityManagerProvider(ctx);

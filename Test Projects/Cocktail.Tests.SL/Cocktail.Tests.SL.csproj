@@ -128,7 +128,7 @@
     <Compile Include="Helpers\InjectionTestClasses.cs" />
     <Compile Include="Helpers\NonSharedObject.cs" />
     <Compile Include="Helpers\SampleDataProvider.cs" />
-    <Compile Include="Helpers\TestEntityManagerInterceptor.cs" />
+    <Compile Include="Helpers\TestEntityManagerDelegate.cs" />
     <Compile Include="Helpers\TestEventHandler.cs" />
     <Compile Include="Helpers\ViewModelLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -11,13 +11,13 @@ using IdeaBlade.Validation;
 
 namespace TempHire
 {
-    public class EntityManagerInterceptor : EntityManagerInterceptor<TempHireEntities>
+    public class EntityManagerDelegate : EntityManagerDelegate<TempHireEntities>
     {
         private readonly IEventAggregator _eventAggregator;
         private IEnumerable<object> _retainedRoots;
 
         [ImportingConstructor]
-        public EntityManagerInterceptor(IEventAggregator eventAggregator)
+        public EntityManagerDelegate(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
         }

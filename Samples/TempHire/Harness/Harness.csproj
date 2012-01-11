@@ -110,8 +110,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\TempHire\EntityManagerInterceptor.cs">
-      <Link>EntityManagerInterceptor.cs</Link>
+    <Compile Include="..\TempHire\EntityManagerDelegate.cs">
+      <Link>EntityManagerDelegate.cs</Link>
     </Compile>
     <Compile Include="..\TempHire\EntityManagerProviderFactory.cs">
       <Link>EntityManagerProviderFactory.cs</Link>

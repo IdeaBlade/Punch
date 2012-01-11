@@ -7,9 +7,9 @@ namespace Cocktail
 {
     internal class EventDispatcher<T> where T : EntityManager
     {
-        private readonly IEnumerable<EntityManagerInterceptor<T>> _interceptors;
+        private readonly IEnumerable<EntityManagerDelegate<T>> _interceptors;
 
-        public EventDispatcher(IEnumerable<EntityManagerInterceptor<T>> interceptors)
+        public EventDispatcher(IEnumerable<EntityManagerDelegate<T>> interceptors)
         {
             _interceptors = interceptors;
         }

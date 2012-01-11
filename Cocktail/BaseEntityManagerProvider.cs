@@ -262,7 +262,7 @@ namespace Cocktail
             MustBeInitialized();
 
             // In design mode all queries must be forced to execute against the cache.
-            if (DesignModeProber.IsInDesignMode)
+            if (Execute.InDesignMode)
                 e.Query = e.Query.With(QueryStrategy.CacheOnly);
         }
 

@@ -272,7 +272,7 @@ namespace Cocktail
 
         #region DesignTime Functionality
 
-        private static readonly Func<bool> IsInDesignModeDefault = () => DesignModeProber.IsInDesignMode;
+        private static readonly Func<bool> IsInDesignModeDefault = () => Execute.InDesignMode;
 
         /// <summary>Function to determine if in DesignMode. Can be replaced for testing.</summary>
         /// <value>A delegate returning true if in design mode.</value>

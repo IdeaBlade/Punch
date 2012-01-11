@@ -16,6 +16,7 @@
 //====================================================================================================================
 
 using System;
+using Caliburn.Micro;
 using IdeaBlade.EntityModel;
 
 namespace Cocktail
@@ -63,7 +64,7 @@ namespace Cocktail
         where T : EntityManager
     {
         // ReSharper disable StaticFieldInGenericType
-        private static readonly Func<bool> IsInDesignModeDefault = () => DesignModeProber.IsInDesignMode;
+        private static readonly Func<bool> IsInDesignModeDefault = () => Execute.InDesignMode;
         // ReSharper restore StaticFieldInGenericType
 
         /// <summary>

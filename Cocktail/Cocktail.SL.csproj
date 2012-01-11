@@ -100,7 +100,6 @@
     <Compile Include="CoroutineCommand.cs" />
     <Compile Include="DataChangedEventArgs.cs" />
     <Compile Include="DefaultEntityManagerSyncInterceptor.cs" />
-    <Compile Include="DesignModeProber.cs" />
     <Compile Include="EntityManagerDelegate.cs" />
     <Compile Include="EntityManagerSyncInterceptor.cs" />
     <Compile Include="EventDispatcher.cs" />

@@ -15,15 +15,16 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 //====================================================================================================================
 
+using System.ComponentModel.Composition;
 using System.Diagnostics;
 using IdeaBlade.Core;
 
 namespace Cocktail
 {
+    /// <summary>Internal use.</summary>
 #if !SILVERLIGHT
     [PartNotDiscoverable]
 #endif
-    /// <summary>Internal use.</summary>
     public class TraceLoggerProvider : ITraceLoggerProvider
     {
         /// <summary>
@@ -39,6 +40,8 @@ namespace Cocktail
     /// <summary>Internal use.</summary>
     public class DebugConsoleLogger : ITraceLogger
     {
+        #region ITraceLogger Members
+
         /// <summary>
         /// Write a DevForce tracing message.
         /// </summary>
@@ -63,5 +66,7 @@ namespace Cocktail
         {
             get { return false; }
         }
+
+        #endregion
     }
 }

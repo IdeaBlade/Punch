@@ -57,9 +57,6 @@
     <AssemblyOriginatorKeyFile>Cocktail.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IdeaBlade.Validation.SL, Version=6.0.7.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="mscorlib">
       <Private>True</Private>
     </Reference>

@@ -1,4 +1,4 @@
-﻿<Window x:Class="Caliburn.Micro.Extensions.HarnessView"
+﻿<Window x:Class="Cocktail.HarnessView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cal="http://www.caliburnproject.org"

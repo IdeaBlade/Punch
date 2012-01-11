@@ -172,7 +172,7 @@ namespace Cocktail
 
         private TObject DecodeNullObject<TObject>(object innerValue)
         {
-            if (innerValue is Type && innerValue == typeof(NullObject))
+            if (innerValue is Type && ((Type)innerValue) == typeof(NullObject))
             {
                 return default(TObject);
             }

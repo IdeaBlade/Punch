@@ -28,14 +28,14 @@ namespace Cocktail
     /// Extend from this class to implement a Development EntityManagerProvider
     /// </summary>
     /// <typeparam name="T">The type of the EntityManager</typeparam>
-    public abstract class BaseFakeStoreEntityManagerProvider<T> : BaseEntityManagerProvider<T>
+    public abstract class FakeStoreEntityManagerProviderBase<T> : EntityManagerProviderBase<T>
         where T : EntityManager
     {
         /// <summary>Initializes a new instance.</summary>
         /// <param name="compositionContext">The CompositionContext to be used. If not provided a new default context will be created.</param>
         /// <param name="sampleDataProviders">An optional collection of sample data providers. If not provided, the framework will attempt to discover sample data providers.</param>
         /// <param name="authenticationService">The authentication service to be used. If not provided, the framework will attempt to discover the current authentication service.</param>
-        protected BaseFakeStoreEntityManagerProvider(IAuthenticationService authenticationService = null,
+        protected FakeStoreEntityManagerProviderBase(IAuthenticationService authenticationService = null,
                                                      CompositionContext compositionContext = null,
                                                      params ISampleDataProvider<T>[] sampleDataProviders)
             : base(authenticationService, compositionContext)

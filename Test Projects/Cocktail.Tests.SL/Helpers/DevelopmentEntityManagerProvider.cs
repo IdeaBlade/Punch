@@ -22,7 +22,7 @@ namespace Cocktail.Tests.Helpers
     /// <summary>
     /// Concrete EntityManagerProvider used during development. Uses a fake datastore.
     /// </summary>
-    public class DevelopmentEntityManagerProvider : BaseFakeStoreEntityManagerProvider<NorthwindIBEntities>
+    public class DevelopmentEntityManagerProvider : FakeStoreEntityManagerProviderBase<NorthwindIBEntities>
     {
         public DevelopmentEntityManagerProvider(IAuthenticationService authenticationService = null,
                                                 CompositionContext compositionContext = null)

@@ -43,9 +43,8 @@ namespace Cocktail
             if (logTypeName == null || logTypeName.StartsWith("Caliburn.Micro.LogManager"))
                 LogManager.GetLog = type => new DefaultDebugLogger(type);
 
-            // Ensure that the following assemblies are always probed.
-            IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(FrameworkBootstrapper<>).Assembly.FullName);
-            IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(BaseEntityManagerProvider<>).Assembly.FullName);
+            // Ensure that the required assembly is always probed.
+            IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(EntityManagerProviderBase<>).Assembly.FullName);
         }
 
         /// <summary>
@@ -109,7 +108,7 @@ namespace Cocktail
             var requiredAssemblies = new[]
                                          {
                                              typeof (FrameworkBootstrapper<>).Assembly,
-                                             typeof (BaseEntityManagerProvider<>).Assembly
+                                             typeof (EntityManagerProviderBase<>).Assembly
                                          };
             IEnumerable<Assembly> assemblies =
                 CompositionHelper.Catalog.Catalogs.OfType<AssemblyCatalog>().Select(c => c.Assembly);

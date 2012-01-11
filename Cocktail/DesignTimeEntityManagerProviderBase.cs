@@ -29,12 +29,12 @@ namespace Cocktail
     /// The sample data is provided by means of implementing ISampleDataProvider&lt;in T&gt;
     /// </summary>
     /// <typeparam name="T">The type of the EntityManager</typeparam>    
-    public abstract class BaseDesignTimeEntityManagerProvider<T> : BaseEntityManagerProvider<T>
+    public abstract class DesignTimeEntityManagerProviderBase<T> : EntityManagerProviderBase<T>
         where T : EntityManager
     {
         /// <summary>Initializes a new instance.</summary>
         /// <param name="sampleDataProviders">An optional collection of sample data providers. If not provided, the framework will attempt to discover sample data providers.</param>
-        protected BaseDesignTimeEntityManagerProvider(params ISampleDataProvider<T>[] sampleDataProviders)
+        protected DesignTimeEntityManagerProviderBase(params ISampleDataProvider<T>[] sampleDataProviders)
         {
             SampleDataProviders = sampleDataProviders;
         }

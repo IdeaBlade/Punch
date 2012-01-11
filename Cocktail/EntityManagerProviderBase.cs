@@ -29,10 +29,7 @@ namespace Cocktail
 {
     /// <summary>Base class for an EntityMangerProvider.</summary>
     /// <typeparam name="T">The type of the EntityManager</typeparam>
-    /// <example>
-    /// 	<code title="Example" description="Demonstrates how to programatically export the EntityManagerProvider to be used by the application." source="..\..\Workspace\IdeaBlade\IdeaBlade.Application.Framework\Samples\HelloWorld\HelloWorld\EntityManagerProviderFactory.cs" lang="CS"></code>
-    /// </example>
-    public abstract class BaseEntityManagerProvider<T> : IEntityManagerProvider<T>,
+    public abstract class EntityManagerProviderBase<T> : IEntityManagerProvider<T>,
                                                          IHandle<SyncDataMessage<T>>
         where T : EntityManager
     {
@@ -50,7 +47,7 @@ namespace Cocktail
         /// <summary>Initializes a new instance.</summary>
         /// <param name="authenticationService">The authentication service to be used. If not provided, the framework will attempt to discover the current authentication service.</param>
         /// <param name="compositionContext">The CompositionContext to be used. If not provided a new default context will be created.</param>
-        protected BaseEntityManagerProvider(IAuthenticationService authenticationService = null,
+        protected EntityManagerProviderBase(IAuthenticationService authenticationService = null,
                                             CompositionContext compositionContext = null)
         {
             Context = compositionContext ?? CompositionContext.Default;

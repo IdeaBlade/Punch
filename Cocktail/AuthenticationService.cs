@@ -219,7 +219,7 @@ namespace Cocktail
                 if (_manager != null) return _manager;
 
                 var providerLocator = new PartLocator<IEntityManagerProvider<T>>(CreationPolicy.Any);
-                var provider = (BaseEntityManagerProvider<T>)providerLocator.GetPart();
+                var provider = (EntityManagerProviderBase<T>)providerLocator.GetPart();
                 return _manager = provider.CreateAuthenticationManager();
             }
             private set { _manager = value; }

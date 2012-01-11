@@ -22,7 +22,7 @@ namespace Cocktail.Tests.Helpers
     /// <summary>
     /// Concrete EntityManager used during design time
     /// </summary>
-    public class DesignTimeEntityManagerProvider : BaseDesignTimeEntityManagerProvider<NorthwindIBEntities>
+    public class DesignTimeEntityManagerProvider : DesignTimeEntityManagerProviderBase<NorthwindIBEntities>
     {
         public DesignTimeEntityManagerProvider(params ISampleDataProvider<NorthwindIBEntities>[] sampleDataProviders)
             : base(sampleDataProviders)

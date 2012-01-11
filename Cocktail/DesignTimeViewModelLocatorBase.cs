@@ -27,7 +27,7 @@ namespace Cocktail
     /// To implement a concrete ViewModelLocator for your project,
     /// extend from this class and override the CreateEntityManager()
     /// method. Return an instance of type subclass of
-    /// BaseDesignTimeEntityManagerProvider.
+    /// DesignTimeEntityManagerProviderBase.
     /// 
     /// Add references to all the view models in the
     /// module or application and by adding the following lines of code
@@ -60,7 +60,7 @@ namespace Cocktail
     /// </code>
     /// </summary>
     /// <typeparam name="T">The type of the EntityManager</typeparam>
-    public abstract class BaseDesignTimeViewModelLocator<T>
+    public abstract class DesignTimeViewModelLocatorBase<T>
         where T : EntityManager
     {
         // ReSharper disable StaticFieldInGenericType

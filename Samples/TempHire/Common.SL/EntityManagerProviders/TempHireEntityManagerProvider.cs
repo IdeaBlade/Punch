@@ -3,7 +3,7 @@ using DomainModel;
 
 namespace Common.EntityManagerProviders
 {
-    public class TempHireEntityManagerProvider : BaseEntityManagerProvider<TempHireEntities>
+    public class TempHireEntityManagerProvider : EntityManagerProviderBase<TempHireEntities>
     {
         protected override TempHireEntities CreateEntityManager()
         {

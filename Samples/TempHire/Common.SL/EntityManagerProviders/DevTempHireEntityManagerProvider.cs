@@ -4,7 +4,7 @@ using Security.Composition;
 
 namespace Common.EntityManagerProviders
 {
-    public class DevTempHireEntityManagerProvider : BaseFakeStoreEntityManagerProvider<TempHireEntities>
+    public class DevTempHireEntityManagerProvider : FakeStoreEntityManagerProviderBase<TempHireEntities>
     {
         protected override TempHireEntities CreateEntityManager()
         {

@@ -4,7 +4,7 @@ using Security.Composition;
 
 namespace Common.EntityManagerProviders
 {
-    public class DevSecurityEntityManagerProvider : BaseFakeStoreEntityManagerProvider<SecurityEntities>
+    public class DevSecurityEntityManagerProvider : FakeStoreEntityManagerProviderBase<SecurityEntities>
     {
         protected override SecurityEntities CreateEntityManager()
         {

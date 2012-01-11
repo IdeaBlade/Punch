@@ -3,7 +3,7 @@ using DomainModel;
 
 namespace TempHire.DesignTimeSupport
 {
-    public class DesignTimeEntityManagerProvider : BaseDesignTimeEntityManagerProvider<TempHireEntities>
+    public class DesignTimeEntityManagerProvider : DesignTimeEntityManagerProviderBase<TempHireEntities>
     {
         public DesignTimeEntityManagerProvider(ISampleDataProvider<TempHireEntities>[] sampleDataProviders)
             : base(sampleDataProviders)

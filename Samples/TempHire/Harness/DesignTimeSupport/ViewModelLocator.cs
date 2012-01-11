@@ -15,7 +15,7 @@ using TempHire.ViewModels.Resource;
 
 namespace TempHire.DesignTimeSupport
 {
-    public class ViewModelLocator : BaseDesignTimeViewModelLocator<TempHireEntities>
+    public class ViewModelLocator : DesignTimeViewModelLocatorBase<TempHireEntities>
     {
         public ResourceAddressListViewModel ResourceAddressListViewModel
         {

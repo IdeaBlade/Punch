@@ -3,7 +3,7 @@ using Security;
 
 namespace Common.EntityManagerProviders
 {
-    public class SecurityEntityManagerProvider : BaseEntityManagerProvider<SecurityEntities>
+    public class SecurityEntityManagerProvider : EntityManagerProviderBase<SecurityEntities>
     {
         protected override SecurityEntities CreateEntityManager()
         {

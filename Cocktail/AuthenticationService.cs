@@ -104,22 +104,6 @@ namespace Cocktail
         /// <value>Returns true if user is logged in.</value>
         public virtual bool IsLoggedIn { get { return Manager.IsLoggedIn && Principal.Identity.IsAuthenticated; } }
 
-#if SILVERLIGHT
-        /// <summary>Obsolete</summary>
-        [Obsolete("Use LoginAsync instead")]
-        public INotifyCompleted Login(ILoginCredential credential, Action onSuccess, Action<Exception> onFail)
-        {
-            return LoginAsync(credential, onSuccess, onFail);
-        }
-
-        /// <summary>Obsolete</summary>
-        [Obsolete("Use LogoutAsync instead")]
-        public INotifyCompleted Logout(Action onSuccess, Action<Exception> onFail)
-        {
-            return LogoutAsync(onSuccess, onFail);
-        }
-#endif
-
         /// <summary>Login with the supplied credential.</summary>
         /// <param name="credential">
         /// 	<para>The supplied credential.</para>

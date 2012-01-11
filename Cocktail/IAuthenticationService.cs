@@ -48,15 +48,6 @@ namespace Cocktail
         /// <value>Returns true if user is logged in.</value>
         bool IsLoggedIn { get; }
 
-#if SILVERLIGHT
-        /// <summary>Obsolete</summary>
-        [Obsolete("Use LoginAsync instead")]
-        INotifyCompleted Login(ILoginCredential credential, Action onSuccess = null, Action<Exception> onFail = null);
-        /// <summary>Obsolete</summary>
-        [Obsolete("Use LogoutAsync instead")]
-        INotifyCompleted Logout(Action onSuccess = null, Action<Exception> onFail = null);
-#endif
-
         /// <summary>Login with the supplied credential.</summary>
         /// <param name="credential">
         /// 	<para>The supplied credential.</para>
@@ -89,7 +80,7 @@ namespace Cocktail
 
         /// <summary>Signals that a user successfully logged out.</summary>
         event EventHandler<EventArgs> LoggedOut;
-        
+
         /// <summary>
         /// Signals that the principal has changed due to a login or logout.
         /// </summary>

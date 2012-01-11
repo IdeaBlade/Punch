@@ -234,19 +234,4 @@ namespace Cocktail
 #endif
         }
     }
-
-    /// <summary>
-    /// Obsolete.
-    /// </summary>
-    /// <typeparam name="TRootModel"></typeparam>
-    /// <typeparam name="TEntityManager"></typeparam>
-    [Obsolete("Use FrameworkBootstrapper<TRootModel> instead!")]
-    public class FrameworkBootstrapper<TRootModel, TEntityManager> : FrameworkBootstrapper<TRootModel>
-        where TEntityManager : EntityManager
-    {
-        static FrameworkBootstrapper()
-        {
-            UsesFakeStore<TEntityManager>();
-        }
-    }
 }

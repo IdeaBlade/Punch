@@ -72,15 +72,6 @@ namespace Cocktail
             return ResetFakeBackingStoreAsync();
         }
 
-#if SILVERLIGHT
-        /// <summary>Resets the fake backing store to its initial state.</summary>
-        [Obsolete("Use ResetFakeBackingStoreAsync instead")]
-        public INotifyCompleted ResetFakeBackingStore()
-        {
-            return ResetFakeBackingStoreAsync();
-        }
-#endif
-
         /// <summary>Resets the fake backing store to its initial state.</summary>
         public INotifyCompleted ResetFakeBackingStoreAsync()
         {

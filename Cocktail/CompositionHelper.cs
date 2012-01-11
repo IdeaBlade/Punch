@@ -151,16 +151,6 @@ namespace Cocktail
             return exports.First().Value;
         }
 
-        /// <summary>Obsolete. Will be removed from the framework in a future build.</summary>
-        /// <param name="serviceType"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        [Obsolete("Use GetInstance(,,) with requiredCreationPolicy=CreationPolicy.NonShared instead.")]
-        public static object GetNewInstance(Type serviceType, string key)
-        {
-            return GetInstance(serviceType, key, CreationPolicy.NonShared);
-        }
-
         /// <summary>
         /// 	<para>Returns all instances of the custom implementation for the provided type.</para>
         /// </summary>
@@ -174,15 +164,6 @@ namespace Cocktail
             IEnumerable<Export> exports = GetExportsCore(_container, serviceType, null, requiredCreationPolicy);
 
             return exports.Select(e => e.Value);
-        }
-
-        /// <summary>Obsolete. Will be removed from the framework in a future build.</summary>
-        /// <param name="serviceType"></param>
-        /// <returns></returns>
-        [Obsolete("Use GetInstances(,) with requiredCreationPolicy=CreationPolicy.NonShared instead.")]
-        public static IEnumerable<object> GetNewInstances(Type serviceType)
-        {
-            return GetInstances(serviceType, CreationPolicy.NonShared);
         }
 
         /// <summary>Returns an instance of the custom implementation for the provided type. If no custom implementation is found, an instance of the default

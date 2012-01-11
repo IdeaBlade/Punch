@@ -15,7 +15,6 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 //====================================================================================================================
 
-using System;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 
@@ -43,9 +42,6 @@ namespace Cocktail
         /// <returns></returns>
         public virtual bool ShouldImportEntity(object entity)
         {
-#pragma warning disable 612,618
-            if (entity is IEntity) return ShouldImportEntity((IEntity) entity);
-#pragma warning restore 612,618
             return false;
         }
 
@@ -55,31 +51,6 @@ namespace Cocktail
         /// <param name="entity"></param>
         /// <returns></returns>
         public virtual bool ShouldExportEntity(object entity)
-        {
-#pragma warning disable 612,618
-            if (entity is IEntity) return ShouldExportEntity((IEntity) entity);
-#pragma warning restore 612,618
-            return false;
-        }
-
-        /// <summary>
-        /// Obsolete.
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        [Obsolete("Use ShouldImportEntity(object) instead.")]
-        public virtual bool ShouldImportEntity(IEntity entity)
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// Obsolete.
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        [Obsolete("Use ShouldExportEntity(object) instead.")]
-        public virtual bool ShouldExportEntity(IEntity entity)
         {
             return false;
         }

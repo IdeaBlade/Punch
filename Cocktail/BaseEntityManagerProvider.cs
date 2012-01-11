@@ -180,15 +180,6 @@ namespace Cocktail
         /// </summary>
         public event EventHandler<EventArgs> ManagerCreated = delegate { };
 
-#if SILVERLIGHT
-        /// <summary>Obsolete</summary>
-        [Obsolete("Use InitializeAsync instead")]
-        public INotifyCompleted Initialize()
-        {
-            return InitializeAsync();
-        }
-#endif
-
         /// <summary>Performs the necessary initialization steps for the persistence layer. The specific steps depend on the subtype of EntityManagerProvider used.</summary>
         public virtual INotifyCompleted InitializeAsync()
         {

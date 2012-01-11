@@ -47,12 +47,12 @@ namespace Cocktail.Tests
 
         public INotifyCompleted TestInit()
         {
-            var commands = new List<CoroutineCommand>
+            var commands = new List<Func<INotifyCompleted>>
                                {
-                                   new CoroutineCommand(() => EntityManagerProviderFactory.CreateTestEntityManagerProvider().InitializeAsync()),
-                                   new CoroutineCommand(ResetFakeBackingStore)
+                                   () => EntityManagerProviderFactory.CreateTestEntityManagerProvider().InitializeAsync(),
+                                   ResetFakeBackingStore
                                };
-            return commands.Execute();
+            return Coroutine.Start(commands);
         }
 
         [TestMethod]
@@ -65,21 +65,20 @@ namespace Cocktail.Tests
             DoItAsync(
                 () =>
                 {
-                    var commands = new List<CoroutineCommand>
+                    var commands = new List<Func<INotifyCompleted>>
                                            {
-                                               new CoroutineCommand(TestInit),
-                                               new CoroutineCommand(
-                                                   () =>
+                                               TestInit,
+                                               () =>
                                                    repository.GetCustomers(null,
                                                                            (customers) =>
                                                                                {
                                                                                    Assert.IsTrue(customers.Any(),
                                                                                                  "Should have some customers");
                                                                                    TestComplete();
-                                                                               }))
+                                                                               })
                                            };
 
-                    commands.Execute();
+                    Coroutine.Start(commands);
                 });
         }
 
@@ -100,14 +99,14 @@ namespace Cocktail.Tests
                     ICollection<Customer> customers = new List<Customer>();
                     ICollection<Customer> customers2 = new List<Customer>();
 
-                    var commands = new List<CoroutineCommand>
+                    var commands = new List<Func<INotifyCompleted>>
                                            {
-                                               new CoroutineCommand(TestInit),
-                                               new CoroutineCommand(() => rep1.GetCustomers(null, results => results.ForEach(customers.Add))),
-                                               new CoroutineCommand(() => rep2.GetCustomers(null, results => results.ForEach(customers2.Add)))
+                                               TestInit,
+                                               () => rep1.GetCustomers(null, results => results.ForEach(customers.Add)),
+                                               () => rep2.GetCustomers(null, results => results.ForEach(customers2.Add))
                                            };
 
-                    CoroutineOperation coop = commands.Execute();
+                    CoroutineOperation coop = Coroutine.Start(commands);
                     coop.Completed +=
                         (s, args) =>
                         {

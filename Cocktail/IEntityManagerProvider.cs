@@ -49,12 +49,6 @@ namespace Cocktail
         /// </summary>
         bool IsSaving { get; }
 
-#if SILVERLIGHT
-        /// <summary>Obsolete</summary>
-        [Obsolete("Use InitializeAsync instead")]
-        INotifyCompleted Initialize();
-#endif
-
         /// <summary>Initializes the persistence layer.</summary>
         INotifyCompleted InitializeAsync();
 

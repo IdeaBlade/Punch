@@ -114,15 +114,13 @@ namespace TempHire.ViewModels.Login
                 Username = null;
                 Password = null;
 
-                yield return CoroutineFns.AsResult(
-                    () => _authenticationService.LoginAsync(
-                        credential, onFail: e => FailureMessage = e.Message));
+                yield return _authenticationService.LoginAsync(
+                    credential, onFail: e => FailureMessage = e.Message).AsResult();
 
                 if (_authenticationService.IsLoggedIn)
                 {
                     if (_lookupRepository != null)
-                        yield return CoroutineFns.AsResult(
-                            () => _lookupRepository.InitializeAsync(onFail: _errorHandler.HandleError));
+                        yield return _lookupRepository.InitializeAsync(onFail: _errorHandler.HandleError).AsResult();
 
                     TryClose();
                 }

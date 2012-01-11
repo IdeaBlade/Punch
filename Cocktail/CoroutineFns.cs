@@ -40,11 +40,11 @@ namespace Cocktail
         /// <summary>
         /// Returns an implemementation of <see cref = "IResult" /> that wraps a DevForce asynchronous function.
         /// </summary>
-        /// <param name="asyncFunc">DevForce asynchronous function.</param>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
         /// <returns>A result enabling the calling of the DevForce asynchronous function.</returns>
-        public static IResult AsResult(Func<INotifyCompleted> asyncFunc)
+        public static IResult AsResult(this INotifyCompleted asyncOp)
         {
-            return new AsyncResult(asyncFunc);
+            return new AsyncResult(asyncOp);
         }
     }
 }

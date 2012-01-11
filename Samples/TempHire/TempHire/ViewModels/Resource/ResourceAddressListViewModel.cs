@@ -88,9 +88,8 @@ namespace TempHire.ViewModels.Resource
             if (States == null)
             {
                 IResourceRepository repository = _repositoryManager.GetRepository(resourceId);
-                yield return CoroutineFns.AsResult(
-                    () => repository.GetStatesAsync(result => States = new BindableCollection<State>(result),
-                                                    ErrorHandler.HandleError));
+                yield return repository.GetStatesAsync(result => States = new BindableCollection<State>(result),
+                                                       ErrorHandler.HandleError).AsResult();
             }
 
             base.Start(resourceId);

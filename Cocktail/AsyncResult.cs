@@ -24,13 +24,13 @@ namespace Cocktail
     /// <summary>An implementation of <see cref = "IResult" /> that wraps a DevForce asynchronous function.</summary>
     internal class AsyncResult : IResult
     {
-        private readonly Func<INotifyCompleted> _asyncFunc;
+        private readonly INotifyCompleted _asyncOp;
 
         /// <summary>Constructs a wrapper around the provided asynchronous function.</summary>
-        /// <param name="asyncFunc">The asynchronous DevForce function to be wrapped.</param>
-        public AsyncResult(Func<INotifyCompleted> asyncFunc)
+        /// <param name="asyncOp">The asynchronous DevForce function to be wrapped.</param>
+        public AsyncResult(INotifyCompleted asyncOp)
         {
-            _asyncFunc = asyncFunc;
+            _asyncOp = asyncOp;
         }
 
         #region Implementation of IResult
@@ -41,8 +41,8 @@ namespace Cocktail
         /// <param name="context">The context.</param>
         public void Execute(ActionExecutionContext context)
         {
-            var op = _asyncFunc();
-            op.WhenCompleted(OnComplete);
+            //var op = _asyncFunc();
+            _asyncOp.WhenCompleted(OnComplete);
         }
 
         private void OnComplete(INotifyCompletedArgs args)

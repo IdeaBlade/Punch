@@ -263,9 +263,10 @@ namespace TempHire.ViewModels.Resource
 
         public void Cancel()
         {
+            var shouldClose = ActiveResource.EntityFacts.IsAdded;
             ActiveRepository.RejectChanges();
 
-            if (ActiveResource.EntityFacts.IsAdded)
+            if (shouldClose)
                 ActiveDetail.TryClose();
         }
     }

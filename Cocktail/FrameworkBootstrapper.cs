@@ -83,9 +83,6 @@ namespace Cocktail
         {
             if (!CompositionHelper.ExportExists<IWindowManager>())
                 batch.AddExportedValue<IWindowManager>(new WindowManager());
-
-            if (!CompositionHelper.ExportExists<IEventAggregator>())
-                batch.AddExportedValue<IEventAggregator>(new EventAggregator());
         }
 
         /// <summary>

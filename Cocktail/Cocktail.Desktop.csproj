@@ -42,6 +42,7 @@
   <ItemGroup>
     <Reference Include="Caliburn.Micro, Version=1.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.1.2.0\lib\Net40\Caliburn.Micro.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="IdeaBlade.Core, Version=6.0.9.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -49,7 +50,9 @@
     <Reference Include="IdeaBlade.EntityModel, Version=6.0.9.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="IdeaBlade.Validation, Version=6.1.4.1, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
+    <Reference Include="IdeaBlade.Validation, Version=6.1.4.1, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />

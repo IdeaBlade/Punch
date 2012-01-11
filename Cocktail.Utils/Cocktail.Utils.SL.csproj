@@ -72,9 +72,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\Doc\IBAF\ibaf.dxp">
-      <Link>ibaf.dxp</Link>
-    </None>
     <None Include="Cocktail.snk" />
   </ItemGroup>
   <ItemGroup />

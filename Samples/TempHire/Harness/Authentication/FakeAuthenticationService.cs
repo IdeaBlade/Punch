@@ -1,6 +1,5 @@
 using System;
 using System.Security.Principal;
-using Caliburn.Micro;
 using Cocktail;
 using IdeaBlade.EntityModel;
 using Action = System.Action;
@@ -11,7 +10,7 @@ namespace TempHire.Authentication
     {
         #region IAuthenticationService Members
 
-        public bool LinkAuthentication(EntityManager targetEM)
+        public bool LinkAuthentication(EntityManager targetEm)
         {
             return false;
         }

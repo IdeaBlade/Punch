@@ -188,7 +188,7 @@ namespace TempHire.DesignTimeSupport
 
         protected override IEntityManagerProvider<TempHireEntities> CreateEntityManagerProvider()
         {
-            return new DesignTimeEntityManagerProvider(new[] { new TempHireSampleDataProvider() });
+            return new DesignTimeEntityManagerProvider(new TempHireSampleDataProvider());
         }
     }
 }

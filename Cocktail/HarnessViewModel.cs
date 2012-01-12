@@ -21,7 +21,6 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using IdeaBlade.Core;
-using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {

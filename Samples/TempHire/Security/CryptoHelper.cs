@@ -93,7 +93,7 @@ namespace Security
         /// <param name="reader">The reader action performing the reads from the CryptoStream.</param>
         public static void DecryptFromStream(Stream stream, byte[] key, Action<CryptoStream> reader)
         {
-            DecryptFromStream(stream, key, (cs) => { reader(cs); return true; });
+            DecryptFromStream(stream, key, cs => { reader(cs); return true; });
         }
 
         private static byte[] ReadByteArray(Stream s)

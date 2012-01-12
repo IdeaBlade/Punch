@@ -17,7 +17,6 @@
 
 using System;
 using System.Security.Principal;
-using Caliburn.Micro;
 using IdeaBlade.EntityModel;
 using Action = System.Action;
 

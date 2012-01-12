@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using IdeaBlade.Aop;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
 

@@ -8,7 +8,6 @@ using Common.BusyWatcher;
 using Common.Errors;
 using Common.Repositories;
 using DomainModel.Projections;
-using IdeaBlade.EntityModel;
 
 namespace TempHire.ViewModels.Resource
 {

@@ -1,9 +1,8 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 
 namespace TempHire.Views.Resource
 {
-    public partial class ResourceNameEditorView : UserControl
+    public partial class ResourceNameEditorView
     {
         public ResourceNameEditorView()
         {

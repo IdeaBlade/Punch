@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Security.Principal;
-using Caliburn.Micro;
 using IdeaBlade.EntityModel;
 using Action = System.Action;
 using Coroutine = IdeaBlade.EntityModel.Coroutine;

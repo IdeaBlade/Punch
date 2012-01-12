@@ -18,7 +18,7 @@ namespace Common.SampleData
             var hash = CryptoHelper.GenerateKey("password");
             var password = Encoding.UTF8.GetString(hash, 0, hash.Length);
 
-            var user = new User()
+            var user = new User
                            {
                                Id = CombGuid.NewGuid(),
                                Username = "Admin",

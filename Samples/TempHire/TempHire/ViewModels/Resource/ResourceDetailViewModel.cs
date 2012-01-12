@@ -11,7 +11,6 @@ using Common.Errors;
 using Common.Repositories;
 using Common.SampleData;
 using IdeaBlade.Core;
-using IdeaBlade.EntityModel;
 
 namespace TempHire.ViewModels.Resource
 {

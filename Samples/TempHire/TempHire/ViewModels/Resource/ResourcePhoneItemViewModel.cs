@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using Caliburn.Micro;
 using DomainModel;
-using IdeaBlade.EntityModel;
 
 namespace TempHire.ViewModels.Resource
 {

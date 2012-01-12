@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Caliburn.Micro;
 using Cocktail;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
+using Action = System.Action;
 
 namespace Common.Repositories
 {
@@ -37,9 +39,9 @@ namespace Common.Repositories
             return Manager.HasChanges();
         }
 
-        public INotifyCompleted SaveAsync(Action onSuccess = null, Action<Exception> onFail = null)
+        public IResult SaveAsync(Action onSuccess = null, Action<Exception> onFail = null)
         {
-            return Manager.SaveChangesAsync(op => op.OnComplete(onSuccess, onFail));
+            return SaveAsyncCore(onSuccess, onFail).AsResult();
         }
 
         public void RejectChanges()
@@ -48,6 +50,11 @@ namespace Common.Repositories
         }
 
         #endregion
+
+        protected virtual INotifyCompleted SaveAsyncCore(Action onSuccess = null, Action<Exception> onFail = null)
+        {
+            return Manager.SaveChangesAsync(op => op.OnComplete(onSuccess, onFail));
+        }
 
         protected internal virtual void OnManagerCreated(object sender, EventArgs e)
         {

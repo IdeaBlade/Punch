@@ -21,6 +21,7 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using IdeaBlade.Core;
+using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
@@ -89,15 +90,15 @@ namespace Cocktail
             base.OnInitialize();
 
 #if SILVERLIGHT
-            var op = FakeBackingStoreManager.Instance.InitializeAllAsync();
+            INotifyCompleted op = FakeBackingStoreManager.Instance.InitializeAllAsync();
             op.WhenCompleted(
                 args =>
-                {
-                    Ready = FakeBackingStoreManager.Instance.IsInitialized;
+                    {
+                        Ready = FakeBackingStoreManager.Instance.IsInitialized;
 
-                    if (!Ready)
-                        MessageBox.Show(StringResources.ThePersistenceLayerFailedToInitialize);
-                });
+                        if (!Ready)
+                            MessageBox.Show(StringResources.ThePersistenceLayerFailedToInitialize);
+                    });
 #else
             FakeBackingStoreManager.Instance.InitializeAll();
             Ready = FakeBackingStoreManager.Instance.IsInitialized;

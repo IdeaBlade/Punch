@@ -89,7 +89,7 @@ namespace TempHire.ViewModels.Resource
             {
                 IResourceRepository repository = _repositoryManager.GetRepository(resourceId);
                 yield return repository.GetStatesAsync(result => States = new BindableCollection<State>(result),
-                                                       ErrorHandler.HandleError).AsResult();
+                                                       ErrorHandler.HandleError);
             }
 
             base.Start(resourceId);

@@ -98,8 +98,8 @@ namespace TempHire.ViewModels.Resource
             _repository = null;
             _resourceId = resourceId;
             // Bring resource into cache and defer starting of nested VMs until completed.
-            INotifyCompleted op = Repository.GetResourceAsync(resourceId, OnStartCompleted, _errorHandler.HandleError);
-            op.WhenCompleted(e => Busy.RemoveWatch());
+            Repository.GetResourceAsync(resourceId, OnStartCompleted, _errorHandler.HandleError)
+                .OnComplete(args => Busy.RemoveWatch());
 
             return this;
         }
@@ -123,15 +123,14 @@ namespace TempHire.ViewModels.Resource
             Busy.AddWatch();
 
             _repository = _repositoryManager.Create();
-            INotifyCompleted op = _repository
-                .CreateResourceAsync(firstName, middleName, lastName,
-                                     resource =>
-                                         {
-                                             _repositoryManager.Add(resource.Id, _repository);
-                                             Start(resource.Id);
-                                         },
-                                     _errorHandler.HandleError);
-            op.WhenCompleted(e => Busy.RemoveWatch());
+            _repository.CreateResourceAsync(firstName, middleName, lastName,
+                                            resource =>
+                                                {
+                                                    _repositoryManager.Add(resource.Id, _repository);
+                                                    Start(resource.Id);
+                                                },
+                                            _errorHandler.HandleError)
+                .OnComplete(args => Busy.RemoveWatch());
 
             return this;
         }

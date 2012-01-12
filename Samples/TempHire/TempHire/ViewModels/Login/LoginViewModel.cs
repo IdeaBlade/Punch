@@ -115,12 +115,12 @@ namespace TempHire.ViewModels.Login
                 Password = null;
 
                 yield return _authenticationService.LoginAsync(
-                    credential, onFail: e => FailureMessage = e.Message).AsResult();
+                    credential, onFail: e => FailureMessage = e.Message);
 
                 if (_authenticationService.IsLoggedIn)
                 {
                     if (_lookupRepository != null)
-                        yield return _lookupRepository.InitializeAsync(onFail: _errorHandler.HandleError).AsResult();
+                        yield return _lookupRepository.InitializeAsync(onFail: _errorHandler.HandleError);
 
                     TryClose();
                 }

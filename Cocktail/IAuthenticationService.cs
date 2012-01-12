@@ -17,7 +17,9 @@
 
 using System;
 using System.Security.Principal;
+using Caliburn.Micro;
 using IdeaBlade.EntityModel;
+using Action = System.Action;
 
 namespace Cocktail
 {
@@ -54,12 +56,12 @@ namespace Cocktail
         /// </param>
         /// <param name="onSuccess">Callback called when login was successful.</param>
         /// <param name="onFail">Callback called when an error occured during login.</param>
-        INotifyCompleted LoginAsync(ILoginCredential credential, Action onSuccess = null, Action<Exception> onFail = null);
+        IResult LoginAsync(ILoginCredential credential, Action onSuccess = null, Action<Exception> onFail = null);
 
         /// <summary>Logs out the current user.</summary>
         /// <param name="onSuccess">Callback called when logout was successful.</param>
         /// <param name="onFail">Callback called when an error occured during logout.</param>
-        INotifyCompleted LogoutAsync(Action onSuccess = null, Action<Exception> onFail = null);
+        IResult LogoutAsync(Action onSuccess = null, Action<Exception> onFail = null);
 
 #if !SILVERLIGHT
 

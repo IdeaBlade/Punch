@@ -99,16 +99,15 @@ namespace TempHire.ViewModels.Resource
         {
             Busy.AddWatch();
 
-            INotifyCompleted op =
-                _repository.FindResourcesAsync(SearchText, null,
-                                               result =>
-                                                   {
-                                                       Items = new BindableCollection<ResourceListItem>(result);
-                                                       CurrentResource = Items.FirstOrDefault(r => r.Id == selection) ??
-                                                                         Items.FirstOrDefault();
-                                                   },
-                                               _errorHandler.HandleError);
-            op.WhenCompleted(e => Busy.RemoveWatch());
+            _repository.FindResourcesAsync(SearchText, null,
+                                           result =>
+                                               {
+                                                   Items = new BindableCollection<ResourceListItem>(result);
+                                                   CurrentResource = Items.FirstOrDefault(r => r.Id == selection) ??
+                                                                     Items.FirstOrDefault();
+                                               },
+                                           _errorHandler.HandleError)
+                .OnComplete(args => Busy.RemoveWatch());
         }
 
         public void Clear()

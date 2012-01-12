@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
 using IdeaBlade.EntityModel;
+using Action = System.Action;
 
 namespace Cocktail
 {
@@ -57,6 +58,38 @@ namespace Cocktail
             if (callback != null)
                 result.Completed += (sender, args) => callback(args);
             result.Execute(null);
+        }
+
+        /// <summary>
+        /// Executes a result and calls a callback upon completion.
+        /// </summary>
+        /// <param name="result">The result to be executed.</param>
+        /// <param name="callback">Callback to be called when complete</param>
+        public static void OnComplete(this IResult result, Action<ResultCompletionEventArgs> callback)
+        {
+            if (callback == null) return;
+
+            result.Execute(callback);
+        }
+
+        /// <summary>
+        /// Executes a result and calls separate callbacks for success and failure.
+        /// </summary>
+        /// <param name="result">The result to be executed</param>
+        /// <param name="onSuccess">Callback to be called when result completes without error</param>
+        /// <param name="onFail">Callback to be called when result completes with error</param>
+        public static void OnComplete(this IResult result, Action onSuccess, Action<Exception> onFail)
+        {
+            if (onSuccess == null && onFail == null) return;
+
+            result.Execute(args =>
+                               {
+                                   if (args.Error == null && !args.WasCancelled && onSuccess != null)
+                                       onSuccess();
+
+                                   if (args.Error != null && onFail != null)
+                                       onFail(args.Error);
+                               });
         }
     }
 }

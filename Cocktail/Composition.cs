@@ -204,10 +204,11 @@ namespace Cocktail
         /// <param name="onSuccess">User callback to be called when operation completes successfully.</param>
         /// <param name="onFail">User callback to be called when operation completes with an error.</param>
         /// <returns>Returns a handle to the download operation.</returns>
-        public static INotifyCompleted AddXap(string relativeUri, Action onSuccess = null, Action<Exception> onFail = null)
+        public static IResult AddXap(string relativeUri, Action onSuccess = null, Action<Exception> onFail = null)
         {
             XapDownloadOperation operation;
-            if (XapDownloadOperations.TryGetValue(relativeUri, out operation) && !operation.HasError) return operation;
+            if (XapDownloadOperations.TryGetValue(relativeUri, out operation) && !operation.HasError) 
+                return operation.AsResult();
 
             var op = XapDownloadOperations[relativeUri] = new XapDownloadOperation(relativeUri);
             op.WhenCompleted(
@@ -222,7 +223,7 @@ namespace Cocktail
                         onFail(args.Error);
                     }
                 });
-            return op;
+            return op.AsResult();
         }
 
 #endif

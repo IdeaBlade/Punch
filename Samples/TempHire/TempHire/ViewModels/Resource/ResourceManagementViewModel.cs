@@ -230,7 +230,7 @@ namespace TempHire.ViewModels.Resource
                 IResourceRepository repository = _repositoryManager.GetRepository(resource.Id);
 
                 bool success = false;
-                yield return repository.DeleteResourceAsync(resource.Id, () => success = true, _errorHandler.HandleError).AsResult();
+                yield return repository.DeleteResourceAsync(resource.Id, () => success = true, _errorHandler.HandleError);
 
                 if (success)
                 {
@@ -247,7 +247,7 @@ namespace TempHire.ViewModels.Resource
         {
             using (ActiveDetail.Busy.GetTicket())
             {
-                yield return ActiveRepository.SaveAsync(onFail: _errorHandler.HandleError).AsResult();
+                yield return ActiveRepository.SaveAsync(onFail: _errorHandler.HandleError);
 
                 SearchPane.Search(ActiveResource.Id);
 

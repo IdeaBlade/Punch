@@ -1,7 +1,9 @@
 using System;
 using System.Security.Principal;
+using Caliburn.Micro;
 using Cocktail;
 using IdeaBlade.EntityModel;
+using Action = System.Action;
 
 namespace TempHire.Authentication
 {
@@ -24,18 +26,7 @@ namespace TempHire.Authentication
             get { return true; }
         }
 
-        public INotifyCompleted Login(ILoginCredential credential, Action onSuccess = null,
-                                      Action<Exception> onFail = null)
-        {
-            return LoginAsync(credential, onSuccess, onFail);
-        }
-
-        public INotifyCompleted Logout(Action onSuccess = null, Action<Exception> onFail = null)
-        {
-            return LogoutAsync(onSuccess, onFail);
-        }
-
-        public INotifyCompleted LoginAsync(ILoginCredential credential, Action onSuccess = null,
+        public IResult LoginAsync(ILoginCredential credential, Action onSuccess = null,
                                            Action<Exception> onFail = null)
         {
             if (LoggedIn != null) 
@@ -43,17 +34,17 @@ namespace TempHire.Authentication
             if (PrincipalChanged != null) 
                 PrincipalChanged(this, EventArgs.Empty);
 
-            return AlwaysCompleted.Instance;
+            return AlwaysCompleted.Instance.AsResult();
         }
 
-        public INotifyCompleted LogoutAsync(Action onSuccess = null, Action<Exception> onFail = null)
+        public IResult LogoutAsync(Action onSuccess = null, Action<Exception> onFail = null)
         {
             if (LoggedOut != null)
                 LoggedOut(this, EventArgs.Empty);
             if (PrincipalChanged != null)
                 PrincipalChanged(this, EventArgs.Empty);
 
-            return AlwaysCompleted.Instance;
+            return AlwaysCompleted.Instance.AsResult();
         }
 
         public event EventHandler<EventArgs> LoggedIn;

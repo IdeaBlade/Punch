@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
+using Coroutine = IdeaBlade.EntityModel.Coroutine;
 
 namespace Cocktail
 {

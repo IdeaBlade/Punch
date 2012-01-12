@@ -22,8 +22,10 @@ using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using Caliburn.Micro;
+using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
+using Action = System.Action;
 
 namespace Cocktail
 {
@@ -32,8 +34,10 @@ namespace Cocktail
     /// </summary>
     public static class Composition
     {
-        private static AggregateCatalog _catalog;
-        private static CompositionContainer _container;
+#if SILVERLIGHT
+        private static readonly Dictionary<string, XapDownloadOperation> _xapDownloadOperations =
+            new Dictionary<string, XapDownloadOperation>();
+#endif
         private static bool _isConfigured;
 
         #region Public Properties
@@ -49,11 +53,14 @@ namespace Cocktail
         /// <summary>Returns the catalog in use.</summary>
         public static AggregateCatalog Catalog
         {
-            get { return _catalog ?? (_catalog = CompositionHost.Instance.Catalog); }
+            get { return CompositionHost.Instance.Catalog; }
         }
 
         /// <summary>Returns the CompositionContainer in use.</summary>
-        public static CompositionContainer Container { get { return _container; } }
+        public static CompositionContainer Container
+        {
+            get { return CompositionHost.Instance.Container; }
+        }
 
         #endregion
 
@@ -67,9 +74,6 @@ namespace Cocktail
 
             if (IsConfigured) return;
 
-            _container = GetContainer();
-            _isConfigured = true;
-
             CompositionBatch batch = compositionBatch ?? new CompositionBatch();
 
             if (!ExportExists<IEventAggregator>())
@@ -79,6 +83,8 @@ namespace Cocktail
                 batch.AddExportedValue<IAuthenticationProvider>(new AuthenticationManagerProvider());
 
             Compose(batch);
+
+            _isConfigured = true;
         }
 
         /// <summary>Executes composition on the container, including the changes in the specified <see cref="CompositionBatch"/>.</summary>
@@ -87,12 +93,12 @@ namespace Cocktail
         /// </param>
         public static void Compose(CompositionBatch compositionBatch)
         {
-            CheckIfConfigured();
+            //CheckIfConfigured();
 
             if (compositionBatch == null)
                 throw new ArgumentNullException("compositionBatch");
 
-            _container.Compose(compositionBatch);
+            Container.Compose(compositionBatch);
         }
 
         /// <summary>
@@ -105,7 +111,7 @@ namespace Cocktail
         {
             CheckIfConfigured();
 
-            var exports = GetExportsCore(_container, typeof(T), null, requiredCreationPolicy).ToList();
+            var exports = GetExportsCore(typeof(T), null, requiredCreationPolicy).ToList();
             if (!exports.Any())
                 throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
                                                   typeof(T).FullName));
@@ -121,14 +127,9 @@ namespace Cocktail
         /// <returns>The requested instances.</returns>
         public static IEnumerable<T> GetInstances<T>(CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            return GetInstances<T>(_container, requiredCreationPolicy);
-        }
-
-        internal static IEnumerable<T> GetInstances<T>(CompositionContainer container, CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
-        {
             CheckIfConfigured();
 
-            var exports = GetExportsCore(container, typeof(T), null, requiredCreationPolicy);
+            var exports = GetExportsCore(typeof(T), null, requiredCreationPolicy);
             return exports.Select(e => e.Value).Cast<T>();
         }
 
@@ -143,7 +144,7 @@ namespace Cocktail
         {
             CheckIfConfigured();
 
-            var exports = GetExportsCore(_container, serviceType, key, requiredCreationPolicy).ToList();
+            var exports = GetExportsCore(serviceType, key, requiredCreationPolicy).ToList();
             if (!exports.Any())
                 throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
                                                   serviceType != null ? serviceType.ToString() : key));
@@ -161,42 +162,51 @@ namespace Cocktail
         {
             CheckIfConfigured();
 
-            IEnumerable<Export> exports = GetExportsCore(_container, serviceType, null, requiredCreationPolicy);
+            IEnumerable<Export> exports = GetExportsCore(serviceType, null, requiredCreationPolicy);
 
             return exports.Select(e => e.Value);
         }
 
-        /// <summary>Returns an instance of the custom implementation for the provided type. If no custom implementation is found, an instance of the default
-        /// implementation is returned.</summary>
-        /// <param name="serviceType">The type for which an instance is being requested.</param>
-        /// <param name="requiredCreationPolicy">Optionally specify whether the returned instance should be a shared, non-shared or any instance.</param>
-        /// <returns>The requested instance.</returns>
-        public static object GetCustomInstanceOrDefault(Type serviceType, CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
-        {
-            return GetCustomInstanceOrDefault(serviceType, _container, requiredCreationPolicy);
-        }
-
-        internal static object GetCustomInstanceOrDefault(Type serviceType, CompositionContainer container, CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
+        /// <summary>Satisfies all the imports on the provided instance.</summary>
+        /// <param name="instance">The instance for which to satisfy the MEF imports.</param>
+        public static void BuildUp(object instance)
         {
             CheckIfConfigured();
 
-            if (IsInDesignMode()) return GetInstance(serviceType, null, requiredCreationPolicy);
-
-            //  Find all exports
-            var exports = GetExportsCore(container, serviceType, null, requiredCreationPolicy, true).ToList();
-
-            // Filter exports for custom implementations
-            var customExports = exports.Where(e => !e.Metadata.ContainsKey("IsDefault")).ToList();
-            if (customExports.Any()) return customExports.First().Value;
-
-            // Filter exports for default implementations
-            var defaultExports = exports.Where(e => e.Metadata.ContainsKey("IsDefault")).ToList();
-            if (defaultExports.Any()) return defaultExports.First().Value;
-
-            throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract, serviceType));
+            Container.SatisfyImportsOnce(instance);
         }
 
-        internal static IEnumerable<Export> GetExportsCore(CompositionContainer container, Type serviceType, string key, CreationPolicy policy, bool includeDefaults = false)
+#if SILVERLIGHT
+
+        /// <summary>Asynchronously downloads a XAP file and adds all exported parts to the catalog.</summary>
+        /// <param name="relativeUri">The relative URI for the XAP file to be downloaded.</param>
+        /// <param name="onSuccess">User callback to be called when operation completes successfully.</param>
+        /// <param name="onFail">User callback to be called when operation completes with an error.</param>
+        /// <returns>Returns a handle to the download operation.</returns>
+        public static INotifyCompleted AddXap(string relativeUri, Action onSuccess = null, Action<Exception> onFail = null)
+        {
+            XapDownloadOperation operation;
+            if (_xapDownloadOperations.TryGetValue(relativeUri, out operation) && !operation.HasError) return operation;
+
+            var op = _xapDownloadOperations[relativeUri] = new XapDownloadOperation(relativeUri);
+            op.WhenCompleted(
+                args =>
+                {
+                    if (args.Error == null && onSuccess != null)
+                        onSuccess();
+
+                    if (args.Error != null && onFail != null)
+                    {
+                        args.IsErrorHandled = true;
+                        onFail(args.Error);
+                    }
+                });
+            return op;
+        }
+
+#endif
+
+        internal static IEnumerable<Export> GetExportsCore(Type serviceType, string key, CreationPolicy policy)
         {
             string contractName = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
             string requiredTypeIdentity = serviceType != null
@@ -211,27 +221,12 @@ namespace Cocktail
                 true,
                 policy);
 
-            return container.GetExports(importDef).Where(e => includeDefaults || !e.Metadata.ContainsKey("IsDefault"));
-        }
-
-        /// <summary>Satisfies all the imports on the provided instance.</summary>
-        /// <param name="instance">The instance for which to satisfy the MEF imports.</param>
-        public static void BuildUp(object instance)
-        {
-            BuildUp(instance, _container);
-        }
-
-        internal static void BuildUp(object instance, CompositionContainer container)
-        {
-            CheckIfConfigured();
-
-            container.SatisfyImportsOnce(instance);
+            return Container.GetExports(importDef);
         }
 
         internal static bool ExportExists<T>()
         {
-            var container = _container ?? GetContainer();
-            return container.GetExports<T>().Any();
+            return Container.GetExports<T>().Any();
         }
 
         internal static bool IsRecomposing { get; set; }
@@ -242,11 +237,6 @@ namespace Cocktail
         {
             if (!IsConfigured)
                 throw new InvalidOperationException(StringResources.CompositionHelperIsNotConfigured);
-        }
-
-        private static CompositionContainer GetContainer()
-        {
-            return CompositionHost.Instance.Container;
         }
 
         #endregion
@@ -269,4 +259,142 @@ namespace Cocktail
 
         #endregion
     }
+
+#if SILVERLIGHT
+
+    internal class XapDownloadOperation : INotifyCompleted
+    {
+        private readonly DynamicXap _xap;
+        private XapDownloadCompletedEventArgs _completedEventArgs;
+        private Action<INotifyCompletedArgs> _notifyCompletedActions;
+
+        public XapDownloadOperation(string xapUri)
+        {
+            _xap = new DynamicXap(new Uri(xapUri, UriKind.Relative));
+            _xap.Loaded += (s, args) => XapDownloadCompleted(args);
+        }
+
+        private void XapDownloadCompleted(DynamicXapLoadedEventArgs args)
+        {
+            Exception error = null;
+            if (!args.HasError)
+            {
+                Composition.IsRecomposing = true;
+                try
+                {
+                    CompositionHost.Add(_xap);
+                }
+                catch (Exception e)
+                {
+                    error = e;
+                }
+                finally
+                {
+                    Composition.IsRecomposing = false;
+                }
+            }
+
+            _completedEventArgs = new XapDownloadCompletedEventArgs(args.Cancelled, args.Error ?? error);
+
+            CallCompletedActions();
+        }
+
+        protected void CallCompletedActions()
+        {
+            Action<INotifyCompletedArgs> actions = _notifyCompletedActions;
+            _notifyCompletedActions = null;
+            if (actions == null) return;
+            actions(_completedEventArgs);
+        }
+
+        #region Implementation of INotifyCompleted
+
+        /// <summary>
+        /// Action to be performed when the asynchronous operation completes.
+        /// </summary>
+        /// <param name="completedAction"/>
+        public void WhenCompleted(Action<INotifyCompletedArgs> completedAction)
+        {
+            if (completedAction == null) return;
+            if (_completedEventArgs != null)
+            {
+                completedAction(_completedEventArgs);
+                return;
+            }
+            _notifyCompletedActions =
+                (Action<INotifyCompletedArgs>)Delegate.Combine(_notifyCompletedActions, completedAction);
+        }
+
+        /// <summary>
+        /// Returns whether the operation completed successfully
+        /// </summary>
+        public bool CompletedSuccessfully
+        {
+            get { return _completedEventArgs != null && !_completedEventArgs.HasError; }
+        }
+
+        /// <summary>
+        /// Returns whether the operation failed.
+        /// </summary>
+        public bool HasError
+        {
+            get { return _completedEventArgs != null && _completedEventArgs.HasError; }
+        }
+
+        /// <summary>
+        /// The exception if the action failed.
+        /// </summary>
+        public Exception Error
+        {
+            get { return _completedEventArgs != null ? _completedEventArgs.Error : null; }
+        }
+
+        #endregion
+    }
+
+    internal class XapDownloadCompletedEventArgs : EventArgs, INotifyCompletedArgs
+    {
+        private readonly bool _cancelled;
+        private readonly Exception _error;
+        //private readonly DynamicXapLoadedEventArgs _dynamicXapLoadedEventArgs;
+
+        public XapDownloadCompletedEventArgs(bool cancelled, Exception error)
+        {
+            _cancelled = cancelled;
+            _error = error;
+            //_dynamicXapLoadedEventArgs = dynamicXapLoadedEventArgs;
+        }
+
+        #region Implementation of INotifyCompletedArgs
+
+        /// <summary>
+        /// The exception if the action failed.
+        /// </summary>
+        public Exception Error
+        {
+            get { return _error; /*_dynamicXapLoadedEventArgs.Error;*/ }
+        }
+
+        /// <summary>
+        /// Whether the action was cancelled.
+        /// </summary>
+        public bool Cancelled
+        {
+            get { return _cancelled; /*_dynamicXapLoadedEventArgs.Cancelled;*/ }
+        }
+
+        /// <summary>
+        /// Returns whether the operation failed.
+        /// </summary>
+        public bool HasError { get { return _error != null; /*_dynamicXapLoadedEventArgs.HasError;*/ } }
+
+        /// <summary>
+        /// Whether the error was handled.
+        /// </summary>
+        public bool IsErrorHandled { get; set; }
+
+        #endregion
+    }
+
+#endif
 }

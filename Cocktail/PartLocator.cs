@@ -79,7 +79,7 @@ namespace Cocktail
 
             // Look for the part in the MEF container
             var exports =
-                Composition.GetExportsCore(Composition.Container, typeof (T), null, _creationPolicy).ToList();
+                Composition.GetExportsCore(typeof (T), null, _creationPolicy).ToList();
             if (exports.Count() > 1)
                 throw new CompositionException(
                     String.Format(StringResources.ProbedForServiceAndFoundMultipleMatches, typeof (T).Name));

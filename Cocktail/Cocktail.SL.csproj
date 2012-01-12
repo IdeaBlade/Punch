@@ -94,7 +94,6 @@
     <Compile Include="EntityManagerProviderBase.cs" />
     <Compile Include="FakeStoreEntityManagerProviderBase.cs" />
     <Compile Include="DefaultDebugLogger.cs" />
-    <Compile Include="CompositionCatalogService.cs" />
     <Compile Include="Composition.cs" />
     <Compile Include="DataChangedEventArgs.cs" />
     <Compile Include="DefaultEntityManagerSyncInterceptor.cs" />
@@ -109,7 +108,6 @@
     <Compile Include="FrameworkBootstrapper.cs" />
     <Compile Include="AsyncResult.cs" />
     <Compile Include="IAuthenticationService.cs" />
-    <Compile Include="ICompositionCatalogService.cs" />
     <Compile Include="IDiscoverableViewModel.cs" />
     <Compile Include="IEntityManagerProvider.cs" />
     <Compile Include="IEntityManagerSyncInterceptor.cs" />

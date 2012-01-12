@@ -66,7 +66,7 @@ namespace Cocktail
 
         private IEnumerable<IEntityManagerProvider> GetFakeStoreEntityManagerProviders()
         {
-            return _typesUsingFakeStore.Select(t => (IEntityManagerProvider)CompositionHelper.GetInstance(t, null));
+            return _typesUsingFakeStore.Select(t => (IEntityManagerProvider)Composition.GetInstance(t, null));
         }
     }
 }

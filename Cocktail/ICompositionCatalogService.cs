@@ -80,7 +80,7 @@ namespace Cocktail
         ///  
         /// private void RefreshCaliburnAssemblySource(object sender, EventArgs e)
         /// {
-        ///     var catalogs = CompositionHelper.Catalog.Catalogs.OfType&lt;AssemblyCatalog&gt;();
+        ///     var catalogs = Composition.Catalog.Catalogs.OfType&lt;AssemblyCatalog&gt;();
         ///     var assemblySource = AssemblySource.Instance;
         ///  
         ///     catalogs.ForEach(

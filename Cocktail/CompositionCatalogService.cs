@@ -53,7 +53,7 @@ namespace Cocktail
         /// <returns>The requested instance.</returns>
         public T GetInstance<T>(CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            return CompositionHelper.GetInstance<T>(requiredCreationPolicy);
+            return Composition.GetInstance<T>(requiredCreationPolicy);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Cocktail
         /// <returns>The requested instances.</returns>
         public IEnumerable<T> GetInstances<T>(CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            return CompositionHelper.GetInstances<T>(requiredCreationPolicy);
+            return Composition.GetInstances<T>(requiredCreationPolicy);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Cocktail
         /// <returns>The requested instance.</returns>
         public object GetInstance(Type serviceType, string key, CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            return CompositionHelper.GetInstance(serviceType, key, requiredCreationPolicy);
+            return Composition.GetInstance(serviceType, key, requiredCreationPolicy);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Cocktail
         /// <returns>The requested instances.</returns>
         public IEnumerable<object> GetInstances(Type serviceType, CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            return CompositionHelper.GetInstances(serviceType, requiredCreationPolicy);
+            return Composition.GetInstances(serviceType, requiredCreationPolicy);
         }
 
         /// <summary>Returns an instance of the custom implementation for the provided type. If no custom implementation is found, an instance of the default
@@ -97,7 +97,7 @@ namespace Cocktail
         /// <returns>The requested instance.</returns>
         public object GetCustomInstanceOrDefault(Type serviceType, CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            return CompositionHelper.GetCustomInstanceOrDefault(serviceType, requiredCreationPolicy);
+            return Composition.GetCustomInstanceOrDefault(serviceType, requiredCreationPolicy);
         }
 
 #if SILVERLIGHT
@@ -165,7 +165,7 @@ namespace Cocktail
             Exception error = null;
             if (!args.HasError)
             {
-                CompositionHelper.IsRecomposing = true;
+                Composition.IsRecomposing = true;
                 try
                 {
                     CompositionHost.Add(_xap);
@@ -176,7 +176,7 @@ namespace Cocktail
                 }
                 finally
                 {
-                    CompositionHelper.IsRecomposing = false;
+                    Composition.IsRecomposing = false;
                 }
             }
 

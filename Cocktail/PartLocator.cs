@@ -70,7 +70,7 @@ namespace Cocktail
             }
 
             // Do not probe if the CompositionHost isn't configured.
-            if (!CompositionHelper.IsConfigured)
+            if (!Composition.IsConfigured)
             {
                 var defaultInstance = DefaultGenerator();
                 if (defaultInstance != null) _initializer(defaultInstance);
@@ -79,7 +79,7 @@ namespace Cocktail
 
             // Look for the part in the MEF container
             var exports =
-                CompositionHelper.GetExportsCore(CompositionHelper.Container, typeof (T), null, _creationPolicy).ToList();
+                Composition.GetExportsCore(Composition.Container, typeof (T), null, _creationPolicy).ToList();
             if (exports.Count() > 1)
                 throw new CompositionException(
                     String.Format(StringResources.ProbedForServiceAndFoundMultipleMatches, typeof (T).Name));

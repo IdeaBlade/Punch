@@ -33,12 +33,12 @@ namespace Cocktail.Tests
     {
         public CompositionUnitTests()
         {
-            CompositionHelper.Configure();
+            Composition.Configure();
 
             var batch = new CompositionBatch();
             NorthwindIBEntities entityManager = EntityManagerProviderFactory.CreateTestEntityManagerProvider().Manager;
             batch.AddExportedValue<IAuthenticationService>(new AuthenticationService<NorthwindIBEntities>(entityManager));
-            CompositionHelper.Compose(batch);
+            Composition.Compose(batch);
         }
 
         [TestMethod]
@@ -105,8 +105,8 @@ namespace Cocktail.Tests
         [Tag("Composition")]
         public void ShouldReturnSharedInstance()
         {
-            var instance1 = CompositionHelper.GetInstance<SharedObject>();
-            var instance2 = CompositionHelper.GetInstance<SharedObject>();
+            var instance1 = Composition.GetInstance<SharedObject>();
+            var instance2 = Composition.GetInstance<SharedObject>();
 
             Assert.IsTrue(ReferenceEquals(instance1, instance2), "Should have the same instance");
         }
@@ -115,8 +115,8 @@ namespace Cocktail.Tests
         [Tag("Composition")]
         public void ShouldReturnNonSharedInstance()
         {
-            var instance1 = CompositionHelper.GetInstance<NonSharedObject>();
-            var instance2 = CompositionHelper.GetInstance<NonSharedObject>();
+            var instance1 = Composition.GetInstance<NonSharedObject>();
+            var instance2 = Composition.GetInstance<NonSharedObject>();
 
             Assert.IsFalse(ReferenceEquals(instance1, instance2), "Should have two seperate instances");
         }

@@ -34,7 +34,7 @@ namespace Cocktail.Tests
     {
         public OnlineUnitTests()
         {
-            CompositionHelper.Configure();
+            Composition.Configure();
         }
 
         public INotifyCompleted ResetFakeBackingStore(string compositionContextName)

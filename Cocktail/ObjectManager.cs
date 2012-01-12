@@ -63,7 +63,7 @@ namespace Cocktail
 #if SILVERLIGHT
             return ExportFactory.CreateExport().Value;
 #else
-            return CompositionHelper.GetInstance<T>(CreationPolicy.NonShared);
+            return Composition.GetInstance<T>(CreationPolicy.NonShared);
 #endif
         }
 

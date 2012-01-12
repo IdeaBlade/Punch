@@ -30,7 +30,7 @@ namespace Cocktail.Tests
 
         public HarnessUnitTests()
         {
-            CompositionHelper.Configure();
+            Composition.Configure();
             _locator = new ViewModelLocator();
         }
 
@@ -44,7 +44,7 @@ namespace Cocktail.Tests
         public void ShouldGetCustomersInDesignMode()
         {
             DesignTimeViewModelLocatorBase<NorthwindIBEntities>.IsInDesignMode = () => true;
-            CompositionHelper.IsInDesignMode = () => true;
+            Composition.IsInDesignMode = () => true;
 
             Assert.IsTrue(_locator.CustomerListViewModel != null, "The ViewModel should be set");
 
@@ -57,10 +57,10 @@ namespace Cocktail.Tests
         [TestMethod]
         public void ShouldGetViewModelList()
         {
-            CompositionHelper.ResetIsInDesignModeToDefault();
+            Composition.ResetIsInDesignModeToDefault();
 
-            var shell = new HarnessViewModel(CompositionHelper.GetInstances<IDiscoverableViewModel>(), null);
-            CompositionHelper.BuildUp(shell);
+            var shell = new HarnessViewModel(Composition.GetInstances<IDiscoverableViewModel>(), null);
+            Composition.BuildUp(shell);
 
             Assert.IsTrue(shell.Names.Any(), "We should have at least one ViewModel name");
         }

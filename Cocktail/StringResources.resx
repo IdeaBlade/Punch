@@ -142,7 +142,7 @@
     <value>Could not locate any instances of contract {0}.</value>
   </data>
   <data name="CompositionHelperIsNotConfigured" xml:space="preserve">
-    <value>CompositionHelper is not configured. CompositionHelper.Configure must be called before any other public method.</value>
+    <value>Composition is not configured. Composition.Configure must be called before any other public method.</value>
   </data>
   <data name="ManagerTriedToFetchData" xml:space="preserve">
     <value>Manager tried to fetch data.</value>

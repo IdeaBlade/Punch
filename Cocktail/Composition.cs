@@ -30,7 +30,7 @@ namespace Cocktail
     /// <summary>
     /// Sets up a composition container and provides means to interact with the container.
     /// </summary>
-    public static class CompositionHelper
+    public static class Composition
     {
         private static AggregateCatalog _catalog;
         private static CompositionContainer _container;

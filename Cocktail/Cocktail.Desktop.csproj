@@ -66,8 +66,8 @@
     <Compile Include="AlwaysCompleted.cs" />
     <Compile Include="AsyncResult.cs" />
     <Compile Include="AuthenticationService.cs" />
+    <Compile Include="Composition.cs" />
     <Compile Include="CompositionCatalogService.cs" />
-    <Compile Include="CompositionHelper.cs" />
     <Compile Include="CoroutineFns.cs" />
     <Compile Include="DataChangedEventArgs.cs" />
     <Compile Include="DefaultDebugLogger.cs" />

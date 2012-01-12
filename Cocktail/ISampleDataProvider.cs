@@ -56,7 +56,7 @@ namespace Cocktail
     ///     // Typically performed in Application Bootstrapper
     ///     var batch = new CompositionBatch();
     ///     batch.AddExportedValue&lt;ISampleDataProvider&lt;NorthwindIBEntities&gt;&gt;(new SampleDataProvider());
-    ///     CompositionHelper.Configure(batch);
+    ///     Composition.Configure(batch);
     /// </code>
     /// </example>
     public interface ISampleDataProvider<in T>

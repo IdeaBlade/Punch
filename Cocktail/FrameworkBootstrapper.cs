@@ -80,7 +80,7 @@ namespace Cocktail
         /// <param name="batch">The composition batch to add to.</param>
         protected virtual void InitializeCompositionBatch(CompositionBatch batch)
         {
-            if (!CompositionHelper.ExportExists<IWindowManager>())
+            if (!Composition.ExportExists<IWindowManager>())
                 batch.AddExportedValue<IWindowManager>(new WindowManager());
         }
 
@@ -111,7 +111,7 @@ namespace Cocktail
                                              typeof (EntityManagerProviderBase<>).Assembly
                                          };
             IEnumerable<Assembly> assemblies =
-                CompositionHelper.Catalog.Catalogs.OfType<AssemblyCatalog>().Select(c => c.Assembly);
+                Composition.Catalog.Catalogs.OfType<AssemblyCatalog>().Select(c => c.Assembly);
 
             if (requiredAssemblies.All(assemblies.Contains)) return;
 
@@ -131,7 +131,7 @@ namespace Cocktail
             var batch = new CompositionBatch();
             InitializeCompositionBatch(batch);
 
-            CompositionHelper.Configure(batch);
+            Composition.Configure(batch);
             CheckRequiredProbeAssemblies();
 
             CompositionHost.Recomposed += RefreshCaliburnAssemblySource;
@@ -154,7 +154,7 @@ namespace Cocktail
         {
             IObservableCollection<Assembly> assemblySource = AssemblySource.Instance;
             IEnumerable<Assembly> assemblies =
-                CompositionHelper.Catalog.Catalogs.OfType<AssemblyCatalog>().Select(c => c.Assembly).Where(
+                Composition.Catalog.Catalogs.OfType<AssemblyCatalog>().Select(c => c.Assembly).Where(
                     a => !assemblySource.Contains(a));
 
             assemblySource.AddRange(assemblies);
@@ -169,7 +169,7 @@ namespace Cocktail
         /// <returns>The located service.</returns>
         protected override object GetInstance(Type serviceType, string key)
         {
-            return CompositionHelper.GetInstance(serviceType, key);
+            return Composition.GetInstance(serviceType, key);
         }
 
         /// <summary>Locates all instances of the supplied service.</summary>
@@ -178,7 +178,7 @@ namespace Cocktail
         protected override IEnumerable<object> GetAllInstances(Type serviceType)
         {
             // Skip when in design mode
-            return Execute.InDesignMode ? new object[0] : CompositionHelper.GetInstances(serviceType);
+            return Execute.InDesignMode ? new object[0] : Composition.GetInstances(serviceType);
         }
 
         /// <summary>Performs injection on the supplied instance.</summary>
@@ -188,7 +188,7 @@ namespace Cocktail
             // Skip when in design mode
             if (Execute.InDesignMode) return;
 
-            CompositionHelper.BuildUp(instance);
+            Composition.BuildUp(instance);
         }
     }
 

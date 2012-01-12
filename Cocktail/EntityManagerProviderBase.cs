@@ -80,14 +80,14 @@ namespace Cocktail
             {
                 if (_entityManagerInterceptors != null) return _entityManagerInterceptors;
 
-                if (!CompositionHelper.IsConfigured) return new EntityManagerDelegate<T>[0];
+                if (!Composition.IsConfigured) return new EntityManagerDelegate<T>[0];
 
                 var i = Manager.CompositionContext.GetExportedInstances(typeof(EntityManagerDelegate));
                 if (i != null)
                     _entityManagerInterceptors = i.OfType<EntityManagerDelegate<T>>().ToList();
 
                 if (_entityManagerInterceptors == null || !_entityManagerInterceptors.Any())
-                    _entityManagerInterceptors = CompositionHelper.GetInstances<EntityManagerDelegate>()
+                    _entityManagerInterceptors = Composition.GetInstances<EntityManagerDelegate>()
                         .OfType<EntityManagerDelegate<T>>()
                         .ToList();
 
@@ -106,14 +106,14 @@ namespace Cocktail
             {
                 if (_validationErrorNotifiers != null) return _validationErrorNotifiers;
 
-                if (!CompositionHelper.IsConfigured) return new IValidationErrorNotification[0];
+                if (!Composition.IsConfigured) return new IValidationErrorNotification[0];
 
                 var i = Manager.CompositionContext.GetExportedInstances(typeof(IValidationErrorNotification));
                 if (i != null)
                     _validationErrorNotifiers = i.Cast<IValidationErrorNotification>().ToList();
 
                 if (_validationErrorNotifiers == null || !_validationErrorNotifiers.Any())
-                    _validationErrorNotifiers = CompositionHelper.GetInstances<IValidationErrorNotification>().ToList();
+                    _validationErrorNotifiers = Composition.GetInstances<IValidationErrorNotification>().ToList();
 
                 TraceFns.WriteLine(_validationErrorNotifiers.Any()
                                        ? string.Format(
@@ -221,11 +221,11 @@ namespace Cocktail
         /// <summary>Internal use.</summary>
         protected virtual T CreateEntityManagerCore()
         {
-            if (CompositionHelper.IsRecomposing)
+            if (Composition.IsRecomposing)
                 throw new InvalidOperationException(StringResources.CreatingEntityManagerDuringRecompositionNotAllowed);
 
-            if (CompositionHelper.IsConfigured)
-                CompositionHelper.BuildUp(this);
+            if (Composition.IsConfigured)
+                Composition.BuildUp(this);
 
             T manager = CreateEntityManager();
             return manager;
@@ -374,7 +374,7 @@ namespace Cocktail
 
         private void Validate(EntitySavingEventArgs args)
         {
-            if (!CompositionHelper.IsConfigured) return;
+            if (!Composition.IsConfigured) return;
 
             var allValidationErrors = new VerifierResultCollection();
 

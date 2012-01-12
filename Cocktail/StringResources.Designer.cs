@@ -79,7 +79,7 @@ namespace Cocktail {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CompositionHelper is not configured. CompositionHelper.Configure must be called before any other public method..
+        ///   Looks up a localized string similar to Composition is not configured. Composition.Configure must be called before any other public method..
         /// </summary>
         internal static string CompositionHelperIsNotConfigured {
             get {

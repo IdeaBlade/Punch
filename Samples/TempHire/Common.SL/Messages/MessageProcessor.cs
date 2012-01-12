@@ -7,7 +7,7 @@ namespace Common.Messages
     {
         protected MessageProcessor()
         {
-            CompositionHelper.GetInstance<IEventAggregator>().Subscribe(this);
+            Composition.GetInstance<IEventAggregator>().Subscribe(this);
         }
 
         #region IHandle<T> Members

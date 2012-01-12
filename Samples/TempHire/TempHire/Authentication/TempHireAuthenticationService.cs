@@ -1,5 +1,4 @@
 using System.ComponentModel.Composition;
-using Caliburn.Micro;
 using Cocktail;
 using Security;
 using Security.Messages;

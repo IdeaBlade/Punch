@@ -14,7 +14,7 @@ namespace TempHire
     {
         static AppBootstrapper()
         {
-            UsesFakeStore<TempHireEntities>();
+            Composition.UsesFakeStore<TempHireEntities>();
         }
 
         // Automatically instantiate and hold all discovered MessageProcessors
@@ -24,9 +24,9 @@ namespace TempHire
         [Import]
         public IErrorHandler ErrorHandler { get; set; }
 
-        protected override void InitializeCompositionBatch(CompositionBatch batch)
+        protected override void PrepareCompositionContainer(CompositionBatch batch)
         {
-            base.InitializeCompositionBatch(batch);
+            base.PrepareCompositionContainer(batch);
 
             batch.AddExportedValue<IAuthenticationService>(new FakeAuthenticationService());
         }

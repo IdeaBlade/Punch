@@ -49,9 +49,9 @@ namespace Cocktail
     /// 	<code title="Example" description="Demonstrates how to enable the authentication service in an application. " lang="CS">
     /// public class AppBootstrapper : FrameworkBootstrapper&lt;MainFrameViewModel&gt;
     /// {
-    ///     protected override void InitializeCompositionBatch(System.ComponentModel.Composition.Hosting.CompositionBatch batch)
+    ///     protected override void PrepareCompositionContainer(System.ComponentModel.Composition.Hosting.CompositionBatch batch)
     ///     {
-    ///         base.InitializeCompositionBatch(batch);
+    ///         base.PrepareCompositionContainer(batch);
     ///  
     ///         // Inject the authentication service into the framework.
     ///         batch.AddExportedValue&lt;IAuthenticationService&gt;(new AuthenticationService&lt;NorthwindIBEntities&gt;());

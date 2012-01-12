@@ -13,7 +13,7 @@ namespace TempHire
     {
         static AppBootstrapper()
         {
-            UsesFakeStore<TempHireEntities>();
+            Composition.UsesFakeStore<TempHireEntities>();
         }
 
         // Automatically instantiate and hold all discovered MessageProcessors

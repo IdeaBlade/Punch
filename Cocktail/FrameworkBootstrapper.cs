@@ -23,9 +23,6 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Caliburn.Micro;
-using IdeaBlade.Core;
-using IdeaBlade.EntityModel;
-using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 
 namespace Cocktail
 {
@@ -39,12 +36,8 @@ namespace Cocktail
         /// </summary>
         static FrameworkBootstrapper()
         {
-            string logTypeName = LogManager.GetLog(typeof(object)).GetType().FullName;
-            if (logTypeName == null || logTypeName.StartsWith("Caliburn.Micro.LogManager"))
-                LogManager.GetLog = type => new DefaultDebugLogger(type);
-
-            // Ensure that the required assembly is always probed.
-            IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(EntityManagerProviderBase<>).Assembly.FullName);
+            LogManager.GetLog = type => new DefaultDebugLogger(type);
+            Composition.EnsureRequiredProbeAssemblies();
         }
 
         /// <summary>
@@ -56,29 +49,9 @@ namespace Cocktail
         {
         }
 
-        /// <summary>
-        /// Indicates to the framework, that the provided EntityManager type makes use of the DevForce Fake Backing Store.
-        /// </summary>
-        /// <remarks>By registering the EntityManager type with this method, the framework makes sure,
-        /// that the fake backing store gets initialized. The fake backing store is either initialized by
-        /// the development harness or before login, if you are not running the harness. If the application
-        /// doesn't login first, the fake backing store must be manually initialized.</remarks>
-        /// <typeparam name="T"></typeparam>
-        protected static void UsesFakeStore<T>() where T : EntityManager
-        {
-            if (Execute.InDesignMode)
-            {
-                // Must be called before the first EM gets created
-                // This allows sample data to be deserialzied from a cache file at design time
-                IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(T).Assembly.FullName);
-            }
-
-            FakeBackingStoreManager.Instance.Register<T>();
-        }
-
         /// <summary>Override to add additional exports to the CompositionHost during configuration.</summary>
         /// <param name="batch">The composition batch to add to.</param>
-        protected virtual void InitializeCompositionBatch(CompositionBatch batch)
+        protected virtual void PrepareCompositionContainer(CompositionBatch batch)
         {
             if (!Composition.ExportExists<IWindowManager>())
                 batch.AddExportedValue<IWindowManager>(new WindowManager());
@@ -87,58 +60,29 @@ namespace Cocktail
         /// <summary>
         /// Ensures that no MEF ExportAttributes are used in the Bootstrapper
         /// </summary>
-        private void ValidateBootstrapper()
+        private void EnsureBootstrapperHasNoExports()
         {
             Type type = GetType();
 
             // Throw exception if class is decorated with ExportAttribute
-            if (ReflectionFns.GetAttribute(type, typeof(ExportAttribute)) != null)
+            if (type.GetCustomAttributes(typeof(ExportAttribute), true).Any())
                 throw new CompositionException(StringResources.BootstrapperMustNotBeDecoratedWithExports);
 
             // Throw exception if any of the class members are decorated with ExportAttribute
-            if (type.GetMembers().Any(m => ReflectionFns.GetAttribute(m, typeof(ExportAttribute)) != null))
+            if (type.GetMembers().Any(m => m.GetCustomAttributes(typeof(ExportAttribute), true).Any()))
                 throw new CompositionException(StringResources.BootstrapperMustNotBeDecoratedWithExports);
-        }
-
-        /// <summary>
-        /// Ensures that all the required assemblies were probed
-        /// </summary>
-        private void CheckRequiredProbeAssemblies()
-        {
-            var requiredAssemblies = new[]
-                                         {
-                                             typeof (FrameworkBootstrapper<>).Assembly,
-                                             typeof (EntityManagerProviderBase<>).Assembly
-                                         };
-            IEnumerable<Assembly> assemblies =
-                Composition.Catalog.Catalogs.OfType<AssemblyCatalog>().Select(c => c.Assembly);
-
-            if (requiredAssemblies.All(assemblies.Contains)) return;
-
-            throw new CompositionException(
-                string.Format(StringResources.MissingRequiredProbeAssemblies,
-                              string.Join(",", requiredAssemblies.Select(a => string.Format("[{0}]", a.FullName)))));
         }
 
         /// <summary>Configures the framework.</summary>
         protected override void Configure()
         {
-            // Nothing to configure in design mode
-            if (Execute.InDesignMode) return;
-
-            ValidateBootstrapper();
+            EnsureBootstrapperHasNoExports();
 
             var batch = new CompositionBatch();
-            InitializeCompositionBatch(batch);
-
+            PrepareCompositionContainer(batch);
             Composition.Configure(batch);
-            CheckRequiredProbeAssemblies();
-
-            CompositionHost.Recomposed += RefreshCaliburnAssemblySource;
-            RefreshCaliburnAssemblySource(CompositionHost.Instance, EventArgs.Empty);
-
-            // The bootstrapper was created outside of the container. Manually satisfy the imports.
-            BuildUp(this);
+            UpdateAssemblySource();
+            Composition.Recomposed += (s, args) => UpdateAssemblySource();
 
             // Caliburn's new RegEx based ViewLocator no longer finds views for the <Namespace>.ViewModel.<BaseName>ViewModel construct
             // Add rule to support above construct
@@ -150,12 +94,12 @@ namespace Cocktail
                 );
         }
 
-        private void RefreshCaliburnAssemblySource(object sender, EventArgs e)
+        private void UpdateAssemblySource()
         {
             IObservableCollection<Assembly> assemblySource = AssemblySource.Instance;
-            IEnumerable<Assembly> assemblies =
-                Composition.Catalog.Catalogs.OfType<AssemblyCatalog>().Select(c => c.Assembly).Where(
-                    a => !assemblySource.Contains(a));
+            IEnumerable<Assembly> assemblies = Composition.Catalog.Catalogs.OfType<AssemblyCatalog>()
+                .Select(c => c.Assembly)
+                .Where(a => !assemblySource.Contains(a));
 
             assemblySource.AddRange(assemblies);
 
@@ -177,17 +121,13 @@ namespace Cocktail
         /// <returns>The located services.</returns>
         protected override IEnumerable<object> GetAllInstances(Type serviceType)
         {
-            // Skip when in design mode
-            return Execute.InDesignMode ? new object[0] : Composition.GetInstances(serviceType);
+            return Composition.GetInstances(serviceType);
         }
 
         /// <summary>Performs injection on the supplied instance.</summary>
         /// <param name="instance">The instance to perform injection on.</param>
         protected override void BuildUp(object instance)
         {
-            // Skip when in design mode
-            if (Execute.InDesignMode) return;
-
             Composition.BuildUp(instance);
         }
     }
@@ -227,7 +167,7 @@ namespace Cocktail
             base.OnStartup(sender, e);
 
 #if SILVERLIGHT
-            DisplayRootViewFor(Application, typeof(TRootModel));
+            DisplayRootViewFor(Application, typeof (TRootModel));
 #else
             DisplayRootViewFor(typeof (TRootModel));
 #endif

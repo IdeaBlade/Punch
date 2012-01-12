@@ -23,6 +23,7 @@ using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using Caliburn.Micro;
 using IdeaBlade.Core;
+using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 using Action = System.Action;
@@ -39,8 +40,6 @@ namespace Cocktail
             new Dictionary<string, XapDownloadOperation>();
 #endif
         private static bool _isConfigured;
-
-        #region Public Properties
 
         /// <summary>
         /// Returns true if the CompositonHost has been configured.
@@ -61,8 +60,6 @@ namespace Cocktail
         {
             get { return CompositionHost.Instance.Container; }
         }
-
-        #endregion
 
         /// <summary>Configures the CompositionHost.</summary>
         /// <param name="compositionBatch">
@@ -160,10 +157,9 @@ namespace Cocktail
         /// <returns>The requested instances.</returns>
         public static IEnumerable<object> GetInstances(Type serviceType, CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
+            if (IsInDesignMode()) return new object[0];
             CheckIfConfigured();
-
             IEnumerable<Export> exports = GetExportsCore(serviceType, null, requiredCreationPolicy);
-
             return exports.Select(e => e.Value);
         }
 
@@ -171,9 +167,34 @@ namespace Cocktail
         /// <param name="instance">The instance for which to satisfy the MEF imports.</param>
         public static void BuildUp(object instance)
         {
+            if (IsInDesignMode()) return;
             CheckIfConfigured();
-
             Container.SatisfyImportsOnce(instance);
+        }
+
+        /// <summary>
+        /// Specifies that the provided EntityManager type makes use of the DevForce Fake Backing Store.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public static void UsesFakeStore<T>() where T : EntityManager
+        {
+            if (Execute.InDesignMode)
+            {
+                // Must be called before the first EM gets created
+                // This allows sample data to be deserialzied from a cache file at design time
+                IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(T).Assembly.FullName);
+            }
+
+            FakeBackingStoreManager.Instance.Register<T>();
+        }
+
+        /// <summary>
+        /// Raised when the composition container is modified after initialization.
+        /// </summary>
+        public static event EventHandler<RecomposedEventArgs> Recomposed
+        {
+            add { CompositionHost.Recomposed += value; }
+            remove { CompositionHost.Recomposed -= value; }
         }
 
 #if SILVERLIGHT
@@ -205,6 +226,11 @@ namespace Cocktail
         }
 
 #endif
+
+        internal static void EnsureRequiredProbeAssemblies()
+        {
+            IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(EntityManagerProviderBase<>).Assembly.FullName);
+        }
 
         internal static IEnumerable<Export> GetExportsCore(Type serviceType, string key, CreationPolicy policy)
         {

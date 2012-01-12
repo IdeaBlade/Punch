@@ -55,7 +55,7 @@ namespace Cocktail
         }
 #endif
 
-        public AsyncOperation InitializeAllAsync()
+        public OperationResult InitializeAllAsync()
         {
             return Coroutine.StartParallel(InitializeAllAsyncCore).AsOperationResult();
         }

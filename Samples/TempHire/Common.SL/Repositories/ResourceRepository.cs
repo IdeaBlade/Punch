@@ -26,7 +26,7 @@ namespace Common.Repositories
 
         #region IResourceRepository Members
 
-        public AsyncOperation CreateResourceAsync(string firstName, string middleName, string lastName,
+        public OperationResult CreateResourceAsync(string firstName, string middleName, string lastName,
                                                     Action<Resource> onSuccess = null, Action<Exception> onFail = null)
         {
             return Coroutine.Start(() => CreateResourceCore(firstName, middleName, lastName),
@@ -34,14 +34,14 @@ namespace Common.Repositories
                 .AsOperationResult();
         }
 
-        public AsyncOperation GetAllResourcesAsync(Action<IEnumerable<Resource>> onSuccess = null,
+        public OperationResult GetAllResourcesAsync(Action<IEnumerable<Resource>> onSuccess = null,
                                                      Action<Exception> onFail = null)
         {
             IEntityQuery<Resource> query = Manager.Resources.OrderBy(r => r.LastName).ThenBy(r => r.FirstName);
             return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public AsyncOperation GetResourceAsync(Guid resourceId, Action<Resource> onSuccess = null,
+        public OperationResult GetResourceAsync(Guid resourceId, Action<Resource> onSuccess = null,
                                         Action<Exception> onFail = null)
         {
             // Execute as IEntityQuery instead of IEntityScalarQuery in order to be cacheable. 
@@ -56,14 +56,14 @@ namespace Common.Repositories
                                 onFail);
         }
 
-        public AsyncOperation GetAddressTypesAsync(Action<IEnumerable<AddressType>> onSuccess = null,
+        public OperationResult GetAddressTypesAsync(Action<IEnumerable<AddressType>> onSuccess = null,
                                                      Action<Exception> onFail = null)
         {
             IEntityQuery<AddressType> query = Manager.AddressTypes.OrderBy(t => t.Name).With(BaseDataQueryStrategy);
             return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public AsyncOperation GetPhoneTypesAsync(Action<IEnumerable<PhoneNumberType>> onSuccess = null,
+        public OperationResult GetPhoneTypesAsync(Action<IEnumerable<PhoneNumberType>> onSuccess = null,
                                                    Action<Exception> onFail = null)
         {
             IEntityQuery<PhoneNumberType> query =
@@ -71,14 +71,14 @@ namespace Common.Repositories
             return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public AsyncOperation GetRateTypesAsync(Action<IEnumerable<RateType>> onSuccess = null,
+        public OperationResult GetRateTypesAsync(Action<IEnumerable<RateType>> onSuccess = null,
                                                   Action<Exception> onFail = null)
         {
             IEntityQuery<RateType> query = Manager.RateTypes.OrderBy(t => t.Sequence).With(BaseDataQueryStrategy);
             return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public AsyncOperation FindResourcesAsync(string searchText, string orderBy,
+        public OperationResult FindResourcesAsync(string searchText, string orderBy,
                                                    Action<IEnumerable<ResourceListItem>> onSuccess = null,
                                                    Action<Exception> onFail = null)
         {
@@ -119,14 +119,14 @@ namespace Common.Repositories
             return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public AsyncOperation DeleteResourceAsync(Guid resourceId, Action onSuccess = null,
+        public OperationResult DeleteResourceAsync(Guid resourceId, Action onSuccess = null,
                                                     Action<Exception> onFail = null)
         {
             return Coroutine.Start(() => DeleteResourceCore(resourceId), op => op.OnComplete(onSuccess, onFail))
                 .AsOperationResult();
         }
 
-        public AsyncOperation GetStatesAsync(Action<IEnumerable<State>> onSuccess = null, Action<Exception> onFail = null)
+        public OperationResult GetStatesAsync(Action<IEnumerable<State>> onSuccess = null, Action<Exception> onFail = null)
         {
             IEntityQuery<State> query = Manager.States.OrderBy(s => s.Name).With(BaseDataQueryStrategy);
             return ExecuteQuery(query, onSuccess, onFail);

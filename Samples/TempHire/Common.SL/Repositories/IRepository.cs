@@ -8,7 +8,7 @@ namespace Common.Repositories
     {
         bool HasChanges();
 
-        AsyncOperation SaveAsync(Action onSuccess = null, Action<Exception> onFail = null);
+        OperationResult SaveAsync(Action onSuccess = null, Action<Exception> onFail = null);
 
         void RejectChanges();
     }

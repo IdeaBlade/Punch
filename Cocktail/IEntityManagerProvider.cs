@@ -45,7 +45,7 @@ namespace Cocktail
         bool IsSaving { get; }
 
         /// <summary>Initializes the persistence layer.</summary>
-        AsyncOperation InitializeAsync();
+        OperationResult InitializeAsync();
 
 #if !SILVERLIGHT
 

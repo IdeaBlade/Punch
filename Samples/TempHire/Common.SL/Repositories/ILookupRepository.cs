@@ -6,6 +6,6 @@ namespace Common.Repositories
 {
     public interface ILookupRepository
     {
-        AsyncOperation InitializeAsync(Action onSuccess = null, Action<Exception> onFail = null);
+        OperationResult InitializeAsync(Action onSuccess = null, Action<Exception> onFail = null);
     }
 }

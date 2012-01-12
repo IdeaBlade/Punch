@@ -9,30 +9,30 @@ namespace Common.Repositories
 {
     public interface IResourceRepository : IRepository
     {
-        AsyncOperation CreateResourceAsync(string firstName, string middleName, string lastName,
+        OperationResult CreateResourceAsync(string firstName, string middleName, string lastName,
                                              Action<Resource> onSuccess = null, Action<Exception> onFail = null);
 
-        AsyncOperation GetAllResourcesAsync(Action<IEnumerable<Resource>> onSuccess = null,
+        OperationResult GetAllResourcesAsync(Action<IEnumerable<Resource>> onSuccess = null,
                                               Action<Exception> onFail = null);
 
-        AsyncOperation GetResourceAsync(Guid resourceId, Action<Resource> onSuccess = null,
+        OperationResult GetResourceAsync(Guid resourceId, Action<Resource> onSuccess = null,
                                           Action<Exception> onFail = null);
 
-        AsyncOperation GetAddressTypesAsync(Action<IEnumerable<AddressType>> onSuccess = null,
+        OperationResult GetAddressTypesAsync(Action<IEnumerable<AddressType>> onSuccess = null,
                                               Action<Exception> onFail = null);
 
-        AsyncOperation GetPhoneTypesAsync(Action<IEnumerable<PhoneNumberType>> onSuccess = null,
+        OperationResult GetPhoneTypesAsync(Action<IEnumerable<PhoneNumberType>> onSuccess = null,
                                             Action<Exception> onFail = null);
 
-        AsyncOperation GetRateTypesAsync(Action<IEnumerable<RateType>> onSuccess = null,
+        OperationResult GetRateTypesAsync(Action<IEnumerable<RateType>> onSuccess = null,
                                            Action<Exception> onFail = null);
 
-        AsyncOperation GetStatesAsync(Action<IEnumerable<State>> onSuccess = null, Action<Exception> onFail = null);
+        OperationResult GetStatesAsync(Action<IEnumerable<State>> onSuccess = null, Action<Exception> onFail = null);
 
-        AsyncOperation FindResourcesAsync(string searchText, string orderBy,
+        OperationResult FindResourcesAsync(string searchText, string orderBy,
                                             Action<IEnumerable<ResourceListItem>> onSuccess = null,
                                             Action<Exception> onFail = null);
 
-        AsyncOperation DeleteResourceAsync(Guid resourceId, Action onSuccess = null, Action<Exception> onFail = null);
+        OperationResult DeleteResourceAsync(Guid resourceId, Action onSuccess = null, Action<Exception> onFail = null);
     }
 }

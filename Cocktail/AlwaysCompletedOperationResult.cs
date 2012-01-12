@@ -21,22 +21,22 @@ using IdeaBlade.EntityModel;
 namespace Cocktail
 {
     /// <summary>A singleton implementation of an always completed result.</summary>
-    public class AlwaysCompletedOperation : AsyncOperation
+    public class AlwaysCompletedOperationResult : OperationResult
     {
-        private static AlwaysCompletedOperation _instance;
+        private static AlwaysCompletedOperationResult _instance;
 
         /// <summary>
-        /// Constructs a new AlwaysCompletedOperation instance.
+        /// Constructs a new AlwaysCompletedOperationResult instance.
         /// </summary>
-        protected AlwaysCompletedOperation() : base(AlwaysCompleted.Instance)
+        protected AlwaysCompletedOperationResult() : base(AlwaysCompleted.Instance)
         {
         }
 
         /// <summary>Returns the singleton instance.</summary>
-        /// <value>The AlwaysCompletedOperation instance.</value>
-        public static AlwaysCompletedOperation Instance
+        /// <value>The AlwaysCompletedOperationResult instance.</value>
+        public static AlwaysCompletedOperationResult Instance
         {
-            get { return _instance ?? (_instance = new AlwaysCompletedOperation()); }
+            get { return _instance ?? (_instance = new AlwaysCompletedOperationResult()); }
         }
     }
 

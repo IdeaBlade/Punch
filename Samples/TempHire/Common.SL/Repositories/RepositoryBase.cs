@@ -38,7 +38,7 @@ namespace Common.Repositories
             return Manager.HasChanges();
         }
 
-        public AsyncOperation SaveAsync(Action onSuccess = null, Action<Exception> onFail = null)
+        public OperationResult SaveAsync(Action onSuccess = null, Action<Exception> onFail = null)
         {
             return Manager.SaveChangesAsync(op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
         }
@@ -59,7 +59,7 @@ namespace Common.Repositories
             Manager.CacheStateManager.RestoreCacheState(baseData, restoreStrategy);
         }
 
-        protected AsyncOperation ExecuteQuery<TQuery>(IEntityQuery<TQuery> query,
+        protected OperationResult ExecuteQuery<TQuery>(IEntityQuery<TQuery> query,
                                                         Action<IEnumerable<TQuery>> onSuccess,
                                                         Action<Exception> onFail)
         {

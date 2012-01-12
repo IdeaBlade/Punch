@@ -25,7 +25,7 @@ namespace TempHire.Authentication
             get { return true; }
         }
 
-        public AsyncOperation LoginAsync(ILoginCredential credential, Action onSuccess = null,
+        public OperationResult LoginAsync(ILoginCredential credential, Action onSuccess = null,
                                            Action<Exception> onFail = null)
         {
             if (LoggedIn != null) 
@@ -33,17 +33,17 @@ namespace TempHire.Authentication
             if (PrincipalChanged != null) 
                 PrincipalChanged(this, EventArgs.Empty);
 
-            return AlwaysCompletedOperation.Instance;
+            return AlwaysCompletedOperationResult.Instance;
         }
 
-        public AsyncOperation LogoutAsync(Action onSuccess = null, Action<Exception> onFail = null)
+        public OperationResult LogoutAsync(Action onSuccess = null, Action<Exception> onFail = null)
         {
             if (LoggedOut != null)
                 LoggedOut(this, EventArgs.Empty);
             if (PrincipalChanged != null)
                 PrincipalChanged(this, EventArgs.Empty);
 
-            return AlwaysCompletedOperation.Instance;
+            return AlwaysCompletedOperationResult.Instance;
         }
 
         public event EventHandler<EventArgs> LoggedIn;

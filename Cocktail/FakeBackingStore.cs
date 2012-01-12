@@ -47,7 +47,7 @@ namespace Cocktail
 
         public CoroutineOperation InitializeOperation { get; private set; }
 
-        public AsyncOperation ResetAsync(EntityManager manager, EntityCacheState storeEcs)
+        public OperationResult ResetAsync(EntityManager manager, EntityCacheState storeEcs)
         {
             _resetOp = Coroutine.Start(() => ResetCore(manager, storeEcs));
             if (InitializeOperation == null)

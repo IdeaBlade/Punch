@@ -25,13 +25,13 @@ namespace Cocktail
     /// Encapsulates a DevForce asynchronous operation, that can interchangeably be  used in places  
     /// where an <see cref = "IResult" /> or <see cref="INotifyCompleted" /> is expected./>
     /// </summary>
-    public class AsyncOperation : IResult, INotifyCompleted
+    public class OperationResult : IResult, INotifyCompleted
     {
         private readonly INotifyCompleted _asyncOp;
 
         /// <summary>Constructs a wrapper around the provided asynchronous function.</summary>
         /// <param name="asyncOp">The asynchronous DevForce function to be wrapped.</param>
-        public AsyncOperation(INotifyCompleted asyncOp)
+        public OperationResult(INotifyCompleted asyncOp)
         {
             _asyncOp = asyncOp;
         }

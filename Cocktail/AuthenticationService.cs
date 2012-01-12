@@ -112,7 +112,7 @@ namespace Cocktail
         /// </param>
         /// <param name="onSuccess">Callback called when login was successful.</param>
         /// <param name="onFail">Callback called when an error occured during login.</param>
-        public AsyncOperation LoginAsync(ILoginCredential credential, Action onSuccess, Action<Exception> onFail)
+        public OperationResult LoginAsync(ILoginCredential credential, Action onSuccess, Action<Exception> onFail)
         {
             CoroutineOperation coop = Coroutine.Start(
                 () => LoginAsyncCore(credential),
@@ -148,7 +148,7 @@ namespace Cocktail
         /// <summary>Logs out the current user.</summary>
         /// <param name="onSuccess">Callback called when logout was successful.</param>
         /// <param name="onFail">Callback called when an error occured during logout.</param>
-        public AsyncOperation LogoutAsync(Action onSuccess, Action<Exception> onFail)
+        public OperationResult LogoutAsync(Action onSuccess, Action<Exception> onFail)
         {
             BaseOperation op = Manager.LogoutAsync();
             op.Completed += (s, args) =>

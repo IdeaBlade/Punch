@@ -23,7 +23,7 @@ namespace TempHire.Repositories
 
         #region ILookupRepository Members
 
-        public AsyncOperation InitializeAsync(Action onSuccess = null, Action<Exception> onFail = null)
+        public OperationResult InitializeAsync(Action onSuccess = null, Action<Exception> onFail = null)
         {
             return Coroutine.StartParallel(InitializeCore, op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
         }

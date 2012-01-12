@@ -122,7 +122,7 @@ namespace Cocktail
         /// <param name="context">The context.</param>
         public void Execute(ActionExecutionContext context)
         {
-            IResult result = Navigate().ToSequential();
+            IResult result = Navigate().ToSequentialResult();
             result.Completed += (sender, args) => EventFns.RaiseOnce(ref Completed, this, args);
             result.Execute(context);
         }

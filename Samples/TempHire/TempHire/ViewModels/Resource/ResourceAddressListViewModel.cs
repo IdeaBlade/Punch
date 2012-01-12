@@ -75,7 +75,7 @@ namespace TempHire.ViewModels.Resource
 
         public override ResourceScreenBase Start(Guid resourceId)
         {
-            StartCore(resourceId).ToSequential().Execute();
+            StartCore(resourceId).ToSequentialResult().Execute();
 
             return this;
         }

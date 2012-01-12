@@ -76,7 +76,7 @@ namespace Common.Toolbar
         public void Execute()
         {
             if (_actionCoroutine != null)
-                _actionCoroutine().ToSequential().Execute();
+                _actionCoroutine().ToSequentialResult().Execute();
             else
                 _action();
         }

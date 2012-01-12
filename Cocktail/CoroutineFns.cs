@@ -33,7 +33,7 @@ namespace Cocktail
         /// </summary>
         /// <param name="results">The results to be executed sequentially</param>
         /// <returns>A result enabling sequential execution.</returns>
-        public static IResult ToSequential(this IEnumerable<IResult> results)
+        public static IResult ToSequentialResult(this IEnumerable<IResult> results)
         {
             return new SequentialResult(results.GetEnumerator());
         }

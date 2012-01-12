@@ -72,7 +72,7 @@ namespace TempHire.ViewModels
 
             IWorkspace @default = _workspaces.FirstOrDefault(w => w.IsDefault);
             if (@default != null)
-                NavigateTo(@default).ToSequential().Execute();
+                NavigateTo(@default).ToSequentialResult().Execute();
 
             return this;
         }

@@ -21,14 +21,17 @@ using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
-    /// <summary>An implementation of <see cref = "IResult" /> that wraps a DevForce asynchronous function.</summary>
-    internal class AsyncResult : IResult
+    /// <summary>
+    /// Encapsulates a DevForce asynchronous operation, that can interchangeably be  used in places  
+    /// where an <see cref = "IResult" /> or <see cref="INotifyCompleted" /> is expected./>
+    /// </summary>
+    public class AsyncOperation : IResult, INotifyCompleted
     {
         private readonly INotifyCompleted _asyncOp;
 
         /// <summary>Constructs a wrapper around the provided asynchronous function.</summary>
         /// <param name="asyncOp">The asynchronous DevForce function to be wrapped.</param>
-        public AsyncResult(INotifyCompleted asyncOp)
+        public AsyncOperation(INotifyCompleted asyncOp)
         {
             _asyncOp = asyncOp;
         }
@@ -39,11 +42,29 @@ namespace Cocktail
         /// Executes the result using the specified context.
         /// </summary>
         /// <param name="context">The context.</param>
-        public void Execute(ActionExecutionContext context)
+        void IResult.Execute(ActionExecutionContext context)
         {
             //var op = _asyncFunc();
             _asyncOp.WhenCompleted(OnComplete);
         }
+
+        /// <summary>Signals the completion of the asynchronous operation.</summary>
+        event EventHandler<ResultCompletionEventArgs> IResult.Completed
+        {
+            add { Completed += value; }
+            remove { Completed -= value; }
+        }
+
+        #endregion
+
+        #region INotifyCompleted Members
+
+        void INotifyCompleted.WhenCompleted(Action<INotifyCompletedArgs> completedAction)
+        {
+            _asyncOp.WhenCompleted(completedAction);
+        }
+
+        #endregion
 
         private void OnComplete(INotifyCompletedArgs args)
         {
@@ -57,9 +78,6 @@ namespace Cocktail
             EventFns.RaiseOnce(ref Completed, this, resultArgs);
         }
 
-        /// <summary>Signals the completion of the asynchronous operation.</summary>
-        public event EventHandler<ResultCompletionEventArgs> Completed;
-
-        #endregion
+        private event EventHandler<ResultCompletionEventArgs> Completed;
     }
 }

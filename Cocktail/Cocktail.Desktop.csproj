@@ -63,8 +63,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlwaysCompleted.cs" />
-    <Compile Include="AsyncResult.cs" />
+    <Compile Include="AlwaysCompletedOperation.cs" />
+    <Compile Include="AsyncOperation.cs" />
     <Compile Include="AuthenticationService.cs" />
     <Compile Include="Composition.cs" />
     <Compile Include="CoroutineFns.cs" />

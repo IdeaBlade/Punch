@@ -1,5 +1,5 @@
 ﻿using System;
-using Caliburn.Micro;
+using Cocktail;
 using Action = System.Action;
 
 namespace Common.Repositories
@@ -8,7 +8,7 @@ namespace Common.Repositories
     {
         bool HasChanges();
 
-        IResult SaveAsync(Action onSuccess = null, Action<Exception> onFail = null);
+        AsyncOperation SaveAsync(Action onSuccess = null, Action<Exception> onFail = null);
 
         void RejectChanges();
     }

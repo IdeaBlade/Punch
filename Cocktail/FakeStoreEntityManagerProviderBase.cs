@@ -49,11 +49,11 @@ namespace Cocktail
         }
 
         /// <summary>Initializes the fake backing store.</summary>
-        public override INotifyCompleted InitializeAsync()
+        public override AsyncOperation InitializeAsync()
         {
             // Return the operation if fake store object already exists.
             if (FakeBackingStore.Exists(Manager.CompositionContext.Name))
-                return FakeBackingStore.Get(Manager.CompositionContext.Name).InitializeOperation;
+                return FakeBackingStore.Get(Manager.CompositionContext.Name).InitializeOperation.AsOperationResult();
 
             FakeBackingStore.Create(Manager.CompositionContext.Name);
 
@@ -61,7 +61,7 @@ namespace Cocktail
         }
 
         /// <summary>Resets the fake backing store to its initial state.</summary>
-        public INotifyCompleted ResetFakeBackingStoreAsync()
+        public AsyncOperation ResetFakeBackingStoreAsync()
         {
             if (!FakeBackingStore.Exists(Manager.CompositionContext.Name))
                 throw new InvalidOperationException(StringResources.TheEntityManagerProviderHasNotBeenInitialized);

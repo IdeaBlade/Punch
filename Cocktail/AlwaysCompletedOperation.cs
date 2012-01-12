@@ -1,4 +1,4 @@
-//====================================================================================================================
+﻿//====================================================================================================================
 //Copyright (c) 2012 IdeaBlade
 //====================================================================================================================
 //Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
@@ -20,8 +20,28 @@ using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
+    /// <summary>A singleton implementation of an always completed result.</summary>
+    public class AlwaysCompletedOperation : AsyncOperation
+    {
+        private static AlwaysCompletedOperation _instance;
+
+        /// <summary>
+        /// Constructs a new AlwaysCompletedOperation instance.
+        /// </summary>
+        protected AlwaysCompletedOperation() : base(AlwaysCompleted.Instance)
+        {
+        }
+
+        /// <summary>Returns the singleton instance.</summary>
+        /// <value>The AlwaysCompletedOperation instance.</value>
+        public static AlwaysCompletedOperation Instance
+        {
+            get { return _instance ?? (_instance = new AlwaysCompletedOperation()); }
+        }
+    }
+
     /// <summary>A singleton implementation of an always completed operation.</summary>
-    public class AlwaysCompleted : INotifyCompleted
+    internal class AlwaysCompleted : INotifyCompleted
     {
         private static AlwaysCompleted _instance;
 

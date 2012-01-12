@@ -55,14 +55,14 @@ namespace Cocktail
         }
 #endif
 
-        public INotifyCompleted InitializeAllAsync()
+        public AsyncOperation InitializeAllAsync()
         {
-            return Coroutine.StartParallel(InitializeAllAsyncCore);
+            return Coroutine.StartParallel(InitializeAllAsyncCore).AsOperationResult();
         }
 
         private IEnumerable<INotifyCompleted> InitializeAllAsyncCore()
         {
-            return GetFakeStoreEntityManagerProviders().Select(emp => emp.InitializeAsync());
+            return GetFakeStoreEntityManagerProviders().Select(emp => emp.InitializeAsync()).Cast<INotifyCompleted>();
         }
 
         private IEnumerable<IEntityManagerProvider> GetFakeStoreEntityManagerProviders()

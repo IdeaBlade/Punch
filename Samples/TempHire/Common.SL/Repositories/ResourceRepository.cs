@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using Caliburn.Micro;
 using Cocktail;
 using DomainModel;
 using DomainModel.Projections;
@@ -27,50 +26,59 @@ namespace Common.Repositories
 
         #region IResourceRepository Members
 
-        public IResult CreateResourceAsync(string firstName, string middleName, string lastName,
+        public AsyncOperation CreateResourceAsync(string firstName, string middleName, string lastName,
                                                     Action<Resource> onSuccess = null, Action<Exception> onFail = null)
         {
             return Coroutine.Start(() => CreateResourceCore(firstName, middleName, lastName),
                                    op => op.OnComplete(onSuccess, onFail))
-                .AsResult();
+                .AsOperationResult();
         }
 
-        public IResult GetAllResourcesAsync(Action<IEnumerable<Resource>> onSuccess = null,
+        public AsyncOperation GetAllResourcesAsync(Action<IEnumerable<Resource>> onSuccess = null,
                                                      Action<Exception> onFail = null)
         {
             IEntityQuery<Resource> query = Manager.Resources.OrderBy(r => r.LastName).ThenBy(r => r.FirstName);
-            return ExecuteQuery(query, onSuccess, onFail).AsResult();
+            return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public IResult GetResourceAsync(Guid resourceId, Action<Resource> onSuccess = null,
+        public AsyncOperation GetResourceAsync(Guid resourceId, Action<Resource> onSuccess = null,
                                         Action<Exception> onFail = null)
         {
-            return GetResourceAsyncCore(resourceId, onSuccess, onFail).AsResult();
+            // Execute as IEntityQuery instead of IEntityScalarQuery in order to be cacheable. 
+            // IEntityScalarQuery is always satisfied from the Datasource.
+            IEntityQuery<Resource> query = Manager.Resources
+                .Where(r => r.Id == resourceId)
+                .Include(r => r.Addresses)
+                .Include(r => r.PhoneNumbers);
+
+            return ExecuteQuery(query,
+                                result => { if (onSuccess != null) onSuccess(result.First()); },
+                                onFail);
         }
 
-        public IResult GetAddressTypesAsync(Action<IEnumerable<AddressType>> onSuccess = null,
+        public AsyncOperation GetAddressTypesAsync(Action<IEnumerable<AddressType>> onSuccess = null,
                                                      Action<Exception> onFail = null)
         {
             IEntityQuery<AddressType> query = Manager.AddressTypes.OrderBy(t => t.Name).With(BaseDataQueryStrategy);
-            return ExecuteQuery(query, onSuccess, onFail).AsResult();
+            return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public IResult GetPhoneTypesAsync(Action<IEnumerable<PhoneNumberType>> onSuccess = null,
+        public AsyncOperation GetPhoneTypesAsync(Action<IEnumerable<PhoneNumberType>> onSuccess = null,
                                                    Action<Exception> onFail = null)
         {
             IEntityQuery<PhoneNumberType> query =
                 Manager.PhoneNumberTypes.OrderBy(t => t.Name).With(BaseDataQueryStrategy);
-            return ExecuteQuery(query, onSuccess, onFail).AsResult();
+            return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public IResult GetRateTypesAsync(Action<IEnumerable<RateType>> onSuccess = null,
+        public AsyncOperation GetRateTypesAsync(Action<IEnumerable<RateType>> onSuccess = null,
                                                   Action<Exception> onFail = null)
         {
             IEntityQuery<RateType> query = Manager.RateTypes.OrderBy(t => t.Sequence).With(BaseDataQueryStrategy);
-            return ExecuteQuery(query, onSuccess, onFail).AsResult();
+            return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public IResult FindResourcesAsync(string searchText, string orderBy,
+        public AsyncOperation FindResourcesAsync(string searchText, string orderBy,
                                                    Action<IEnumerable<ResourceListItem>> onSuccess = null,
                                                    Action<Exception> onFail = null)
         {
@@ -108,43 +116,28 @@ namespace Common.Repositories
                                                      Number = resource.PhoneNumbers.FirstOrDefault(p => p.Primary).Number
                                                  });
 
-            return ExecuteQuery(query, onSuccess, onFail).AsResult();
+            return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public IResult DeleteResourceAsync(Guid resourceId, Action onSuccess = null,
+        public AsyncOperation DeleteResourceAsync(Guid resourceId, Action onSuccess = null,
                                                     Action<Exception> onFail = null)
         {
             return Coroutine.Start(() => DeleteResourceCore(resourceId), op => op.OnComplete(onSuccess, onFail))
-                .AsResult();
+                .AsOperationResult();
         }
 
-        public IResult GetStatesAsync(Action<IEnumerable<State>> onSuccess = null, Action<Exception> onFail = null)
+        public AsyncOperation GetStatesAsync(Action<IEnumerable<State>> onSuccess = null, Action<Exception> onFail = null)
         {
             IEntityQuery<State> query = Manager.States.OrderBy(s => s.Name).With(BaseDataQueryStrategy);
-            return ExecuteQuery(query, onSuccess, onFail).AsResult();
+            return ExecuteQuery(query, onSuccess, onFail);
         }
 
         #endregion
 
-        private INotifyCompleted GetResourceAsyncCore(Guid resourceId, Action<Resource> onSuccess = null,
-                                                      Action<Exception> onFail = null)
-        {
-            // Execute as IEntityQuery instead of IEntityScalarQuery in order to be cacheable. 
-            // IEntityScalarQuery is always satisfied from the Datasource.
-            IEntityQuery<Resource> query = Manager.Resources
-                .Where(r => r.Id == resourceId)
-                .Include(r => r.Addresses)
-                .Include(r => r.PhoneNumbers);
-
-            return ExecuteQuery(query,
-                                result => { if (onSuccess != null) onSuccess(result.First()); },
-                                onFail);
-        }
-
         private IEnumerable<INotifyCompleted> DeleteResourceCore(Guid resourceId)
         {
             Resource resource = null;
-            yield return GetResourceAsyncCore(resourceId, result => resource = result);
+            yield return GetResourceAsync(resourceId, result => resource = result);
 
             EntityAspect.Wrap(resource).Delete();
             yield return Manager.SaveChangesAsync();

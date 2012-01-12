@@ -1,11 +1,11 @@
 ﻿using System;
-using Caliburn.Micro;
+using Cocktail;
 using Action = System.Action;
 
 namespace Common.Repositories
 {
     public interface ILookupRepository
     {
-        IResult InitializeAsync(Action onSuccess = null, Action<Exception> onFail = null);
+        AsyncOperation InitializeAsync(Action onSuccess = null, Action<Exception> onFail = null);
     }
 }

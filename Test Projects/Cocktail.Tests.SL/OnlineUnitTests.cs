@@ -169,7 +169,7 @@ namespace Cocktail.Tests
                     var asyncFns = new List<Func<INotifyCompleted>>
                             {
                                 () => TestInit("ContextWithAuthService"),
-                                () => auth.LoginAsyncCore(new LoginCredential("test", "test", null), null, null),
+                                () => auth.LoginAsync(new LoginCredential("test", "test", null), null, null),
                                 () =>
                                     {
                                         Assert.IsTrue(principalChangedFired, "PrincipalChanged should have been fired");
@@ -189,7 +189,7 @@ namespace Cocktail.Tests
                                         managerCreatedFired = false;
                                         return AlwaysCompleted.Instance;
                                     },
-                                () => auth.LogoutAsyncCore(null, null),
+                                () => auth.LogoutAsync(null, null),
                                 () =>
                                     {
                                         Assert.IsTrue(principalChangedFired, "PrincipalChanged should have been fired");

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Caliburn.Micro;
 using Cocktail;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
@@ -39,9 +38,9 @@ namespace Common.Repositories
             return Manager.HasChanges();
         }
 
-        public IResult SaveAsync(Action onSuccess = null, Action<Exception> onFail = null)
+        public AsyncOperation SaveAsync(Action onSuccess = null, Action<Exception> onFail = null)
         {
-            return SaveAsyncCore(onSuccess, onFail).AsResult();
+            return Manager.SaveChangesAsync(op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
         }
 
         public void RejectChanges()
@@ -50,11 +49,6 @@ namespace Common.Repositories
         }
 
         #endregion
-
-        protected virtual INotifyCompleted SaveAsyncCore(Action onSuccess = null, Action<Exception> onFail = null)
-        {
-            return Manager.SaveChangesAsync(op => op.OnComplete(onSuccess, onFail));
-        }
 
         protected internal virtual void OnManagerCreated(object sender, EventArgs e)
         {
@@ -65,11 +59,11 @@ namespace Common.Repositories
             Manager.CacheStateManager.RestoreCacheState(baseData, restoreStrategy);
         }
 
-        protected INotifyCompleted ExecuteQuery<TQuery>(IEntityQuery<TQuery> query,
+        protected AsyncOperation ExecuteQuery<TQuery>(IEntityQuery<TQuery> query,
                                                         Action<IEnumerable<TQuery>> onSuccess,
                                                         Action<Exception> onFail)
         {
-            return query.ExecuteAsync(op => op.OnComplete(onSuccess, onFail));
+            return query.ExecuteAsync(op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
         }
     }
 }

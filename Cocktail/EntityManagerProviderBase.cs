@@ -186,9 +186,9 @@ namespace Cocktail
         public event EventHandler<EventArgs> ManagerCreated = delegate { };
 
         /// <summary>Performs the necessary initialization steps for the persistence layer. The specific steps depend on the subtype of EntityManagerProvider used.</summary>
-        public virtual INotifyCompleted InitializeAsync()
+        public virtual AsyncOperation InitializeAsync()
         {
-            return AlwaysCompleted.Instance;
+            return AlwaysCompletedOperation.Instance;
         }
 
         /// <summary>

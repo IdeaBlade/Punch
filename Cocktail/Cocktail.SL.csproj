@@ -87,7 +87,7 @@
     <Reference Include="System.Windows.Controls.Navigation, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlwaysCompleted.cs" />
+    <Compile Include="AlwaysCompletedOperation.cs" />
     <Compile Include="AuthenticationService.cs" />
     <Compile Include="DesignTimeEntityManagerProviderBase.cs" />
     <Compile Include="DesignTimeViewModelLocatorBase.cs" />
@@ -106,7 +106,7 @@
     <Compile Include="FakeBackingStore.cs" />
     <Compile Include="FakeBackingStoreManager.cs" />
     <Compile Include="FrameworkBootstrapper.cs" />
-    <Compile Include="AsyncResult.cs" />
+    <Compile Include="AsyncOperation.cs" />
     <Compile Include="IAuthenticationService.cs" />
     <Compile Include="IDiscoverableViewModel.cs" />
     <Compile Include="IEntityManagerProvider.cs" />

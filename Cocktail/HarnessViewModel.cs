@@ -90,15 +90,15 @@ namespace Cocktail
             base.OnInitialize();
 
 #if SILVERLIGHT
-            INotifyCompleted op = FakeBackingStoreManager.Instance.InitializeAllAsync();
-            op.WhenCompleted(
-                args =>
-                    {
-                        Ready = FakeBackingStoreManager.Instance.IsInitialized;
+            FakeBackingStoreManager.Instance.InitializeAllAsync()
+                .OnComplete(
+                    args =>
+                        {
+                            Ready = FakeBackingStoreManager.Instance.IsInitialized;
 
-                        if (!Ready)
-                            MessageBox.Show(StringResources.ThePersistenceLayerFailedToInitialize);
-                    });
+                            if (!Ready)
+                                MessageBox.Show(StringResources.ThePersistenceLayerFailedToInitialize);
+                        });
 #else
             FakeBackingStoreManager.Instance.InitializeAll();
             Ready = FakeBackingStoreManager.Instance.IsInitialized;

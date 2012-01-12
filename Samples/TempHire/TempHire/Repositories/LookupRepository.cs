@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using Caliburn.Micro;
 using Cocktail;
 using Common.Repositories;
 using DomainModel;
@@ -11,7 +10,7 @@ using Coroutine = IdeaBlade.EntityModel.Coroutine;
 
 namespace TempHire.Repositories
 {
-    [Export(typeof (ILookupRepository)), PartCreationPolicy(CreationPolicy.Shared)]
+    [Export(typeof(ILookupRepository)), PartCreationPolicy(CreationPolicy.Shared)]
     public class LookupRepository : RepositoryBase<TempHireEntities>, ILookupRepository
     {
         [ImportingConstructor]
@@ -24,9 +23,9 @@ namespace TempHire.Repositories
 
         #region ILookupRepository Members
 
-        public IResult InitializeAsync(Action onSuccess = null, Action<Exception> onFail = null)
+        public AsyncOperation InitializeAsync(Action onSuccess = null, Action<Exception> onFail = null)
         {
-            return Coroutine.StartParallel(InitializeCore, op => op.OnComplete(onSuccess, onFail)).AsResult();
+            return Coroutine.StartParallel(InitializeCore, op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
         }
 
         #endregion

@@ -113,18 +113,7 @@ namespace Cocktail
         /// </param>
         /// <param name="onSuccess">Callback called when login was successful.</param>
         /// <param name="onFail">Callback called when an error occured during login.</param>
-        public IResult LoginAsync(ILoginCredential credential, Action onSuccess, Action<Exception> onFail)
-        {
-            return LoginAsyncCore(credential, onSuccess, onFail).AsResult();
-        }
-
-        /// <summary>Login with the supplied credential - core implementation.</summary>
-        /// <param name="credential">
-        /// 	<para>The supplied credential.</para>
-        /// </param>
-        /// <param name="onSuccess">Callback called when login was successful.</param>
-        /// <param name="onFail">Callback called when an error occured during login.</param>
-        protected internal virtual INotifyCompleted LoginAsyncCore(ILoginCredential credential, Action onSuccess, Action<Exception> onFail)
+        public AsyncOperation LoginAsync(ILoginCredential credential, Action onSuccess, Action<Exception> onFail)
         {
             CoroutineOperation coop = Coroutine.Start(
                 () => LoginAsyncCore(credential),
@@ -138,7 +127,7 @@ namespace Cocktail
                     op.OnComplete(onSuccess, onFail);
                 });
 
-            return coop;
+            return coop.AsOperationResult();
         }
 
         /// <summary>Internal use.</summary>
@@ -152,7 +141,7 @@ namespace Cocktail
             }
 
             // Logout before logging in with new set of credentials
-            if (Manager.IsLoggedIn) yield return LogoutAsyncCore(null, null);
+            if (Manager.IsLoggedIn) yield return LogoutAsync(null, null);
 
             yield return Manager.LoginAsync(credential);
         }
@@ -160,15 +149,7 @@ namespace Cocktail
         /// <summary>Logs out the current user.</summary>
         /// <param name="onSuccess">Callback called when logout was successful.</param>
         /// <param name="onFail">Callback called when an error occured during logout.</param>
-        public IResult LogoutAsync(Action onSuccess, Action<Exception> onFail)
-        {
-            return LogoutAsyncCore(onSuccess, onFail).AsResult();
-        }
-
-        /// <summary>Logs out the current user - core implementation.</summary>
-        /// <param name="onSuccess">Callback called when logout was successful.</param>
-        /// <param name="onFail">Callback called when an error occured during logout.</param>
-        protected internal virtual INotifyCompleted LogoutAsyncCore(Action onSuccess, Action<Exception> onFail)
+        public AsyncOperation LogoutAsync(Action onSuccess, Action<Exception> onFail)
         {
             BaseOperation op = Manager.LogoutAsync();
             op.Completed += (s, args) =>
@@ -187,7 +168,7 @@ namespace Cocktail
                 }
             };
 
-            return op;
+            return op.AsOperationResult();
         }
 
 #if !SILVERLIGHT

@@ -24,8 +24,7 @@ namespace TempHire.ViewModels
         [ImportingConstructor]
         public ShellViewModel([ImportMany] IEnumerable<IWorkspace> workspaces, IToolbarManager toolbar,
                               IAuthenticationService authenticationService, ExportFactory<LoginViewModel> loginFactory,
-                              [Import(RequiredCreationPolicy = CreationPolicy.Shared)] IBusyWatcher busy,
-                              IEventAggregator eventAggregator)
+                              [Import(RequiredCreationPolicy = CreationPolicy.Shared)] IBusyWatcher busy)
         {
             Toolbar = toolbar;
             Busy = busy;
@@ -33,7 +32,7 @@ namespace TempHire.ViewModels
             _authenticationService = authenticationService;
             _loginFactory = loginFactory;
 
-            eventAggregator.Subscribe(this);
+            EventFns.Subscribe(this);
         }
 
         public IToolbarManager Toolbar { get; private set; }

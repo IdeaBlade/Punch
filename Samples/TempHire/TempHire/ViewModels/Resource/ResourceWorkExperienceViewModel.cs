@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
+using Cocktail;
 using Common.Errors;
 using Common.Messages;
 using Common.Repositories;
@@ -16,13 +17,13 @@ namespace TempHire.ViewModels.Resource
     {
         [ImportingConstructor]
         public ResourceWorkExperienceViewModel(IRepositoryManager<IResourceRepository> repositoryManager,
-                                               IEventAggregator eventAggregator, IErrorHandler errorHandler)
+                                               IErrorHandler errorHandler)
             : base(repositoryManager, errorHandler)
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DisplayName = "Work Experience";
             // ReSharper restore DoNotCallOverridableMethodsInConstructor
-            eventAggregator.Subscribe(this);
+            EventFns.Subscribe(this);
         }
 
         public bool IsEmpty

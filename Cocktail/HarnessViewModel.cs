@@ -41,15 +41,13 @@ namespace Cocktail
 
         /// <summary>Initializes a new instance.</summary>
         /// <param name="viewModels">The list of discovered ViewModels injected through MEF.</param>
-        /// <param name="eventAggregator">The EventAggregator injected through MEF.</param>
         [ImportingConstructor]
-        public HarnessViewModel([ImportMany] IEnumerable<IDiscoverableViewModel> viewModels, IEventAggregator eventAggregator)
+        public HarnessViewModel([ImportMany] IEnumerable<IDiscoverableViewModel> viewModels)
         {
             _viewModels = new Dictionary<string, object>();
             viewModels.ForEach(vm => _viewModels.Add(vm.GetType().Name, vm));
 
-            if (eventAggregator != null)
-                eventAggregator.Subscribe(this);
+            EventFns.Subscribe(this);
         }
 
         /// <summary>Bindable collection exposing the names of all discovered ViewModels.</summary>
@@ -94,12 +92,12 @@ namespace Cocktail
             var op = FakeBackingStoreManager.Instance.InitializeAllAsync();
             op.WhenCompleted(
                 args =>
-                    {
-                        Ready = FakeBackingStoreManager.Instance.IsInitialized;
+                {
+                    Ready = FakeBackingStoreManager.Instance.IsInitialized;
 
-                        if (!Ready)
-                            MessageBox.Show(StringResources.ThePersistenceLayerFailedToInitialize);
-                    });
+                    if (!Ready)
+                        MessageBox.Show(StringResources.ThePersistenceLayerFailedToInitialize);
+                });
 #else
             FakeBackingStoreManager.Instance.InitializeAll();
             Ready = FakeBackingStoreManager.Instance.IsInitialized;

@@ -1,11 +1,12 @@
 using Cocktail;
+using Common.SampleData;
 using DomainModel;
 
 namespace TempHire.DesignTimeSupport
 {
     public class DesignTimeEntityManagerProvider : DesignTimeEntityManagerProviderBase<TempHireEntities>
     {
-        public DesignTimeEntityManagerProvider(ISampleDataProvider<TempHireEntities>[] sampleDataProviders)
+        public DesignTimeEntityManagerProvider(TempHireSampleDataProvider[] sampleDataProviders)
             : base(sampleDataProviders)
         {
         }

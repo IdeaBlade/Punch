@@ -59,7 +59,7 @@ namespace Cocktail.Tests
         {
             Composition.ResetIsInDesignModeToDefault();
 
-            var shell = new HarnessViewModel(Composition.GetInstances<IDiscoverableViewModel>(), null);
+            var shell = new HarnessViewModel(Composition.GetInstances<IDiscoverableViewModel>());
             Composition.BuildUp(shell);
 
             Assert.IsTrue(shell.Names.Any(), "We should have at least one ViewModel name");

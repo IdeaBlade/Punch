@@ -34,7 +34,6 @@ namespace TempHire.ViewModels.Resource
                                            ExportFactory<ResourceDetailViewModel> detailFactory,
                                            ExportFactory<ResourceNameEditorViewModel> nameEditorFactory,
                                            IRepositoryManager<IResourceRepository> repositoryManager,
-                                           IEventAggregator eventAggregator,
                                            IErrorHandler errorHandler,
                                            IToolbarManager toolbar)
         {
@@ -45,7 +44,7 @@ namespace TempHire.ViewModels.Resource
             _errorHandler = errorHandler;
             _toolbar = toolbar;
 
-            eventAggregator.Subscribe(this);
+            EventFns.Subscribe(this);
 
             PropertyChanged += OnPropertyChanged;
 

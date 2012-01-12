@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Caliburn.Micro;
 using Cocktail;
 using Common.BusyWatcher;
 using Common.Errors;
@@ -96,10 +95,8 @@ namespace TempHire.DesignTimeSupport
                                                            new ResourceRatesViewModel(rm, null, new ErrorHandler())
                                                            ,
                                                            new ResourceWorkExperienceViewModel(rm, 
-                                                                                               new EventAggregator(),
                                                                                                new ErrorHandler()),
-                                                           new ResourceSkillsViewModel(rm, new EventAggregator(),
-                                                                                       new ErrorHandler())
+                                                           new ResourceSkillsViewModel(rm, new ErrorHandler())
                                                        },
                                                    new ErrorHandler(), new BusyWatcher())
                     .Start(TempHireSampleDataProvider.CreateGuid(1));
@@ -132,8 +129,8 @@ namespace TempHire.DesignTimeSupport
             {
                 return (ResourceWorkExperienceViewModel)
                        new ResourceWorkExperienceViewModel(
-                           new DesignTimeResourceRepositoryManager(EntityManagerProvider), new EventAggregator(),
-                           new ErrorHandler()).Start(TempHireSampleDataProvider.CreateGuid(1));
+                           new DesignTimeResourceRepositoryManager(EntityManagerProvider), new ErrorHandler())
+                           .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
 
@@ -143,8 +140,8 @@ namespace TempHire.DesignTimeSupport
             {
                 return (ResourceSkillsViewModel)
                        new ResourceSkillsViewModel(
-                           new DesignTimeResourceRepositoryManager(EntityManagerProvider), new EventAggregator(),
-                           new ErrorHandler()).Start(TempHireSampleDataProvider.CreateGuid(1));
+                           new DesignTimeResourceRepositoryManager(EntityManagerProvider), new ErrorHandler())
+                           .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
 
@@ -166,7 +163,6 @@ namespace TempHire.DesignTimeSupport
                     new ResourceManagementViewModel(
                         new ResourceSearchViewModel(new ResourceRepository(EntityManagerProvider),
                                                     new ErrorHandler(), new BusyWatcher()), null, null, rm,
-                        new EventAggregator(),
                         new ErrorHandler(), null);
             }
         }
@@ -177,7 +173,7 @@ namespace TempHire.DesignTimeSupport
             {
                 return
                     new ShellViewModel(new List<IWorkspace>(), new ToolbarManager(), new FakeAuthenticationService(),
-                                       null, new BusyWatcher(), new EventAggregator()).Start();
+                                       null, new BusyWatcher()).Start();
             }
         }
 
@@ -186,14 +182,13 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 return new LoginViewModel(new FakeAuthenticationService(), null, null, new BusyWatcher(),
-                                          new ErrorHandler())
-                           {FailureMessage = "FailureMessage at design time"};
+                                          new ErrorHandler()) { FailureMessage = "FailureMessage at design time" };
             }
         }
 
         protected override IEntityManagerProvider<TempHireEntities> CreateEntityManagerProvider()
         {
-            return new DesignTimeEntityManagerProvider(new[] {new TempHireSampleDataProvider()});
+            return new DesignTimeEntityManagerProvider(new[] { new TempHireSampleDataProvider() });
         }
     }
 }

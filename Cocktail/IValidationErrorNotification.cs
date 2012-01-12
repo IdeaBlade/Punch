@@ -21,30 +21,18 @@ using IdeaBlade.Validation;
 namespace Cocktail
 {
     /// <summary>Implement this interface to be notified of validation errors during a save. The framework automatically performs validation before saving changed
-    /// entities. If any validation errors occur, the save is aborted and any implementation of IVerifierResultNotificationService is notified of the error(s).</summary>
+    /// entities. If any validation errors occur, the save is aborted and any implementation of IValidationErrorNotification is notified of the error(s).</summary>
     /// <example>
     /// 	<code title="Example" description="In this example, the implementation of IVerifierResultNotificationService publishes a message to the UI EventAggregator for consumption by any view model and processing of the validation error." lang="CS">
     /// // Create this implementation as a singleton.
     /// [PartCreationPolicy(CreationPolicy.Shared)]
-    /// public class VerifierResultNotificationService : IVerifierResultNotificationService
+    /// public class ValidationErrorProcessor : IValidationErrorNotification
     /// {
-    ///     private readonly IEventAggregator _eventAggregator;
-    ///  
-    ///     #region Implementation of IVerifierResultNotificationService
-    ///  
-    ///     [ImportingConstructor]
-    ///     public VerifierResultNotificationService(IEventAggregator eventAggregator)
-    ///     {
-    ///         _eventAggregator = eventAggregator;
-    ///     }
-    ///  
     ///     // Let the UI know that a validation error occured.
-    ///     public void OnVerificationError(VerifierResultCollection verifierResultCollection)
+    ///     public OnValidationError(VerifierResultCollection validationErrors)
     ///     {
-    ///         _eventAggregator.Publish(new HandleValidationErrors(verifierResultCollection));
+    ///         EventFns.Publish(new HandleValidationErrors(validationErrors));
     ///     }
-    ///  
-    ///     #endregion
     /// }</code>
     /// </example>
     [InterfaceExport(typeof(IValidationErrorNotification))]

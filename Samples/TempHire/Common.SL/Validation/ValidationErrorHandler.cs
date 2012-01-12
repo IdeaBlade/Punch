@@ -1,24 +1,18 @@
-﻿using System.ComponentModel.Composition;
-using Caliburn.Micro;
-using Cocktail;
+﻿using Cocktail;
 using IdeaBlade.Validation;
 
 namespace Common.Validation
 {
     public class ValidationErrorHandler : IValidationErrorNotification
     {
-        private readonly IEventAggregator _eventAggregator;
-
-        [ImportingConstructor]
-        public ValidationErrorHandler(IEventAggregator eventAggregator)
-        {
-            _eventAggregator = eventAggregator;
-        }
+        #region IValidationErrorNotification Members
 
         public void OnValidationError(VerifierResultCollection validationErrors)
         {
             if (validationErrors.HasErrors)
-                _eventAggregator.Publish(new ValidationErrorMessage(validationErrors));
+                EventFns.Publish(new ValidationErrorMessage(validationErrors));
         }
+
+        #endregion
     }
 }

@@ -35,7 +35,7 @@ namespace Cocktail
     public static class Composition
     {
 #if SILVERLIGHT
-        private static readonly Dictionary<string, XapDownloadOperation> _xapDownloadOperations =
+        private static readonly Dictionary<string, XapDownloadOperation> XapDownloadOperations =
             new Dictionary<string, XapDownloadOperation>();
 #endif
         private static bool _isConfigured;
@@ -186,9 +186,9 @@ namespace Cocktail
         public static INotifyCompleted AddXap(string relativeUri, Action onSuccess = null, Action<Exception> onFail = null)
         {
             XapDownloadOperation operation;
-            if (_xapDownloadOperations.TryGetValue(relativeUri, out operation) && !operation.HasError) return operation;
+            if (XapDownloadOperations.TryGetValue(relativeUri, out operation) && !operation.HasError) return operation;
 
-            var op = _xapDownloadOperations[relativeUri] = new XapDownloadOperation(relativeUri);
+            var op = XapDownloadOperations[relativeUri] = new XapDownloadOperation(relativeUri);
             op.WhenCompleted(
                 args =>
                 {
@@ -247,12 +247,12 @@ namespace Cocktail
 
         /// <summary>Function to determine if in DesignMode. Can be replaced for testing.</summary>
         /// <value>A delegate returning true if in design mode.</value>
-        public static Func<bool> IsInDesignMode = IsInDesignModeDefault;
+        internal static Func<bool> IsInDesignMode = IsInDesignModeDefault;
 
         /// <summary>
         /// Restore <see cref="IsInDesignMode"/> to default method. For testing.
         /// </summary>
-        public static void ResetIsInDesignModeToDefault()
+        internal static void ResetIsInDesignModeToDefault()
         {
             IsInDesignMode = IsInDesignModeDefault;
         }

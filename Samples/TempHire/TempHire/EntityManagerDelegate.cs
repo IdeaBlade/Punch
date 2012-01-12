@@ -13,18 +13,11 @@ namespace TempHire
 {
     public class EntityManagerDelegate : EntityManagerDelegate<TempHireEntities>
     {
-        private readonly IEventAggregator _eventAggregator;
         private IEnumerable<object> _retainedRoots;
-
-        [ImportingConstructor]
-        public EntityManagerDelegate(IEventAggregator eventAggregator)
-        {
-            _eventAggregator = eventAggregator;
-        }
 
         public override void OnEntityChanged(TempHireEntities source, EntityChangedEventArgs args)
         {
-            _eventAggregator.Publish(new EntityChangedMessage(args.Entity));
+            EventFns.Publish(new EntityChangedMessage(args.Entity));
         }
 
         public override void OnSaving(TempHireEntities source, EntitySavingEventArgs args)
@@ -43,7 +36,7 @@ namespace TempHire
         public override void OnSaved(TempHireEntities source, EntitySavedEventArgs args)
         {
             if (args.CompletedSuccessfully)
-                _eventAggregator.Publish(new SavedMessage(args.Entities));
+                EventFns.Publish(new SavedMessage(args.Entities));
 
             if (args.HasError)
                 _retainedRoots.ForEach(root => EntityAspect.Wrap(root).RejectChanges());

@@ -172,11 +172,11 @@ namespace TempHire.ViewModels.Resource
             if (SearchPane.CurrentResource != null)
             {
                 Func<ResourceDetailViewModel> target = () => ActiveDetail ?? _detailFactory.CreateExport().Value;
-                var result = new NavigateResult<ResourceDetailViewModel>(this, target)
-                                 {
-                                     Prepare = nav => nav.Target.Start(SearchPane.CurrentResource.Id)
-                                 };
-                result.Execute(null);
+                new NavigateResult<ResourceDetailViewModel>(this, target)
+                    {
+                        Prepare = nav => nav.Target.Start(SearchPane.CurrentResource.Id)
+                    }
+                    .Go();
             }
 
             NotifyOfPropertyChange(() => CanDelete);
@@ -205,7 +205,7 @@ namespace TempHire.ViewModels.Resource
         public IEnumerable<IResult> Add()
         {
             ResourceNameEditorViewModel nameEditor = _nameEditorFactory.CreateExport().Value;
-            yield return new ShowDialogResult("New Resource", nameEditor);
+            yield return new ShowDialogResult(nameEditor);
 
             SearchPane.CurrentResource = null;
 
@@ -223,8 +223,7 @@ namespace TempHire.ViewModels.Resource
             ResourceListItem resource = SearchPane.CurrentResource;
 
             yield return
-                new ShowMessageResult("Confirmation",
-                                      string.Format("Are you sure you want to delete {0}?", resource.FullName), false);
+                new ShowMessageResult(string.Format("Are you sure you want to delete {0}?", resource.FullName), false);
 
             using (ActiveDetail.Busy.GetTicket())
             {

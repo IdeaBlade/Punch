@@ -46,5 +46,17 @@ namespace Cocktail
         {
             return new AsyncResult(asyncOp);
         }
+
+        /// <summary>
+        /// Executes a result with optional callback upon completion.
+        /// </summary>
+        /// <param name="result">The result to execute</param>
+        /// <param name="callback">Optional callback</param>
+        public static void Execute(this IResult result, Action<ResultCompletionEventArgs> callback = null)
+        {
+            if (callback != null)
+                result.Completed += (sender, args) => callback(args);
+            result.Execute(null);
+        }
     }
 }

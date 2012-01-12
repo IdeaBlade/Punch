@@ -85,7 +85,7 @@ namespace TempHire.ViewModels.Resource
         public IEnumerable<IResult> Add()
         {
             PhoneTypeSelectorViewModel phoneTypeSelector = _phoneTypeSelectorFactory.CreateExport().Value;
-            yield return new ShowDialogResult("Select Phone Type", phoneTypeSelector.Start(Resource.Id));
+            yield return new ShowDialogResult(phoneTypeSelector.Start(Resource.Id));
 
             Resource.AddPhoneNumber(phoneTypeSelector.SelectedPhoneType);
 

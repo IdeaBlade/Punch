@@ -8,10 +8,10 @@ namespace Common.Dialog
     public class ShowDialogResult : IResult
     {
         private readonly object _content;
-        private readonly string _title;
         private readonly bool _hideCancel;
+        private readonly string _title;
 
-        public ShowDialogResult(string title, object content, bool hideCancel = false)
+        public ShowDialogResult(object content, bool hideCancel = false, string title = null)
         {
             _title = title;
             _content = content;
@@ -35,6 +35,13 @@ namespace Common.Dialog
         public event EventHandler<ResultCompletionEventArgs> Completed;
 
         #endregion
+
+        public void Show(Action<DialogResult> callback = null)
+        {
+            if (callback != null)
+                Completed += (sender, args) => callback(args.WasCancelled ? DialogResult.Cancel : DialogResult.Ok);
+            Execute(null);
+        }
 
         private void OnCompleted(object sender, ResultCompletionEventArgs e)
         {

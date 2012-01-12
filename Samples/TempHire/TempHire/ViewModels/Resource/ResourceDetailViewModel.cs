@@ -159,16 +159,14 @@ namespace TempHire.ViewModels.Resource
         {
             if (Repository.HasChanges())
             {
-                var result = new ShowMessageResult("Confirmation",
-                                                   "There are unsaved changes. Would you like to continue?", false);
-                result.Completed += (sender, args) =>
-                                        {
-                                            if (!args.WasCancelled)
-                                                Repository.RejectChanges();
+                new ShowMessageResult("There are unsaved changes. Would you like to continue?", false)
+                    .Show(action =>
+                              {
+                                  if (action == DialogResult.Ok)
+                                      Repository.RejectChanges();
 
-                                            callback(!args.WasCancelled);
-                                        };
-                result.Execute(null);
+                                  callback(action == DialogResult.Ok);
+                              });
             }
             else
                 base.CanClose(callback);

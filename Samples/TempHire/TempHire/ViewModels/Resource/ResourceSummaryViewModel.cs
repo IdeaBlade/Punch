@@ -24,7 +24,7 @@ namespace TempHire.ViewModels.Resource
         public IEnumerable<IResult> EditName()
         {
             ResourceNameEditorViewModel nameEditor = _nameEditorFactory.CreateExport().Value;
-            yield return new ShowDialogResult("Edit Name", nameEditor.Start(Resource.Id));
+            yield return new ShowDialogResult(nameEditor.Start(Resource.Id));
 
             Resource.FirstName = nameEditor.FirstName;
             Resource.MiddleName = nameEditor.MiddleName;

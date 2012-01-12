@@ -9,8 +9,7 @@ namespace Common.Errors
 
         public void HandleError(Exception ex)
         {
-            var result = new ShowMessageResult("Unexpected Error", ex.Message);
-            result.Execute(null);
+            new ShowMessageResult(ex.Message).Show();
         }
 
         #endregion

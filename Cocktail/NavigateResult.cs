@@ -103,6 +103,17 @@ namespace Cocktail
             get { return _target ?? (_target = _targetDelegate()); }
         }
 
+        /// <summary>
+        /// Executes the navigation when a yield return is not possible.
+        /// </summary>
+        /// <param name="callback">Callback notifying the caller of the completion of the navigation</param>
+        public void Go(Action<ResultCompletionEventArgs> callback = null)
+        {
+            if (callback != null)
+                Completed += (sender, args) => callback(args);
+            Execute(null);
+        }
+
         #region IResult Members
 
         /// <summary>

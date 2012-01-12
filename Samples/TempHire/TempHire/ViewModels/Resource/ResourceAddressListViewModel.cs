@@ -75,7 +75,7 @@ namespace TempHire.ViewModels.Resource
 
         public override ResourceScreenBase Start(Guid resourceId)
         {
-            StartCore(resourceId).ToSequential().Execute(null);
+            StartCore(resourceId).ToSequential().Execute();
 
             return this;
         }
@@ -122,7 +122,7 @@ namespace TempHire.ViewModels.Resource
         public IEnumerable<IResult> Add()
         {
             AddressTypeSelectorViewModel addressTypeSelector = _addressTypeSelectorFactory.CreateExport().Value;
-            yield return new ShowDialogResult("Select Address Type", addressTypeSelector.Start(Resource.Id));
+            yield return new ShowDialogResult(addressTypeSelector.Start(Resource.Id));
 
             Resource.AddAddress(addressTypeSelector.SelectedAddressType);
 

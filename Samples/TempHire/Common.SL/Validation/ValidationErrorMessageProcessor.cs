@@ -17,8 +17,7 @@ namespace Common.Validation
         public override void Handle(ValidationErrorMessage message)
         {
             ValidationErrorsViewModel content = _viewModelFactory.CreateExport().Value.Start(message.VerifierResults);
-            var result = new ShowDialogResult("Please correct the following errors", content, true);
-            result.Execute(null);
+            new ShowDialogResult(content, true).Show();
         }
     }
 }

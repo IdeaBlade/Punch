@@ -72,7 +72,7 @@ namespace TempHire.ViewModels
 
             IWorkspace @default = _workspaces.FirstOrDefault(w => w.IsDefault);
             if (@default != null)
-                NavigateTo(@default).ToSequential().Execute(null);
+                NavigateTo(@default).ToSequential().Execute();
 
             return this;
         }
@@ -107,7 +107,7 @@ namespace TempHire.ViewModels
 
             // Launch login dialog
             LoginViewModel login = _loginFactory.CreateExport().Value;
-            login.Execute(null);
+            login.Execute();
         }
     }
 }

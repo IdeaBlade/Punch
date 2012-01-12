@@ -30,11 +30,6 @@ namespace Cocktail
         /// </summary>
         event EventHandler<DataChangedEventArgs> DataChanged;
 
-        /// <summary>
-        /// Returns the context in use by this provider.
-        /// </summary>
-        CompositionContext Context { get; }
-
         /// <summary>Indicates whether the persistence layer has been properly initialized.</summary>
         bool IsInitialized { get; }
 

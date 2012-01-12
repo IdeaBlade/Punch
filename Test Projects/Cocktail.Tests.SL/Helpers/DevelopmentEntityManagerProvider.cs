@@ -15,6 +15,7 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 //====================================================================================================================
 
+using IdeaBlade.Core.Composition;
 using Test.Model;
 
 namespace Cocktail.Tests.Helpers
@@ -24,17 +25,16 @@ namespace Cocktail.Tests.Helpers
     /// </summary>
     public class DevelopmentEntityManagerProvider : FakeStoreEntityManagerProviderBase<NorthwindIBEntities>
     {
-        public DevelopmentEntityManagerProvider(IAuthenticationService authenticationService = null,
-                                                CompositionContext compositionContext = null)
-            : base(authenticationService, compositionContext)
+        private readonly string _compositionContextName;
+
+        public DevelopmentEntityManagerProvider(string compositionContextName = null)
         {
+            _compositionContextName = compositionContextName ?? CompositionContext.Fake.Name;
         }
 
         protected override NorthwindIBEntities CreateEntityManager()
         {
-            // Return an EntityManager with a fake backing store
-            return
-                new NorthwindIBEntities(compositionContextName: IdeaBlade.Core.Composition.CompositionContext.Fake.Name);
+            return new NorthwindIBEntities(compositionContextName: _compositionContextName);
         }
     }
 }

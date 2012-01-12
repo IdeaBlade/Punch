@@ -19,6 +19,7 @@ using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using Cocktail.Tests.Helpers;
+using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 using IdeaBlade.TestFramework;
 using Microsoft.Silverlight.Testing;
@@ -42,49 +43,53 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Tag("Composition")]
-        public void ShouldAlwaysDiscoverSameAuthenticationService()
+        public void ShouldDiscoverInjectedAuthenticationService()
         {
-            var ctx1 = new CompositionContext();
-            var ctx2 = new CompositionContext();
+            var injectedService = new AuthenticationService<NorthwindIBEntities>(new NorthwindIBEntities(false));
 
-            var auth1 = ctx1.GetInstance<IAuthenticationService>();
-            var auth2 = ctx2.GetInstance<IAuthenticationService>();
+            var ctx = CompositionContext.Default
+                .WithGenerator(typeof(IAuthenticationService), () => injectedService)
+                .WithName("Test");
+
+            var auth1 = new PartLocator<IAuthenticationService>(CreationPolicy.Any, () => ctx).GetPart();
+            var auth2 = new PartLocator<IAuthenticationService>(CreationPolicy.Any).GetPart();
 
             Assert.IsNotNull(auth1, "AuthenticationServer should not be null");
             Assert.IsNotNull(auth2, "AuthenticationService should not be null");
-            Assert.IsTrue(ReferenceEquals(auth1, auth2), "Should have discovered same authentication service");
+            Assert.IsTrue(ReferenceEquals(auth1, injectedService), "Should have found service in CompositionContext");
+            Assert.IsFalse(ReferenceEquals(auth1, auth2), "Should have discovered different authentication services");
         }
+
+        //[TestMethod]
+        //[Tag("Composition")]
+        //public void ShouldComposeUsingChildContainer()
+        //{
+        //    var context1 = new CompositionContext();
+        //    context1.AddInstance<IInjectedObject>(new InjectedObjectA());
+
+        //    var context2 = new CompositionContext();
+        //    context2.AddInstance<IInjectedObject>(new InjectedObjectB());
+
+
+        //    var obj1 = context1.GetInstance<ChildContainerTestObject>();
+        //    Assert.IsNotNull(obj1.InjectedObject.GetType() == typeof(InjectedObjectA),
+        //                     "Should have composed InjectedObjectA");
+
+        //    var obj2 = context2.GetInstance<ChildContainerTestObject>();
+        //    Assert.IsNotNull(obj2.InjectedObject.GetType() != typeof(InjectedObjectB),
+        //                     "Should have composed InjectedObjectB");
+        //}
 
         [TestMethod]
         [Tag("Composition")]
-        public void ShouldComposeUsingChildContainer()
+        public void ShouldDiscoverDefault()
         {
-            var context1 = new CompositionContext();
-            context1.AddInstance<IInjectedObject>(new InjectedObjectA());
+            var context = CompositionContext.Default
+                .WithGenerator(typeof(IEntityManagerSyncInterceptor), () => new SyncInterceptor())
+                .WithName("Test");
 
-            var context2 = new CompositionContext();
-            context2.AddInstance<IInjectedObject>(new InjectedObjectB());
-
-
-            var obj1 = context1.GetInstance<ChildContainerTestObject>();
-            Assert.IsNotNull(obj1.InjectedObject.GetType() == typeof(InjectedObjectA),
-                             "Should have composed InjectedObjectA");
-
-            var obj2 = context2.GetInstance<ChildContainerTestObject>();
-            Assert.IsNotNull(obj2.InjectedObject.GetType() != typeof(InjectedObjectB),
-                             "Should have composed InjectedObjectB");
-        }
-
-        [TestMethod]
-        [Tag("Composition")]
-        public void ShouldIsolateChildContainers()
-        {
-            var context1 = new CompositionContext();
-            context1.AddInstance<IEntityManagerSyncInterceptor>(new SyncInterceptor());
-            var context2 = new CompositionContext();
-
-            var partLocator1 = new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.Any, true, context1);
-            var partLocator2 = new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.Any, true, context2)
+            var partLocator1 = new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.Any, () => context);
+            var partLocator2 = new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.Any)
                 .WithDefaultGenerator(() => new DefaultEntityManagerSyncInterceptor());
 
             var obj1 = partLocator1.GetPart();
@@ -122,11 +127,13 @@ namespace Cocktail.Tests
         public void ShouldRaiseQueryEvents()
         {
             var interceptor = new TestEntityManagerDelegate();
-            var ctx = new CompositionContext();
-            ctx.AddInstance<EntityManagerDelegate>(interceptor);
+            var contextWithEntityManagerDelegate = CompositionContext.Fake
+                .WithGenerator(typeof(EntityManagerDelegate), () => interceptor)
+                .WithName("ContextWithEntityManagerDelegate");
+            CompositionContextResolver.Add(contextWithEntityManagerDelegate);
 
             IEntityManagerProvider<NorthwindIBEntities> emp =
-                EntityManagerProviderFactory.CreateTestEntityManagerProvider(ctx);
+                EntityManagerProviderFactory.CreateTestEntityManagerProvider("ContextWithEntityManagerDelegate");
 
             DoItAsync(
                 () =>
@@ -160,11 +167,13 @@ namespace Cocktail.Tests
         public void ShouldRaiseSaveEvents()
         {
             var interceptor = new TestEntityManagerDelegate();
-            var ctx = new CompositionContext();
-            ctx.AddInstance<EntityManagerDelegate>(interceptor);
+            var contextWithEntityManagerDelegate = CompositionContext.Fake
+                .WithGenerator(typeof(EntityManagerDelegate), () => interceptor)
+                .WithName("ContextWithEntityManagerDelegate");
+            CompositionContextResolver.Add(contextWithEntityManagerDelegate);
 
             IEntityManagerProvider<NorthwindIBEntities> emp =
-                EntityManagerProviderFactory.CreateTestEntityManagerProvider(ctx);
+                EntityManagerProviderFactory.CreateTestEntityManagerProvider("ContextWithEntityManagerDelegate");
 
             DoItAsync(
                 () =>
@@ -205,11 +214,13 @@ namespace Cocktail.Tests
         public void ShouldRaiseClearedEvent()
         {
             var interceptor = new TestEntityManagerDelegate();
-            var ctx = new CompositionContext();
-            ctx.AddInstance<EntityManagerDelegate>(interceptor);
+            var contextWithEntityManagerDelegate = CompositionContext.Fake
+                .WithGenerator(typeof(EntityManagerDelegate), () => interceptor)
+                .WithName("ContextWithEntityManagerDelegate");
+            CompositionContextResolver.Add(contextWithEntityManagerDelegate);
 
             IEntityManagerProvider<NorthwindIBEntities> emp =
-                EntityManagerProviderFactory.CreateTestEntityManagerProvider(ctx);
+                EntityManagerProviderFactory.CreateTestEntityManagerProvider("ContextWithEntityManagerDelegate");
 
             Assert.IsTrue(interceptor.ClearedRaised == 0);
 

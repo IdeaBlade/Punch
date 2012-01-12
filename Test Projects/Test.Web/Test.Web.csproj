@@ -66,6 +66,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ServerCompositionContextResolver.cs" />
     <Compile Include="LoginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

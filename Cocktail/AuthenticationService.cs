@@ -29,7 +29,7 @@ namespace Cocktail
     public class AuthenticationManagerProvider : IAuthenticationProvider
     {
         private static readonly PartLocator<IAuthenticationService> AuthenticationServiceLocator
-            = new PartLocator<IAuthenticationService>(CreationPolicy.Shared, true);
+            = new PartLocator<IAuthenticationService>(CreationPolicy.Shared);
 
         #region Implementation of IAuthenticationProvider
 

@@ -22,9 +22,9 @@ namespace Cocktail.Tests.Helpers
     public class EntityManagerProviderFactory
     {
         public static IEntityManagerProvider<NorthwindIBEntities> CreateTestEntityManagerProvider(
-            CompositionContext compositionContext = null)
+            string compositionContextName = null)
         {
-            return new DevelopmentEntityManagerProvider(compositionContext: compositionContext);
+            return new DevelopmentEntityManagerProvider(compositionContextName);
         }
     }
 }

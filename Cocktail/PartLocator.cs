@@ -19,74 +19,77 @@ using System;
 using System.ComponentModel.Composition;
 using System.Linq;
 using IdeaBlade.Core;
+using IdeaBlade.Core.Composition;
 
 namespace Cocktail
 {
     internal class PartLocator<T> where T : class
     {
         private T _instance;
-        private readonly CompositionContext _compositionContext;
+        private readonly Func<CompositionContext> _compositionContextDelegate;
         private readonly CreationPolicy _creationPolicy;
 
-        private readonly bool _optional;
         private bool _probed;
         private Func<T> _defaultGenerator;
         private Action<T> _initializer;
 
-        internal PartLocator(CreationPolicy creationPolicy, bool optional = false, CompositionContext compositionContext = null)
+        internal PartLocator(CreationPolicy creationPolicy, Func<CompositionContext> compositionContextDelegate = null)
         {
-            _compositionContext = compositionContext ?? CompositionContext.Default;
+            _compositionContextDelegate = compositionContextDelegate ?? (() => CompositionContext.Default);
             _creationPolicy = creationPolicy;
-            _optional = optional;
             _defaultGenerator = () => null;
             _initializer = instance => { };
         }
 
-        internal bool Probed { get { return _probed; } }
+        internal bool Probed { get { return _probed || _instance != null; } }
 
         internal bool IsAvailable { get { return GetPart() != null; } }
 
-        internal bool Optional { get { return _optional; } }
+        private CompositionContext CompositionContext { get { return _compositionContextDelegate() ?? CompositionContext.Default; } }
 
-        internal T GetPart()
+        private void WriteTrace()
         {
-            if (Probed) return _instance;
-
-            // Do not probe if the CompositionHost isn't configured.
-            if (!CompositionHelper.IsConfigured) return DefaultGenerator();
-
-            if (Optional)
-            {
-                var instances = CompositionHelper.GetExportsCore(
-                    _compositionContext.ChildContainer, typeof (T), null, _creationPolicy).ToList();
-                if (instances.Count() > 1)
-                    throw new CompositionException(String.Format(
-                        StringResources.ProbedForServiceAndFoundMultipleMatches, typeof(T).Name));
-                _instance = instances.Any() ? (T) instances.First().Value : DefaultGenerator();
-            }
-            else
-                _instance = _compositionContext.GetInstance<T>(_creationPolicy);
-
-            _probed = true;
-
             if (_instance != null)
                 TraceFns.WriteLine(String.Format(StringResources.ProbedForServiceAndFoundMatch, typeof(T).Name,
                                                  _instance.GetType().FullName));
             else
                 TraceFns.WriteLine(String.Format(StringResources.ProbedForServiceFoundNoMatch, typeof(T).Name));
+        }
+
+        internal T GetPart()
+        {
+            if (Probed) return _instance;
+
+            // Look for the part in the CompositionContext first;
+            _instance = CompositionContext.GetExportedInstance(typeof(T)) as T;
+            if (_instance != null)
+            {
+                WriteTrace();
+                _initializer(_instance);
+                return _instance;
+            }
+
+            // Do not probe if the CompositionHost isn't configured.
+            if (!CompositionHelper.IsConfigured)
+            {
+                var defaultInstance = DefaultGenerator();
+                if (defaultInstance != null) _initializer(defaultInstance);
+                return defaultInstance;
+            }
+
+            // Look for the part in the MEF container
+            var exports =
+                CompositionHelper.GetExportsCore(CompositionHelper.Container, typeof (T), null, _creationPolicy).ToList();
+            if (exports.Count() > 1)
+                throw new CompositionException(
+                    String.Format(StringResources.ProbedForServiceAndFoundMultipleMatches, typeof (T).Name));
+
+            _instance = exports.Any() ? exports.First().Value as T : DefaultGenerator();
+            _probed = true;
+            WriteTrace();
 
             if (_instance != null) Initializer(_instance);
             return _instance;
-        }
-
-        internal PartLocator<T> With(T instance)
-        {
-            if (instance != null) _initializer(instance);
-
-            var clone = (PartLocator<T>)MemberwiseClone();
-            clone._instance = instance;
-            clone._probed = instance != null;
-            return clone;
         }
 
         internal PartLocator<T> WithDefaultGenerator(Func<T> generator)

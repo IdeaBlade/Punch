@@ -33,41 +33,45 @@ namespace Cocktail
                                                          IHandle<SyncDataMessage<T>>
         where T : EntityManager
     {
-        private readonly EventDispatcher<T> _eventDispatcher;
+        private EventDispatcher<T> _eventDispatcher;
         private IEnumerable<EntityKey> _deletedEntityKeys;
         private IEnumerable<IValidationErrorNotification> _validationErrorNotifiers;
         private IEnumerable<EntityManagerDelegate<T>> _entityManagerInterceptors;
 
         private readonly PartLocator<IEventAggregator> _eventAggregatorLocator;
-        private PartLocator<IAuthenticationService> _authenticationServiceLocator;
+        private readonly PartLocator<IAuthenticationService> _authenticationServiceLocator;
         private readonly PartLocator<IEntityManagerSyncInterceptor> _syncInterceptorLocator;
 
         private T _manager;
 
         /// <summary>Initializes a new instance.</summary>
-        /// <param name="authenticationService">The authentication service to be used. If not provided, the framework will attempt to discover the current authentication service.</param>
-        /// <param name="compositionContext">The CompositionContext to be used. If not provided a new default context will be created.</param>
-        protected EntityManagerProviderBase(IAuthenticationService authenticationService = null,
-                                            CompositionContext compositionContext = null)
+        protected EntityManagerProviderBase()
         {
-            Context = compositionContext ?? CompositionContext.Default;
-
             _eventAggregatorLocator =
-                new PartLocator<IEventAggregator>(CreationPolicy.Shared, compositionContext: Context);
+                new PartLocator<IEventAggregator>(CreationPolicy.Shared, () => Manager.CompositionContext);
             _syncInterceptorLocator =
-                new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.NonShared, true, Context)
+                new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.NonShared, () => Manager.CompositionContext)
                     .WithDefaultGenerator(() => new DefaultEntityManagerSyncInterceptor());
-
-            _eventDispatcher = new EventDispatcher<T>(EntityManagerDelegates);
-            _eventDispatcher.PrincipalChanged += OnPrincipalChanged;
-            _eventDispatcher.Querying += OnQuerying;
-            _eventDispatcher.Saving += OnSaving;
-            _eventDispatcher.Saved += OnSaved;
-
             _authenticationServiceLocator
-                = new PartLocator<IAuthenticationService>(CreationPolicy.Shared, true, Context)
-                    .WithInitializer(a => _eventDispatcher.InstallEventHandlers(a))
-                    .With(authenticationService);
+                = new PartLocator<IAuthenticationService>(CreationPolicy.Shared, () => Manager.CompositionContext)
+                    .WithInitializer(a => EventDispatcher.InstallEventHandlers(a));
+        }
+
+        private EventDispatcher<T> EventDispatcher
+        {
+            get
+            {
+                if (_eventDispatcher == null)
+                {
+                    _eventDispatcher = new EventDispatcher<T>(EntityManagerDelegates);
+                    _eventDispatcher.PrincipalChanged += OnPrincipalChanged;
+                    _eventDispatcher.Querying += OnQuerying;
+                    _eventDispatcher.Saving += OnSaving;
+                    _eventDispatcher.Saved += OnSaved;
+                }
+
+                return _eventDispatcher;
+            }
         }
 
         private IEnumerable<EntityManagerDelegate<T>> EntityManagerDelegates
@@ -78,9 +82,14 @@ namespace Cocktail
 
                 if (!CompositionHelper.IsConfigured) return new EntityManagerDelegate<T>[0];
 
-                _entityManagerInterceptors = Context.GetInstances<EntityManagerDelegate>(CreationPolicy.Any)
-                    .OfType<EntityManagerDelegate<T>>()
-                    .ToList();
+                var i = Manager.CompositionContext.GetExportedInstances(typeof(EntityManagerDelegate));
+                if (i != null)
+                    _entityManagerInterceptors = i.OfType<EntityManagerDelegate<T>>().ToList();
+
+                if (_entityManagerInterceptors == null || !_entityManagerInterceptors.Any())
+                    _entityManagerInterceptors = CompositionHelper.GetInstances<EntityManagerDelegate>()
+                        .OfType<EntityManagerDelegate<T>>()
+                        .ToList();
 
                 TraceFns.WriteLine(_entityManagerInterceptors.Any()
                                        ? string.Format(StringResources.ProbedForEntityManagerDelegateAndFoundMatch,
@@ -99,8 +108,12 @@ namespace Cocktail
 
                 if (!CompositionHelper.IsConfigured) return new IValidationErrorNotification[0];
 
-                _validationErrorNotifiers =
-                    Context.GetInstances<IValidationErrorNotification>(CreationPolicy.Any).ToList();
+                var i = Manager.CompositionContext.GetExportedInstances(typeof(IValidationErrorNotification));
+                if (i != null)
+                    _validationErrorNotifiers = i.Cast<IValidationErrorNotification>().ToList();
+
+                if (_validationErrorNotifiers == null || !_validationErrorNotifiers.Any())
+                    _validationErrorNotifiers = CompositionHelper.GetInstances<IValidationErrorNotification>().ToList();
 
                 TraceFns.WriteLine(_validationErrorNotifiers.Any()
                                        ? string.Format(
@@ -112,20 +125,10 @@ namespace Cocktail
             }
         }
 
-        internal void SetAuthenticationServiceForTesting(IAuthenticationService authenticationService)
-        {
-            _eventDispatcher.InstallEventHandlers(authenticationService);
-            _authenticationServiceLocator = new PartLocator<IAuthenticationService>(CreationPolicy.Shared, true)
-                .With(authenticationService);
-        }
-
         private IAuthenticationService AuthenticationService
         {
             get { return _authenticationServiceLocator.GetPart(); }
         }
-
-        /// <summary>The IoC container used by the current instance.</summary>
-        public CompositionContext Context { get; private set; }
 
         /// <summary>
         /// Internal use.
@@ -158,6 +161,11 @@ namespace Cocktail
                 if (_manager == null)
                 {
                     _manager = CreateEntityManagerCore();
+                    LinkAuthentication(_manager);
+                    EventDispatcher.InstallEventHandlers(_manager);
+                    if (EventAggregator != null)
+                        EventAggregator.Subscribe(this);
+
                     OnManagerCreated();
                 }
                 return _manager;
@@ -217,16 +225,9 @@ namespace Cocktail
                 throw new InvalidOperationException(StringResources.CreatingEntityManagerDuringRecompositionNotAllowed);
 
             if (CompositionHelper.IsConfigured)
-                Context.BuildUp(this);
+                CompositionHelper.BuildUp(this);
 
             T manager = CreateEntityManager();
-            _eventDispatcher.InstallEventHandlers(manager);
-
-            LinkAuthentication(manager);
-
-            if (EventAggregator != null)
-                EventAggregator.Subscribe(this);
-
             return manager;
         }
 

@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cocktail.Tests.Helpers;
 using IdeaBlade.Core;
+using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 using IdeaBlade.TestFramework;
 using Microsoft.Silverlight.Testing;
@@ -36,21 +37,21 @@ namespace Cocktail.Tests
             CompositionHelper.Configure();
         }
 
-        public INotifyCompleted ResetFakeBackingStore()
+        public INotifyCompleted ResetFakeBackingStore(string compositionContextName)
         {
-            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider() as DevelopmentEntityManagerProvider;
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName) as DevelopmentEntityManagerProvider;
             if (provider != null)
                 return provider.ResetFakeBackingStoreAsync();
 
             return AlwaysCompleted.Instance;
         }
 
-        public INotifyCompleted TestInit()
+        public INotifyCompleted TestInit(string compositionContextName)
         {
             var commands = new List<Func<INotifyCompleted>>
                                {
-                                   () => EntityManagerProviderFactory.CreateTestEntityManagerProvider().InitializeAsync(),
-                                   ResetFakeBackingStore
+                                   () => EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName).InitializeAsync(),
+                                   () => ResetFakeBackingStore(compositionContextName)
                                };
             return Coroutine.Start(commands);
         }
@@ -67,7 +68,7 @@ namespace Cocktail.Tests
                 {
                     var commands = new List<Func<INotifyCompleted>>
                                            {
-                                               TestInit,
+                                               () => TestInit(CompositionContext.Fake.Name),
                                                () =>
                                                    repository.GetCustomers(null,
                                                                            (customers) =>
@@ -87,11 +88,15 @@ namespace Cocktail.Tests
         [Tag("Online")]
         public void ShouldSynchronizeDeletesBetweenEntityManagers()
         {
-            var ctx = new CompositionContext();
-            ctx.AddInstance<IEntityManagerSyncInterceptor>(new SyncInterceptor());
+            var compositionContextWithSyncInterceptor = CompositionContext.Fake
+                .WithGenerator(typeof(IEntityManagerSyncInterceptor), () => new SyncInterceptor())
+                .WithName("CompositionContextWithSyncInterceptor");
+            CompositionContextResolver.Add(compositionContextWithSyncInterceptor);
 
-            var rep1 = new CustomerRepository(EntityManagerProviderFactory.CreateTestEntityManagerProvider(ctx));
-            var rep2 = new CustomerRepository(EntityManagerProviderFactory.CreateTestEntityManagerProvider(ctx));
+            var rep1 = new CustomerRepository(
+                EntityManagerProviderFactory.CreateTestEntityManagerProvider("CompositionContextWithSyncInterceptor"));
+            var rep2 = new CustomerRepository(
+                EntityManagerProviderFactory.CreateTestEntityManagerProvider("CompositionContextWithSyncInterceptor"));
 
             DoItAsync(
                 () =>
@@ -101,7 +106,7 @@ namespace Cocktail.Tests
 
                     var commands = new List<Func<INotifyCompleted>>
                                            {
-                                               TestInit,
+                                               () => TestInit("CompositionContextWithSyncInterceptor"),
                                                () => rep1.GetCustomers(null, results => results.ForEach(customers.Add)),
                                                () => rep2.GetCustomers(null, results => results.ForEach(customers2.Add))
                                            };
@@ -136,6 +141,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Asynchronous, Timeout(10000)]
+        [Tag("Online")]
         public void ShouldLoginLogout()
         {
             var principalChangedFired = false;
@@ -144,7 +150,11 @@ namespace Cocktail.Tests
             var managerCreatedFired = false;
 
             var auth = new AuthenticationService<NorthwindIBEntities>(new NorthwindIBEntities());
-            var emp = new DevelopmentEntityManagerProvider(auth);
+            var contextWithAuthService = CompositionContext.Fake
+                .WithGenerator(typeof(IAuthenticationService), () => auth)
+                .WithName("ContextWithAuthService");
+            CompositionContextResolver.Add(contextWithAuthService);
+            var emp = new DevelopmentEntityManagerProvider("ContextWithAuthService");
 
             auth.PrincipalChanged += (s, e) => principalChangedFired = true;
             auth.LoggedIn += (s, e) => loggedInFired = true;
@@ -158,6 +168,7 @@ namespace Cocktail.Tests
                 {
                     var asyncFns = new List<Func<INotifyCompleted>>
                             {
+                                () => TestInit("ContextWithAuthService"),
                                 () => auth.LoginAsync(new LoginCredential("test", "test", null), null, null),
                                 () =>
                                     {

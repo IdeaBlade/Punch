@@ -45,8 +45,6 @@ namespace Cocktail.Tests.Helpers
 
         protected internal IEntityManagerProvider<NorthwindIBEntities> EntityManagerProvider { get; set; }
 
-        protected internal CompositionContext Context { get { return EntityManagerProvider.Context; } }
-
         private NorthwindIBEntities Manager { get { return EntityManagerProvider.Manager; } }
 
         #region ICustomerRepository Members

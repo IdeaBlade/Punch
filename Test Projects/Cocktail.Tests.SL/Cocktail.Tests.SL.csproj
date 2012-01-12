@@ -119,6 +119,7 @@
     <Compile Include="CompositionUnitTests.cs" />
     <Compile Include="EventHandlerUnitTests.cs" />
     <Compile Include="HarnessUnitTests.cs" />
+    <Compile Include="Helpers\CompositionContextResolver.cs" />
     <Compile Include="Helpers\CustomerListViewModel.cs" />
     <Compile Include="Helpers\CustomerRepository.cs" />
     <Compile Include="Helpers\DesignTimeEntityManagerProvider.cs" />

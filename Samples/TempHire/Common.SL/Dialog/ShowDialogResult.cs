@@ -39,8 +39,9 @@ namespace Common.Dialog
         public void Show(Action<DialogResult> callback = null)
         {
             if (callback != null)
-                Completed += (sender, args) => callback(args.WasCancelled ? DialogResult.Cancel : DialogResult.Ok);
-            Execute(null);
+                this.Execute(args => callback(args.WasCancelled ? DialogResult.Cancel : DialogResult.Ok));
+            else
+                this.Execute();
         }
 
         private void OnCompleted(object sender, ResultCompletionEventArgs e)

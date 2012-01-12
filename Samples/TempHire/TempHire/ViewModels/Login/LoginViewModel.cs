@@ -36,7 +36,7 @@ namespace TempHire.ViewModels.Login
             _lookupRepository = lookupRepository;
             _errorHandler = errorHandler;
 // ReSharper disable DoNotCallOverridableMethodsInConstructor
-            DisplayName = "Please enter username and password";
+            DisplayName = "";
 // ReSharper restore DoNotCallOverridableMethodsInConstructor
 
 #if DEBUG

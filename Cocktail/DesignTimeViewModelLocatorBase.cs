@@ -23,7 +23,8 @@ namespace Cocktail
 {
     /// <summary>
     /// Base class for a design time ViewModelLocator. 
-    /// 
+    /// </summary>
+    /// <remarks>
     /// To implement a concrete ViewModelLocator for your project,
     /// extend from this class and override the CreateEntityManager()
     /// method. Return an instance of type subclass of
@@ -58,7 +59,7 @@ namespace Cocktail
     /// <code>
     /// d:DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=ViewModelName}"
     /// </code>
-    /// </summary>
+    /// </remarks>
     /// <typeparam name="T">The type of the EntityManager</typeparam>
     public abstract class DesignTimeViewModelLocatorBase<T>
         where T : EntityManager

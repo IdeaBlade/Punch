@@ -84,7 +84,7 @@
     <None Include="DevForce.cf" />
     <None Include="packages.config" />
     <EmbeddedResource Include="SecurityEntities.ibmmx">
-      <HashCode>-1180369473</HashCode>
+      <HashCode>-1180369572</HashCode>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

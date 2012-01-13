@@ -83,7 +83,7 @@
       <LastGenOutput>NorthwindIB.edmx.ReadMe</LastGenOutput>
     </None>
     <EmbeddedResource Include="NorthwindIBEntities.ibmmx">
-      <HashCode>1933736007</HashCode>
+      <HashCode>272763019</HashCode>
     </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>

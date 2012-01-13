@@ -38,12 +38,12 @@ namespace Cocktail
         /// <returns>Returns the EntityQueryOperation passed to the method's source parameter.</returns>
         /// <example>
         /// 	<code title="Example" description="" lang="CS">
-        /// public INotifyCompleted GetCustomers(ICollection&lt;Customer&gt; results,
+        /// public OperationResult GetCustomers(ICollection&lt;Customer&gt; results,
         ///                                      Action onSuccess = null,
         ///                                      Action&lt;Exception&gt; onFail = null)
         /// {
         ///     var op = Manager.Customers.ExecuteAsync();
-        ///     return op.OnComplete(results, onSuccess, onFail);
+        ///     return op.OnComplete(results, onSuccess, onFail).AsOperationResult();
         /// }</code>
         /// </example>
         public static EntityQueryOperation<T> OnComplete<T>(this EntityQueryOperation<T> source, ICollection<T> results,
@@ -148,11 +148,11 @@ namespace Cocktail
         /// <returns>Returns the EntityQueryOperation passed to the method's source parameter.</returns>
         /// <example>
         /// 	<code title="Example" description="" lang="CS">
-        /// public INotifyCompleted GetCustomers(Action&lt;IEnumerable&lt;Customer&gt;&gt; onSuccess = null,
+        /// public OperationResult GetCustomers(Action&lt;IEnumerable&lt;Customer&gt;&gt; onSuccess = null,
         ///                                      Action&lt;Exception&gt; onFail = null)
         /// {
         ///     var op = Manager.Customers.ExecuteAsync();
-        ///     return op.OnComplete(onSuccess, onFail);
+        ///     return op.OnComplete(onSuccess, onFail).AsOperationResult();
         /// }</code>
         /// </example>
         public static EntityQueryOperation<T> OnComplete<T>(this EntityQueryOperation<T> source,
@@ -206,11 +206,11 @@ namespace Cocktail
         /// <returns>Returns the EntityScalarQueryOperation passed to the method's source parameter.</returns>
         /// <example>
         /// 	<code title="Example" description="" lang="CS">
-        /// public INotifyCompleted GetCustomerCount(Action&lt;int&gt; onSuccess = null,
+        /// public OperationResult GetCustomerCount(Action&lt;int&gt; onSuccess = null,
         ///                                      Action&lt;Exception&gt; onFail = null)
         /// {
         ///     var op = Manager.Customers.AsScalarAsync().Count();
-        ///     return op.OnComplete(onSuccess, onFail);
+        ///     return op.OnComplete(onSuccess, onFail).AsOperationResult();
         /// }</code>
         /// </example>
         public static EntityScalarQueryOperation<T> OnComplete<T>(this EntityScalarQueryOperation<T> source,
@@ -288,10 +288,10 @@ namespace Cocktail
         /// <returns>Returns the EntitySaveOperation passed to the method's source parameter.</returns>
         /// <example>
         /// 	<code title="Example" description="" lang="CS">
-        /// public INotifyCompleted Save(Action onSuccess = null, Action&lt;Exception&gt; onFail = null)
+        /// public OperationResult Save(Action onSuccess = null, Action&lt;Exception&gt; onFail = null)
         /// {
         ///     EntitySaveOperation op = Manager.SaveChangesAsync();
-        ///     return op.OnComplete(onSuccess, onFail);
+        ///     return op.OnComplete(onSuccess, onFail).AsOperationResult();
         /// }</code>
         /// </example>
         public static EntitySaveOperation OnComplete(this EntitySaveOperation source,

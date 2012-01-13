@@ -23,7 +23,7 @@ namespace Cocktail
     /// <summary>Implement this interface to be notified of validation errors during a save. The framework automatically performs validation before saving changed
     /// entities. If any validation errors occur, the save is aborted and any implementation of IValidationErrorNotification is notified of the error(s).</summary>
     /// <example>
-    /// 	<code title="Example" description="In this example, the implementation of IVerifierResultNotificationService publishes a message to the UI EventAggregator for consumption by any view model and processing of the validation error." lang="CS">
+    /// 	<code title="Example" description="In this example, the implementation of IValidationErrorNotification publishes a message to the UI EventAggregator for consumption by any view model and processing of the validation error." lang="CS">
     /// // Create this implementation as a singleton.
     /// [PartCreationPolicy(CreationPolicy.Shared)]
     /// public class ValidationErrorProcessor : IValidationErrorNotification

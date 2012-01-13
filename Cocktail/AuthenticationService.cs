@@ -51,7 +51,7 @@ namespace Cocktail
     /// 	<code title="Example" description="Demonstrates how to enable the authentication service in an application. " lang="CS">
     /// public class AppBootstrapper : FrameworkBootstrapper&lt;MainFrameViewModel&gt;
     /// {
-    ///     protected override void PrepareCompositionContainer(System.ComponentModel.Composition.Hosting.CompositionBatch batch)
+    ///     protected override void PrepareCompositionContainer(CompositionBatch batch)
     ///     {
     ///         base.PrepareCompositionContainer(batch);
     ///  

@@ -25,6 +25,7 @@ namespace Cocktail
     /// Encapsulates a DevForce asynchronous operation, that can interchangeably be  used in places  
     /// where an <see cref = "IResult" /> or <see cref="INotifyCompleted" /> is expected.
     /// </summary>
+    /// <seealso cref="CoroutineFns.AsOperationResult"/>
     public class OperationResult : IResult, INotifyCompleted
     {
         private readonly INotifyCompleted _asyncOp;

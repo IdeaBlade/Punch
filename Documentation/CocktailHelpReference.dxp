@@ -11,6 +11,8 @@
   <ContentFiles>
     <ContentFile FileName="Cocktail.Utils.SL.dxc" Moniker="..\Cocktail.Utils\Bin\Debug\Cocktail.Utils.SL.dll" DocType="DX.NET" />
     <ContentFile FileName="Cocktail.SL.dxc" Moniker="..\Cocktail\Bin\Debug\Cocktail.SL.dll" DocType="DX.NET" />
+    <ContentFile FileName="Cocktail.Desktop.dxc" Moniker="..\Cocktail\Bin.Desktop\Debug\Cocktail.Desktop.dll" DocType="DX.NET" />
+    <ContentFile FileName="Cocktail.Utils.Desktop.dxc" Moniker="..\Cocktail.Utils\Bin.Desktop\Debug\Cocktail.Utils.Desktop.dll" DocType="DX.NET" />
   </ContentFiles>
   <ContentFromProjectPlugin />
   <Filters>
@@ -34,6 +36,23 @@
       <ExcludedItem>Cocktail.SL~Cocktail.AuthenticationManagerProvider</ExcludedItem>
       <ExcludedItem>Cocktail.SL~Cocktail.HarnessView</ExcludedItem>
       <ExcludedItem>Cocktail.SL~Cocktail.TraceLoggerProvider</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.SyncDataMessage`1</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.PartLocator`1</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.FakeBackingStore</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.WeakRefDictionary`2+NullObject</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.FakeBackingStoreManager</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.AlwaysCompleted</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.AlwaysCompleted+AlwaysCompletedArgs</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.DefaultEntityManagerSyncInterceptor</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.DefaultDebugLogger</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.EventDispatcher`1</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.NavigateResult`1+CallbackResult</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.AuthenticationManagerProvider</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.DebugConsoleLogger</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.EntityManagerDelegate</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.HarnessView</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.IEntityManagerSyncInterceptor</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.TraceLoggerProvider</ExcludedItem>
     </ExcludedItems>
   </Filters>
   <ComProjectPlugin />
@@ -41,6 +60,8 @@
   <DotNetAssemblies>
     <Assembly FileName="..\Cocktail.Utils\Bin\Debug\Cocktail.Utils.SL.dll" RootTypeName="" />
     <Assembly FileName="..\Cocktail\Bin\Debug\Cocktail.SL.dll" RootTypeName="" />
+    <Assembly FileName="..\Cocktail\Bin.Desktop\Debug\Cocktail.Desktop.dll" RootTypeName="" />
+    <Assembly FileName="..\Cocktail.Utils\Bin.Desktop\Debug\Cocktail.Utils.Desktop.dll" RootTypeName="" />
   </DotNetAssemblies>
   <DatabaseProjectPlugin>
     <Databases />
@@ -104,7 +125,7 @@
   </WidgetsProjectPlugin>
   <ProjectProfiles>
     <ProjectProfile Id="39caa9b0-295d-4fcc-9037-4bc5f2195e31" Name="Cocktail Help File">
-      <DefaultItemQualifiedName>Cocktail.SL</DefaultItemQualifiedName>
+      <DefaultItemQualifiedName>Cocktail.Desktop</DefaultItemQualifiedName>
       <StripMetadata>true</StripMetadata>
       <AlwaysCopyTemplateFiles>true</AlwaysCopyTemplateFiles>
       <OutputFileExtension>.html</OutputFileExtension>

@@ -20,20 +20,17 @@ using System.Windows.Controls;
 
 namespace Cocktail
 {
-    /// <summary>
-    /// Maintains a <see cref="VisualStateManager"/>'s 
-    /// current state via a binding to the "CurrentState" attached property
-    /// </summary>
-    /// <remarks>
-    /// Thanks to Alex van Beek for original "VisualStates" version at
+    /// <summary>Maintains a <see cref="VisualStateManager"/>'s 
+    /// current state via a binding to the "CurrentState" attached property</summary>
+    /// <remarks>Thanks to Alex van Beek for original "VisualStates" version at
     /// from http://blogs.infosupport.com/silverlight-4-using-the-visualstatemanager-for-state-animations-with-mvvm/
     /// <para>
     /// In the example, the Grid's VSM state is maintained by the "MoodState" property
     /// of the data bound source, typically a ViewModel.
-    /// </para>
-    /// </remarks>
-    /// <example lang="xml">
-    /// <Grid cocktail:VisualStates.CurrentState="{Binding MoodState}" />
+    /// </para></remarks>
+    /// <example>
+    /// 	<code title="Example" description="" lang="XAML">
+    /// &lt;Grid cocktail:VisualStates.CurrentState="{Binding MoodState}" /&gt;</code>
     /// </example>
     public static class VisualStates
     {

@@ -121,6 +121,9 @@
     <Compile Include="PathToImageSourceConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HarnessViewModel.cs" />
+    <Compile Include="Silverlight\HarnessView.xaml.cs">
+      <DependentUpon>HarnessView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StringResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

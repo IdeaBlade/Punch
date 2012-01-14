@@ -1,7 +1,6 @@
 using System.ComponentModel.Composition;
 using System.Text;
 using Cocktail;
-using Cocktail.Utils;
 using DomainModel;
 using Security;
 

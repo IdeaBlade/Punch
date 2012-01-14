@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
-using Cocktail.Utils;
+using Cocktail;
 using IdeaBlade.EntityModel;
 
 namespace DomainModel

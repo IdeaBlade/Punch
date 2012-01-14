@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using Cocktail.Utils;
+using Cocktail;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
 

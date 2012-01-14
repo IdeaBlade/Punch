@@ -39,7 +39,7 @@ using System.Windows.Markup;
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
 
-[assembly: XmlnsDefinition("http://cocktail.ideablade.com", "Cocktail.Utils")]
+[assembly: XmlnsDefinition("http://cocktail.ideablade.com", "Cocktail")]
 
 
 // Setting ComVisible to false makes the types in this assembly not visible 

@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 using System.Text;
-using Cocktail.Utils;
+using Cocktail;
 using IdeaBlade.EntityModel;
 
 namespace Security

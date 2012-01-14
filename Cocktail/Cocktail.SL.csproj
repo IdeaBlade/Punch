@@ -103,7 +103,7 @@
     <Compile Include="EventDispatcher.cs" />
     <Compile Include="EventFns.cs" />
     <Compile Include="CoroutineFns.cs" />
-    <Compile Include="ExtensionFns.cs" />
+    <Compile Include="OperationFns.cs" />
     <Compile Include="FakeBackingStore.cs" />
     <Compile Include="FakeBackingStoreManager.cs" />
     <Compile Include="FrameworkBootstrapper.cs" />

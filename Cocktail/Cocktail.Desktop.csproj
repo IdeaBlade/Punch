@@ -78,7 +78,6 @@
     <Compile Include="EntityManagerSyncInterceptor.cs" />
     <Compile Include="EventDispatcher.cs" />
     <Compile Include="EventFns.cs" />
-    <Compile Include="ExtensionFns.cs" />
     <Compile Include="FakeBackingStore.cs" />
     <Compile Include="FakeBackingStoreManager.cs" />
     <Compile Include="FakeStoreEntityManagerProviderBase.cs" />
@@ -93,6 +92,7 @@
     <Compile Include="IValidationErrorNotification.cs" />
     <Compile Include="NavigateResult.cs" />
     <Compile Include="ObjectManager.cs" />
+    <Compile Include="OperationFns.cs" />
     <Compile Include="OperationResult.cs" />
     <Compile Include="PartLocator.cs" />
     <Compile Include="PathToImageSourceConverter.cs" />

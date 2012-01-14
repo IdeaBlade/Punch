@@ -24,8 +24,8 @@ using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
-    /// <summary>Static class that contains extension methods.</summary>
-    public static class ExtensionFns
+    /// <summary>Provides extension methods for the DevForce <see cref="BaseOperation"/> implementations.</summary>
+    public static class OperationFns
     {
         /// <summary>Extension method to process the result of an asynchronous query operation.</summary>
         /// <typeparam name="T">The type of entity queried.</typeparam>

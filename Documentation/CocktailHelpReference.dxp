@@ -159,7 +159,7 @@
         <ExcludeObsolete>true</ExcludeObsolete>
         <GenerateXmlCommentFile>false</GenerateXmlCommentFile>
         <IncludeBreadcrumbs>true</IncludeBreadcrumbs>
-        <IncludeAssemblyBreadcrumb>false</IncludeAssemblyBreadcrumb>
+        <IncludeAssemblyBreadcrumb>true</IncludeAssemblyBreadcrumb>
         <IncludePrivateMembers>false</IncludePrivateMembers>
         <IncludeFriendMembers>false</IncludeFriendMembers>
         <IncludeProtectedFriendMembers>false</IncludeProtectedFriendMembers>

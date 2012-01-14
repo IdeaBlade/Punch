@@ -32,7 +32,7 @@ namespace Cocktail
     /// of the data bound source, typically a ViewModel.
     /// </para>
     /// </remarks>
-    /// <example>
+    /// <example lang="xml">
     /// <Grid cocktail:VisualStates.CurrentState="{Binding MoodState}" />
     /// </example>
     public static class VisualStates
@@ -67,7 +67,7 @@ namespace Cocktail
             }
             else
             {
-                throw new ArgumentException("CurrentState is only supported on the Control type");
+                throw new ArgumentException(StringResources.CurrentStateOnlySupportedInControls);
             }
         }
     }

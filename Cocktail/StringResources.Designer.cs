@@ -115,11 +115,29 @@ namespace Cocktail {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CurrentState is only supported in a Control type..
+        /// </summary>
+        internal static string CurrentStateOnlySupportedInControls {
+            get {
+                return ResourceManager.GetString("CurrentStateOnlySupportedInControls", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to unlock leaven fox octave fierce embalm navel jollily vessel chisel ramp Susan faded toe.
         /// </summary>
         internal static string DefaultPasswordSalt {
             get {
                 return ResourceManager.GetString("DefaultPasswordSalt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Binary image data is neither jpeg nor png..
+        /// </summary>
+        internal static string InvalidBinaryImageData {
+            get {
+                return ResourceManager.GetString("InvalidBinaryImageData", resourceCulture);
             }
         }
         
@@ -246,6 +264,15 @@ namespace Cocktail {
         internal static string ProbedForServiceFoundNoMatch {
             get {
                 return ResourceManager.GetString("ProbedForServiceFoundNoMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target type must be System.Windows.Media.ImageSource..
+        /// </summary>
+        internal static string TargetTypeMustBeImageSource {
+            get {
+                return ResourceManager.GetString("TargetTypeMustBeImageSource", resourceCulture);
             }
         }
         

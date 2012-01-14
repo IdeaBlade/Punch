@@ -195,4 +195,13 @@
   <data name="InvalidUseOfExpiredEntityManager" xml:space="preserve">
     <value>Invalid use of expired EntityManager. The application's principal has changed since this EntityManager was last used. Tip: Do not keep references to EntityManagers. Instead, always obtain the current EntityManager through IEntityManagerProvider&lt;T&gt;.Manager.</value>
   </data>
+  <data name="CurrentStateOnlySupportedInControls" xml:space="preserve">
+    <value>CurrentState is only supported in a Control type.</value>
+  </data>
+  <data name="InvalidBinaryImageData" xml:space="preserve">
+    <value>Binary image data is neither jpeg nor png.</value>
+  </data>
+  <data name="TargetTypeMustBeImageSource" xml:space="preserve">
+    <value>Target type must be System.Windows.Media.ImageSource.</value>
+  </data>
 </root>

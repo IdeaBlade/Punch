@@ -31,7 +31,7 @@ namespace Cocktail
      public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (targetType != typeof(ImageSource))
-                throw new InvalidOperationException("Target type must be System.Windows.Media.ImageSource.");
+                throw new InvalidOperationException(StringResources.TargetTypeMustBeImageSource);
 
             return GetImageFromBytes(value as byte[]);
         }
@@ -72,7 +72,7 @@ namespace Cocktail
         {
             if (!IsJpegOrPngBinaryImage(binaryImageData))
             {
-                throw new InvalidOperationException("Binary image data is neither jpeg nor png.");
+                throw new InvalidOperationException(StringResources.InvalidBinaryImageData);
             }
         }
 

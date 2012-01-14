@@ -8,7 +8,7 @@
     <ProjectGuid>{261E777A-1FE0-455E-87FD-DDB95B2757AA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cocktail.Utils</RootNamespace>
+    <RootNamespace>Cocktail</RootNamespace>
     <AssemblyName>Cocktail.Utils.Desktop</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

@@ -17,7 +17,7 @@
 
 using System;
 
-namespace Cocktail.Utils
+namespace Cocktail
 {
     /// <summary>Static class to generate sequential Guids for database keys.</summary>
     public static class CombGuid

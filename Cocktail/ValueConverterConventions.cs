@@ -59,6 +59,4 @@ namespace Cocktail
         /// <summary>Converter that converts a byte array of image data to an image source.</summary>
         public static IValueConverter BinaryToImageSourceConverter = new BinaryToImageSourceConverter();
     }
-
-    //TODO: Breakout into own files within Cocktail.UI
 }

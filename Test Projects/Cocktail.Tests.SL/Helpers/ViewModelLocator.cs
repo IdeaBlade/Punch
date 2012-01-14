@@ -29,7 +29,6 @@ namespace Cocktail.Tests.Helpers
     ///  </summary>
     public class ViewModelLocator : DesignTimeViewModelLocatorBase<NorthwindIBEntities>
     {
-        //TODO: Add references to all ViewModels
         public CustomerListViewModel CustomerListViewModel
         {
             get

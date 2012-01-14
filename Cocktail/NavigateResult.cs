@@ -111,7 +111,7 @@ namespace Cocktail
         {
             if (callback != null)
                 Completed += (sender, args) => callback(args);
-            Execute(null);
+            ((IResult)this).Execute(null);
         }
 
         #region IResult Members
@@ -120,7 +120,7 @@ namespace Cocktail
         /// Executes the result using the specified context.
         /// </summary>
         /// <param name="context">The context.</param>
-        public void Execute(ActionExecutionContext context)
+        void IResult.Execute(ActionExecutionContext context)
         {
             IResult result = Navigate().ToSequentialResult();
             result.Completed += (sender, args) => EventFns.RaiseOnce(ref Completed, this, args);
@@ -130,7 +130,11 @@ namespace Cocktail
         /// <summary>
         /// Event indication completion of the result.
         /// </summary>
-        public event EventHandler<ResultCompletionEventArgs> Completed = delegate { };
+        event EventHandler<ResultCompletionEventArgs> IResult.Completed
+        {
+            add { Completed += value; }
+            remove { Completed -= value; }
+        }
 
         #endregion
 
@@ -151,6 +155,8 @@ namespace Cocktail
             if (!Target.Equals(Conductor.ActiveItem))
                 Activate(this);
         }
+
+        private event EventHandler<ResultCompletionEventArgs> Completed = delegate { };
 
         #region Nested type: CallbackResult
 

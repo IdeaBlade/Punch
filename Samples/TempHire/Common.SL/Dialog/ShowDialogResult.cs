@@ -25,14 +25,18 @@ namespace Common.Dialog
 
         #region IResult Members
 
-        public void Execute(ActionExecutionContext context)
+        void IResult.Execute(ActionExecutionContext context)
         {
             DialogHostViewModel dialogHost = new DialogHostViewModel().Start(_title, _content, _hideCancel);
             dialogHost.Completed += OnCompleted;
             WindowManager.ShowDialog(dialogHost);
         }
 
-        public event EventHandler<ResultCompletionEventArgs> Completed;
+        event EventHandler<ResultCompletionEventArgs> IResult.Completed
+        {
+            add { Completed += value; }
+            remove { Completed -= value; }
+        }
 
         #endregion
 
@@ -49,5 +53,7 @@ namespace Common.Dialog
             if (Completed != null)
                 EventFns.RaiseOnce(ref Completed, this, e);
         }
+
+        private event EventHandler<ResultCompletionEventArgs> Completed;
     }
 }

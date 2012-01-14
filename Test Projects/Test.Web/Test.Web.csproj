@@ -15,6 +15,7 @@
     <UseIISExpress>false</UseIISExpress>
     <SilverlightApplicationList>{0D74727E-5C3A-4F77-B769-FD3E976B01F4}|..\Cocktail.Tests.SL\Cocktail.Tests.SL.csproj|ClientBin|False</SilverlightApplicationList>
     <SkipPostSharp>True</SkipPostSharp>
+    <JSLintSkip>\Silverlight.js</JSLintSkip>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

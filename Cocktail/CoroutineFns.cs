@@ -39,7 +39,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Returns an implemementation of <see cref = "OperationResult" /> that wraps a DevForce asynchronous function.
+        /// Returns an implementation of <see cref = "OperationResult" /> that wraps a DevForce asynchronous function.
         /// </summary>
         /// <param name="asyncOp">DevForce asynchronous operation.</param>
         /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>

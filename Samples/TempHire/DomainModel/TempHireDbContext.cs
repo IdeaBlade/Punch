@@ -120,7 +120,7 @@ namespace DomainModel
                                  new State {Id = CombGuid.NewGuid(), ShortName = "ND", Name = "North Dakota"},
                                  new State {Id = CombGuid.NewGuid(), ShortName = "OH", Name = "Ohio"},
                                  new State {Id = CombGuid.NewGuid(), ShortName = "OK", Name = "Oklahoma"},
-                                 new State {Id = CombGuid.NewGuid(), ShortName = "OR", Name = "Oregan"},
+                                 new State {Id = CombGuid.NewGuid(), ShortName = "OR", Name = "Oregon"},
                                  new State {Id = CombGuid.NewGuid(), ShortName = "PA", Name = "Pennsylvania"},
                                  new State {Id = CombGuid.NewGuid(), ShortName = "RI", Name = "Rhode Island"},
                                  new State {Id = CombGuid.NewGuid(), ShortName = "SC", Name = "South Carolina"},

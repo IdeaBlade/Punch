@@ -103,7 +103,7 @@ namespace Common.SampleData
                                  new State {Id = CreateGuid(35), ShortName = "ND", Name = "North Dakota"},
                                  new State {Id = CreateGuid(36), ShortName = "OH", Name = "Ohio"},
                                  new State {Id = CreateGuid(37), ShortName = "OK", Name = "Oklahoma"},
-                                 new State {Id = CreateGuid(38), ShortName = "OR", Name = "Oregan"},
+                                 new State {Id = CreateGuid(38), ShortName = "OR", Name = "Oregon"},
                                  new State {Id = CreateGuid(39), ShortName = "PA", Name = "Pennsylvania"},
                                  new State {Id = CreateGuid(40), ShortName = "RI", Name = "Rhode Island"},
                                  new State {Id = CreateGuid(41), ShortName = "SC", Name = "South Carolina"},

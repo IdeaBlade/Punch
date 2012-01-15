@@ -361,7 +361,7 @@
           </Rules>
         </Rules>
       </RuleEngine>
-      <ShortFileNames GenerateShortFileNames="false" />
+      <ShortFileNames GenerateShortFileNames="true" />
       <TopicsProjectProfilePlugin>
         <TemplateName>Visual Studio 2010 (Microsoft Help Viewer)</TemplateName>
         <IncludeBreadcrumbs>true</IncludeBreadcrumbs>

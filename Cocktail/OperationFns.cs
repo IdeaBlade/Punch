@@ -28,45 +28,6 @@ namespace Cocktail
     public static class OperationFns
     {
         /// <summary>Extension method to process the result of an asynchronous query operation.</summary>
-        /// <typeparam name="T">The type of entity queried.</typeparam>
-        /// <param name="source">The EntityQueryOperation returned from an asynchronous query.</param>
-        /// <param name="results">A collection to store the results of the query. 
-        ///     The results will be appended to the provided collection.
-        /// </param>
-        /// <param name="onSuccess">A callback to be called if the asynchronous query was successful.</param>
-        /// <param name="onFail">A callback to be called if the asynchronous query failed.</param>
-        /// <returns>Returns the EntityQueryOperation passed to the method's source parameter.</returns>
-        /// <example>
-        /// 	<code title="Example" description="" lang="CS">
-        /// public OperationResult GetCustomers(ICollection&lt;Customer&gt; results,
-        ///                                      Action onSuccess = null,
-        ///                                      Action&lt;Exception&gt; onFail = null)
-        /// {
-        ///     var op = Manager.Customers.ExecuteAsync();
-        ///     return op.OnComplete(results, onSuccess, onFail).AsOperationResult();
-        /// }</code>
-        /// </example>
-        public static EntityQueryOperation<T> OnComplete<T>(this EntityQueryOperation<T> source, ICollection<T> results,
-                                                          Action onSuccess, Action<Exception> onFail)
-        {
-            source.Completed += (s, args) =>
-                                    {
-                                        if (args.CompletedSuccessfully)
-                                        {
-                                            args.Results.ForEach(results.Add);
-                                            if (onSuccess != null) onSuccess();
-                                        }
-
-                                        if (args.HasError && !args.IsErrorHandled && onFail != null)
-                                        {
-                                            args.MarkErrorAsHandled();
-                                            onFail(args.Error);
-                                        }
-                                    };
-            return source;
-        }
-
-        /// <summary>Extension method to process the result of an asynchronous query operation.</summary>
         /// <param name="source">The EntityQueryOperation returned from an asynchronous query.</param>
         /// <param name="onSuccess">A callback to be called if the asynchronous query was successful.</param>
         /// <param name="onFail">A callback to be called if the asynchronous query failed.</param>

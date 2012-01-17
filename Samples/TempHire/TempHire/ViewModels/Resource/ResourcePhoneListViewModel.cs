@@ -15,15 +15,17 @@ namespace TempHire.ViewModels.Resource
     public class ResourcePhoneListViewModel : ResourceScreenBase
     {
         private readonly ExportFactory<PhoneTypeSelectorViewModel> _phoneTypeSelectorFactory;
+        private readonly IDialogManager _dialogManager;
         private BindableCollection<ResourcePhoneItemViewModel> _phoneNumbers;
 
         [ImportingConstructor]
         public ResourcePhoneListViewModel(IRepositoryManager<IResourceRepository> repositoryManager,
                                           ExportFactory<PhoneTypeSelectorViewModel> phoneTypeSelectorFactory,
-                                          IErrorHandler errorHandler)
+                                          IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(repositoryManager, errorHandler)
         {
             _phoneTypeSelectorFactory = phoneTypeSelectorFactory;
+            _dialogManager = dialogManager;
         }
 
         public override DomainModel.Resource Resource
@@ -85,7 +87,7 @@ namespace TempHire.ViewModels.Resource
         public IEnumerable<IResult> Add()
         {
             PhoneTypeSelectorViewModel phoneTypeSelector = _phoneTypeSelectorFactory.CreateExport().Value;
-            yield return new ShowDialogResult(phoneTypeSelector.Start(Resource.Id));
+            yield return _dialogManager.ShowDialog(phoneTypeSelector.Start(Resource.Id));
 
             Resource.AddPhoneNumber(phoneTypeSelector.SelectedPhoneType);
 

@@ -7,17 +7,19 @@ namespace Common.Validation
     public class ValidationErrorMessageProcessor : MessageProcessor<ValidationErrorMessage>
     {
         private readonly ExportFactory<ValidationErrorsViewModel> _viewModelFactory;
+        private readonly IDialogManager _dialogManager;
 
         [ImportingConstructor]
-        public ValidationErrorMessageProcessor(ExportFactory<ValidationErrorsViewModel> viewModelFactory)
+        public ValidationErrorMessageProcessor(ExportFactory<ValidationErrorsViewModel> viewModelFactory, IDialogManager dialogManager)
         {
             _viewModelFactory = viewModelFactory;
+            _dialogManager = dialogManager;
         }
 
         public override void Handle(ValidationErrorMessage message)
         {
             ValidationErrorsViewModel content = _viewModelFactory.CreateExport().Value.Start(message.VerifierResults);
-            new ShowDialogResult(content, true).Show();
+            _dialogManager.ShowDialog(content, true);
         }
     }
 }

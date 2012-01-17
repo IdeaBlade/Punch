@@ -18,6 +18,7 @@ namespace TempHire.ViewModels.Resource
     public class ResourceDetailViewModel : Conductor<IScreen>.Collection.OneActive, IDiscoverableViewModel,
                                            IHarnessAware
     {
+        private readonly IDialogManager _dialogManager;
         private readonly IErrorHandler _errorHandler;
         private readonly IRepositoryManager<IResourceRepository> _repositoryManager;
         private readonly IEnumerable<IResourceDetailSection> _sections;
@@ -29,13 +30,14 @@ namespace TempHire.ViewModels.Resource
         public ResourceDetailViewModel(IRepositoryManager<IResourceRepository> repositoryManager,
                                        ResourceSummaryViewModel resourceSummary,
                                        [ImportMany] IEnumerable<IResourceDetailSection> sections,
-                                       IErrorHandler errorHandler,
+                                       IErrorHandler errorHandler, IDialogManager dialogManager,
                                        [Import(RequiredCreationPolicy = CreationPolicy.NonShared)] IBusyWatcher busy)
         {
             ResourceSummary = resourceSummary;
             _repositoryManager = repositoryManager;
             _sections = sections.ToList();
             _errorHandler = errorHandler;
+            _dialogManager = dialogManager;
             Busy = busy;
 
             PropertyChanged += OnPropertyChanged;
@@ -77,7 +79,7 @@ namespace TempHire.ViewModels.Resource
         public void Setup()
         {
 #if HARNESS
-            //Start("John", "M.", "Doe");
+    //Start("John", "M.", "Doe");
             Start(TempHireSampleDataProvider.CreateGuid(1));
 #endif
         }
@@ -157,18 +159,17 @@ namespace TempHire.ViewModels.Resource
         {
             if (Repository.HasChanges())
             {
-                new ShowMessageResult("There are unsaved changes. Would you like to continue?", false)
-                    .Show(action =>
-                              {
-                                  if (action == DialogResult.Ok)
-                                      Repository.RejectChanges();
+                _dialogManager.ShowMessage("There are unsaved changes. Would you like to continue?", false,
+                                           action =>
+                                               {
+                                                   if (action == DialogResult.Ok)
+                                                       Repository.RejectChanges();
 
-                                  callback(action == DialogResult.Ok);
-                              });
+                                                   callback(action == DialogResult.Ok);
+                                               });
             }
             else
                 base.CanClose(callback);
         }
-
     }
 }

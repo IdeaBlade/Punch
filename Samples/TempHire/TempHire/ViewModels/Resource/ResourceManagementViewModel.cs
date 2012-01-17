@@ -22,6 +22,7 @@ namespace TempHire.ViewModels.Resource
     {
         private readonly ExportFactory<ResourceDetailViewModel> _detailFactory;
         private readonly IErrorHandler _errorHandler;
+        private readonly IDialogManager _dialogManager;
         private readonly ExportFactory<ResourceNameEditorViewModel> _nameEditorFactory;
         private readonly IRepositoryManager<IResourceRepository> _repositoryManager;
         private readonly DispatcherTimer _selectionChangeTimer;
@@ -34,7 +35,7 @@ namespace TempHire.ViewModels.Resource
                                            ExportFactory<ResourceDetailViewModel> detailFactory,
                                            ExportFactory<ResourceNameEditorViewModel> nameEditorFactory,
                                            IRepositoryManager<IResourceRepository> repositoryManager,
-                                           IErrorHandler errorHandler,
+                                           IErrorHandler errorHandler, IDialogManager dialogManager,
                                            IToolbarManager toolbar)
         {
             SearchPane = searchPane;
@@ -42,6 +43,7 @@ namespace TempHire.ViewModels.Resource
             _nameEditorFactory = nameEditorFactory;
             _repositoryManager = repositoryManager;
             _errorHandler = errorHandler;
+            _dialogManager = dialogManager;
             _toolbar = toolbar;
 
             EventFns.Subscribe(this);
@@ -205,7 +207,7 @@ namespace TempHire.ViewModels.Resource
         public IEnumerable<IResult> Add()
         {
             ResourceNameEditorViewModel nameEditor = _nameEditorFactory.CreateExport().Value;
-            yield return new ShowDialogResult(nameEditor);
+            yield return _dialogManager.ShowDialog(nameEditor);
 
             SearchPane.CurrentResource = null;
 
@@ -223,7 +225,7 @@ namespace TempHire.ViewModels.Resource
             ResourceListItem resource = SearchPane.CurrentResource;
 
             yield return
-                new ShowMessageResult(string.Format("Are you sure you want to delete {0}?", resource.FullName), false);
+                _dialogManager.ShowMessage(string.Format("Are you sure you want to delete {0}?", resource.FullName), false);
 
             using (ActiveDetail.Busy.GetTicket())
             {

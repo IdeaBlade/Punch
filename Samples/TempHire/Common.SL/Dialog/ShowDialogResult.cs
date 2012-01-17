@@ -10,8 +10,9 @@ namespace Common.Dialog
         private readonly object _content;
         private readonly bool _hideCancel;
         private readonly string _title;
+        private ResultCompletionEventArgs _completionEventArgs;
 
-        public ShowDialogResult(object content, bool hideCancel = false, string title = null)
+        internal ShowDialogResult(object content, bool hideCancel = false, string title = null)
         {
             _title = title;
             _content = content;
@@ -27,31 +28,34 @@ namespace Common.Dialog
 
         void IResult.Execute(ActionExecutionContext context)
         {
-            DialogHostViewModel dialogHost = new DialogHostViewModel().Start(_title, _content, _hideCancel);
-            dialogHost.Completed += OnCompleted;
-            WindowManager.ShowDialog(dialogHost);
         }
 
         event EventHandler<ResultCompletionEventArgs> IResult.Completed
         {
-            add { Completed += value; }
+            add
+            {
+                if (_completionEventArgs != null)
+                    value(this, _completionEventArgs);
+                else
+                    Completed += value;
+            }
             remove { Completed -= value; }
         }
 
         #endregion
 
-        public void Show(Action<DialogResult> callback = null)
+        public void Show()
         {
-            if (callback != null)
-                this.Execute(args => callback(args.WasCancelled ? DialogResult.Cancel : DialogResult.Ok));
-            else
-                this.Execute();
+            DialogHostViewModel dialogHost = new DialogHostViewModel().Start(_title, _content, _hideCancel);
+            dialogHost.Completed += OnCompleted;
+            WindowManager.ShowDialog(dialogHost);
         }
 
         private void OnCompleted(object sender, ResultCompletionEventArgs e)
         {
             if (Completed != null)
                 EventFns.RaiseOnce(ref Completed, this, e);
+            _completionEventArgs = e;
         }
 
         private event EventHandler<ResultCompletionEventArgs> Completed;

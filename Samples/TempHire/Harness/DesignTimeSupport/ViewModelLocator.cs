@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Caliburn.Micro;
 using Cocktail;
 using Common.BusyWatcher;
+using Common.Dialog;
 using Common.Errors;
 using Common.Repositories;
 using Common.SampleData;
@@ -22,7 +25,8 @@ namespace TempHire.DesignTimeSupport
             {
                 return (ResourceAddressListViewModel)
                        new ResourceAddressListViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
-                                                        null, new ErrorHandler())
+                                                        null, DesignTimeErrorHandler.Instance,
+                                                        DesignTimeDialogManager.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
@@ -33,7 +37,7 @@ namespace TempHire.DesignTimeSupport
             {
                 return (ResourceSummaryViewModel)
                        new ResourceSummaryViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider), null,
-                                                    new ErrorHandler())
+                                                    DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
@@ -43,7 +47,7 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 return new AddressTypeSelectorViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
-                                                        new ErrorHandler())
+                                                        DesignTimeErrorHandler.Instance)
                     .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
@@ -53,7 +57,7 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 return new ResourceNameEditorViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
-                                                       new ErrorHandler())
+                                                       DesignTimeErrorHandler.Instance)
                     .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
@@ -64,7 +68,8 @@ namespace TempHire.DesignTimeSupport
             {
                 return (ResourcePhoneListViewModel)
                        new ResourcePhoneListViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
-                                                      null, new ErrorHandler())
+                                                      null, DesignTimeErrorHandler.Instance,
+                                                      DesignTimeDialogManager.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
@@ -74,7 +79,7 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 return new PhoneTypeSelectorViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
-                                                      new ErrorHandler())
+                                                      DesignTimeErrorHandler.Instance)
                     .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
@@ -84,21 +89,35 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 var rm = new DesignTimeResourceRepositoryManager(EntityManagerProvider);
-                return new ResourceDetailViewModel(rm, new ResourceSummaryViewModel(rm, null, new ErrorHandler()),
+                return new ResourceDetailViewModel(rm,
+                                                   new ResourceSummaryViewModel(rm, null,
+                                                                                DesignTimeErrorHandler.Instance,
+                                                                                DesignTimeDialogManager.Instance),
                                                    new IResourceDetailSection[]
                                                        {
                                                            new ResourceContactInfoViewModel(
                                                                new ResourceAddressListViewModel(rm, null,
-                                                                                                new ErrorHandler()),
+                                                                                                DesignTimeErrorHandler.
+                                                                                                    Instance,
+                                                                                                DesignTimeDialogManager.
+                                                                                                    Instance),
                                                                new ResourcePhoneListViewModel(rm, null,
-                                                                                              new ErrorHandler())),
-                                                           new ResourceRatesViewModel(rm, null, new ErrorHandler())
+                                                                                              DesignTimeErrorHandler.
+                                                                                                  Instance,
+                                                                                              DesignTimeDialogManager.
+                                                                                                  Instance)),
+                                                           new ResourceRatesViewModel(rm, null,
+                                                                                      DesignTimeErrorHandler.Instance,
+                                                                                      DesignTimeDialogManager.Instance)
                                                            ,
-                                                           new ResourceWorkExperienceViewModel(rm, 
-                                                                                               new ErrorHandler()),
-                                                           new ResourceSkillsViewModel(rm, new ErrorHandler())
+                                                           new ResourceWorkExperienceViewModel(rm,
+                                                                                               DesignTimeErrorHandler.
+                                                                                                   Instance),
+                                                           new ResourceSkillsViewModel(rm,
+                                                                                       DesignTimeErrorHandler.Instance)
                                                        },
-                                                   new ErrorHandler(), new BusyWatcher())
+                                                   DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance,
+                                                   new BusyWatcher())
                     .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
@@ -109,7 +128,8 @@ namespace TempHire.DesignTimeSupport
             {
                 return (ResourceRatesViewModel)
                        new ResourceRatesViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider), null,
-                                                  new ErrorHandler()).Start(TempHireSampleDataProvider.CreateGuid(1));
+                                                  DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance).
+                           Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
 
@@ -119,7 +139,8 @@ namespace TempHire.DesignTimeSupport
             {
                 return
                     new RateTypeSelectorViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
-                                                  new ErrorHandler()).Start(TempHireSampleDataProvider.CreateGuid(1));
+                                                  DesignTimeErrorHandler.Instance).Start(
+                                                      TempHireSampleDataProvider.CreateGuid(1));
             }
         }
 
@@ -129,7 +150,8 @@ namespace TempHire.DesignTimeSupport
             {
                 return (ResourceWorkExperienceViewModel)
                        new ResourceWorkExperienceViewModel(
-                           new DesignTimeResourceRepositoryManager(EntityManagerProvider), new ErrorHandler())
+                           new DesignTimeResourceRepositoryManager(EntityManagerProvider),
+                           DesignTimeErrorHandler.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
@@ -140,7 +162,8 @@ namespace TempHire.DesignTimeSupport
             {
                 return (ResourceSkillsViewModel)
                        new ResourceSkillsViewModel(
-                           new DesignTimeResourceRepositoryManager(EntityManagerProvider), new ErrorHandler())
+                           new DesignTimeResourceRepositoryManager(EntityManagerProvider),
+                           DesignTimeErrorHandler.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
@@ -150,7 +173,7 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 return new ResourceSearchViewModel(new ResourceRepository(EntityManagerProvider),
-                                                   new ErrorHandler(), new BusyWatcher()).Start();
+                                                   DesignTimeErrorHandler.Instance, new BusyWatcher()).Start();
             }
         }
 
@@ -162,8 +185,8 @@ namespace TempHire.DesignTimeSupport
                 return
                     new ResourceManagementViewModel(
                         new ResourceSearchViewModel(new ResourceRepository(EntityManagerProvider),
-                                                    new ErrorHandler(), new BusyWatcher()), null, null, rm,
-                        new ErrorHandler(), null);
+                                                    DesignTimeErrorHandler.Instance, new BusyWatcher()), null, null, rm,
+                        DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance, null);
             }
         }
 
@@ -182,7 +205,8 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 return new LoginViewModel(new FakeAuthenticationService(), null, null, new BusyWatcher(),
-                                          new ErrorHandler()) { FailureMessage = "FailureMessage at design time" };
+                                          DesignTimeErrorHandler.Instance)
+                           {FailureMessage = "FailureMessage at design time"};
             }
         }
 
@@ -190,5 +214,58 @@ namespace TempHire.DesignTimeSupport
         {
             return new DesignTimeEntityManagerProvider(new TempHireSampleDataProvider());
         }
+
+        #region Nested type: DesignTimeDialogManager
+
+        private class DesignTimeDialogManager : IDialogManager
+        {
+            private static IDialogManager _instance;
+
+            public static IDialogManager Instance
+            {
+                get { return _instance ?? (_instance = new DesignTimeDialogManager()); }
+            }
+
+            #region IDialogManager Members
+
+            public IResult ShowDialog(object content, bool hideCancel = false, Action<DialogResult> callback = null,
+                                      string title = null)
+            {
+                return AlwaysCompletedOperationResult.Instance;
+            }
+
+            public IResult ShowMessage(string message, bool hideCancel = true, Action<DialogResult> callback = null,
+                                       string title = null)
+            {
+                return AlwaysCompletedOperationResult.Instance;
+            }
+
+            #endregion
+        }
+
+        #endregion
+
+        #region Nested type: DesignTimeErrorHandler
+
+        private class DesignTimeErrorHandler : IErrorHandler
+        {
+            private static IErrorHandler _instance;
+
+            public static IErrorHandler Instance
+            {
+                get { return _instance ?? (_instance = new DesignTimeErrorHandler()); }
+            }
+
+            #region IErrorHandler Members
+
+            public void HandleError(Exception ex)
+            {
+                // noop
+            }
+
+            #endregion
+        }
+
+        #endregion
     }
 }

@@ -17,6 +17,7 @@ namespace TempHire.ViewModels.Resource
     public class ResourceAddressListViewModel : ResourceScreenBase
     {
         private readonly ExportFactory<AddressTypeSelectorViewModel> _addressTypeSelectorFactory;
+        private readonly IDialogManager _dialogManager;
         private readonly IRepositoryManager<IResourceRepository> _repositoryManager;
         private BindableCollection<ResourceAddressItemViewModel> _addresses;
         private BindableCollection<State> _states;
@@ -24,11 +25,12 @@ namespace TempHire.ViewModels.Resource
         [ImportingConstructor]
         public ResourceAddressListViewModel(IRepositoryManager<IResourceRepository> repositoryManager,
                                             ExportFactory<AddressTypeSelectorViewModel> addressTypeSelectorFactory,
-                                            IErrorHandler errorHandler)
+                                            IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(repositoryManager, errorHandler)
         {
             _repositoryManager = repositoryManager;
             _addressTypeSelectorFactory = addressTypeSelectorFactory;
+            _dialogManager = dialogManager;
         }
 
         public override DomainModel.Resource Resource
@@ -122,7 +124,7 @@ namespace TempHire.ViewModels.Resource
         public IEnumerable<IResult> Add()
         {
             AddressTypeSelectorViewModel addressTypeSelector = _addressTypeSelectorFactory.CreateExport().Value;
-            yield return new ShowDialogResult(addressTypeSelector.Start(Resource.Id));
+            yield return _dialogManager.ShowDialog(addressTypeSelector.Start(Resource.Id));
 
             Resource.AddAddress(addressTypeSelector.SelectedAddressType);
 

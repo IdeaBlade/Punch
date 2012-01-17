@@ -15,17 +15,19 @@ namespace TempHire.ViewModels.Resource
     public class ResourceRatesViewModel : ResourceScreenBase, IResourceDetailSection
     {
         private readonly ExportFactory<RateTypeSelectorViewModel> _rateTypeSelectorFactory;
+        private readonly IDialogManager _dialogManager;
 
         [ImportingConstructor]
         public ResourceRatesViewModel(IRepositoryManager<IResourceRepository> repositoryManager,
                                       ExportFactory<RateTypeSelectorViewModel> rateTypeSelectorFactory,
-                                      IErrorHandler errorHandler)
+                                      IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(repositoryManager, errorHandler)
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DisplayName = "Rates";
             // ReSharper restore DoNotCallOverridableMethodsInConstructor
             _rateTypeSelectorFactory = rateTypeSelectorFactory;
+            _dialogManager = dialogManager;
         }
 
         public bool IsEmpty
@@ -83,7 +85,7 @@ namespace TempHire.ViewModels.Resource
         public IEnumerable<IResult> Add()
         {
             RateTypeSelectorViewModel rateTypeSelector = _rateTypeSelectorFactory.CreateExport().Value;
-            yield return new ShowDialogResult(rateTypeSelector.Start(Resource.Id));
+            yield return _dialogManager.ShowDialog(rateTypeSelector.Start(Resource.Id));
 
             Resource.AddRate(rateTypeSelector.SelectedRateType);
         }

@@ -104,7 +104,8 @@
     </Compile>
     <Compile Include="SyncDataMessage.cs" />
     <Compile Include="TraceLogger.cs" />
-    <Compile Include="ValueConverterConventions.cs" />
+    <Compile Include="ValueConverterConvention.cs" />
+    <Compile Include="ValueConverterConventionRegistry.cs" />
     <Compile Include="VisualStates.cs" />
     <Compile Include="WeakRefDictionary.cs" />
   </ItemGroup>

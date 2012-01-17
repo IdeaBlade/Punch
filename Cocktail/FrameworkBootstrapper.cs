@@ -83,6 +83,7 @@ namespace Cocktail
             Composition.Configure(batch);
             UpdateAssemblySource();
             Composition.Recomposed += (s, args) => UpdateAssemblySource();
+            AddValueConverterConventions(); 
         }
 
         private void UpdateAssemblySource()
@@ -96,6 +97,18 @@ namespace Cocktail
 
             // The Bootstrapper is not owned by the container, so it doesn't automatically recompose
             BuildUp(this);
+        }
+
+        /// <summary>
+        /// Adds the stock <see cref="ValueConverterConvention"/>s to the
+        /// <see cref="ValueConverterConventionRegistry"/> and thus to the
+        /// Caliburn <see cref="ConventionManager"/>.
+        /// </summary>
+        protected virtual void AddValueConverterConventions()
+        {
+            ValueConverterConventionRegistry.AddConventionsToConventionManager();
+            new PathToImageSourceConverter().RegisterConvention();
+            new BinaryToImageSourceConverter().RegisterConvention(); 
         }
 
         /// <summary>Locates the supplied service.</summary>

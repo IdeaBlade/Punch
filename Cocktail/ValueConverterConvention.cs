@@ -14,49 +14,49 @@
 //OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 //====================================================================================================================
-using System.Windows.Controls;
+
+using System;
+using System.Reflection;
+using System.Windows;
 using System.Windows.Data;
 
 namespace Cocktail
 {
-
     /// <summary>
-    /// Adds stock Cocktail ValueConverter conventions to the
-    /// <see cref="Caliburn.Micro.ConventionManager"/>.
+    /// A convention for applying a <see cref="Converter"/> to a binding when
+    /// the binding matches the convention's <see cref="Filter"/>
     /// </summary>
-    public class ValueConverterConventions
+    /// <remarks>
+    /// See <see cref="PathToImageSourceConverter"/> for an example.
+    /// These conventions should be registered with the
+    /// <see cref="ValueConverterConventionRegistry"/>.
+    /// </remarks>
+    public class ValueConverterConvention
     {
         /// <summary>
-        /// Add stock Cocktail ValueConverter conventions to the
-        /// <see cref="Caliburn.Micro.ConventionManager"/>.
+        /// Constructor 
         /// </summary>
-        public static void AddConventions()
+        /// <param name="converter"></param>
+        /// <param name="filter"></param>
+        public ValueConverterConvention(IValueConverter converter, Func<DependencyProperty, PropertyInfo, bool> filter)
         {
-            var currentApplyValueConverter = Caliburn.Micro.ConventionManager.ApplyValueConverter;
-            Caliburn.Micro.ConventionManager.ApplyValueConverter = (binding, bindableProperty, property) =>
-            {
-                // Apply prior rules first
-                currentApplyValueConverter(binding, bindableProperty, property);
-                if (null != binding.Converter) return; // already assigned
-
-                if (bindableProperty == Image.SourceProperty)
-                {
-                    if (typeof(string).IsAssignableFrom(property.PropertyType))
-                    {
-                        binding.Converter = PathToImageSourceConverter;
-                    }
-                    else if (typeof(byte[]).IsAssignableFrom(property.PropertyType))
-                    {
-                        binding.Converter = BinaryToImageSourceConverter;
-                    }
-                }
-            };
+            Converter = converter;
+            Filter = filter;
         }
 
-        /// <summary>Converter that converts a string source path to an image source.</summary>
-        public static IValueConverter PathToImageSourceConverter = new PathToImageSourceConverter();
+        /// <summary>
+        /// <see cref="IValueConverter"/> to use when the binding passes the <see cref="Filter"/>
+        /// </summary>
+        public IValueConverter Converter { get; set; }
 
-        /// <summary>Converter that converts a byte array of image data to an image source.</summary>
-        public static IValueConverter BinaryToImageSourceConverter = new BinaryToImageSourceConverter();
+        /// <summary>
+        /// Filter function returns true if the binding is appropriate for this <see cref="Converter"/>.
+        /// </summary>
+        /// <remarks>
+        /// Binding appropriateness determined by the binding property and the data property.
+        /// See <see cref="PathToImageSourceConverter"/> for an example.
+        /// </remarks>
+        public Func<DependencyProperty, PropertyInfo, bool> Filter { get; set; }
+ 
     }
 }

@@ -17,6 +17,7 @@
 using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -27,8 +28,16 @@ namespace Cocktail
     /// <remarks>This implementation only tolerates jpeg and pngs</remarks>
     public class BinaryToImageSourceConverter : IValueConverter
     {
-     /// <summary>Converts a byte array of image data to an image source.</summary>
-     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        /// <summary>
+        /// Register this instance with <see cref="ValueConverterConventionRegistry"/>
+        /// </summary>
+        public void RegisterConvention()
+        {
+            ValueConverterConventionRegistry.RegisterConvention(this, Image.SourceProperty, typeof(byte[]));
+        }
+
+        /// <summary>Converts a byte array of image data to an image source.</summary>
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (targetType != typeof(ImageSource))
                 throw new InvalidOperationException(StringResources.TargetTypeMustBeImageSource);
@@ -53,6 +62,8 @@ namespace Cocktail
 #if SILVERLIGHT
                 using (var stream = new MemoryStream(binaryImageData))
                 {
+                    // ToDo: consider substituting a "Missing Image" instead
+                    // See PathToImageConverter
                     img.SetSource(stream);
                 }
 #else
@@ -72,6 +83,8 @@ namespace Cocktail
         {
             if (!IsJpegOrPngBinaryImage(binaryImageData))
             {
+                // ToDo: consider substituting a "Missing Image" instead of throwing
+                // See PathToImageConverter
                 throw new InvalidOperationException(StringResources.InvalidBinaryImageData);
             }
         }

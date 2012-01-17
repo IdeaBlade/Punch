@@ -14,7 +14,7 @@ namespace HappyHour.ViewModels
             Repository = new BeverageRepository(); 
             Beverages = new BindableCollection<Beverage>();
             DrinkOrders = new BindableCollection<DrinkOrder>();
-            LoadData();
+            LoadData(); // ToDo: move all data access out of the constructor
         }
 
         private IBeverageRepository Repository { get; set; }

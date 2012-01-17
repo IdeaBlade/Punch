@@ -40,6 +40,8 @@ namespace Cocktail
         /// <param name="filter"></param>
         public ValueConverterConvention(IValueConverter converter, Func<DependencyProperty, PropertyInfo, bool> filter)
         {
+            if (null == converter) throw new ArgumentNullException("converter");
+            if (null == filter) throw new ArgumentNullException("filter");
             Converter = converter;
             Filter = filter;
         }

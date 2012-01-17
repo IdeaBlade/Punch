@@ -74,11 +74,12 @@ namespace Cocktail
             new List<ValueConverterConvention>();
 
         /// <summary>
-        /// Register the convention for a <see cref="IValueConverter"/> with the <see cref="GetConventions"/>
-        /// with a <see cref="ValueConverterConvention.Filter"/> that matches the bindings
+        /// Creates a <see cref="ValueConverterConvention"/> and adds it to the registry.
+        /// Creates a convention for a <see cref="IValueConverter"/> with a <see cref="ValueConverterConvention.Filter"/> 
+        /// that matches the binding's
         /// <cref param="bindableProperty"/> and <cref param="dataPropertyType"/> exactly.
         /// </summary>
-        /// <param name="converter">The converter instance to register</param>
+        /// <param name="converter">The converter instance returned by the <see cref="ValueConverterConvention"/>.</param>
         /// <param name="bindableProperty">The binding property to which this converter applies.</param>
         /// <param name="dataPropertyType">The type of the data property that this converter can convert.</param>
         /// <remarks>
@@ -90,11 +91,20 @@ namespace Cocktail
             if (null == dataPropertyType) throw new ArgumentNullException("dataPropertyType");
             if (null == converter) throw new ArgumentNullException("converter");
 
-            Conventions.Add(
+            RegisterConvention(
                 new ValueConverterConvention(converter, (bindProperty, propertyInfo) =>
                                                         bindProperty == bindableProperty &&
                                                         dataPropertyType.IsAssignableFrom(propertyInfo.PropertyType))
                 );
+        }
+
+        /// <summary>
+        /// Add a <see cref="ValueConverterConvention"/> to the registry
+        /// </summary>
+        public static void RegisterConvention(ValueConverterConvention convention)
+        {
+            if (null == convention) throw new ArgumentNullException("convention");
+            Conventions.Add(convention);
         }
 
         /// <summary>

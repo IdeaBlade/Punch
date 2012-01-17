@@ -100,14 +100,10 @@ namespace Cocktail
         /// <summary>
         /// Get the registered <see cref="ValueConverterConvention"/>s.
         /// </summary>
-        public static IEnumerable<ValueConverterConvention> GetConventions
+        public static ICollection<ValueConverterConvention> GetConventions
         {
             get { return Conventions; }
         }
 
-        /// <summary>
-        /// Clear all registered conventions.
-        /// </summary>
-        public static void ClearRegistry() { Conventions.Clear(); }
     }
 }

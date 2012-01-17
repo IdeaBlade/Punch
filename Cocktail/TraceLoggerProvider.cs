@@ -15,31 +15,58 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 //====================================================================================================================
 
-using System.ComponentModel.Composition;
+using System;
 using System.Diagnostics;
 using IdeaBlade.Core;
 
 namespace Cocktail
 {
-    /// <summary>Internal use.</summary>
-#if !SILVERLIGHT
-    [PartNotDiscoverable]
-#endif
+    /// <summary>Provides DevForce with the current <see cref="ITraceLogger"/> implementation.</summary>
+    /// <remarks>
+    /// The default TraceLogger can be substituted with a custom TraceLogger by setting the TraceLogger delegate.
+    /// </remarks>
     public class TraceLoggerProvider : ITraceLoggerProvider
     {
+        /// <summary>
+        /// Replaceable <see cref="ITraceLogger"/>.
+        /// See <see cref="DefaultTraceLogger"/> example.
+        /// </summary>
+        public static Func<ITraceLogger> TraceLogger = DefaultTraceLogger;
+
+        #region ITraceLoggerProvider Members
+
         /// <summary>
         /// Return the <see cref="T:IdeaBlade.Core.ITraceLogger"/> to use for logging of debug and trace messages.
         /// </summary>
         /// <returns/>
-        public ITraceLogger GetLogger()
+        ITraceLogger ITraceLoggerProvider.GetLogger()
         {
-            return new DebugConsoleLogger();
+            return TraceLogger();
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Default TraceLogger.
+        /// </summary>
+        /// <returns>Default implementation for <see cref="ITraceLogger"/></returns>
+        public static ITraceLogger DefaultTraceLogger()
+        {
+            return new CocktailTraceLogger();
         }
     }
 
     /// <summary>Internal use.</summary>
-    public class DebugConsoleLogger : ITraceLogger
+    internal class CocktailTraceLogger : ITraceLogger
     {
+        private readonly ITraceLogger _defaultTraceLogger;
+
+        internal CocktailTraceLogger()
+        {
+            var defaultLoggerProvider = new DefaultLoggerProvider();
+            _defaultTraceLogger = defaultLoggerProvider.GetLogger();
+        }
+
         #region ITraceLogger Members
 
         /// <summary>
@@ -52,6 +79,10 @@ namespace Cocktail
         /// </remarks>
         public void Log(object message)
         {
+            // Log to the default DevForce logger
+            _defaultTraceLogger.Log(message);
+
+            // For convenience, let's also log to the console.
             Debug.WriteLine(message);
         }
 
@@ -64,7 +95,7 @@ namespace Cocktail
         /// </remarks>
         public bool IsSingleThreaded
         {
-            get { return false; }
+            get { return _defaultTraceLogger.IsSingleThreaded; }
         }
 
         #endregion

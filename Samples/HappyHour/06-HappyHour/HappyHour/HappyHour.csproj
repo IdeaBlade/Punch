@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EF81CCCA-616B-4AEB-8779-42EDC1BCE165}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HappyHour</RootNamespace>
+    <AssemblyName>HappyHour</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures>
+    </SupportedCultures>
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>HappyHour.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>HappyHour.App</SilverlightAppEntry>
+    <TestPageFileName>HappyHourTestPage.html</TestPageFileName>
+    <CreateTestPage>true</CreateTestPage>
+    <ValidateXaml>true</ValidateXaml>
+    <EnableOutOfBrowser>false</EnableOutOfBrowser>
+    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
+    <UsePlatformExtensions>false</UsePlatformExtensions>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <LinkedServerProject>
+    </LinkedServerProject>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\..\..\..\packages\Caliburn.Micro.1.2.0\lib\SL40\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.ComponentModel.Composition, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="ViewModels\IMainPage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Mixers\fonts\SegoeWP.ttf">
+      <Link>assets\SegoeWP.ttf</Link>
+    </Resource>
+    <None Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="..\..\Mixers\styles\HappyHourStyles.xaml">
+      <Link>assets\HappyHourStyles.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DrinkOrderEntityView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Mixers\images\happyhour_logo.png">
+      <Link>assets\images\happyhour_logo.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Cocktail\Cocktail.SL.csproj">
+      <Project>{7ECA6212-BDB6-4325-946E-97D9C227E468}</Project>
+      <Name>Cocktail.SL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model.SL\Model.SL.csproj">
+      <Project>{2FAE104B-C54A-4FBC-B166-9208B30BD4D5}</Project>
+      <Name>Model.SL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Mixers\images\01_manhattan.jpg">
+      <Link>assets\images\01_manhattan.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\02_blue_martini.jpg">
+      <Link>assets\images\02_blue_martini.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\03_blue_orange.jpg">
+      <Link>assets\images\03_blue_orange.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\04_blue_twist.jpg">
+      <Link>assets\images\04_blue_twist.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\05_cinnamon.jpg">
+      <Link>assets\images\05_cinnamon.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\06_cosmo.jpg">
+      <Link>assets\images\06_cosmo.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\07_cranberry.jpg">
+      <Link>assets\images\07_cranberry.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\08_cuba_libre.jpg">
+      <Link>assets\images\08_cuba_libre.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\09_green_twist.jpg">
+      <Link>assets\images\09_green_twist.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\10_martini.jpg">
+      <Link>assets\images\10_martini.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\11_mojito.jpg">
+      <Link>assets\images\11_mojito.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\12_red_tropical.jpg">
+      <Link>assets\images\12_red_tropical.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\13_orange_juice.jpg">
+      <Link>assets\images\13_orange_juice.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\14_pineapple_juice.jpg">
+      <Link>assets\images\14_pineapple_juice.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\15_cointreau_blush.jpg">
+      <Link>assets\images\15_cointreau_blush.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\16_apple-juice.jpg">
+      <Link>assets\images\16_apple-juice.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\17_grapefruit-juice.jpg">
+      <Link>assets\images\17_grapefruit-juice.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\18_bloody_mary.jpg">
+      <Link>assets\images\18_bloody_mary.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\19_margarita.jpg">
+      <Link>assets\images\19_margarita.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\20_champagne.jpg">
+      <Link>assets\images\20_champagne.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\21_kir_royale.jpg">
+      <Link>assets\images\21_kir_royale.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\22_screaming_orgasm.jpg">
+      <Link>assets\images\22_screaming_orgasm.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\23_B52.jpg">
+      <Link>assets\images\23_B52.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\24_pina-colada.jpg">
+      <Link>assets\images\24_pina-colada.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\25_strawberry_daiquiri.jpg">
+      <Link>assets\images\25_strawberry_daiquiri.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\26_mango_daiquiri.jpg">
+      <Link>assets\images\26_mango_daiquiri.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\27_tequila_sunrise.jpg">
+      <Link>assets\images\27_tequila_sunrise.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\28_screwdriver.jpg">
+      <Link>assets\images\28_screwdriver.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\29_long_island_iced_tea.jpg">
+      <Link>assets\images\29_long_island_iced_tea.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\30_chi_chi.jpg">
+      <Link>assets\images\30_chi_chi.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\32_blue_lagoon.jpg">
+      <Link>assets\images\32_blue_lagoon.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\33_old_fashioned.jpg">
+      <Link>assets\images\33_old_fashioned.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\34_cola.jpg">
+      <Link>assets\images\34_cola.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\35_gin_and_tonic.jpg">
+      <Link>assets\images\35_gin_and_tonic.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\36_midori-rickey.jpg">
+      <Link>assets\images\36_midori-rickey.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\37_scotch_and_soda.jpg">
+      <Link>assets\images\37_scotch_and_soda.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\missing_drink.jpg">
+      <Link>assets\images\missing_drink.jpg</Link>
+    </Resource>
+    <Resource Include="..\..\Mixers\images\select_drink.png">
+      <Link>assets\images\select_drink.png</Link>
+    </Resource>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

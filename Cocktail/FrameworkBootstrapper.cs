@@ -36,12 +36,12 @@ namespace Cocktail
         /// </summary>
         static FrameworkBootstrapper()
         {
-            LogManager.GetLog = type => new DefaultDebugLogger(type);
+            DefaultDebugLogger.SetAsLogger();
             Composition.EnsureRequiredProbeAssemblies();
         }
 
         /// <summary>
-        /// Creates an instance of the framework bootstrapper.
+        /// Creates an instance of FrameworkBootstrapper.
         /// </summary>
         /// <param name="useApplication">Optionally specify if the bootstrapper should hook into the application object.</param>
         protected FrameworkBootstrapper(bool useApplication = true)
@@ -83,15 +83,6 @@ namespace Cocktail
             Composition.Configure(batch);
             UpdateAssemblySource();
             Composition.Recomposed += (s, args) => UpdateAssemblySource();
-
-            // Caliburn's new RegEx based ViewLocator no longer finds views for the <Namespace>.ViewModel.<BaseName>ViewModel construct
-            // Add rule to support above construct
-            ViewLocator.NameTransformer.AddRule
-                (
-                    @"(?<namespace>(.*\.)*)ViewModel\.(?<basename>[A-Za-z]\w*)(?<suffix>ViewModel$)",
-                    @"${namespace}View.${basename}View",
-                    @"(.*\.)*ViewModel\.[A-Za-z]\w*ViewModel$"
-                );
         }
 
         private void UpdateAssemblySource()

@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Caliburn.Micro;
 using IdeaBlade.Core;
@@ -24,17 +25,14 @@ using IdeaBlade.Core;
 namespace Cocktail
 {
     /// <summary>Default Caliburn.Micro logger for debug release.</summary>
-    /// <remarks>
-    /// A logger for diagnostic output from Caliburn.Micro; see <seealso cref="LogManager"/>.
-    ///
-    /// Typically activated in the static constructor of the AppBootstrapper as it is
-    /// in Cocktail <see cref="FrameworkBootstrapper"/>.
-    /// </remarks>
+    /// <remarks>A logger for diagnostic output from Caliburn.Micro.
+    ///  Typically activated in the static constructor of the AppBootstrapper as it is
+    ///  in Cocktail <see cref="FrameworkBootstrapper"/>.</remarks>
     /// <example>
-    /// static AppBootstrapper()
+    /// 	<code title="" description="static AppBootstrapper(
     /// {
-    ///     DefaultDebugLogger.SetAsLogger();
-    /// }
+    ///      DefaultDebugLogger.SetAsLogger();
+    /// }" lang="C#"></code>
     /// </example>
     public sealed class DefaultDebugLogger : ILog
     {
@@ -47,6 +45,7 @@ namespace Cocktail
         }
 
         /// <summary>Set the Caliburn Logger with Cocktail <see cref="Cocktail.DefaultDebugLogger"/>.</summary>
+        [Conditional("DEBUG")]
         public static void SetAsLogger()
         {
             LogManager.GetLog = type => new DefaultDebugLogger(type);
@@ -62,18 +61,18 @@ namespace Cocktail
 
         #region ILog Members
 
-        public void Info(string format, params object[] args)
+        void ILog.Info(string format, params object[] args)
         {
             if (MatchesSkippableName(args)) return;
             Log("INFO", format, args);
         }
 
-        public void Warn(string format, params object[] args)
+        void ILog.Warn(string format, params object[] args)
         {
             Log("WARN", format, args);
         }
 
-        public void Error(Exception exception)
+        void ILog.Error(Exception exception)
         {
             Log("ERROR", exception.ToString());
         }

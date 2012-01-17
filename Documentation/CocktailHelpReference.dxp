@@ -27,7 +27,6 @@
       <ExcludedItem>Cocktail.SL~Cocktail.AlwaysCompleted</ExcludedItem>
       <ExcludedItem>Cocktail.SL~Cocktail.AlwaysCompleted+AlwaysCompletedArgs</ExcludedItem>
       <ExcludedItem>Cocktail.SL~Cocktail.DefaultEntityManagerSyncInterceptor</ExcludedItem>
-      <ExcludedItem>Cocktail.SL~Cocktail.DefaultDebugLogger</ExcludedItem>
       <ExcludedItem>Cocktail.SL~Cocktail.EventDispatcher`1</ExcludedItem>
       <ExcludedItem>Cocktail.SL~Cocktail.NavigateResult`1+CallbackResult</ExcludedItem>
       <ExcludedItem>Cocktail.SL~Cocktail.EntityManagerDelegate</ExcludedItem>
@@ -44,7 +43,6 @@
       <ExcludedItem>Cocktail.Desktop~Cocktail.AlwaysCompleted</ExcludedItem>
       <ExcludedItem>Cocktail.Desktop~Cocktail.AlwaysCompleted+AlwaysCompletedArgs</ExcludedItem>
       <ExcludedItem>Cocktail.Desktop~Cocktail.DefaultEntityManagerSyncInterceptor</ExcludedItem>
-      <ExcludedItem>Cocktail.Desktop~Cocktail.DefaultDebugLogger</ExcludedItem>
       <ExcludedItem>Cocktail.Desktop~Cocktail.EventDispatcher`1</ExcludedItem>
       <ExcludedItem>Cocktail.Desktop~Cocktail.NavigateResult`1+CallbackResult</ExcludedItem>
       <ExcludedItem>Cocktail.Desktop~Cocktail.AuthenticationManagerProvider</ExcludedItem>

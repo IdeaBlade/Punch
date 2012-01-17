@@ -97,8 +97,8 @@ namespace Cocktail
         public static string DefaultLogFormatter(Type sourceType, string level, string message)
         {
             return string.Format(
-                "[{0}] {1}: {2}",
-                sourceType.Name.Split('.').Last(),
+                "{0} {1}: {2}",
+                sourceType.Name,
                 level,
                 message);
         }

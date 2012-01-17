@@ -21,32 +21,16 @@ using IdeaBlade.Core;
 
 namespace Cocktail
 {
-    /// <summary>Internal use."</summary>
-    public sealed class TraceLoggerProvider : ITraceLoggerProvider
-    {
-        #region ITraceLoggerProvider Members
-
-        /// <summary>
-        /// Return the <see cref="T:IdeaBlade.Core.ITraceLogger"/> to use for logging of debug and trace messages.
-        /// </summary>
-        /// <returns/>
-        ITraceLogger ITraceLoggerProvider.GetLogger()
-        {
-            return new TraceLogger();
-        }
-
-        #endregion
-    }
-
-    /// <summary>Cocktail's central logger</summary>
+    /// <summary>The central logger used by Cocktail, DevForce and Caliburn.Micro.</summary>
     /// <remarks>
-    /// The logging can be customized by setting the LogWriter delegate.
+    /// The logging can be customized by setting the LogWriter delegate to a custom LogWriter.
     /// </remarks>
     public sealed class TraceLogger : ITraceLogger
     {
         private static readonly ITraceLogger DefaultTraceLogger;
 
         /// <summary>Replaceable log writer.</summary>
+        /// <remarks>See <see cref="DefaultLogWriter"/> for an example.</remarks>
         public static Action<object> LogWriter = DefaultLogWriter;
 
         static TraceLogger()
@@ -102,5 +86,22 @@ namespace Cocktail
             // For convenience, let's also log to the console.
             Debug.WriteLine(message);
         }
+    }
+
+    /// <summary>Internal use."</summary>
+    public sealed class TraceLoggerProvider : ITraceLoggerProvider
+    {
+        #region ITraceLoggerProvider Members
+
+        /// <summary>
+        /// Return the <see cref="T:IdeaBlade.Core.ITraceLogger"/> to use for logging of debug and trace messages.
+        /// </summary>
+        /// <returns/>
+        ITraceLogger ITraceLoggerProvider.GetLogger()
+        {
+            return new TraceLogger();
+        }
+
+        #endregion
     }
 }

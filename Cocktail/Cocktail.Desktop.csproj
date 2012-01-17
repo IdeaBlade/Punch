@@ -103,7 +103,7 @@
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
     <Compile Include="SyncDataMessage.cs" />
-    <Compile Include="TraceLoggerProvider.cs" />
+    <Compile Include="TraceLogger.cs" />
     <Compile Include="ValueConverterConventions.cs" />
     <Compile Include="VisualStates.cs" />
     <Compile Include="WeakRefDictionary.cs" />

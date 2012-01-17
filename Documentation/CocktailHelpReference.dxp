@@ -51,6 +51,8 @@
       <ExcludedItem>Cocktail.Desktop~Cocktail.IEntityManagerSyncInterceptor</ExcludedItem>
       <ExcludedItem>Cocktail.SL~Cocktail.CocktailTraceLogger</ExcludedItem>
       <ExcludedItem>Cocktail.Desktop~Cocktail.CocktailTraceLogger</ExcludedItem>
+      <ExcludedItem>Cocktail.SL~Cocktail.TraceLoggerProvider</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.TraceLoggerProvider</ExcludedItem>
     </ExcludedItems>
   </Filters>
   <ComProjectPlugin />

@@ -36,12 +36,12 @@ namespace Cocktail
         /// </summary>
         static FrameworkBootstrapper()
         {
-            LogManager.GetLog = type => new DefaultDebugLogger(type);
+            DefaultDebugLogger.SetAsLogger();
             Composition.EnsureRequiredProbeAssemblies();
         }
 
         /// <summary>
-        /// Creates an instance of the framework bootstrapper.
+        /// Creates an instance of FrameworkBootstrapper.
         /// </summary>
         /// <param name="useApplication">Optionally specify if the bootstrapper should hook into the application object.</param>
         protected FrameworkBootstrapper(bool useApplication = true)

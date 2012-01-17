@@ -21,18 +21,9 @@ using IdeaBlade.Core;
 
 namespace Cocktail
 {
-    /// <summary>Provides DevForce with the current <see cref="ITraceLogger"/> implementation.</summary>
-    /// <remarks>
-    /// The default TraceLogger can be substituted with a custom TraceLogger by setting the TraceLogger delegate.
-    /// </remarks>
-    public class TraceLoggerProvider : ITraceLoggerProvider
+    /// <summary>Internal use."</summary>
+    public sealed class TraceLoggerProvider : ITraceLoggerProvider
     {
-        /// <summary>
-        /// Replaceable <see cref="ITraceLogger"/>.
-        /// See <see cref="DefaultTraceLogger"/> example.
-        /// </summary>
-        public static Func<ITraceLogger> TraceLogger = DefaultTraceLogger;
-
         #region ITraceLoggerProvider Members
 
         /// <summary>
@@ -41,30 +32,31 @@ namespace Cocktail
         /// <returns/>
         ITraceLogger ITraceLoggerProvider.GetLogger()
         {
-            return TraceLogger();
+            return new TraceLogger();
         }
 
         #endregion
-
-        /// <summary>
-        /// Default TraceLogger.
-        /// </summary>
-        /// <returns>Default implementation for <see cref="ITraceLogger"/></returns>
-        public static ITraceLogger DefaultTraceLogger()
-        {
-            return new CocktailTraceLogger();
-        }
     }
 
-    /// <summary>Internal use.</summary>
-    internal class CocktailTraceLogger : ITraceLogger
+    /// <summary>Cocktail's central logger</summary>
+    /// <remarks>
+    /// The logging can be customized by setting the LogWriter delegate.
+    /// </remarks>
+    public sealed class TraceLogger : ITraceLogger
     {
-        private readonly ITraceLogger _defaultTraceLogger;
+        private static readonly ITraceLogger DefaultTraceLogger;
 
-        internal CocktailTraceLogger()
+        /// <summary>Replaceable log writer.</summary>
+        public static Action<object> LogWriter = DefaultLogWriter;
+
+        static TraceLogger()
         {
             var defaultLoggerProvider = new DefaultLoggerProvider();
-            _defaultTraceLogger = defaultLoggerProvider.GetLogger();
+            DefaultTraceLogger = defaultLoggerProvider.GetLogger();
+        }
+
+        internal TraceLogger()
+        {
         }
 
         #region ITraceLogger Members
@@ -77,13 +69,9 @@ namespace Cocktail
         /// Calls originating from DevForce via DebugFns and TraceFns calls will pass a <see cref="T:IdeaBlade.Core.TraceMessage"/>
         ///             to the method.
         /// </remarks>
-        public void Log(object message)
+        void ITraceLogger.Log(object message)
         {
-            // Log to the default DevForce logger
-            _defaultTraceLogger.Log(message);
-
-            // For convenience, let's also log to the console.
-            Debug.WriteLine(message);
+            LogWriter(message);
         }
 
         /// <summary>
@@ -93,11 +81,26 @@ namespace Cocktail
         /// If single-threaded, calls to the Log method will be from a single thread.  If multi-threaded,
         ///             you must ensure that your logger is thread safe.
         /// </remarks>
-        public bool IsSingleThreaded
+        bool ITraceLogger.IsSingleThreaded
         {
-            get { return _defaultTraceLogger.IsSingleThreaded; }
+            get { return DefaultTraceLogger.IsSingleThreaded; }
         }
 
         #endregion
+
+        /// <summary>
+        /// Default log writer.
+        /// </summary>
+        /// <param name="message">
+        /// Calls originating from DevForce via DebugFns and TraceFns calls will pass a <see cref="TraceMessage"/> to the method.
+        /// </param>
+        public static void DefaultLogWriter(object message)
+        {
+            // Log to the default DevForce logger
+            DefaultTraceLogger.Log(message);
+
+            // For convenience, let's also log to the console.
+            Debug.WriteLine(message);
+        }
     }
 }

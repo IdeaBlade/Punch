@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.Composition;
-using Common.Dialog;
+using Cocktail;
 using Common.Messages;
 
 namespace Common.Validation
@@ -19,7 +19,7 @@ namespace Common.Validation
         public override void Handle(ValidationErrorMessage message)
         {
             ValidationErrorsViewModel content = _viewModelFactory.CreateExport().Value.Start(message.VerifierResults);
-            _dialogManager.ShowDialog(content, true);
+            _dialogManager.ShowDialog(content, DialogButtons.Ok);
         }
     }
 }

@@ -55,6 +55,9 @@ namespace Cocktail
         {
             if (!Composition.ExportExists<IWindowManager>())
                 batch.AddExportedValue<IWindowManager>(new WindowManager());
+
+            if (!Composition.ExportExists<IDialogManager>())
+                batch.AddExportedValue<IDialogManager>(new DialogManager());
         }
 
         /// <summary>

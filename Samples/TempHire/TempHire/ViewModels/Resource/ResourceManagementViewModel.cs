@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 using System.Windows.Threading;
 using Caliburn.Micro;
 using Cocktail;
-using Common.Dialog;
 using Common.Errors;
 using Common.Messages;
 using Common.Repositories;
@@ -21,8 +20,8 @@ namespace TempHire.ViewModels.Resource
                                                IWorkspace
     {
         private readonly ExportFactory<ResourceDetailViewModel> _detailFactory;
-        private readonly IErrorHandler _errorHandler;
         private readonly IDialogManager _dialogManager;
+        private readonly IErrorHandler _errorHandler;
         private readonly ExportFactory<ResourceNameEditorViewModel> _nameEditorFactory;
         private readonly IRepositoryManager<IResourceRepository> _repositoryManager;
         private readonly DispatcherTimer _selectionChangeTimer;
@@ -54,7 +53,7 @@ namespace TempHire.ViewModels.Resource
             DisplayName = "Resource Management";
             // ReSharper restore DoNotCallOverridableMethodsInConstructor
 
-            _selectionChangeTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 200) };
+            _selectionChangeTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 200)};
             _selectionChangeTimer.Tick += OnSelectionChangeElapsed;
         }
 
@@ -152,13 +151,13 @@ namespace TempHire.ViewModels.Resource
 
             Start();
             SearchPane.PropertyChanged += OnSearchPanePropertyChanged;
-            ((IActivate)SearchPane).Activate();
+            ((IActivate) SearchPane).Activate();
 
             if (_toolbarGroup == null)
             {
                 _toolbarGroup = new ToolbarGroup(10)
                                     {
-                                        new ToolbarAction(this, "Add", (Func<IEnumerable<IResult>>)Add),
+                                        new ToolbarAction(this, "Add", (Func<IEnumerable<IResult>>) Add),
                                         new ToolbarAction(this, "Delete", (Func<IEnumerable<IResult>>) Delete),
                                         new ToolbarAction(this, "Save", (Func<IEnumerable<IResult>>) Save),
                                         new ToolbarAction(this, "Cancel", (Action) Cancel)
@@ -199,7 +198,7 @@ namespace TempHire.ViewModels.Resource
 
             base.OnDeactivate(close);
             SearchPane.PropertyChanged -= OnSearchPanePropertyChanged;
-            ((IDeactivate)SearchPane).Deactivate(close);
+            ((IDeactivate) SearchPane).Deactivate(close);
 
             _toolbar.RemoveGroup(_toolbarGroup);
         }
@@ -224,15 +223,19 @@ namespace TempHire.ViewModels.Resource
         {
             ResourceListItem resource = SearchPane.CurrentResource;
 
-            yield return
-                _dialogManager.ShowMessage(string.Format("Are you sure you want to delete {0}?", resource.FullName), false);
+            DialogOperationResult userPrompt =
+                _dialogManager.ShowMessage(string.Format("Are you sure you want to delete {0}?", resource.FullName),
+                                           DialogButtons.YesNo);
+            yield return userPrompt;
+            if (userPrompt.DialogResult == DialogResult.No) yield break;
 
             using (ActiveDetail.Busy.GetTicket())
             {
                 IResourceRepository repository = _repositoryManager.GetRepository(resource.Id);
 
                 bool success = false;
-                yield return repository.DeleteResourceAsync(resource.Id, () => success = true, _errorHandler.HandleError);
+                yield return
+                    repository.DeleteResourceAsync(resource.Id, () => success = true, _errorHandler.HandleError);
 
                 if (success)
                 {
@@ -260,7 +263,7 @@ namespace TempHire.ViewModels.Resource
 
         public void Cancel()
         {
-            var shouldClose = ActiveResource.EntityFacts.IsAdded;
+            bool shouldClose = ActiveResource.EntityFacts.IsAdded;
             ActiveRepository.RejectChanges();
 
             if (shouldClose)

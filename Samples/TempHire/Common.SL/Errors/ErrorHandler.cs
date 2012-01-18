@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using Common.Dialog;
+using Cocktail;
 
 namespace Common.Errors
 {

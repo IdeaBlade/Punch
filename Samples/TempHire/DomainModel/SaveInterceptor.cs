@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using IdeaBlade.Application.Framework.Core.Verification;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using IdeaBlade.EntityModel.Server;
@@ -19,16 +18,16 @@ namespace DomainModel
             em.CacheStateManager.RestoreCacheState(EntityManager.CacheStateManager.GetCacheState());
 
             // Find all entities supporting custom validation                
-            List<ICustomVerifier> entities =
-                em.FindEntities(EntityState.AllButDetached).OfType<ICustomVerifier>().ToList();
+            List<EntityBase> entities =
+                em.FindEntities(EntityState.AllButDetached).OfType<EntityBase>().ToList();
 
-            foreach (ICustomVerifier e in entities)
+            foreach (EntityBase e in entities)
             {
                 EntityAspect entityAspect = EntityAspect.Wrap(e);
                 if (entityAspect.EntityState.IsDeletedOrDetached()) continue;
 
                 var validationErrors = new VerifierResultCollection();
-                e.Verify(validationErrors);
+                e.Validate(validationErrors);
 
                 validationErrors =
                     new VerifierResultCollection(entityAspect.ValidationErrors.Concat(validationErrors.Errors));

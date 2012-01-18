@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reflection;
 using Caliburn.Micro;
-using Caliburn.Micro.Extensions;
+using Cocktail;
 using Action = System.Action;
 
 namespace Common.Toolbar
@@ -76,7 +76,7 @@ namespace Common.Toolbar
         public void Execute()
         {
             if (_actionCoroutine != null)
-                _actionCoroutine().ToSequential().Execute(null);
+                _actionCoroutine().ToSequentialResult().Execute();
             else
                 _action();
         }

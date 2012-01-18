@@ -13,8 +13,9 @@
     <AssemblyName>Test.Web</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
-    <SilverlightApplicationList>{0D74727E-5C3A-4F77-B769-FD3E976B01F4}|..\Test Projects\Core.Tests.SL\Core.Tests.SL.csproj|ClientBin|False</SilverlightApplicationList>
+    <SilverlightApplicationList>{0D74727E-5C3A-4F77-B769-FD3E976B01F4}|..\Cocktail.Tests.SL\Cocktail.Tests.SL.csproj|ClientBin|False</SilverlightApplicationList>
     <SkipPostSharp>True</SkipPostSharp>
+    <JSLintSkip>\Silverlight.js</JSLintSkip>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,13 +60,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientAccessPolicy.xml" />
-    <Content Include="ClientBin\Core.Tests.SL.xap" />
+    <Content Include="ClientBin\Cocktail.Tests.SL.xap" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Silverlight.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ServerCompositionContextResolver.cs" />
     <Compile Include="LoginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -73,9 +75,9 @@
     <Folder Include="log\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Samples\SampleApplication\SampleModel\SampleModel.Desktop.csproj">
-      <Project>{FAEB2D56-4ADA-4FBD-9086-612D3E704401}</Project>
-      <Name>SampleModel.Desktop</Name>
+    <ProjectReference Include="..\Test.Model\Test.Model.Desktop.csproj">
+      <Project>{12BEA1AF-5380-4024-BEDD-C914B0C15178}</Project>
+      <Name>Test.Model.Desktop</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

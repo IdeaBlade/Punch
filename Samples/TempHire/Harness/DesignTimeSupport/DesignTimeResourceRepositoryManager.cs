@@ -1,8 +1,7 @@
 ﻿using System;
+using Cocktail;
+using Common.Repositories;
 using DomainModel;
-using DomainModel.Repositories;
-using IdeaBlade.Application.Framework.Core.Persistence;
-using TempHire.Repositories;
 
 namespace TempHire.DesignTimeSupport
 {

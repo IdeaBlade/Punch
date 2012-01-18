@@ -1,6 +1,4 @@
-﻿using IdeaBlade.EntityModel;
-
-namespace DomainModel
+﻿namespace DomainModel
 {
     public interface IHasRoot
     {

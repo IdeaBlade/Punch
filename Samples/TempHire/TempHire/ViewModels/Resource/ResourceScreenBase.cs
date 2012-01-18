@@ -1,10 +1,9 @@
 using System;
 using Caliburn.Micro;
+using Cocktail;
 using Common.Errors;
-using DomainModel;
-using DomainModel.Repositories;
-using IdeaBlade.Application.Framework.Core.ViewModel;
-using TempHire.Repositories;
+using Common.Repositories;
+using Common.SampleData;
 
 namespace TempHire.ViewModels.Resource
 {

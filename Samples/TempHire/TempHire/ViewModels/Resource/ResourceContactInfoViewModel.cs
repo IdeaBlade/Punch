@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using DomainModel;
-using IdeaBlade.Application.Framework.Core.ViewModel;
+using Cocktail;
+using Common.SampleData;
 
 namespace TempHire.ViewModels.Resource
 {

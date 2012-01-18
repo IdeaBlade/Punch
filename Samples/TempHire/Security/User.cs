@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using Cocktail;
 using IdeaBlade.Aop;
-using IdeaBlade.Application.Framework.Core.Persistence;
 using IdeaBlade.Validation;
 
 namespace Security
@@ -30,7 +30,7 @@ namespace Security
 
         public static User Create()
         {
-            return new User {Id = CombGuid.NewGuid()};
+            return new User { Id = CombGuid.NewGuid() };
         }
     }
 }

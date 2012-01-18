@@ -4,15 +4,14 @@ using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
+using Cocktail;
 using Common.BusyWatcher;
-using Common.Dialog;
 using Common.Errors;
-using DomainModel;
-using DomainModel.Repositories;
-using IdeaBlade.Application.Framework.Core.ViewModel;
+using Common.Repositories;
 using IdeaBlade.Core;
-using IdeaBlade.EntityModel;
-using TempHire.Repositories;
+#if HARNESS
+using Common.SampleData;
+#endif
 
 namespace TempHire.ViewModels.Resource
 {
@@ -20,6 +19,7 @@ namespace TempHire.ViewModels.Resource
     public class ResourceDetailViewModel : Conductor<IScreen>.Collection.OneActive, IDiscoverableViewModel,
                                            IHarnessAware
     {
+        private readonly IDialogManager _dialogManager;
         private readonly IErrorHandler _errorHandler;
         private readonly IRepositoryManager<IResourceRepository> _repositoryManager;
         private readonly IEnumerable<IResourceDetailSection> _sections;
@@ -31,13 +31,14 @@ namespace TempHire.ViewModels.Resource
         public ResourceDetailViewModel(IRepositoryManager<IResourceRepository> repositoryManager,
                                        ResourceSummaryViewModel resourceSummary,
                                        [ImportMany] IEnumerable<IResourceDetailSection> sections,
-                                       IErrorHandler errorHandler,
+                                       IErrorHandler errorHandler, IDialogManager dialogManager,
                                        [Import(RequiredCreationPolicy = CreationPolicy.NonShared)] IBusyWatcher busy)
         {
             ResourceSummary = resourceSummary;
             _repositoryManager = repositoryManager;
             _sections = sections.ToList();
             _errorHandler = errorHandler;
+            _dialogManager = dialogManager;
             Busy = busy;
 
             PropertyChanged += OnPropertyChanged;
@@ -79,7 +80,7 @@ namespace TempHire.ViewModels.Resource
         public void Setup()
         {
 #if HARNESS
-            //Start("John", "M.", "Doe");
+    //Start("John", "M.", "Doe");
             Start(TempHireSampleDataProvider.CreateGuid(1));
 #endif
         }
@@ -99,8 +100,8 @@ namespace TempHire.ViewModels.Resource
             _repository = null;
             _resourceId = resourceId;
             // Bring resource into cache and defer starting of nested VMs until completed.
-            INotifyCompleted op = Repository.GetResourceAsync(resourceId, OnStartCompleted, _errorHandler.HandleError);
-            op.WhenCompleted(e => Busy.RemoveWatch());
+            Repository.GetResourceAsync(resourceId, OnStartCompleted, _errorHandler.HandleError)
+                .OnComplete(args => Busy.RemoveWatch());
 
             return this;
         }
@@ -124,15 +125,14 @@ namespace TempHire.ViewModels.Resource
             Busy.AddWatch();
 
             _repository = _repositoryManager.Create();
-            INotifyCompleted op = _repository
-                .CreateResourceAsync(firstName, middleName, lastName,
-                                     resource =>
-                                         {
-                                             _repositoryManager.Add(resource.Id, _repository);
-                                             Start(resource.Id);
-                                         },
-                                     _errorHandler.HandleError);
-            op.WhenCompleted(e => Busy.RemoveWatch());
+            _repository.CreateResourceAsync(firstName, middleName, lastName,
+                                            resource =>
+                                                {
+                                                    _repositoryManager.Add(resource.Id, _repository);
+                                                    Start(resource.Id);
+                                                },
+                                            _errorHandler.HandleError)
+                .OnComplete(args => Busy.RemoveWatch());
 
             return this;
         }
@@ -160,20 +160,19 @@ namespace TempHire.ViewModels.Resource
         {
             if (Repository.HasChanges())
             {
-                var result = new ShowMessageResult("Confirmation",
-                                                   "There are unsaved changes. Would you like to continue?", false);
-                result.Completed += (sender, args) =>
-                                        {
-                                            if (!args.WasCancelled)
-                                                Repository.RejectChanges();
+                DialogOperationResult dialogResult =
+                    _dialogManager.ShowMessage("There are unsaved changes. Would you like to continue?",
+                                               DialogButtons.YesNo);
+                dialogResult.OnComplete(delegate
+                                            {
+                                                if (dialogResult.DialogResult == DialogResult.Yes)
+                                                    Repository.RejectChanges();
 
-                                            callback(!args.WasCancelled);
-                                        };
-                result.Execute(null);
+                                                callback(dialogResult.DialogResult == DialogResult.Yes);
+                                            });
             }
             else
                 base.CanClose(callback);
         }
-
     }
 }

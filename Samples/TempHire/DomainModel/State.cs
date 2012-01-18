@@ -1,15 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using IdeaBlade.Aop;
-using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
 
 namespace DomainModel
 {
-    [ProvideEntityAspect]
     [DataContract(IsReference = true)]
-    public class State
+    public class State : EntityBase
     {
         internal State()
         {

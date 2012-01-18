@@ -4,13 +4,11 @@ using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using Caliburn.Micro.Extensions;
-using Common.Dialog;
+using Cocktail;
 using Common.Errors;
+using Common.Repositories;
 using DomainModel;
-using DomainModel.Repositories;
 using IdeaBlade.Core;
-using TempHire.Repositories;
 
 namespace TempHire.ViewModels.Resource
 {
@@ -18,6 +16,7 @@ namespace TempHire.ViewModels.Resource
     public class ResourceAddressListViewModel : ResourceScreenBase
     {
         private readonly ExportFactory<AddressTypeSelectorViewModel> _addressTypeSelectorFactory;
+        private readonly IDialogManager _dialogManager;
         private readonly IRepositoryManager<IResourceRepository> _repositoryManager;
         private BindableCollection<ResourceAddressItemViewModel> _addresses;
         private BindableCollection<State> _states;
@@ -25,11 +24,12 @@ namespace TempHire.ViewModels.Resource
         [ImportingConstructor]
         public ResourceAddressListViewModel(IRepositoryManager<IResourceRepository> repositoryManager,
                                             ExportFactory<AddressTypeSelectorViewModel> addressTypeSelectorFactory,
-                                            IErrorHandler errorHandler)
+                                            IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(repositoryManager, errorHandler)
         {
             _repositoryManager = repositoryManager;
             _addressTypeSelectorFactory = addressTypeSelectorFactory;
+            _dialogManager = dialogManager;
         }
 
         public override DomainModel.Resource Resource
@@ -76,7 +76,7 @@ namespace TempHire.ViewModels.Resource
 
         public override ResourceScreenBase Start(Guid resourceId)
         {
-            StartCore(resourceId).ToSequential().Execute(null);
+            StartCore(resourceId).ToSequentialResult().Execute();
 
             return this;
         }
@@ -89,9 +89,8 @@ namespace TempHire.ViewModels.Resource
             if (States == null)
             {
                 IResourceRepository repository = _repositoryManager.GetRepository(resourceId);
-                yield return CoroutineFns.AsResult(
-                    () => repository.GetStatesAsync(result => States = new BindableCollection<State>(result),
-                                                    ErrorHandler.HandleError));
+                yield return repository.GetStatesAsync(result => States = new BindableCollection<State>(result),
+                                                       ErrorHandler.HandleError);
             }
 
             base.Start(resourceId);
@@ -124,7 +123,7 @@ namespace TempHire.ViewModels.Resource
         public IEnumerable<IResult> Add()
         {
             AddressTypeSelectorViewModel addressTypeSelector = _addressTypeSelectorFactory.CreateExport().Value;
-            yield return new ShowDialogResult("Select Address Type", addressTypeSelector.Start(Resource.Id));
+            yield return _dialogManager.ShowDialog(addressTypeSelector.Start(Resource.Id));
 
             Resource.AddAddress(addressTypeSelector.SelectedAddressType);
 

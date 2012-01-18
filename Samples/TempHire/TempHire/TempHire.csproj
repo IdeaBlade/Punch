@@ -102,14 +102,10 @@
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authentication\TempHireAuthenticationService.cs" />
-    <Compile Include="EntityManagerInterceptor.cs" />
+    <Compile Include="EntityManagerDelegate.cs" />
     <Compile Include="EntityManagerProviderFactory.cs" />
-    <Compile Include="EntityManagerProviders\DevSecurityEntityManagerProvider.cs" />
-    <Compile Include="EntityManagerProviders\DevTempHireEntityManagerProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\IRepositoryManager.cs" />
     <Compile Include="Repositories\LookupRepository.cs" />
-    <Compile Include="Repositories\RepositoryManagers.cs" />
     <Compile Include="SyncInterceptor.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\Login\LoginViewModel.cs" />
@@ -146,13 +142,9 @@
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Caliburn.Micro.Extensions\Caliburn.Micro.Extensions.SL.csproj">
+    <ProjectReference Include="..\..\..\Cocktail\Cocktail.SL.csproj">
       <Project>{7ECA6212-BDB6-4325-946E-97D9C227E468}</Project>
-      <Name>Caliburn.Micro.Extensions.SL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\IB.Application.Framework.Core\IB.Application.Framework.Core.SL.csproj">
-      <Project>{761B386E-02D2-45DE-B485-1545D50F148F}</Project>
-      <Name>IB.Application.Framework.Core.SL</Name>
+      <Name>Cocktail.SL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common.SL\Common.SL.csproj">
       <Project>{3D676816-91A4-4B53-877E-95FE5B348480}</Project>

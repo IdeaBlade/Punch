@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
-using IdeaBlade.Application.Framework.Core.Persistence;
+using Cocktail;
 using IdeaBlade.EntityModel;
 
 namespace DomainModel
@@ -8,7 +8,8 @@ namespace DomainModel
     [DataSourceKeyName("TempHireEntities")]
     internal class TempHireDbContext : DbContext
     {
-        public TempHireDbContext(string connection = null) : base(connection)
+        public TempHireDbContext(string connection = null)
+            : base(connection)
         {
             Database.SetInitializer(new TempHireDbInitializer());
         }
@@ -119,7 +120,7 @@ namespace DomainModel
                                  new State {Id = CombGuid.NewGuid(), ShortName = "ND", Name = "North Dakota"},
                                  new State {Id = CombGuid.NewGuid(), ShortName = "OH", Name = "Ohio"},
                                  new State {Id = CombGuid.NewGuid(), ShortName = "OK", Name = "Oklahoma"},
-                                 new State {Id = CombGuid.NewGuid(), ShortName = "OR", Name = "Oregan"},
+                                 new State {Id = CombGuid.NewGuid(), ShortName = "OR", Name = "Oregon"},
                                  new State {Id = CombGuid.NewGuid(), ShortName = "PA", Name = "Pennsylvania"},
                                  new State {Id = CombGuid.NewGuid(), ShortName = "RI", Name = "Rhode Island"},
                                  new State {Id = CombGuid.NewGuid(), ShortName = "SC", Name = "South Carolina"},

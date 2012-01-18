@@ -1,16 +1,14 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using IdeaBlade.Aop;
-using IdeaBlade.Application.Framework.Core.Persistence;
+using Cocktail;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
 
 namespace DomainModel
 {
-    [ProvideEntityAspect]
     [DataContract(IsReference = true)]
-    public class WorkExperienceItem : IHasRoot
+    public class WorkExperienceItem : EntityBase, IHasRoot
     {
         internal WorkExperienceItem()
         {
@@ -74,7 +72,7 @@ namespace DomainModel
 
         internal static WorkExperienceItem Create()
         {
-            return new WorkExperienceItem {Id = CombGuid.NewGuid()};
+            return new WorkExperienceItem { Id = CombGuid.NewGuid() };
         }
     }
 }

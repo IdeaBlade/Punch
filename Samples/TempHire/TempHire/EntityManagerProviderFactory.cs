@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.Composition;
+using Cocktail;
+using Common.EntityManagerProviders;
 using DomainModel;
-using IdeaBlade.Application.Framework.Core.Persistence;
 using Security;
-using TempHire.EntityManagerProviders;
 
 namespace TempHire
 {

@@ -3,9 +3,8 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Common.Errors;
+using Common.Repositories;
 using DomainModel;
-using DomainModel.Repositories;
-using TempHire.Repositories;
 
 namespace TempHire.ViewModels.Resource
 {

@@ -2,12 +2,10 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using Caliburn.Micro.Extensions;
+using Cocktail;
 using Common.BusyWatcher;
 using Common.Toolbar;
 using Common.Workspace;
-using IdeaBlade.Application.Framework.Core.Authentication;
-using IdeaBlade.Application.Framework.Core.ViewModel;
 using IdeaBlade.Core;
 using Security.Messages;
 using TempHire.ViewModels.Login;
@@ -26,8 +24,7 @@ namespace TempHire.ViewModels
         [ImportingConstructor]
         public ShellViewModel([ImportMany] IEnumerable<IWorkspace> workspaces, IToolbarManager toolbar,
                               IAuthenticationService authenticationService, ExportFactory<LoginViewModel> loginFactory,
-                              [Import(RequiredCreationPolicy = CreationPolicy.Shared)] IBusyWatcher busy,
-                              IEventAggregator eventAggregator)
+                              [Import(RequiredCreationPolicy = CreationPolicy.Shared)] IBusyWatcher busy)
         {
             Toolbar = toolbar;
             Busy = busy;
@@ -35,7 +32,7 @@ namespace TempHire.ViewModels
             _authenticationService = authenticationService;
             _loginFactory = loginFactory;
 
-            eventAggregator.Subscribe(this);
+            EventFns.Subscribe(this);
         }
 
         public IToolbarManager Toolbar { get; private set; }
@@ -75,7 +72,7 @@ namespace TempHire.ViewModels
 
             IWorkspace @default = _workspaces.FirstOrDefault(w => w.IsDefault);
             if (@default != null)
-                NavigateTo(@default).ToSequential().Execute(null);
+                NavigateTo(@default).ToSequentialResult().Execute();
 
             return this;
         }
@@ -110,7 +107,7 @@ namespace TempHire.ViewModels
 
             // Launch login dialog
             LoginViewModel login = _loginFactory.CreateExport().Value;
-            login.Execute(null);
+            login.Execute();
         }
     }
 }

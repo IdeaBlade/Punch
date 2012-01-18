@@ -1,8 +1,8 @@
 using System;
 using System.Security.Principal;
-using IdeaBlade.Application.Framework.Core.Authentication;
-using IdeaBlade.Application.Framework.Core.Persistence;
+using Cocktail;
 using IdeaBlade.EntityModel;
+using Action = System.Action;
 
 namespace TempHire.Authentication
 {
@@ -10,7 +10,7 @@ namespace TempHire.Authentication
     {
         #region IAuthenticationService Members
 
-        public bool LinkAuthentication(EntityManager targetEM)
+        public bool LinkAuthentication(EntityManager targetEm)
         {
             return false;
         }
@@ -25,18 +25,7 @@ namespace TempHire.Authentication
             get { return true; }
         }
 
-        public INotifyCompleted Login(ILoginCredential credential, Action onSuccess = null,
-                                      Action<Exception> onFail = null)
-        {
-            return LoginAsync(credential, onSuccess, onFail);
-        }
-
-        public INotifyCompleted Logout(Action onSuccess = null, Action<Exception> onFail = null)
-        {
-            return LogoutAsync(onSuccess, onFail);
-        }
-
-        public INotifyCompleted LoginAsync(ILoginCredential credential, Action onSuccess = null,
+        public OperationResult LoginAsync(ILoginCredential credential, Action onSuccess = null,
                                            Action<Exception> onFail = null)
         {
             if (LoggedIn != null) 
@@ -44,17 +33,17 @@ namespace TempHire.Authentication
             if (PrincipalChanged != null) 
                 PrincipalChanged(this, EventArgs.Empty);
 
-            return AlwaysCompleted.Instance;
+            return AlwaysCompletedOperationResult.Instance;
         }
 
-        public INotifyCompleted LogoutAsync(Action onSuccess = null, Action<Exception> onFail = null)
+        public OperationResult LogoutAsync(Action onSuccess = null, Action<Exception> onFail = null)
         {
             if (LoggedOut != null)
                 LoggedOut(this, EventArgs.Empty);
             if (PrincipalChanged != null)
                 PrincipalChanged(this, EventArgs.Empty);
 
-            return AlwaysCompleted.Instance;
+            return AlwaysCompletedOperationResult.Instance;
         }
 
         public event EventHandler<EventArgs> LoggedIn;

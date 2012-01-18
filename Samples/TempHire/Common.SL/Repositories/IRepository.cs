@@ -1,5 +1,6 @@
 ﻿using System;
-using IdeaBlade.EntityModel;
+using Cocktail;
+using Action = System.Action;
 
 namespace Common.Repositories
 {
@@ -7,7 +8,7 @@ namespace Common.Repositories
     {
         bool HasChanges();
 
-        INotifyCompleted SaveAsync(Action onSuccess = null, Action<Exception> onFail = null);
+        OperationResult SaveAsync(Action onSuccess = null, Action<Exception> onFail = null);
 
         void RejectChanges();
     }

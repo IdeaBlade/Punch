@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.Composition;
-using Common.Dialog;
+using Cocktail;
 using Common.Messages;
 
 namespace Common.Validation
@@ -7,18 +7,19 @@ namespace Common.Validation
     public class ValidationErrorMessageProcessor : MessageProcessor<ValidationErrorMessage>
     {
         private readonly ExportFactory<ValidationErrorsViewModel> _viewModelFactory;
+        private readonly IDialogManager _dialogManager;
 
         [ImportingConstructor]
-        public ValidationErrorMessageProcessor(ExportFactory<ValidationErrorsViewModel> viewModelFactory)
+        public ValidationErrorMessageProcessor(ExportFactory<ValidationErrorsViewModel> viewModelFactory, IDialogManager dialogManager)
         {
             _viewModelFactory = viewModelFactory;
+            _dialogManager = dialogManager;
         }
 
         public override void Handle(ValidationErrorMessage message)
         {
             ValidationErrorsViewModel content = _viewModelFactory.CreateExport().Value.Start(message.VerifierResults);
-            var result = new ShowDialogResult("Please correct the following errors", content, true);
-            result.Execute(null);
+            _dialogManager.ShowDialog(content, DialogButtons.Ok);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
+using Cocktail;
 using Common.Workspace;
-using IdeaBlade.Application.Framework.Core.ViewModel;
 
 namespace TempHire.ViewModels
 {

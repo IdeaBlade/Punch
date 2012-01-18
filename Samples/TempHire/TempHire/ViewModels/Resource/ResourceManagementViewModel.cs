@@ -4,17 +4,13 @@ using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Windows.Threading;
 using Caliburn.Micro;
-using Caliburn.Micro.Extensions;
-using Common.Dialog;
+using Cocktail;
 using Common.Errors;
+using Common.Messages;
+using Common.Repositories;
 using Common.Toolbar;
 using Common.Workspace;
-using DomainModel.Messages;
 using DomainModel.Projections;
-using DomainModel.Repositories;
-using IdeaBlade.Application.Framework.Core.ViewModel;
-using IdeaBlade.EntityModel;
-using TempHire.Repositories;
 using Action = System.Action;
 
 namespace TempHire.ViewModels.Resource
@@ -24,6 +20,7 @@ namespace TempHire.ViewModels.Resource
                                                IWorkspace
     {
         private readonly ExportFactory<ResourceDetailViewModel> _detailFactory;
+        private readonly IDialogManager _dialogManager;
         private readonly IErrorHandler _errorHandler;
         private readonly ExportFactory<ResourceNameEditorViewModel> _nameEditorFactory;
         private readonly IRepositoryManager<IResourceRepository> _repositoryManager;
@@ -37,8 +34,7 @@ namespace TempHire.ViewModels.Resource
                                            ExportFactory<ResourceDetailViewModel> detailFactory,
                                            ExportFactory<ResourceNameEditorViewModel> nameEditorFactory,
                                            IRepositoryManager<IResourceRepository> repositoryManager,
-                                           IEventAggregator eventAggregator,
-                                           IErrorHandler errorHandler,
+                                           IErrorHandler errorHandler, IDialogManager dialogManager,
                                            IToolbarManager toolbar)
         {
             SearchPane = searchPane;
@@ -46,9 +42,10 @@ namespace TempHire.ViewModels.Resource
             _nameEditorFactory = nameEditorFactory;
             _repositoryManager = repositoryManager;
             _errorHandler = errorHandler;
+            _dialogManager = dialogManager;
             _toolbar = toolbar;
 
-            eventAggregator.Subscribe(this);
+            EventFns.Subscribe(this);
 
             PropertyChanged += OnPropertyChanged;
 
@@ -87,7 +84,7 @@ namespace TempHire.ViewModels.Resource
             get
             {
                 return ActiveResource != null && ActiveRepository.HasChanges() &&
-                       !EntityAspect.Wrap(ActiveResource).EntityState.IsDeleted();
+                       !ActiveResource.EntityFacts.IsDeleted;
             }
         }
 
@@ -160,7 +157,7 @@ namespace TempHire.ViewModels.Resource
             {
                 _toolbarGroup = new ToolbarGroup(10)
                                     {
-                                        new ToolbarAction(this, "Add", (Func<IEnumerable<IResult>>)Add),
+                                        new ToolbarAction(this, "Add", (Func<IEnumerable<IResult>>) Add),
                                         new ToolbarAction(this, "Delete", (Func<IEnumerable<IResult>>) Delete),
                                         new ToolbarAction(this, "Save", (Func<IEnumerable<IResult>>) Save),
                                         new ToolbarAction(this, "Cancel", (Action) Cancel)
@@ -176,11 +173,11 @@ namespace TempHire.ViewModels.Resource
             if (SearchPane.CurrentResource != null)
             {
                 Func<ResourceDetailViewModel> target = () => ActiveDetail ?? _detailFactory.CreateExport().Value;
-                var result = new NavigateResult<ResourceDetailViewModel>(this, target)
-                                 {
-                                     Prepare = nav => nav.Target.Start(SearchPane.CurrentResource.Id)
-                                 };
-                result.Execute(null);
+                new NavigateResult<ResourceDetailViewModel>(this, target)
+                    {
+                        Prepare = nav => nav.Target.Start(SearchPane.CurrentResource.Id)
+                    }
+                    .Go();
             }
 
             NotifyOfPropertyChange(() => CanDelete);
@@ -209,7 +206,7 @@ namespace TempHire.ViewModels.Resource
         public IEnumerable<IResult> Add()
         {
             ResourceNameEditorViewModel nameEditor = _nameEditorFactory.CreateExport().Value;
-            yield return new ShowDialogResult("New Resource", nameEditor);
+            yield return _dialogManager.ShowDialog(nameEditor);
 
             SearchPane.CurrentResource = null;
 
@@ -226,17 +223,19 @@ namespace TempHire.ViewModels.Resource
         {
             ResourceListItem resource = SearchPane.CurrentResource;
 
-            yield return
-                new ShowMessageResult("Confirmation",
-                                      string.Format("Are you sure you want to delete {0}?", resource.FullName), false);
+            DialogOperationResult userPrompt =
+                _dialogManager.ShowMessage(string.Format("Are you sure you want to delete {0}?", resource.FullName),
+                                           DialogButtons.YesNo);
+            yield return userPrompt;
+            if (userPrompt.DialogResult == DialogResult.No) yield break;
 
             using (ActiveDetail.Busy.GetTicket())
             {
                 IResourceRepository repository = _repositoryManager.GetRepository(resource.Id);
 
                 bool success = false;
-                yield return CoroutineFns.AsResult(
-                    () => repository.DeleteResourceAsync(resource.Id, () => success = true, _errorHandler.HandleError));
+                yield return
+                    repository.DeleteResourceAsync(resource.Id, () => success = true, _errorHandler.HandleError);
 
                 if (success)
                 {
@@ -253,7 +252,7 @@ namespace TempHire.ViewModels.Resource
         {
             using (ActiveDetail.Busy.GetTicket())
             {
-                yield return CoroutineFns.AsResult(() => ActiveRepository.SaveAsync(onFail: _errorHandler.HandleError));
+                yield return ActiveRepository.SaveAsync(onFail: _errorHandler.HandleError);
 
                 SearchPane.Search(ActiveResource.Id);
 
@@ -264,10 +263,10 @@ namespace TempHire.ViewModels.Resource
 
         public void Cancel()
         {
-            bool isNew = EntityAspect.Wrap(ActiveResource).EntityState.IsAdded();
+            bool shouldClose = ActiveResource.EntityFacts.IsAdded;
             ActiveRepository.RejectChanges();
 
-            if (isNew)
+            if (shouldClose)
                 ActiveDetail.TryClose();
         }
     }

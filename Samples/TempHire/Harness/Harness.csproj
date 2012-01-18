@@ -110,23 +110,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\TempHire\EntityManagerInterceptor.cs">
-      <Link>EntityManagerInterceptor.cs</Link>
+    <Compile Include="..\TempHire\EntityManagerDelegate.cs">
+      <Link>EntityManagerDelegate.cs</Link>
     </Compile>
     <Compile Include="..\TempHire\EntityManagerProviderFactory.cs">
       <Link>EntityManagerProviderFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\EntityManagerProviders\DevSecurityEntityManagerProvider.cs">
-      <Link>EntityManagerProviders\DevSecurityEntityManagerProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\EntityManagerProviders\DevTempHireEntityManagerProvider.cs">
-      <Link>EntityManagerProviders\DevTempHireEntityManagerProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\Repositories\IRepositoryManager.cs">
-      <Link>Repositories\IRepositoryManager.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\Repositories\RepositoryManagers.cs">
-      <Link>Repositories\RepositoryManagers.cs</Link>
     </Compile>
     <Compile Include="..\TempHire\SyncInterceptor.cs">
       <Link>SyncInterceptor.cs</Link>
@@ -203,9 +191,9 @@
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authentication\FakeAuthenticationService.cs" />
+    <Compile Include="DesignTimeSupport\DesignTimeEntityManagerProvider.cs" />
     <Compile Include="DesignTimeSupport\DesignTimeResourceRepositoryManager.cs" />
     <Compile Include="DesignTimeSupport\ViewModelLocator.cs" />
-    <Compile Include="EntityManagerProviders\DesignTimeEntityManagerProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -218,13 +206,9 @@
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Caliburn.Micro.Extensions\Caliburn.Micro.Extensions.SL.csproj">
+    <ProjectReference Include="..\..\..\Cocktail\Cocktail.SL.csproj">
       <Project>{7ECA6212-BDB6-4325-946E-97D9C227E468}</Project>
-      <Name>Caliburn.Micro.Extensions.SL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\IB.Application.Framework.Core\IB.Application.Framework.Core.SL.csproj">
-      <Project>{761B386E-02D2-45DE-B485-1545D50F148F}</Project>
-      <Name>IB.Application.Framework.Core.SL</Name>
+      <Name>Cocktail.SL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common.SL\Common.SL.csproj">
       <Project>{3D676816-91A4-4B53-877E-95FE5B348480}</Project>

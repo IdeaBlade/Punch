@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using Caliburn.Micro;
 using DomainModel;
-using IdeaBlade.EntityModel;
 
 namespace TempHire.ViewModels.Resource
 {
@@ -23,7 +22,7 @@ namespace TempHire.ViewModels.Resource
             private set
             {
                 _item = value;
-                EntityAspect.Wrap(_item).EntityPropertyChanged += ItemPropertyChanged;
+                _item.EntityFacts.EntityPropertyChanged += ItemPropertyChanged;
 
                 NotifyOfPropertyChange(() => Item);
             }
@@ -38,7 +37,7 @@ namespace TempHire.ViewModels.Resource
 
         public void Dispose()
         {
-            EntityAspect.Wrap(_item).EntityPropertyChanged -= ItemPropertyChanged;
+            _item.EntityFacts.EntityPropertyChanged -= ItemPropertyChanged;
             _item = null;
         }
 

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
-using Caliburn.Micro.Extensions;
+using Cocktail;
 using Common.Errors;
 using Common.Messages;
 using DomainModel;
-using Security;
 using TempHire.ViewModels;
 
 namespace TempHire
@@ -14,7 +13,7 @@ namespace TempHire
     {
         static AppBootstrapper()
         {
-            UsesFakeStore<TempHireEntities>();
+            Composition.UsesFakeStore<TempHireEntities>();
         }
 
         // Automatically instantiate and hold all discovered MessageProcessors

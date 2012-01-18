@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-using IdeaBlade.Application.Framework.Core.Composition;
+using Cocktail;
 
 namespace Common.Messages
 {
@@ -7,7 +7,7 @@ namespace Common.Messages
     {
         protected MessageProcessor()
         {
-            CompositionHelper.GetInstance<IEventAggregator>().Subscribe(this);
+            EventFns.Subscribe(this);
         }
 
         #region IHandle<T> Members

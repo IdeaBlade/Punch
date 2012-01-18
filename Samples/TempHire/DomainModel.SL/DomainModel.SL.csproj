@@ -71,9 +71,6 @@
     <Reference Include="IdeaBlade.EntityModel.SL, Version=6.1.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="IdeaBlade.Linq.SL, Version=6.1.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="IdeaBlade.Validation.SL, Version=6.1.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -81,7 +78,6 @@
     <Reference Include="PostSharp.SL, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="System.ComponentModel.Composition, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.ComponentModel.DataAnnotations, Version=2.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
@@ -94,6 +90,9 @@
     </Compile>
     <Compile Include="..\DomainModel\AddressType.cs">
       <Link>Shared Code\AddressType.cs</Link>
+    </Compile>
+    <Compile Include="..\DomainModel\EntityBase.cs">
+      <Link>Shared Code\EntityBase.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\IHasRoot.cs">
       <Link>Shared Code\IHasRoot.cs</Link>
@@ -128,28 +127,19 @@
     <Compile Include="..\DomainModel\WorkExperienceItem.cs">
       <Link>Shared Code\WorkExperienceItem.cs</Link>
     </Compile>
-    <Compile Include="TempHireEntityManagerProvider.cs" />
-    <Compile Include="Messages\EntityChangedMessage.cs" />
-    <Compile Include="Messages\SavedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\IResourceRepository.cs" />
-    <Compile Include="Repositories\ResourceRepository.cs" />
-    <Compile Include="TempHireSampleDataProvider.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\IB.Application.Framework.Core\IB.Application.Framework.Core.SL.csproj">
-      <Project>{761B386E-02D2-45DE-B485-1545D50F148F}</Project>
-      <Name>IB.Application.Framework.Core.SL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common.SL\Common.SL.csproj">
-      <Project>{3D676816-91A4-4B53-877E-95FE5B348480}</Project>
-      <Name>Common.SL</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\DomainModel\TempHireEntities.ibmmx">
       <Link>TempHireEntities.ibmmx</Link>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Cocktail.Utils\Cocktail.Utils.SL.csproj">
+      <Project>{761B386E-02D2-45DE-B485-1545D50F148F}</Project>
+      <Name>Cocktail.Utils.SL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>

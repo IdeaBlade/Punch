@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Text;
 using Caliburn.Micro;
-using Caliburn.Micro.Extensions;
+using Cocktail;
 using Common.BusyWatcher;
 using Common.Errors;
 using Common.Repositories;
-using IdeaBlade.Application.Framework.Core.Authentication;
 using IdeaBlade.EntityModel;
 using Security;
 
@@ -37,7 +36,7 @@ namespace TempHire.ViewModels.Login
             _lookupRepository = lookupRepository;
             _errorHandler = errorHandler;
 // ReSharper disable DoNotCallOverridableMethodsInConstructor
-            DisplayName = "Please enter username and password";
+            DisplayName = "";
 // ReSharper restore DoNotCallOverridableMethodsInConstructor
 
 #if DEBUG
@@ -115,15 +114,13 @@ namespace TempHire.ViewModels.Login
                 Username = null;
                 Password = null;
 
-                yield return CoroutineFns.AsResult(
-                    () => _authenticationService.LoginAsync(
-                        credential, onFail: e => FailureMessage = e.Message));
+                yield return _authenticationService.LoginAsync(
+                    credential, onFail: e => FailureMessage = e.Message);
 
                 if (_authenticationService.IsLoggedIn)
                 {
                     if (_lookupRepository != null)
-                        yield return CoroutineFns.AsResult(
-                            () => _lookupRepository.InitializeAsync(onFail: _errorHandler.HandleError));
+                        yield return _lookupRepository.InitializeAsync(onFail: _errorHandler.HandleError);
 
                     TryClose();
                 }

@@ -1,8 +1,6 @@
-﻿using System.Windows;
-
-namespace Harness
+﻿namespace Harness
 {
-    public partial class App : Application
+    public partial class App
     {
         public App()
         {

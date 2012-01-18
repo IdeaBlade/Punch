@@ -1,10 +1,11 @@
 ﻿using System;
-using IdeaBlade.EntityModel;
+using Cocktail;
+using Action = System.Action;
 
 namespace Common.Repositories
 {
     public interface ILookupRepository
     {
-        INotifyCompleted InitializeAsync(Action onSuccess = null, Action<Exception> onFail = null);
+        OperationResult InitializeAsync(Action onSuccess = null, Action<Exception> onFail = null);
     }
 }

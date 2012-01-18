@@ -45,8 +45,9 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.4.2.0.0\lib\net40\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\EntityFramework.4.2.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Aop" />
     <Reference Include="IdeaBlade.Core, Version=6.1.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
@@ -71,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Address.cs" />
     <Compile Include="AddressType.cs" />
+    <Compile Include="EntityBase.cs" />
     <Compile Include="IHasRoot.cs" />
     <Compile Include="PhoneNumber.cs" />
     <Compile Include="PhoneNumberType.cs" />
@@ -88,9 +90,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DevForce.cf" />
-    <None Include="packages.config" />
     <EmbeddedResource Include="TempHireEntities.ibmmx">
-      <HashCode>2016810264</HashCode>
+      <HashCode>1437957651</HashCode>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
@@ -98,12 +99,11 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\IB.Application.Framework.Core\IB.Application.Framework.Core.Desktop.csproj">
+    <ProjectReference Include="..\..\..\Cocktail.Utils\Cocktail.Utils.Desktop.csproj">
       <Project>{261E777A-1FE0-455E-87FD-DDB95B2757AA}</Project>
-      <Name>IB.Application.Framework.Core.Desktop</Name>
+      <Name>Cocktail.Utils.Desktop</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

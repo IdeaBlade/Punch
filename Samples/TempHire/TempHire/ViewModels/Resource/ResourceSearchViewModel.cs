@@ -3,12 +3,11 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
+using Cocktail;
 using Common.BusyWatcher;
 using Common.Errors;
+using Common.Repositories;
 using DomainModel.Projections;
-using DomainModel.Repositories;
-using IdeaBlade.Application.Framework.Core.ViewModel;
-using IdeaBlade.EntityModel;
 
 namespace TempHire.ViewModels.Resource
 {
@@ -99,16 +98,15 @@ namespace TempHire.ViewModels.Resource
         {
             Busy.AddWatch();
 
-            INotifyCompleted op =
-                _repository.FindResourcesAsync(SearchText, null,
-                                               result =>
-                                                   {
-                                                       Items = new BindableCollection<ResourceListItem>(result);
-                                                       CurrentResource = Items.FirstOrDefault(r => r.Id == selection) ??
-                                                                         Items.FirstOrDefault();
-                                                   },
-                                               _errorHandler.HandleError);
-            op.WhenCompleted(e => Busy.RemoveWatch());
+            _repository.FindResourcesAsync(SearchText, null,
+                                           result =>
+                                               {
+                                                   Items = new BindableCollection<ResourceListItem>(result);
+                                                   CurrentResource = Items.FirstOrDefault(r => r.Id == selection) ??
+                                                                     Items.FirstOrDefault();
+                                               },
+                                           _errorHandler.HandleError)
+                .OnComplete(args => Busy.RemoveWatch());
         }
 
         public void Clear()

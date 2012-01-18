@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 using System.Text;
-using IdeaBlade.Application.Framework.Core.Persistence;
+using Cocktail;
 using IdeaBlade.EntityModel;
 
 namespace Security
@@ -8,7 +8,8 @@ namespace Security
     [DataSourceKeyName("SecurityEntities")]
     internal class SecurityDbContext : DbContext
     {
-        public SecurityDbContext(string connection = null) : base(connection)
+        public SecurityDbContext(string connection = null)
+            : base(connection)
         {
             Database.SetInitializer(new SecurityDbInitializer());
         }
@@ -26,7 +27,7 @@ namespace Security
         protected override void Seed(SecurityDbContext context)
         {
             var password = Encoding.UTF8.GetString(CryptoHelper.GenerateKey("password"));
-            var user = new User() {Id = CombGuid.NewGuid(), Username = "Admin", Password = password};
+            var user = new User { Id = CombGuid.NewGuid(), Username = "Admin", Password = password };
 
             context.Users.Add(user);
         }

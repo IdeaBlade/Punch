@@ -1,17 +1,14 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using IdeaBlade.Aop;
-using IdeaBlade.Application.Framework.Core.Persistence;
-using IdeaBlade.Application.Framework.Core.Verification;
+using Cocktail;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
 
 namespace DomainModel
 {
-    [ProvideEntityAspect]
     [DataContract(IsReference = true)]
-    public class Address : IHasRoot, ICustomVerifier
+    public class Address : EntityBase, IHasRoot
     {
         internal Address()
         {
@@ -115,10 +112,10 @@ namespace DomainModel
             return new Address { Id = CombGuid.NewGuid(), AddressTypeId = type.Id };
         }
 
-        public void Verify(VerifierResultCollection verifierResultCollection)
+        public override void Validate(VerifierResultCollection validationErrors)
         {
             if (EntityAspect.Wrap(State).IsNullOrPendingEntity)
-                verifierResultCollection.Add(new VerifierResult(VerifierResultCode.Error, "State is required", "State"));
+                validationErrors.Add(new VerifierResult(VerifierResultCode.Error, "State is required", "State"));
         }
     }
 }

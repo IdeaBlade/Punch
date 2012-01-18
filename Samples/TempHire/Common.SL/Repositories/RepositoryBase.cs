@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using IdeaBlade.Application.Framework.Core.Persistence;
+using Cocktail;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
+using Action = System.Action;
 
 namespace Common.Repositories
 {
@@ -37,9 +38,9 @@ namespace Common.Repositories
             return Manager.HasChanges();
         }
 
-        public INotifyCompleted SaveAsync(Action onSuccess = null, Action<Exception> onFail = null)
+        public OperationResult SaveAsync(Action onSuccess = null, Action<Exception> onFail = null)
         {
-            return Manager.SaveChangesAsync(op => op.OnComplete(onSuccess, onFail));
+            return Manager.SaveChangesAsync(op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
         }
 
         public void RejectChanges()
@@ -58,11 +59,11 @@ namespace Common.Repositories
             Manager.CacheStateManager.RestoreCacheState(baseData, restoreStrategy);
         }
 
-        protected INotifyCompleted ExecuteQuery<TQuery>(IEntityQuery<TQuery> query,
+        protected OperationResult ExecuteQuery<TQuery>(IEntityQuery<TQuery> query,
                                                         Action<IEnumerable<TQuery>> onSuccess,
                                                         Action<Exception> onFail)
         {
-            return query.ExecuteAsync(op => op.OnComplete(onSuccess, onFail));
+            return query.ExecuteAsync(op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
         }
     }
 }

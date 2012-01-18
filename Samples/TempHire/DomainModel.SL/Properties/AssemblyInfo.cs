@@ -23,6 +23,7 @@ using System.Runtime.InteropServices;
                                                      + "0fb13f01fb5d856e99c1e61777cf4772d29bad7e66ffb93fc5cbd63b395046c06ff57db6ecbeee"
                                                      + "4bdd6effc405878d65cfc4911708ed650da935d733fc5dc707f74910e025ac080543e01a6cc863"
                                                      + "b9f85ffc")]
+[assembly: InternalsVisibleTo("Common.SL")]
 
 
 // Setting ComVisible to false makes the types in this assembly not visible 

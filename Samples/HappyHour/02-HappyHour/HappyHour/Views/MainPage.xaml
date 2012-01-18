@@ -1,0 +1,23 @@
+<UserControl x:Class="HappyHour.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="550">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/> <!-- Form -->
+            <ColumnDefinition Width="Auto"/> <!-- Logo -->
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Margin="8,0,0,8">
+            <TextBlock Text="It's HAPPY HOUR!" Style="{StaticResource TitleTextBlock}" />
+            <TextBlock Text="What are you having?" Style="{StaticResource QuestionTextBlock}" />
+            <TextBox x:Name="DrinkName" Margin="0,8,0,8" />
+            <Button  x:Name="AskForIt" Content="Ask for it" Margin="0,0,0,4" />
+        </StackPanel>
+        <Image Source="/HappyHour;component/assets/happyhour_logo.png" Grid.Column="1" />
+    </Grid>
+</UserControl>

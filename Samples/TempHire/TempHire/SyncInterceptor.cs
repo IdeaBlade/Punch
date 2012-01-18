@@ -1,4 +1,4 @@
-﻿using IdeaBlade.Application.Framework.Core.Persistence;
+﻿using Cocktail;
 using IdeaBlade.EntityModel;
 
 namespace TempHire

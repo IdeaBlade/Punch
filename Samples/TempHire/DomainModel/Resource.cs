@@ -3,18 +3,15 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
-using IdeaBlade.Aop;
-using IdeaBlade.Application.Framework.Core.Persistence;
-using IdeaBlade.Application.Framework.Core.Verification;
+using Cocktail;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
 
 namespace DomainModel
 {
-    [ProvideEntityAspect]
     [DataContract(IsReference = true)]
-    public class Resource : ICustomVerifier
+    public class Resource : EntityBase
     {
         internal Resource()
         {
@@ -107,7 +104,7 @@ namespace DomainModel
         [NotMapped]
         public PhoneNumber PrimaryPhoneNumber
         {
-            get { return PhoneNumbers.FirstOrDefault(a => a.Primary); } 
+            get { return PhoneNumbers.FirstOrDefault(a => a.Primary); }
             set
             {
                 if (value.Resource != this)
@@ -118,24 +115,20 @@ namespace DomainModel
             }
         }
 
-        #region ICustomVerifier Members
-
-        public void Verify(VerifierResultCollection verifierResultCollection)
+        public override void Validate(VerifierResultCollection validationErrors)
         {
             if (Addresses.Count == 0)
-                verifierResultCollection.Add(new VerifierResult(false, "Resource must have at least one address",
+                validationErrors.Add(new VerifierResult(false, "Resource must have at least one address",
                                                                 "Addresses"));
 
             if (PhoneNumbers.Count == 0)
-                verifierResultCollection.Add(new VerifierResult(false, "Resource must have at least one phone number",
+                validationErrors.Add(new VerifierResult(false, "Resource must have at least one phone number",
                                                                 "PhoneNumbers"));
         }
 
-        #endregion
-
         public static Resource Create()
         {
-            return new Resource {Id = CombGuid.NewGuid()};
+            return new Resource { Id = CombGuid.NewGuid() };
         }
 
         public Address AddAddress(AddressType type)

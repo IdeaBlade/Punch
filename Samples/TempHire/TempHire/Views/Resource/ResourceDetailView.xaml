@@ -15,7 +15,6 @@
 
     <UserControl.Resources>
         <conv:SourceToTabItemsConverter x:Key="SourceToTabItemsConverter" />
-        <cal:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <ControlTemplate x:Key="TabItemContentTemplate">
             <sdk:Frame Margin="5" cal:View.Model="{Binding .}" />
         </ControlTemplate>
@@ -26,25 +25,25 @@
             <TextBlock Text="Please wait" />
         </toolkit:BusyIndicator.BusyContent>
 
-        <ScrollViewer BorderThickness="0"
-                      VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Disabled"
-                      Visibility="{Binding Visible,
-                                           Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Grid x:Name="LayoutRoot" Background="White">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <sdk:Frame x:Name="ResourceSummary" Margin="10,2,10,10" />
-                <sdk:TabControl Grid.Row="1"
-                                Margin="20,0,20,5"
-                                ItemsSource="{Binding Path=Items,
-                                                      Converter={StaticResource SourceToTabItemsConverter},
-                                                      ConverterParameter={StaticResource TabItemContentTemplate}}"
-                                SelectedIndex="{Binding Path=ActiveSectionIndex,
-                                                        Mode=TwoWay}" />
-            </Grid>
-        </ScrollViewer>
+        <Border x:Name="Visible">
+            <ScrollViewer BorderThickness="0"
+                          HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Auto">
+                <Grid x:Name="LayoutRoot" Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <sdk:Frame x:Name="ResourceSummary" Margin="10,2,10,10" />
+                    <sdk:TabControl Grid.Row="1"
+                                    Margin="20,0,20,5"
+                                    ItemsSource="{Binding Path=Items,
+                                                          Converter={StaticResource SourceToTabItemsConverter},
+                                                          ConverterParameter={StaticResource TabItemContentTemplate}}"
+                                    SelectedIndex="{Binding Path=ActiveSectionIndex,
+                                                            Mode=TwoWay}" />
+                </Grid>
+            </ScrollViewer>
+        </Border>
     </toolkit:BusyIndicator>
 </UserControl>

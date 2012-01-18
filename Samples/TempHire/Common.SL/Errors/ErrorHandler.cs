@@ -4,6 +4,7 @@ using Cocktail;
 
 namespace Common.Errors
 {
+    [Export(typeof(IErrorHandler))]
     public class ErrorHandler : IErrorHandler
     {
         private readonly IDialogManager _dialogManager;

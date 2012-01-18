@@ -1,0 +1,65 @@
+<UserControl x:Class="HappyHour.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="550">
+    <UserControl.Resources>
+        <Storyboard x:Key="AnimateTarget" Storyboard.TargetName="Transform">
+            <DoubleAnimationUsingKeyFrames 
+                                   Storyboard.TargetProperty="ScaleX">
+                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0.0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="1.5">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ElasticEase EasingMode="EaseOut"   
+                           Oscillations="3" Springiness="2" /> 
+
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames 
+                                   Storyboard.TargetProperty="ScaleY">
+                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0.0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="1.5">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ElasticEase EasingMode="EaseOut"
+                       Oscillations="3" Springiness="2" /> 
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+
+
+
+
+        <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/> <!-- Form -->
+            <ColumnDefinition Width="Auto"/> <!-- Logo -->
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Margin="8,0,0,8">
+            <TextBlock Text="It's HAPPY HOUR!" Style="{StaticResource TitleTextBlock}" />
+            <TextBlock Text="What are you having?" Style="{StaticResource QuestionTextBlock}" />
+            <TextBox x:Name="Name" Margin="0,8,0,8" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            
+            <!-- Button version when binding to Command property  -->
+            <Button x:Name="AskForIt" Content="Ask for it" Command="{Binding AskForItCommand}" />
+
+            <Button  Content="Start"
+              HorizontalAlignment="Center" VerticalAlignment="Bottom"
+              Width="100" Height="25" Margin="5 20 5 0"
+              Click="StartAnimation_Click"/>
+
+            <!-- Button version with ClickHandler and IsEnabled binding -->
+            <!--<Button x:Name="AskForIt" Content="Ask for it" Click="AskForIt_Click" IsEnabled="{Binding CanAskForIt}" Margin="0,0,0,4" />-->
+        </StackPanel>
+        <Image Source="assets/happyhour_logo.png" Grid.Column="1" >
+            <Image.RenderTransform>
+                <ScaleTransform x:Name="Transform" />
+            </Image.RenderTransform>
+        </Image>
+        </Grid>
+</UserControl>

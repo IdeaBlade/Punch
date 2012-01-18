@@ -57,6 +57,8 @@
       <ExcludedItem>Cocktail.SL~Cocktail.ShowDialogResult</ExcludedItem>
       <ExcludedItem>Cocktail.Desktop~Cocktail.ShowDialogResult</ExcludedItem>
       <ExcludedItem>Cocktail.SL~Cocktail.MessageBoxView</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.DialogHostView</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.MessageBoxView</ExcludedItem>
     </ExcludedItems>
   </Filters>
   <ComProjectPlugin />

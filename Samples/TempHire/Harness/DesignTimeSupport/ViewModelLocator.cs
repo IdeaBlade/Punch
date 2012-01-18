@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Caliburn.Micro;
 using Cocktail;
 using Common.BusyWatcher;
-using Common.Dialog;
 using Common.Errors;
 using Common.Repositories;
 using Common.SampleData;
@@ -228,16 +226,16 @@ namespace TempHire.DesignTimeSupport
 
             #region IDialogManager Members
 
-            public IResult ShowDialog(object content, bool hideCancel = false, Action<DialogResult> callback = null,
-                                      string title = null)
+            public DialogOperationResult ShowDialog(object content, DialogButtons dialogButtons = DialogButtons.OkCancel,
+                                                    string title = null)
             {
-                return AlwaysCompletedOperationResult.Instance;
+                throw new NotImplementedException();
             }
 
-            public IResult ShowMessage(string message, bool hideCancel = true, Action<DialogResult> callback = null,
-                                       string title = null)
+            public DialogOperationResult ShowMessage(string message, DialogButtons dialogButtons = DialogButtons.Ok,
+                                                     string title = null)
             {
-                return AlwaysCompletedOperationResult.Instance;
+                throw new NotImplementedException();
             }
 
             #endregion

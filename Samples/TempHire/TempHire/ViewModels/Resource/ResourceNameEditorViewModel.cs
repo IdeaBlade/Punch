@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using Common.Dialog;
+using Cocktail;
 using Common.Errors;
 using Common.Repositories;
 

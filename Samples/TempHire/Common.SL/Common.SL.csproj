@@ -96,13 +96,6 @@
     <Compile Include="BusyWatcher\IBusyWatcher.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\SourceToTabItemsConverter.cs" />
-    <Compile Include="Dialog\DialogHostViewModel.cs" />
-    <Compile Include="Dialog\DialogManager.cs" />
-    <Compile Include="Dialog\IDialogHostDelegate.cs" />
-    <Compile Include="Dialog\IDialogManager.cs" />
-    <Compile Include="Dialog\MessageViewModel.cs" />
-    <Compile Include="Dialog\ShowDialogResult.cs" />
-    <Compile Include="Dialog\ShowMessageResult.cs" />
     <Compile Include="EntityManagerProviders\DevSecurityEntityManagerProvider.cs" />
     <Compile Include="EntityManagerProviders\DevTempHireEntityManagerProvider.cs" />
     <Compile Include="EntityManagerProviders\SecurityEntityManagerProvider.cs" />
@@ -131,18 +124,6 @@
     <Compile Include="Validation\ValidationErrorMessageProcessor.cs" />
     <Compile Include="Validation\ValidationErrorsViewModel.cs" />
     <Compile Include="Workspace\IWorkspace.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="Dialog\DialogHostView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="Dialog\MessageView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Validation\ValidationErrorsView.xaml">

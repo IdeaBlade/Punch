@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using Common.Dialog;
+using Cocktail;
 using Common.Errors;
 using Common.Repositories;
 using DomainModel;

@@ -53,6 +53,10 @@
       <ExcludedItem>Cocktail.Desktop~Cocktail.CocktailTraceLogger</ExcludedItem>
       <ExcludedItem>Cocktail.SL~Cocktail.TraceLoggerProvider</ExcludedItem>
       <ExcludedItem>Cocktail.Desktop~Cocktail.TraceLoggerProvider</ExcludedItem>
+      <ExcludedItem>Cocktail.SL~Cocktail.DialogHostView</ExcludedItem>
+      <ExcludedItem>Cocktail.SL~Cocktail.ShowDialogResult</ExcludedItem>
+      <ExcludedItem>Cocktail.Desktop~Cocktail.ShowDialogResult</ExcludedItem>
+      <ExcludedItem>Cocktail.SL~Cocktail.MessageBoxView</ExcludedItem>
     </ExcludedItems>
   </Filters>
   <ComProjectPlugin />

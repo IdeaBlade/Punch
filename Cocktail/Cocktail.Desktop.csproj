@@ -73,6 +73,9 @@
     <Compile Include="DefaultEntityManagerSyncInterceptor.cs" />
     <Compile Include="DesignTimeEntityManagerProviderBase.cs" />
     <Compile Include="DesignTimeViewModelLocatorBase.cs" />
+    <Compile Include="DialogHostBase.cs" />
+    <Compile Include="DialogManager.cs" />
+    <Compile Include="DialogOperationResult.cs" />
     <Compile Include="EntityManagerDelegate.cs" />
     <Compile Include="EntityManagerProviderBase.cs" />
     <Compile Include="EntityManagerSyncInterceptor.cs" />
@@ -84,12 +87,15 @@
     <Compile Include="FrameworkBootstrapper.cs" />
     <Compile Include="HarnessViewModel.cs" />
     <Compile Include="IAuthenticationService.cs" />
+    <Compile Include="IDialogHostDelegate.cs" />
+    <Compile Include="IDialogManager.cs" />
     <Compile Include="IDiscoverableViewModel.cs" />
     <Compile Include="IEntityManagerProvider.cs" />
     <Compile Include="IEntityManagerSyncInterceptor.cs" />
     <Compile Include="IHarnessAware.cs" />
     <Compile Include="ISampleDataProvider.cs" />
     <Compile Include="IValidationErrorNotification.cs" />
+    <Compile Include="MessageBoxBase.cs" />
     <Compile Include="NavigateResult.cs" />
     <Compile Include="ObjectManager.cs" />
     <Compile Include="OperationFns.cs" />
@@ -97,6 +103,7 @@
     <Compile Include="PartLocator.cs" />
     <Compile Include="PathToImageSourceConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShowDialogResult.cs" />
     <Compile Include="StringResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

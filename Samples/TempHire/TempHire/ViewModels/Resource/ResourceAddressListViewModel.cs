@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
-using Common.Dialog;
 using Common.Errors;
 using Common.Repositories;
 using DomainModel;

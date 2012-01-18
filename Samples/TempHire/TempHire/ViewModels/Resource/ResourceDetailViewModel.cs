@@ -6,11 +6,12 @@ using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
 using Common.BusyWatcher;
-using Common.Dialog;
 using Common.Errors;
 using Common.Repositories;
-using Common.SampleData;
 using IdeaBlade.Core;
+#if HARNESS
+using Common.SampleData;
+#endif
 
 namespace TempHire.ViewModels.Resource
 {
@@ -159,14 +160,16 @@ namespace TempHire.ViewModels.Resource
         {
             if (Repository.HasChanges())
             {
-                _dialogManager.ShowMessage("There are unsaved changes. Would you like to continue?", false,
-                                           action =>
-                                               {
-                                                   if (action == DialogResult.Ok)
-                                                       Repository.RejectChanges();
+                DialogOperationResult dialogResult =
+                    _dialogManager.ShowMessage("There are unsaved changes. Would you like to continue?",
+                                               DialogButtons.YesNo);
+                dialogResult.OnComplete(delegate
+                                            {
+                                                if (dialogResult.DialogResult == DialogResult.Yes)
+                                                    Repository.RejectChanges();
 
-                                                   callback(action == DialogResult.Ok);
-                                               });
+                                                callback(dialogResult.DialogResult == DialogResult.Yes);
+                                            });
             }
             else
                 base.CanClose(callback);

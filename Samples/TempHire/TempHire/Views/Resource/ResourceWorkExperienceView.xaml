@@ -17,14 +17,14 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition />
             <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <sdk:Label Content="Work Experience:"
                    FontSize="18"
                    FontWeight="Bold" />
         <StackPanel x:Name="IsEmpty"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Height="50"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Stretch"
@@ -34,7 +34,7 @@
                        Text="No work experience found. Please add work experience by clicking the 'Add' button."
                        TextAlignment="Center" />
         </StackPanel>
-        <ItemsControl Grid.Row="2"
+        <ItemsControl Grid.Row="3"
                       Margin="0,5,0,0"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
@@ -115,7 +115,7 @@
                                  Text="{Binding Description,
                                                 Mode=TwoWay}"
                                  TextWrapping="Wrap" />
-                        <StackPanel Grid.RowSpan="6"
+                        <StackPanel Grid.Row="1"
                                     Grid.Column="4"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
@@ -129,7 +129,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <StackPanel Grid.Row="3"
+        <StackPanel Grid.Row="1"
                     Margin="0"
                     VerticalAlignment="Stretch"
                     Orientation="Horizontal">

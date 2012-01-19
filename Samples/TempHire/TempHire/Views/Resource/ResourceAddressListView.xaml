@@ -20,10 +20,11 @@
           HorizontalAlignment="Left"
           Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition />
             <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <ItemsControl Width="500"
+        <ItemsControl Grid.Row="1"
+                      Width="500"
                       HorizontalAlignment="Left"
                       VerticalAlignment="Stretch"
                       ItemsSource="{Binding Addresses}">
@@ -119,7 +120,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <StackPanel Grid.Row="1"
+        <StackPanel Grid.Row="0"
                     Margin="0"
                     VerticalAlignment="Stretch"
                     Orientation="Horizontal">

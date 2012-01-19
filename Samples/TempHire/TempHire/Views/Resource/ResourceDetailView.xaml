@@ -26,9 +26,9 @@
         </toolkit:BusyIndicator.BusyContent>
 
         <Border x:Name="Visible">
-            <ScrollViewer BorderThickness="0"
+          <!--  <ScrollViewer BorderThickness="0"
                           HorizontalScrollBarVisibility="Disabled"
-                          VerticalScrollBarVisibility="Auto">
+                          VerticalScrollBarVisibility="Auto"> -->
                 <Grid x:Name="LayoutRoot" Background="White">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -43,7 +43,7 @@
                                     SelectedIndex="{Binding Path=ActiveSectionIndex,
                                                             Mode=TwoWay}" />
                 </Grid>
-            </ScrollViewer>
+         <!--   </ScrollViewer> -->
         </Border>
     </toolkit:BusyIndicator>
 </UserControl>

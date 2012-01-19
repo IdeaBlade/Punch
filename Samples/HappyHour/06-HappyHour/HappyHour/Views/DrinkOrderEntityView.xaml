@@ -5,6 +5,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400">
+    
+    <See Lessons #4 and #6>
 
     <Grid Background="White">
         <Grid.RowDefinitions>

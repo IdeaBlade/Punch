@@ -2,10 +2,7 @@
 {
     public class DrinkOrder
     {
-        protected static int NextId = 1;
-
-        protected static Beverage DefaultBeverage =
-            new Beverage {BeverageName = "<unknown drink>"};
+        public DrinkOrder() : this(DefaultBeverage) { }
 
         public DrinkOrder(Beverage beverage)
         {
@@ -14,20 +11,24 @@
             Beverage = beverage;
         }
 
-        internal DrinkOrder() : this(DefaultBeverage) { }
+        protected static Beverage DefaultBeverage =
+            new Beverage { BeverageName = "<unknown drink>" };
 
         public int Id { get; protected set; }
         public System.DateTime Created { get; protected set; }
-        public Beverage Beverage { get; protected set; }
 
-        // Sugar properties: delegate to Beverage
-        public string DrinkName { get { return Beverage.BeverageName; } }
-        public string ImageFilename { get { return Beverage.ImageFilename; } }
-        public bool HasAlcohol { get { return Beverage.HasAlcohol; } }
+        private Beverage _beverage;
+        public Beverage Beverage
+        {
+            get { return _beverage ?? Beverage.NullDefaultBeverage; }
+            protected set { _beverage = value; }
+        }
 
         public override string ToString()
         {
-            return "DrinkOrder: " + Id + " " + DrinkName;
+            return "DrinkOrder: " + Id + " " + Beverage.BeverageName;
         }
+
+        protected static int NextId = 1;
     }
 }

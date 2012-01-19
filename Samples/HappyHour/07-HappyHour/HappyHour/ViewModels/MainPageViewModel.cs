@@ -101,7 +101,7 @@ namespace HappyHour.ViewModels
         {
             var state = InebriationStates.Sober;
 
-            var alkyDrinkCount = DrinkOrders.Count(d => d.HasAlcohol);
+            var alkyDrinkCount = DrinkOrders.Count(d => d.Beverage.HasAlcohol);
             if (alkyDrinkCount > 5) state = InebriationStates.Drunk;
             else if (alkyDrinkCount > 3) state = InebriationStates.Woozy;
             else if (alkyDrinkCount > 1) state = InebriationStates.Tipsy;

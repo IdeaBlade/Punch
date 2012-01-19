@@ -1,4 +1,6 @@
-﻿namespace Model
+﻿using System;
+
+namespace Model
 {
     public class Beverage
     {
@@ -8,12 +10,12 @@
         {
             Id = NextId++;
             BeverageName = "<new Beverage>";
-            Created = System.DateTime.UtcNow;
+            Created = DateTime.UtcNow;
             HasAlcohol = true;
         }
         public int Id { get; protected set; }
         public string BeverageName { get; set; }
-        public System.DateTime Created { get; protected set; }
+        public DateTime Created { get; protected set; }
         public string ImageFilename { get; set; }
         public bool HasAlcohol { get; set; }
 
@@ -21,5 +23,13 @@
         {
             return "Beverage: " + Id + " " + BeverageName;
         }
+
+        /// <summary>The designated "nullo" entity.</summary>
+        public static Beverage NullDefaultBeverage =
+            new Beverage
+                {
+                    BeverageName = "<no beverage specified>",
+                    HasAlcohol = false,
+                };
     }
 }

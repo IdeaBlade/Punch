@@ -91,8 +91,6 @@
     <Compile Include="AlwaysCompletedOperationResult.cs" />
     <Compile Include="AuthenticationService.cs" />
     <Compile Include="BinaryToImageSourceConverter.cs" />
-    <Compile Include="DesignTimeEntityManagerProviderBase.cs" />
-    <Compile Include="DesignTimeViewModelLocatorBase.cs" />
     <Compile Include="DialogHostBase.cs" />
     <Compile Include="DialogManager.cs" />
     <Compile Include="DialogOperationResult.cs" />

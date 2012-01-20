@@ -48,12 +48,14 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
+								 BorderBrush="#FF1D5380"
                                  Text="{Binding Item.AreaCode,
                                                 Mode=TwoWay}" />
                         <TextBox Grid.Column="2"
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
+								 BorderBrush="#FF1D5380"
                                  Text="{Binding Item.Number,
                                                 Mode=TwoWay}" />
                         <StackPanel Grid.Column="3"
@@ -61,17 +63,23 @@
                                     VerticalAlignment="Stretch"
                                     Orientation="Horizontal">
                             <Button Width="80"
+									Height="25"
                                     Margin="10,2,2,2"
                                     HorizontalAlignment="Left"
                                     cal:Message.Attach="SetPrimary($dataContext)"
                                     Content="Set Primary"
+									Style="{StaticResource Button_Style}"
+									BorderBrush="{x:Null}" Foreground="White" FontSize="10.667" FontFamily="Verdana" Background="{x:Null}" BorderThickness="0" Cursor="Hand"
                                     IsEnabled="{Binding Path=Item.Primary,
                                                         Converter={StaticResource InverseBooleanConverter}}" />
                             <Button Width="60"
+									Height="25"
                                     Margin="2"
                                     HorizontalAlignment="Left"
                                     cal:Message.Attach="Delete($dataContext)"
                                     Content="Delete"
+									Style="{StaticResource Button_Style}"
+									BorderBrush="{x:Null}" Foreground="White" FontSize="10.667" FontFamily="Verdana" Background="{x:Null}" BorderThickness="0" Cursor="Hand"
                                     IsEnabled="{Binding CanDelete}" />
                         </StackPanel>
                     </Grid>
@@ -87,6 +95,8 @@
                     Height="25"
                     Margin="0,0,5,0"
                     VerticalAlignment="Center"
+					Style="{StaticResource Button_Style}"
+					BorderBrush="{x:Null}" Foreground="White" FontSize="10.667" FontFamily="Verdana" Background="{x:Null}" BorderThickness="0" Cursor="Hand"
                     Content="Add" />
         </StackPanel>
     </Grid>

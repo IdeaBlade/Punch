@@ -39,7 +39,11 @@
                                                           Converter={StaticResource SourceToTabItemsConverter},
                                                           ConverterParameter={StaticResource TabItemContentTemplate}}"
                                     SelectedIndex="{Binding Path=ActiveSectionIndex,
-                                                            Mode=TwoWay}" />
+                                                            Mode=TwoWay}" BorderBrush="#FF1D5380" >
+                    	<sdk:TabControl.Effect>
+                    		<DropShadowEffect Color="#FF333333" BlurRadius="3" Opacity="0.2"/>
+                    	</sdk:TabControl.Effect>
+                    </sdk:TabControl>
                 </Grid>
          <!--   </ScrollViewer> -->
         </Border>

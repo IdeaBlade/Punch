@@ -1,4 +1,4 @@
-<UserControl x:Class="TempHire.Views.Resource.ResourceAddressListView"
+﻿<UserControl x:Class="TempHire.Views.Resource.ResourceAddressListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:cal="http://www.caliburnproject.org"
@@ -54,6 +54,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
+								 BorderBrush="#FF1D5380"
                                  Text="{Binding Item.Address1,
                                                 Mode=TwoWay}" />
                         <sdk:Label Grid.Row="2" Content="Address 2:" />
@@ -62,6 +63,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
+								 BorderBrush="#FF1D5380"
                                  Text="{Binding Item.Address2,
                                                 Mode=TwoWay}" />
                         <sdk:Label Grid.Row="3" Content="City:" />
@@ -70,6 +72,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
+								 BorderBrush="#FF1D5380"
                                  Text="{Binding Item.City,
                                                 Mode=TwoWay}" />
                         <sdk:Label Grid.Row="4" Content="State:" />
@@ -79,6 +82,7 @@
                                   Height="25"
                                   Margin="2"
                                   HorizontalAlignment="Left"
+								  BorderBrush="#FF1D5380"
                                   DisplayMemberPath="Name"
                                   ItemsSource="{Binding ElementName=LayoutRoot,
                                                         Path=DataContext.States}"
@@ -93,6 +97,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Left"
+								 BorderBrush="#FF1D5380"
                                  Text="{Binding Item.Zipcode,
                                                 Mode=TwoWay}" />
                         <StackPanel Grid.RowSpan="6"
@@ -101,18 +106,24 @@
                                     VerticalAlignment="Center"
                                     Orientation="Vertical">
                             <Button Width="80"
+									Height="25"
                                     Margin="10"
                                     HorizontalAlignment="Center"
                                     cal:Message.Attach="SetPrimary($dataContext)"
                                     Content="Set Primary"
+									Style="{StaticResource Button_Style}"
                                     IsEnabled="{Binding Path=Item.Primary,
-                                                        Converter={StaticResource InverseBooleanConverter}}" />
+                                               Converter={StaticResource InverseBooleanConverter}}" 
+  								    BorderBrush="{x:Null}" Foreground="White" FontSize="10.667" FontFamily="Verdana" Background="{x:Null}" BorderThickness="0" Cursor="Hand"/>
                             <Button Width="80"
+									Height="25"
                                     Margin="10"
                                     HorizontalAlignment="Center"
                                     cal:Message.Attach="Delete($dataContext)"
                                     Content="Delete"
-                                    IsEnabled="{Binding CanDelete}" />
+									Style="{StaticResource Button_Style}"
+                                    IsEnabled="{Binding CanDelete}" 
+									BorderBrush="{x:Null}" Foreground="White" FontSize="10.667" FontFamily="Verdana" Background="{x:Null}" BorderThickness="0" Cursor="Hand"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
@@ -127,7 +138,9 @@
                     Height="25"
                     Margin="0,0,5,0"
                     VerticalAlignment="Center"
-                    Content="Add" />
+                    Content="Add" 
+					Style="{StaticResource Button_Style}"
+					BorderBrush="{x:Null}" Foreground="White" FontSize="10.667" FontFamily="Verdana" Background="{x:Null}" BorderThickness="0" Cursor="Hand"/>
         </StackPanel>
     </Grid>
 </UserControl>

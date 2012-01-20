@@ -11,8 +11,11 @@
                       d:DesignWidth="465"
                       HasCloseButton="False"
                       mc:Ignorable="d">
+	<sdk:ChildWindow.Effect>
+		<DropShadowEffect BlurRadius="3" Color="#FF333333" Opacity="0.2"/>
+	</sdk:ChildWindow.Effect>
 
-    <toolkit:BusyIndicator IsBusy="{Binding Busy.IsBusy}">
+    <toolkit:BusyIndicator IsBusy="{Binding Busy.IsBusy}" BorderBrush="#FF1D5380">
         <toolkit:BusyIndicator.BusyContent>
             <TextBlock Text="Please wait" />
         </toolkit:BusyIndicator.BusyContent>
@@ -36,7 +39,9 @@
                     Height="23"
                     Margin="0,12,0,0"
                     HorizontalAlignment="Right"
-                    Content="Login" />
+                    Content="Login" 
+					Style="{StaticResource Button_Style}"
+					BorderBrush="{x:Null}" Foreground="White" FontSize="10.667" FontFamily="Verdana" Background="{x:Null}" BorderThickness="0" Cursor="Hand"/>
             <Border x:Name="FailureMessageVisible">
                 <TextBlock x:Name="FailureMessage"
                            Grid.ColumnSpan="2"
@@ -55,7 +60,7 @@
                      Height="25"
                      Margin="10"
                      HorizontalAlignment="Left"
-                     VerticalAlignment="Center" />
+                     VerticalAlignment="Center" BorderBrush="#FF1D5380" />
             <sdk:Label Grid.Row="2"
                        Margin="10"
                        Content="Password:" />
@@ -66,7 +71,7 @@
                          Height="25"
                          Margin="10"
                          HorizontalAlignment="Left"
-                         VerticalAlignment="Center" />
+                         VerticalAlignment="Center" BorderBrush="#FF1D5380" />
         </Grid>
     </toolkit:BusyIndicator>
 </controls:ChildWindow>

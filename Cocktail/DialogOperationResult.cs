@@ -23,7 +23,7 @@ namespace Cocktail
     /// <summary>
     /// An implementation of <see cref="IResult"/> providing information about the modal dialog or message box.
     /// </summary>
-    public abstract class DialogOperationResult : IResult
+    public abstract class DialogOperationResult<T> : IResult
     {
         private ResultCompletionEventArgs _completionEventArgs;
 
@@ -38,7 +38,11 @@ namespace Cocktail
         /// <summary>
         /// Returns the user's response to a dialog or message box.
         /// </summary>
-        public abstract DialogResult DialogResult { get; }
+        public abstract T DialogResult { get; }
+
+        /// <summary>Indicates whether the dialog or message box has been cancelled.</summary>
+        /// <value>Cancelled is set to true, if the user clicked the designated cancel button in response to the dialog or message box.</value>
+        public abstract bool Cancelled { get; }
 
         #region IResult Members
 
@@ -63,11 +67,11 @@ namespace Cocktail
         /// <summary>
         /// Raises the <see cref="Completed"/> event.
         /// </summary>
-        protected void OnCompleted(object sender, ResultCompletionEventArgs e)
+        protected void OnCompleted(object sender, EventArgs e)
         {
+            _completionEventArgs = new ResultCompletionEventArgs { WasCancelled = Cancelled };
             if (Completed != null)
-                EventFns.RaiseOnce(ref Completed, this, e);
-            _completionEventArgs = e;
+                EventFns.RaiseOnce(ref Completed, this, _completionEventArgs);
         }
 
         private event EventHandler<ResultCompletionEventArgs> Completed;

@@ -81,6 +81,7 @@
       <HintPath>\Program Files\IdeaBlade DevForce 2010\SilverlightAssemblies\IdeaBlade.Validation.SL.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
+    <Reference Include="PostSharp.SL, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL" />
     <Reference Include="system" />
     <Reference Include="System.ComponentModel.Composition, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.ComponentModel.Composition.Initialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />

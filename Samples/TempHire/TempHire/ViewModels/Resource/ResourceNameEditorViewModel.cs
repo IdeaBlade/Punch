@@ -8,13 +8,14 @@ using Common.Repositories;
 namespace TempHire.ViewModels.Resource
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class ResourceNameEditorViewModel : Screen, IDialogHostDelegate
+    public class ResourceNameEditorViewModel : Screen
     {
         private readonly IErrorHandler _errorHandler;
         private readonly IRepositoryManager<IResourceRepository> _repositoryManager;
         private string _firstName;
         private string _lastName;
         private string _middleName;
+        private DialogButton _okButton;
         private IResourceRepository _repository;
         private Guid _resourceId;
 
@@ -64,18 +65,10 @@ namespace TempHire.ViewModels.Resource
             }
         }
 
-        #region IDialogHostDelegate Members
-
         public bool IsComplete
         {
             get { return !string.IsNullOrWhiteSpace(FirstName) && !string.IsNullOrWhiteSpace(LastName); }
         }
-
-        public DialogResult DialogResult { get; set; }
-
-        public event EventHandler CompleteChanged = delegate { };
-
-        #endregion
 
         public ResourceNameEditorViewModel Start(Guid resourceId)
         {
@@ -93,7 +86,7 @@ namespace TempHire.ViewModels.Resource
 
         public override void CanClose(Action<bool> callback)
         {
-            if (DialogResult != DialogResult.Cancel)
+            if (!this.DialogHost().DialogResult.Equals(DialogResult.Cancel))
             {
                 callback(IsComplete);
             }
@@ -103,7 +96,7 @@ namespace TempHire.ViewModels.Resource
 
         private void OnCompleteChanged()
         {
-            CompleteChanged(this, EventArgs.Empty);
+            _okButton.Enabled = IsComplete;
         }
 
         protected override void OnDeactivate(bool close)
@@ -112,6 +105,13 @@ namespace TempHire.ViewModels.Resource
 
             if (close)
                 _repository = null;
+        }
+
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+            _okButton = this.DialogHost().GetButton(DialogResult.Ok);
+            _okButton.Enabled = IsComplete;
         }
     }
 }

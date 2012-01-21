@@ -160,7 +160,7 @@ namespace TempHire.ViewModels.Resource
         {
             if (Repository.HasChanges())
             {
-                DialogOperationResult dialogResult =
+                var dialogResult =
                     _dialogManager.ShowMessage("There are unsaved changes. Would you like to continue?",
                                                DialogButtons.YesNo);
                 dialogResult.OnComplete(delegate

@@ -123,7 +123,7 @@ namespace TempHire.ViewModels.Resource
         public IEnumerable<IResult> Add()
         {
             AddressTypeSelectorViewModel addressTypeSelector = _addressTypeSelectorFactory.CreateExport().Value;
-            yield return _dialogManager.ShowDialog(addressTypeSelector.Start(Resource.Id));
+            yield return _dialogManager.ShowDialog(addressTypeSelector.Start(Resource.Id), DialogButtons.OkCancel);
 
             Resource.AddAddress(addressTypeSelector.SelectedAddressType);
 

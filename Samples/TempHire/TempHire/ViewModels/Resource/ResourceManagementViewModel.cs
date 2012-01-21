@@ -53,7 +53,7 @@ namespace TempHire.ViewModels.Resource
             DisplayName = "Resource Management";
             // ReSharper restore DoNotCallOverridableMethodsInConstructor
 
-            _selectionChangeTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 200)};
+            _selectionChangeTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 200) };
             _selectionChangeTimer.Tick += OnSelectionChangeElapsed;
         }
 
@@ -151,7 +151,7 @@ namespace TempHire.ViewModels.Resource
 
             Start();
             SearchPane.PropertyChanged += OnSearchPanePropertyChanged;
-            ((IActivate) SearchPane).Activate();
+            ((IActivate)SearchPane).Activate();
 
             if (_toolbarGroup == null)
             {
@@ -198,7 +198,7 @@ namespace TempHire.ViewModels.Resource
 
             base.OnDeactivate(close);
             SearchPane.PropertyChanged -= OnSearchPanePropertyChanged;
-            ((IDeactivate) SearchPane).Deactivate(close);
+            ((IDeactivate)SearchPane).Deactivate(close);
 
             _toolbar.RemoveGroup(_toolbarGroup);
         }
@@ -206,7 +206,7 @@ namespace TempHire.ViewModels.Resource
         public IEnumerable<IResult> Add()
         {
             ResourceNameEditorViewModel nameEditor = _nameEditorFactory.CreateExport().Value;
-            yield return _dialogManager.ShowDialog(nameEditor);
+            yield return _dialogManager.ShowDialog(nameEditor, DialogButtons.OkCancel);
 
             SearchPane.CurrentResource = null;
 
@@ -223,11 +223,9 @@ namespace TempHire.ViewModels.Resource
         {
             ResourceListItem resource = SearchPane.CurrentResource;
 
-            DialogOperationResult userPrompt =
+            yield return
                 _dialogManager.ShowMessage(string.Format("Are you sure you want to delete {0}?", resource.FullName),
-                                           DialogButtons.YesNo);
-            yield return userPrompt;
-            if (userPrompt.DialogResult == DialogResult.No) yield break;
+                                           DialogResult.No, DialogButtons.YesNo);
 
             using (ActiveDetail.Busy.GetTicket())
             {

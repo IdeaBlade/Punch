@@ -61,6 +61,15 @@ namespace Cocktail {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Abort.
+        /// </summary>
+        internal static string Abort {
+            get {
+                return ResourceManager.GetString("Abort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There&apos;s already an instance of a bootstrapper. Only one instance per application can be created..
         /// </summary>
         internal static string BootstrapperAlreadyExists {
@@ -75,6 +84,15 @@ namespace Cocktail {
         internal static string BootstrapperMustNotBeDecoratedWithExports {
             get {
                 return ResourceManager.GetString("BootstrapperMustNotBeDecoratedWithExports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
             }
         }
         
@@ -129,6 +147,15 @@ namespace Cocktail {
         internal static string DefaultPasswordSalt {
             get {
                 return ResourceManager.GetString("DefaultPasswordSalt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ignore.
+        /// </summary>
+        internal static string Ignore {
+            get {
+                return ResourceManager.GetString("Ignore", resourceCulture);
             }
         }
         
@@ -196,11 +223,29 @@ namespace Cocktail {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No EntityManagerProvider found..
         /// </summary>
         internal static string NoEntityManagerProviderFound {
             get {
                 return ResourceManager.GetString("NoEntityManagerProviderFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
             }
         }
         
@@ -268,6 +313,15 @@ namespace Cocktail {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Retry.
+        /// </summary>
+        internal static string Retry {
+            get {
+                return ResourceManager.GetString("Retry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Target type must be System.Windows.Media.ImageSource..
         /// </summary>
         internal static string TargetTypeMustBeImageSource {
@@ -318,6 +372,15 @@ namespace Cocktail {
         internal static string UnableToObtainUserCredential {
             get {
                 return ResourceManager.GetString("UnableToObtainUserCredential", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

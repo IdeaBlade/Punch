@@ -85,7 +85,7 @@ namespace TempHire.ViewModels.Resource
         public IEnumerable<IResult> Add()
         {
             RateTypeSelectorViewModel rateTypeSelector = _rateTypeSelectorFactory.CreateExport().Value;
-            yield return _dialogManager.ShowDialog(rateTypeSelector.Start(Resource.Id));
+            yield return _dialogManager.ShowDialog(rateTypeSelector.Start(Resource.Id), DialogButtons.OkCancel);
 
             Resource.AddRate(rateTypeSelector.SelectedRateType);
         }

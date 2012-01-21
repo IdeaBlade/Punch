@@ -19,7 +19,7 @@ namespace Common.Errors
 
         public void HandleError(Exception ex)
         {
-            _dialogManager.ShowMessage(ex.Message);
+            _dialogManager.ShowMessage(ex.Message, DialogButtons.Ok);
         }
 
         #endregion

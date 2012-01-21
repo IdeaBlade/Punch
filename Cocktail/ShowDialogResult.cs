@@ -15,6 +15,7 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 //====================================================================================================================
 
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 
@@ -23,22 +24,30 @@ namespace Cocktail
     /// <summary>
     /// Internal use.
     /// </summary>
-    public class ShowDialogResult : DialogOperationResult
+    public class ShowDialogResult<T> : DialogOperationResult<T>
     {
+        private readonly T _cancelButton;
         private readonly object _content;
-        private readonly DialogButtons _dialogButtons;
+        private readonly IEnumerable<T> _dialogButtons;
+        private readonly PartLocator<DialogHostBase> _dialogHostLocator;
+        private readonly bool _hasCancelButton;
         private readonly string _title;
         private DialogHostBase _dialogHost;
-        private readonly PartLocator<DialogHostBase> _dialogHostLocator;
 
-        internal ShowDialogResult(object content, DialogButtons dialogButtons = DialogButtons.OkCancel,
-                                  string title = null)
+        internal ShowDialogResult(object content, IEnumerable<T> dialogButtons, string title = null)
         {
             _title = title;
             _content = content;
             _dialogButtons = dialogButtons;
             _dialogHostLocator = new PartLocator<DialogHostBase>(CreationPolicy.NonShared)
                 .WithDefaultGenerator(() => new DialogHostBase());
+        }
+
+        internal ShowDialogResult(object content, IEnumerable<T> dialogButtons, T cancelButton, string title = null)
+            : this(content, dialogButtons, title)
+        {
+            _hasCancelButton = true;
+            _cancelButton = cancelButton;
         }
 
         /// <summary>
@@ -48,11 +57,18 @@ namespace Cocktail
         public IWindowManager WindowManager { get; set; }
 
         /// <summary>
-        /// Internal use.
+        /// Returns the user's response to a dialog or message box.
         /// </summary>
-        public override DialogResult DialogResult
+        public override T DialogResult
         {
-            get { return _dialogHost == null ? DialogResult.None : _dialogHost.DialogResult; }
+            get { return _dialogHost == null ? default(T) : (T)_dialogHost.DialogResult; }
+        }
+
+        /// <summary>Indicates whether the dialog or message box has been cancelled.</summary>
+        /// <value>Cancelled is set to true, if the user clicked the designated cancel button in response to the dialog or message box.</value>
+        public override bool Cancelled
+        {
+            get { return _hasCancelButton && DialogResult.Equals(_cancelButton); }
         }
 
         internal void Show()

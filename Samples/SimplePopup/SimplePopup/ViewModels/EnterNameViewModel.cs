@@ -6,9 +6,10 @@ using Cocktail;
 namespace SimplePopup.ViewModels
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class EnterNameViewModel : Screen, IDialogHostDelegate
+    public class EnterNameViewModel : Screen
     {
         private string _myName;
+        private DialogButton _okButton;
 
         public string MyName
         {
@@ -21,32 +22,31 @@ namespace SimplePopup.ViewModels
             }
         }
 
-        #region IDialogHostAware Members
-
         public bool IsComplete
         {
             get { return !string.IsNullOrWhiteSpace(_myName); }
         }
 
-        public DialogResult DialogResult { get; set; }
-
-        public event EventHandler CompleteChanged = delegate { };
-
-        #endregion
-
         private void OnCompleteChanged()
         {
-            CompleteChanged(this, EventArgs.Empty);
+            _okButton.Enabled = IsComplete;
         }
 
         public override void CanClose(Action<bool> callback)
         {
-            if (DialogResult != DialogResult.Cancel)
+            if (!this.DialogHost().DialogResult.Equals(DialogResult.Cancel))
             {
                 callback(IsComplete);
             }
             else
                 base.CanClose(callback);
+        }
+
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+            _okButton = this.DialogHost().GetButton(DialogResult.Ok);
+            _okButton.Enabled = IsComplete;
         }
     }
 }

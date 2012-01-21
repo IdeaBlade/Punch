@@ -22,7 +22,7 @@ namespace SimplePopup.ViewModels
         {
             yield return _dialogManager.ShowDialog(_namePopup, DialogButtons.OkCancel, "Name please");
 
-            yield return _dialogManager.ShowMessage("Hello " + _namePopup.MyName);
+            yield return _dialogManager.ShowMessage("Hello " + _namePopup.MyName, DialogButtons.Ok);
         }
     }
 }

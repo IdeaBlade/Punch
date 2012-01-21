@@ -73,7 +73,9 @@
     <Compile Include="DefaultEntityManagerSyncInterceptor.cs" />
     <Compile Include="DesignTimeEntityManagerProviderBase.cs" />
     <Compile Include="DesignTimeViewModelLocatorBase.cs" />
+    <Compile Include="DialogButton.cs" />
     <Compile Include="DialogHostBase.cs" />
+    <Compile Include="DialogHostFns.cs" />
     <Compile Include="DialogManager.cs" />
     <Compile Include="DialogOperationResult.cs" />
     <Compile Include="EntityManagerDelegate.cs" />
@@ -87,7 +89,7 @@
     <Compile Include="FrameworkBootstrapper.cs" />
     <Compile Include="HarnessViewModel.cs" />
     <Compile Include="IAuthenticationService.cs" />
-    <Compile Include="IDialogHostDelegate.cs" />
+    <Compile Include="IDialogHost.cs" />
     <Compile Include="IDialogManager.cs" />
     <Compile Include="IDiscoverableViewModel.cs" />
     <Compile Include="IEntityManagerProvider.cs" />
@@ -144,6 +146,11 @@
     <PostBuildEvent>mkdir "$(SolutionDir)Bin\Desktop\$(ConfigurationName)"
 copy "$(TargetDir)$(TargetName).*" "$(SolutionDir)Bin\Desktop\$(ConfigurationName)"</PostBuildEvent>
   </PropertyGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties DocumentXCommentEditorState="&lt;HtmlEditState&gt;&#xA;  &lt;Attributes&gt;&#xA;    &lt;Attribute key=&quot;dtscrollpos&quot; valuetype=&quot;integer&quot;&gt;380&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;lang_VB&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;lang_VBUsage&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;lang_CS&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;lang_CPP2005&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;inheritedMembers&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;protectedMembers&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;SyntaxGroup_SelectedTab&quot; valuetype=&quot;string&quot;&gt;SyntaxTab_VB&lt;/Attribute&gt;&#xA;  &lt;/Attributes&gt;&#xA;&lt;/HtmlEditState&gt;" />
+    </VisualStudio>
+  </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -91,6 +91,8 @@
     <Compile Include="AlwaysCompletedOperationResult.cs" />
     <Compile Include="AuthenticationService.cs" />
     <Compile Include="BinaryToImageSourceConverter.cs" />
+    <Compile Include="DialogButton.cs" />
+    <Compile Include="DialogHostFns.cs" />
     <Compile Include="DialogHostBase.cs" />
     <Compile Include="DialogManager.cs" />
     <Compile Include="DialogOperationResult.cs" />
@@ -105,7 +107,7 @@
     <Compile Include="EventDispatcher.cs" />
     <Compile Include="EventFns.cs" />
     <Compile Include="CoroutineFns.cs" />
-    <Compile Include="IDialogHostDelegate.cs" />
+    <Compile Include="IDialogHost.cs" />
     <Compile Include="IDialogManager.cs" />
     <Compile Include="MessageBoxBase.cs" />
     <Compile Include="OperationFns.cs" />

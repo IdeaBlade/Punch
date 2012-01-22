@@ -64,12 +64,10 @@ namespace DomainModel
 
         /// <summary>Gets or sets the Resource. </summary>
         [DataMember]
-        [InverseProperty("Addresses")]
         public Resource Resource { get; set; }
 
         /// <summary>Gets or sets the AddressType. </summary>
         [DataMember]
-        [InverseProperty("Address")]
         public AddressType AddressType { get; set; }
 
         /// <summary>Gets or sets the State. </summary>

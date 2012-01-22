@@ -33,7 +33,6 @@ namespace DomainModel
 
         /// <summary>Gets or sets the Resource. </summary>
         [DataMember]
-        [InverseProperty("Skills")]
         public Resource Resource { get; set; }
 
         #region IHasRoot Members

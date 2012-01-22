@@ -39,12 +39,10 @@ namespace DomainModel
 
         /// <summary>Gets or sets the RateType. </summary>
         [DataMember]
-        [InverseProperty("Rates")]
         public RateType RateType { get; set; }
 
         /// <summary>Gets or sets the Resource. </summary>
         [DataMember]
-        [InverseProperty("Rates")]
         public Resource Resource { get; set; }
 
         #region IHasRoot Members

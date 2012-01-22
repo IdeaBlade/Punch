@@ -62,27 +62,22 @@ namespace DomainModel
 
         /// <summary>Gets the Addresses. </summary>
         [DataMember]
-        [InverseProperty("Resource")]
         public RelatedEntityList<Address> Addresses { get; internal set; }
 
         /// <summary>Gets the PhoneNumbers. </summary>
         [DataMember]
-        [InverseProperty("Resource")]
         public RelatedEntityList<PhoneNumber> PhoneNumbers { get; internal set; }
 
         /// <summary>Gets the Rates. </summary>
         [DataMember]
-        [InverseProperty("Resource")]
         public RelatedEntityList<Rate> Rates { get; internal set; }
 
         /// <summary>Gets the WorkExperience. </summary>
         [DataMember]
-        [InverseProperty("Resource")]
         public RelatedEntityList<WorkExperienceItem> WorkExperience { get; internal set; }
 
         /// <summary>Gets the Skills. </summary>
         [DataMember]
-        [InverseProperty("Resource")]
         public RelatedEntityList<Skill> Skills { get; internal set; }
 
         /// <summary>Gets or sets the PrimaryAddress. </summary>

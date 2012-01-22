@@ -49,12 +49,10 @@ namespace DomainModel
 
         /// <summary>Gets or sets the Resource. </summary>
         [DataMember]
-        [InverseProperty("PhoneNumbers")]
         public Resource Resource { get; set; }
 
         /// <summary>Gets or sets the PhoneNumberType. </summary>
         [DataMember]
-        [InverseProperty("PhoneNumbers")]
         public PhoneNumberType PhoneNumberType { get; set; }
 
         #region IHasRoot Members

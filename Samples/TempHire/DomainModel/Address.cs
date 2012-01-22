@@ -36,13 +36,11 @@ namespace DomainModel
 
         /// <summary>Gets or sets the ResourceId. </summary>
         [DataMember]
-        [ForeignKey("Resource")]
         [RequiredValueVerifier(ErrorMessageResourceName = "Address_ResourceId")]
         public Guid ResourceId { get; set; }
 
         /// <summary>Gets or sets the AddressTypeId. </summary>
         [DataMember]
-        [ForeignKey("AddressType")]
         [RequiredValueVerifier(ErrorMessageResourceName = "Address_AddressTypeId")]
         public Guid AddressTypeId { get; set; }
 
@@ -59,7 +57,6 @@ namespace DomainModel
         /// <summary>Gets or sets the StateId. </summary>
         [DataMember]
         [Required]
-        [ForeignKey("State")]
         public Guid StateId { get; set; }
 
         /// <summary>Gets or sets the Resource. </summary>

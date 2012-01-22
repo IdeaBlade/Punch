@@ -27,13 +27,11 @@ namespace DomainModel
 
         /// <summary>Gets or sets the RateTypeId. </summary>
         [DataMember]
-        [ForeignKey("RateType")]
         [RequiredValueVerifier(ErrorMessageResourceName = "Rate_RateTypeId")]
         public Guid RateTypeId { get; set; }
 
         /// <summary>Gets or sets the ResourceId. </summary>
         [DataMember]
-        [ForeignKey("Resource")]
         [RequiredValueVerifier(ErrorMessageResourceName = "Rate_ResourceId")]
         public Guid ResourceId { get; set; }
 

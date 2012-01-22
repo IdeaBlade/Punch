@@ -27,7 +27,6 @@ namespace DomainModel
 
         /// <summary>Gets or sets the ResourceId. </summary>
         [DataMember]
-        [ForeignKey("Resource")]
         [RequiredValueVerifier(ErrorMessageResourceName = "Skill_ResourceId")]
         public Guid ResourceId { get; set; }
 

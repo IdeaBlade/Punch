@@ -32,13 +32,11 @@ namespace DomainModel
 
         /// <summary>Gets or sets the PhoneNumberTypeId. </summary>
         [DataMember]
-        [ForeignKey("PhoneNumberType")]
         [RequiredValueVerifier(ErrorMessageResourceName = "PhoneNumber_PhoneNumberTypeId")]
         public Guid PhoneNumberTypeId { get; set; }
 
         /// <summary>Gets or sets the ResourceId. </summary>
         [DataMember]
-        [ForeignKey("Resource")]
         [RequiredValueVerifier(ErrorMessageResourceName = "PhoneNumber_ResourceId")]
         public Guid ResourceId { get; set; }
 

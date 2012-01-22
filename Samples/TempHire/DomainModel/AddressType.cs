@@ -37,6 +37,6 @@ namespace DomainModel
         /// <summary>Gets the Address. </summary>
         [DataMember]
         [InverseProperty("AddressType")]
-        public RelatedEntityList<Address> Address { get; set; }
+        public RelatedEntityList<Address> Address { get; internal set; }
     }
 }

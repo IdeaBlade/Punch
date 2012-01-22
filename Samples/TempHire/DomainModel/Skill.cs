@@ -40,7 +40,7 @@ namespace DomainModel
 
         public object Root
         {
-            get { return !EntityAspect.Wrap(Resource).IsNullEntity ? Resource : null; }
+            get { return Resource; }
         }
 
         #endregion

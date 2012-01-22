@@ -48,9 +48,9 @@ namespace DomainModel
             get { return _entityAspect.EntityState.IsDeleted(); }
         }
 
-        public void RejectChanges()
+        protected internal EntityAspect EntityAspect
         {
-            _entityAspect.RejectChanges();
+            get { return _entityAspect; }
         }
 
         public event PropertyChangedEventHandler EntityPropertyChanged

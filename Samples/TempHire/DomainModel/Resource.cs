@@ -63,27 +63,27 @@ namespace DomainModel
         /// <summary>Gets the Addresses. </summary>
         [DataMember]
         [InverseProperty("Resource")]
-        public RelatedEntityList<Address> Addresses { get; set; }
+        public RelatedEntityList<Address> Addresses { get; internal set; }
 
         /// <summary>Gets the PhoneNumbers. </summary>
         [DataMember]
         [InverseProperty("Resource")]
-        public RelatedEntityList<PhoneNumber> PhoneNumbers { get; set; }
+        public RelatedEntityList<PhoneNumber> PhoneNumbers { get; internal set; }
 
         /// <summary>Gets the Rates. </summary>
         [DataMember]
         [InverseProperty("Resource")]
-        public RelatedEntityList<Rate> Rates { get; set; }
+        public RelatedEntityList<Rate> Rates { get; internal set; }
 
         /// <summary>Gets the WorkExperience. </summary>
         [DataMember]
         [InverseProperty("Resource")]
-        public RelatedEntityList<WorkExperienceItem> WorkExperience { get; set; }
+        public RelatedEntityList<WorkExperienceItem> WorkExperience { get; internal set; }
 
         /// <summary>Gets the Skills. </summary>
         [DataMember]
         [InverseProperty("Resource")]
-        public RelatedEntityList<Skill> Skills { get; set; }
+        public RelatedEntityList<Skill> Skills { get; internal set; }
 
         /// <summary>Gets or sets the PrimaryAddress. </summary>
         [NotMapped]
@@ -136,16 +136,12 @@ namespace DomainModel
             Address address = Address.Create(type);
             Addresses.Add(address);
 
-            EnsureModified();
             return address;
         }
 
         public void DeleteAddress(Address address)
         {
-            Addresses.Remove(address);
-            EntityAspect.Wrap(address).Delete();
-
-            EnsureModified();
+            address.EntityFacts.EntityAspect.Delete();
         }
 
         public PhoneNumber AddPhoneNumber(PhoneNumberType type)
@@ -153,16 +149,12 @@ namespace DomainModel
             PhoneNumber phoneNumber = PhoneNumber.Create(type);
             PhoneNumbers.Add(phoneNumber);
 
-            EnsureModified();
             return phoneNumber;
         }
 
         public void DeletePhoneNumber(PhoneNumber phoneNumber)
         {
-            PhoneNumbers.Remove(phoneNumber);
-            EntityAspect.Wrap(phoneNumber).Delete();
-
-            EnsureModified();
+            phoneNumber.EntityFacts.EntityAspect.Delete();
         }
 
         public Rate AddRate(RateType type)
@@ -170,16 +162,12 @@ namespace DomainModel
             Rate rate = Rate.Create(type);
             Rates.Add(rate);
 
-            EnsureModified();
             return rate;
         }
 
         public void DeleteRate(Rate rate)
         {
-            Rates.Remove(rate);
-            EntityAspect.Wrap(rate).Delete();
-
-            EnsureModified();
+            rate.EntityFacts.EntityAspect.Delete();
         }
 
         public WorkExperienceItem AddWorkExperience()
@@ -187,16 +175,12 @@ namespace DomainModel
             WorkExperienceItem workExperienceItem = WorkExperienceItem.Create();
             WorkExperience.Add(workExperienceItem);
 
-            EnsureModified();
             return workExperienceItem;
         }
 
         public void DeleteWorkExperience(WorkExperienceItem workExperienceItem)
         {
-            WorkExperience.Remove(workExperienceItem);
-            EntityAspect.Wrap(workExperienceItem).Delete();
-
-            EnsureModified();
+            workExperienceItem.EntityFacts.EntityAspect.Delete();
         }
 
         public Skill AddSkill()
@@ -204,39 +188,30 @@ namespace DomainModel
             Skill skill = Skill.Create();
             Skills.Add(skill);
 
-            EnsureModified();
             return skill;
         }
 
         public void DeleteSkill(Skill skill)
         {
-            Skills.Remove(skill);
-            EntityAspect.Wrap(skill).Delete();
-
-            EnsureModified();
-        }
-
-        private void EnsureModified()
-        {
-            if (!EntityAspect.Wrap(this).IsChanged) EntityAspect.Wrap(this).SetModified();
+            skill.EntityFacts.EntityAspect.Delete();
         }
 
         [AfterSet("FirstName")]
-        public void AfterSetFirstName(object value)
+        internal void AfterSetFirstName(object value)
         {
-            EntityAspect.Wrap(this).ForcePropertyChanged(new PropertyChangedEventArgs("FullName"));
+            EntityFacts.EntityAspect.ForcePropertyChanged(new PropertyChangedEventArgs("FullName"));
         }
 
         [AfterSet("MiddleName")]
-        public void AfterSetMiddleName(object value)
+        internal void AfterSetMiddleName(object value)
         {
-            EntityAspect.Wrap(this).ForcePropertyChanged(new PropertyChangedEventArgs("FullName"));
+            EntityFacts.EntityAspect.ForcePropertyChanged(new PropertyChangedEventArgs("FullName"));
         }
 
         [AfterSet("LastName")]
-        public void AfterSetLastName(object value)
+        internal void AfterSetLastName(object value)
         {
-            EntityAspect.Wrap(this).ForcePropertyChanged(new PropertyChangedEventArgs("FullName"));
+            EntityFacts.EntityAspect.ForcePropertyChanged(new PropertyChangedEventArgs("FullName"));
         }
     }
 }

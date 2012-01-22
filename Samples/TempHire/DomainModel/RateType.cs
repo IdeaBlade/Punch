@@ -37,6 +37,6 @@ namespace DomainModel
         /// <summary>Gets the Rates. </summary>
         [DataMember]
         [InverseProperty("RateType")]
-        public RelatedEntityList<Rate> Rates { get; set; }
+        public RelatedEntityList<Rate> Rates { get; internal set; }
     }
 }

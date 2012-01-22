@@ -81,7 +81,7 @@ namespace DomainModel
 
         public object Root
         {
-            get { return !EntityAspect.Wrap(Resource).IsNullEntity ? Resource : null; }
+            get { return Resource; }
         }
 
         #endregion
@@ -114,7 +114,7 @@ namespace DomainModel
 
         public override void Validate(VerifierResultCollection validationErrors)
         {
-            if (EntityAspect.Wrap(State).IsNullOrPendingEntity)
+            if (State.EntityFacts.EntityAspect.IsNullOrPendingEntity)
                 validationErrors.Add(new VerifierResult(VerifierResultCode.Error, "State is required", "State"));
         }
     }

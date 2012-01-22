@@ -32,6 +32,6 @@ namespace DomainModel
         /// <summary>Gets the PhoneNumbers. </summary>
         [DataMember]
         [InverseProperty("PhoneNumberType")]
-        public RelatedEntityList<PhoneNumber> PhoneNumbers { get; set; }
+        public RelatedEntityList<PhoneNumber> PhoneNumbers { get; internal set; }
     }
 }

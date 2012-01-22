@@ -25,6 +25,14 @@ namespace Cocktail
     [InheritedExport]
     public abstract class EntityManagerDelegate
     {
+        /// <summary>
+        /// Override to perform client-side custom validation on a given entity before saving.
+        /// </summary>
+        /// <param name="entity">The entity to be validated</param>
+        /// <param name="validationErrors">A collection to add the validation results</param>
+        public virtual void Validate(object entity, VerifierResultCollection validationErrors)
+        {
+        }
     }
 
     /// <summary>Provides the means to perform tasks in response to events from an EntityManager.</summary>
@@ -98,13 +106,6 @@ namespace Cocktail
         {
         }
 
-        /// <summary>
-        /// Override to perform client-side custom validation on a given entity before saving.
-        /// </summary>
-        /// <param name="entity">The entity to be validated</param>
-        /// <param name="validationErrors">A collection to add the validation results</param>
-        public virtual void Validate(object entity, VerifierResultCollection validationErrors)
-        {
-        }
+
     }
 }

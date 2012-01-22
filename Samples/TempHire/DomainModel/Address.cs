@@ -36,13 +36,11 @@ namespace DomainModel
 
         /// <summary>Gets or sets the ResourceId. </summary>
         [DataMember]
-        [ForeignKey("Resource")]
         [RequiredValueVerifier(ErrorMessageResourceName = "Address_ResourceId")]
         public Guid ResourceId { get; set; }
 
         /// <summary>Gets or sets the AddressTypeId. </summary>
         [DataMember]
-        [ForeignKey("AddressType")]
         [RequiredValueVerifier(ErrorMessageResourceName = "Address_AddressTypeId")]
         public Guid AddressTypeId { get; set; }
 
@@ -59,17 +57,14 @@ namespace DomainModel
         /// <summary>Gets or sets the StateId. </summary>
         [DataMember]
         [Required]
-        [ForeignKey("State")]
         public Guid StateId { get; set; }
 
         /// <summary>Gets or sets the Resource. </summary>
         [DataMember]
-        [InverseProperty("Addresses")]
         public Resource Resource { get; set; }
 
         /// <summary>Gets or sets the AddressType. </summary>
         [DataMember]
-        [InverseProperty("Address")]
         public AddressType AddressType { get; set; }
 
         /// <summary>Gets or sets the State. </summary>
@@ -81,7 +76,7 @@ namespace DomainModel
 
         public object Root
         {
-            get { return !EntityAspect.Wrap(Resource).IsNullEntity ? Resource : null; }
+            get { return Resource; }
         }
 
         #endregion
@@ -114,7 +109,7 @@ namespace DomainModel
 
         public override void Validate(VerifierResultCollection validationErrors)
         {
-            if (EntityAspect.Wrap(State).IsNullOrPendingEntity)
+            if (State.EntityFacts.EntityAspect.IsNullOrPendingEntity)
                 validationErrors.Add(new VerifierResult(VerifierResultCode.Error, "State is required", "State"));
         }
     }

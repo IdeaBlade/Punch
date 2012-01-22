@@ -32,13 +32,11 @@ namespace DomainModel
 
         /// <summary>Gets or sets the PhoneNumberTypeId. </summary>
         [DataMember]
-        [ForeignKey("PhoneNumberType")]
         [RequiredValueVerifier(ErrorMessageResourceName = "PhoneNumber_PhoneNumberTypeId")]
         public Guid PhoneNumberTypeId { get; set; }
 
         /// <summary>Gets or sets the ResourceId. </summary>
         [DataMember]
-        [ForeignKey("Resource")]
         [RequiredValueVerifier(ErrorMessageResourceName = "PhoneNumber_ResourceId")]
         public Guid ResourceId { get; set; }
 
@@ -49,19 +47,17 @@ namespace DomainModel
 
         /// <summary>Gets or sets the Resource. </summary>
         [DataMember]
-        [InverseProperty("PhoneNumbers")]
         public Resource Resource { get; set; }
 
         /// <summary>Gets or sets the PhoneNumberType. </summary>
         [DataMember]
-        [InverseProperty("PhoneNumbers")]
         public PhoneNumberType PhoneNumberType { get; set; }
 
         #region IHasRoot Members
 
         public object Root
         {
-            get { return !EntityAspect.Wrap(Resource).IsNullEntity ? Resource : null; }
+            get { return Resource; }
         }
 
         #endregion

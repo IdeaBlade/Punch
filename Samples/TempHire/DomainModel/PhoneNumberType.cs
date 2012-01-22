@@ -28,10 +28,5 @@ namespace DomainModel
         [DataMember]
         [RequiredValueVerifier(ErrorMessageResourceName = "PhoneNumberType_Default")]
         public bool Default { get; set; }
-
-        /// <summary>Gets the PhoneNumbers. </summary>
-        [DataMember]
-        [InverseProperty("PhoneNumberType")]
-        public RelatedEntityList<PhoneNumber> PhoneNumbers { get; set; }
     }
 }

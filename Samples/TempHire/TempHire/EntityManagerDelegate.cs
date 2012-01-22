@@ -11,8 +11,6 @@ namespace TempHire
 {
     public class EntityManagerDelegate : EntityManagerDelegate<TempHireEntities>
     {
-        private IEnumerable<object> _retainedRoots;
-
         public override void OnEntityChanged(TempHireEntities source, EntityChangedEventArgs args)
         {
             EventFns.Publish(new EntityChangedMessage(args.Entity));
@@ -21,23 +19,20 @@ namespace TempHire
         public override void OnSaving(TempHireEntities source, EntitySavingEventArgs args)
         {
             // Add necessary aggregate root object to the save list for validation and concurrency check
-            _retainedRoots = args.Entities.OfType<IHasRoot>()
-                .Where(e => e.Root != null && !EntityAspect.Wrap(e.Root).IsChanged)
-                .Select(e => e.Root)
+            var rootEas = args.Entities.OfType<IHasRoot>()
+                .Select(e => EntityAspect.Wrap(e.Root))
                 .Distinct()
+                .Where(ea => ea != null && !ea.IsChanged && !ea.IsNullOrPendingEntity)
                 .ToList();
 
-            _retainedRoots.ForEach(root => EntityAspect.Wrap(root).SetModified());
-            _retainedRoots.ForEach(args.Entities.Add);
+            rootEas.ForEach(ea => ea.SetModified());
+            rootEas.ForEach(ea => args.Entities.Add(ea.Entity));
         }
 
         public override void OnSaved(TempHireEntities source, EntitySavedEventArgs args)
         {
             if (args.CompletedSuccessfully)
                 EventFns.Publish(new SavedMessage(args.Entities));
-
-            if (args.HasError)
-                _retainedRoots.ForEach(root => EntityAspect.Wrap(root).RejectChanges());
         }
 
         public override void Validate(object entity, VerifierResultCollection validationErrors)

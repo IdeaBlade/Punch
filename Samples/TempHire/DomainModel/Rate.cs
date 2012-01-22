@@ -27,31 +27,27 @@ namespace DomainModel
 
         /// <summary>Gets or sets the RateTypeId. </summary>
         [DataMember]
-        [ForeignKey("RateType")]
         [RequiredValueVerifier(ErrorMessageResourceName = "Rate_RateTypeId")]
         public Guid RateTypeId { get; set; }
 
         /// <summary>Gets or sets the ResourceId. </summary>
         [DataMember]
-        [ForeignKey("Resource")]
         [RequiredValueVerifier(ErrorMessageResourceName = "Rate_ResourceId")]
         public Guid ResourceId { get; set; }
 
         /// <summary>Gets or sets the RateType. </summary>
         [DataMember]
-        [InverseProperty("Rates")]
         public RateType RateType { get; set; }
 
         /// <summary>Gets or sets the Resource. </summary>
         [DataMember]
-        [InverseProperty("Rates")]
         public Resource Resource { get; set; }
 
         #region IHasRoot Members
 
         public object Root
         {
-            get { return !EntityAspect.Wrap(Resource).IsNullEntity ? Resource : null; }
+            get { return Resource; }
         }
 
         #endregion

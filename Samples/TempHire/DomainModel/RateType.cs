@@ -33,10 +33,5 @@ namespace DomainModel
         [DataMember]
         [RequiredValueVerifier(ErrorMessageResourceName = "RateType_Sequence")]
         public short Sequence { get; set; }
-
-        /// <summary>Gets the Rates. </summary>
-        [DataMember]
-        [InverseProperty("RateType")]
-        public RelatedEntityList<Rate> Rates { get; set; }
     }
 }

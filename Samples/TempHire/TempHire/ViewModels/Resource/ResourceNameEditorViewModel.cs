@@ -96,7 +96,8 @@ namespace TempHire.ViewModels.Resource
 
         private void OnCompleteChanged()
         {
-            _okButton.Enabled = IsComplete;
+            if (_okButton != null)
+                _okButton.Enabled = IsComplete;
         }
 
         protected override void OnDeactivate(bool close)

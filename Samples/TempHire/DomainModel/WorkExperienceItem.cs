@@ -52,20 +52,18 @@ namespace DomainModel
 
         /// <summary>Gets or sets the ResourceId. </summary>
         [DataMember]
-        [ForeignKey("Resource")]
         [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_ResourceId")]
         public Guid ResourceId { get; set; }
 
         /// <summary>Gets or sets the Resource. </summary>
         [DataMember]
-        [InverseProperty("WorkExperience")]
         public Resource Resource { get; set; }
 
         #region IHasRoot Members
 
         public object Root
         {
-            get { return !EntityAspect.Wrap(Resource).IsNullEntity ? Resource : null; }
+            get { return Resource; }
         }
 
         #endregion

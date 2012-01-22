@@ -33,10 +33,5 @@ namespace DomainModel
         [DataMember]
         [RequiredValueVerifier(ErrorMessageResourceName = "AddressType_Default")]
         public bool Default { get; set; }
-
-        /// <summary>Gets the Address. </summary>
-        [DataMember]
-        [InverseProperty("AddressType")]
-        public RelatedEntityList<Address> Address { get; set; }
     }
 }

@@ -21,6 +21,40 @@ using IdeaBlade.EntityModel;
 namespace Cocktail
 {
     /// <summary>
+    /// An <see cref="OperationResult"/> implementation that is
+    /// completed immediately upon construction.
+    /// </summary>
+    /// <remarks>
+    /// Useful when you need to bail out immediately (synchronously) 
+    /// from a method that is normally asynchronous and long running
+    /// AND you need to control its <see cref="INotifyCompletedArgs"/> values via
+    /// the constructor.
+    /// </remarks>
+    public class CompletedImmediatelyOperationResult : OperationResult
+    {
+        private static CompletedImmediatelyOperationResult _alwaysCompletedOkinstance;
+
+        /// <summary>
+        /// Get the singleton instance of <see cref="CompletedImmediatelyOperationResult"/>
+        /// That always completes immediately in the "OK" (no error) state.
+        /// </summary>
+        public static CompletedImmediatelyOperationResult AlwaysCompletedOk
+        {
+            get { return _alwaysCompletedOkinstance ??
+                  (_alwaysCompletedOkinstance = new CompletedImmediatelyOperationResult());
+            }
+        }
+
+        /// <summary>
+        /// Create a new <see cref="OperationResult"/> instance that
+        /// has already completed and is configured to your needs.
+        /// </summary>
+        public CompletedImmediatelyOperationResult(
+            Exception error = null, bool cancelled = false, bool isErrorHandled = false)
+            : base(new CompletedImmediately(error, cancelled, isErrorHandled)) { }
+    }
+
+    /// <summary>
     /// An <see cref="INotifyCompleted"/> implementation that is
     /// completed immediately upon construction.
     /// </summary>
@@ -32,23 +66,44 @@ namespace Cocktail
     /// Use <see cref="CoroutineFns.AsOperationResult"/> to present as an
     /// <see cref="OperationResult"/> to a Caliburn Coroutine.
     /// </remarks>
-    public class NotifyCompletedImmediately : INotifyCompleted, INotifyCompletedArgs
+    public class CompletedImmediately : INotifyCompleted, INotifyCompletedArgs
     {
-        private readonly NotifyCompletedImmediatelyArgs _args;
+        private readonly CompletedImmediatelyArgs _args;
+        private static CompletedImmediately _alwaysCompletedOkinstance;
+
+        /// <summary>
+        /// Get the singleton instance of <see cref="CompletedImmediately"/>
+        /// That always completes immediately in the "OK" (no error) state.
+        /// </summary>
+        public static CompletedImmediately AlwaysCompletedOk
+        {
+            get
+            {
+                return _alwaysCompletedOkinstance ??
+                (_alwaysCompletedOkinstance = new CompletedImmediately());
+            }
+        }
 
         /// <summary>
         /// Create a new <see cref="INotifyCompleted"/> instance that
         /// has already completed and is configured to your needs.
-        /// See member properties corresponding to parameters.
+        /// See <see cref="INotifyCompletedArgs"/> members for a description
+        /// of the parameters.
         /// </summary>
-        public NotifyCompletedImmediately(
-            Exception error, bool cancelled = false, bool isErrorHandled = false)
+        public CompletedImmediately(Exception error = null, bool cancelled = false, bool isErrorHandled = false)
         {
-            _args = new NotifyCompletedImmediatelyArgs(
+            _args = new CompletedImmediatelyArgs(
                 error,
                 (null != error) && isErrorHandled,
                 cancelled);
+              
         }
+
+        void INotifyCompleted.WhenCompleted(Action<INotifyCompletedArgs> completedAction)
+        {
+            completedAction(_args);
+        }
+
 
         /// <summary>
         /// Exception representing an error condition (if any); 
@@ -70,14 +125,10 @@ namespace Cocktail
         /// </summary>
         public bool Cancelled { get { return _args.Cancelled; } }
 
-        void INotifyCompleted.WhenCompleted(Action<INotifyCompletedArgs> completedAction)
-        {
-            completedAction(_args);
-        }
 
-        private class NotifyCompletedImmediatelyArgs : INotifyCompletedArgs
+        private class CompletedImmediatelyArgs : INotifyCompletedArgs
         {
-            public NotifyCompletedImmediatelyArgs(
+            public CompletedImmediatelyArgs(
                 Exception error = null, bool cancelled = false, bool isErrorHandled = false)
             {
                 Error = error;
@@ -92,4 +143,5 @@ namespace Cocktail
             public bool IsErrorHandled { get; set; }
         }
     }
+
 }

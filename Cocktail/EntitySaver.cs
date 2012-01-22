@@ -25,11 +25,20 @@ using IdeaBlade.Validation;
 
 namespace Cocktail
 {
+    /// <summary>
+    /// Interface for a helper that saves entities asynchronously.
+    /// </summary>
     public interface IEntitySaver
     {
+        /// <summary>
+        /// Save asynchronously the entities in the <see param="manager"/> with pending changes.
+        /// </summary>
         OperationResult SaveAsync(EntityManager manager, Action onSuccess = null, Action<Exception> onFail = null);
     }
 
+    /// <summary>
+    /// A helper that saves entities asynchronously.
+    /// </summary>
     public class EntitySaver : IEntitySaver
     {
         /// <summary>Create an <see cref="EntitySaver"/></summary>
@@ -58,7 +67,7 @@ namespace Cocktail
             }
             catch (Exception error)
             {
-                var nc = new NotifyCompletedImmediately(error);
+                var nc = new CompletedImmediately(error);
                 if (null != onFail)
                 {
                     onFail(nc.Error);
@@ -72,27 +81,45 @@ namespace Cocktail
         {
             if (null == manager) throw new ArgumentNullException("manager");
 
-            var entitySaverHandlers = CreateEntitySaverHandlers(manager, onSuccess, onFail);
+            var userState = CreateUserState();
+            var entitySaverHandlers = CreateEntitySaverHandlers(manager, userState, onSuccess, onFail);
             entitySaverHandlers.AddSavingHandler(manager);
-            return manager.SaveChangesAsync(op =>
-                                         {
-                                             entitySaverHandlers.RemoveSavingHandler(manager);
-                                             entitySaverHandlers.OnSaveCompleted(
-                                                 ((IHasAsyncEventArgs)op).AsyncArgs, 
-                                                 onSuccess, onFail, 
-                                                 manager);
-                                                                         
-                                         }).AsOperationResult();
+
+            return manager.SaveChangesAsync(
+                SaveOptions,
+                op => entitySaverHandlers.OnSaveCompleted(
+                    manager,
+                    op.UserState,
+                    ((IHasAsyncEventArgs)op).AsyncArgs, 
+                    onSuccess, onFail),
+                userState
+                ).AsOperationResult();
         }
+
+        /// <summary>
+        /// Create the UserState object that distinguishes one async save call from another.
+        /// </summary>
+        /// <remarks>
+        /// Typically an identifier but can be any object. 
+        /// That object is preserved across the async operation lifetime 
+        /// but will not be serialized or presented to the server.
+        /// </remarks>
+        protected virtual object CreateUserState()
+        {
+            return Guid.NewGuid();
+        }
+
+        /// <summary>Get and set <see cref="SaveOptions"/>.</summary>
+        protected virtual SaveOptions SaveOptions { get; set; }
 
         /// <summary>
         /// Create a new instance of <see cref="IEntitySaverHandlers"/>
         /// to assist in processing the save
         /// </summary>
         protected virtual IEntitySaverHandlers CreateEntitySaverHandlers(
-            EntityManager manager, Action onSuccess, Action<Exception> onFail)
+            EntityManager manager, object userState, Action onSuccess, Action<Exception> onFail)
         {
-            return new EntitySaverHandlers(EntityManagerDelegates, ValidationErrorNotifiers);
+            return new EntitySaverHandlers(userState, EntityManagerDelegates, ValidationErrorNotifiers);
         }
 
         /// <summary>
@@ -116,6 +143,14 @@ namespace Cocktail
         /// Add a saving handler to preprocess the entity change-set once
         /// an <see cref="EntityManager"/> begins saving changes.
         /// </summary>
+        /// <remarks>
+        /// The SavingHandler that is added to the manager 
+        /// should be a one-time handler and should remove itself when called.
+        /// If not removed immediately, it could be invoked a second time
+        /// by a second SaveChangesAsync call which likely will corrupt
+        /// any state that is supposed to be available when the Save completes.
+        /// See how <see cref="EntitySaverHandlers"/> does it.
+        /// </remarks>
         void AddSavingHandler(EntityManager manager);
 
         /// <summary>
@@ -134,7 +169,9 @@ namespace Cocktail
         /// You can do so before, after, or in the middle of other
         /// "SaveCompleted" work.
         /// </remarks>
-        void OnSaveCompleted(INotifyCompletedArgs args, Action onSuccess, Action<Exception> onFail, EntityManager manager);
+        void OnSaveCompleted(
+            EntityManager manager, object userState, INotifyCompletedArgs args, 
+            Action onSuccess, Action<Exception> onFail);
     }
 
     /// <summary>
@@ -144,6 +181,10 @@ namespace Cocktail
     public class EntitySaverHandlers : IEntitySaverHandlers
     {
         /// <summary>Create an <see cref="EntitySaverHandlers"/></summary>
+        /// <param name="userState">
+        /// Marker object that distinguishes one async save call from another
+        /// and one instance of this type from another.
+        /// </param>
         /// <param name="entityManagerDelegates">
         /// Delegate(s) that invoke custom validation of certain entities.
         /// </param>
@@ -151,16 +192,28 @@ namespace Cocktail
         /// Notification delegate(s) invoked when there are validation errors.
         /// </param>
         public EntitySaverHandlers(
+            object userState,
             IEnumerable<EntityManagerDelegate> entityManagerDelegates = null,
             IEnumerable<IValidationErrorNotification> validationErrorNotifiers = null)
         {
+            UserState = userState;
             EntityManagerDelegates = entityManagerDelegates ?? new EntityManagerDelegate[0];
             ValidationErrorNotifiers = validationErrorNotifiers ?? new IValidationErrorNotification[0];
         }
 
+        /// <summary>
+        /// Get the UserState object that distinguishes one async save call from another
+        /// and one instance of this <see cref="EntitySaverHandlers"/> type from another.
+        /// </summary>
+        /// <remarks>
+        /// Typically an identifier but can be any object. 
+        /// That object is preserved across the async operation lifetime.
+        /// </remarks>
+        public object UserState { get; private set; }
+
         public virtual void AddSavingHandler(EntityManager manager)
         {
-            RemoveSavingHandler(manager); // paranoia
+            manager.Saving -= SavingHandler; // paranoia
             manager.Saving += SavingHandler;
         }
 
@@ -169,7 +222,9 @@ namespace Cocktail
             manager.Saving -= SavingHandler;
         }
 
-        public virtual void OnSaveCompleted(INotifyCompletedArgs args, Action onSuccess, Action<Exception> onFail, EntityManager manager)
+        public virtual void OnSaveCompleted(
+            EntityManager manager, object userState, INotifyCompletedArgs args, 
+            Action onSuccess, Action<Exception> onFail)
         {
             CompletedCallback(args, onSuccess, onFail);
         }  
@@ -193,11 +248,21 @@ namespace Cocktail
         private void SavingHandler(object sender, EntitySavingEventArgs args)
         {
             var manager = (EntityManager)sender;
-            manager.Saving -= SavingHandler;
+            RemoveSavingHandler(manager);
             args.Cancel = OnSaving(manager, args.Entities, args.Cancel);
         }
 
-        protected virtual bool OnSaving(EntityManager manager, IList<object> entities, bool isCanceled=false )
+        /// <summary>
+        /// Performs the preprocessing of the entities to be saved [Internal Use Only]
+        /// </summary>
+        /// <param name="manager">The <see cref="EntityManager"/> that will do the saving</param>
+        /// <param name="entities">Entities to save; presumed to be in the <see param="manager"/>.</param>
+        /// <param name="isCanceled">True if the save should be canceled; default is false.</param>
+        /// <returns>True if the save should be canceled.</returns>
+        /// <remarks>
+        /// This method is public only to facilitate testing of pre-save processing logic.
+        /// </remarks>
+        public virtual bool OnSaving(EntityManager manager, IList<object> entities, bool isCanceled=false )
         {
             if (isCanceled) return true;
             PreprocessChangeSet(manager, entities);
@@ -217,6 +282,7 @@ namespace Cocktail
 
             // Validation errors for all change-set entities
             var allValidationErrors = new VerifierResultCollection();
+            var verifierEngine = manager.VerifierEngine;
 
             foreach (var entity in entities)
             {
@@ -225,10 +291,10 @@ namespace Cocktail
                 // DevForce Verification
                 var validationResults =
                     entityAspect.EntityState.IsAddedOrModified()
-                        ? manager.VerifierEngine.Execute(entity)
+                        ? verifierEngine.Execute(entity)
                         : new VerifierResultCollection();
 
-                // Custom entity validation (if specified via a EntityManagerDelegate)
+                // Custom entity validation (if specified via an EntityManagerDelegate)
                 foreach (var validator in EntityManagerDelegates)
                 {
                     validator.Validate(entity, validationResults);

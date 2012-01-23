@@ -21,10 +21,12 @@ namespace Security
         public Guid Id { get; internal set; }
 
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "User_Username")]
         public string Username { get; set; }
 
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "User_Password")]
         public string Password { get; set; }
 

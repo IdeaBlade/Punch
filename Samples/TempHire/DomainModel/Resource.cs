@@ -36,6 +36,7 @@ namespace DomainModel
 
         /// <summary>Gets or sets the FirstName. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "Resource_FirstName")]
         public string FirstName { get; set; }
 
@@ -45,11 +46,13 @@ namespace DomainModel
 
         /// <summary>Gets or sets the LastName. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "Resource_LastName")]
         public string LastName { get; set; }
 
         /// <summary>Gets or sets the Summary. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "Resource_Summary")]
         public string Summary { get; set; }
 

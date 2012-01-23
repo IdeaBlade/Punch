@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityModelMetadata xmlns:i="http://www.w3.org/2001/XMLSchema-instance" z:Id="1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" xmlns="http://ideablade.com/EntityModel">
-  <CreatedOn>2012-01-22T10:41:35.7234787-08:00</CreatedOn>
+  <CreatedOn>2012-01-22T22:47:40.6119623-08:00</CreatedOn>
   <DevForceVersion z:Id="2">6.1.5.0</DevForceVersion>
   <EncodedLicenseKey z:Id="3">j4zuMPY0Al4wKiuyjWvjrjYy4mj2CVX7D7mIJLEuBy0ekuy7fTAr+cAFkGnnGHJZ</EncodedLicenseKey>
   <EntityMetadataSurrogates z:Id="4" z:Size="10">
@@ -33,7 +33,7 @@
           <EntityTypeWrapper z:Ref="10" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="16">Address1</Name>
           <Ordinal>1</Ordinal>
@@ -57,7 +57,7 @@
           <EntityTypeWrapper z:Ref="10" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="20">City</Name>
           <Ordinal>3</Ordinal>
@@ -93,7 +93,7 @@
           <EntityTypeWrapper z:Ref="10" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="28">Zipcode</Name>
           <Ordinal>6</Ordinal>
@@ -193,7 +193,7 @@
           <EntityTypeWrapper z:Ref="45" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="57">Name</Name>
           <Ordinal>1</Ordinal>
@@ -205,7 +205,7 @@
           <EntityTypeWrapper z:Ref="45" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="59">DisplayName</Name>
           <Ordinal>2</Ordinal>
@@ -253,7 +253,7 @@
           <EntityTypeWrapper z:Ref="68" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="72">AreaCode</Name>
           <Ordinal>1</Ordinal>
@@ -265,7 +265,7 @@
           <EntityTypeWrapper z:Ref="68" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="74">Number</Name>
           <Ordinal>2</Ordinal>
@@ -358,7 +358,7 @@
           <EntityTypeWrapper z:Ref="89" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="97">Name</Name>
           <Ordinal>1</Ordinal>
@@ -490,7 +490,7 @@
           <EntityTypeWrapper z:Ref="123" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="133">Name</Name>
           <Ordinal>1</Ordinal>
@@ -502,7 +502,7 @@
           <EntityTypeWrapper z:Ref="123" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="135">DisplayName</Name>
           <Ordinal>2</Ordinal>
@@ -550,7 +550,7 @@
           <EntityTypeWrapper z:Ref="41" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="148">FirstName</Name>
           <Ordinal>1</Ordinal>
@@ -574,7 +574,7 @@
           <EntityTypeWrapper z:Ref="41" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="152">LastName</Name>
           <Ordinal>3</Ordinal>
@@ -586,7 +586,7 @@
           <EntityTypeWrapper z:Ref="41" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="154">Summary</Name>
           <Ordinal>4</Ordinal>
@@ -691,7 +691,7 @@
           <EntityTypeWrapper z:Ref="174" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="183">Description</Name>
           <Ordinal>1</Ordinal>
@@ -747,7 +747,7 @@
           <EntityTypeWrapper z:Ref="49" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="196">ShortName</Name>
           <Ordinal>1</Ordinal>
@@ -759,7 +759,7 @@
           <EntityTypeWrapper z:Ref="49" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="198">Name</Name>
           <Ordinal>2</Ordinal>
@@ -816,7 +816,7 @@
           <EntityTypeWrapper z:Ref="169" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="211">PositionTitle</Name>
           <Ordinal>3</Ordinal>
@@ -828,7 +828,7 @@
           <EntityTypeWrapper z:Ref="169" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="213">Company</Name>
           <Ordinal>4</Ordinal>
@@ -840,7 +840,7 @@
           <EntityTypeWrapper z:Ref="169" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="215">Location</Name>
           <Ordinal>5</Ordinal>
@@ -852,7 +852,7 @@
           <EntityTypeWrapper z:Ref="169" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="217">Description</Name>
           <Ordinal>6</Ordinal>

@@ -22,6 +22,7 @@ namespace DomainModel
 
         /// <summary>Gets or sets the Description. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "Skill_Description")]
         public string Description { get; set; }
 

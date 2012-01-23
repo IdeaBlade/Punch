@@ -21,16 +21,19 @@ namespace DomainModel
 
         /// <summary>Gets or sets the Name. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "RateType_Name")]
         public string Name { get; set; }
 
         /// <summary>Gets or sets the DisplayName. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "RateType_DisplayName")]
         public string DisplayName { get; set; }
 
         /// <summary>Gets or sets the Sequence. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "RateType_Sequence")]
         public short Sequence { get; set; }
     }

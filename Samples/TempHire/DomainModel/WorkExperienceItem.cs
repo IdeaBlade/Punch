@@ -22,31 +22,37 @@ namespace DomainModel
 
         /// <summary>Gets or sets the From. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_From")]
         public DateTime From { get; set; }
 
         /// <summary>Gets or sets the To. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_To")]
         public DateTime To { get; set; }
 
         /// <summary>Gets or sets the PositionTitle. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_PositionTitle")]
         public string PositionTitle { get; set; }
 
         /// <summary>Gets or sets the Company. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_Company")]
         public string Company { get; set; }
 
         /// <summary>Gets or sets the Location. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_Location")]
         public string Location { get; set; }
 
         /// <summary>Gets or sets the Description. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "WorkExperienceItem_Description")]
         public string Description { get; set; }
 

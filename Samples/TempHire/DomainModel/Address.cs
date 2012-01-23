@@ -22,6 +22,7 @@ namespace DomainModel
 
         /// <summary>Gets or sets the Address1. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "Address_Address1")]
         public string Address1 { get; set; }
 
@@ -31,6 +32,7 @@ namespace DomainModel
 
         /// <summary>Gets or sets the City. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "Address_City")]
         public string City { get; set; }
 
@@ -46,11 +48,13 @@ namespace DomainModel
 
         /// <summary>Gets or sets the Zipcode. </summary>
         [DataMember]
+        [Required]
         [StringLengthVerifier(MaxValue = 10, MinValue = 5, IsRequired = true, ErrorMessageResourceName = "Address_Zipcode")]
         public string Zipcode { get; set; }
 
         /// <summary>Gets or sets the Primary. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "Address_Primary")]
         public bool Primary { get; set; }
 

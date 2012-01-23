@@ -3,9 +3,11 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Windows;
 using Cocktail;
+using Common.EntityManagerProviders;
 using Common.Errors;
 using Common.Messages;
 using DomainModel;
+using Security;
 using TempHire.Authentication;
 
 namespace TempHire
@@ -28,6 +30,8 @@ namespace TempHire
         {
             base.PrepareCompositionContainer(batch);
 
+            batch.AddExportedValue<IEntityManagerProvider<TempHireEntities>>(new DevTempHireEntityManagerProvider());
+            batch.AddExportedValue<IEntityManagerProvider<SecurityEntities>>(new DevSecurityEntityManagerProvider());
             batch.AddExportedValue<IAuthenticationService>(new FakeAuthenticationService());
         }
 

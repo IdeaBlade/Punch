@@ -21,16 +21,19 @@ namespace DomainModel
 
         /// <summary>Gets or sets the Name. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "AddressType_Name")]
         public string Name { get; set; }
 
         /// <summary>Gets or sets the DisplayName. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "AddressType_DisplayName")]
         public string DisplayName { get; set; }
 
         /// <summary>Gets or sets the Default. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "AddressType_Default")]
         public bool Default { get; set; }
     }

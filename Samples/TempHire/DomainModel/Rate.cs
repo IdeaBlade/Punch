@@ -22,6 +22,7 @@ namespace DomainModel
 
         /// <summary>Gets or sets the Amount. </summary>
         [DataMember]
+        [Required]
         [RequiredValueVerifier(ErrorMessageResourceName = "Rate_Amount")]
         public decimal Amount { get; set; }
 

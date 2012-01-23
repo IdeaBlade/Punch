@@ -9,9 +9,6 @@
              d:DesignHeight="462"
              d:DesignWidth="857"
              mc:Ignorable="d">
-	<UserControl.Resources>
-
-	</UserControl.Resources>
 
     <toolkit:BusyIndicator IsBusy="{Binding Busy.IsBusy}">
         <toolkit:BusyIndicator.BusyContent>
@@ -26,18 +23,7 @@
             <ItemsControl IsEnabled="{Binding IsLoggedIn}" ItemsSource="{Binding Toolbar.Actions}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <StackPanel.Background>
-                                <RadialGradientBrush GradientOrigin="0.026,1.679" RadiusY="2.068" RadiusX="2.068" Center="0.554,0.469">
-                                    <RadialGradientBrush.RelativeTransform>
-                                        <CompositeTransform CenterY="0.103" CenterX="0.682" Rotation="-31.258" TranslateX="0.224" TranslateY="0.235"/>
-                                    </RadialGradientBrush.RelativeTransform>
-                                    <GradientStop Color="#FF00518F" Offset="0"/>
-                                    <GradientStop Color="#1900518F" Offset="0.543"/>
-                                    <GradientStop Color="#FF00518F" Offset="0.892"/>
-                                </RadialGradientBrush>
-                            </StackPanel.Background>
-                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Background="#FFC6DBF1"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>

@@ -225,6 +225,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="..\TempHire\Styles\Styles.xaml">
+      <Link>Styles\Styles.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\TempHire\Views\Dialog\CustomDialogView.xaml">
       <Link>Views\Dialog\CustomDialogView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>

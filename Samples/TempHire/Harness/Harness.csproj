@@ -137,9 +137,6 @@
     <Compile Include="..\TempHire\EntityManagerDelegate.cs">
       <Link>EntityManagerDelegate.cs</Link>
     </Compile>
-    <Compile Include="..\TempHire\EntityManagerProviderFactory.cs">
-      <Link>EntityManagerProviderFactory.cs</Link>
-    </Compile>
     <Compile Include="..\TempHire\SyncInterceptor.cs">
       <Link>SyncInterceptor.cs</Link>
     </Compile>

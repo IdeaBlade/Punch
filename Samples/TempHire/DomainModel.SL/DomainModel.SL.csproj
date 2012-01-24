@@ -90,46 +90,46 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\DomainModel\Address.cs">
-      <Link>Shared Code\Address.cs</Link>
+      <Link>Address.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\AddressType.cs">
-      <Link>Shared Code\AddressType.cs</Link>
+      <Link>AddressType.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\EntityBase.cs">
-      <Link>Shared Code\EntityBase.cs</Link>
+      <Link>EntityBase.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\IHasRoot.cs">
-      <Link>Shared Code\IHasRoot.cs</Link>
+      <Link>IHasRoot.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\PhoneNumber.cs">
-      <Link>Shared Code\PhoneNumber.cs</Link>
+      <Link>PhoneNumber.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\PhoneNumberType.cs">
-      <Link>Shared Code\PhoneNumberType.cs</Link>
+      <Link>PhoneNumberType.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\Projections\ResourceListItem.cs">
       <Link>Projections\ResourceListItem.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\Rate.cs">
-      <Link>Shared Code\Rate.cs</Link>
+      <Link>Rate.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\RateType.cs">
-      <Link>Shared Code\RateType.cs</Link>
+      <Link>RateType.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\Resource.cs">
-      <Link>Shared Code\Resource.cs</Link>
+      <Link>Resource.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\Skill.cs">
-      <Link>Shared Code\Skill.cs</Link>
+      <Link>Skill.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\State.cs">
-      <Link>Shared Code\State.cs</Link>
+      <Link>State.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\TempHireEntities.cs">
-      <Link>Shared Code\TempHireEntities.cs</Link>
+      <Link>TempHireEntities.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\WorkExperienceItem.cs">
-      <Link>Shared Code\WorkExperienceItem.cs</Link>
+      <Link>WorkExperienceItem.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

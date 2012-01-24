@@ -121,7 +121,9 @@
                             <Button Width="60"
                                     HorizontalAlignment="Center"
                                     cal:Message.Attach="Delete($dataContext)"
-                                    Content="Delete" />
+                                    Content="Delete" 
+                                    Style="{StaticResource Button_Style}"
+					                BorderBrush="{x:Null}" Foreground="White" FontSize="10.667" FontFamily="Verdana" Background="{x:Null}" BorderThickness="0" Cursor="Hand"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

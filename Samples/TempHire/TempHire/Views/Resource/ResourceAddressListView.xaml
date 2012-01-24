@@ -134,13 +134,11 @@
                     VerticalAlignment="Stretch"
                     Orientation="Horizontal">
             <Button x:Name="Add"
-                    Width="80"
+                    Width="25"
                     Height="25"
                     Margin="0,0,5,0"
                     VerticalAlignment="Center"
-                    Content="Add" 
-					Style="{StaticResource Button_Style}"
-					BorderBrush="{x:Null}" Foreground="White" FontSize="10.667" FontFamily="Verdana" Background="{x:Null}" BorderThickness="0" Cursor="Hand"/>
+					Style="{StaticResource AddButton_Style}" />
         </StackPanel>
     </Grid>
 </UserControl>

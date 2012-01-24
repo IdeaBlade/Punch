@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -22,8 +23,10 @@ namespace Common.Converters
 
                     foreach (object item in source)
                     {
+                        var style = (Style) Application.Current.Resources["TabItem_Style"];
                         var tabItem = new TabItem
                                           {
+                                              Style = style,
                                               DataContext = item,
                                               Content = new ContentControl {Template = (ControlTemplate) parameter}
                                           };

@@ -3,7 +3,6 @@ using System.Linq;
 using Cocktail;
 using Common.Messages;
 using DomainModel;
-using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
 
@@ -19,7 +18,7 @@ namespace TempHire
         public override void OnSaving(TempHireEntities source, EntitySavingEventArgs args)
         {
             // Add necessary aggregate root object to the save list for validation and concurrency check
-            var rootEas = args.Entities.OfType<IHasRoot>()
+            List<EntityAspect> rootEas = args.Entities.OfType<IHasRoot>()
                 .Select(e => EntityAspect.Wrap(e.Root))
                 .Distinct()
                 .Where(ea => ea != null && !ea.IsChanged && !ea.IsNullOrPendingEntity)

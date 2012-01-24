@@ -17,17 +17,15 @@ namespace Security
 
         [DataMember]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [RequiredValueVerifier(ErrorMessageResourceName = "User_Id")]
+        [Required]
         public Guid Id { get; internal set; }
 
         [DataMember]
         [Required]
-        [RequiredValueVerifier(ErrorMessageResourceName = "User_Username")]
         public string Username { get; set; }
 
         [DataMember]
         [Required]
-        [RequiredValueVerifier(ErrorMessageResourceName = "User_Password")]
         public string Password { get; set; }
 
         public static User Create()

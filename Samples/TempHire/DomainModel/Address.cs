@@ -17,13 +17,12 @@ namespace DomainModel
         /// <summary>Gets or sets the Id. </summary>
         [DataMember]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Address_Id")]
+        [Required]
         public Guid Id { get; internal set; }
 
         /// <summary>Gets or sets the Address1. </summary>
         [DataMember]
         [Required]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Address_Address1")]
         public string Address1 { get; set; }
 
         /// <summary>Gets or sets the Address2. </summary>
@@ -33,29 +32,27 @@ namespace DomainModel
         /// <summary>Gets or sets the City. </summary>
         [DataMember]
         [Required]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Address_City")]
         public string City { get; set; }
 
         /// <summary>Gets or sets the ResourceId. </summary>
         [DataMember]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Address_ResourceId")]
+        [Required]
         public Guid ResourceId { get; set; }
 
         /// <summary>Gets or sets the AddressTypeId. </summary>
         [DataMember]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Address_AddressTypeId")]
+        [Required]
         public Guid AddressTypeId { get; set; }
 
         /// <summary>Gets or sets the Zipcode. </summary>
         [DataMember]
         [Required]
-        [StringLengthVerifier(MaxValue = 10, MinValue = 5, IsRequired = true, ErrorMessageResourceName = "Address_Zipcode")]
+        [StringLength(10, MinimumLength = 5)]
         public string Zipcode { get; set; }
 
         /// <summary>Gets or sets the Primary. </summary>
         [DataMember]
         [Required]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Address_Primary")]
         public bool Primary { get; set; }
 
         /// <summary>Gets or sets the StateId. </summary>
@@ -114,7 +111,7 @@ namespace DomainModel
         public override void Validate(VerifierResultCollection validationErrors)
         {
             if (State.EntityFacts.EntityAspect.IsNullOrPendingEntity)
-                validationErrors.Add(new VerifierResult(VerifierResultCode.Error, "State is required", "State"));
+                validationErrors.Add(new VerifierResult(VerifierResultCode.Error, "The State field is required", "State"));
         }
     }
 }

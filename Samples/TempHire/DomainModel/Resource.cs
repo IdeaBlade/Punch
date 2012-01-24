@@ -31,13 +31,12 @@ namespace DomainModel
         /// <summary>Gets or sets the Id. </summary>
         [DataMember]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Resource_Id")]
+        [Required]
         public Guid Id { get; internal set; }
 
         /// <summary>Gets or sets the FirstName. </summary>
         [DataMember]
         [Required]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Resource_FirstName")]
         public string FirstName { get; set; }
 
         /// <summary>Gets or sets the MiddleName. </summary>
@@ -47,20 +46,18 @@ namespace DomainModel
         /// <summary>Gets or sets the LastName. </summary>
         [DataMember]
         [Required]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Resource_LastName")]
         public string LastName { get; set; }
 
         /// <summary>Gets or sets the Summary. </summary>
         [DataMember]
         [Required]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Resource_Summary")]
         public string Summary { get; set; }
 
         /// <summary>Gets or sets the Timestamp. </summary>
         [DataMember]
         [ConcurrencyCheck]
         [ConcurrencyStrategy(ConcurrencyStrategy.AutoDateTime)]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Resource_Timestamp")]
+        [Required]
         public DateTime Timestamp { get; set; }
 
         /// <summary>Gets the Addresses. </summary>

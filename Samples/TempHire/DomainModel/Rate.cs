@@ -17,23 +17,22 @@ namespace DomainModel
         /// <summary>Gets or sets the Id. </summary>
         [DataMember]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Rate_Id")]
+        [Required]
         public Guid Id { get; internal set; }
 
         /// <summary>Gets or sets the Amount. </summary>
         [DataMember]
         [Required]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Rate_Amount")]
         public decimal Amount { get; set; }
 
         /// <summary>Gets or sets the RateTypeId. </summary>
         [DataMember]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Rate_RateTypeId")]
+        [Required]
         public Guid RateTypeId { get; set; }
 
         /// <summary>Gets or sets the ResourceId. </summary>
         [DataMember]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Rate_ResourceId")]
+        [Required]
         public Guid ResourceId { get; set; }
 
         /// <summary>Gets or sets the RateType. </summary>

@@ -16,19 +16,17 @@ namespace DomainModel
         /// <summary>Gets or sets the Id. </summary>
         [DataMember]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [RequiredValueVerifier(ErrorMessageResourceName = "PhoneNumberType_Id")]
+        [Required]
         public Guid Id { get; internal set; }
 
         /// <summary>Gets or sets the Name. </summary>
         [DataMember]
         [Required]
-        [RequiredValueVerifier(ErrorMessageResourceName = "PhoneNumberType_Name")]
         public string Name { get; set; }
 
         /// <summary>Gets or sets the Default. </summary>
         [DataMember]
         [Required]
-        [RequiredValueVerifier(ErrorMessageResourceName = "PhoneNumberType_Default")]
         public bool Default { get; set; }
     }
 }

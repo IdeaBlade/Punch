@@ -96,10 +96,10 @@
       <Link>CryptoHelper.cs</Link>
     </Compile>
     <Compile Include="..\Security\SecurityEntities.cs">
-      <Link>Shared Code\SecurityEntities.cs</Link>
+      <Link>SecurityEntities.cs</Link>
     </Compile>
     <Compile Include="..\Security\User.cs">
-      <Link>Shared Code\User.cs</Link>
+      <Link>User.cs</Link>
     </Compile>
     <Compile Include="Messages\LoggedInMessage.cs" />
     <Compile Include="Messages\LoggedOutMessage.cs" />

@@ -23,13 +23,13 @@ namespace DomainModel
         /// <summary>Gets or sets the AreaCode. </summary>
         [DataMember]
         [Required]
-        [StringLengthVerifier(MaxValue = 3, MinValue = 3, IsRequired = false, ErrorMessageResourceName = "PhoneNumber_AreaCode")]
+        [StringLength(3, MinimumLength = 3)]
         public string AreaCode { get; set; }
 
         /// <summary>Gets or sets the Number. </summary>
         [DataMember]
         [Required]
-        [StringLengthVerifier(MaxValue = 7, MinValue = 7, IsRequired = false, ErrorMessageResourceName = "PhoneNumber_Number")]
+        [StringLength(7, MinimumLength = 7)]
         public string Number { get; set; }
 
         /// <summary>Gets or sets the PhoneNumberTypeId. </summary>

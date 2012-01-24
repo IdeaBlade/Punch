@@ -21,7 +21,7 @@ namespace DomainModel
         /// <summary>Gets or sets the ShortName. </summary>
         [DataMember]
         [Required]
-        [StringLengthVerifier(MaxValue = 2, IsRequired = false, ErrorMessageResourceName = "State_ShortName")]
+        [StringLength(2)]
         public string ShortName { get; set; }
 
         /// <summary>Gets or sets the Name. </summary>

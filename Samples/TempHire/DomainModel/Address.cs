@@ -47,7 +47,7 @@ namespace DomainModel
         /// <summary>Gets or sets the Zipcode. </summary>
         [DataMember]
         [Required]
-        [StringLengthVerifier(MaxValue = 10, MinValue = 5, IsRequired = false, ErrorMessageResourceName = "Address_Zipcode")]
+        [StringLength(10, MinimumLength = 5)]
         public string Zipcode { get; set; }
 
         /// <summary>Gets or sets the Primary. </summary>

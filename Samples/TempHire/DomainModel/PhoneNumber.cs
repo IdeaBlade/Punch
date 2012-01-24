@@ -17,35 +17,34 @@ namespace DomainModel
         /// <summary>Gets or sets the Id. </summary>
         [DataMember]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [RequiredValueVerifier(ErrorMessageResourceName = "PhoneNumber_Id")]
+        [Required]
         public Guid Id { get; internal set; }
 
         /// <summary>Gets or sets the AreaCode. </summary>
         [DataMember]
         [Required]
-        [StringLengthVerifier(MaxValue = 3, MinValue = 3, IsRequired = true, ErrorMessageResourceName = "PhoneNumber_AreaCode")]
+        [StringLengthVerifier(MaxValue = 3, MinValue = 3, IsRequired = false, ErrorMessageResourceName = "PhoneNumber_AreaCode")]
         public string AreaCode { get; set; }
 
         /// <summary>Gets or sets the Number. </summary>
         [DataMember]
         [Required]
-        [StringLengthVerifier(MaxValue = 7, MinValue = 7, IsRequired = true, ErrorMessageResourceName = "PhoneNumber_Number")]
+        [StringLengthVerifier(MaxValue = 7, MinValue = 7, IsRequired = false, ErrorMessageResourceName = "PhoneNumber_Number")]
         public string Number { get; set; }
 
         /// <summary>Gets or sets the PhoneNumberTypeId. </summary>
         [DataMember]
-        [RequiredValueVerifier(ErrorMessageResourceName = "PhoneNumber_PhoneNumberTypeId")]
+        [Required]
         public Guid PhoneNumberTypeId { get; set; }
 
         /// <summary>Gets or sets the ResourceId. </summary>
         [DataMember]
-        [RequiredValueVerifier(ErrorMessageResourceName = "PhoneNumber_ResourceId")]
+        [Required]
         public Guid ResourceId { get; set; }
 
         /// <summary>Gets or sets the Primary. </summary>
         [DataMember]
         [Required]
-        [RequiredValueVerifier(ErrorMessageResourceName = "PhoneNumber_Primary")]
         public bool Primary { get; set; }
 
         /// <summary>Gets or sets the Resource. </summary>

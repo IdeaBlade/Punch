@@ -38,6 +38,21 @@ namespace DomainModel
             get { return _entityAspect.EntityState; }
         }
 
+        public bool IsNullEntity
+        {
+            get { return _entityAspect.IsNullEntity; }
+        }
+
+        public bool IsPendingEntity
+        {
+            get { return _entityAspect.IsPendingEntity; }
+        }
+
+        public bool IsNullOrPendingEntity
+        {
+            get { return _entityAspect.IsNullOrPendingEntity; }
+        }
+
         protected internal EntityAspect EntityAspect
         {
             get { return _entityAspect; }

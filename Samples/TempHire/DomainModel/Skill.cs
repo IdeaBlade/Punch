@@ -17,18 +17,17 @@ namespace DomainModel
         /// <summary>Gets or sets the Id. </summary>
         [DataMember]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Skill_Id")]
+        [Required]
         public Guid Id { get; internal set; }
 
         /// <summary>Gets or sets the Description. </summary>
         [DataMember]
         [Required]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Skill_Description")]
         public string Description { get; set; }
 
         /// <summary>Gets or sets the ResourceId. </summary>
         [DataMember]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Skill_ResourceId")]
+        [Required]
         public Guid ResourceId { get; set; }
 
         /// <summary>Gets or sets the Resource. </summary>

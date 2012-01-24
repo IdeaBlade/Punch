@@ -11,6 +11,7 @@ using Common.Repositories;
 using Common.Toolbar;
 using Common.Workspace;
 using DomainModel.Projections;
+using IdeaBlade.EntityModel;
 using Action = System.Action;
 
 namespace TempHire.ViewModels.Resource
@@ -84,7 +85,7 @@ namespace TempHire.ViewModels.Resource
             get
             {
                 return ActiveResource != null && ActiveRepository.HasChanges() &&
-                       !ActiveResource.EntityFacts.IsDeleted;
+                       !ActiveResource.EntityFacts.EntityState.IsDeleted();
             }
         }
 
@@ -261,7 +262,7 @@ namespace TempHire.ViewModels.Resource
 
         public void Cancel()
         {
-            bool shouldClose = ActiveResource.EntityFacts.IsAdded;
+            bool shouldClose = ActiveResource.EntityFacts.EntityState.IsAdded();
             ActiveRepository.RejectChanges();
 
             if (shouldClose)

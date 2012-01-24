@@ -33,19 +33,9 @@ namespace DomainModel
             _entityAspect = EntityAspect.Wrap(entity);
         }
 
-        public bool IsModified
+        public EntityState EntityState
         {
-            get { return _entityAspect.EntityState.IsModified(); }
-        }
-
-        public bool IsAdded
-        {
-            get { return _entityAspect.EntityState.IsAdded(); }
-        }
-
-        public bool IsDeleted
-        {
-            get { return _entityAspect.EntityState.IsDeleted(); }
+            get { return _entityAspect.EntityState; }
         }
 
         protected internal EntityAspect EntityAspect

@@ -54,7 +54,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
-								 BorderBrush="#FF1D5380"
+                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Item.Address1,
                                                 Mode=TwoWay}" />
                         <sdk:Label Grid.Row="2" Content="Address 2:" />
@@ -63,7 +63,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
-								 BorderBrush="#FF1D5380"
+                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Item.Address2,
                                                 Mode=TwoWay}" />
                         <sdk:Label Grid.Row="3" Content="City:" />
@@ -72,7 +72,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
-								 BorderBrush="#FF1D5380"
+                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Item.City,
                                                 Mode=TwoWay}" />
                         <sdk:Label Grid.Row="4" Content="State:" />
@@ -82,8 +82,8 @@
                                   Height="25"
                                   Margin="2"
                                   HorizontalAlignment="Left"
-								  BorderBrush="#FF1D5380"
                                   DisplayMemberPath="Name"
+                                  Style="{StaticResource ComboBox_Style}"
                                   ItemsSource="{Binding ElementName=LayoutRoot,
                                                         Path=DataContext.States}"
                                   MaxDropDownHeight="200"
@@ -97,7 +97,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Left"
-								 BorderBrush="#FF1D5380"
+                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Item.Zipcode,
                                                 Mode=TwoWay}" />
                         <StackPanel Grid.RowSpan="6"

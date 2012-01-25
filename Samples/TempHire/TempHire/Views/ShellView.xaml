@@ -33,8 +33,7 @@
                                 Margin="5,5,0,5"
                                 cal:Message.Attach="Execute"
                                 Content="{Binding Label}"
-                                Padding="10" Style="{StaticResource Button_Style}" 
-								BorderBrush="{x:Null}" Foreground="White" FontSize="10.667" FontFamily="Verdana" Background="{x:Null}" BorderThickness="0" Cursor="Hand" />
+                                Padding="10" Style="{StaticResource Button_Style}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

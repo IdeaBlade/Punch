@@ -22,7 +22,7 @@
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Center"
                   DisplayMemberPath="Name"
-				  BorderBrush="#FF1D5380"
+				  Style="{StaticResource ComboBox_Style}"
                   ItemsSource="{Binding PhoneTypes}"
                   SelectedItem="{Binding SelectedPhoneType,
                                          Mode=TwoWay}" />

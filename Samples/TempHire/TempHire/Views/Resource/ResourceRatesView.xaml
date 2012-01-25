@@ -59,7 +59,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
-								 BorderBrush="#FF1D5380"
+								 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Amount,
                                                 Mode=TwoWay}"
                                  TextAlignment="Right" />
@@ -71,7 +71,6 @@
                                     Margin="2"
                                     HorizontalAlignment="Left"
 									Style="{StaticResource Button_Style}"
-									BorderBrush="{x:Null}" Foreground="White" FontSize="10.667" FontFamily="Verdana" Background="{x:Null}" BorderThickness="0" Cursor="Hand"
                                     cal:Message.Attach="Delete($dataContext)"
                                     Content="Delete" />
                         </StackPanel>

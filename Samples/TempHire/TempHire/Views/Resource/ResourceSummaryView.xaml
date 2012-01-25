@@ -28,12 +28,12 @@
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Top"
-                 FontFamily="Arial"
-                 FontSize="14"
+                 Style="{StaticResource TextBox_Style}"
                  Text="{Binding Resource.Summary,
                                 Mode=TwoWay}"
                  TextWrapping="Wrap"
-                 VerticalScrollBarVisibility="Auto" BorderBrush="#FF1D5380">
+                 VerticalScrollBarVisibility="Auto"
+                 AcceptsReturn="True">
         	<TextBox.Effect>
         		<DropShadowEffect Opacity="0.2" Color="#FF333333" BlurRadius="3"/>
         	</TextBox.Effect>

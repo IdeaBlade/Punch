@@ -33,24 +33,29 @@ namespace DomainModel
             _entityAspect = EntityAspect.Wrap(entity);
         }
 
-        public bool IsModified
+        public EntityState EntityState
         {
-            get { return _entityAspect.EntityState.IsModified(); }
+            get { return _entityAspect.EntityState; }
         }
 
-        public bool IsAdded
+        public bool IsNullEntity
         {
-            get { return _entityAspect.EntityState.IsAdded(); }
+            get { return _entityAspect.IsNullEntity; }
         }
 
-        public bool IsDeleted
+        public bool IsPendingEntity
         {
-            get { return _entityAspect.EntityState.IsDeleted(); }
+            get { return _entityAspect.IsPendingEntity; }
         }
 
-        public void RejectChanges()
+        public bool IsNullOrPendingEntity
         {
-            _entityAspect.RejectChanges();
+            get { return _entityAspect.IsNullOrPendingEntity; }
+        }
+
+        protected internal EntityAspect EntityAspect
+        {
+            get { return _entityAspect; }
         }
 
         public event PropertyChangedEventHandler EntityPropertyChanged

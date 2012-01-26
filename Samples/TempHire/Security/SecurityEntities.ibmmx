@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityModelMetadata xmlns:i="http://www.w3.org/2001/XMLSchema-instance" z:Id="1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" xmlns="http://ideablade.com/EntityModel">
-  <CreatedOn>2012-01-25T20:31:46.9925482-08:00</CreatedOn>
+  <CreatedOn>2012-01-22T22:33:31.9243807-08:00</CreatedOn>
   <DevForceVersion z:Id="2">6.1.5.0</DevForceVersion>
   <EncodedLicenseKey z:Id="3">2jUPwTTHoGj29Vi0/lQ5PfPy7bqIigdsS0Qk82eraQEx3EIsrw1oXfXoJrcyrInT</EncodedLicenseKey>
   <EntityMetadataSurrogates z:Id="4" z:Size="1">
@@ -33,7 +33,7 @@
           <EntityTypeWrapper z:Ref="10" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="16">Username</Name>
           <Ordinal>1</Ordinal>
@@ -45,7 +45,7 @@
           <EntityTypeWrapper z:Ref="10" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="18">Password</Name>
           <Ordinal>2</Ordinal>

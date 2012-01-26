@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using IdeaBlade.Validation;
 
 namespace DomainModel
 {
@@ -15,17 +14,18 @@ namespace DomainModel
         /// <summary>Gets or sets the Id. </summary>
         [DataMember]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [RequiredValueVerifier(ErrorMessageResourceName = "State_Id")]
+        [Required]
         public Guid Id { get; internal set; }
 
         /// <summary>Gets or sets the ShortName. </summary>
         [DataMember]
-        [StringLengthVerifier(MaxValue = 2, IsRequired = true, ErrorMessageResourceName = "State_ShortName")]
+        [Required]
+        [StringLength(2)]
         public string ShortName { get; set; }
 
         /// <summary>Gets or sets the Name. </summary>
         [DataMember]
-        [RequiredValueVerifier(ErrorMessageResourceName = "State_Name")]
+        [Required]
         public string Name { get; set; }
     }
 }

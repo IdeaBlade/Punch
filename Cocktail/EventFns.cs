@@ -26,18 +26,17 @@ using Action = System.Action;
 
 namespace Cocktail
 {
-    /// <summary>A collection of extension and static methods to provide additional EventAggregator functionality</summary>
+    /// <summary>A collection of static methods to provide additional EventAggregator functionality</summary>
     public static class EventFns
     {
         private static readonly PartLocator<IEventAggregator> EventAggregatorLocator =
             new PartLocator<IEventAggregator>(CreationPolicy.Shared);
 
         /// <summary>Returns true if the provided object implements IHandle for the given messageType.</summary>
-        /// <param name="source">An instance of the EventAggregator class.</param>
         /// <param name="handler">The object to be probed.</param>
         /// <param name="messageType">The type of the message to be handled.</param>
         /// <returns>True if the handler handles the given message type.</returns>
-        public static bool IsHandler(this IEventAggregator source, object handler, Type messageType)
+        public static bool IsHandler(object handler, Type messageType)
         {
             IEnumerable<Type> interfaces = handler.GetType().GetInterfaces()
                 .Where(i => typeof (IHandle).IsAssignableFrom(i) && i.IsGenericType);
@@ -47,10 +46,9 @@ namespace Cocktail
 
         /// <summary>Forwards a given message to the specified handler. The handler must
         ///    implement the corresponding IHandle interface for the message to be delivered.</summary>
-        /// <param name="source">An instance of the EventAggregator class.</param>
         /// <param name="handler">The object to handle the message.</param>
         /// <param name="message">The message to be forwarded.</param>
-        public static void Forward(this IEventAggregator source, object handler, object message)
+        public static void Forward(object handler, object message)
         {
             IEnumerable<Type> interfaces = handler.GetType().GetInterfaces()
                 .Where(i => typeof (IHandle).IsAssignableFrom(i) && i.IsGenericType);
@@ -91,7 +89,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Unsubscribes the instance from all events.
+        ///   Unsubscribe the instance from all events.
         /// </summary>
         /// <param name = "instance">The instance to unsubscribe.</param>
         /// <returns>True if EventAggregator is available and operation was successful</returns>

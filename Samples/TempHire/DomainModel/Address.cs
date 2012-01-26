@@ -17,12 +17,12 @@ namespace DomainModel
         /// <summary>Gets or sets the Id. </summary>
         [DataMember]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Address_Id")]
+        [Required]
         public Guid Id { get; internal set; }
 
         /// <summary>Gets or sets the Address1. </summary>
         [DataMember]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Address_Address1")]
+        [Required]
         public string Address1 { get; set; }
 
         /// <summary>Gets or sets the Address2. </summary>
@@ -31,45 +31,41 @@ namespace DomainModel
 
         /// <summary>Gets or sets the City. </summary>
         [DataMember]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Address_City")]
+        [Required]
         public string City { get; set; }
 
         /// <summary>Gets or sets the ResourceId. </summary>
         [DataMember]
-        [ForeignKey("Resource")]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Address_ResourceId")]
+        [Required]
         public Guid ResourceId { get; set; }
 
         /// <summary>Gets or sets the AddressTypeId. </summary>
         [DataMember]
-        [ForeignKey("AddressType")]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Address_AddressTypeId")]
+        [Required]
         public Guid AddressTypeId { get; set; }
 
         /// <summary>Gets or sets the Zipcode. </summary>
         [DataMember]
-        [StringLengthVerifier(MaxValue = 10, MinValue = 5, IsRequired = true, ErrorMessageResourceName = "Address_Zipcode")]
+        [Required]
+        [StringLength(10, MinimumLength = 5)]
         public string Zipcode { get; set; }
 
         /// <summary>Gets or sets the Primary. </summary>
         [DataMember]
-        [RequiredValueVerifier(ErrorMessageResourceName = "Address_Primary")]
+        [Required]
         public bool Primary { get; set; }
 
         /// <summary>Gets or sets the StateId. </summary>
         [DataMember]
         [Required]
-        [ForeignKey("State")]
         public Guid StateId { get; set; }
 
         /// <summary>Gets or sets the Resource. </summary>
         [DataMember]
-        [InverseProperty("Addresses")]
         public Resource Resource { get; set; }
 
         /// <summary>Gets or sets the AddressType. </summary>
         [DataMember]
-        [InverseProperty("Address")]
         public AddressType AddressType { get; set; }
 
         /// <summary>Gets or sets the State. </summary>
@@ -81,7 +77,7 @@ namespace DomainModel
 
         public object Root
         {
-            get { return !EntityAspect.Wrap(Resource).IsNullEntity ? Resource : null; }
+            get { return Resource; }
         }
 
         #endregion
@@ -114,8 +110,8 @@ namespace DomainModel
 
         public override void Validate(VerifierResultCollection validationErrors)
         {
-            if (EntityAspect.Wrap(State).IsNullOrPendingEntity)
-                validationErrors.Add(new VerifierResult(VerifierResultCode.Error, "State is required", "State"));
+            if (State.EntityFacts.EntityAspect.IsNullOrPendingEntity)
+                validationErrors.Add(new VerifierResult(VerifierResultCode.Error, "The State field is required", "State"));
         }
     }
 }

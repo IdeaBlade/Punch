@@ -91,7 +91,7 @@
   <ItemGroup>
     <None Include="DevForce.cf" />
     <EmbeddedResource Include="TempHireEntities.ibmmx">
-      <HashCode>1437957651</HashCode>
+      <HashCode>2133393975</HashCode>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

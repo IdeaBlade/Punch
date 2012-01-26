@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityModelMetadata xmlns:i="http://www.w3.org/2001/XMLSchema-instance" z:Id="1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" xmlns="http://ideablade.com/EntityModel">
-  <CreatedOn>2012-01-25T20:31:53.8089381-08:00</CreatedOn>
+  <CreatedOn>2012-01-23T23:08:25.9741627-08:00</CreatedOn>
   <DevForceVersion z:Id="2">6.1.5.0</DevForceVersion>
   <EncodedLicenseKey z:Id="3">j4zuMPY0Al4wKiuyjWvjrjYy4mj2CVX7D7mIJLEuBy0ekuy7fTAr+cAFkGnnGHJZ</EncodedLicenseKey>
   <EntityMetadataSurrogates z:Id="4" z:Size="10">
@@ -33,7 +33,7 @@
           <EntityTypeWrapper z:Ref="10" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="16">Address1</Name>
           <Ordinal>1</Ordinal>
@@ -57,7 +57,7 @@
           <EntityTypeWrapper z:Ref="10" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="20">City</Name>
           <Ordinal>3</Ordinal>
@@ -93,7 +93,7 @@
           <EntityTypeWrapper z:Ref="10" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="28">Zipcode</Name>
           <Ordinal>6</Ordinal>
@@ -143,7 +143,7 @@
           <IsScalar>true</IsScalar>
           <Name z:Ref="23" i:nil="true" />
           <QueryDirection>ToRole2</QueryDirection>
-          <UnqualifiedRelationName z:Id="43">Resource_Addresses</UnqualifiedRelationName>
+          <UnqualifiedRelationName z:Id="43">Address_Resource</UnqualifiedRelationName>
         </NavigationEntityPropertySurrogate>
         <NavigationEntityPropertySurrogate z:Id="44">
           <DataTypeWrapper z:Id="45" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
@@ -156,7 +156,7 @@
           <IsScalar>true</IsScalar>
           <Name z:Ref="26" i:nil="true" />
           <QueryDirection>ToRole2</QueryDirection>
-          <UnqualifiedRelationName z:Id="47">AddressType_Address</UnqualifiedRelationName>
+          <UnqualifiedRelationName z:Id="47">Address_AddressType</UnqualifiedRelationName>
         </NavigationEntityPropertySurrogate>
         <NavigationEntityPropertySurrogate z:Id="48">
           <DataTypeWrapper z:Id="49" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
@@ -193,7 +193,7 @@
           <EntityTypeWrapper z:Ref="45" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="57">Name</Name>
           <Ordinal>1</Ordinal>
@@ -205,7 +205,7 @@
           <EntityTypeWrapper z:Ref="45" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="59">DisplayName</Name>
           <Ordinal>2</Ordinal>
@@ -228,344 +228,311 @@
       <DefaultEntityContainerName z:Ref="37" i:nil="true" />
       <DefaultEntitySetName z:Id="63">TempHireDbContext.AddressTypes</DefaultEntitySetName>
       <EntityTypeWrapper z:Ref="45" i:nil="true" />
-      <NavProperties z:Id="64" z:Size="1">
-        <NavigationEntityPropertySurrogate z:Id="65">
-          <DataTypeWrapper z:Ref="10" i:nil="true" />
-          <EntityTypeWrapper z:Ref="45" i:nil="true" />
-          <IsCollectionReadOnly>false</IsCollectionReadOnly>
-          <IsNullable>true</IsNullable>
-          <IsScalar>false</IsScalar>
-          <Name z:Id="66">Address</Name>
-          <QueryDirection>ToRole1</QueryDirection>
-          <UnqualifiedRelationName z:Ref="47" i:nil="true" />
-        </NavigationEntityPropertySurrogate>
-      </NavProperties>
+      <NavProperties z:Id="64" z:Size="0" />
     </EntityMetadataSurrogate>
-    <EntityMetadataSurrogate z:Id="67">
-      <DataProperties z:Id="68" z:Size="6">
-        <DataEntityPropertySurrogate z:Id="69">
+    <EntityMetadataSurrogate z:Id="65">
+      <DataProperties z:Id="66" z:Size="6">
+        <DataEntityPropertySurrogate z:Id="67">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="8" i:nil="true" />
-          <EntityTypeWrapper z:Id="70" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
-            <d6p1:AssemblyQualifiedName z:Id="71">DomainModel.PhoneNumber, DomainModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</d6p1:AssemblyQualifiedName>
+          <EntityTypeWrapper z:Id="68" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
+            <d6p1:AssemblyQualifiedName z:Id="69">DomainModel.PhoneNumber, DomainModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</d6p1:AssemblyQualifiedName>
             <d6p1:IsNull>false</d6p1:IsNull>
           </EntityTypeWrapper>
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>true</IsPartOfKey>
-          <Name z:Id="72">Id</Name>
+          <Name z:Id="70">Id</Name>
           <Ordinal>0</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="71">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Ref="14" i:nil="true" />
+          <EntityTypeWrapper z:Ref="68" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="72">AreaCode</Name>
+          <Ordinal>1</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
         <DataEntityPropertySurrogate z:Id="73">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="14" i:nil="true" />
-          <EntityTypeWrapper z:Ref="70" i:nil="true" />
+          <EntityTypeWrapper z:Ref="68" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="74">AreaCode</Name>
-          <Ordinal>1</Ordinal>
+          <Name z:Id="74">Number</Name>
+          <Ordinal>2</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
         <DataEntityPropertySurrogate z:Id="75">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Ref="14" i:nil="true" />
-          <EntityTypeWrapper z:Ref="70" i:nil="true" />
-          <IsAutoIncrementing>false</IsAutoIncrementing>
-          <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
-          <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="76">Number</Name>
-          <Ordinal>2</Ordinal>
-          <RelatedNavigationPropertyName i:nil="true" />
-        </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="77">
-          <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="8" i:nil="true" />
-          <EntityTypeWrapper z:Ref="70" i:nil="true" />
+          <EntityTypeWrapper z:Ref="68" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="78">PhoneNumberTypeId</Name>
+          <Name z:Id="76">PhoneNumberTypeId</Name>
           <Ordinal>3</Ordinal>
-          <RelatedNavigationPropertyName z:Id="79">PhoneNumberType</RelatedNavigationPropertyName>
+          <RelatedNavigationPropertyName z:Id="77">PhoneNumberType</RelatedNavigationPropertyName>
         </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="80">
+        <DataEntityPropertySurrogate z:Id="78">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="8" i:nil="true" />
-          <EntityTypeWrapper z:Ref="70" i:nil="true" />
+          <EntityTypeWrapper z:Ref="68" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="81">ResourceId</Name>
+          <Name z:Id="79">ResourceId</Name>
           <Ordinal>4</Ordinal>
-          <RelatedNavigationPropertyName z:Id="82">Resource</RelatedNavigationPropertyName>
+          <RelatedNavigationPropertyName z:Id="80">Resource</RelatedNavigationPropertyName>
         </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="83">
+        <DataEntityPropertySurrogate z:Id="81">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="30" i:nil="true" />
-          <EntityTypeWrapper z:Ref="70" i:nil="true" />
+          <EntityTypeWrapper z:Ref="68" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="84">Primary</Name>
+          <Name z:Id="82">Primary</Name>
           <Ordinal>5</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
       </DataProperties>
-      <DataSourceKeyName z:Id="85">TempHireEntities</DataSourceKeyName>
+      <DataSourceKeyName z:Id="83">TempHireEntities</DataSourceKeyName>
       <DefaultEntityContainerName z:Ref="37" i:nil="true" />
-      <DefaultEntitySetName z:Id="86">TempHireDbContext.PhoneNumbers</DefaultEntitySetName>
-      <EntityTypeWrapper z:Ref="70" i:nil="true" />
-      <NavProperties z:Id="87" z:Size="2">
-        <NavigationEntityPropertySurrogate z:Id="88">
+      <DefaultEntitySetName z:Id="84">TempHireDbContext.PhoneNumbers</DefaultEntitySetName>
+      <EntityTypeWrapper z:Ref="68" i:nil="true" />
+      <NavProperties z:Id="85" z:Size="2">
+        <NavigationEntityPropertySurrogate z:Id="86">
           <DataTypeWrapper z:Ref="41" i:nil="true" />
-          <EntityTypeWrapper z:Ref="70" i:nil="true" />
+          <EntityTypeWrapper z:Ref="68" i:nil="true" />
           <IsCollectionReadOnly>false</IsCollectionReadOnly>
           <IsNullable>true</IsNullable>
           <IsScalar>true</IsScalar>
-          <Name z:Ref="82" i:nil="true" />
+          <Name z:Ref="80" i:nil="true" />
           <QueryDirection>ToRole2</QueryDirection>
-          <UnqualifiedRelationName z:Id="89">Resource_PhoneNumbers</UnqualifiedRelationName>
+          <UnqualifiedRelationName z:Id="87">PhoneNumber_Resource</UnqualifiedRelationName>
         </NavigationEntityPropertySurrogate>
-        <NavigationEntityPropertySurrogate z:Id="90">
-          <DataTypeWrapper z:Id="91" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
-            <d6p1:AssemblyQualifiedName z:Id="92">DomainModel.PhoneNumberType, DomainModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</d6p1:AssemblyQualifiedName>
+        <NavigationEntityPropertySurrogate z:Id="88">
+          <DataTypeWrapper z:Id="89" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
+            <d6p1:AssemblyQualifiedName z:Id="90">DomainModel.PhoneNumberType, DomainModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</d6p1:AssemblyQualifiedName>
             <d6p1:IsNull>false</d6p1:IsNull>
           </DataTypeWrapper>
-          <EntityTypeWrapper z:Ref="70" i:nil="true" />
+          <EntityTypeWrapper z:Ref="68" i:nil="true" />
           <IsCollectionReadOnly>false</IsCollectionReadOnly>
           <IsNullable>true</IsNullable>
           <IsScalar>true</IsScalar>
-          <Name z:Ref="79" i:nil="true" />
+          <Name z:Ref="77" i:nil="true" />
           <QueryDirection>ToRole2</QueryDirection>
-          <UnqualifiedRelationName z:Id="93">PhoneNumberType_PhoneNumbers</UnqualifiedRelationName>
+          <UnqualifiedRelationName z:Id="91">PhoneNumber_PhoneNumberType</UnqualifiedRelationName>
         </NavigationEntityPropertySurrogate>
       </NavProperties>
     </EntityMetadataSurrogate>
-    <EntityMetadataSurrogate z:Id="94">
-      <DataProperties z:Id="95" z:Size="3">
-        <DataEntityPropertySurrogate z:Id="96">
+    <EntityMetadataSurrogate z:Id="92">
+      <DataProperties z:Id="93" z:Size="3">
+        <DataEntityPropertySurrogate z:Id="94">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="8" i:nil="true" />
-          <EntityTypeWrapper z:Ref="91" i:nil="true" />
+          <EntityTypeWrapper z:Ref="89" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>true</IsPartOfKey>
-          <Name z:Id="97">Id</Name>
+          <Name z:Id="95">Id</Name>
           <Ordinal>0</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="98">
+        <DataEntityPropertySurrogate z:Id="96">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="14" i:nil="true" />
-          <EntityTypeWrapper z:Ref="91" i:nil="true" />
-          <IsAutoIncrementing>false</IsAutoIncrementing>
-          <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
-          <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="99">Name</Name>
-          <Ordinal>1</Ordinal>
-          <RelatedNavigationPropertyName i:nil="true" />
-        </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="100">
-          <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Ref="30" i:nil="true" />
-          <EntityTypeWrapper z:Ref="91" i:nil="true" />
+          <EntityTypeWrapper z:Ref="89" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="101">Default</Name>
+          <Name z:Id="97">Name</Name>
+          <Ordinal>1</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="98">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Ref="30" i:nil="true" />
+          <EntityTypeWrapper z:Ref="89" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="99">Default</Name>
           <Ordinal>2</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
       </DataProperties>
-      <DataSourceKeyName z:Id="102">TempHireEntities</DataSourceKeyName>
+      <DataSourceKeyName z:Id="100">TempHireEntities</DataSourceKeyName>
       <DefaultEntityContainerName z:Ref="37" i:nil="true" />
-      <DefaultEntitySetName z:Id="103">TempHireDbContext.PhoneNumberTypes</DefaultEntitySetName>
-      <EntityTypeWrapper z:Ref="91" i:nil="true" />
-      <NavProperties z:Id="104" z:Size="1">
-        <NavigationEntityPropertySurrogate z:Id="105">
-          <DataTypeWrapper z:Ref="70" i:nil="true" />
-          <EntityTypeWrapper z:Ref="91" i:nil="true" />
-          <IsCollectionReadOnly>false</IsCollectionReadOnly>
-          <IsNullable>true</IsNullable>
-          <IsScalar>false</IsScalar>
-          <Name z:Id="106">PhoneNumbers</Name>
-          <QueryDirection>ToRole1</QueryDirection>
-          <UnqualifiedRelationName z:Ref="93" i:nil="true" />
-        </NavigationEntityPropertySurrogate>
-      </NavProperties>
+      <DefaultEntitySetName z:Id="101">TempHireDbContext.PhoneNumberTypes</DefaultEntitySetName>
+      <EntityTypeWrapper z:Ref="89" i:nil="true" />
+      <NavProperties z:Id="102" z:Size="0" />
     </EntityMetadataSurrogate>
-    <EntityMetadataSurrogate z:Id="107">
-      <DataProperties z:Id="108" z:Size="4">
-        <DataEntityPropertySurrogate z:Id="109">
+    <EntityMetadataSurrogate z:Id="103">
+      <DataProperties z:Id="104" z:Size="4">
+        <DataEntityPropertySurrogate z:Id="105">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="8" i:nil="true" />
-          <EntityTypeWrapper z:Id="110" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
-            <d6p1:AssemblyQualifiedName z:Id="111">DomainModel.Rate, DomainModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</d6p1:AssemblyQualifiedName>
+          <EntityTypeWrapper z:Id="106" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
+            <d6p1:AssemblyQualifiedName z:Id="107">DomainModel.Rate, DomainModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</d6p1:AssemblyQualifiedName>
             <d6p1:IsNull>false</d6p1:IsNull>
           </EntityTypeWrapper>
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>true</IsPartOfKey>
-          <Name z:Id="112">Id</Name>
+          <Name z:Id="108">Id</Name>
           <Ordinal>0</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="109">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Id="110" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
+            <d6p1:AssemblyQualifiedName z:Id="111">System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</d6p1:AssemblyQualifiedName>
+            <d6p1:IsNull>false</d6p1:IsNull>
+          </DataTypeWrapper>
+          <EntityTypeWrapper z:Ref="106" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="112">Amount</Name>
+          <Ordinal>1</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
         <DataEntityPropertySurrogate z:Id="113">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Id="114" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
-            <d6p1:AssemblyQualifiedName z:Id="115">System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</d6p1:AssemblyQualifiedName>
-            <d6p1:IsNull>false</d6p1:IsNull>
-          </DataTypeWrapper>
-          <EntityTypeWrapper z:Ref="110" i:nil="true" />
-          <IsAutoIncrementing>false</IsAutoIncrementing>
-          <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>false</IsNullable>
-          <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="116">Amount</Name>
-          <Ordinal>1</Ordinal>
-          <RelatedNavigationPropertyName i:nil="true" />
-        </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="117">
-          <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="8" i:nil="true" />
-          <EntityTypeWrapper z:Ref="110" i:nil="true" />
+          <EntityTypeWrapper z:Ref="106" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="118">RateTypeId</Name>
+          <Name z:Id="114">RateTypeId</Name>
           <Ordinal>2</Ordinal>
-          <RelatedNavigationPropertyName z:Id="119">RateType</RelatedNavigationPropertyName>
+          <RelatedNavigationPropertyName z:Id="115">RateType</RelatedNavigationPropertyName>
         </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="120">
+        <DataEntityPropertySurrogate z:Id="116">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="8" i:nil="true" />
-          <EntityTypeWrapper z:Ref="110" i:nil="true" />
+          <EntityTypeWrapper z:Ref="106" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="121">ResourceId</Name>
+          <Name z:Id="117">ResourceId</Name>
           <Ordinal>3</Ordinal>
-          <RelatedNavigationPropertyName z:Id="122">Resource</RelatedNavigationPropertyName>
+          <RelatedNavigationPropertyName z:Id="118">Resource</RelatedNavigationPropertyName>
         </DataEntityPropertySurrogate>
       </DataProperties>
-      <DataSourceKeyName z:Id="123">TempHireEntities</DataSourceKeyName>
+      <DataSourceKeyName z:Id="119">TempHireEntities</DataSourceKeyName>
       <DefaultEntityContainerName z:Ref="37" i:nil="true" />
-      <DefaultEntitySetName z:Id="124">TempHireDbContext.Rates</DefaultEntitySetName>
-      <EntityTypeWrapper z:Ref="110" i:nil="true" />
-      <NavProperties z:Id="125" z:Size="2">
-        <NavigationEntityPropertySurrogate z:Id="126">
-          <DataTypeWrapper z:Id="127" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
-            <d6p1:AssemblyQualifiedName z:Id="128">DomainModel.RateType, DomainModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</d6p1:AssemblyQualifiedName>
+      <DefaultEntitySetName z:Id="120">TempHireDbContext.Rates</DefaultEntitySetName>
+      <EntityTypeWrapper z:Ref="106" i:nil="true" />
+      <NavProperties z:Id="121" z:Size="2">
+        <NavigationEntityPropertySurrogate z:Id="122">
+          <DataTypeWrapper z:Id="123" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
+            <d6p1:AssemblyQualifiedName z:Id="124">DomainModel.RateType, DomainModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</d6p1:AssemblyQualifiedName>
             <d6p1:IsNull>false</d6p1:IsNull>
           </DataTypeWrapper>
-          <EntityTypeWrapper z:Ref="110" i:nil="true" />
+          <EntityTypeWrapper z:Ref="106" i:nil="true" />
           <IsCollectionReadOnly>false</IsCollectionReadOnly>
           <IsNullable>true</IsNullable>
           <IsScalar>true</IsScalar>
-          <Name z:Ref="119" i:nil="true" />
+          <Name z:Ref="115" i:nil="true" />
           <QueryDirection>ToRole2</QueryDirection>
-          <UnqualifiedRelationName z:Id="129">RateType_Rates</UnqualifiedRelationName>
+          <UnqualifiedRelationName z:Id="125">Rate_RateType</UnqualifiedRelationName>
         </NavigationEntityPropertySurrogate>
-        <NavigationEntityPropertySurrogate z:Id="130">
+        <NavigationEntityPropertySurrogate z:Id="126">
           <DataTypeWrapper z:Ref="41" i:nil="true" />
-          <EntityTypeWrapper z:Ref="110" i:nil="true" />
+          <EntityTypeWrapper z:Ref="106" i:nil="true" />
           <IsCollectionReadOnly>false</IsCollectionReadOnly>
           <IsNullable>true</IsNullable>
           <IsScalar>true</IsScalar>
-          <Name z:Ref="122" i:nil="true" />
+          <Name z:Ref="118" i:nil="true" />
           <QueryDirection>ToRole2</QueryDirection>
-          <UnqualifiedRelationName z:Id="131">Resource_Rates</UnqualifiedRelationName>
+          <UnqualifiedRelationName z:Id="127">Rate_Resource</UnqualifiedRelationName>
         </NavigationEntityPropertySurrogate>
       </NavProperties>
     </EntityMetadataSurrogate>
-    <EntityMetadataSurrogate z:Id="132">
-      <DataProperties z:Id="133" z:Size="4">
-        <DataEntityPropertySurrogate z:Id="134">
+    <EntityMetadataSurrogate z:Id="128">
+      <DataProperties z:Id="129" z:Size="4">
+        <DataEntityPropertySurrogate z:Id="130">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="8" i:nil="true" />
-          <EntityTypeWrapper z:Ref="127" i:nil="true" />
+          <EntityTypeWrapper z:Ref="123" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>true</IsPartOfKey>
-          <Name z:Id="135">Id</Name>
+          <Name z:Id="131">Id</Name>
           <Ordinal>0</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="136">
+        <DataEntityPropertySurrogate z:Id="132">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="14" i:nil="true" />
-          <EntityTypeWrapper z:Ref="127" i:nil="true" />
-          <IsAutoIncrementing>false</IsAutoIncrementing>
-          <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
-          <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="137">Name</Name>
-          <Ordinal>1</Ordinal>
-          <RelatedNavigationPropertyName i:nil="true" />
-        </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="138">
-          <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Ref="14" i:nil="true" />
-          <EntityTypeWrapper z:Ref="127" i:nil="true" />
-          <IsAutoIncrementing>false</IsAutoIncrementing>
-          <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
-          <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="139">DisplayName</Name>
-          <Ordinal>2</Ordinal>
-          <RelatedNavigationPropertyName i:nil="true" />
-        </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="140">
-          <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Id="141" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
-            <d6p1:AssemblyQualifiedName z:Id="142">System.Int16, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</d6p1:AssemblyQualifiedName>
-            <d6p1:IsNull>false</d6p1:IsNull>
-          </DataTypeWrapper>
-          <EntityTypeWrapper z:Ref="127" i:nil="true" />
+          <EntityTypeWrapper z:Ref="123" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="143">Sequence</Name>
+          <Name z:Id="133">Name</Name>
+          <Ordinal>1</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="134">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Ref="14" i:nil="true" />
+          <EntityTypeWrapper z:Ref="123" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="135">DisplayName</Name>
+          <Ordinal>2</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="136">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Id="137" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
+            <d6p1:AssemblyQualifiedName z:Id="138">System.Int16, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</d6p1:AssemblyQualifiedName>
+            <d6p1:IsNull>false</d6p1:IsNull>
+          </DataTypeWrapper>
+          <EntityTypeWrapper z:Ref="123" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="139">Sequence</Name>
           <Ordinal>3</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
       </DataProperties>
-      <DataSourceKeyName z:Id="144">TempHireEntities</DataSourceKeyName>
+      <DataSourceKeyName z:Id="140">TempHireEntities</DataSourceKeyName>
       <DefaultEntityContainerName z:Ref="37" i:nil="true" />
-      <DefaultEntitySetName z:Id="145">TempHireDbContext.RateTypes</DefaultEntitySetName>
-      <EntityTypeWrapper z:Ref="127" i:nil="true" />
-      <NavProperties z:Id="146" z:Size="1">
-        <NavigationEntityPropertySurrogate z:Id="147">
-          <DataTypeWrapper z:Ref="110" i:nil="true" />
-          <EntityTypeWrapper z:Ref="127" i:nil="true" />
-          <IsCollectionReadOnly>false</IsCollectionReadOnly>
-          <IsNullable>true</IsNullable>
-          <IsScalar>false</IsScalar>
-          <Name z:Id="148">Rates</Name>
-          <QueryDirection>ToRole1</QueryDirection>
-          <UnqualifiedRelationName z:Ref="129" i:nil="true" />
-        </NavigationEntityPropertySurrogate>
-      </NavProperties>
+      <DefaultEntitySetName z:Id="141">TempHireDbContext.RateTypes</DefaultEntitySetName>
+      <EntityTypeWrapper z:Ref="123" i:nil="true" />
+      <NavProperties z:Id="142" z:Size="0" />
     </EntityMetadataSurrogate>
-    <EntityMetadataSurrogate z:Id="149">
-      <DataProperties z:Id="150" z:Size="6">
-        <DataEntityPropertySurrogate z:Id="151">
+    <EntityMetadataSurrogate z:Id="143">
+      <DataProperties z:Id="144" z:Size="6">
+        <DataEntityPropertySurrogate z:Id="145">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="8" i:nil="true" />
           <EntityTypeWrapper z:Ref="41" i:nil="true" />
@@ -573,8 +540,44 @@
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>true</IsPartOfKey>
-          <Name z:Id="152">Id</Name>
+          <Name z:Id="146">Id</Name>
           <Ordinal>0</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="147">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Ref="14" i:nil="true" />
+          <EntityTypeWrapper z:Ref="41" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="148">FirstName</Name>
+          <Ordinal>1</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="149">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Ref="14" i:nil="true" />
+          <EntityTypeWrapper z:Ref="41" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>true</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="150">MiddleName</Name>
+          <Ordinal>2</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="151">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Ref="14" i:nil="true" />
+          <EntityTypeWrapper z:Ref="41" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="152">LastName</Name>
+          <Ordinal>3</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
         <DataEntityPropertySurrogate z:Id="153">
@@ -583,52 +586,16 @@
           <EntityTypeWrapper z:Ref="41" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="154">FirstName</Name>
-          <Ordinal>1</Ordinal>
-          <RelatedNavigationPropertyName i:nil="true" />
-        </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="155">
-          <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Ref="14" i:nil="true" />
-          <EntityTypeWrapper z:Ref="41" i:nil="true" />
-          <IsAutoIncrementing>false</IsAutoIncrementing>
-          <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
-          <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="156">MiddleName</Name>
-          <Ordinal>2</Ordinal>
-          <RelatedNavigationPropertyName i:nil="true" />
-        </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="157">
-          <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Ref="14" i:nil="true" />
-          <EntityTypeWrapper z:Ref="41" i:nil="true" />
-          <IsAutoIncrementing>false</IsAutoIncrementing>
-          <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
-          <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="158">LastName</Name>
-          <Ordinal>3</Ordinal>
-          <RelatedNavigationPropertyName i:nil="true" />
-        </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="159">
-          <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Ref="14" i:nil="true" />
-          <EntityTypeWrapper z:Ref="41" i:nil="true" />
-          <IsAutoIncrementing>false</IsAutoIncrementing>
-          <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
-          <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="160">Summary</Name>
+          <Name z:Id="154">Summary</Name>
           <Ordinal>4</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="161">
+        <DataEntityPropertySurrogate z:Id="155">
           <ConcurrencyStrategy>AutoDateTime</ConcurrencyStrategy>
-          <DataTypeWrapper z:Id="162" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
-            <d6p1:AssemblyQualifiedName z:Id="163">System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</d6p1:AssemblyQualifiedName>
+          <DataTypeWrapper z:Id="156" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
+            <d6p1:AssemblyQualifiedName z:Id="157">System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</d6p1:AssemblyQualifiedName>
             <d6p1:IsNull>false</d6p1:IsNull>
           </DataTypeWrapper>
           <EntityTypeWrapper z:Ref="41" i:nil="true" />
@@ -636,133 +603,133 @@
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="164">Timestamp</Name>
+          <Name z:Id="158">Timestamp</Name>
           <Ordinal>5</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
       </DataProperties>
-      <DataSourceKeyName z:Id="165">TempHireEntities</DataSourceKeyName>
+      <DataSourceKeyName z:Id="159">TempHireEntities</DataSourceKeyName>
       <DefaultEntityContainerName z:Ref="37" i:nil="true" />
-      <DefaultEntitySetName z:Id="166">TempHireDbContext.Resources</DefaultEntitySetName>
+      <DefaultEntitySetName z:Id="160">TempHireDbContext.Resources</DefaultEntitySetName>
       <EntityTypeWrapper z:Ref="41" i:nil="true" />
-      <NavProperties z:Id="167" z:Size="5">
-        <NavigationEntityPropertySurrogate z:Id="168">
+      <NavProperties z:Id="161" z:Size="5">
+        <NavigationEntityPropertySurrogate z:Id="162">
           <DataTypeWrapper z:Ref="10" i:nil="true" />
           <EntityTypeWrapper z:Ref="41" i:nil="true" />
           <IsCollectionReadOnly>false</IsCollectionReadOnly>
           <IsNullable>true</IsNullable>
           <IsScalar>false</IsScalar>
-          <Name z:Id="169">Addresses</Name>
+          <Name z:Id="163">Addresses</Name>
           <QueryDirection>ToRole1</QueryDirection>
           <UnqualifiedRelationName z:Ref="43" i:nil="true" />
         </NavigationEntityPropertySurrogate>
-        <NavigationEntityPropertySurrogate z:Id="170">
-          <DataTypeWrapper z:Ref="70" i:nil="true" />
+        <NavigationEntityPropertySurrogate z:Id="164">
+          <DataTypeWrapper z:Ref="68" i:nil="true" />
           <EntityTypeWrapper z:Ref="41" i:nil="true" />
           <IsCollectionReadOnly>false</IsCollectionReadOnly>
           <IsNullable>true</IsNullable>
           <IsScalar>false</IsScalar>
-          <Name z:Id="171">PhoneNumbers</Name>
+          <Name z:Id="165">PhoneNumbers</Name>
           <QueryDirection>ToRole1</QueryDirection>
-          <UnqualifiedRelationName z:Ref="89" i:nil="true" />
+          <UnqualifiedRelationName z:Ref="87" i:nil="true" />
         </NavigationEntityPropertySurrogate>
-        <NavigationEntityPropertySurrogate z:Id="172">
-          <DataTypeWrapper z:Ref="110" i:nil="true" />
+        <NavigationEntityPropertySurrogate z:Id="166">
+          <DataTypeWrapper z:Ref="106" i:nil="true" />
           <EntityTypeWrapper z:Ref="41" i:nil="true" />
           <IsCollectionReadOnly>false</IsCollectionReadOnly>
           <IsNullable>true</IsNullable>
           <IsScalar>false</IsScalar>
-          <Name z:Id="173">Rates</Name>
+          <Name z:Id="167">Rates</Name>
           <QueryDirection>ToRole1</QueryDirection>
-          <UnqualifiedRelationName z:Ref="131" i:nil="true" />
+          <UnqualifiedRelationName z:Ref="127" i:nil="true" />
         </NavigationEntityPropertySurrogate>
-        <NavigationEntityPropertySurrogate z:Id="174">
-          <DataTypeWrapper z:Id="175" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
-            <d6p1:AssemblyQualifiedName z:Id="176">DomainModel.WorkExperienceItem, DomainModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</d6p1:AssemblyQualifiedName>
+        <NavigationEntityPropertySurrogate z:Id="168">
+          <DataTypeWrapper z:Id="169" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
+            <d6p1:AssemblyQualifiedName z:Id="170">DomainModel.WorkExperienceItem, DomainModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</d6p1:AssemblyQualifiedName>
             <d6p1:IsNull>false</d6p1:IsNull>
           </DataTypeWrapper>
           <EntityTypeWrapper z:Ref="41" i:nil="true" />
           <IsCollectionReadOnly>false</IsCollectionReadOnly>
           <IsNullable>true</IsNullable>
           <IsScalar>false</IsScalar>
-          <Name z:Id="177">WorkExperience</Name>
+          <Name z:Id="171">WorkExperience</Name>
           <QueryDirection>ToRole1</QueryDirection>
-          <UnqualifiedRelationName z:Id="178">Resource_WorkExperience</UnqualifiedRelationName>
+          <UnqualifiedRelationName z:Id="172">WorkExperienceItem_Resource</UnqualifiedRelationName>
         </NavigationEntityPropertySurrogate>
-        <NavigationEntityPropertySurrogate z:Id="179">
-          <DataTypeWrapper z:Id="180" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
-            <d6p1:AssemblyQualifiedName z:Id="181">DomainModel.Skill, DomainModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</d6p1:AssemblyQualifiedName>
+        <NavigationEntityPropertySurrogate z:Id="173">
+          <DataTypeWrapper z:Id="174" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
+            <d6p1:AssemblyQualifiedName z:Id="175">DomainModel.Skill, DomainModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</d6p1:AssemblyQualifiedName>
             <d6p1:IsNull>false</d6p1:IsNull>
           </DataTypeWrapper>
           <EntityTypeWrapper z:Ref="41" i:nil="true" />
           <IsCollectionReadOnly>false</IsCollectionReadOnly>
           <IsNullable>true</IsNullable>
           <IsScalar>false</IsScalar>
-          <Name z:Id="182">Skills</Name>
+          <Name z:Id="176">Skills</Name>
           <QueryDirection>ToRole1</QueryDirection>
-          <UnqualifiedRelationName z:Id="183">Resource_Skills</UnqualifiedRelationName>
+          <UnqualifiedRelationName z:Id="177">Skill_Resource</UnqualifiedRelationName>
         </NavigationEntityPropertySurrogate>
       </NavProperties>
     </EntityMetadataSurrogate>
-    <EntityMetadataSurrogate z:Id="184">
-      <DataProperties z:Id="185" z:Size="3">
-        <DataEntityPropertySurrogate z:Id="186">
+    <EntityMetadataSurrogate z:Id="178">
+      <DataProperties z:Id="179" z:Size="3">
+        <DataEntityPropertySurrogate z:Id="180">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="8" i:nil="true" />
-          <EntityTypeWrapper z:Ref="180" i:nil="true" />
+          <EntityTypeWrapper z:Ref="174" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>true</IsPartOfKey>
-          <Name z:Id="187">Id</Name>
+          <Name z:Id="181">Id</Name>
           <Ordinal>0</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="188">
+        <DataEntityPropertySurrogate z:Id="182">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="14" i:nil="true" />
-          <EntityTypeWrapper z:Ref="180" i:nil="true" />
-          <IsAutoIncrementing>false</IsAutoIncrementing>
-          <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
-          <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="189">Description</Name>
-          <Ordinal>1</Ordinal>
-          <RelatedNavigationPropertyName i:nil="true" />
-        </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="190">
-          <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Ref="8" i:nil="true" />
-          <EntityTypeWrapper z:Ref="180" i:nil="true" />
+          <EntityTypeWrapper z:Ref="174" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="191">ResourceId</Name>
+          <Name z:Id="183">Description</Name>
+          <Ordinal>1</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="184">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Ref="8" i:nil="true" />
+          <EntityTypeWrapper z:Ref="174" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="185">ResourceId</Name>
           <Ordinal>2</Ordinal>
-          <RelatedNavigationPropertyName z:Id="192">Resource</RelatedNavigationPropertyName>
+          <RelatedNavigationPropertyName z:Id="186">Resource</RelatedNavigationPropertyName>
         </DataEntityPropertySurrogate>
       </DataProperties>
-      <DataSourceKeyName z:Id="193">TempHireEntities</DataSourceKeyName>
+      <DataSourceKeyName z:Id="187">TempHireEntities</DataSourceKeyName>
       <DefaultEntityContainerName z:Ref="37" i:nil="true" />
-      <DefaultEntitySetName z:Id="194">TempHireDbContext.Skills</DefaultEntitySetName>
-      <EntityTypeWrapper z:Ref="180" i:nil="true" />
-      <NavProperties z:Id="195" z:Size="1">
-        <NavigationEntityPropertySurrogate z:Id="196">
+      <DefaultEntitySetName z:Id="188">TempHireDbContext.Skills</DefaultEntitySetName>
+      <EntityTypeWrapper z:Ref="174" i:nil="true" />
+      <NavProperties z:Id="189" z:Size="1">
+        <NavigationEntityPropertySurrogate z:Id="190">
           <DataTypeWrapper z:Ref="41" i:nil="true" />
-          <EntityTypeWrapper z:Ref="180" i:nil="true" />
+          <EntityTypeWrapper z:Ref="174" i:nil="true" />
           <IsCollectionReadOnly>false</IsCollectionReadOnly>
           <IsNullable>true</IsNullable>
           <IsScalar>true</IsScalar>
-          <Name z:Ref="192" i:nil="true" />
+          <Name z:Ref="186" i:nil="true" />
           <QueryDirection>ToRole2</QueryDirection>
-          <UnqualifiedRelationName z:Ref="183" i:nil="true" />
+          <UnqualifiedRelationName z:Ref="177" i:nil="true" />
         </NavigationEntityPropertySurrogate>
       </NavProperties>
     </EntityMetadataSurrogate>
-    <EntityMetadataSurrogate z:Id="197">
-      <DataProperties z:Id="198" z:Size="3">
-        <DataEntityPropertySurrogate z:Id="199">
+    <EntityMetadataSurrogate z:Id="191">
+      <DataProperties z:Id="192" z:Size="3">
+        <DataEntityPropertySurrogate z:Id="193">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="8" i:nil="true" />
           <EntityTypeWrapper z:Ref="49" i:nil="true" />
@@ -770,305 +737,332 @@
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>true</IsPartOfKey>
-          <Name z:Id="200">Id</Name>
+          <Name z:Id="194">Id</Name>
           <Ordinal>0</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="201">
+        <DataEntityPropertySurrogate z:Id="195">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="14" i:nil="true" />
           <EntityTypeWrapper z:Ref="49" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="202">ShortName</Name>
+          <Name z:Id="196">ShortName</Name>
           <Ordinal>1</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="203">
+        <DataEntityPropertySurrogate z:Id="197">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="14" i:nil="true" />
           <EntityTypeWrapper z:Ref="49" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
+          <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="204">Name</Name>
+          <Name z:Id="198">Name</Name>
           <Ordinal>2</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
       </DataProperties>
-      <DataSourceKeyName z:Id="205">TempHireEntities</DataSourceKeyName>
+      <DataSourceKeyName z:Id="199">TempHireEntities</DataSourceKeyName>
       <DefaultEntityContainerName z:Ref="37" i:nil="true" />
-      <DefaultEntitySetName z:Id="206">TempHireDbContext.States</DefaultEntitySetName>
+      <DefaultEntitySetName z:Id="200">TempHireDbContext.States</DefaultEntitySetName>
       <EntityTypeWrapper z:Ref="49" i:nil="true" />
-      <NavProperties z:Id="207" z:Size="0" />
+      <NavProperties z:Id="201" z:Size="0" />
     </EntityMetadataSurrogate>
-    <EntityMetadataSurrogate z:Id="208">
-      <DataProperties z:Id="209" z:Size="8">
-        <DataEntityPropertySurrogate z:Id="210">
+    <EntityMetadataSurrogate z:Id="202">
+      <DataProperties z:Id="203" z:Size="8">
+        <DataEntityPropertySurrogate z:Id="204">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="8" i:nil="true" />
-          <EntityTypeWrapper z:Ref="175" i:nil="true" />
+          <EntityTypeWrapper z:Ref="169" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>true</IsPartOfKey>
-          <Name z:Id="211">Id</Name>
+          <Name z:Id="205">Id</Name>
           <Ordinal>0</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="206">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Ref="156" i:nil="true" />
+          <EntityTypeWrapper z:Ref="169" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="207">From</Name>
+          <Ordinal>1</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="208">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Ref="156" i:nil="true" />
+          <EntityTypeWrapper z:Ref="169" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="209">To</Name>
+          <Ordinal>2</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="210">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Ref="14" i:nil="true" />
+          <EntityTypeWrapper z:Ref="169" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="211">PositionTitle</Name>
+          <Ordinal>3</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
         <DataEntityPropertySurrogate z:Id="212">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Ref="162" i:nil="true" />
-          <EntityTypeWrapper z:Ref="175" i:nil="true" />
+          <DataTypeWrapper z:Ref="14" i:nil="true" />
+          <EntityTypeWrapper z:Ref="169" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="213">From</Name>
-          <Ordinal>1</Ordinal>
+          <Name z:Id="213">Company</Name>
+          <Ordinal>4</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
         <DataEntityPropertySurrogate z:Id="214">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Ref="162" i:nil="true" />
-          <EntityTypeWrapper z:Ref="175" i:nil="true" />
+          <DataTypeWrapper z:Ref="14" i:nil="true" />
+          <EntityTypeWrapper z:Ref="169" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="215">To</Name>
-          <Ordinal>2</Ordinal>
+          <Name z:Id="215">Location</Name>
+          <Ordinal>5</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
         <DataEntityPropertySurrogate z:Id="216">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
           <DataTypeWrapper z:Ref="14" i:nil="true" />
-          <EntityTypeWrapper z:Ref="175" i:nil="true" />
-          <IsAutoIncrementing>false</IsAutoIncrementing>
-          <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
-          <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="217">PositionTitle</Name>
-          <Ordinal>3</Ordinal>
-          <RelatedNavigationPropertyName i:nil="true" />
-        </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="218">
-          <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Ref="14" i:nil="true" />
-          <EntityTypeWrapper z:Ref="175" i:nil="true" />
-          <IsAutoIncrementing>false</IsAutoIncrementing>
-          <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
-          <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="219">Company</Name>
-          <Ordinal>4</Ordinal>
-          <RelatedNavigationPropertyName i:nil="true" />
-        </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="220">
-          <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Ref="14" i:nil="true" />
-          <EntityTypeWrapper z:Ref="175" i:nil="true" />
-          <IsAutoIncrementing>false</IsAutoIncrementing>
-          <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
-          <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="221">Location</Name>
-          <Ordinal>5</Ordinal>
-          <RelatedNavigationPropertyName i:nil="true" />
-        </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="222">
-          <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Ref="14" i:nil="true" />
-          <EntityTypeWrapper z:Ref="175" i:nil="true" />
-          <IsAutoIncrementing>false</IsAutoIncrementing>
-          <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>true</IsNullable>
-          <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="223">Description</Name>
-          <Ordinal>6</Ordinal>
-          <RelatedNavigationPropertyName i:nil="true" />
-        </DataEntityPropertySurrogate>
-        <DataEntityPropertySurrogate z:Id="224">
-          <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Ref="8" i:nil="true" />
-          <EntityTypeWrapper z:Ref="175" i:nil="true" />
+          <EntityTypeWrapper z:Ref="169" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="225">ResourceId</Name>
+          <Name z:Id="217">Description</Name>
+          <Ordinal>6</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="218">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Ref="8" i:nil="true" />
+          <EntityTypeWrapper z:Ref="169" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="219">ResourceId</Name>
           <Ordinal>7</Ordinal>
-          <RelatedNavigationPropertyName z:Id="226">Resource</RelatedNavigationPropertyName>
+          <RelatedNavigationPropertyName z:Id="220">Resource</RelatedNavigationPropertyName>
         </DataEntityPropertySurrogate>
       </DataProperties>
-      <DataSourceKeyName z:Id="227">TempHireEntities</DataSourceKeyName>
+      <DataSourceKeyName z:Id="221">TempHireEntities</DataSourceKeyName>
       <DefaultEntityContainerName z:Ref="37" i:nil="true" />
-      <DefaultEntitySetName z:Id="228">TempHireDbContext.WorkExperienceItems</DefaultEntitySetName>
-      <EntityTypeWrapper z:Ref="175" i:nil="true" />
-      <NavProperties z:Id="229" z:Size="1">
-        <NavigationEntityPropertySurrogate z:Id="230">
+      <DefaultEntitySetName z:Id="222">TempHireDbContext.WorkExperienceItems</DefaultEntitySetName>
+      <EntityTypeWrapper z:Ref="169" i:nil="true" />
+      <NavProperties z:Id="223" z:Size="1">
+        <NavigationEntityPropertySurrogate z:Id="224">
           <DataTypeWrapper z:Ref="41" i:nil="true" />
-          <EntityTypeWrapper z:Ref="175" i:nil="true" />
+          <EntityTypeWrapper z:Ref="169" i:nil="true" />
           <IsCollectionReadOnly>false</IsCollectionReadOnly>
           <IsNullable>true</IsNullable>
           <IsScalar>true</IsScalar>
-          <Name z:Ref="226" i:nil="true" />
+          <Name z:Ref="220" i:nil="true" />
           <QueryDirection>ToRole2</QueryDirection>
-          <UnqualifiedRelationName z:Ref="178" i:nil="true" />
+          <UnqualifiedRelationName z:Ref="172" i:nil="true" />
         </NavigationEntityPropertySurrogate>
       </NavProperties>
     </EntityMetadataSurrogate>
   </EntityMetadataSurrogates>
-  <EntityRelationCollection z:Id="231" z:Size="9">
-    <EntityRelation z:Id="232">
-      <Name z:Ref="51" i:nil="true" />
-      <Namespace z:Id="233">DomainModel</Namespace>
-      <RelationName z:Id="234">DomainModel.Address_State</RelationName>
-      <Role1 z:Id="235">
-        <EntityRelation z:Ref="232" i:nil="true" />
-        <EntityTypeWrapper z:Ref="10" i:nil="true" />
-        <Multiplicity>Many</Multiplicity>
-        <OnDeleteMode>None</OnDeleteMode>
-        <PropertySurrogates z:Id="236" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="33" i:nil="true" />
-        </PropertySurrogates>
-        <QueryDirection>ToRole1</QueryDirection>
-        <ReferenceStrategy i:nil="true" />
-      </Role1>
-      <Role2 z:Id="237">
-        <EntityRelation z:Ref="232" i:nil="true" />
-        <EntityTypeWrapper z:Ref="49" i:nil="true" />
-        <Multiplicity>One</Multiplicity>
-        <OnDeleteMode>Cascade</OnDeleteMode>
-        <PropertySurrogates z:Id="238" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="199" i:nil="true" />
-        </PropertySurrogates>
-        <QueryDirection>ToRole2</QueryDirection>
-        <ReferenceStrategy i:nil="true" />
-      </Role2>
-    </EntityRelation>
-    <EntityRelation z:Id="239">
+  <EntityRelationCollection z:Id="225" z:Size="9">
+    <EntityRelation z:Id="226">
       <Name z:Ref="47" i:nil="true" />
-      <Namespace z:Ref="233" i:nil="true" />
-      <RelationName z:Id="240">DomainModel.AddressType_Address</RelationName>
-      <Role1 z:Id="241">
-        <EntityRelation z:Ref="239" i:nil="true" />
+      <Namespace z:Id="227">DomainModel</Namespace>
+      <RelationName z:Id="228">DomainModel.Address_AddressType</RelationName>
+      <Role1 z:Id="229">
+        <EntityRelation z:Ref="226" i:nil="true" />
         <EntityTypeWrapper z:Ref="10" i:nil="true" />
         <Multiplicity>Many</Multiplicity>
         <OnDeleteMode>None</OnDeleteMode>
-        <PropertySurrogates z:Id="242" z:Size="1">
+        <PropertySurrogates z:Id="230" z:Size="1">
           <DataEntityPropertySurrogate z:Ref="24" i:nil="true" />
         </PropertySurrogates>
         <QueryDirection>ToRole1</QueryDirection>
         <ReferenceStrategy i:nil="true" />
       </Role1>
-      <Role2 z:Id="243">
-        <EntityRelation z:Ref="239" i:nil="true" />
+      <Role2 z:Id="231">
+        <EntityRelation z:Ref="226" i:nil="true" />
         <EntityTypeWrapper z:Ref="45" i:nil="true" />
         <Multiplicity>One</Multiplicity>
         <OnDeleteMode>Cascade</OnDeleteMode>
-        <PropertySurrogates z:Id="244" z:Size="1">
+        <PropertySurrogates z:Id="232" z:Size="1">
           <DataEntityPropertySurrogate z:Ref="54" i:nil="true" />
         </PropertySurrogates>
         <QueryDirection>ToRole2</QueryDirection>
         <ReferenceStrategy i:nil="true" />
       </Role2>
     </EntityRelation>
+    <EntityRelation z:Id="233">
+      <Name z:Ref="43" i:nil="true" />
+      <Namespace z:Ref="227" i:nil="true" />
+      <RelationName z:Id="234">DomainModel.Address_Resource</RelationName>
+      <Role1 z:Id="235">
+        <EntityRelation z:Ref="233" i:nil="true" />
+        <EntityTypeWrapper z:Ref="10" i:nil="true" />
+        <Multiplicity>Many</Multiplicity>
+        <OnDeleteMode>None</OnDeleteMode>
+        <PropertySurrogates z:Id="236" z:Size="1">
+          <DataEntityPropertySurrogate z:Ref="21" i:nil="true" />
+        </PropertySurrogates>
+        <QueryDirection>ToRole1</QueryDirection>
+        <ReferenceStrategy i:nil="true" />
+      </Role1>
+      <Role2 z:Id="237">
+        <EntityRelation z:Ref="233" i:nil="true" />
+        <EntityTypeWrapper z:Ref="41" i:nil="true" />
+        <Multiplicity>One</Multiplicity>
+        <OnDeleteMode>Cascade</OnDeleteMode>
+        <PropertySurrogates z:Id="238" z:Size="1">
+          <DataEntityPropertySurrogate z:Ref="145" i:nil="true" />
+        </PropertySurrogates>
+        <QueryDirection>ToRole2</QueryDirection>
+        <ReferenceStrategy i:nil="true" />
+      </Role2>
+    </EntityRelation>
+    <EntityRelation z:Id="239">
+      <Name z:Ref="51" i:nil="true" />
+      <Namespace z:Ref="227" i:nil="true" />
+      <RelationName z:Id="240">DomainModel.Address_State</RelationName>
+      <Role1 z:Id="241">
+        <EntityRelation z:Ref="239" i:nil="true" />
+        <EntityTypeWrapper z:Ref="10" i:nil="true" />
+        <Multiplicity>Many</Multiplicity>
+        <OnDeleteMode>None</OnDeleteMode>
+        <PropertySurrogates z:Id="242" z:Size="1">
+          <DataEntityPropertySurrogate z:Ref="33" i:nil="true" />
+        </PropertySurrogates>
+        <QueryDirection>ToRole1</QueryDirection>
+        <ReferenceStrategy i:nil="true" />
+      </Role1>
+      <Role2 z:Id="243">
+        <EntityRelation z:Ref="239" i:nil="true" />
+        <EntityTypeWrapper z:Ref="49" i:nil="true" />
+        <Multiplicity>One</Multiplicity>
+        <OnDeleteMode>Cascade</OnDeleteMode>
+        <PropertySurrogates z:Id="244" z:Size="1">
+          <DataEntityPropertySurrogate z:Ref="193" i:nil="true" />
+        </PropertySurrogates>
+        <QueryDirection>ToRole2</QueryDirection>
+        <ReferenceStrategy i:nil="true" />
+      </Role2>
+    </EntityRelation>
     <EntityRelation z:Id="245">
-      <Name z:Ref="93" i:nil="true" />
+      <Name z:Ref="91" i:nil="true" />
       <Namespace z:Id="246">DomainModel</Namespace>
-      <RelationName z:Id="247">DomainModel.PhoneNumberType_PhoneNumbers</RelationName>
+      <RelationName z:Id="247">DomainModel.PhoneNumber_PhoneNumberType</RelationName>
       <Role1 z:Id="248">
         <EntityRelation z:Ref="245" i:nil="true" />
-        <EntityTypeWrapper z:Ref="70" i:nil="true" />
+        <EntityTypeWrapper z:Ref="68" i:nil="true" />
         <Multiplicity>Many</Multiplicity>
         <OnDeleteMode>None</OnDeleteMode>
         <PropertySurrogates z:Id="249" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="77" i:nil="true" />
+          <DataEntityPropertySurrogate z:Ref="75" i:nil="true" />
         </PropertySurrogates>
         <QueryDirection>ToRole1</QueryDirection>
         <ReferenceStrategy i:nil="true" />
       </Role1>
       <Role2 z:Id="250">
         <EntityRelation z:Ref="245" i:nil="true" />
-        <EntityTypeWrapper z:Ref="91" i:nil="true" />
+        <EntityTypeWrapper z:Ref="89" i:nil="true" />
         <Multiplicity>One</Multiplicity>
         <OnDeleteMode>Cascade</OnDeleteMode>
         <PropertySurrogates z:Id="251" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="96" i:nil="true" />
+          <DataEntityPropertySurrogate z:Ref="94" i:nil="true" />
         </PropertySurrogates>
         <QueryDirection>ToRole2</QueryDirection>
         <ReferenceStrategy i:nil="true" />
       </Role2>
     </EntityRelation>
     <EntityRelation z:Id="252">
-      <Name z:Ref="129" i:nil="true" />
-      <Namespace z:Id="253">DomainModel</Namespace>
-      <RelationName z:Id="254">DomainModel.RateType_Rates</RelationName>
-      <Role1 z:Id="255">
+      <Name z:Ref="87" i:nil="true" />
+      <Namespace z:Ref="246" i:nil="true" />
+      <RelationName z:Id="253">DomainModel.PhoneNumber_Resource</RelationName>
+      <Role1 z:Id="254">
         <EntityRelation z:Ref="252" i:nil="true" />
-        <EntityTypeWrapper z:Ref="110" i:nil="true" />
+        <EntityTypeWrapper z:Ref="68" i:nil="true" />
         <Multiplicity>Many</Multiplicity>
         <OnDeleteMode>None</OnDeleteMode>
-        <PropertySurrogates z:Id="256" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="117" i:nil="true" />
+        <PropertySurrogates z:Id="255" z:Size="1">
+          <DataEntityPropertySurrogate z:Ref="78" i:nil="true" />
         </PropertySurrogates>
         <QueryDirection>ToRole1</QueryDirection>
         <ReferenceStrategy i:nil="true" />
       </Role1>
-      <Role2 z:Id="257">
+      <Role2 z:Id="256">
         <EntityRelation z:Ref="252" i:nil="true" />
-        <EntityTypeWrapper z:Ref="127" i:nil="true" />
+        <EntityTypeWrapper z:Ref="41" i:nil="true" />
         <Multiplicity>One</Multiplicity>
         <OnDeleteMode>Cascade</OnDeleteMode>
-        <PropertySurrogates z:Id="258" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="134" i:nil="true" />
+        <PropertySurrogates z:Id="257" z:Size="1">
+          <DataEntityPropertySurrogate z:Ref="145" i:nil="true" />
         </PropertySurrogates>
         <QueryDirection>ToRole2</QueryDirection>
         <ReferenceStrategy i:nil="true" />
       </Role2>
     </EntityRelation>
-    <EntityRelation z:Id="259">
-      <Name z:Ref="43" i:nil="true" />
-      <Namespace z:Ref="233" i:nil="true" />
-      <RelationName z:Id="260">DomainModel.Resource_Addresses</RelationName>
+    <EntityRelation z:Id="258">
+      <Name z:Ref="125" i:nil="true" />
+      <Namespace z:Id="259">DomainModel</Namespace>
+      <RelationName z:Id="260">DomainModel.Rate_RateType</RelationName>
       <Role1 z:Id="261">
-        <EntityRelation z:Ref="259" i:nil="true" />
-        <EntityTypeWrapper z:Ref="10" i:nil="true" />
+        <EntityRelation z:Ref="258" i:nil="true" />
+        <EntityTypeWrapper z:Ref="106" i:nil="true" />
         <Multiplicity>Many</Multiplicity>
         <OnDeleteMode>None</OnDeleteMode>
         <PropertySurrogates z:Id="262" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="21" i:nil="true" />
+          <DataEntityPropertySurrogate z:Ref="113" i:nil="true" />
         </PropertySurrogates>
         <QueryDirection>ToRole1</QueryDirection>
         <ReferenceStrategy i:nil="true" />
       </Role1>
       <Role2 z:Id="263">
-        <EntityRelation z:Ref="259" i:nil="true" />
-        <EntityTypeWrapper z:Ref="41" i:nil="true" />
+        <EntityRelation z:Ref="258" i:nil="true" />
+        <EntityTypeWrapper z:Ref="123" i:nil="true" />
         <Multiplicity>One</Multiplicity>
         <OnDeleteMode>Cascade</OnDeleteMode>
         <PropertySurrogates z:Id="264" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="151" i:nil="true" />
+          <DataEntityPropertySurrogate z:Ref="130" i:nil="true" />
         </PropertySurrogates>
         <QueryDirection>ToRole2</QueryDirection>
         <ReferenceStrategy i:nil="true" />
       </Role2>
     </EntityRelation>
     <EntityRelation z:Id="265">
-      <Name z:Ref="89" i:nil="true" />
-      <Namespace z:Ref="246" i:nil="true" />
-      <RelationName z:Id="266">DomainModel.Resource_PhoneNumbers</RelationName>
+      <Name z:Ref="127" i:nil="true" />
+      <Namespace z:Ref="259" i:nil="true" />
+      <RelationName z:Id="266">DomainModel.Rate_Resource</RelationName>
       <Role1 z:Id="267">
         <EntityRelation z:Ref="265" i:nil="true" />
-        <EntityTypeWrapper z:Ref="70" i:nil="true" />
+        <EntityTypeWrapper z:Ref="106" i:nil="true" />
         <Multiplicity>Many</Multiplicity>
         <OnDeleteMode>None</OnDeleteMode>
         <PropertySurrogates z:Id="268" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="80" i:nil="true" />
+          <DataEntityPropertySurrogate z:Ref="116" i:nil="true" />
         </PropertySurrogates>
         <QueryDirection>ToRole1</QueryDirection>
         <ReferenceStrategy i:nil="true" />
@@ -1079,88 +1073,61 @@
         <Multiplicity>One</Multiplicity>
         <OnDeleteMode>Cascade</OnDeleteMode>
         <PropertySurrogates z:Id="270" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="151" i:nil="true" />
+          <DataEntityPropertySurrogate z:Ref="145" i:nil="true" />
         </PropertySurrogates>
         <QueryDirection>ToRole2</QueryDirection>
         <ReferenceStrategy i:nil="true" />
       </Role2>
     </EntityRelation>
     <EntityRelation z:Id="271">
-      <Name z:Ref="131" i:nil="true" />
-      <Namespace z:Ref="253" i:nil="true" />
-      <RelationName z:Id="272">DomainModel.Resource_Rates</RelationName>
-      <Role1 z:Id="273">
+      <Name z:Ref="177" i:nil="true" />
+      <Namespace z:Id="272">DomainModel</Namespace>
+      <RelationName z:Id="273">DomainModel.Skill_Resource</RelationName>
+      <Role1 z:Id="274">
         <EntityRelation z:Ref="271" i:nil="true" />
-        <EntityTypeWrapper z:Ref="110" i:nil="true" />
+        <EntityTypeWrapper z:Ref="174" i:nil="true" />
         <Multiplicity>Many</Multiplicity>
         <OnDeleteMode>None</OnDeleteMode>
-        <PropertySurrogates z:Id="274" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="120" i:nil="true" />
+        <PropertySurrogates z:Id="275" z:Size="1">
+          <DataEntityPropertySurrogate z:Ref="184" i:nil="true" />
         </PropertySurrogates>
         <QueryDirection>ToRole1</QueryDirection>
         <ReferenceStrategy i:nil="true" />
       </Role1>
-      <Role2 z:Id="275">
+      <Role2 z:Id="276">
         <EntityRelation z:Ref="271" i:nil="true" />
         <EntityTypeWrapper z:Ref="41" i:nil="true" />
         <Multiplicity>One</Multiplicity>
         <OnDeleteMode>Cascade</OnDeleteMode>
-        <PropertySurrogates z:Id="276" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="151" i:nil="true" />
+        <PropertySurrogates z:Id="277" z:Size="1">
+          <DataEntityPropertySurrogate z:Ref="145" i:nil="true" />
         </PropertySurrogates>
         <QueryDirection>ToRole2</QueryDirection>
         <ReferenceStrategy i:nil="true" />
       </Role2>
     </EntityRelation>
-    <EntityRelation z:Id="277">
-      <Name z:Ref="183" i:nil="true" />
-      <Namespace z:Id="278">DomainModel</Namespace>
-      <RelationName z:Id="279">DomainModel.Resource_Skills</RelationName>
-      <Role1 z:Id="280">
-        <EntityRelation z:Ref="277" i:nil="true" />
-        <EntityTypeWrapper z:Ref="180" i:nil="true" />
+    <EntityRelation z:Id="278">
+      <Name z:Ref="172" i:nil="true" />
+      <Namespace z:Id="279">DomainModel</Namespace>
+      <RelationName z:Id="280">DomainModel.WorkExperienceItem_Resource</RelationName>
+      <Role1 z:Id="281">
+        <EntityRelation z:Ref="278" i:nil="true" />
+        <EntityTypeWrapper z:Ref="169" i:nil="true" />
         <Multiplicity>Many</Multiplicity>
         <OnDeleteMode>None</OnDeleteMode>
-        <PropertySurrogates z:Id="281" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="190" i:nil="true" />
+        <PropertySurrogates z:Id="282" z:Size="1">
+          <DataEntityPropertySurrogate z:Ref="218" i:nil="true" />
         </PropertySurrogates>
         <QueryDirection>ToRole1</QueryDirection>
         <ReferenceStrategy i:nil="true" />
       </Role1>
-      <Role2 z:Id="282">
-        <EntityRelation z:Ref="277" i:nil="true" />
+      <Role2 z:Id="283">
+        <EntityRelation z:Ref="278" i:nil="true" />
         <EntityTypeWrapper z:Ref="41" i:nil="true" />
         <Multiplicity>One</Multiplicity>
         <OnDeleteMode>Cascade</OnDeleteMode>
-        <PropertySurrogates z:Id="283" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="151" i:nil="true" />
-        </PropertySurrogates>
-        <QueryDirection>ToRole2</QueryDirection>
-        <ReferenceStrategy i:nil="true" />
-      </Role2>
-    </EntityRelation>
-    <EntityRelation z:Id="284">
-      <Name z:Ref="178" i:nil="true" />
-      <Namespace z:Id="285">DomainModel</Namespace>
-      <RelationName z:Id="286">DomainModel.Resource_WorkExperience</RelationName>
-      <Role1 z:Id="287">
-        <EntityRelation z:Ref="284" i:nil="true" />
-        <EntityTypeWrapper z:Ref="175" i:nil="true" />
-        <Multiplicity>Many</Multiplicity>
-        <OnDeleteMode>None</OnDeleteMode>
-        <PropertySurrogates z:Id="288" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="224" i:nil="true" />
-        </PropertySurrogates>
-        <QueryDirection>ToRole1</QueryDirection>
-        <ReferenceStrategy i:nil="true" />
-      </Role1>
-      <Role2 z:Id="289">
-        <EntityRelation z:Ref="284" i:nil="true" />
-        <EntityTypeWrapper z:Ref="41" i:nil="true" />
-        <Multiplicity>One</Multiplicity>
-        <OnDeleteMode>Cascade</OnDeleteMode>
-        <PropertySurrogates z:Id="290" z:Size="1">
-          <DataEntityPropertySurrogate z:Ref="151" i:nil="true" />
+        <PropertySurrogates z:Id="284" z:Size="1">
+          <DataEntityPropertySurrogate z:Ref="145" i:nil="true" />
         </PropertySurrogates>
         <QueryDirection>ToRole2</QueryDirection>
         <ReferenceStrategy i:nil="true" />

@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Cocktail;
 using IdeaBlade.Aop;
-using IdeaBlade.Validation;
 
 namespace Security
 {
@@ -17,20 +16,20 @@ namespace Security
 
         [DataMember]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [RequiredValueVerifier(ErrorMessageResourceName = "User_Id")]
+        [Required]
         public Guid Id { get; internal set; }
 
         [DataMember]
-        [RequiredValueVerifier(ErrorMessageResourceName = "User_Username")]
+        [Required]
         public string Username { get; set; }
 
         [DataMember]
-        [RequiredValueVerifier(ErrorMessageResourceName = "User_Password")]
+        [Required]
         public string Password { get; set; }
 
         public static User Create()
         {
-            return new User { Id = CombGuid.NewGuid() };
+            return new User {Id = CombGuid.NewGuid()};
         }
     }
 }

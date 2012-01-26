@@ -2,8 +2,6 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Cocktail;
-using IdeaBlade.EntityModel;
-using IdeaBlade.Validation;
 
 namespace DomainModel
 {
@@ -54,7 +52,7 @@ namespace DomainModel
 
         internal static Rate Create(RateType type)
         {
-            return new Rate { Id = CombGuid.NewGuid(), RateTypeId = type.Id };
+            return new Rate {Id = CombGuid.NewGuid(), RateTypeId = type.Id};
         }
     }
 }

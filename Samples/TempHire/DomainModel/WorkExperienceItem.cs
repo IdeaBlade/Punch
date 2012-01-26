@@ -2,8 +2,6 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Cocktail;
-using IdeaBlade.EntityModel;
-using IdeaBlade.Validation;
 
 namespace DomainModel
 {
@@ -70,7 +68,7 @@ namespace DomainModel
 
         internal static WorkExperienceItem Create()
         {
-            return new WorkExperienceItem { Id = CombGuid.NewGuid() };
+            return new WorkExperienceItem {Id = CombGuid.NewGuid()};
         }
     }
 }

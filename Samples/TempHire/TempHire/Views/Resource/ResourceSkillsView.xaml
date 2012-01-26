@@ -16,14 +16,14 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition />
             <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <sdk:Label Content="Skills:"
                    FontSize="18"
                    FontWeight="Bold" />
         <StackPanel x:Name="IsEmpty"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Height="50"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Stretch"
@@ -33,7 +33,7 @@
                        Text="No skills found. Please add a skill by clicking the 'Add' button."
                        TextAlignment="Center" />
         </StackPanel>
-        <ItemsControl Grid.Row="2"
+        <ItemsControl Grid.Row="3"
                       Margin="0,10,0,0"
                       ItemsSource="{Binding SkillsSorted}">
             <ItemsControl.ItemsPanel>
@@ -51,6 +51,7 @@
                         <TextBox Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
+                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Description,
                                                 Mode=TwoWay}"
                                  TextAlignment="Left" />
@@ -62,22 +63,24 @@
                                     Margin="2"
                                     HorizontalAlignment="Left"
                                     cal:Message.Attach="Delete($dataContext)"
-                                    Content="Delete" />
+                                    Content="Delete"
+                                    Style="{StaticResource Button_Style}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <StackPanel Grid.Row="3"
+        <StackPanel Grid.Row="1"
                     Margin="0,10,0,0"
                     VerticalAlignment="Stretch"
                     Orientation="Horizontal">
             <Button x:Name="Add"
-                    Width="80"
+                    Width="25"
                     Height="25"
                     Margin="0,0,5,0"
                     VerticalAlignment="Center"
-                    Content="Add" />
+                    Content="Add"
+                    Style="{StaticResource AddButton_Style}" />
         </StackPanel>
     </Grid>
 </UserControl>

@@ -24,6 +24,7 @@
                   DisplayMemberPath="DisplayName"
                   ItemsSource="{Binding AddressTypes}"
                   SelectedItem="{Binding SelectedAddressType,
-                                         Mode=TwoWay}" />
+                                         Mode=TwoWay}"
+                  Style="{StaticResource ComboBox_Style}" />
     </Grid>
 </UserControl>

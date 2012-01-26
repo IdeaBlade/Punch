@@ -24,6 +24,7 @@
                   DisplayMemberPath="DisplayName"
                   ItemsSource="{Binding RateTypes}"
                   SelectedItem="{Binding SelectedRateType,
-                                         Mode=TwoWay}" />
+                                         Mode=TwoWay}"
+                  Style="{StaticResource ComboBox_Style}" />
     </Grid>
 </UserControl>

@@ -2,8 +2,6 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Cocktail;
-using IdeaBlade.EntityModel;
-using IdeaBlade.Validation;
 
 namespace DomainModel
 {
@@ -45,7 +43,7 @@ namespace DomainModel
 
         internal static Skill Create()
         {
-            return new Skill { Id = CombGuid.NewGuid() };
+            return new Skill {Id = CombGuid.NewGuid()};
         }
     }
 }

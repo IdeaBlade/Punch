@@ -20,10 +20,11 @@
           HorizontalAlignment="Left"
           Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition />
             <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <ItemsControl Width="335"
+        <ItemsControl Grid.Row="1"
+                      Width="335"
                       Margin="0,5,0,0"
                       HorizontalAlignment="Left"
                       VerticalAlignment="Stretch"
@@ -47,12 +48,14 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
+                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Item.AreaCode,
                                                 Mode=TwoWay}" />
                         <TextBox Grid.Column="2"
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
+                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Item.Number,
                                                 Mode=TwoWay}" />
                         <StackPanel Grid.Column="3"
@@ -60,34 +63,37 @@
                                     VerticalAlignment="Stretch"
                                     Orientation="Horizontal">
                             <Button Width="80"
+                                    Height="25"
                                     Margin="10,2,2,2"
                                     HorizontalAlignment="Left"
                                     cal:Message.Attach="SetPrimary($dataContext)"
                                     Content="Set Primary"
                                     IsEnabled="{Binding Path=Item.Primary,
-                                                        Converter={StaticResource InverseBooleanConverter}}" />
+                                                        Converter={StaticResource InverseBooleanConverter}}"
+                                    Style="{StaticResource Button_Style}" />
                             <Button Width="60"
+                                    Height="25"
                                     Margin="2"
                                     HorizontalAlignment="Left"
                                     cal:Message.Attach="Delete($dataContext)"
                                     Content="Delete"
-                                    IsEnabled="{Binding CanDelete}" />
+                                    IsEnabled="{Binding CanDelete}"
+                                    Style="{StaticResource Button_Style}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <StackPanel Grid.Row="1"
+        <StackPanel Grid.Row="0"
                     Margin="0"
                     VerticalAlignment="Stretch"
                     Orientation="Horizontal">
             <Button x:Name="Add"
-                    Width="80"
+                    Width="25"
                     Height="25"
                     Margin="0,0,5,0"
                     VerticalAlignment="Center"
-                    Content="Add" />
+                    Style="{StaticResource AddButton_Style}" />
         </StackPanel>
     </Grid>
-
 </UserControl>

@@ -24,6 +24,7 @@
                   DisplayMemberPath="Name"
                   ItemsSource="{Binding PhoneTypes}"
                   SelectedItem="{Binding SelectedPhoneType,
-                                         Mode=TwoWay}" />
+                                         Mode=TwoWay}"
+                  Style="{StaticResource ComboBox_Style}" />
     </Grid>
 </UserControl>

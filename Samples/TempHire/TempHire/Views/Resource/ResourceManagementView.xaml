@@ -8,16 +8,24 @@
              d:DesignWidth="800"
              mc:Ignorable="d">
 
-    <Grid x:Name="LayoutRoot" Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="360" MinWidth="360" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <sdk:GridSplitter Width="5" ShowsPreview="True" />
-        <sdk:Frame x:Name="SearchPane" Margin="0,0,5,0" />
-        <sdk:Frame x:Name="ActiveItem" Grid.Column="1" />
-    </Grid>
+    <ScrollViewer BorderThickness="0"
+                  HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
+        <Grid x:Name="LayoutRoot" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="360" />
+            </Grid.ColumnDefinitions>
+            <sdk:Frame x:Name="SearchPane"
+                       Grid.Row="0"
+                       Height="200"
+                       Margin="15,0,20,0" />
+            <sdk:Frame x:Name="ActiveItem"
+                       Grid.Row="1"
+                       Margin="0,0,5,0" />
+        </Grid>
+    </ScrollViewer>
 </UserControl>

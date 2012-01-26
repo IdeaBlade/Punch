@@ -6,7 +6,7 @@ using Model;
 namespace HappyHour.ViewModels
 {
     [Export]
-    public class MainPageViewModel : PropertyChangedBase, IViewAware
+    public class MainPageViewModel : Screen
     {
         public MainPageViewModel()
         {
@@ -55,20 +55,13 @@ namespace HappyHour.ViewModels
             if (null != _view) _view.ReadyForNewDrink(); // Throw if null?
         }
 
-        #region IViewAware
-
-        public object GetView(object context = null) { return _view; }
-
-        public void AttachView(object view, object context = null)
+        protected override void OnViewAttached(object view, object context)
         {
             _view = view as IMainPage; // Throw if not IMainPage?
         }
 
         private IMainPage _view;
 
-        public event EventHandler<ViewAttachedEventArgs> ViewAttached;
-
-        #endregion
 
     }
 }

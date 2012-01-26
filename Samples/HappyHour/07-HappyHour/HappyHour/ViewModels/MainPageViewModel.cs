@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
@@ -7,36 +6,32 @@ using Model;
 namespace HappyHour.ViewModels
 {
     [Export]
-    public class MainPageViewModel : PropertyChangedBase, IViewAware
+    public class MainPageViewModel : Screen
     {
         public MainPageViewModel()
         {
-            Repository = new BeverageRepository(); 
-            Beverages = new BindableCollection<Beverage>();
+            Repository = new BeverageRepository();
             DrinkOrders = new BindableCollection<DrinkOrder>();
-            LoadData(); // ToDo: move all data access out of the constructor
-        }
-
-        private IBeverageRepository Repository { get; set; }
-
-        public BindableCollection<Beverage> Beverages { get; private set; }
-
-        public BindableCollection<DrinkOrder> DrinkOrders { get; private set; }
-
-        private void LoadData()
-        {
+            Beverages = new BindableCollection<Beverage>();
             PlaceHolderBeverage = new Beverage
                                       {
                                           BeverageName = "Please select a beverage",
                                           ImageFilename = "select_drink.png"
-                                      };
+                                      };        
             Beverages.Add(PlaceHolderBeverage);
             SelectedBeverage = PlaceHolderBeverage;
+        }
+
+        private IBeverageRepository Repository { get; set; }
+        public BindableCollection<DrinkOrder> DrinkOrders { get; private set; }
+        public BindableCollection<Beverage> Beverages { get; private set; }
+        private Beverage PlaceHolderBeverage { get; set; }
+
+        protected override void OnInitialize()
+        {
             Beverages.AddRange(Repository.FindAll()); // ToDo: Async version
             ReadyForNewDrink();
         }
-
-        private Beverage PlaceHolderBeverage { get; set; }
 
         private Beverage _selectedBeverage;
         public Beverage SelectedBeverage
@@ -89,12 +84,7 @@ namespace HappyHour.ViewModels
             SetInebriationState();
             ReadyForNewDrink();
         }
-
-        private void ReadyForNewDrink()
-        {
-            if (null != _view) _view.ReadyForNewDrink(); // Throw if null?
-        }
-
+        
         private string _inebriationState;
         public string InebriationState
         {
@@ -111,7 +101,7 @@ namespace HappyHour.ViewModels
         {
             var state = InebriationStates.Sober;
 
-            var alkyDrinkCount = DrinkOrders.Count(d => d.HasAlcohol);
+            var alkyDrinkCount = DrinkOrders.Count(d => d.Beverage.HasAlcohol);
             if (alkyDrinkCount > 5) state = InebriationStates.Drunk;
             else if (alkyDrinkCount > 3) state = InebriationStates.Woozy;
             else if (alkyDrinkCount > 1) state = InebriationStates.Tipsy;
@@ -119,20 +109,17 @@ namespace HappyHour.ViewModels
             InebriationState = state;
         }
 
-        #region IViewAware
+        private void ReadyForNewDrink()
+        {
+            if (null != _view) _view.ReadyForNewDrink(); // Throw if null?
+        }
 
-        public object GetView(object context = null) { return _view; }
-
-        public void AttachView(object view, object context = null)
+        protected override void OnViewAttached(object view, object context)
         {
             _view = view as IMainPage; // Throw if not IMainPage?
         }
 
-        private IMainPage _view;
-
-        public event EventHandler<ViewAttachedEventArgs> ViewAttached;
-
-        #endregion
+        private IMainPage _view;        
     }
     
     public static class InebriationStates

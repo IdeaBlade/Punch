@@ -1,11 +1,12 @@
 using System;
 using System.ComponentModel.Composition;
 using System.Windows;
+using Caliburn.Micro;
 
 namespace HappyHour.ViewModels
 {
     [Export]
-    public class MainPageViewModel : Caliburn.Micro.PropertyChangedBase
+    public class MainPageViewModel : Screen
     {
         private string _drinkName;
         public string DrinkName

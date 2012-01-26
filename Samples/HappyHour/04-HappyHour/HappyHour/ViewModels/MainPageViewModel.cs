@@ -6,7 +6,7 @@ using Model;
 namespace HappyHour.ViewModels
 {
     [Export]
-    public class MainPageViewModel : PropertyChangedBase
+    public class MainPageViewModel : Screen
     {
         public MainPageViewModel()
         {

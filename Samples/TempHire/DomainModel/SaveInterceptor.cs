@@ -13,7 +13,7 @@ namespace DomainModel
         {
             base.ValidateSave();
 
-            // Create a sandox to do the validation in.
+            // Create a sandbox to do the validation in.
             var em = new EntityManager(EntityManager);
             em.CacheStateManager.RestoreCacheState(EntityManager.CacheStateManager.GetCacheState());
 

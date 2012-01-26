@@ -83,13 +83,13 @@
                                   Margin="2"
                                   HorizontalAlignment="Left"
                                   DisplayMemberPath="Name"
-                                  Style="{StaticResource ComboBox_Style}"
                                   ItemsSource="{Binding ElementName=LayoutRoot,
                                                         Path=DataContext.States}"
                                   MaxDropDownHeight="200"
                                   SelectedValue="{Binding Item.StateId,
                                                           Mode=TwoWay}"
-                                  SelectedValuePath="Id" />
+                                  SelectedValuePath="Id"
+                                  Style="{StaticResource ComboBox_Style}" />
                         <sdk:Label Grid.Row="5" Content="Zipcode:" />
                         <TextBox Grid.Row="5"
                                  Grid.Column="1"
@@ -106,24 +106,22 @@
                                     VerticalAlignment="Center"
                                     Orientation="Vertical">
                             <Button Width="80"
-									Height="25"
+                                    Height="25"
                                     Margin="10"
                                     HorizontalAlignment="Center"
                                     cal:Message.Attach="SetPrimary($dataContext)"
                                     Content="Set Primary"
-									Style="{StaticResource Button_Style}"
                                     IsEnabled="{Binding Path=Item.Primary,
-                                               Converter={StaticResource InverseBooleanConverter}}" 
-  								    BorderBrush="{x:Null}" Foreground="White" FontSize="10.667" FontFamily="Verdana" Background="{x:Null}" BorderThickness="0" Cursor="Hand"/>
+                                                        Converter={StaticResource InverseBooleanConverter}}"
+                                    Style="{StaticResource Button_Style}" />
                             <Button Width="80"
-									Height="25"
+                                    Height="25"
                                     Margin="10"
                                     HorizontalAlignment="Center"
                                     cal:Message.Attach="Delete($dataContext)"
                                     Content="Delete"
-                                    IsEnabled="{Binding CanDelete}" 
-									Style="{StaticResource Button_Style}"
-					                BorderBrush="{x:Null}" Foreground="White" FontSize="10.667" FontFamily="Verdana" Background="{x:Null}" BorderThickness="0" Cursor="Hand"/>
+                                    IsEnabled="{Binding CanDelete}"
+                                    Style="{StaticResource Button_Style}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
@@ -138,7 +136,7 @@
                     Height="25"
                     Margin="0,0,5,0"
                     VerticalAlignment="Center"
-					Style="{StaticResource AddButton_Style}" />
+                    Style="{StaticResource AddButton_Style}" />
         </StackPanel>
     </Grid>
 </UserControl>

@@ -31,9 +31,8 @@
                             Margin="5"
                             cal:Message.Attach="Close($dataContext)"
                             Content="{Binding Content}"
-                            IsEnabled="{Binding Enabled}" 
-                            Style="{StaticResource Button_Style}"
-					        BorderBrush="{x:Null}" Foreground="White" FontSize="10.667" FontFamily="Verdana" Background="{x:Null}" BorderThickness="0" Cursor="Hand"/>
+                            IsEnabled="{Binding Enabled}"
+                            Style="{StaticResource Button_Style}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

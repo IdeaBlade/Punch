@@ -24,28 +24,33 @@
         </toolkit:BusyIndicator.BusyContent>
 
         <Border x:Name="Visible">
-          <!--  <ScrollViewer BorderThickness="0"
-                          HorizontalScrollBarVisibility="Disabled"
-                          VerticalScrollBarVisibility="Auto"> -->
-                <Grid x:Name="LayoutRoot" Background="White">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <sdk:Frame x:Name="ResourceSummary" Margin="10,2,10,10" />
-                    <sdk:TabControl Grid.Row="1"
-                                    Margin="20,0,20,5"
-                                    ItemsSource="{Binding Path=Items,
-                                                          Converter={StaticResource SourceToTabItemsConverter},
-                                                          ConverterParameter={StaticResource TabItemContentTemplate}}"
-                                    SelectedIndex="{Binding Path=ActiveSectionIndex,
-                                                            Mode=TwoWay}" BorderBrush="#FF1D5380" >
-                    	<sdk:TabControl.Effect>
-                    		<DropShadowEffect Color="#FF333333" BlurRadius="3" Opacity="0.2"/>
-                    	</sdk:TabControl.Effect>
-                    </sdk:TabControl>
-                </Grid>
-         <!--   </ScrollViewer> -->
+            <!--
+                <ScrollViewer BorderThickness="0"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto">
+            -->
+            <Grid x:Name="LayoutRoot" Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <sdk:Frame x:Name="ResourceSummary" Margin="10,2,10,10" />
+                <sdk:TabControl Grid.Row="1"
+                                Margin="20,0,20,5"
+                                BorderBrush="#FF1D5380"
+                                ItemsSource="{Binding Path=Items,
+                                                      Converter={StaticResource SourceToTabItemsConverter},
+                                                      ConverterParameter={StaticResource TabItemContentTemplate}}"
+                                SelectedIndex="{Binding Path=ActiveSectionIndex,
+                                                        Mode=TwoWay}">
+                    <sdk:TabControl.Effect>
+                        <DropShadowEffect BlurRadius="3"
+                                          Opacity="0.2"
+                                          Color="#FF333333" />
+                    </sdk:TabControl.Effect>
+                </sdk:TabControl>
+            </Grid>
+            <!--  </ScrollViewer>  -->
         </Border>
     </toolkit:BusyIndicator>
 </UserControl>

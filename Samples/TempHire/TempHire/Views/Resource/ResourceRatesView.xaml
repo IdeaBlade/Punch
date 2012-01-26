@@ -59,7 +59,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
-								 Style="{StaticResource TextBox_Style}"
+                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Amount,
                                                 Mode=TwoWay}"
                                  TextAlignment="Right" />
@@ -70,9 +70,9 @@
                             <Button Width="60"
                                     Margin="2"
                                     HorizontalAlignment="Left"
-									Style="{StaticResource Button_Style}"
                                     cal:Message.Attach="Delete($dataContext)"
-                                    Content="Delete" />
+                                    Content="Delete"
+                                    Style="{StaticResource Button_Style}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
@@ -87,7 +87,7 @@
                     Height="25"
                     Margin="0,0,5,0"
                     VerticalAlignment="Center"
-					Style="{StaticResource AddButton_Style}" />
+                    Style="{StaticResource AddButton_Style}" />
         </StackPanel>
     </Grid>
 </UserControl>

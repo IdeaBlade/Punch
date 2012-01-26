@@ -63,7 +63,7 @@
                                     Margin="2"
                                     HorizontalAlignment="Left"
                                     cal:Message.Attach="Delete($dataContext)"
-                                    Content="Delete" 
+                                    Content="Delete"
                                     Style="{StaticResource Button_Style}" />
                         </StackPanel>
                     </Grid>
@@ -79,7 +79,7 @@
                     Height="25"
                     Margin="0,0,5,0"
                     VerticalAlignment="Center"
-                    Content="Add" 
+                    Content="Add"
                     Style="{StaticResource AddButton_Style}" />
         </StackPanel>
     </Grid>

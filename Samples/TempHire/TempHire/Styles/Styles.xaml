@@ -49,8 +49,8 @@
         </Grid>
     </ControlTemplate>
     <Style x:Key="Button_Style" TargetType="Button">
-    	<Setter Property="FontFamily" Value="Verdana" />
-		<Setter Property="FontSize" Value="10.667" />
+        <Setter Property="FontFamily" Value="Verdana" />
+        <Setter Property="FontSize" Value="10.667" />
         <Setter Property="Background" Value="#FFFF0000"/>
         <Setter Property="Foreground" Value="#FFFFFFFF"/>
         <Setter Property="Padding" Value="3"/>

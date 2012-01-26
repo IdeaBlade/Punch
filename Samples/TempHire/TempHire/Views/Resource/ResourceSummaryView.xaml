@@ -28,15 +28,17 @@
                  Margin="10"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Top"
+                 AcceptsReturn="True"
                  Style="{StaticResource TextBox_Style}"
                  Text="{Binding Resource.Summary,
                                 Mode=TwoWay}"
                  TextWrapping="Wrap"
-                 VerticalScrollBarVisibility="Auto"
-                 AcceptsReturn="True">
-        	<TextBox.Effect>
-        		<DropShadowEffect Opacity="0.2" Color="#FF333333" BlurRadius="3"/>
-        	</TextBox.Effect>
+                 VerticalScrollBarVisibility="Auto">
+            <TextBox.Effect>
+                <DropShadowEffect BlurRadius="3"
+                                  Opacity="0.2"
+                                  Color="#FF333333" />
+            </TextBox.Effect>
         </TextBox>
     </Grid>
 </UserControl>

@@ -23,7 +23,7 @@
             <ItemsControl IsEnabled="{Binding IsLoggedIn}" ItemsSource="{Binding Toolbar.Actions}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" Background="Azure" />
+                        <StackPanel Background="#FFC6DBF1" Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
@@ -33,7 +33,8 @@
                                 Margin="5,5,0,5"
                                 cal:Message.Attach="Execute"
                                 Content="{Binding Label}"
-                                Padding="10" />
+                                Padding="10"
+                                Style="{StaticResource Button_Style}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

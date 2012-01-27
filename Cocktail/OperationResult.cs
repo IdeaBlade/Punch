@@ -24,12 +24,45 @@ namespace Cocktail
     public class OperationResult : IResult, INotifyCompleted
     {
         private readonly INotifyCompleted _asyncOp;
+        private INotifyCompletedArgs _args;
 
         /// <summary>Constructs a wrapper around the provided asynchronous function.</summary>
         /// <param name="asyncOp">The asynchronous DevForce function to be wrapped.</param>
         public OperationResult(INotifyCompleted asyncOp)
         {
             _asyncOp = asyncOp;
+        }
+
+        /// <summary>
+        /// Returns whether the operation completed successfully.
+        /// </summary>
+        public bool CompletedSuccessfully
+        {
+            get { return _args != null && _args.Error == null; }
+        }
+
+        /// <summary>
+        /// Returns whether the operation failed. 
+        /// </summary>
+        public bool HasError
+        {
+            get { return _args != null && _args.Error != null; }
+        }
+
+        /// <summary>
+        /// Returns the exception if the operation failed. 
+        /// </summary>
+        public Exception Error
+        {
+            get { return _args != null ? _args.Error : null; }
+        }
+
+        /// <summary>
+        /// Returns whether the operation was cancelled. 
+        /// </summary>
+        public bool Cancelled
+        {
+            get { return _args != null && _args.Cancelled; }
         }
 
         #region Implementation of IResult
@@ -64,6 +97,7 @@ namespace Cocktail
 
         private void OnComplete(INotifyCompletedArgs args)
         {
+            _args = args;
             if (Completed == null) return;
 
             var resultArgs = new ResultCompletionEventArgs

@@ -244,11 +244,11 @@ namespace TempHire.ViewModels.StaffingResource
             {
                 IStaffingResourceRepository repository = _repositoryManager.GetRepository(staffingResource.Id);
 
-                bool success = false;
-                yield return
-                    repository.DeleteStaffingResourceAsync(staffingResource.Id, () => success = true, _errorHandler.HandleError);
+                OperationResult operation =
+                    repository.DeleteStaffingResourceAsync(staffingResource.Id, onFail: _errorHandler.HandleError);
+                yield return operation;                  
 
-                if (success)
+                if (operation.CompletedSuccessfully)
                 {
                     // Rerun the search
                     SearchPane.Search();
@@ -263,10 +263,10 @@ namespace TempHire.ViewModels.StaffingResource
         {
             using (ActiveDetail.Busy.GetTicket())
             {
-                bool success = false;
-                yield return ActiveRepository.SaveAsync(() => success = true, _errorHandler.HandleError);
+                var operation = ActiveRepository.SaveAsync(onFail: _errorHandler.HandleError);
+                yield return operation;
 
-                if (success)
+                if (operation.CompletedSuccessfully)
                 {
                     SearchPane.Search(ActiveStaffingResource.Id);
 

@@ -54,8 +54,8 @@ namespace DomainModel
                                        new AddressType
                                            {
                                                Id = CombGuid.NewGuid(),
-                                               Name = "Main",
-                                               DisplayName = "Main Address",
+                                               Name = "Mailing",
+                                               DisplayName = "Mailing Address",
                                                Default = true
                                            },
                                        new AddressType
@@ -68,6 +68,7 @@ namespace DomainModel
             var phoneTypes = new List<PhoneNumberType>
                                  {
                                      new PhoneNumberType {Id = CombGuid.NewGuid(), Name = "Home", Default = true},
+                                     new PhoneNumberType {Id = CombGuid.NewGuid(), Name = "Work"},
                                      new PhoneNumberType {Id = CombGuid.NewGuid(), Name = "Mobile"}
                                  };
             phoneTypes.ForEach(e => context.PhoneNumberTypes.Add(e));
@@ -350,7 +351,8 @@ namespace DomainModel
                            FirstName = first,
                            MiddleName = middle,
                            LastName = last,
-                           Summary = summary
+                           Summary = summary,
+                           Timestamp = DateTime.Now
                        };
         }
 

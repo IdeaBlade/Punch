@@ -18,7 +18,7 @@ using DomainModel;
 
 namespace Common.SampleData
 {
-    [Export(typeof (ISampleDataProvider<TempHireEntities>))]
+    [Export(typeof(ISampleDataProvider<TempHireEntities>))]
     public class TempHireSampleDataProvider : ISampleDataProvider<TempHireEntities>
     {
         // Used for generating sequential Guids by NewResource() and similar methods
@@ -50,8 +50,8 @@ namespace Common.SampleData
                                        new AddressType
                                            {
                                                Id = CreateGuid(1),
-                                               Name = "Main",
-                                               DisplayName = "Main Address",
+                                               Name = "Mailing",
+                                               DisplayName = "Mailing Address",
                                                Default = true
                                            },
                                        new AddressType {Id = CreateGuid(2), Name = "Home", DisplayName = "Home Address"},
@@ -62,7 +62,8 @@ namespace Common.SampleData
             var phoneTypes = new List<PhoneNumberType>
                                  {
                                      new PhoneNumberType {Id = CreateGuid(1), Name = "Home", Default = true},
-                                     new PhoneNumberType {Id = CreateGuid(2), Name = "Mobile"}
+                                     new PhoneNumberType {Id = CreateGuid(2), Name = "Work"},
+                                     new PhoneNumberType {Id = CreateGuid(3), Name = "Mobile"}
                                  };
             manager.AttachEntities(phoneTypes);
 

@@ -117,9 +117,6 @@ namespace Common.Repositories
                                                         resource.PhoneNumbers.FirstOrDefault(p => p.Primary).Number.
                                                             Contains(searchText));
 
-            if (!string.IsNullOrWhiteSpace(orderBy))
-                baseQuery = baseQuery.OrderBySelector(new SortSelector(orderBy));
-
             IEntityQuery<StaffingResourceListItem> query =
                 baseQuery.Select(resource => new StaffingResourceListItem
                                                  {
@@ -141,6 +138,9 @@ namespace Common.Repositories
                                                      Number =
                                                          resource.PhoneNumbers.FirstOrDefault(p => p.Primary).Number
                                                  });
+
+            if (!string.IsNullOrWhiteSpace(orderBy))
+                query = query.OrderBySelector(new SortSelector(orderBy));
 
             return ExecuteQuery(query, onSuccess, onFail);
         }

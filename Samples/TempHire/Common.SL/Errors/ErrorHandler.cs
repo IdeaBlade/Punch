@@ -13,10 +13,11 @@
 using System;
 using System.ComponentModel.Composition;
 using Cocktail;
+using IdeaBlade.EntityModel;
 
 namespace Common.Errors
 {
-    [Export(typeof(IErrorHandler))]
+    [Export(typeof (IErrorHandler))]
     public class ErrorHandler : IErrorHandler
     {
         private readonly IDialogManager _dialogManager;
@@ -31,7 +32,12 @@ namespace Common.Errors
 
         public void HandleError(Exception ex)
         {
-            _dialogManager.ShowMessage(ex.Message, DialogButtons.Ok);
+            string customMessage = null;
+            if (ex is EntityManagerSaveException &&
+                ((EntityManagerSaveException) ex).FailureType == PersistenceFailure.Concurrency)
+                customMessage = "Another user has previously saved the current record.";
+
+            _dialogManager.ShowMessage(customMessage ?? ex.Message, DialogButtons.Ok);
         }
 
         #endregion

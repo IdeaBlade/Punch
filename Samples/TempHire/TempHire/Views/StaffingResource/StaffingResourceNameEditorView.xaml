@@ -1,0 +1,56 @@
+<UserControl x:Class="TempHire.Views.StaffingResource.StaffingResourceNameEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+             d:DesignHeight="100"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+
+    <Grid x:Name="LayoutRoot" Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <sdk:Label Margin="2" Content="First name:" />
+        <sdk:Label Grid.Row="1"
+                   Margin="2"
+                   Content="Middle name:" />
+        <sdk:Label Grid.Row="2"
+                   Margin="2"
+                   Content="Last name:" />
+        <TextBox x:Name="FirstName"
+                 Grid.Column="1"
+                 Height="25"
+                 Margin="2"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Center"
+                 GotFocus="FirstNameGotFocus"
+                 Style="{StaticResource TextBox_Style}" />
+        <TextBox x:Name="MiddleName"
+                 Grid.Row="1"
+                 Grid.Column="1"
+                 Height="25"
+                 Margin="2"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Center"
+                 GotFocus="MiddleNameGotFocus"
+                 Style="{StaticResource TextBox_Style}" />
+        <TextBox x:Name="LastName"
+                 Grid.Row="2"
+                 Grid.Column="1"
+                 Height="25"
+                 Margin="2"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Center"
+                 GotFocus="LastNameGotFocus"
+                 Style="{StaticResource TextBox_Style}" />
+    </Grid>
+</UserControl>

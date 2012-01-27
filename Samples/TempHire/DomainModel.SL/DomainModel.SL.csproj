@@ -107,8 +107,8 @@
     <Compile Include="..\DomainModel\PhoneNumberType.cs">
       <Link>PhoneNumberType.cs</Link>
     </Compile>
-    <Compile Include="..\DomainModel\Projections\ResourceListItem.cs">
-      <Link>Projections\ResourceListItem.cs</Link>
+    <Compile Include="..\DomainModel\Projections\StaffingResourceListItem.cs">
+      <Link>Projections\StaffingResourceListItem.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\Rate.cs">
       <Link>Rate.cs</Link>
@@ -116,11 +116,11 @@
     <Compile Include="..\DomainModel\RateType.cs">
       <Link>RateType.cs</Link>
     </Compile>
-    <Compile Include="..\DomainModel\Resource.cs">
-      <Link>Resource.cs</Link>
-    </Compile>
     <Compile Include="..\DomainModel\Skill.cs">
       <Link>Skill.cs</Link>
+    </Compile>
+    <Compile Include="..\DomainModel\StaffingResource.cs">
+      <Link>StaffingResource.cs</Link>
     </Compile>
     <Compile Include="..\DomainModel\State.cs">
       <Link>State.cs</Link>

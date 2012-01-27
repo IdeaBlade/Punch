@@ -123,10 +123,10 @@
     <Compile Include="Repositories\ILookupRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IRepositoryManager.cs" />
-    <Compile Include="Repositories\IResourceRepository.cs" />
+    <Compile Include="Repositories\IStaffingResourceRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="Repositories\RepositoryManagers.cs" />
-    <Compile Include="Repositories\ResourceRepository.cs" />
+    <Compile Include="Repositories\StaffingResourceRepository.cs" />
     <Compile Include="SampleData\SecuritySampleDataProvider.cs" />
     <Compile Include="SampleData\TempHireSampleDataProvider.cs" />
     <Compile Include="Toolbar\IToolbarManager.cs" />

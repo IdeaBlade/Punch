@@ -46,10 +46,10 @@ namespace DomainModel
         [Required]
         public string City { get; set; }
 
-        /// <summary>Gets or sets the ResourceId. </summary>
+        /// <summary>Gets or sets the StaffingResourceId. </summary>
         [DataMember]
         [Required]
-        public Guid ResourceId { get; set; }
+        public Guid StaffingResourceId { get; set; }
 
         /// <summary>Gets or sets the AddressTypeId. </summary>
         [DataMember]
@@ -72,9 +72,9 @@ namespace DomainModel
         [Required]
         public Guid StateId { get; set; }
 
-        /// <summary>Gets or sets the Resource. </summary>
+        /// <summary>Gets or sets the StaffingResource. </summary>
         [DataMember]
-        public Resource Resource { get; set; }
+        public StaffingResource StaffingResource { get; set; }
 
         /// <summary>Gets or sets the AddressType. </summary>
         [DataMember]
@@ -89,7 +89,7 @@ namespace DomainModel
 
         public object Root
         {
-            get { return Resource; }
+            get { return StaffingResource; }
         }
 
         #endregion
@@ -102,12 +102,12 @@ namespace DomainModel
             public const String Address1 = "Address1";
             public const String Address2 = "Address2";
             public const String City = "City";
-            public const String ResourceId = "ResourceId";
+            public const String StaffingResourceId = "StaffingResourceId";
             public const String AddressTypeId = "AddressTypeId";
             public const String Zipcode = "Zipcode";
             public const String Primary = "Primary";
             public const String StateId = "StateId";
-            public const String Resource = "Resource";
+            public const String Resource = "StaffingResource";
             public const String AddressType = "AddressType";
             public const String PrimaryResources = "PrimaryResources";
             public const String State = "State";

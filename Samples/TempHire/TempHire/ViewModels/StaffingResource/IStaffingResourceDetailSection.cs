@@ -11,25 +11,14 @@
 //====================================================================================================================
 
 using System;
-using System.ComponentModel.Composition;
-using Cocktail;
+using Caliburn.Micro;
 
-namespace Common.Repositories
+namespace TempHire.ViewModels.StaffingResource
 {
-    public class RepositoryManager<T> : ObjectManager<Guid,T>, IRepositoryManager<T>
+    public interface IStaffingResourceDetailSection : IScreen
     {
-        public T GetRepository(Guid key)
-        {
-            return GetObject(key);
-        }
-    }
+        int Index { get; }
 
-    /// <summary>
-    /// Used to share instances of the StaffingResourceRepository among composed view models.
-    /// </summary>
-    [Export(typeof(IRepositoryManager<IStaffingResourceRepository>))]
-    [PartCreationPolicy(CreationPolicy.Shared)]
-    public class StaffingResourceRepositoryManager : RepositoryManager<IStaffingResourceRepository>
-    {
+        void Start(Guid staffingResourceId);
     }
 }

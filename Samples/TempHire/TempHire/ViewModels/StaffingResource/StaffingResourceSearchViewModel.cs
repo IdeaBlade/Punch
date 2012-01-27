@@ -110,7 +110,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             Busy.AddWatch();
 
-            _repository.FindStaffingResourcesAsync(SearchText, null,
+            _repository.FindStaffingResourcesAsync(SearchText, "LastName",
                                            result =>
                                                {
                                                    Items = new BindableCollection<StaffingResourceListItem>(result);

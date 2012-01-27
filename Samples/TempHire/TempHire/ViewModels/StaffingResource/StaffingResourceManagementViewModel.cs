@@ -263,12 +263,16 @@ namespace TempHire.ViewModels.StaffingResource
         {
             using (ActiveDetail.Busy.GetTicket())
             {
-                yield return ActiveRepository.SaveAsync(onFail: _errorHandler.HandleError);
+                bool success = false;
+                yield return ActiveRepository.SaveAsync(() => success = true, _errorHandler.HandleError);
 
-                SearchPane.Search(ActiveStaffingResource.Id);
+                if (success)
+                {
+                    SearchPane.Search(ActiveStaffingResource.Id);
 
-                NotifyOfPropertyChange(() => CanSave);
-                NotifyOfPropertyChange(() => CanCancel);
+                    NotifyOfPropertyChange(() => CanSave);
+                    NotifyOfPropertyChange(() => CanCancel);
+                }
             }
         }
 

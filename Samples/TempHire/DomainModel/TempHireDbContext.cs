@@ -351,7 +351,8 @@ namespace DomainModel
                            FirstName = first,
                            MiddleName = middle,
                            LastName = last,
-                           Summary = summary
+                           Summary = summary,
+                           Timestamp = DateTime.Now
                        };
         }
 

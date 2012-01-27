@@ -40,7 +40,7 @@ namespace DomainModel
         /// <summary>Gets or sets the Number. </summary>
         [DataMember]
         [Required]
-        [StringLength(7, MinimumLength = 7)]
+        [StringLength(8, MinimumLength = 7)]
         public string Number { get; set; }
 
         /// <summary>Gets or sets the PhoneNumberTypeId. </summary>

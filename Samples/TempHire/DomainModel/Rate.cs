@@ -40,24 +40,24 @@ namespace DomainModel
         [Required]
         public Guid RateTypeId { get; set; }
 
-        /// <summary>Gets or sets the ResourceId. </summary>
+        /// <summary>Gets or sets the StaffingResourceId. </summary>
         [DataMember]
         [Required]
-        public Guid ResourceId { get; set; }
+        public Guid StaffingResourceId { get; set; }
 
         /// <summary>Gets or sets the RateType. </summary>
         [DataMember]
         public RateType RateType { get; set; }
 
-        /// <summary>Gets or sets the Resource. </summary>
+        /// <summary>Gets or sets the StaffingResource. </summary>
         [DataMember]
-        public Resource Resource { get; set; }
+        public StaffingResource StaffingResource { get; set; }
 
         #region IHasRoot Members
 
         public object Root
         {
-            get { return Resource; }
+            get { return StaffingResource; }
         }
 
         #endregion

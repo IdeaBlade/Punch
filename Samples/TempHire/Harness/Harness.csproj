@@ -149,66 +149,66 @@
     <Compile Include="..\TempHire\ViewModels\Login\LoginViewModel.cs">
       <Link>ViewModels\Login\LoginViewModel.cs</Link>
     </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\AddressTypeSelectorViewModel.cs">
-      <Link>ViewModels\Resource\AddressTypeSelectorViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\IResourceDetailSection.cs">
-      <Link>ViewModels\Resource\IResourceDetailSection.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\PhoneTypeSelectorViewModel.cs">
-      <Link>ViewModels\Resource\PhoneTypeSelectorViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\RateTypeSelectorViewModel.cs">
-      <Link>ViewModels\Resource\RateTypeSelectorViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\ResourceAddressItemViewModel.cs">
-      <Link>ViewModels\Resource\ResourceAddressItemViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\ResourceAddressListViewModel.cs">
-      <Link>ViewModels\Resource\ResourceAddressListViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\ResourceContactInfoViewModel.cs">
-      <Link>ViewModels\Resource\ResourceContactInfoViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\ResourceDetailViewModel.cs">
-      <Link>ViewModels\Resource\ResourceDetailViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\ResourceManagementViewModel.cs">
-      <Link>ViewModels\Resource\ResourceManagementViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\ResourceNameEditorViewModel.cs">
-      <Link>ViewModels\Resource\ResourceNameEditorViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\ResourcePhoneItemViewModel.cs">
-      <Link>ViewModels\Resource\ResourcePhoneItemViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\ResourcePhoneListViewModel.cs">
-      <Link>ViewModels\Resource\ResourcePhoneListViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\ResourceRatesViewModel.cs">
-      <Link>ViewModels\Resource\ResourceRatesViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\ResourceScreenBase.cs">
-      <Link>ViewModels\Resource\ResourceScreenBase.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\ResourceSearchViewModel.cs">
-      <Link>ViewModels\Resource\ResourceSearchViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\ResourceSkillsViewModel.cs">
-      <Link>ViewModels\Resource\ResourceSkillsViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\ResourceSummaryViewModel.cs">
-      <Link>ViewModels\Resource\ResourceSummaryViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\Resource\ResourceWorkExperienceViewModel.cs">
-      <Link>ViewModels\Resource\ResourceWorkExperienceViewModel.cs</Link>
-    </Compile>
     <Compile Include="..\TempHire\ViewModels\ShellViewModel.cs">
       <Link>ViewModels\ShellViewModel.cs</Link>
     </Compile>
-    <Compile Include="..\TempHire\Views\Resource\ResourceNameEditorView.xaml.cs">
-      <Link>Views\Resource\ResourceNameEditorView.xaml.cs</Link>
-      <DependentUpon>ResourceNameEditorView.xaml</DependentUpon>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\AddressTypeSelectorViewModel.cs">
+      <Link>ViewModels\StaffingResource\AddressTypeSelectorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\IStaffingResourceDetailSection.cs">
+      <Link>ViewModels\StaffingResource\IStaffingResourceDetailSection.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\PhoneTypeSelectorViewModel.cs">
+      <Link>ViewModels\StaffingResource\PhoneTypeSelectorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\RateTypeSelectorViewModel.cs">
+      <Link>ViewModels\StaffingResource\RateTypeSelectorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceAddressListViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceAddressListViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceContactInfoViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceContactInfoViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceDetailViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceDetailViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceManagementViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceManagementViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceNameEditorViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceNameEditorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourcePhoneItemViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourcePhoneItemViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourcePhoneListViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourcePhoneListViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceRatesViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceRatesViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceScreenBase.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceScreenBase.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceSearchViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceSearchViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceSkillsViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceSkillsViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceSummaryViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceSummaryViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceWorkExperienceViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceWorkExperienceViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\Views\StaffingResource\StaffingResourceNameEditorView.xaml.cs">
+      <Link>Views\StaffingResource\StaffingResourceNameEditorView.xaml.cs</Link>
+      <DependentUpon>StaffingResourceNameEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -265,78 +265,78 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\TempHire\Views\Resource\AddressTypeSelectorView.xaml">
-      <Link>Views\Resource\AddressTypeSelectorView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Resource\PhoneTypeSelectorView.xaml">
-      <Link>Views\Resource\PhoneTypeSelectorView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Resource\RateTypeSelectorView.xaml">
-      <Link>Views\Resource\RateTypeSelectorView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Resource\ResourceAddressListView.xaml">
-      <Link>Views\Resource\ResourceAddressListView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Resource\ResourceContactInfoView.xaml">
-      <Link>Views\Resource\ResourceContactInfoView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Resource\ResourceDetailView.xaml">
-      <Link>Views\Resource\ResourceDetailView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Resource\ResourceManagementView.xaml">
-      <Link>Views\Resource\ResourceManagementView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Resource\ResourceNameEditorView.xaml">
-      <Link>Views\Resource\ResourceNameEditorView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Resource\ResourcePhoneListView.xaml">
-      <Link>Views\Resource\ResourcePhoneListView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Resource\ResourceRatesView.xaml">
-      <Link>Views\Resource\ResourceRatesView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Resource\ResourceSearchView.xaml">
-      <Link>Views\Resource\ResourceSearchView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Resource\ResourceSkillsView.xaml">
-      <Link>Views\Resource\ResourceSkillsView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Resource\ResourceSummaryView.xaml">
-      <Link>Views\Resource\ResourceSummaryView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Resource\ResourceWorkExperienceView.xaml">
-      <Link>Views\Resource\ResourceWorkExperienceView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="..\TempHire\Views\ShellView.xaml">
       <Link>Views\ShellView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\AddressTypeSelectorView.xaml">
+      <Link>Views\StaffingResource\AddressTypeSelectorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\PhoneTypeSelectorView.xaml">
+      <Link>Views\StaffingResource\PhoneTypeSelectorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\RateTypeSelectorView.xaml">
+      <Link>Views\StaffingResource\RateTypeSelectorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceAddressListView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceAddressListView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceContactInfoView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceContactInfoView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceDetailView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceDetailView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceManagementView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceManagementView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceNameEditorView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceNameEditorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourcePhoneListView.xaml">
+      <Link>Views\StaffingResource\StaffingResourcePhoneListView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceRatesView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceRatesView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSearchView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceSearchView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSkillsView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceSkillsView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSummaryView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceSummaryView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceWorkExperienceView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceWorkExperienceView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

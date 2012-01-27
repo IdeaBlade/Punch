@@ -27,7 +27,7 @@ namespace DomainModel
             Database.SetInitializer(new TempHireDbInitializer());
         }
 
-        public DbSet<Resource> Resources { get; set; }
+        public DbSet<StaffingResource> StaffingResources { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<AddressType> AddressTypes { get; set; }
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }
@@ -158,9 +158,9 @@ namespace DomainModel
             states.ForEach(e => context.States.Add(e));
 
             // Sample data
-            Resource r = NewResource("Nancy", "Lynn", "Davolio",
+            StaffingResource r = NewStaffingResource("Nancy", "Lynn", "Davolio",
                                      "Education includes a BA in psychology from Colorado State University in 1970.  She also completed \"The Art of the Cold Call.\"  Nancy is a member of Toastmasters International.");
-            context.Resources.Add(r);
+            context.StaffingResources.Add(r);
             context.Addresses.Add(NewAddress(r, addressTypes[0], "507 - 20th Ave. E.", "Apt. 2A", "Seattle",
                                              states[47],
                                              "98122", true));
@@ -183,9 +183,9 @@ namespace DomainModel
                                                     "Sold business intelligence to a wide variety of industry verticals including finance, consulting, accounting, manufacturing."));
             context.Skills.Add(NewSkill(r, "Sales"));
 
-            r = NewResource("Andrew", "I", "Fuller",
+            r = NewStaffingResource("Andrew", "I", "Fuller",
                             "Andrew received his BTS commercial in 1974 and a Ph.D. in international marketing from the University of Dallas in 1981.  He is fluent in French and Italian and reads German.  He joined the company as a sales representative, was promoted to sales manager in January 1992 and to vice president of sales in March 1993.  Andrew is a member of the Sales Management Roundtable, the Seattle Chamber of Commerce, and the Pacific Rim Importers Association.");
-            context.Resources.Add(r);
+            context.StaffingResources.Add(r);
             context.Addresses.Add(NewAddress(r, addressTypes[0], "908 W. Capital Way", "", "Tacoma", states[47],
                                              "98401", true));
             context.PhoneNumbers.Add(NewPhone(r, phoneTypes[0], "206", "555-9482", true));
@@ -207,9 +207,9 @@ namespace DomainModel
             context.Skills.Add(NewSkill(r, "Sales"));
             context.Skills.Add(NewSkill(r, "Marketing"));
 
-            r = NewResource("Janet", "N", "Leverling",
+            r = NewStaffingResource("Janet", "N", "Leverling",
                             "Janet has a BS degree in chemistry from Boston College (1984).  She has also completed a certificate program in food retailing management.  Janet was hired as a sales associate in 1991 and promoted to sales representative in February 1992.");
-            context.Resources.Add(r);
+            context.StaffingResources.Add(r);
             context.Addresses.Add(NewAddress(r, addressTypes[0], "722 Moss Bay Blvd.", "", "Kirkland", states[47],
                                              "98033",
                                              true));
@@ -231,9 +231,9 @@ namespace DomainModel
             context.Skills.Add(NewSkill(r, "Sales"));
             context.Skills.Add(NewSkill(r, "Chemistry"));
 
-            r = NewResource("Margaret", "G", "Peacock",
+            r = NewStaffingResource("Margaret", "G", "Peacock",
                             "Margaret holds a BA in English literature from Concordia College (1958) and an MA from the American Institute of Culinary Arts (1966).  She was assigned to the London office temporarily from July through November 1992.");
-            context.Resources.Add(r);
+            context.StaffingResources.Add(r);
             context.Addresses.Add(NewAddress(r, addressTypes[0], "4110 Old Redmond Rd.", "", "Redmond", states[47],
                                              "98052",
                                              true));
@@ -253,9 +253,9 @@ namespace DomainModel
 
             context.Skills.Add(NewSkill(r, "SQL"));
 
-            r = NewResource("Steven", "T", "Buchanan",
+            r = NewStaffingResource("Steven", "T", "Buchanan",
                             "Steven Buchanan graduated from St. Andrews University, Scotland, with a BSC degree in 1976.  Upon joining the company as a sales representative in 1992, he spent 6 months in an orientation program at the Seattle office and then returned to his permanent post in London.  He was promoted to sales manager in March 1993.  Mr. Buchanan has completed the courses \"Successful Telemarketing\" and \"International Sales Management.\"  He is fluent in French.");
-            context.Resources.Add(r);
+            context.StaffingResources.Add(r);
             context.Addresses.Add(NewAddress(r, addressTypes[0], "14 Garrett Hill", "", "London", states[51],
                                              "SW1 8JR", true));
             context.PhoneNumbers.Add(NewPhone(r, phoneTypes[0], "071", "555-4848", true));
@@ -273,9 +273,9 @@ namespace DomainModel
                                                     "Tampa FL", "Residential Sales Manager",
                                                     "Implemented new sales techniques to increase business in new territory"));
 
-            r = NewResource("Michael", "", "Suyama",
+            r = NewStaffingResource("Michael", "", "Suyama",
                             "Michael is a graduate of Sussex University (MA, economics, 1983) and the University of California at Los Angeles (MBA, marketing, 1986).  He has also taken the courses \"Multi-Cultural Selling\" and \"Time Management for the Sales Professional.\"  He is fluent in Japanese and can read and write French, Portuguese, and Spanish.");
-            context.Resources.Add(r);
+            context.StaffingResources.Add(r);
             context.Addresses.Add(NewAddress(r, addressTypes[0], "Coventry House  Miner Rd.", "", "London",
                                              states[51],
                                              "EC2 7JR", true));
@@ -289,9 +289,9 @@ namespace DomainModel
                                                     "Chicago IL", "Field Sales Account Manager",
                                                     "Expanded account penetration by increasing share of total year over year spend."));
 
-            r = NewResource("Laura", "A", "Callahan",
+            r = NewStaffingResource("Laura", "A", "Callahan",
                             "Laura received a BA in psychology from the University of Washington.  She has also completed a course in business French.  She reads and writes French.");
-            context.Resources.Add(r);
+            context.StaffingResources.Add(r);
             context.Addresses.Add(NewAddress(r, addressTypes[0], "4726 - 11th Ave. N.E.", "", "Seattle", states[47],
                                              "98105",
                                              true));
@@ -305,9 +305,9 @@ namespace DomainModel
                                                     "Atlanta GA", "Legal eagle",
                                                     "Passion for innovation, creativity and continuous improvement."));
 
-            r = NewResource("Anne", "F", "Dodsworth",
+            r = NewStaffingResource("Anne", "F", "Dodsworth",
                             "Anne has a BA degree in English from St. Lawrence College.  She is fluent in French and German.");
-            context.Resources.Add(r);
+            context.StaffingResources.Add(r);
             context.Addresses.Add(NewAddress(r, addressTypes[0], "7 Houndstooth Rd.", "", "London", states[51],
                                              "WG2 7LT",
                                              true));
@@ -322,9 +322,9 @@ namespace DomainModel
                                                     "Coral Gables FL", "Linguistic Coder",
                                                     "Liaison between the developers and the client. Helps communicate thoughts and ideas into values which are structured and analyzed."));
 
-            r = NewResource("Pearl", "P", "Pindlegrass",
+            r = NewStaffingResource("Pearl", "P", "Pindlegrass",
                             "Holds the MA degree in Education from UC Berkeley");
-            context.Resources.Add(r);
+            context.StaffingResources.Add(r);
             context.Addresses.Add(NewAddress(r, addressTypes[0], "18233 N.Wunderkindt", "", "Munich", states[35],
                                              "32382",
                                              true));
@@ -342,9 +342,9 @@ namespace DomainModel
 
         # region methods for building entities with sample data
 
-        private Resource NewResource(string first, string middle, string last, string summary)
+        private StaffingResource NewStaffingResource(string first, string middle, string last, string summary)
         {
-            return new Resource
+            return new StaffingResource
                        {
                            Id = CombGuid.NewGuid(),
                            FirstName = first,
@@ -354,7 +354,7 @@ namespace DomainModel
                        };
         }
 
-        private Address NewAddress(Resource resource, AddressType type, string address1, string address2, string city,
+        private Address NewAddress(StaffingResource staffingResource, AddressType type, string address1, string address2, string city,
                                    State state, string zip, bool primary)
         {
             return new Address
@@ -366,12 +366,12 @@ namespace DomainModel
                            City = city,
                            State = state,
                            Zipcode = zip,
-                           Resource = resource,
+                           StaffingResource = staffingResource,
                            Primary = primary
                        };
         }
 
-        private PhoneNumber NewPhone(Resource resource, PhoneNumberType type, string areaCode, string phone,
+        private PhoneNumber NewPhone(StaffingResource staffingResource, PhoneNumberType type, string areaCode, string phone,
                                      bool primary)
         {
             return new PhoneNumber
@@ -380,30 +380,30 @@ namespace DomainModel
                            PhoneNumberType = type,
                            AreaCode = areaCode,
                            Number = phone,
-                           Resource = resource,
+                           StaffingResource = staffingResource,
                            Primary = primary
                        };
         }
 
-        private Rate NewRate(Resource resource, RateType type, decimal amount)
+        private Rate NewRate(StaffingResource staffingResource, RateType type, decimal amount)
         {
             return new Rate
                        {
                            Id = CombGuid.NewGuid(),
                            RateType = type,
                            Amount = amount,
-                           Resource = resource
+                           StaffingResource = staffingResource
                        };
         }
 
-        private WorkExperienceItem NewWork(Resource resource, DateTime from, DateTime to, string company,
+        private WorkExperienceItem NewWork(StaffingResource staffingResource, DateTime from, DateTime to, string company,
                                            string location,
                                            string title, string description)
         {
             return new WorkExperienceItem
                        {
                            Id = CombGuid.NewGuid(),
-                           Resource = resource,
+                           StaffingResource = staffingResource,
                            From = from,
                            To = to,
                            Company = company,
@@ -413,13 +413,13 @@ namespace DomainModel
                        };
         }
 
-        private Skill NewSkill(Resource resource, string desc)
+        private Skill NewSkill(StaffingResource staffingResource, string desc)
         {
             return new Skill
                        {
                            Id = CombGuid.NewGuid(),
                            Description = desc,
-                           Resource = resource
+                           StaffingResource = staffingResource
                        };
         }
 

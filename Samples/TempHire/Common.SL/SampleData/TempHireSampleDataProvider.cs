@@ -22,12 +22,12 @@ namespace Common.SampleData
     public class TempHireSampleDataProvider : ISampleDataProvider<TempHireEntities>
     {
         // Used for generating sequential Guids by NewResource() and similar methods
-        private int _addressId = 100;
-        private int _phoneId = 100;
-        private int _rateId = 100;
-        private int _resId = 100;
-        private int _skillId = 100;
-        private int _workId = 100;
+        private int _addressId = 1;
+        private int _phoneId = 1;
+        private int _rateId = 1;
+        private int _resId = 1;
+        private int _skillId = 1;
+        private int _workId = 1;
 
         #region ISampleDataProvider<TempHireEntities> Members
 
@@ -141,7 +141,7 @@ namespace Common.SampleData
                              };
             manager.AttachEntities(states);
 
-            Resource r = NewResource("Nancy", "Lynn", "Davolio",
+            StaffingResource r = NewResource("Nancy", "Lynn", "Davolio",
                                      "Education includes a BA in psychology from Colorado State University in 1970.  She also completed \"The Art of the Cold Call.\"  Nancy is a member of Toastmasters International.");
             manager.AttachEntity(r);
             manager.AttachEntity(NewAddress(r.Id, addressTypes[0], "507 - 20th Ave. E.", "Apt. 2A", "Seattle", states[47],
@@ -298,9 +298,9 @@ namespace Common.SampleData
 
         # region methods for building entities with sample data
 
-        private Resource NewResource(string first, string middle, string last, string summary)
+        private StaffingResource NewResource(string first, string middle, string last, string summary)
         {
-            return new Resource
+            return new StaffingResource
                        {
                            Id = CreateGuid(_resId++),
                            FirstName = first,
@@ -322,7 +322,7 @@ namespace Common.SampleData
                            City = city,
                            StateId = state.Id,
                            Zipcode = zip,
-                           ResourceId = resid,
+                           StaffingResourceId = resid,
                            Primary = primary
                        };
         }
@@ -335,7 +335,7 @@ namespace Common.SampleData
                            PhoneNumberTypeId = type.Id,
                            AreaCode = areaCode,
                            Number = phone,
-                           ResourceId = resid,
+                           StaffingResourceId = resid,
                            Primary = primary
                        };
         }
@@ -347,7 +347,7 @@ namespace Common.SampleData
                            Id = CreateGuid(_rateId++),
                            RateTypeId = type.Id,
                            Amount = amount,
-                           ResourceId = resid
+                           StaffingResourceId = resid
                        };
         }
 
@@ -357,7 +357,7 @@ namespace Common.SampleData
             return new WorkExperienceItem
                        {
                            Id = CreateGuid(_workId++),
-                           ResourceId = resid,
+                           StaffingResourceId = resid,
                            From = from,
                            To = to,
                            Company = company,
@@ -373,7 +373,7 @@ namespace Common.SampleData
                        {
                            Id = CreateGuid(_skillId++),
                            Description = desc,
-                           ResourceId = resid
+                           StaffingResourceId = resid
                        };
         }
 

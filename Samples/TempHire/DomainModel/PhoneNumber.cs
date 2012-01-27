@@ -48,19 +48,19 @@ namespace DomainModel
         [Required]
         public Guid PhoneNumberTypeId { get; set; }
 
-        /// <summary>Gets or sets the ResourceId. </summary>
+        /// <summary>Gets or sets the StaffingResourceId. </summary>
         [DataMember]
         [Required]
-        public Guid ResourceId { get; set; }
+        public Guid StaffingResourceId { get; set; }
 
         /// <summary>Gets or sets the Primary. </summary>
         [DataMember]
         [Required]
         public bool Primary { get; set; }
 
-        /// <summary>Gets or sets the Resource. </summary>
+        /// <summary>Gets or sets the StaffingResource. </summary>
         [DataMember]
-        public Resource Resource { get; set; }
+        public StaffingResource StaffingResource { get; set; }
 
         /// <summary>Gets or sets the PhoneNumberType. </summary>
         [DataMember]
@@ -70,7 +70,7 @@ namespace DomainModel
 
         public object Root
         {
-            get { return Resource; }
+            get { return StaffingResource; }
         }
 
         #endregion
@@ -83,9 +83,9 @@ namespace DomainModel
             public const String AreaCode = "AreaCode";
             public const String Number = "Number";
             public const String PhoneNumberTypeId = "PhoneNumberTypeId";
-            public const String ResourceId = "ResourceId";
+            public const String StaffingResourceId = "StaffingResourceId";
             public const String Primary = "Primary";
-            public const String Resource = "Resource";
+            public const String Resource = "StaffingResource";
             public const String PhoneNumberType = "PhoneNumberType";
             public const String PrimaryResources = "PrimaryResources";
         }

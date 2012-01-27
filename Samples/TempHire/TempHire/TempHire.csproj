@@ -134,27 +134,27 @@
     <Compile Include="ViewModels\Dialog\CustomDialogViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\Login\LoginViewModel.cs" />
-    <Compile Include="ViewModels\Resource\AddressTypeSelectorViewModel.cs" />
-    <Compile Include="ViewModels\Resource\IResourceDetailSection.cs" />
-    <Compile Include="ViewModels\Resource\PhoneTypeSelectorViewModel.cs" />
-    <Compile Include="ViewModels\Resource\RateTypeSelectorViewModel.cs" />
-    <Compile Include="ViewModels\Resource\ResourceAddressItemViewModel.cs" />
-    <Compile Include="ViewModels\Resource\ResourceAddressListViewModel.cs" />
-    <Compile Include="ViewModels\Resource\ResourceContactInfoViewModel.cs" />
-    <Compile Include="ViewModels\Resource\ResourceDetailViewModel.cs" />
-    <Compile Include="ViewModels\Resource\ResourceManagementViewModel.cs" />
-    <Compile Include="ViewModels\Resource\ResourceNameEditorViewModel.cs" />
-    <Compile Include="ViewModels\Resource\ResourcePhoneItemViewModel.cs" />
-    <Compile Include="ViewModels\Resource\ResourcePhoneListViewModel.cs" />
-    <Compile Include="ViewModels\Resource\ResourceRatesViewModel.cs" />
-    <Compile Include="ViewModels\Resource\ResourceScreenBase.cs" />
-    <Compile Include="ViewModels\Resource\ResourceSearchViewModel.cs" />
-    <Compile Include="ViewModels\Resource\ResourceSkillsViewModel.cs" />
-    <Compile Include="ViewModels\Resource\ResourceSummaryViewModel.cs" />
-    <Compile Include="ViewModels\Resource\ResourceWorkExperienceViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="Views\Resource\ResourceNameEditorView.xaml.cs">
-      <DependentUpon>ResourceNameEditorView.xaml</DependentUpon>
+    <Compile Include="ViewModels\StaffingResource\AddressTypeSelectorViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\IStaffingResourceDetailSection.cs" />
+    <Compile Include="ViewModels\StaffingResource\PhoneTypeSelectorViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\RateTypeSelectorViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\StaffingResourceAddressListViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\StaffingResourceContactInfoViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\StaffingResourceDetailViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\StaffingResourceManagementViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\StaffingResourceNameEditorViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\StaffingResourcePhoneItemViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\StaffingResourcePhoneListViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\StaffingResourceRatesViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\StaffingResourceScreenBase.cs" />
+    <Compile Include="ViewModels\StaffingResource\StaffingResourceSearchViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\StaffingResourceSkillsViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\StaffingResourceSummaryViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\StaffingResourceWorkExperienceViewModel.cs" />
+    <Compile Include="Views\StaffingResource\StaffingResourceNameEditorView.xaml.cs">
+      <DependentUpon>StaffingResourceNameEditorView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +186,62 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Views\StaffingResource\AddressTypeSelectorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\PhoneTypeSelectorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\RateTypeSelectorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceAddressListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceContactInfoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceManagementView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceNameEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourcePhoneListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceRatesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceSearchView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceSkillsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceSummaryView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceWorkExperienceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Resource Include="Styles\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -199,62 +255,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Login\LoginView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Resource\AddressTypeSelectorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Resource\PhoneTypeSelectorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Resource\RateTypeSelectorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Resource\ResourceAddressListView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resource\ResourceContactInfoView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Resource\ResourceDetailView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Resource\ResourceManagementView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Resource\ResourceNameEditorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Resource\ResourcePhoneListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Resource\ResourceRatesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Resource\ResourceSearchView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Resource\ResourceSkillsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Resource\ResourceSummaryView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resource\ResourceWorkExperienceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

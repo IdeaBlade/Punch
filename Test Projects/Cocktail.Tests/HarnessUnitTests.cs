@@ -10,7 +10,6 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System.ComponentModel.Composition;
 using System.Linq;
 using Cocktail.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -19,45 +18,38 @@ using Test.Model;
 namespace Cocktail.Tests
 {
     [TestClass]
-    public class HarnessUnitTests
+    public class HarnessUnitTests : CocktailTestBase
     {
-        //private readonly ViewModelLocator _locator;
+        private ViewModelLocator _locator;
 
-        public HarnessUnitTests()
+        protected override void Context()
         {
-            Composition.Configure();
-            //_locator = new ViewModelLocator();
+            base.Context();
+            _locator = new ViewModelLocator();
         }
 
-        //[Export]
-        //public IEntityManagerProvider<NorthwindIBEntities> EntityManagerProvider
-        //{
-        //    get { return new DesignTimeEntityManagerProvider(new SampleDataProvider()); }
-        //}
+        [TestMethod]
+        public void ShouldGetCustomersInDesignMode()
+        {
+            DesignTimeViewModelLocatorBase<NorthwindIBEntities>.IsInDesignMode = () => true;
+            Composition.IsInDesignMode = () => true;
 
-        //[TestMethod]
-        //public void ShouldGetCustomersInDesignMode()
-        //{
-        //    DesignTimeViewModelLocatorBase<NorthwindIBEntities>.IsInDesignMode = () => true;
-        //    Composition.IsInDesignMode = () => true;
+            var vm = _locator.CustomerListViewModel;
+            Assert.IsNotNull(vm, "The ViewModel should be set");
 
-        //    Assert.IsTrue(_locator.CustomerListViewModel != null, "The ViewModel should be set");
+            CustomerListViewModel viewModel = _locator.CustomerListViewModel;
+            //viewModel.GetCustomers();
 
-        //    CustomerListViewModel viewModel = _locator.CustomerListViewModel;
-        //    //viewModel.GetCustomers();
+            Assert.IsTrue(viewModel != null && viewModel.Customers.Count > 0, "We should have at least 1 customer");
+        }
 
-        //    Assert.IsTrue(viewModel != null && viewModel.Customers.Count > 0, "We should have at least 1 customer");
-        //}
+        [TestMethod]
+        public void ShouldGetViewModelList()
+        {
+            var shell = new HarnessViewModel(Composition.GetInstances<IDiscoverableViewModel>());
+            Composition.BuildUp(shell);
 
-        //[TestMethod]
-        //public void ShouldGetViewModelList()
-        //{
-        //    Composition.ResetIsInDesignModeToDefault();
-
-        //    var shell = new HarnessViewModel(Composition.GetInstances<IDiscoverableViewModel>());
-        //    Composition.BuildUp(shell);
-
-        //    Assert.IsTrue(shell.Names.Any(), "We should have at least one ViewModel name");
-        //}
+            Assert.IsTrue(shell.Names.Any(), "We should have at least one ViewModel name");
+        }
     }
 }

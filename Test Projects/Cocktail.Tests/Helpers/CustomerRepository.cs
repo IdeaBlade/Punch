@@ -23,7 +23,7 @@ namespace Cocktail.Tests.Helpers
     /// An example of a Repository.
     /// 
     /// IMPORTANT: The Repository must be exported via its type or an implemented interface.
-    /// This example exports the Respository via ICustomerRepository. Exporting the Repository
+    /// This example exports the Repository via ICustomerRepository. Exporting the Repository
     /// allows the CompositionHost to automatically plug it into any ViewModel that needs
     /// to use the Repository
     /// 

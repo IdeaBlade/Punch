@@ -15,6 +15,7 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 //====================================================================================================================
 
+using System.ComponentModel.Composition;
 using Test.Model;
 
 namespace Cocktail.Tests.Helpers
@@ -22,8 +23,15 @@ namespace Cocktail.Tests.Helpers
     /// <summary>
     /// Concrete EntityManager used during design time
     /// </summary>
+    [Export(typeof (IEntityManagerProvider<NorthwindIBEntities>))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class DesignTimeEntityManagerProvider : DesignTimeEntityManagerProviderBase<NorthwindIBEntities>
     {
+        [ImportingConstructor]
+        public DesignTimeEntityManagerProvider()
+        {
+        }
+
         public DesignTimeEntityManagerProvider(params ISampleDataProvider<NorthwindIBEntities>[] sampleDataProviders)
             : base(sampleDataProviders)
         {

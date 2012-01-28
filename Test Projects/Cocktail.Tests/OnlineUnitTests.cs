@@ -25,13 +25,8 @@ using Test.Model;
 namespace Cocktail.Tests
 {
     [TestClass]
-    public class OnlineUnitTests : DevForceTest
+    public class OnlineUnitTests : CocktailTestBase
     {
-        public OnlineUnitTests()
-        {
-            Composition.Configure();
-        }
-
         public INotifyCompleted ResetFakeBackingStore(string compositionContextName)
         {
             var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName) as DevelopmentEntityManagerProvider;
@@ -85,13 +80,13 @@ namespace Cocktail.Tests
         {
             var compositionContextWithSyncInterceptor = CompositionContext.Fake
                 .WithGenerator(typeof(IEntityManagerSyncInterceptor), () => new SyncInterceptor())
-                .WithName("CompositionContextWithSyncInterceptor");
+                .WithName("ShouldSynchronizeDeletesBetweenEntityManagers");
             CompositionContextResolver.Add(compositionContextWithSyncInterceptor);
 
             var rep1 = new CustomerRepository(
-                EntityManagerProviderFactory.CreateTestEntityManagerProvider("CompositionContextWithSyncInterceptor"));
+                EntityManagerProviderFactory.CreateTestEntityManagerProvider("ShouldSynchronizeDeletesBetweenEntityManagers"));
             var rep2 = new CustomerRepository(
-                EntityManagerProviderFactory.CreateTestEntityManagerProvider("CompositionContextWithSyncInterceptor"));
+                EntityManagerProviderFactory.CreateTestEntityManagerProvider("ShouldSynchronizeDeletesBetweenEntityManagers"));
 
             DoItAsync(
                 () =>
@@ -101,7 +96,7 @@ namespace Cocktail.Tests
 
                     var commands = new List<Func<INotifyCompleted>>
                                            {
-                                               () => TestInit("CompositionContextWithSyncInterceptor"),
+                                               () => TestInit("ShouldSynchronizeDeletesBetweenEntityManagers"),
                                                () => rep1.GetCustomers(null, results => results.ForEach(customers.Add)),
                                                () => rep2.GetCustomers(null, results => results.ForEach(customers2.Add))
                                            };
@@ -147,9 +142,9 @@ namespace Cocktail.Tests
             var auth = new AuthenticationService<NorthwindIBEntities>(new NorthwindIBEntities());
             var contextWithAuthService = CompositionContext.Fake
                 .WithGenerator(typeof(IAuthenticationService), () => auth)
-                .WithName("ContextWithAuthService");
+                .WithName("ShouldLoginLogout");
             CompositionContextResolver.Add(contextWithAuthService);
-            var emp = new DevelopmentEntityManagerProvider("ContextWithAuthService");
+            var emp = new DevelopmentEntityManagerProvider("ShouldLoginLogout");
 
             auth.PrincipalChanged += (s, e) => principalChangedFired = true;
             auth.LoggedIn += (s, e) => loggedInFired = true;
@@ -163,7 +158,7 @@ namespace Cocktail.Tests
                 {
                     var asyncFns = new List<Func<INotifyCompleted>>
                             {
-                                () => TestInit("ContextWithAuthService"),
+                                () => TestInit("ShouldLoginLogout"),
                                 () => auth.LoginAsync(new LoginCredential("test", "test", null), null, null),
                                 () =>
                                     {

@@ -31,6 +31,7 @@ namespace Cocktail
         public OperationResult(INotifyCompleted asyncOp)
         {
             _asyncOp = asyncOp;
+            _asyncOp.WhenCompleted(args => _args = args);
         }
 
         /// <summary>
@@ -73,7 +74,6 @@ namespace Cocktail
         /// <param name="context">The context.</param>
         void IResult.Execute(ActionExecutionContext context)
         {
-            //var op = _asyncFunc();
             _asyncOp.WhenCompleted(OnComplete);
         }
 
@@ -97,7 +97,6 @@ namespace Cocktail
 
         private void OnComplete(INotifyCompletedArgs args)
         {
-            _args = args;
             if (Completed == null) return;
 
             var resultArgs = new ResultCompletionEventArgs

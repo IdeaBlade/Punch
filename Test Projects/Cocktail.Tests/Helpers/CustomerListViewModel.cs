@@ -11,10 +11,10 @@
 //====================================================================================================================
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using IdeaBlade.Core;
 using Test.Model;
@@ -32,7 +32,7 @@ namespace Cocktail.Tests.Helpers
         private readonly ICustomerRepository _repository;
         private Customer _currentCustomer;
 
-        private BindableCollection<Customer> _customers;
+        private ObservableCollection<Customer> _customers;
 
         [ImportingConstructor]
         public CustomerListViewModel(ICustomerRepository repository)
@@ -40,7 +40,7 @@ namespace Cocktail.Tests.Helpers
             _repository = repository;
         }
 
-        public BindableCollection<Customer> Customers
+        public ObservableCollection<Customer> Customers
         {
             get { return _customers; }
             private set
@@ -60,27 +60,10 @@ namespace Cocktail.Tests.Helpers
             }
         }
 
-        private void ContextDataChanged(object sender, DataChangedEventArgs e)
-        {
-            MessageBox.Show(!e.EntityExists(e.EntityKeys.First()) ? "Data has been deleted" : "Data has changed");
-        }
-
         protected override void OnInitialize()
         {
             base.OnInitialize();
             Start();
-        }
-
-        protected override void OnActivate()
-        {
-            base.OnActivate();
-            _repository.DataChanged += ContextDataChanged;
-        }
-
-        protected override void OnDeactivate(bool close)
-        {
-            base.OnDeactivate(close);
-            _repository.DataChanged -= ContextDataChanged;
         }
 
         /// <summary>
@@ -96,8 +79,10 @@ namespace Cocktail.Tests.Helpers
         {
             _repository.GetCustomers("ContactName",
                                      customers =>
-                                     {
-                                         Customers = new BindableCollection<Customer>(customers);
+                                         {
+                                             var c = customers.ToList();
+                                             var b = new ObservableCollection<Customer>(c);
+                                             Customers = new ObservableCollection<Customer>(customers);
                                          Customers.CollectionChanged += CustomersCollectionChanged;
                                      });
         }

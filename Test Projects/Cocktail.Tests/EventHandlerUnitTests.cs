@@ -16,7 +16,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Cocktail.Tests
 {
     [TestClass]
-    public class EventHandlerUnitTests
+    public class EventHandlerUnitTests : CocktailTestBase
     {
         [TestMethod]
         public void ShouldBeMessageHandler()

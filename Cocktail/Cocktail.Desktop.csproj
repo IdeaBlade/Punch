@@ -65,6 +65,7 @@
     <Compile Include="AlwaysCompletedOperationResult.cs" />
     <Compile Include="AuthenticationService.cs" />
     <Compile Include="BinaryToImageSourceConverter.cs" />
+    <Compile Include="BusyWatcher.cs" />
     <Compile Include="Composition.cs" />
     <Compile Include="CoroutineFns.cs" />
     <Compile Include="DataChangedEventArgs.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="FrameworkBootstrapper.cs" />
     <Compile Include="HarnessViewModel.cs" />
     <Compile Include="IAuthenticationService.cs" />
+    <Compile Include="IBusyWatcher.cs" />
     <Compile Include="IDialogHost.cs" />
     <Compile Include="IDialogManager.cs" />
     <Compile Include="IDiscoverableViewModel.cs" />

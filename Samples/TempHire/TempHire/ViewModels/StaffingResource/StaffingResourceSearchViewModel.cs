@@ -16,7 +16,6 @@ using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;
-using Common.BusyWatcher;
 using Common.Errors;
 using Common.Repositories;
 using DomainModel.Projections;
@@ -34,12 +33,11 @@ namespace TempHire.ViewModels.StaffingResource
         private string _searchText;
 
         [ImportingConstructor]
-        public StaffingResourceSearchViewModel(IStaffingResourceRepository repository, IErrorHandler errorHandler,
-                                       [Import(RequiredCreationPolicy = CreationPolicy.NonShared)] IBusyWatcher busy)
+        public StaffingResourceSearchViewModel(IStaffingResourceRepository repository, IErrorHandler errorHandler)
         {
             _repository = repository;
             _errorHandler = errorHandler;
-            Busy = busy;
+            Busy = new BusyWatcher();
         }
 
         public IBusyWatcher Busy { get; private set; }

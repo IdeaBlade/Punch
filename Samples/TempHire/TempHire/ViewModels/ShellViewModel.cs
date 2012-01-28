@@ -15,7 +15,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
-using Common.BusyWatcher;
 using Common.Toolbar;
 using Common.Workspace;
 using IdeaBlade.Core;
@@ -35,11 +34,9 @@ namespace TempHire.ViewModels
 
         [ImportingConstructor]
         public ShellViewModel([ImportMany] IEnumerable<IWorkspace> workspaces, IToolbarManager toolbar,
-                              IAuthenticationService authenticationService, ExportFactory<LoginViewModel> loginFactory,
-                              [Import(RequiredCreationPolicy = CreationPolicy.Shared)] IBusyWatcher busy)
+                              IAuthenticationService authenticationService, ExportFactory<LoginViewModel> loginFactory)
         {
             Toolbar = toolbar;
-            Busy = busy;
             _workspaces = workspaces;
             _authenticationService = authenticationService;
             _loginFactory = loginFactory;
@@ -48,7 +45,6 @@ namespace TempHire.ViewModels
         }
 
         public IToolbarManager Toolbar { get; private set; }
-        public IBusyWatcher Busy { get; private set; }
 
         public bool IsLoggedIn
         {

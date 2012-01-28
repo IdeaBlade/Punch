@@ -84,7 +84,6 @@
     <Compile Include="Helpers\DevelopmentEntityManagerProvider.cs" />
     <Compile Include="Helpers\EntityManagerProviderFactory.cs" />
     <Compile Include="Helpers\ICustomerRepository.cs" />
-    <Compile Include="Helpers\InjectionTestClasses.cs" />
     <Compile Include="Helpers\NonSharedObject.cs" />
     <Compile Include="Helpers\SampleDataProvider.cs" />
     <Compile Include="Helpers\SharedObject.cs" />

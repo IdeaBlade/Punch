@@ -86,5 +86,16 @@ namespace Cocktail
                                        onFail(args.Error);
                                });
         }
+
+        /// <summary>Ensures that a Coroutine continues if the current operation encounters an error and
+        /// prevents an unhandled exception from being thrown.</summary>
+        /// <param name="operation">The operation, whose error should be marked as handled.</param>
+        /// <typeparam name="T">The type of the operation.</typeparam>
+        /// <returns>The current operation.</returns>
+        public static T ContinueOnError<T>(this T operation) where T : INotifyCompleted
+        {
+            operation.WhenCompleted(args => args.IsErrorHandled = args.Error != null);
+            return operation;
+        }
     }
 }

@@ -59,6 +59,14 @@ namespace Cocktail
         }
 
         /// <summary>
+        /// Returns whether the error was handled.
+        /// </summary>
+        public bool IsErrorHandled
+        {
+            get { return _args != null && _args.IsErrorHandled; }
+        }
+
+        /// <summary>
         /// Returns whether the operation was cancelled. 
         /// </summary>
         public bool Cancelled

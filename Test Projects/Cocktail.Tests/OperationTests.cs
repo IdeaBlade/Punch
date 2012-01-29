@@ -14,6 +14,7 @@ namespace Cocktail.Tests
             Assert.IsFalse(operation.HasError);
             Assert.IsNull(operation.Error);
             Assert.IsFalse(operation.Cancelled);
+            Assert.IsFalse(operation.IsErrorHandled);
         }
     }
 }

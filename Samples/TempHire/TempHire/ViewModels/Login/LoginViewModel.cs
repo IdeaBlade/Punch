@@ -16,7 +16,6 @@ using System.ComponentModel.Composition;
 using System.Text;
 using Caliburn.Micro;
 using Cocktail;
-using Common.BusyWatcher;
 using Common.Errors;
 using Common.Repositories;
 using IdeaBlade.EntityModel;
@@ -39,10 +38,9 @@ namespace TempHire.ViewModels.Login
         [ImportingConstructor]
         public LoginViewModel(IAuthenticationService authenticationService, IWindowManager windowManager,
                               [Import(AllowDefault = true)] ILookupRepository lookupRepository,
-                              [Import(RequiredCreationPolicy = CreationPolicy.NonShared)] IBusyWatcher busy,
                               IErrorHandler errorHandler)
         {
-            Busy = busy;
+            Busy = new BusyWatcher();
             _authenticationService = authenticationService;
             _windowManager = windowManager;
             _lookupRepository = lookupRepository;

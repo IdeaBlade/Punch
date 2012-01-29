@@ -17,7 +17,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
-using Common.BusyWatcher;
 using Common.Errors;
 using Common.Repositories;
 using IdeaBlade.Core;
@@ -44,15 +43,14 @@ namespace TempHire.ViewModels.StaffingResource
         public StaffingResourceDetailViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
                                        StaffingResourceSummaryViewModel staffingResourceSummary,
                                        [ImportMany] IEnumerable<IStaffingResourceDetailSection> sections,
-                                       IErrorHandler errorHandler, IDialogManager dialogManager,
-                                       [Import(RequiredCreationPolicy = CreationPolicy.NonShared)] IBusyWatcher busy)
+                                       IErrorHandler errorHandler, IDialogManager dialogManager)
         {
             StaffingResourceSummary = staffingResourceSummary;
             _repositoryManager = repositoryManager;
             _sections = sections.ToList();
             _errorHandler = errorHandler;
             _dialogManager = dialogManager;
-            Busy = busy;
+            Busy = new BusyWatcher();
 
             PropertyChanged += OnPropertyChanged;
         }

@@ -1,4 +1,4 @@
-﻿//====================================================================================================================
+//====================================================================================================================
 // Copyright (c) 2012 IdeaBlade
 //====================================================================================================================
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
@@ -10,15 +10,39 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-namespace Common.BusyWatcher
+namespace Cocktail
 {
+    /// <summary>
+    /// A service to manage a busy indicator
+    /// </summary>
     public interface IBusyWatcher
     {
+        /// <summary>
+        /// Returns true if the state of the BusyWatcher is currently busy. This property can be directly bound
+        /// to a busy indicator control in XAML.
+        /// </summary>
+        /// <remarks>IsBusy is true as long as the internal busy counter is greater than zero.</remarks>
         bool IsBusy { get; }
 
+        /// <summary>
+        /// Returns a disposable ticket to manage busy state around a using() scope.
+        /// </summary>
+        /// <returns>Ticket implementing IDisposable.</returns>
+        /// <remarks>
+        /// The internal busy indicator is incremented by calling this method and as soon as the Dispose()
+        /// method is called on the ticket, the internal busy counter is decremented.
+        /// </remarks>
         BusyWatcher.BusyWatcherTicket GetTicket();
 
+        /// <summary>
+        /// Increments the internal busy counter.
+        /// </summary>
         void AddWatch();
+
+
+        /// <summary>
+        /// Decrements the internal busy counter.
+        /// </summary>
         void RemoveWatch();
     }
 }

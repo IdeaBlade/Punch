@@ -5,40 +5,33 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
-             xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
              d:DesignHeight="462"
              d:DesignWidth="857"
              mc:Ignorable="d">
 
-    <toolkit:BusyIndicator IsBusy="{Binding Busy.IsBusy}">
-        <toolkit:BusyIndicator.BusyContent>
-            <TextBlock Text="Please wait" />
-        </toolkit:BusyIndicator.BusyContent>
-
-        <Grid x:Name="LayoutRoot" Background="White">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <ItemsControl IsEnabled="{Binding IsLoggedIn}" ItemsSource="{Binding Toolbar.Actions}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Background="#FFC6DBF1" Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button Height="40"
-                                MinWidth="60"
-                                Margin="5,5,0,5"
-                                cal:Message.Attach="Execute"
-                                Content="{Binding Label}"
-                                Padding="10"
-                                Style="{StaticResource Button_Style}" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <sdk:Frame x:Name="ActiveItem" Grid.Row="1" />
-        </Grid>
-    </toolkit:BusyIndicator>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ItemsControl IsEnabled="{Binding IsLoggedIn}" ItemsSource="{Binding Toolbar.Actions}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Background="#FFC6DBF1" Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Height="40"
+                            MinWidth="60"
+                            Margin="5,5,0,5"
+                            cal:Message.Attach="Execute"
+                            Content="{Binding Label}"
+                            Padding="10"
+                            Style="{StaticResource Button_Style}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <sdk:Frame x:Name="ActiveItem" Grid.Row="1" />
+    </Grid>
 </UserControl>

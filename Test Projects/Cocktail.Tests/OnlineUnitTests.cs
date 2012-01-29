@@ -17,7 +17,6 @@ using Cocktail.Tests.Helpers;
 using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
-using IdeaBlade.TestFramework;
 using Microsoft.Silverlight.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Test.Model;
@@ -29,7 +28,9 @@ namespace Cocktail.Tests
     {
         public INotifyCompleted ResetFakeBackingStore(string compositionContextName)
         {
-            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName) as DevelopmentEntityManagerProvider;
+            var provider =
+                EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName) as
+                DevelopmentEntityManagerProvider;
             if (provider != null)
                 return provider.ResetFakeBackingStoreAsync();
 
@@ -40,7 +41,9 @@ namespace Cocktail.Tests
         {
             var commands = new List<Func<INotifyCompleted>>
                                {
-                                   () => EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName).InitializeAsync(),
+                                   () =>
+                                   EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName).
+                                       InitializeAsync(),
                                    () => ResetFakeBackingStore(compositionContextName)
                                };
             return Coroutine.Start(commands);
@@ -60,13 +63,13 @@ namespace Cocktail.Tests
                                            {
                                                () => TestInit(CompositionContext.Fake.Name),
                                                () =>
-                                                   repository.GetCustomers(null,
-                                                                           (customers) =>
-                                                                               {
-                                                                                   Assert.IsTrue(customers.Any(),
-                                                                                                 "Should have some customers");
-                                                                                   TestComplete();
-                                                                               })
+                                               repository.GetCustomers(null,
+                                                                       (customers) =>
+                                                                           {
+                                                                               Assert.IsTrue(customers.Any(),
+                                                                                             "Should have some customers");
+                                                                               TestComplete();
+                                                                           })
                                            };
 
                     Coroutine.Start(commands);
@@ -78,15 +81,17 @@ namespace Cocktail.Tests
         [Tag("Online")]
         public void ShouldSynchronizeDeletesBetweenEntityManagers()
         {
-            var compositionContextWithSyncInterceptor = CompositionContext.Fake
+            CompositionContext compositionContextWithSyncInterceptor = CompositionContext.Fake
                 .WithGenerator(typeof(IEntityManagerSyncInterceptor), () => new SyncInterceptor())
                 .WithName("ShouldSynchronizeDeletesBetweenEntityManagers");
             CompositionContextResolver.Add(compositionContextWithSyncInterceptor);
 
             var rep1 = new CustomerRepository(
-                EntityManagerProviderFactory.CreateTestEntityManagerProvider("ShouldSynchronizeDeletesBetweenEntityManagers"));
+                EntityManagerProviderFactory.CreateTestEntityManagerProvider(
+                    "ShouldSynchronizeDeletesBetweenEntityManagers"));
             var rep2 = new CustomerRepository(
-                EntityManagerProviderFactory.CreateTestEntityManagerProvider("ShouldSynchronizeDeletesBetweenEntityManagers"));
+                EntityManagerProviderFactory.CreateTestEntityManagerProvider(
+                    "ShouldSynchronizeDeletesBetweenEntityManagers"));
 
             DoItAsync(
                 () =>
@@ -105,26 +110,32 @@ namespace Cocktail.Tests
                     coop.Completed +=
                         (s, args) =>
                         {
-                            var customer = customers.First();
+                            Customer customer = customers.First();
 
-                            Assert.IsNotNull(rep1.EntityManagerProvider.Manager.FindEntity(customer.EntityAspect.EntityKey),
-                                             "Customer should be in EM1's cache");
-                            Assert.IsNotNull(rep2.EntityManagerProvider.Manager.FindEntity(customer.EntityAspect.EntityKey),
-                                             "Customer should be in EM2's cache");
+                            Assert.IsNotNull(
+                                rep1.EntityManagerProvider.Manager.FindEntity(customer.EntityAspect.EntityKey),
+                                "Customer should be in EM1's cache");
+                            Assert.IsNotNull(
+                                rep2.EntityManagerProvider.Manager.FindEntity(customer.EntityAspect.EntityKey),
+                                "Customer should be in EM2's cache");
 
                             rep1.DeleteCustomer(customer);
-                            Assert.IsNull(rep1.EntityManagerProvider.Manager.FindEntity(customer.EntityAspect.EntityKey), "Customer should have been removed from first cache");
-                            Assert.IsNotNull(rep2.EntityManagerProvider.Manager.FindEntity(customer.EntityAspect.EntityKey), "Customer should still be in second EntityManager");
+                            Assert.IsNull(
+                                rep1.EntityManagerProvider.Manager.FindEntity(customer.EntityAspect.EntityKey),
+                                "Customer should have been removed from first cache");
+                            Assert.IsNotNull(
+                                rep2.EntityManagerProvider.Manager.FindEntity(customer.EntityAspect.EntityKey),
+                                "Customer should still be in second EntityManager");
 
-                            var sop = rep1.Save();
+                            INotifyCompleted sop = rep1.Save();
                             sop.WhenCompleted((args1) =>
-                                {
-                                    Assert.IsNull(
-                                        rep2.EntityManagerProvider.Manager.FindEntity(
-                                            customer.EntityAspect.EntityKey),
-                                        "Customer should have been removed from second EntityManager");
-                                    TestComplete();
-                                });
+                                                  {
+                                                      Assert.IsNull(
+                                                          rep2.EntityManagerProvider.Manager.FindEntity(
+                                                              customer.EntityAspect.EntityKey),
+                                                          "Customer should have been removed from second EntityManager");
+                                                      TestComplete();
+                                                  });
                         };
                 });
         }
@@ -134,13 +145,13 @@ namespace Cocktail.Tests
         [Tag("Online")]
         public void ShouldLoginLogout()
         {
-            var principalChangedFired = false;
-            var loggedInFired = false;
-            var loggedOutFired = false;
-            var managerCreatedFired = false;
+            bool principalChangedFired = false;
+            bool loggedInFired = false;
+            bool loggedOutFired = false;
+            bool managerCreatedFired = false;
 
             var auth = new AuthenticationService<NorthwindIBEntities>(new NorthwindIBEntities());
-            var contextWithAuthService = CompositionContext.Fake
+            CompositionContext contextWithAuthService = CompositionContext.Fake
                 .WithGenerator(typeof(IAuthenticationService), () => auth)
                 .WithName("ShouldLoginLogout");
             CompositionContextResolver.Add(contextWithAuthService);
@@ -157,54 +168,68 @@ namespace Cocktail.Tests
                 () =>
                 {
                     var asyncFns = new List<Func<INotifyCompleted>>
-                            {
-                                () => TestInit("ShouldLoginLogout"),
-                                () => auth.LoginAsync(new LoginCredential("test", "test", null), null, null),
-                                () =>
-                                    {
-                                        Assert.IsTrue(principalChangedFired, "PrincipalChanged should have been fired");
-                                        Assert.IsTrue(loggedInFired, "LoggedIn should have been fired");
-                                        Assert.IsFalse(loggedOutFired, "LoggedOut shouldn't have been fired");
-                                        Assert.IsTrue(auth.IsLoggedIn, "Should be logged in");
-                                        Assert.IsTrue(auth.Principal.Identity.Name == "test", "Username should be test");
+                                           {
+                                               () => TestInit("ShouldLoginLogout"),
+                                               () =>
+                                               auth.LoginAsync(new LoginCredential("test", "test", null), null, null),
+                                               () =>
+                                                   {
+                                                       Assert.IsTrue(principalChangedFired,
+                                                                     "PrincipalChanged should have been fired");
+                                                       Assert.IsTrue(loggedInFired, "LoggedIn should have been fired");
+                                                       Assert.IsFalse(loggedOutFired,
+                                                                      "LoggedOut shouldn't have been fired");
+                                                       Assert.IsTrue(auth.IsLoggedIn, "Should be logged in");
+                                                       Assert.IsTrue(auth.Principal.Identity.Name == "test",
+                                                                     "Username should be test");
 
-                                        manager = emp.Manager;
+                                                       manager = emp.Manager;
 
-                                        Assert.IsTrue(managerCreatedFired, "ManagerCreated should have been fired");
-                                        Assert.IsNotNull(manager.Principal, "The principal should not be null on the EntitiyManager");
-                                        Assert.IsTrue(manager.Principal.Identity.Name == "test", "Principal should have the same username");
+                                                       Assert.IsTrue(managerCreatedFired,
+                                                                     "ManagerCreated should have been fired");
+                                                       Assert.IsNotNull(manager.Principal,
+                                                                        "The principal should not be null on the EntitiyManager");
+                                                       Assert.IsTrue(manager.Principal.Identity.Name == "test",
+                                                                     "Principal should have the same username");
 
-                                        principalChangedFired = false;
-                                        loggedInFired = false;
-                                        managerCreatedFired = false;
-                                        return AlwaysCompleted.Instance;
-                                    },
-                                () => auth.LogoutAsync(null, null),
-                                () =>
-                                    {
-                                        Assert.IsTrue(principalChangedFired, "PrincipalChanged should have been fired");
-                                        Assert.IsFalse(loggedInFired, "LoggedIn shouldn't have been fired");
-                                        Assert.IsTrue(loggedOutFired, "LoggedOut should have been fired");
-                                        Assert.IsFalse(auth.IsLoggedIn, "Should be logged out");
-                                        Assert.IsNull(auth.Principal, "Principal should be null");
+                                                       principalChangedFired = false;
+                                                       loggedInFired = false;
+                                                       managerCreatedFired = false;
+                                                       return AlwaysCompleted.Instance;
+                                                   },
+                                               () => auth.LogoutAsync(null, null),
+                                               () =>
+                                                   {
+                                                       Assert.IsTrue(principalChangedFired,
+                                                                     "PrincipalChanged should have been fired");
+                                                       Assert.IsFalse(loggedInFired,
+                                                                      "LoggedIn shouldn't have been fired");
+                                                       Assert.IsTrue(loggedOutFired, "LoggedOut should have been fired");
+                                                       Assert.IsFalse(auth.IsLoggedIn, "Should be logged out");
+                                                       Assert.IsNull(auth.Principal, "Principal should be null");
 
-                                        Assert.IsFalse(manager.IsConnected, "Old EntityManager should be disconnected");
+                                                       Assert.IsFalse(manager.IsConnected,
+                                                                      "Old EntityManager should be disconnected");
 
-                                        manager.Customers.ExecuteAsync(
-                                            op =>
-                                                {
-                                                    Assert.IsTrue(op.HasError && op.Error is InvalidOperationException,
-                                                                  "Should have thrown an error");
-                                                    op.MarkErrorAsHandled();
-                                                });
+                                                       manager.Customers.ExecuteAsync(
+                                                           op =>
+                                                               {
+                                                                   Assert.IsTrue(
+                                                                       op.HasError &&
+                                                                       op.Error is InvalidOperationException,
+                                                                       "Should have thrown an error");
+                                                                   op.MarkErrorAsHandled();
+                                                               });
 
-                                        manager = emp.Manager;
-                                        Assert.IsTrue(managerCreatedFired, "ManagerCreated should have been fired");
-                                        Assert.IsNull(manager.Principal, "The principal should be null on the EntitiyManager");
+                                                       manager = emp.Manager;
+                                                       Assert.IsTrue(managerCreatedFired,
+                                                                     "ManagerCreated should have been fired");
+                                                       Assert.IsNull(manager.Principal,
+                                                                     "The principal should be null on the EntitiyManager");
 
-                                        return AlwaysCompleted.Instance;
-                                    }
-                            };
+                                                       return AlwaysCompleted.Instance;
+                                                   }
+                                           };
 
                     Coroutine.Start(asyncFns, op => TestComplete());
                 });

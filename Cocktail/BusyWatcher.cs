@@ -11,15 +11,44 @@
 //====================================================================================================================
 
 using System;
-using System.ComponentModel.Composition;
 using System.Threading;
 using Caliburn.Micro;
 
 namespace Cocktail
 {
-    /// <summary>
-    /// A service to manage a busy indicator
-    /// </summary>
+    /// <summary>A service to manage a busy indicator</summary>
+    /// <example>
+    /// 	<code title="Example 1" description="Demonstrates using the BusyWatcher in a ViewModel." lang="C#">
+    /// public class LoginViewModel
+    /// {
+    ///     public LoginViewModel()
+    ///     {
+    ///         Busy = new BusyWatcher();
+    ///     }
+    ///  
+    ///     public IBusyWatcher Busy { get; private set; }
+    ///  
+    ///     public IEnumerable&lt;IResult&gt; Login()
+    ///     {
+    ///         using (Busy.GetTicket())
+    ///         {
+    ///             // Snip .. removed for clarity
+    ///             yield return _authenticationService.LoginAsync(credential, onFail: e =&gt; FailureMessage = e.Message);
+    ///  
+    ///             if (_authenticationService.IsLoggedIn)
+    ///                 TryClose();
+    ///         }
+    ///     }
+    /// }</code>
+    /// 	<code title="Example 2" description="Demonstrates binding to the BusyWatcher." lang="XAML">
+    /// &lt;toolkit:BusyIndicator BorderBrush="#FF1D5380" IsBusy="{Binding Busy.IsBusy}"&gt;
+    ///     &lt;toolkit:BusyIndicator.BusyContent&gt;
+    ///         &lt;TextBlock Text="Please wait" /&gt;
+    ///     &lt;/toolkit:BusyIndicator.BusyContent&gt;
+    ///  
+    /// &lt;/toolkit:BusyIndicator&gt;
+    /// </code>
+    /// </example>
     public class BusyWatcher : PropertyChangedBase, IBusyWatcher
     {
         private int _counter;
@@ -75,9 +104,7 @@ namespace Cocktail
 
         #region Nested type: BusyWatcherTicket
 
-        /// <summary>
-        /// A disposable ticket controlling scoped busy state around.
-        /// </summary>
+        /// <summary>A disposable ticket controlling busy state around a scope.</summary>
         public class BusyWatcherTicket : IDisposable
         {
             private readonly IBusyWatcher _parent;

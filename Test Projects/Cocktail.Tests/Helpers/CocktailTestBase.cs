@@ -1,4 +1,5 @@
-﻿using IdeaBlade.TestFramework;
+﻿using System.ComponentModel.Composition.Hosting;
+using IdeaBlade.TestFramework;
 
 namespace Cocktail.Tests.Helpers
 {
@@ -9,9 +10,15 @@ namespace Cocktail.Tests.Helpers
         /// </summary>
         protected override void Context()
         {
-            TestEventAggregator.Reset();
-            Composition.ResetIsInDesignModeToDefault();
-            Composition.Configure();
+            Composition.Clear();
+            var batch = new CompositionBatch();
+            PrepareCompositionContainer(batch);
+            Composition.Configure(batch);
+        }
+
+        protected virtual void PrepareCompositionContainer(CompositionBatch batch)
+        {
+            
         }
     }
 }

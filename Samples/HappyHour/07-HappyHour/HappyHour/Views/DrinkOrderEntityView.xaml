@@ -6,11 +6,10 @@
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400">
     
-    <!--  See Lessons #4 and #6 -->
-    
+    <!-- See Lessons #4 and #6 -->
+
     <Grid Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -20,22 +19,19 @@
             <ColumnDefinition /> <!-- column for labels -->
             <ColumnDefinition /> <!-- column for values -->
         </Grid.ColumnDefinitions>
-        
-        <Image x:Name="Beverage_ImageFilename"  
-               Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Margin="0,0,10,0" Height="80"/>        
-        
-        <TextBlock Text="Id:"          Grid.Row="0" Grid.Column="1" Padding="2"/>
-        <TextBlock Text="Drink Name:"  Grid.Row="1" Grid.Column="1" Padding="2"/>
-        <TextBlock Text="Created:"     Grid.Row="2" Grid.Column="1" Padding="2" />
-        <TextBlock Text="Has Alcohol:" Grid.Row="3" Grid.Column="1" Padding="2" />
 
-        <TextBlock x:Name="Id"         Grid.Row="0" Grid.Column="2" Padding="2"/>
-        <TextBlock x:Name="Beverage_BeverageName"
-                                       Grid.Row="1" Grid.Column="2" Padding="2"/>
-        <TextBlock x:Name="Created"    Grid.Row="2" Grid.Column="2" Padding="2"
+        <Image x:Name="ImageFilename" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" 
+               Margin="0,0,10,0" Height="80"/>
+        
+        <TextBlock Text="Id:"         Grid.Row="0" Grid.Column="1" Padding="2"/>
+        <TextBlock Text="Drink Name:" Grid.Row="1" Grid.Column="1" Padding="2"/>
+        <TextBlock Text="Created:"    Grid.Row="2" Grid.Column="1" Padding="2" />
+
+        <TextBlock x:Name="Id"        Grid.Row="0" Grid.Column="2" Padding="2"/>
+        <TextBlock x:Name="DrinkName" Grid.Row="1" Grid.Column="2" Padding="2"/>
+        <TextBlock x:Name="Created"   Grid.Row="2" Grid.Column="2" Padding="2"
            Text="{Binding Created, StringFormat=\{0:F\}}" />
-        <TextBlock x:Name="Beverage_HasAlcohol" 
-                                       Grid.Row="3" Grid.Column="2" Padding="2"/>
+
     </Grid>
 
 </UserControl>

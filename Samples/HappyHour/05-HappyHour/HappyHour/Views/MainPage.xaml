@@ -49,7 +49,7 @@
             <!--  Display with DrinkOrderEntityView  -->
             <ListBox x:Name="DrinkOrders" Grid.Row="4" />
 
-            <!--  Display with DrinkOrderEntity.MasterView 
+            <!--  Display with DrinkOrderEntity.MiniView 
             <ListBox x:Name="DrinkOrders" Grid.Row="4" ItemTemplate="{StaticResource DrinkOrderItemTemplate}" />-->           
 
         </Grid>

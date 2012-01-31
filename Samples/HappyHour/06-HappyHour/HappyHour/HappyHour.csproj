@@ -61,7 +61,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\..\..\..\packages\Caliburn.Micro.1.2.0\lib\SL40\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\..\..\..\packages\Caliburn.Micro.1.3.0\lib\SL5\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System.ComponentModel.Composition, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />

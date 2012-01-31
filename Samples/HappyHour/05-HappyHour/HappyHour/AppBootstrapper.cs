@@ -1,7 +1,7 @@
 namespace HappyHour
 {
     public class AppBootstrapper : Cocktail.FrameworkBootstrapper<ViewModels.MainPageViewModel>
-    {       
+    {
         // Needed if the ListBox displays DrinkOrderEntityViews
         protected override void Configure()
         {

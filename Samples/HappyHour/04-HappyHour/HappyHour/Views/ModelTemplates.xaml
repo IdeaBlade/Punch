@@ -1,0 +1,58 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cal="http://www.caliburnproject.org">
+
+    <!--  See Lesson #4  -->
+
+    <DataTemplate x:Key="DrinkOrderItemTemplate">
+        <Grid cal:Bind.ModelWithoutContext="{Binding}">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="/HappyHour;component/assets/HappyHourStyles.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition /> 
+                <!--  column for labels  -->
+                <ColumnDefinition /> 
+                <!--  column for values  -->
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0"
+                       Grid.Column="0"
+                       Padding="2"
+                       Text="Id:" />
+            <TextBlock Grid.Row="1"
+                       Grid.Column="0"
+                       Padding="2"
+                       Text="Drink Name:" />
+            <TextBlock Grid.Row="2"
+                       Grid.Column="0"
+                       Padding="2"
+                       Text="Created:" />
+
+            <TextBlock x:Name="Id"
+                       Grid.Row="0"
+                       Grid.Column="1"
+                       Padding="2" />
+            <TextBlock x:Name="DrinkName"
+                       Grid.Row="1"
+                       Grid.Column="1"
+                       Padding="2" />
+            <TextBlock x:Name="Created"
+                       Grid.Row="2"
+                       Grid.Column="1"
+                       Padding="2"
+                       Text="{Binding Created,
+                                      StringFormat=\{0:F\}}" />
+        </Grid>
+    </DataTemplate>
+
+</ResourceDictionary>

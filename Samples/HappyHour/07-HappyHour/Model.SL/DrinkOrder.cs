@@ -2,33 +2,18 @@
 {
     public class DrinkOrder
     {
-        public DrinkOrder() : this(DefaultBeverage) { }
+        protected static int NextId = 1;
 
-        public DrinkOrder(Beverage beverage)
+        public DrinkOrder()
         {
             Id = NextId++;
+            DrinkName = "<new DrinkOrder>";
             Created = System.DateTime.UtcNow;
-            Beverage = beverage;
+            ImageFilename = DrinkImageFilenames.GetNameById(Id);
         }
-
-        protected static Beverage DefaultBeverage =
-            new Beverage { BeverageName = "<unknown drink>" };
-
-        public int Id { get; protected set; }
-        public System.DateTime Created { get; protected set; }
-
-        private Beverage _beverage;
-        public Beverage Beverage
-        {
-            get { return _beverage ?? Beverage.NullDefaultBeverage; }
-            protected set { _beverage = value; }
-        }
-
-        public override string ToString()
-        {
-            return "DrinkOrder: " + Id + " " + Beverage.BeverageName;
-        }
-
-        protected static int NextId = 1;
+        public int Id { get; private set; }
+        public string DrinkName { get; set; }
+        public System.DateTime Created { get; private set; }
+        public string ImageFilename { get; set; }
     }
 }

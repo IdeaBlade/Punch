@@ -1,3 +1,4 @@
+using System.Windows;
 using HappyHour.ViewModels;
 
 namespace HappyHour.Views
@@ -6,8 +7,7 @@ namespace HappyHour.Views
     {
         void IMainPage.ReadyForNewDrink()
         {
-            DrinkName.Text = string.Empty;
-            DrinkName.Focus();
+            Beverages.Focus();
         }
     }
 }

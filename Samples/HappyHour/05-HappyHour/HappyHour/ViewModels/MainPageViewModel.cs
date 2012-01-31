@@ -47,20 +47,6 @@ namespace HappyHour.ViewModels
             var drink = new DrinkOrder {DrinkName = DrinkName};
             DrinkOrders.Add(drink);
             SelectedDrinkOrder = drink;
-            ReadyForNewDrink();
         }
-
-        private void ReadyForNewDrink()
-        {
-            if (null != _view) _view.ReadyForNewDrink(); // Throw if null?
-        }
-
-        protected override void OnViewAttached(object view, object context)
-        {
-            _view = view as IMainPage; // Throw if not IMainPage?
-        }
-
-        private IMainPage _view;
-
     }
 }

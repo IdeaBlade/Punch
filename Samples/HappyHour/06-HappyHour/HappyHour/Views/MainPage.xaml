@@ -22,13 +22,13 @@
             </Grid.RowDefinitions>
 
             <TextBlock Text="It's HAPPY HOUR!" Style="{StaticResource TitleTextBlock}" Grid.Row="0"/>
-            <TextBlock Text="What are you having?" Style="{StaticResource QuestionTextBlock}" Grid.Row="1"/>
+            <TextBlock Text="What are you having?" Style="{StaticResource QuestionTextBlock}"  Grid.Row="1"/>
             <TextBox x:Name="DrinkName" Margin="0,8,0,8"  Grid.Row="2"/>
             <Button  x:Name="AddDrinkOrder" Content="Ask for it" Grid.Row="3" Margin="0,0,0,4" />
             <ListBox x:Name="DrinkOrders" Grid.Row="4"/>
         </Grid>
 
-        <Image Source="/HappyHour;component/assets/images/happyhour_logo.png" Grid.Column="1" />
+        <Image Source="/HappyHour;component/assets/happyhour_logo.png" Grid.Column="1" />
 
     </Grid>
 </UserControl>

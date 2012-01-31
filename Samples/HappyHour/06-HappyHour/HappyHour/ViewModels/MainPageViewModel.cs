@@ -62,6 +62,5 @@ namespace HappyHour.ViewModels
 
         private IMainPage _view;
 
-
     }
 }

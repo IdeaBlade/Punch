@@ -54,7 +54,7 @@ namespace Cocktail
         /// <summary>Returns the CompositionContainer in use.</summary>
         public static CompositionContainer Container
         {
-            get { return _container ?? (_container = new CompositionContainer(CompositionHost.Instance.Container)); }
+            get { return _container ?? (_container = new CompositionContainer(Catalog)); }
         }
 
         /// <summary>Configures the CompositionHost.</summary>

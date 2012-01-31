@@ -95,8 +95,11 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Resets the CompositionContainer to it's initial state. After calling Clear(), Configure() must be called.
+        /// Resets the CompositionContainer to it's initial state.
         /// </summary>
+        /// <remarks>
+        /// After calling <see cref="Clear"/>, <see cref="Configure"/> must be called to configure the new CompositionContainer.
+        /// </remarks>
         public static void Clear()
         {
             if (_container != null)

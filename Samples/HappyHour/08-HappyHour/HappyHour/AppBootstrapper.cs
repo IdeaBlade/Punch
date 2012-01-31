@@ -10,7 +10,7 @@ namespace HappyHour
             base.Configure();
             Caliburn.Micro.ViewLocator.NameTransformer
                 // Map "Model" classes to views in "HappyHour.Views"
-                .AddRule(@"^Model\.(\w*)", "HappyHour.Views.${1}EntityView");
+                .AddRule(@"^Model\.(\w*)(?<basename>)", "HappyHour.Views.${1}Entity${basename}View"); 
             ConfigurePathToImageSourceConverter();
         }
 

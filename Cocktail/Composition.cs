@@ -54,7 +54,7 @@ namespace Cocktail
         /// <summary>Returns the CompositionContainer in use.</summary>
         public static CompositionContainer Container
         {
-            get { return _container ?? (_container = new CompositionContainer(CompositionHost.Instance.Container)); }
+            get { return _container ?? (_container = new CompositionContainer(Catalog)); }
         }
 
         /// <summary>Configures the CompositionHost.</summary>
@@ -95,8 +95,11 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Resets the CompositionContainer to it's initial state. After calling Clear(), Configure() must be called.
+        /// Resets the CompositionContainer to it's initial state.
         /// </summary>
+        /// <remarks>
+        /// After calling <see cref="Clear"/>, <see cref="Configure"/> must be called to configure the new CompositionContainer.
+        /// </remarks>
         public static void Clear()
         {
             if (_container != null)

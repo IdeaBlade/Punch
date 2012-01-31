@@ -27,7 +27,7 @@ namespace Cocktail
         /// </summary>
         protected DialogOperationResult()
         {
-            IoC.BuildUp(this);
+            Composition.BuildUp(this);
         }
 
         /// <summary>

@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositionUnitTests.cs" />
+    <Compile Include="DialogManagerUnitTests.cs" />
     <Compile Include="EventHandlerUnitTests.cs" />
     <Compile Include="HarnessUnitTests.cs">
       <SubType>Code</SubType>
@@ -89,7 +90,6 @@
     <Compile Include="Helpers\SharedObject.cs" />
     <Compile Include="Helpers\SyncInterceptor.cs" />
     <Compile Include="Helpers\TestEntityManagerDelegate.cs" />
-    <Compile Include="Helpers\TestEventAggregator.cs" />
     <Compile Include="Helpers\TestEventHandler.cs" />
     <Compile Include="Helpers\ViewModelLocator.cs" />
     <Compile Include="OnlineUnitTests.cs" />
@@ -97,6 +97,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BusyWatcherUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Cocktail\Cocktail.Desktop.csproj">

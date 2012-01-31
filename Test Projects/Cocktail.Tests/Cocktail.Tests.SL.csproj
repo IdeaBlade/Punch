@@ -122,7 +122,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BusyWatcherUnitTests.cs" />
     <Compile Include="CompositionUnitTests.cs" />
+    <Compile Include="DialogManagerUnitTests.cs" />
     <Compile Include="EventHandlerUnitTests.cs" />
     <Compile Include="Helpers\CocktailTestBase.cs" />
     <Compile Include="Helpers\CompositionContextResolver.cs" />
@@ -134,7 +136,6 @@
     <Compile Include="Helpers\NonSharedObject.cs" />
     <Compile Include="Helpers\SampleDataProvider.cs" />
     <Compile Include="Helpers\TestEntityManagerDelegate.cs" />
-    <Compile Include="Helpers\TestEventAggregator.cs" />
     <Compile Include="Helpers\TestEventHandler.cs" />
     <Compile Include="OperationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

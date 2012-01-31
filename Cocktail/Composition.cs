@@ -35,6 +35,7 @@ namespace Cocktail
             new Dictionary<string, XapDownloadOperation>();
 #endif
         private static bool _isConfigured;
+        private static CompositionContainer _container;
 
         /// <summary>
         /// Returns true if the CompositonHost has been configured.
@@ -53,7 +54,7 @@ namespace Cocktail
         /// <summary>Returns the CompositionContainer in use.</summary>
         public static CompositionContainer Container
         {
-            get { return CompositionHost.Instance.Container; }
+            get { return _container ?? (_container = new CompositionContainer(CompositionHost.Instance.Container)); }
         }
 
         /// <summary>Configures the CompositionHost.</summary>
@@ -91,6 +92,18 @@ namespace Cocktail
                 throw new ArgumentNullException("compositionBatch");
 
             Container.Compose(compositionBatch);
+        }
+
+        /// <summary>
+        /// Resets the CompositionContainer to it's initial state. After calling Clear(), Configure() must be called.
+        /// </summary>
+        public static void Clear()
+        {
+            if (_container != null)
+                _container.Dispose();
+            _container = null;
+            _isConfigured = false;
+            ResetIsInDesignModeToDefault();
         }
 
         /// <summary>

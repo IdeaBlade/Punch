@@ -122,6 +122,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BusyWatcherUnitTests.cs" />
     <Compile Include="CompositionUnitTests.cs" />
     <Compile Include="DialogManagerUnitTests.cs" />
     <Compile Include="EventHandlerUnitTests.cs" />

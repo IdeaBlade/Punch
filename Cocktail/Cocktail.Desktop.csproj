@@ -98,6 +98,7 @@
     <Compile Include="IHarnessAware.cs" />
     <Compile Include="ISampleDataProvider.cs" />
     <Compile Include="IValidationErrorNotification.cs" />
+    <Compile Include="LogFns.cs" />
     <Compile Include="MessageBoxBase.cs" />
     <Compile Include="NavigateResult.cs" />
     <Compile Include="ObjectManager.cs" />

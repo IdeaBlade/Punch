@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows;
 
 namespace HappyHour.ViewModels
@@ -25,7 +26,9 @@ namespace HappyHour.ViewModels
 
         public void AskForIt()
         {
-            MessageBox.Show(string.Format("One {0}, coming right up!", DrinkName)); // don't do this in real app
+            MessageBox.Show(
+                string.Format(CultureInfo.CurrentCulture, 
+                "One {0}, coming right up!", DrinkName)); // don't do this in real app
         }
 
         public Command AskForItCommand

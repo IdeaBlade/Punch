@@ -46,11 +46,11 @@
                     Margin="0,0,0,4"
                     Content="Ask for it" />
 
-            <!--  Display with DrinkOrderEntityView  -->
-            <ListBox x:Name="DrinkOrders" Grid.Row="4" />
+            <!--  Display with DrinkOrderEntityView -->
+            <ListBox x:Name="DrinkOrders" Grid.Row="4" /> 
 
             <!--  Display with DrinkOrderEntity.MiniView 
-            <ListBox x:Name="DrinkOrders" Grid.Row="4" ItemTemplate="{StaticResource DrinkOrderItemTemplate}" />-->           
+            <ListBox x:Name="DrinkOrders" Grid.Row="4" ItemTemplate="{StaticResource DrinkOrderItemTemplate}" />   -->     
 
         </Grid>
 

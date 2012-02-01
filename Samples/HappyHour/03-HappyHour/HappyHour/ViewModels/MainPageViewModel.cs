@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Windows;
 using Caliburn.Micro;
 
@@ -26,7 +27,10 @@ namespace HappyHour.ViewModels
 
         public void AskForIt()
         {
-            MessageBox.Show(string.Format("One {0}, coming right up!", DrinkName)); // don't do this in real app
+            Cocktail.LogFns.DebugWriteLine("Called AskForIt");
+            MessageBox.Show(
+                string.Format(CultureInfo.CurrentCulture, 
+                "One {0}, coming right up!", DrinkName)); // don't do this in real app
         }
     }
 }

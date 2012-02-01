@@ -8,12 +8,12 @@ namespace Model
 
             #region The evil base-path approach
 
-            var filename = ImageFilenames[id%ImageFilenames.Length];
-            if (string.IsNullOrEmpty(filename)) return filename;
+            //var filename = ImageFilenames[id%ImageFilenames.Length];
+            //if (string.IsNullOrEmpty(filename)) return filename;
 
-            // return base path + filename
-            // ToDo: Get rid of this base path!
-            return "/HappyHour;component/assets/images/" + filename;
+            //// return base path + filename
+            //// ToDo: Get rid of this base path!
+            //return "/HappyHour;component/assets/images/" + filename;
 
             #endregion
         }

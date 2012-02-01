@@ -436,41 +436,6 @@
               Enables/Disables property change notification.
             </summary>
         </member>
-        <member name="T:Caliburn.Micro.ILog">
-            <summary>
-            A logger.
-            </summary>
-        </member>
-        <member name="M:Caliburn.Micro.ILog.Info(System.String,System.Object[])">
-            <summary>
-            Logs the message as info.
-            </summary>
-            <param name="format">A formatted message.</param>
-            <param name="args">Parameters to be injected into the formatted message.</param>
-        </member>
-        <member name="M:Caliburn.Micro.ILog.Warn(System.String,System.Object[])">
-            <summary>
-            Logs the message as a warning.
-            </summary>
-            <param name="format">A formatted message.</param>
-            <param name="args">Parameters to be injected into the formatted message.</param>
-        </member>
-        <member name="M:Caliburn.Micro.ILog.Error(System.Exception)">
-            <summary>
-            Logs the exception.
-            </summary>
-            <param name="exception">The exception.</param>
-        </member>
-        <member name="T:Caliburn.Micro.LogManager">
-            <summary>
-            Used to manage logging.
-            </summary>
-        </member>
-        <member name="F:Caliburn.Micro.LogManager.GetLog">
-            <summary>
-            Creates an <see cref="T:Caliburn.Micro.ILog"/> for the provided type.
-            </summary>
-        </member>
         <member name="T:Caliburn.Micro.RegExHelper">
             <summary>
              Helper class for encoding strings to regular expression patterns
@@ -519,6 +484,41 @@
             </summary>
             <param name="groupName">Name of capture group to create</param>
             <returns>Regular expression capture group with the specified group name</returns>
+        </member>
+        <member name="T:Caliburn.Micro.ILog">
+            <summary>
+            A logger.
+            </summary>
+        </member>
+        <member name="M:Caliburn.Micro.ILog.Info(System.String,System.Object[])">
+            <summary>
+            Logs the message as info.
+            </summary>
+            <param name="format">A formatted message.</param>
+            <param name="args">Parameters to be injected into the formatted message.</param>
+        </member>
+        <member name="M:Caliburn.Micro.ILog.Warn(System.String,System.Object[])">
+            <summary>
+            Logs the message as a warning.
+            </summary>
+            <param name="format">A formatted message.</param>
+            <param name="args">Parameters to be injected into the formatted message.</param>
+        </member>
+        <member name="M:Caliburn.Micro.ILog.Error(System.Exception)">
+            <summary>
+            Logs the exception.
+            </summary>
+            <param name="exception">The exception.</param>
+        </member>
+        <member name="T:Caliburn.Micro.LogManager">
+            <summary>
+            Used to manage logging.
+            </summary>
+        </member>
+        <member name="F:Caliburn.Micro.LogManager.GetLog">
+            <summary>
+            Creates an <see cref="T:Caliburn.Micro.ILog"/> for the provided type.
+            </summary>
         </member>
         <member name="T:Caliburn.Micro.Screen">
             <summary>
@@ -1563,16 +1563,6 @@
             <param name="propertyName">The property to search for.</param>
             <returns>The property or null if not found.</returns>
         </member>
-        <member name="M:Caliburn.Micro.ConventionManager.ApplySilverlightTriggers(System.Windows.DependencyObject,System.Windows.DependencyProperty,System.Func{System.Windows.FrameworkElement,System.Windows.Data.BindingExpression},System.Reflection.PropertyInfo,System.Windows.Data.Binding)">
-            <summary>
-            Accounts for the lack of UpdateSourceTrigger in silverlight.
-            </summary>
-            <param name="element">The element to wire for change events on.</param>
-            <param name="dependencyProperty">The property that is being bound.</param>
-            <param name="expressionSource">Gets the the binding expression that needs to be updated.</param>
-            <param name="property">The property being bound to if available.</param>
-            <param name="binding">The binding if available.</param>
-        </member>
         <member name="T:Caliburn.Micro.AssemblySource">
             <summary>
             A source of assemblies that are inspectable by the framework.
@@ -1847,7 +1837,7 @@
         </member>
         <member name="F:Caliburn.Micro.MessageBinder.CustomConverters">
             <summary>
-            Custom converters used by the framework registered by detination type for which the will be selected.
+            Custom converters used by the framework registered by destination type for which they will be selected.
             The converter is passed the existing value to convert and a "context" object.
             </summary>
         </member>
@@ -2212,42 +2202,6 @@
             Occurs before the message detaches from the associated object.
             </summary>
         </member>
-        <member name="T:Caliburn.Micro.ActivationEventArgs">
-            <summary>
-            EventArgs sent during activation.
-            </summary>
-        </member>
-        <member name="F:Caliburn.Micro.ActivationEventArgs.WasInitialized">
-            <summary>
-            Indicates whether the sender was initialized in addition to being activated.
-            </summary>
-        </member>
-        <member name="T:Caliburn.Micro.ActivationProcessedEventArgs">
-            <summary>
-            Contains details about the success or failure of an item's activation through an <see cref="T:Caliburn.Micro.IConductor"/>.
-            </summary>
-        </member>
-        <member name="F:Caliburn.Micro.ActivationProcessedEventArgs.Item">
-            <summary>
-            The item whose activation was processed.
-            </summary>
-        </member>
-        <member name="F:Caliburn.Micro.ActivationProcessedEventArgs.Success">
-            <summary>
-            Gets or sets a value indicating whether the activation was a success.
-            </summary>
-            <value><c>true</c> if success; otherwise, <c>false</c>.</value>
-        </member>
-        <member name="T:Caliburn.Micro.DeactivationEventArgs">
-            <summary>
-            EventArgs sent during deactivation.
-            </summary>
-        </member>
-        <member name="F:Caliburn.Micro.DeactivationEventArgs.WasClosed">
-            <summary>
-            Indicates whether the sender was closed in addition to being deactivated.
-            </summary>
-        </member>
         <member name="T:Caliburn.Micro.NameTransformer">
             <summary>
              Class for managing the list of rules for doing name transformation.
@@ -2307,6 +2261,42 @@
         <member name="F:Caliburn.Micro.NameTransformer.Rule.ReplacementValues">
             <summary>
             The list of replacement values
+            </summary>
+        </member>
+        <member name="T:Caliburn.Micro.ActivationEventArgs">
+            <summary>
+            EventArgs sent during activation.
+            </summary>
+        </member>
+        <member name="F:Caliburn.Micro.ActivationEventArgs.WasInitialized">
+            <summary>
+            Indicates whether the sender was initialized in addition to being activated.
+            </summary>
+        </member>
+        <member name="T:Caliburn.Micro.ActivationProcessedEventArgs">
+            <summary>
+            Contains details about the success or failure of an item's activation through an <see cref="T:Caliburn.Micro.IConductor"/>.
+            </summary>
+        </member>
+        <member name="F:Caliburn.Micro.ActivationProcessedEventArgs.Item">
+            <summary>
+            The item whose activation was processed.
+            </summary>
+        </member>
+        <member name="F:Caliburn.Micro.ActivationProcessedEventArgs.Success">
+            <summary>
+            Gets or sets a value indicating whether the activation was a success.
+            </summary>
+            <value><c>true</c> if success; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="T:Caliburn.Micro.DeactivationEventArgs">
+            <summary>
+            EventArgs sent during deactivation.
+            </summary>
+        </member>
+        <member name="F:Caliburn.Micro.DeactivationEventArgs.WasClosed">
+            <summary>
+            Indicates whether the sender was closed in addition to being deactivated.
             </summary>
         </member>
         <member name="T:Caliburn.Micro.ActionExecutionContext">

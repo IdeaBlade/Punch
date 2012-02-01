@@ -153,6 +153,28 @@
             <param name="path">The path of the element to bind to.</param>
             <param name="bindingMode">The binding mode to use.</param>
         </member>
+        <member name="T:Caliburn.Micro.Parameter">
+            <summary>
+            Represents a parameter of an <see cref="T:Caliburn.Micro.ActionMessage"/>.
+            </summary>
+        </member>
+        <member name="F:Caliburn.Micro.Parameter.ValueProperty">
+            <summary>
+            A dependency property representing the parameter's value.
+            </summary>
+        </member>
+        <member name="M:Caliburn.Micro.Parameter.MakeAwareOf(Caliburn.Micro.ActionMessage)">
+            <summary>
+            Makes the parameter aware of the <see cref="T:Caliburn.Micro.ActionMessage"/> that it's attached to.
+            </summary>
+            <param name="owner">The action message.</param>
+        </member>
+        <member name="P:Caliburn.Micro.Parameter.Value">
+            <summary>
+            Gets or sets the value of the parameter.
+            </summary>
+            <value>The value.</value>
+        </member>
         <member name="T:Caliburn.Micro.Execute">
             <summary>
               Enables easy marshalling of code to the UI thread.
@@ -206,6 +228,11 @@
               Enables/Disables property change notification.
             </summary>
         </member>
+        <member name="T:Caliburn.Micro.PropertyChangedBase">
+            <summary>
+              A base class that implements the infrastructure for property change notification and automatically performs UI thread marshalling.
+            </summary>
+        </member>
         <member name="M:Caliburn.Micro.PropertyChangedBase.#ctor">
             <summary>
               Creates an instance of <see cref="T:Caliburn.Micro.PropertyChangedBase"/>.
@@ -246,6 +273,11 @@
             Used to indicate whether or not the IsNotifying property is serialized to Xml.
             </summary>
             <returns>Whether or not to serialize the IsNotifying property. The default is false.</returns>
+        </member>
+        <member name="E:Caliburn.Micro.PropertyChangedBase.PropertyChanged">
+            <summary>
+              Occurs when a property value changes.
+            </summary>
         </member>
         <member name="P:Caliburn.Micro.PropertyChangedBase.IsNotifying">
             <summary>
@@ -317,21 +349,6 @@
             <remarks>
               Used to avoid compiler warning regarding unverifiable code.
             </remarks>
-        </member>
-        <member name="M:Caliburn.Micro.BindableCollection`1.MoveItem(System.Int32,System.Int32)">
-            <summary>
-            Moves the item within the collection.
-            </summary>
-            <param name="oldIndex">The old position of the item.</param>
-            <param name="newIndex">The new position of the item.</param>
-        </member>
-        <member name="M:Caliburn.Micro.BindableCollection`1.MoveItemBase(System.Int32,System.Int32)">
-            <summary>
-            Exposes the base implementation fo the <see cref="M:Caliburn.Micro.BindableCollection`1.MoveItem(System.Int32,System.Int32)"/> function.
-            </summary>
-            <param name="oldIndex">The old index.</param>
-            <param name="newIndex">The new index.</param>
-            <remarks>Used to avoid compiler warning regarding unverificable code.</remarks>
         </member>
         <member name="M:Caliburn.Micro.BindableCollection`1.SetItem(System.Int32,`0)">
             <summary>
@@ -419,6 +436,41 @@
               Enables/Disables property change notification.
             </summary>
         </member>
+        <member name="T:Caliburn.Micro.ILog">
+            <summary>
+            A logger.
+            </summary>
+        </member>
+        <member name="M:Caliburn.Micro.ILog.Info(System.String,System.Object[])">
+            <summary>
+            Logs the message as info.
+            </summary>
+            <param name="format">A formatted message.</param>
+            <param name="args">Parameters to be injected into the formatted message.</param>
+        </member>
+        <member name="M:Caliburn.Micro.ILog.Warn(System.String,System.Object[])">
+            <summary>
+            Logs the message as a warning.
+            </summary>
+            <param name="format">A formatted message.</param>
+            <param name="args">Parameters to be injected into the formatted message.</param>
+        </member>
+        <member name="M:Caliburn.Micro.ILog.Error(System.Exception)">
+            <summary>
+            Logs the exception.
+            </summary>
+            <param name="exception">The exception.</param>
+        </member>
+        <member name="T:Caliburn.Micro.LogManager">
+            <summary>
+            Used to manage logging.
+            </summary>
+        </member>
+        <member name="F:Caliburn.Micro.LogManager.GetLog">
+            <summary>
+            Creates an <see cref="T:Caliburn.Micro.ILog"/> for the provided type.
+            </summary>
+        </member>
         <member name="T:Caliburn.Micro.RegExHelper">
             <summary>
              Helper class for encoding strings to regular expression patterns
@@ -467,69 +519,6 @@
             </summary>
             <param name="groupName">Name of capture group to create</param>
             <returns>Regular expression capture group with the specified group name</returns>
-        </member>
-        <member name="T:Caliburn.Micro.ILog">
-            <summary>
-            A logger.
-            </summary>
-        </member>
-        <member name="M:Caliburn.Micro.ILog.Info(System.String,System.Object[])">
-            <summary>
-            Logs the message as info.
-            </summary>
-            <param name="format">A formatted message.</param>
-            <param name="args">Parameters to be injected into the formatted message.</param>
-        </member>
-        <member name="M:Caliburn.Micro.ILog.Warn(System.String,System.Object[])">
-            <summary>
-            Logs the message as a warning.
-            </summary>
-            <param name="format">A formatted message.</param>
-            <param name="args">Parameters to be injected into the formatted message.</param>
-        </member>
-        <member name="M:Caliburn.Micro.ILog.Error(System.Exception)">
-            <summary>
-            Logs the exception.
-            </summary>
-            <param name="exception">The exception.</param>
-        </member>
-        <member name="T:Caliburn.Micro.LogManager">
-            <summary>
-            Used to manage logging.
-            </summary>
-        </member>
-        <member name="F:Caliburn.Micro.LogManager.GetLog">
-            <summary>
-            Creates an <see cref="T:Caliburn.Micro.ILog"/> for the provided type.
-            </summary>
-        </member>
-        <member name="T:Caliburn.Micro.Parameter">
-            <summary>
-            Represents a parameter of an <see cref="T:Caliburn.Micro.ActionMessage"/>.
-            </summary>
-        </member>
-        <member name="F:Caliburn.Micro.Parameter.ValueProperty">
-            <summary>
-            A dependency property representing the parameter's value.
-            </summary>
-        </member>
-        <member name="M:Caliburn.Micro.Parameter.CreateInstanceCore">
-            <summary>
-            When implemented in a derived class, creates a new instance of the <see cref="T:System.Windows.Freezable"/> derived class.
-            </summary>
-            <returns>The new instance.</returns>
-        </member>
-        <member name="M:Caliburn.Micro.Parameter.MakeAwareOf(Caliburn.Micro.ActionMessage)">
-            <summary>
-            Makes the parameter aware of the <see cref="T:Caliburn.Micro.ActionMessage"/> that it's attached to.
-            </summary>
-            <param name="owner">The action message.</param>
-        </member>
-        <member name="P:Caliburn.Micro.Parameter.Value">
-            <summary>
-            Gets or sets the value of the parameter.
-            </summary>
-            <value>The value.</value>
         </member>
         <member name="T:Caliburn.Micro.Screen">
             <summary>
@@ -734,13 +723,6 @@
             <summary>
               Tries to close this instance by asking its Parent to initiate shutdown or by asking its corresponding view to close.
             </summary>
-        </member>
-        <member name="M:Caliburn.Micro.Screen.TryClose(System.Nullable{System.Boolean})">
-            <summary>
-            Closes this instance by asking its Parent to initiate shutdown or by asking it's corresponding view to close.
-            This overload also provides an opportunity to pass a dialog result to it's corresponding view.
-            </summary>
-            <param name="dialogResult">The dialog result.</param>
         </member>
         <member name="P:Caliburn.Micro.Screen.Parent">
             <summary>
@@ -1581,6 +1563,16 @@
             <param name="propertyName">The property to search for.</param>
             <returns>The property or null if not found.</returns>
         </member>
+        <member name="M:Caliburn.Micro.ConventionManager.ApplySilverlightTriggers(System.Windows.DependencyObject,System.Windows.DependencyProperty,System.Func{System.Windows.FrameworkElement,System.Windows.Data.BindingExpression},System.Reflection.PropertyInfo,System.Windows.Data.Binding)">
+            <summary>
+            Accounts for the lack of UpdateSourceTrigger in silverlight.
+            </summary>
+            <param name="element">The element to wire for change events on.</param>
+            <param name="dependencyProperty">The property that is being bound.</param>
+            <param name="expressionSource">Gets the the binding expression that needs to be updated.</param>
+            <param name="property">The property being bound to if available.</param>
+            <param name="binding">The binding if available.</param>
+        </member>
         <member name="T:Caliburn.Micro.AssemblySource">
             <summary>
             A source of assemblies that are inspectable by the framework.
@@ -1855,7 +1847,7 @@
         </member>
         <member name="F:Caliburn.Micro.MessageBinder.CustomConverters">
             <summary>
-            Custom converters used by the framework registered by detination type for which the will be selected.
+            Custom converters used by the framework registered by destination type for which they will be selected.
             The converter is passed the existing value to convert and a "context" object.
             </summary>
         </member>
@@ -1921,6 +1913,51 @@
             <param name="toClose">Items that are requesting close.</param>
             <param name="callback">The action to call when all enumeration is complete and the close results are aggregated.
             The bool indicates whether close can occur. The enumerable indicates which children should close if the parent cannot.</param>
+        </member>
+        <member name="T:Caliburn.Micro.BooleanToVisibilityConverter">
+            <summary>
+            An <see cref="T:System.Windows.Data.IValueConverter"/> which converts <see cref="T:System.Boolean"/> to <see cref="T:System.Windows.Visibility"/>.
+            </summary>
+        </member>
+        <member name="M:Caliburn.Micro.BooleanToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a boolean value to a <see cref="T:System.Windows.Visibility"/> value.
+            </summary>
+            <param name="value">The value produced by the binding source.</param>
+            <param name="targetType">The type of the binding target property.</param>
+            <param name="parameter">The converter parameter to use.</param>
+            <param name="culture">The culture to use in the converter.</param>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+        </member>
+        <member name="M:Caliburn.Micro.BooleanToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value <see cref="T:System.Windows.Visibility"/> value to a boolean value.
+            </summary>
+            <param name="value">The value that is produced by the binding target.</param>
+            <param name="targetType">The type to convert to.</param>
+            <param name="parameter">The converter parameter to use.</param>
+            <param name="culture">The culture to use in the converter.</param>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+        </member>
+        <member name="T:Caliburn.Micro.Mouse">
+            <summary>
+            A mouse helper utility.
+            </summary>
+        </member>
+        <member name="M:Caliburn.Micro.Mouse.Initialize(System.Windows.UIElement)">
+            <summary>
+            Initializes the mouse helper with the UIElement to use in mouse tracking.
+            </summary>
+            <param name="element">The UIElement to use for mouse tracking.</param>
+        </member>
+        <member name="P:Caliburn.Micro.Mouse.Position">
+            <summary>
+            The current position of the mouse.
+            </summary>
         </member>
         <member name="T:Caliburn.Micro.IHandle">
             <summary>
@@ -2175,6 +2212,42 @@
             Occurs before the message detaches from the associated object.
             </summary>
         </member>
+        <member name="T:Caliburn.Micro.ActivationEventArgs">
+            <summary>
+            EventArgs sent during activation.
+            </summary>
+        </member>
+        <member name="F:Caliburn.Micro.ActivationEventArgs.WasInitialized">
+            <summary>
+            Indicates whether the sender was initialized in addition to being activated.
+            </summary>
+        </member>
+        <member name="T:Caliburn.Micro.ActivationProcessedEventArgs">
+            <summary>
+            Contains details about the success or failure of an item's activation through an <see cref="T:Caliburn.Micro.IConductor"/>.
+            </summary>
+        </member>
+        <member name="F:Caliburn.Micro.ActivationProcessedEventArgs.Item">
+            <summary>
+            The item whose activation was processed.
+            </summary>
+        </member>
+        <member name="F:Caliburn.Micro.ActivationProcessedEventArgs.Success">
+            <summary>
+            Gets or sets a value indicating whether the activation was a success.
+            </summary>
+            <value><c>true</c> if success; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="T:Caliburn.Micro.DeactivationEventArgs">
+            <summary>
+            EventArgs sent during deactivation.
+            </summary>
+        </member>
+        <member name="F:Caliburn.Micro.DeactivationEventArgs.WasClosed">
+            <summary>
+            Indicates whether the sender was closed in addition to being deactivated.
+            </summary>
+        </member>
         <member name="T:Caliburn.Micro.NameTransformer">
             <summary>
              Class for managing the list of rules for doing name transformation.
@@ -2234,42 +2307,6 @@
         <member name="F:Caliburn.Micro.NameTransformer.Rule.ReplacementValues">
             <summary>
             The list of replacement values
-            </summary>
-        </member>
-        <member name="T:Caliburn.Micro.ActivationEventArgs">
-            <summary>
-            EventArgs sent during activation.
-            </summary>
-        </member>
-        <member name="F:Caliburn.Micro.ActivationEventArgs.WasInitialized">
-            <summary>
-            Indicates whether the sender was initialized in addition to being activated.
-            </summary>
-        </member>
-        <member name="T:Caliburn.Micro.ActivationProcessedEventArgs">
-            <summary>
-            Contains details about the success or failure of an item's activation through an <see cref="T:Caliburn.Micro.IConductor"/>.
-            </summary>
-        </member>
-        <member name="F:Caliburn.Micro.ActivationProcessedEventArgs.Item">
-            <summary>
-            The item whose activation was processed.
-            </summary>
-        </member>
-        <member name="F:Caliburn.Micro.ActivationProcessedEventArgs.Success">
-            <summary>
-            Gets or sets a value indicating whether the activation was a success.
-            </summary>
-            <value><c>true</c> if success; otherwise, <c>false</c>.</value>
-        </member>
-        <member name="T:Caliburn.Micro.DeactivationEventArgs">
-            <summary>
-            EventArgs sent during deactivation.
-            </summary>
-        </member>
-        <member name="F:Caliburn.Micro.DeactivationEventArgs.WasClosed">
-            <summary>
-            Indicates whether the sender was closed in addition to being deactivated.
             </summary>
         </member>
         <member name="T:Caliburn.Micro.ActionExecutionContext">
@@ -2367,116 +2404,17 @@
             <returns>Named <see cref="T:System.Windows.FrameworkElement"/> instances in the provided scope.</returns>
             <remarks>Pass in a <see cref="T:System.Windows.DependencyObject"/> and receive a list of named <see cref="T:System.Windows.FrameworkElement"/> instances in the same scope.</remarks>
         </member>
-        <member name="T:Caliburn.Micro.IWindowManager">
+        <member name="T:Caliburn.Micro.TypeDescriptor">
             <summary>
-            A service that manages windows.
+            Provides information about the characteristics for a component, such as its attributes, properties, and events. This class cannot be inherited.
             </summary>
         </member>
-        <member name="M:Caliburn.Micro.IWindowManager.ShowDialog(System.Object,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
+        <member name="M:Caliburn.Micro.TypeDescriptor.GetConverter(System.Type)">
             <summary>
-            Shows a modal dialog for the specified model.
+            Returns a type converter for the specified type.
             </summary>
-            <param name="rootModel">The root model.</param>
-            <param name="context">The context.</param>
-            <param name="settings">The optional dialog settings.</param>
-            <returns>The dialog result.</returns>
-        </member>
-        <member name="M:Caliburn.Micro.IWindowManager.ShowWindow(System.Object,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            Shows a non-modal window for the specified model.
-            </summary>
-            <param name="rootModel">The root model.</param>
-            <param name="context">The context.</param>
-            <param name="settings">The optional window settings.</param>
-        </member>
-        <member name="M:Caliburn.Micro.IWindowManager.ShowPopup(System.Object,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            Shows a popup at the current mouse position.
-            </summary>
-            <param name="rootModel">The root model.</param>
-            <param name="context">The view context.</param>
-            <param name="settings">The optional popup settings.</param>
-        </member>
-        <member name="T:Caliburn.Micro.WindowManager">
-            <summary>
-            A service that manages windows.
-            </summary>
-        </member>
-        <member name="M:Caliburn.Micro.WindowManager.ShowDialog(System.Object,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            Shows a modal dialog for the specified model.
-            </summary>
-            <param name="rootModel">The root model.</param>
-            <param name="context">The context.</param>
-            <param name="settings">The dialog popup settings.</param>
-            <returns>The dialog result.</returns>
-        </member>
-        <member name="M:Caliburn.Micro.WindowManager.ShowWindow(System.Object,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            Shows a window for the specified model.
-            </summary>
-            <param name="rootModel">The root model.</param>
-            <param name="context">The context.</param>
-            <param name="settings">The optional window settings.</param>
-        </member>
-        <member name="M:Caliburn.Micro.WindowManager.ShowPopup(System.Object,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            Shows a popup at the current mouse position.
-            </summary>
-            <param name="rootModel">The root model.</param>
-            <param name="context">The view context.</param>
-            <param name="settings">The optional popup settings.</param>
-        </member>
-        <member name="M:Caliburn.Micro.WindowManager.CreatePopup(System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            Creates a popup for hosting a popup window.
-            </summary>
-            <param name="rootModel">The model.</param>
-            <param name="settings">The optional popup settings.</param>
-            <returns>The popup.</returns>
-        </member>
-        <member name="M:Caliburn.Micro.WindowManager.CreateWindow(System.Object,System.Boolean,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            Creates a window.
-            </summary>
-            <param name="rootModel">The view model.</param>
-            <param name="isDialog">Whethor or not the window is being shown as a dialog.</param>
-            <param name="context">The view context.</param>
-            <param name="settings">The optional popup settings.</param>
-            <returns>The window.</returns>
-        </member>
-        <member name="M:Caliburn.Micro.WindowManager.EnsureWindow(System.Object,System.Object,System.Boolean)">
-            <summary>
-            Makes sure the view is a window is is wrapped by one.
-            </summary>
-            <param name="model">The view model.</param>
-            <param name="view">The view.</param>
-            <param name="isDialog">Whethor or not the window is being shown as a dialog.</param>
-            <returns>The window.</returns>
-        </member>
-        <member name="M:Caliburn.Micro.WindowManager.InferOwnerOf(System.Windows.Window)">
-            <summary>
-            Infers the owner of the window.
-            </summary>
-            <param name="window">The window to whose owner needs to be determined.</param>
-            <returns>The owner.</returns>
-        </member>
-        <member name="M:Caliburn.Micro.WindowManager.CreatePage(System.Object,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            Creates the page.
-            </summary>
-            <param name="rootModel">The root model.</param>
-            <param name="context">The context.</param>
-            <param name="settings">The optional popup settings.</param>
-            <returns>The page.</returns>
-        </member>
-        <member name="M:Caliburn.Micro.WindowManager.EnsurePage(System.Object,System.Object)">
-            <summary>
-            Ensures the view is a page or provides one.
-            </summary>
-            <param name="model">The model.</param>
-            <param name="view">The view.</param>
-            <returns>The page.</returns>
+            <param name="type">The System.Type of the target component.</param>
+            <returns>A System.ComponentModel.TypeConverter for the specified type.</returns>
         </member>
         <member name="T:Caliburn.Micro.SequentialResult">
             <summary>
@@ -2588,17 +2526,18 @@
             <param name="sender">The sender.</param>
             <param name="e">The event args.</param>
         </member>
-        <member name="M:Caliburn.Micro.Bootstrapper.OnUnhandledException(System.Object,System.Windows.Threading.DispatcherUnhandledExceptionEventArgs)">
+        <member name="M:Caliburn.Micro.Bootstrapper.OnUnhandledException(System.Object,System.Windows.ApplicationUnhandledExceptionEventArgs)">
             <summary>
             Override this to add custom behavior for unhandled exceptions.
             </summary>
             <param name="sender">The sender.</param>
             <param name="e">The event args.</param>
         </member>
-        <member name="M:Caliburn.Micro.Bootstrapper.DisplayRootViewFor(System.Type)">
+        <member name="M:Caliburn.Micro.Bootstrapper.DisplayRootViewFor(System.Windows.Application,System.Type)">
             <summary>
             Locates the view model, locates the associate view, binds them and shows it as the root view.
             </summary>
+            <param name="application">The application.</param>
             <param name="viewModelType">The view model type.</param>
         </member>
         <member name="P:Caliburn.Micro.Bootstrapper.Application">
@@ -2618,6 +2557,82 @@
             </summary>
             <param name="sender">The sender.</param>
             <param name="e">The args.</param>
+        </member>
+        <member name="T:Caliburn.Micro.IWindowManager">
+            <summary>
+            A service that manages windows.
+            </summary>
+        </member>
+        <member name="M:Caliburn.Micro.IWindowManager.ShowDialog(System.Object,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Shows a modal dialog for the specified model.
+            </summary>
+            <param name="rootModel">The root model.</param>
+            <param name="settings">The optional dialog settings.</param> 
+            <param name="context">The context.</param>
+        </member>
+        <member name="M:Caliburn.Micro.IWindowManager.ShowNotification(System.Object,System.Int32,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Shows a toast notification for the specified model.
+            </summary>
+            <param name="rootModel">The root model.</param>
+            <param name="durationInMilliseconds">How long the notification should appear for.</param>
+            <param name="settings">The optional notification settings.</param>
+            <param name="context">The context.</param>
+        </member>
+        <member name="M:Caliburn.Micro.IWindowManager.ShowPopup(System.Object,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Shows a popup at the current mouse position.
+            </summary>
+            <param name="rootModel">The root model.</param>
+            <param name="context">The view context.</param>
+            <param name="settings">The optional popup settings.</param>
+        </member>
+        <member name="T:Caliburn.Micro.WindowManager">
+            <summary>
+            A service that manages windows.
+            </summary>
+        </member>
+        <member name="M:Caliburn.Micro.WindowManager.ShowDialog(System.Object,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Shows a modal dialog for the specified model.
+            </summary>
+            <param name="rootModel">The root model.</param>
+            <param name="context">The context.</param>
+            <param name="settings">The optional dialog settings.</param>
+        </member>
+        <member name="M:Caliburn.Micro.WindowManager.ShowNotification(System.Object,System.Int32,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Shows a toast notification for the specified model.
+            </summary>
+            <param name="rootModel">The root model.</param>
+            <param name="durationInMilliseconds">How long the notification should appear for.</param>
+            <param name="context">The context.</param>
+            <param name="settings">The optional notification settings.</param>
+        </member>
+        <member name="M:Caliburn.Micro.WindowManager.ShowPopup(System.Object,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Shows a popup at the current mouse position.
+            </summary>
+            <param name="rootModel">The root model.</param>
+            <param name="context">The view context.</param>
+            <param name="settings">The optional popup settings.</param>
+        </member>
+        <member name="M:Caliburn.Micro.WindowManager.CreatePopup(System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Creates a popup for hosting a popup window.
+            </summary>
+            <param name="rootModel">The model.</param>
+            <param name="settings">The optional popup settings.</param>
+            <returns>The popup.</returns>
+        </member>
+        <member name="M:Caliburn.Micro.WindowManager.EnsureWindow(System.Object,System.Object)">
+            <summary>
+            Ensures that the view is a <see cref="T:System.Windows.Controls.ChildWindow"/> or is wrapped by one.
+            </summary>
+            <param name="model">The view model.</param>
+            <param name="view">The view.</param>
+            <returns>The window.</returns>
         </member>
         <member name="T:Caliburn.Micro.TypeMappingConfiguration">
             <summary>
@@ -2707,6 +2722,13 @@
             <summary>
             Allows application of conventions at design-time.
             </summary>
+        </member>
+        <member name="M:Caliburn.Micro.Bind.GetAtDesignTime(System.Windows.DependencyObject)">
+            <summary>
+            Gets whether or not conventions are being applied at design-time.
+            </summary>
+            <param name="dependencyObject">The ui to apply conventions to.</param>
+            <returns>Whether or not conventions are applied.</returns>
         </member>
         <member name="M:Caliburn.Micro.Bind.SetAtDesignTime(System.Windows.DependencyObject,System.Boolean)">
             <summary>

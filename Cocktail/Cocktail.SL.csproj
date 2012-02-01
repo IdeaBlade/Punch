@@ -128,6 +128,7 @@
     <Compile Include="IBusyWatcher.cs" />
     <Compile Include="IDialogHost.cs" />
     <Compile Include="IDialogManager.cs" />
+    <Compile Include="LogFns.cs" />
     <Compile Include="MessageBoxBase.cs" />
     <Compile Include="OperationFns.cs" />
     <Compile Include="FakeBackingStore.cs" />

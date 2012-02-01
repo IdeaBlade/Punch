@@ -5,17 +5,6 @@ namespace Model
         public static string GetNameById(int id)
         {
             return ImageFilenames[id % ImageFilenames.Length];
-
-            #region The evil base-path approach
-
-            var filename = ImageFilenames[id%ImageFilenames.Length];
-            if (string.IsNullOrEmpty(filename)) return filename;
-
-            // return base path + filename
-            // ToDo: Get rid of this base path!
-            return "/HappyHour;component/assets/images/" + filename;
-
-            #endregion
         }
 
         private static readonly string[] ImageFilenames = new []

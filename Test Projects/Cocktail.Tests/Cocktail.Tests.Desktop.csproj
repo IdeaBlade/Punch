@@ -92,6 +92,7 @@
     <Compile Include="Helpers\TestEntityManagerDelegate.cs" />
     <Compile Include="Helpers\TestEventHandler.cs" />
     <Compile Include="Helpers\ViewModelLocator.cs" />
+    <Compile Include="LogFnsTests.cs" />
     <Compile Include="OnlineUnitTests.cs" />
     <Compile Include="OperationTests.cs">
       <SubType>Code</SubType>

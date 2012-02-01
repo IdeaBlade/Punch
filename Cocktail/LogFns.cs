@@ -10,7 +10,9 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using System;
 using System.Diagnostics;
+using System.Reflection;
 using IdeaBlade.Core;
 
 namespace Cocktail
@@ -28,7 +30,7 @@ namespace Cocktail
         [Conditional("DEBUG")]
         public static void DebugWriteLine(object aObject)
         {
-            DebugFns.WriteLine(aObject);
+            DebugFns.WriteLine(FormatLogMessage(aObject));
         }
 
         /// <summary>
@@ -39,7 +41,7 @@ namespace Cocktail
         [Conditional("DEBUG")]
         public static void DebugWriteLineIf(bool condition, object aObject)
         {
-            DebugFns.WriteLineIf(condition, aObject);
+            DebugFns.WriteLineIf(condition, FormatLogMessage(aObject));
         }
 
         /// <summary>
@@ -49,7 +51,7 @@ namespace Cocktail
         [Conditional("TRACE")]
         public static void TraceWriteLine(object aObject)
         {
-            TraceFns.WriteLine(aObject);
+            TraceFns.WriteLine(FormatLogMessage(aObject));
         }
 
         /// <summary>
@@ -60,7 +62,29 @@ namespace Cocktail
         [Conditional("TRACE")]
         public static void TraceWriteLineIf(bool condition, object aObject)
         {
-            TraceFns.WriteLineIf(condition, aObject);
+            TraceFns.WriteLineIf(condition, FormatLogMessage(aObject));
+        }
+
+        private static string FormatLogMessage(object aObject)
+        {
+            var stackFrame = new StackFrame(2);
+            var method = stackFrame.GetMethod();
+
+            var source = method == null ? "(Unknown)" : GetFullyQualifiedMethodName(method);
+            return string.Format("{0}: {1}", source, aObject);
+        }
+
+        private static String GetFullyQualifiedMethodName(MemberInfo pMemberInfo)
+        {
+            if (pMemberInfo == null)
+            {
+                throw new ArgumentNullException("pMemberInfo");
+            }
+            if (pMemberInfo.DeclaringType != null)
+            {
+                return pMemberInfo.DeclaringType.FullName + ":" + pMemberInfo.Name;
+            }
+            return ":" + pMemberInfo.Name;
         }
     }
 }

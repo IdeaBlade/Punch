@@ -53,6 +53,11 @@ namespace Common.Toolbar
             NotifyOfPropertyChange(() => Groups);
         }
 
+        public void Clear()
+        {
+            _groups.Clear();
+        }
+
         #endregion
     }
 }

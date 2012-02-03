@@ -23,5 +23,7 @@ namespace Common.Toolbar
         void AddGroup(ToolbarGroup group);
 
         void RemoveGroup(ToolbarGroup group);
+
+        void Clear();
     }
 }

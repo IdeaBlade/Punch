@@ -42,7 +42,7 @@ namespace Security
             if (user == null)
                 throw new LoginException(LoginExceptionType.InvalidPassword, credential.Domain, credential.UserName);
 
-            return new UserBase(new UserIdentity(user.Username, "FORM", true));
+            return new UserPrincipal(user.Id, new UserIdentity(user.Username, "FORM", true));
         }
 
         public virtual void Logout(IPrincipal principal, EntityManager entityManager)

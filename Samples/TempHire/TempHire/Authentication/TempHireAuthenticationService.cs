@@ -12,14 +12,26 @@
 
 using System.ComponentModel.Composition;
 using Cocktail;
+using Common.Authentication;
 using Security;
 using Security.Messages;
 
 namespace TempHire.Authentication
 {
-    [Export(typeof (IAuthenticationService)), PartCreationPolicy(CreationPolicy.Shared)]
-    public class TempHireAuthenticationService : AuthenticationService<SecurityEntities>
+    [Export(typeof (IAuthenticationService))]
+    [Export(typeof (IAuthenticationServiceEx))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
+    public class TempHireAuthenticationService : AuthenticationService<SecurityEntities>, IAuthenticationServiceEx
     {
+        #region IAuthenticationServiceEx Members
+
+        public UserPrincipal CurrentUser
+        {
+            get { return Principal as UserPrincipal; }
+        }
+
+        #endregion
+
         protected override void OnLoggedIn()
         {
             base.OnLoggedIn();

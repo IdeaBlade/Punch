@@ -4,8 +4,13 @@
 
     <!--  See Lesson #4  -->
 
-    <DataTemplate x:Key="DrinkOrderItemTemplate">
+    <DataTemplate x:Key="DrinkOrderDataTemplate">
         <Grid cal:Bind.ModelWithoutContext="{Binding}">
+            <Grid.Resources>
+                <!--  Re-implemented implicit styles for non-Controls  -->
+                <Style BasedOn="{StaticResource DefaultTextBlock}" TargetType="TextBlock" />
+            </Grid.Resources>
+
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -17,28 +22,28 @@
                 <ColumnDefinition /> 
                 <!--  column for values  -->
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Style="{StaticResource DefaultTextBlock}"
+            <TextBlock Grid.Row="0"
                        Grid.Column="0"
                        Padding="2"
                        Text="Id:" />
-            <TextBlock Grid.Row="1" Style="{StaticResource DefaultTextBlock}"
+            <TextBlock Grid.Row="1"
                        Grid.Column="0"
                        Padding="2"
                        Text="Drink Name:" />
-            <TextBlock Grid.Row="2" Style="{StaticResource DefaultTextBlock}"
+            <TextBlock Grid.Row="2"
                        Grid.Column="0"
                        Padding="2"
                        Text="Created:" />
 
-            <TextBlock x:Name="Id" Style="{StaticResource DefaultTextBlock}"
+            <TextBlock x:Name="Id"
                        Grid.Row="0"
                        Grid.Column="1"
                        Padding="2" />
-            <TextBlock x:Name="DrinkName" Style="{StaticResource DefaultTextBlock}"
+            <TextBlock x:Name="DrinkName"
                        Grid.Row="1"
                        Grid.Column="1"
                        Padding="2" />
-            <TextBlock x:Name="Created" Style="{StaticResource DefaultTextBlock}"
+            <TextBlock x:Name="Created"
                        Grid.Row="2"
                        Grid.Column="1"
                        Padding="2"

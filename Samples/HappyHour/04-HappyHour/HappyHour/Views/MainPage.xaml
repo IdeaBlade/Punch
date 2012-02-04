@@ -9,30 +9,30 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/HappyHour;component/Views/ModelTemplates.xaml" />
+                <ResourceDictionary Source="/HappyHour;component/Views/DrinkOrderDataTemplate.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" /> 
+            <ColumnDefinition Width="Auto" />
             <!--  Form  -->
-            <ColumnDefinition Width="Auto" /> 
+            <ColumnDefinition Width="Auto" />
             <!--  Logo  -->
         </Grid.ColumnDefinitions>
 
         <Grid Margin="8,0,0,8">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" /> 
+                <RowDefinition Height="Auto" />
                 <!--  Title  -->
-                <RowDefinition Height="Auto" /> 
+                <RowDefinition Height="Auto" />
                 <!--  Question  -->
-                <RowDefinition Height="Auto" /> 
+                <RowDefinition Height="Auto" />
                 <!--  TextBox  -->
-                <RowDefinition Height="Auto" /> 
+                <RowDefinition Height="Auto" />
                 <!--  Button  -->
-                <RowDefinition Height="*" />    
+                <RowDefinition Height="*" />
                 <!--  ListBox  -->
             </Grid.RowDefinitions>
 
@@ -53,7 +53,7 @@
             <!--  Display with DrinkOrderEntityView  -->
             <ListBox x:Name="DrinkOrders"
                      Grid.Row="4"
-                     ItemTemplate="{StaticResource DrinkOrderItemTemplate}" />
+                     ItemTemplate="{StaticResource DrinkOrderDataTemplate}" />
 
         </Grid>
 

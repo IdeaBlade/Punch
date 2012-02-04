@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!--  Located in Cocktail_101/Mixers/assets  -->
+    <!--  Located in HappyHour/Mixers/styles  -->
 
     <!--  Brushes  -->
     <SolidColorBrush x:Key="HighlightBrush" Color="#FF08ACB8" />
@@ -34,7 +34,7 @@
     <Style x:Key="TitleTextBlock"
            BasedOn="{StaticResource DefaultTextBlock}"
            TargetType="TextBlock">
-        <Setter Property="FontSize" Value="32" /> 
+        <Setter Property="FontSize" Value="32" />
         <!--  32px = 25pt * 96/72  -->
         <Setter Property="Foreground" Value="{StaticResource HighlightBrush}" />
         <Setter Property="TextAlignment" Value="Center" />
@@ -43,7 +43,7 @@
     <Style x:Key="QuestionTextBlock"
            BasedOn="{StaticResource DefaultTextBlock}"
            TargetType="TextBlock">
-        <Setter Property="FontSize" Value="24" /> 
+        <Setter Property="FontSize" Value="24" />
         <!--  24px = 18pt * 96/72  -->
         <Setter Property="FontStyle" Value="Italic" />
         <Setter Property="TextAlignment" Value="Center" />

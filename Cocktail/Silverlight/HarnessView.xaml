@@ -17,7 +17,9 @@
         <ItemsControl x:Name="Names" IsEnabled="{Binding Path=Ready}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button cal:Message.Attach="ActivateViewModel($dataContext)" Content="{Binding .}" />
+                    <Button cal:Message.Attach="ActivateViewModel($dataContext)"
+                            Content="{Binding .}"
+                            Padding="5" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

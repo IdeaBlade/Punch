@@ -101,6 +101,9 @@
     <Compile Include="..\Security\User.cs">
       <Link>User.cs</Link>
     </Compile>
+    <Compile Include="..\Security\UserPrincipal.cs">
+      <Link>UserPrincipal.cs</Link>
+    </Compile>
     <Compile Include="Messages\LoggedInMessage.cs" />
     <Compile Include="Messages\LoggedOutMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

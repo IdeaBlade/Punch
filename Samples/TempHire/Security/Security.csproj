@@ -81,6 +81,7 @@
     <Compile Include="SecurityDbContext.cs" />
     <Compile Include="SecurityEntities.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserPrincipal.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DevForce.cf" />

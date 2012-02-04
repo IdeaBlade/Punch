@@ -16,6 +16,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
+using Common.Authentication;
 using Common.Toolbar;
 using Common.Workspace;
 using IdeaBlade.Core;
@@ -28,13 +29,13 @@ namespace TempHire.ViewModels
     public class ShellViewModel : Conductor<IWorkspace>, IDiscoverableViewModel, IHandle<LoggedInMessage>,
                                   IHandle<LoggedOutMessage>
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly IAuthenticationServiceEx _authenticationService;
         private readonly ExportFactory<LoginViewModel> _loginFactory;
         private readonly IEnumerable<IWorkspace> _workspaces;
 
         [ImportingConstructor]
         public ShellViewModel([ImportMany] IEnumerable<IWorkspace> workspaces, IToolbarManager toolbar,
-                              IAuthenticationService authenticationService, ExportFactory<LoginViewModel> loginFactory)
+                              IAuthenticationServiceEx authenticationService, ExportFactory<LoginViewModel> loginFactory)
         {
             Toolbar = toolbar;
             _workspaces = workspaces;

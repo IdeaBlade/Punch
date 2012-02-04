@@ -10,6 +10,7 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using System;
 using System.ComponentModel.Composition;
 using System.Security.Principal;
 using IdeaBlade.EntityModel;
@@ -25,7 +26,7 @@ namespace Security
         public override IPrincipal Login(ILoginCredential credential, EntityManager entityManager)
         {
             if (credential == null)
-                return new UserBase(new UserIdentity("fake", "FAKE", true));
+                return new UserPrincipal(Guid.Empty, new UserIdentity("fake", "FAKE", true));
 
             return base.Login(credential, entityManager);
         }

@@ -44,7 +44,6 @@ namespace TempHire
 
             batch.AddExportedValue<IEntityManagerProvider<TempHireEntities>>(new DevTempHireEntityManagerProvider());
             batch.AddExportedValue<IEntityManagerProvider<SecurityEntities>>(new DevSecurityEntityManagerProvider());
-            batch.AddExportedValue<IAuthenticationService>(new FakeAuthenticationService());
         }
 
         protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)

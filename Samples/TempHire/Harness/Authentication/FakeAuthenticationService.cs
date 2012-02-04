@@ -11,16 +11,21 @@
 //====================================================================================================================
 
 using System;
+using System.ComponentModel.Composition;
 using System.Security.Principal;
 using Cocktail;
+using Common.Authentication;
 using IdeaBlade.EntityModel;
-using Action = System.Action;
+using Security;
 
 namespace TempHire.Authentication
 {
-    public class FakeAuthenticationService : IAuthenticationService
+    [Export(typeof (IAuthenticationService))]
+    [Export(typeof (IAuthenticationServiceEx))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
+    public class FakeAuthenticationService : IAuthenticationServiceEx
     {
-        #region IAuthenticationService Members
+        #region IAuthenticationServiceEx Members
 
         public bool LinkAuthentication(EntityManager targetEm)
         {
@@ -29,7 +34,7 @@ namespace TempHire.Authentication
 
         public IPrincipal Principal
         {
-            get { return new UserBase(new UserIdentity("fake", "FAKE", true)); }
+            get { return new UserPrincipal(Guid.Empty, new UserIdentity("fake", "FAKE", true)); }
         }
 
         public bool IsLoggedIn
@@ -38,11 +43,11 @@ namespace TempHire.Authentication
         }
 
         public OperationResult LoginAsync(ILoginCredential credential, Action onSuccess = null,
-                                           Action<Exception> onFail = null)
+                                          Action<Exception> onFail = null)
         {
-            if (LoggedIn != null) 
+            if (LoggedIn != null)
                 LoggedIn(this, EventArgs.Empty);
-            if (PrincipalChanged != null) 
+            if (PrincipalChanged != null)
                 PrincipalChanged(this, EventArgs.Empty);
 
             return AlwaysCompletedOperationResult.Instance;
@@ -61,6 +66,11 @@ namespace TempHire.Authentication
         public event EventHandler<EventArgs> LoggedIn;
         public event EventHandler<EventArgs> LoggedOut;
         public event EventHandler<EventArgs> PrincipalChanged;
+
+        public UserPrincipal CurrentUser
+        {
+            get { return Principal as UserPrincipal; }
+        }
 
         #endregion
     }

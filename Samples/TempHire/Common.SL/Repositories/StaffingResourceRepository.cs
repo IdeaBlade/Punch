@@ -48,7 +48,8 @@ namespace Common.Repositories
         public OperationResult GetAllStaffingResourcesAsync(Action<IEnumerable<StaffingResource>> onSuccess = null,
                                                             Action<Exception> onFail = null)
         {
-            IEntityQuery<StaffingResource> query = Manager.Resources.OrderBy(r => r.LastName).ThenBy(r => r.FirstName);
+            IEntityQuery<StaffingResource> query =
+                Manager.StaffingResources.OrderBy(r => r.LastName).ThenBy(r => r.FirstName);
             return ExecuteQuery(query, onSuccess, onFail);
         }
 
@@ -58,7 +59,7 @@ namespace Common.Repositories
         {
             // Execute as IEntityQuery instead of IEntityScalarQuery in order to be cacheable. 
             // IEntityScalarQuery is always satisfied from the Datasource.
-            IEntityQuery<StaffingResource> query = Manager.Resources
+            IEntityQuery<StaffingResource> query = Manager.StaffingResources
                 .Where(r => r.Id == staffingResourceId)
                 .Include(r => r.Addresses)
                 .Include(r => r.PhoneNumbers);
@@ -94,7 +95,7 @@ namespace Common.Repositories
                                                           Action<IEnumerable<StaffingResourceListItem>> onSuccess = null,
                                                           Action<Exception> onFail = null)
         {
-            IEntityQuery<StaffingResource> baseQuery = Manager.Resources;
+            IEntityQuery<StaffingResource> baseQuery = Manager.StaffingResources;
 
             if (!string.IsNullOrWhiteSpace(searchText))
                 baseQuery = baseQuery.Where(resource => resource.FirstName.Contains(searchText) ||

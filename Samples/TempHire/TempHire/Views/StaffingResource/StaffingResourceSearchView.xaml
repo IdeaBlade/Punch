@@ -24,8 +24,7 @@
                      Width="200"
                      Margin="5,5,2,5"
                      HorizontalAlignment="Left"
-                     VerticalAlignment="Top"
-                     Style="{StaticResource TextBox_Style}">
+                     VerticalAlignment="Top">
                 <TextBox.Effect>
                     <DropShadowEffect BlurRadius="3"
                                       Opacity="0.2"
@@ -45,16 +44,14 @@
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Content="Search"
-                    Style="{StaticResource Button_Style}" />
+                    Content="Search" />
             <Button x:Name="Clear"
                     Width="60"
                     Height="25"
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Content="Clear"
-                    Style="{StaticResource Button_Style}" />
+                    Content="Clear" />
         </StackPanel>
         <toolkit:BusyIndicator Grid.Row="1" IsBusy="{Binding Busy.IsBusy}">
             <toolkit:BusyIndicator.BusyContent>
@@ -66,35 +63,19 @@
                           IsReadOnly="True"
                           ItemsSource="{Binding Items}"
                           SelectedItem="{Binding CurrentStaffingResource,
-                                                 Mode=TwoWay}"
-                          Style="{StaticResource DataGrid_Style}">
+                                                 Mode=TwoWay}">
                 <sdk:DataGrid.Effect>
                     <DropShadowEffect BlurRadius="3"
                                       Opacity="0.2"
                                       Color="#FF333333" />
                 </sdk:DataGrid.Effect>
                 <sdk:DataGrid.Columns>
-                    <sdk:DataGridTextColumn Binding="{Binding FullName,
-                                                              Mode=OneWay}"
-                                            Header="Name"
-                                            HeaderStyle="{StaticResource DataGridColumnHeader_Style}" />
-                    <sdk:DataGridTextColumn Binding="{Binding Address1}"
-                                            Header="Address 1"
-                                            HeaderStyle="{StaticResource DataGridColumnHeader_Style}" />
-                    <!--  <sdk:DataGridTextColumn Binding="{Binding Address2}" Header="Address 2" />  -->
-                    <sdk:DataGridTextColumn Binding="{Binding City}"
-                                            Header="City"
-                                            HeaderStyle="{StaticResource DataGridColumnHeader_Style}" />
-                    <sdk:DataGridTextColumn Binding="{Binding State}"
-                                            Header="State"
-                                            HeaderStyle="{StaticResource DataGridColumnHeader_Style}" />
-                    <sdk:DataGridTextColumn Binding="{Binding Zipcode}"
-                                            Header="Zipcode"
-                                            HeaderStyle="{StaticResource DataGridColumnHeader_Style}" />
-                    <sdk:DataGridTextColumn Binding="{Binding PhoneNumber,
-                                                              Mode=OneWay}"
-                                            Header="Phone"
-                                            HeaderStyle="{StaticResource DataGridColumnHeader_Style}" />
+                    <sdk:DataGridTextColumn Binding="{Binding FullName, Mode=OneWay}" Header="Name" />
+                    <sdk:DataGridTextColumn Binding="{Binding Address1}" Header="Address 1" />
+                    <sdk:DataGridTextColumn Binding="{Binding City}" Header="City" />
+                    <sdk:DataGridTextColumn Binding="{Binding State}" Header="State" />
+                    <sdk:DataGridTextColumn Binding="{Binding Zipcode}" Header="Zipcode" />
+                    <sdk:DataGridTextColumn Binding="{Binding PhoneNumber, Mode=OneWay}" Header="Phone" />
                 </sdk:DataGrid.Columns>
             </sdk:DataGrid>
         </toolkit:BusyIndicator>

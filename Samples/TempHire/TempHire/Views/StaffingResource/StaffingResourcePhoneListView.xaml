@@ -48,14 +48,12 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
-                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Item.AreaCode,
                                                 Mode=TwoWay}" />
                         <TextBox Grid.Column="2"
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
-                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Item.Number,
                                                 Mode=TwoWay}" />
                         <StackPanel Grid.Column="3"
@@ -69,16 +67,14 @@
                                     cal:Message.Attach="SetPrimary($dataContext)"
                                     Content="Set Primary"
                                     IsEnabled="{Binding Path=Item.Primary,
-                                                        Converter={StaticResource InverseBooleanConverter}}"
-                                    Style="{StaticResource Button_Style}" />
+                                                        Converter={StaticResource InverseBooleanConverter}}" />
                             <Button Width="60"
                                     Height="25"
                                     Margin="2"
                                     HorizontalAlignment="Left"
                                     cal:Message.Attach="Delete($dataContext)"
                                     Content="Delete"
-                                    IsEnabled="{Binding CanDelete}"
-                                    Style="{StaticResource Button_Style}" />
+                                    IsEnabled="{Binding CanDelete}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

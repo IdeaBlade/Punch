@@ -140,9 +140,6 @@
     <Compile Include="..\TempHire\SyncInterceptor.cs">
       <Link>SyncInterceptor.cs</Link>
     </Compile>
-    <Compile Include="..\TempHire\ViewModels\Dialog\CustomDialogViewModel.cs">
-      <Link>ViewModels\Dialog\CustomDialogViewModel.cs</Link>
-    </Compile>
     <Compile Include="..\TempHire\ViewModels\HomeViewModel.cs">
       <Link>ViewModels\HomeViewModel.cs</Link>
     </Compile>
@@ -247,11 +244,6 @@
   <ItemGroup>
     <Page Include="..\TempHire\Styles\Styles.xaml">
       <Link>Styles\Styles.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Dialog\CustomDialogView.xaml">
-      <Link>Views\Dialog\CustomDialogView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -22,7 +22,7 @@ namespace DomainModel
         }
 
         /// <summary>Gets the <see cref="T:EntityQuery"/> for StaffingResource entities. </summary>
-        public EntityQuery<StaffingResource> Resources { get; set; }
+        public EntityQuery<StaffingResource> StaffingResources { get; set; }
 
         /// <summary>Gets the <see cref="T:EntityQuery"/> for Address entities. </summary>
         public EntityQuery<Address> Addresses { get; set; }

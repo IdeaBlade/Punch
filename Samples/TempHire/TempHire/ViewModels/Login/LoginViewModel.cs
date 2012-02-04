@@ -118,15 +118,14 @@ namespace TempHire.ViewModels.Login
             {
                 FailureMessage = "";
 
-                var hash = CryptoHelper.GenerateKey(Password);
-                var password = Encoding.UTF8.GetString(hash, 0, hash.Length);
+                byte[] hash = CryptoHelper.GenerateKey(Password);
+                string password = Encoding.UTF8.GetString(hash, 0, hash.Length);
                 var credential = new LoginCredential(Username, password, null);
                 // Clear username and password fields
                 Username = null;
                 Password = null;
 
-                yield return _authenticationService.LoginAsync(
-                    credential, onFail: e => FailureMessage = e.Message);
+                yield return _authenticationService.LoginAsync(credential, onFail: e => FailureMessage = e.Message);
 
                 if (_authenticationService.IsLoggedIn)
                 {

@@ -27,8 +27,7 @@
                             Margin="5,5,0,5"
                             cal:Message.Attach="Execute"
                             Content="{Binding Label}"
-                            Padding="10"
-                            Style="{StaticResource Button_Style}" />
+                            Padding="10" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

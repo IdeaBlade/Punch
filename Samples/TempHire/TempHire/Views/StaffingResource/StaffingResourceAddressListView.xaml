@@ -54,7 +54,6 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
-                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Item.Address1,
                                                 Mode=TwoWay}" />
                         <sdk:Label Grid.Row="2" Content="Address 2:" />
@@ -63,7 +62,6 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
-                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Item.Address2,
                                                 Mode=TwoWay}" />
                         <sdk:Label Grid.Row="3" Content="City:" />
@@ -72,7 +70,6 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
-                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Item.City,
                                                 Mode=TwoWay}" />
                         <sdk:Label Grid.Row="4" Content="State:" />
@@ -88,8 +85,7 @@
                                   MaxDropDownHeight="200"
                                   SelectedValue="{Binding Item.StateId,
                                                           Mode=TwoWay}"
-                                  SelectedValuePath="Id"
-                                  Style="{StaticResource ComboBox_Style}" />
+                                  SelectedValuePath="Id" />
                         <sdk:Label Grid.Row="5" Content="Zipcode:" />
                         <TextBox Grid.Row="5"
                                  Grid.Column="1"
@@ -97,7 +93,6 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Left"
-                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Item.Zipcode,
                                                 Mode=TwoWay}" />
                         <StackPanel Grid.RowSpan="6"
@@ -112,16 +107,14 @@
                                     cal:Message.Attach="SetPrimary($dataContext)"
                                     Content="Set Primary"
                                     IsEnabled="{Binding Path=Item.Primary,
-                                                        Converter={StaticResource InverseBooleanConverter}}"
-                                    Style="{StaticResource Button_Style}" />
+                                                        Converter={StaticResource InverseBooleanConverter}}" />
                             <Button Width="80"
                                     Height="25"
                                     Margin="10"
                                     HorizontalAlignment="Center"
                                     cal:Message.Attach="Delete($dataContext)"
                                     Content="Delete"
-                                    IsEnabled="{Binding CanDelete}"
-                                    Style="{StaticResource Button_Style}" />
+                                    IsEnabled="{Binding CanDelete}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

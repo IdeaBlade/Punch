@@ -32,8 +32,7 @@
                  Margin="2"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Center"
-                 GotFocus="FirstNameGotFocus"
-                 Style="{StaticResource TextBox_Style}" />
+                 GotFocus="FirstNameGotFocus" />
         <TextBox x:Name="MiddleName"
                  Grid.Row="1"
                  Grid.Column="1"
@@ -41,8 +40,7 @@
                  Margin="2"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Center"
-                 GotFocus="MiddleNameGotFocus"
-                 Style="{StaticResource TextBox_Style}" />
+                 GotFocus="MiddleNameGotFocus" />
         <TextBox x:Name="LastName"
                  Grid.Row="2"
                  Grid.Column="1"
@@ -50,7 +48,6 @@
                  Margin="2"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Center"
-                 GotFocus="LastNameGotFocus"
-                 Style="{StaticResource TextBox_Style}" />
+                 GotFocus="LastNameGotFocus" />
     </Grid>
 </UserControl>

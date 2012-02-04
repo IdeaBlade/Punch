@@ -29,7 +29,6 @@
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Top"
                  AcceptsReturn="True"
-                 Style="{StaticResource TextBox_Style}"
                  Text="{Binding StaffingResource.Summary,
                                 Mode=TwoWay}"
                  TextWrapping="Wrap"

@@ -28,19 +28,17 @@ namespace Common.Converters
         {
             try
             {
-                var source = (IEnumerable) value;
+                var source = (IEnumerable)value;
                 if (source != null)
                 {
                     var tabItems = new List<TabItem>();
 
                     foreach (object item in source)
                     {
-                        var style = (Style) Application.Current.Resources["TabItem_Style"];
                         var tabItem = new TabItem
                                           {
-                                              Style = style,
                                               DataContext = item,
-                                              Content = new ContentControl {Template = (ControlTemplate) parameter}
+                                              Content = new ContentControl { Template = (ControlTemplate)parameter }
                                           };
 
                         var binding = new Binding("DisplayName");

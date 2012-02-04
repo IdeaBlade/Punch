@@ -72,25 +72,21 @@
                                    FontWeight="Bold" />
                         <sdk:DatePicker Grid.Row="1"
                                         Margin="2"
-                                        CalendarStyle="{StaticResource Calendar_Style}"
                                         SelectedDate="{Binding From,
                                                                Mode=TwoWay}" />
                         <sdk:DatePicker Grid.Row="1"
                                         Grid.Column="1"
                                         Margin="2"
-                                        CalendarStyle="{StaticResource Calendar_Style}"
                                         SelectedDate="{Binding To,
                                                                Mode=TwoWay}" />
                         <TextBox Grid.Row="1"
                                  Grid.Column="2"
                                  Margin="2"
-                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding PositionTitle,
                                                 Mode=TwoWay}" />
                         <TextBox Grid.Row="1"
                                  Grid.Column="3"
                                  Margin="2"
-                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Location,
                                                 Mode=TwoWay}" />
                         <sdk:Label Grid.Row="2"
@@ -102,7 +98,6 @@
                                  Grid.Column="2"
                                  Grid.ColumnSpan="2"
                                  Margin="2"
-                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Company,
                                                 Mode=TwoWay}" />
                         <sdk:Label Grid.Row="4"
@@ -115,7 +110,6 @@
                                  Grid.ColumnSpan="2"
                                  Height="100"
                                  Margin="2,2,2,20"
-                                 Style="{StaticResource TextBox_Style}"
                                  Text="{Binding Description,
                                                 Mode=TwoWay}"
                                  TextWrapping="Wrap" />
@@ -127,8 +121,7 @@
                             <Button Width="60"
                                     HorizontalAlignment="Center"
                                     cal:Message.Attach="Delete($dataContext)"
-                                    Content="Delete"
-                                    Style="{StaticResource Button_Style}" />
+                                    Content="Delete" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

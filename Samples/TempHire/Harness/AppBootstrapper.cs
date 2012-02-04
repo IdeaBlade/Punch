@@ -20,7 +20,6 @@ using Common.Errors;
 using Common.Messages;
 using DomainModel;
 using Security;
-using TempHire.Authentication;
 
 namespace TempHire
 {

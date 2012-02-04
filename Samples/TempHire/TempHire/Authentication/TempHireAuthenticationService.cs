@@ -35,7 +35,7 @@ namespace TempHire.Authentication
         protected override void OnLoggedIn()
         {
             base.OnLoggedIn();
-            EventFns.Publish(new LoggedInMessage(Principal));
+            EventFns.Publish(new LoggedInMessage(CurrentUser));
         }
 
         protected override void OnLoggedOut()

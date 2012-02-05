@@ -111,12 +111,12 @@ namespace HappyHour.ViewModels
 
         private void ReadyForNewDrink()
         {
-            if (null != _view) _view.ReadyForNewDrink(); // Throw if null?
+            if (null != _view) _view.ReadyForNewDrink(); 
         }
 
         protected override void OnViewAttached(object view, object context)
         {
-            _view = view as IMainPage; // Throw if not IMainPage?
+            _view = view as IMainPage;
         }
 
         private IMainPage _view;        

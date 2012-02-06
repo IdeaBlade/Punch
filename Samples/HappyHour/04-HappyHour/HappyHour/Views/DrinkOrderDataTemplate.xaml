@@ -4,14 +4,11 @@
 
     <!--  See Lesson #4  -->
 
-    <DataTemplate x:Key="DrinkOrderItemTemplate">
+    <DataTemplate x:Key="DrinkOrderDataTemplate">
         <Grid cal:Bind.ModelWithoutContext="{Binding}">
             <Grid.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/HappyHour;component/assets/HappyHourStyles.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
+                <!--  Re-implemented implicit styles for non-Controls  -->
+                <Style BasedOn="{StaticResource DefaultTextBlock}" TargetType="TextBlock" />
             </Grid.Resources>
 
             <Grid.RowDefinitions>

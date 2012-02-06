@@ -10,17 +10,15 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System.Security.Principal;
-
 namespace Security.Messages
 {
     public class LoggedInMessage
     {
-        public LoggedInMessage(IPrincipal principal)
+        public LoggedInMessage(UserPrincipal currentUser)
         {
-            Principal = principal;
+            CurrentUser = currentUser;
         }
 
-        public IPrincipal Principal { get; private set; }
+        public UserPrincipal CurrentUser { get; private set; }
     }
 }

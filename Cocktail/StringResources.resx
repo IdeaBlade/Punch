@@ -225,4 +225,7 @@
   <data name="TheFakeStoreHasNotBeenInitialized" xml:space="preserve">
     <value>The Fake Store has not been initialized.</value>
   </data>
+  <data name="NonSuitableEmpForFakeStoreOperation" xml:space="preserve">
+    <value>Attempted to initialize or reset the fake backing store on a non-suitable EntityManagerProvider. Ensure that the EntityManagerProvider extends from FakeStoreEntityManagerProviderBase&lt;T&gt;.</value>
+  </data>
 </root>

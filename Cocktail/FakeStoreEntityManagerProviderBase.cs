@@ -88,7 +88,10 @@ namespace Cocktail
             where T : EntityManager
         {
             if (!(@this is FakeStoreEntityManagerProviderBase<T>))
+            {
+                DebugFns.WriteLine(StringResources.NonSuitableEmpForFakeStoreOperation);
                 return AlwaysCompletedOperationResult.Instance;
+            }
 
             string compositionContext = @this.Manager.CompositionContext.Name;
             // Return the operation if fake store object already exists.
@@ -105,9 +108,12 @@ namespace Cocktail
             where T : EntityManager
         {
             if (!(@this is FakeStoreEntityManagerProviderBase<T>))
+            {
+                DebugFns.WriteLine(StringResources.NonSuitableEmpForFakeStoreOperation);
                 return AlwaysCompletedOperationResult.Instance;
+            }
 
-            var entityManagerProvider = (FakeStoreEntityManagerProviderBase<T>) @this;
+            var entityManagerProvider = (FakeStoreEntityManagerProviderBase<T>)@this;
             return entityManagerProvider.ResetFakeBackingStoreAsync();
         }
 
@@ -117,7 +123,11 @@ namespace Cocktail
         /// <returns>Returns true if the EntityManagerProvider supports the fake backing store.</returns>
         public static bool InitializeFakeBackingStore<T>(this IEntityManagerProvider<T> @this) where T : EntityManager
         {
-            if (!(@this is FakeStoreEntityManagerProviderBase<T>)) return false;
+            if (!(@this is FakeStoreEntityManagerProviderBase<T>))
+            {
+                DebugFns.WriteLine(StringResources.NonSuitableEmpForFakeStoreOperation);
+                return false;
+            }
 
             FakeBackingStore.Create(@this.Manager.CompositionContext.Name);
 
@@ -129,9 +139,13 @@ namespace Cocktail
         /// <returns>Returns true if the EntityManagerProvider supports the fake backing store.</returns>
         public static bool ResetFakeBackingStore<T>(this IEntityManagerProvider<T> @this) where T : EntityManager
         {
-            if (!(@this is FakeStoreEntityManagerProviderBase<T>)) return false;
+            if (!(@this is FakeStoreEntityManagerProviderBase<T>))
+            {
+                DebugFns.WriteLine(StringResources.NonSuitableEmpForFakeStoreOperation);
+                return false;
+            }
 
-            var entityManagerProvider = (FakeStoreEntityManagerProviderBase<T>) @this;
+            var entityManagerProvider = (FakeStoreEntityManagerProviderBase<T>)@this;
             entityManagerProvider.ResetFakeBackingStore();
             return true;
         }

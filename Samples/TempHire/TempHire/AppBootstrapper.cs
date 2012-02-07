@@ -31,12 +31,16 @@ namespace TempHire
         [Import]
         public IErrorHandler ErrorHandler { get; set; }
 
+#if FAKESTORE
+        [Import]
+        public ExportFactory<IEntityManagerProvider<TempHireEntities>> EntityManagerProviderFactory;
+
         protected override IEnumerable<IResult> ConfigureAsync()
         {
-            // Ensure the fake backing store gets initialized if used.
-            var provider = Composition.GetInstance<IEntityManagerProvider<TempHireEntities>>();
+            var provider = EntityManagerProviderFactory.CreateExport().Value;
             yield return provider.InitializeFakeBackingStoreAsync();
         }
+#endif
 
         protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {

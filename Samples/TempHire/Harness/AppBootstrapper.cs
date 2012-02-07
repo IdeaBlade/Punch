@@ -33,19 +33,20 @@ namespace TempHire
         [Import]
         public IErrorHandler ErrorHandler { get; set; }
 
+        [Import]
+        public IEntityManagerProvider<TempHireEntities> EntityManagerProvider;
+
+        protected override IEnumerable<IResult> ConfigureAsync()
+        {
+            yield return EntityManagerProvider.InitializeFakeBackingStoreAsync();
+        }
+
         protected override void PrepareCompositionContainer(CompositionBatch batch)
         {
             base.PrepareCompositionContainer(batch);
 
             batch.AddExportedValue<IEntityManagerProvider<TempHireEntities>>(new DevTempHireEntityManagerProvider());
             batch.AddExportedValue<IEntityManagerProvider<SecurityEntities>>(new DevSecurityEntityManagerProvider());
-        }
-
-        protected override IEnumerable<IResult> ConfigureAsync()
-        {
-            // Ensure the fake backing store gets initialized if used.
-            var provider = Composition.GetInstance<IEntityManagerProvider<TempHireEntities>>();
-            yield return provider.InitializeFakeBackingStoreAsync();
         }
 
         protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)

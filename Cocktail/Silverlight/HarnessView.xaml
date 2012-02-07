@@ -14,7 +14,7 @@
             <ColumnDefinition Width="0.2*" />
             <ColumnDefinition Width="0.8*" />
         </Grid.ColumnDefinitions>
-        <ItemsControl x:Name="Names" IsEnabled="{Binding Path=Ready}">
+        <ItemsControl x:Name="Names">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button cal:Message.Attach="ActivateViewModel($dataContext)"

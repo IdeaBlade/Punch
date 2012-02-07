@@ -42,7 +42,7 @@ namespace Cocktail
         /// </summary>
         public static bool IsConfigured
         {
-            get { return _isConfigured && !IsInDesignMode(); }
+            get { return _isConfigured; }
         }
 
         /// <summary>Returns the catalog in use.</summary>
@@ -63,10 +63,9 @@ namespace Cocktail
         /// </param>
         public static void Configure(CompositionBatch compositionBatch = null)
         {
-            if (IsInDesignMode()) return;
-
             if (IsConfigured) return;
 
+            _isConfigured = true;
             CompositionBatch batch = compositionBatch ?? new CompositionBatch();
 
             if (!ExportExists<IEventAggregator>())
@@ -76,8 +75,6 @@ namespace Cocktail
                 batch.AddExportedValue<IAuthenticationProvider>(new AuthenticationManagerProvider());
 
             Compose(batch);
-
-            _isConfigured = true;
         }
 
         /// <summary>Executes composition on the container, including the changes in the specified <see cref="CompositionBatch"/>.</summary>
@@ -86,7 +83,7 @@ namespace Cocktail
         /// </param>
         public static void Compose(CompositionBatch compositionBatch)
         {
-            //CheckIfConfigured();
+            WarnIfNotConfigured();
 
             if (compositionBatch == null)
                 throw new ArgumentNullException("compositionBatch");
@@ -106,7 +103,6 @@ namespace Cocktail
                 _container.Dispose();
             _container = null;
             _isConfigured = false;
-            ResetIsInDesignModeToDefault();
         }
 
         /// <summary>
@@ -117,7 +113,7 @@ namespace Cocktail
         /// <returns>The requested instance.</returns>
         public static T GetInstance<T>(CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            CheckIfConfigured();
+            WarnIfNotConfigured();
 
             var exports = GetExportsCore(typeof(T), null, requiredCreationPolicy).ToList();
             if (!exports.Any())
@@ -135,7 +131,7 @@ namespace Cocktail
         /// <returns>The requested instances.</returns>
         public static IEnumerable<T> GetInstances<T>(CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            CheckIfConfigured();
+            WarnIfNotConfigured();
 
             var exports = GetExportsCore(typeof(T), null, requiredCreationPolicy);
             return exports.Select(e => e.Value).Cast<T>();
@@ -150,7 +146,7 @@ namespace Cocktail
         /// <returns>The requested instance.</returns>
         public static object GetInstance(Type serviceType, string key, CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            CheckIfConfigured();
+            WarnIfNotConfigured();
 
             var exports = GetExportsCore(serviceType, key, requiredCreationPolicy).ToList();
             if (!exports.Any())
@@ -168,8 +164,7 @@ namespace Cocktail
         /// <returns>The requested instances.</returns>
         public static IEnumerable<object> GetInstances(Type serviceType, CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            if (IsInDesignMode()) return new object[0];
-            CheckIfConfigured();
+            WarnIfNotConfigured();
             IEnumerable<Export> exports = GetExportsCore(serviceType, null, requiredCreationPolicy);
             return exports.Select(e => e.Value);
         }
@@ -178,25 +173,8 @@ namespace Cocktail
         /// <param name="instance">The instance for which to satisfy the MEF imports.</param>
         public static void BuildUp(object instance)
         {
-            if (IsInDesignMode()) return;
-            CheckIfConfigured();
+            WarnIfNotConfigured();
             Container.SatisfyImportsOnce(instance);
-        }
-
-        /// <summary>
-        /// Specifies that the provided EntityManager type makes use of the DevForce Fake Backing Store.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        public static void UsesFakeStore<T>() where T : EntityManager
-        {
-            if (Execute.InDesignMode)
-            {
-                // Must be called before the first EM gets created
-                // This allows sample data to be deserialzied from a cache file at design time
-                IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(T).Assembly.FullName);
-            }
-
-            FakeBackingStoreManager.Instance.Register<T>();
         }
 
         /// <summary>
@@ -271,28 +249,9 @@ namespace Cocktail
 
         #region Private Methods
 
-        private static void CheckIfConfigured()
+        private static void WarnIfNotConfigured()
         {
-            if (!IsConfigured)
-                throw new InvalidOperationException(StringResources.CompositionHelperIsNotConfigured);
-        }
-
-        #endregion
-
-        #region DesignTime Functionality
-
-        private static readonly Func<bool> IsInDesignModeDefault = () => Execute.InDesignMode;
-
-        /// <summary>Function to determine if in DesignMode. Can be replaced for testing.</summary>
-        /// <value>A delegate returning true if in design mode.</value>
-        internal static Func<bool> IsInDesignMode = IsInDesignModeDefault;
-
-        /// <summary>
-        /// Restore <see cref="IsInDesignMode"/> to default method. For testing.
-        /// </summary>
-        internal static void ResetIsInDesignModeToDefault()
-        {
-            IsInDesignMode = IsInDesignModeDefault;
+            DebugFns.WriteLineIf(!IsConfigured, StringResources.CompositionHelperIsNotConfigured);
         }
 
         #endregion

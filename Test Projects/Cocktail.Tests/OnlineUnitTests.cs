@@ -41,9 +41,8 @@ namespace Cocktail.Tests
         {
             var commands = new List<Func<INotifyCompleted>>
                                {
-                                   () =>
-                                   EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName).
-                                       InitializeAsync(),
+                                   () => EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName)
+                                       .InitializeFakeBackingStoreAsync(),
                                    () => ResetFakeBackingStore(compositionContextName)
                                };
             return Coroutine.Start(commands);

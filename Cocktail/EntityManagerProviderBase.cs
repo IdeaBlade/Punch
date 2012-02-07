@@ -180,12 +180,6 @@ namespace Cocktail
         /// </summary>
         public event EventHandler<EventArgs> ManagerCreated = delegate { };
 
-        /// <summary>Performs the necessary initialization steps for the persistence layer. The specific steps depend on the subtype of EntityManagerProvider used.</summary>
-        public virtual OperationResult InitializeAsync()
-        {
-            return AlwaysCompletedOperationResult.Instance;
-        }
-
         /// <summary>
         /// Returns true if the last save operation aborted due to a validation error.
         /// </summary>
@@ -196,20 +190,6 @@ namespace Cocktail
         /// if EntityManager.SaveChangesAsync is called while a previous SaveChangesAsync is still in progress.
         /// </summary>
         public bool IsSaving { get; private set; }
-
-#if !SILVERLIGHT
-    /// <summary>Performs the necessary initialization steps for the persistence layer. The specific steps depend on the subtype of EntityManagerProvider used.</summary>
-        public virtual void Initialize()
-        {
-        }
-
-#endif
-
-        /// <summary>Indicates whether the persistence layer has been properly initialized.</summary>
-        public virtual bool IsInitialized
-        {
-            get { return true; }
-        }
 
         #endregion
 
@@ -243,19 +223,9 @@ namespace Cocktail
         /// <summary>Internal use.</summary>
         private void OnQuerying(object sender, EntityQueryingEventArgs e)
         {
-            MustBeInitialized();
-
             // In design mode all queries must be forced to execute against the cache.
             if (Execute.InDesignMode)
                 e.Query = e.Query.With(QueryStrategy.CacheOnly);
-        }
-
-        /// <summary>Throws an exception if the EntityManagerProvider is not initialized.</summary>
-        /// <exception caption="" cref="System.InvalidOperationException">Thrown if not initialized.</exception>
-        protected void MustBeInitialized()
-        {
-            if (!IsInitialized)
-                throw new InvalidOperationException(StringResources.TheEntityManagerProviderHasNotBeenInitialized);
         }
 
         /// <summary>

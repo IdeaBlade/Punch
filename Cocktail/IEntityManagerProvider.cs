@@ -25,9 +25,6 @@ namespace Cocktail
         /// </summary>
         event EventHandler<DataChangedEventArgs> DataChanged;
 
-        /// <summary>Indicates whether the persistence layer has been properly initialized.</summary>
-        bool IsInitialized { get; }
-
         /// <summary>
         /// Returns true if the last save operation aborted due to a validation error.
         /// </summary>
@@ -38,16 +35,6 @@ namespace Cocktail
         /// if EntityManager.SaveChangesAsync is called while a previous SaveChangesAsync is still in progress.
         /// </summary>
         bool IsSaving { get; }
-
-        /// <summary>Initializes the persistence layer.</summary>
-        OperationResult InitializeAsync();
-
-#if !SILVERLIGHT
-
-        /// <summary>Initializes the persistence layer.</summary>
-        void Initialize();
-
-#endif
     }
 
     /// <summary>Generic interface identifying an EntityManagerProvider.</summary>

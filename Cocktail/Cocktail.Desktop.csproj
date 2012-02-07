@@ -84,7 +84,6 @@
     <Compile Include="EventDispatcher.cs" />
     <Compile Include="EventFns.cs" />
     <Compile Include="FakeBackingStore.cs" />
-    <Compile Include="FakeBackingStoreManager.cs" />
     <Compile Include="FakeStoreEntityManagerProviderBase.cs" />
     <Compile Include="FrameworkBootstrapper.cs" />
     <Compile Include="HarnessViewModel.cs" />

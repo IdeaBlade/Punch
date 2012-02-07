@@ -32,7 +32,6 @@ namespace Cocktail.Tests
         public void ShouldGetCustomersInDesignMode()
         {
             DesignTimeViewModelLocatorBase<NorthwindIBEntities>.IsInDesignMode = () => true;
-            Composition.IsInDesignMode = () => true;
 
             var vm = _locator.CustomerListViewModel;
             Assert.IsNotNull(vm, "The ViewModel should be set");

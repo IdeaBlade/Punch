@@ -13,6 +13,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
+using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Messages;
@@ -23,17 +24,19 @@ namespace TempHire
 {
     public class AppBootstrapper : FrameworkBootstrapper<ShellViewModel>
     {
-        static AppBootstrapper()
-        {
-            Composition.UsesFakeStore<TempHireEntities>();
-        }
-
         // Automatically instantiate and hold all discovered MessageProcessors
         [ImportMany(RequiredCreationPolicy = CreationPolicy.Shared)]
         public IEnumerable<IMessageProcessor> MessageProcessors { get; set; }
 
         [Import]
         public IErrorHandler ErrorHandler { get; set; }
+
+        protected override IEnumerable<IResult> ConfigureAsync()
+        {
+            // Ensure the fake backing store gets initialized if used.
+            var provider = Composition.GetInstance<IEntityManagerProvider<TempHireEntities>>();
+            yield return provider.InitializeFakeBackingStoreAsync();
+        }
 
         protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {

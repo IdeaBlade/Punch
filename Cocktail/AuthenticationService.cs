@@ -59,7 +59,6 @@ namespace Cocktail
         where T : EntityManager
     {
         private T _manager;
-        private bool _isPersistenceLayerInitialized;
 
         /// <summary>Initializes a new instance.</summary>
         public AuthenticationService(T entityManager = null)
@@ -128,12 +127,6 @@ namespace Cocktail
         /// <param name="credential">The user's credentials.</param>
         protected virtual IEnumerable<INotifyCompleted> LoginAsyncCore(ILoginCredential credential)
         {
-            if (!_isPersistenceLayerInitialized)
-            {
-                yield return FakeBackingStoreManager.Instance.InitializeAllAsync();
-                _isPersistenceLayerInitialized = FakeBackingStoreManager.Instance.IsInitialized;
-            }
-
             // Logout before logging in with new set of credentials
             if (Manager.IsLoggedIn) yield return LogoutAsync(null, null);
 
@@ -167,14 +160,6 @@ namespace Cocktail
 
 #if !SILVERLIGHT
 
-        private void EnsurePersistenceLayerIsInitialized()
-        {
-            if (_isPersistenceLayerInitialized) return;
-
-            FakeBackingStoreManager.Instance.InitializeAll();
-            _isPersistenceLayerInitialized = FakeBackingStoreManager.Instance.IsInitialized;
-        }
-
         /// <summary>Login with the supplied credential.</summary>
         /// <param name="credential">
         /// 	<para>The supplied credential.</para>
@@ -182,8 +167,6 @@ namespace Cocktail
         /// <returns>A boolean indicating success or failure.</returns>
         public bool Login(ILoginCredential credential)
         {
-            EnsurePersistenceLayerIsInitialized();
-
             // Logout before logging in with new set of credentials
             if (Manager.IsLoggedIn) Logout();
 

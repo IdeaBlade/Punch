@@ -18,6 +18,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Caliburn.Micro;
+using Action = System.Action;
 
 namespace Cocktail
 {
@@ -26,6 +27,9 @@ namespace Cocktail
     /// </summary>
     public abstract class FrameworkBootstrapper : Bootstrapper
     {
+        private bool _completed;
+        private Action _completedActions;
+
         /// <summary>
         /// Static initialization
         /// </summary>
@@ -56,24 +60,22 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Ensures that no MEF ExportAttributes are used in the Bootstrapper
+        /// Called by the bootstrapper's constructor at runtime to start the framework.
         /// </summary>
-        private void EnsureBootstrapperHasNoExports()
+        protected override void StartRuntime()
         {
-            Type type = GetType();
+            base.StartRuntime();
 
-            // Throw exception if class is decorated with ExportAttribute
-            if (type.GetCustomAttributes(typeof(ExportAttribute), true).Any())
-                throw new CompositionException(StringResources.BootstrapperMustNotBeDecoratedWithExports);
-
-            // Throw exception if any of the class members are decorated with ExportAttribute
-            if (type.GetMembers().Any(m => m.GetCustomAttributes(typeof(ExportAttribute), true).Any()))
-                throw new CompositionException(StringResources.BootstrapperMustNotBeDecoratedWithExports);
+            ConfigureAsync().ToSequentialResult().Execute(OnComplete);
         }
 
-        /// <summary>Configures the framework.</summary>
+        /// <summary>
+        /// Configures the framework and sets up the IoC container.
+        /// </summary>
         protected override void Configure()
         {
+            base.Configure();
+
             EnsureBootstrapperHasNoExports();
 
             var batch = new CompositionBatch();
@@ -81,20 +83,30 @@ namespace Cocktail
             Composition.Configure(batch);
             UpdateAssemblySource();
             Composition.Recomposed += (s, args) => UpdateAssemblySource();
-            AddValueConverterConventions(); 
+            AddValueConverterConventions();
         }
 
-        private void UpdateAssemblySource()
+        /// <summary>
+        /// Provides an opportunity to perform asynchronous configuration at runtime.
+        /// </summary>
+        protected virtual IEnumerable<IResult> ConfigureAsync()
         {
-            IObservableCollection<Assembly> assemblySource = AssemblySource.Instance;
-            IEnumerable<Assembly> assemblies = Composition.Catalog.Catalogs.OfType<AssemblyCatalog>()
-                .Select(c => c.Assembly)
-                .Where(a => !assemblySource.Contains(a));
+            yield return AlwaysCompletedOperationResult.Instance;
+        }
 
-            assemblySource.AddRange(assemblies);
-
-            // The Bootstrapper is not owned by the container, so it doesn't automatically recompose
-            BuildUp(this);
+        /// <summary>
+        /// Calls action when <see cref="ConfigureAsync"/> completes. 
+        /// </summary>
+        /// <param name="completedAction">Action to be performed when configuration completes.</param>
+        protected void WhenCompleted(Action completedAction)
+        {
+            if (completedAction == null) return;
+            if (_completed)
+            {
+                completedAction();
+                return;
+            }
+            _completedActions = (Action) Delegate.Combine(_completedActions, completedAction);
         }
 
         /// <summary>
@@ -106,7 +118,7 @@ namespace Cocktail
         {
             ValueConverterConventionRegistry.AddConventionsToConventionManager();
             new PathToImageSourceConverter().RegisterConvention();
-            new BinaryToImageSourceConverter().RegisterConvention(); 
+            new BinaryToImageSourceConverter().RegisterConvention();
         }
 
         /// <summary>Locates the supplied service.</summary>
@@ -131,6 +143,47 @@ namespace Cocktail
         protected override void BuildUp(object instance)
         {
             Composition.BuildUp(instance);
+        }
+
+        /// <summary>
+        /// Ensures that no MEF ExportAttributes are used in the Bootstrapper
+        /// </summary>
+        private void EnsureBootstrapperHasNoExports()
+        {
+            Type type = GetType();
+
+            // Throw exception if class is decorated with ExportAttribute
+            if (type.GetCustomAttributes(typeof(ExportAttribute), true).Any())
+                throw new CompositionException(StringResources.BootstrapperMustNotBeDecoratedWithExports);
+
+            // Throw exception if any of the class members are decorated with ExportAttribute
+            if (type.GetMembers().Any(m => m.GetCustomAttributes(typeof(ExportAttribute), true).Any()))
+                throw new CompositionException(StringResources.BootstrapperMustNotBeDecoratedWithExports);
+        }
+
+        private void UpdateAssemblySource()
+        {
+            IObservableCollection<Assembly> assemblySource = AssemblySource.Instance;
+            IEnumerable<Assembly> assemblies = Composition.Catalog.Catalogs.OfType<AssemblyCatalog>()
+                .Select(c => c.Assembly)
+                .Where(a => !assemblySource.Contains(a));
+
+            assemblySource.AddRange(assemblies);
+
+            // The Bootstrapper is not owned by the container, so it doesn't automatically recompose
+            BuildUp(this);
+        }
+
+        private void OnComplete(ResultCompletionEventArgs args)
+        {
+            if (args.Error != null)
+                throw args.Error;
+
+            _completed = true;
+            Action actions = _completedActions;
+            _completedActions = null;
+            if (actions == null) return;
+            actions();
         }
     }
 
@@ -168,11 +221,13 @@ namespace Cocktail
         {
             base.OnStartup(sender, e);
 
+            WhenCompleted(
 #if SILVERLIGHT
-            DisplayRootViewFor(Application, typeof (TRootModel));
+                () => DisplayRootViewFor(Application, typeof (TRootModel))
 #else
-            DisplayRootViewFor(typeof (TRootModel));
+                () => DisplayRootViewFor(typeof (TRootModel))
 #endif
+                );
         }
     }
 }

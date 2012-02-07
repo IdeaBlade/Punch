@@ -33,36 +33,13 @@ namespace Cocktail
         /// <summary>Holds the serialized sample data used to initialize and reset the fake backing store.</summary>
         protected static EntityCacheState StoreEcs { get; private set; }
 
-        /// <summary>Indicates whether the fake backing store has been initialized.</summary>
-        public override bool IsInitialized
-        {
-            get
-            {
-                return FakeBackingStore.Exists(Manager.CompositionContext.Name) &&
-                       FakeBackingStore.Get(Manager.CompositionContext.Name).IsInitialized;
-            }
-        }
-
-        /// <summary>Initializes the fake backing store.</summary>
-        public override OperationResult InitializeAsync()
-        {
-            // Return the operation if fake store object already exists.
-            if (FakeBackingStore.Exists(Manager.CompositionContext.Name))
-                return FakeBackingStore.Get(Manager.CompositionContext.Name).InitializeOperation.AsOperationResult();
-
-            FakeBackingStore.Create(Manager.CompositionContext.Name);
-
-            return ResetFakeBackingStoreAsync();
-        }
-
-        /// <summary>Resets the fake backing store to its initial state.</summary>
-        public OperationResult ResetFakeBackingStoreAsync()
+        internal OperationResult ResetFakeBackingStoreAsync()
         {
             if (!FakeBackingStore.Exists(Manager.CompositionContext.Name))
-                throw new InvalidOperationException(StringResources.TheEntityManagerProviderHasNotBeenInitialized);
+                throw new InvalidOperationException(StringResources.TheFakeStoreHasNotBeenInitialized);
 
-            // Create a seperate isolated EntityManager
-            var manager = CreateEntityManager();
+            // Create a separate isolated EntityManager
+            T manager = CreateEntityManager();
             LinkAuthentication(manager);
 
             if (StoreEcs == null)
@@ -73,22 +50,13 @@ namespace Cocktail
 
 #if !SILVERLIGHT
 
-        /// <summary>Initializes the fake backing store.</summary>
-        public override void Initialize()
-        {
-            FakeBackingStore.Create(Manager.CompositionContext.Name);
-
-            ResetFakeBackingStore();
-        }
-
-        /// <summary>Resets the fake backing store to its initial state.</summary>
-        public void ResetFakeBackingStore()
+        internal void ResetFakeBackingStore()
         {
             if (!FakeBackingStore.Exists(Manager.CompositionContext.Name))
-                throw new InvalidOperationException(StringResources.TheEntityManagerProviderHasNotBeenInitialized);
+                throw new InvalidOperationException(StringResources.TheFakeStoreHasNotBeenInitialized);
 
-            // Create a seperate isolated EntityManager
-            var manager = CreateEntityManager();
+            // Create a separate isolated EntityManager
+            T manager = CreateEntityManager();
             LinkAuthentication(manager);
 
             if (StoreEcs == null)
@@ -99,7 +67,7 @@ namespace Cocktail
 
 #endif
 
-        internal void PopulateStoreEcs(T manager)
+        private void PopulateStoreEcs(T manager)
         {
             if (SampleDataProviders != null)
                 SampleDataProviders.ForEach(p => p.AddSampleData(manager));
@@ -108,5 +76,66 @@ namespace Cocktail
             // We used the manager just to get the ECS; now clear it out
             manager.Clear();
         }
+    }
+
+    /// <summary>
+    /// Provides extension methods to initialize and reset the DevForce Fake Backing Store
+    /// </summary>
+    public static class FakeStoreEntityManagerProviderFns
+    {
+        /// <summary>Initializes the fake backing store.</summary>
+        public static OperationResult InitializeFakeBackingStoreAsync<T>(this IEntityManagerProvider<T> @this)
+            where T : EntityManager
+        {
+            if (!(@this is FakeStoreEntityManagerProviderBase<T>))
+                return AlwaysCompletedOperationResult.Instance;
+
+            string compositionContext = @this.Manager.CompositionContext.Name;
+            // Return the operation if fake store object already exists.
+            if (FakeBackingStore.Exists(compositionContext))
+                return FakeBackingStore.Get(compositionContext).InitializeOperation.AsOperationResult();
+
+            FakeBackingStore.Create(compositionContext);
+
+            return ResetFakeBackingStoreAsync(@this);
+        }
+
+        /// <summary>Resets the fake backing store to its initial state.</summary>
+        public static OperationResult ResetFakeBackingStoreAsync<T>(this IEntityManagerProvider<T> @this)
+            where T : EntityManager
+        {
+            if (!(@this is FakeStoreEntityManagerProviderBase<T>))
+                return AlwaysCompletedOperationResult.Instance;
+
+            var entityManagerProvider = (FakeStoreEntityManagerProviderBase<T>) @this;
+            return entityManagerProvider.ResetFakeBackingStoreAsync();
+        }
+
+#if !SILVERLIGHT
+
+        /// <summary>Initializes the fake backing store.</summary>
+        /// <returns>Returns true if the EntityManagerProvider supports the fake backing store.</returns>
+        public static bool InitializeFakeBackingStore<T>(this IEntityManagerProvider<T> @this) where T : EntityManager
+        {
+            if (!(@this is FakeStoreEntityManagerProviderBase<T>)) return false;
+
+            FakeBackingStore.Create(@this.Manager.CompositionContext.Name);
+
+            ResetFakeBackingStore(@this);
+            return true;
+        }
+
+        /// <summary>Resets the fake backing store to its initial state.</summary>
+        /// <returns>Returns true if the EntityManagerProvider supports the fake backing store.</returns>
+        public static bool ResetFakeBackingStore<T>(this IEntityManagerProvider<T> @this) where T : EntityManager
+        {
+            if (!(@this is FakeStoreEntityManagerProviderBase<T>)) return false;
+
+            var entityManagerProvider = (FakeStoreEntityManagerProviderBase<T>) @this;
+            entityManagerProvider.ResetFakeBackingStore();
+            return true;
+        }
+
+#endif
     }
 }

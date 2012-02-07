@@ -13,7 +13,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using IdeaBlade.Core;
 
@@ -32,7 +31,6 @@ namespace Cocktail
     public class HarnessViewModel : Conductor<object>
     {
         private readonly Dictionary<string, object> _viewModels;
-        private bool _ready;
 
         /// <summary>Initializes a new instance.</summary>
         /// <param name="viewModels">The list of discovered ViewModels injected through MEF.</param>
@@ -51,17 +49,6 @@ namespace Cocktail
             get { return new BindableCollection<string>(_viewModels.Keys.OrderBy(k => k)); }
         }
 
-        /// <summary>Indicates if the ViewModel is ready and initialized.</summary>
-        public bool Ready
-        {
-            get { return _ready; }
-            private set
-            {
-                _ready = value;
-                NotifyOfPropertyChange(() => Ready);
-            }
-        }
-
         /// <summary>Activates the ViewModel with the given name.</summary>
         public void ActivateViewModel(string name)
         {
@@ -74,32 +61,6 @@ namespace Cocktail
 
                 ActivateItem(viewModel);
             }
-        }
-
-        /// <summary>
-        /// Initializing the view model
-        /// </summary>
-        protected override void OnInitialize()
-        {
-            base.OnInitialize();
-
-#if SILVERLIGHT
-            FakeBackingStoreManager.Instance.InitializeAllAsync()
-                .OnComplete(
-                    args =>
-                        {
-                            Ready = FakeBackingStoreManager.Instance.IsInitialized;
-
-                            if (!Ready)
-                                MessageBox.Show(StringResources.ThePersistenceLayerFailedToInitialize);
-                        });
-#else
-            FakeBackingStoreManager.Instance.InitializeAll();
-            Ready = FakeBackingStoreManager.Instance.IsInitialized;
-
-            if (!Ready)
-                MessageBox.Show(StringResources.ThePersistenceLayerFailedToInitialize);
-#endif
         }
     }
 }

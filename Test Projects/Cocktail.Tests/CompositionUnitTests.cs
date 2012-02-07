@@ -109,7 +109,7 @@ namespace Cocktail.Tests
                         EntityQuery<Customer> q = emp.Manager.Customers;
                         var asyncFns = new Func<INotifyCompleted>[]
                                            {
-                                               emp.InitializeAsync,
+                                               emp.InitializeFakeBackingStoreAsync,
                                                () => q.ExecuteAsync(op =>
                                                                         {
                                                                             Assert.IsTrue(interceptor.QueriedRaised > 0);
@@ -155,7 +155,7 @@ namespace Cocktail.Tests
 
                         var asyncFns = new Func<INotifyCompleted>[]
                                            {
-                                               emp.InitializeAsync,
+                                               emp.InitializeFakeBackingStoreAsync,
                                                () => emp.Manager.SaveChangesAsync(
                                                    op =>
                                                        {

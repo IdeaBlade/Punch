@@ -142,16 +142,13 @@
     <value>Could not locate any instances of contract {0}.</value>
   </data>
   <data name="CompositionHelperIsNotConfigured" xml:space="preserve">
-    <value>Composition is not configured. Composition.Configure must be called before any other public method.</value>
+    <value>WARNING: Composition has not been configured. Not all types may be available.</value>
   </data>
   <data name="ManagerTriedToFetchData" xml:space="preserve">
     <value>Manager tried to fetch data.</value>
   </data>
   <data name="ManagerTriedToSaveData" xml:space="preserve">
     <value>Manager tried to save data.</value>
-  </data>
-  <data name="TheEntityManagerProviderHasNotBeenInitialized" xml:space="preserve">
-    <value>The EntityManagerProvider hasn't been initialized. Please make sure to call EntityManagerProvider.Initialize before executing the first query</value>
   </data>
   <data name="ProbedForIValidationErrorNotificationAndFoundNoMatch" xml:space="preserve">
     <value>Probed for IValidationErrorNotification and found no matching exports. Will be throwing an exception if validation errors occur.</value>
@@ -224,5 +221,8 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="TheFakeStoreHasNotBeenInitialized" xml:space="preserve">
+    <value>The Fake Store has not been initialized.</value>
   </data>
 </root>

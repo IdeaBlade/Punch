@@ -177,6 +177,25 @@ namespace Cocktail
             Container.SatisfyImportsOnce(instance);
         }
 
+#if !SILVERLIGHT
+
+        /// <summary>
+        /// Enables full design time support for the specified EntityManager type.
+        /// </summary>
+        /// <typeparam name="T">The type of EntityManager needing design time support.</typeparam>
+        /// <remarks>This method must be called as early as possible, usually in the bootstrapper's static constructor.</remarks>
+        public static void EnableDesignTimeSupport<T>() where T : EntityManager
+        {
+            if (Execute.InDesignMode)
+            {
+                // Must be called before the first EM gets created
+                // This allows sample data to be deserialzied from a cache file at design time
+                IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(T).Assembly.FullName);
+            }
+        }
+
+#endif
+
         /// <summary>
         /// Raised when the composition container is modified after initialization.
         /// </summary>

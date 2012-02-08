@@ -12,18 +12,18 @@
 
 using System.ComponentModel.Composition;
 using Cocktail;
-using Common.Authentication;
+using Common.Security;
 using Security;
 using Security.Messages;
 
 namespace TempHire.Authentication
 {
     [Export(typeof (IAuthenticationService))]
-    [Export(typeof (IAuthenticationServiceEx))]
+    [Export(typeof (IUserService))]
     [PartCreationPolicy(CreationPolicy.Shared)]
-    public class TempHireAuthenticationService : AuthenticationService<SecurityEntities>, IAuthenticationServiceEx
+    public class TempHireAuthenticationService : AuthenticationService<SecurityEntities>, IUserService
     {
-        #region IAuthenticationServiceEx Members
+        #region IUserService Members
 
         public UserPrincipal CurrentUser
         {

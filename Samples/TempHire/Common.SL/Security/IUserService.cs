@@ -10,13 +10,14 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using Cocktail;
 using Security;
 
-namespace Common.Authentication
+namespace Common.Security
 {
-    public interface IAuthenticationServiceEx : IAuthenticationService
+    public interface IUserService
     {
+        bool IsLoggedIn { get; }
+
         UserPrincipal CurrentUser { get; }
     }
 }

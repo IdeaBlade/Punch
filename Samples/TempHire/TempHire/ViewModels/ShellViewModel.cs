@@ -16,7 +16,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
-using Common.Authentication;
 using Common.Toolbar;
 using Common.Workspace;
 using IdeaBlade.Core;
@@ -29,13 +28,13 @@ namespace TempHire.ViewModels
     public class ShellViewModel : Conductor<IWorkspace>, IDiscoverableViewModel, IHandle<LoggedInMessage>,
                                   IHandle<LoggedOutMessage>
     {
-        private readonly IAuthenticationServiceEx _authenticationService;
+        private readonly IAuthenticationService _authenticationService;
         private readonly ExportFactory<LoginViewModel> _loginFactory;
         private readonly IEnumerable<IWorkspace> _workspaces;
 
         [ImportingConstructor]
         public ShellViewModel([ImportMany] IEnumerable<IWorkspace> workspaces, IToolbarManager toolbar,
-                              IAuthenticationServiceEx authenticationService, ExportFactory<LoginViewModel> loginFactory)
+                              IAuthenticationService authenticationService, ExportFactory<LoginViewModel> loginFactory)
         {
             Toolbar = toolbar;
             _workspaces = workspaces;
@@ -92,7 +91,7 @@ namespace TempHire.ViewModels
 
         public IEnumerable<IResult> Logout()
         {
-            var home = GetHomeScreen();
+            IWorkspace home = GetHomeScreen();
             LogFns.DebugWriteLineIf(home == null, "No workspace marked as default.");
             if (home == null)
                 yield break;

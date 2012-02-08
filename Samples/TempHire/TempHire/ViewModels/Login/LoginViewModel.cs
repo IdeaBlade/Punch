@@ -16,7 +16,6 @@ using System.ComponentModel.Composition;
 using System.Text;
 using Caliburn.Micro;
 using Cocktail;
-using Common.Authentication;
 using Common.Errors;
 using Common.Repositories;
 using IdeaBlade.EntityModel;
@@ -27,7 +26,7 @@ namespace TempHire.ViewModels.Login
     [Export]
     public class LoginViewModel : Screen, IResult
     {
-        private readonly IAuthenticationServiceEx _authenticationService;
+        private readonly IAuthenticationService _authenticationService;
         private readonly IErrorHandler _errorHandler;
         private readonly ILookupRepository _lookupRepository;
         private readonly IWindowManager _windowManager;
@@ -37,7 +36,7 @@ namespace TempHire.ViewModels.Login
         private string _username;
 
         [ImportingConstructor]
-        public LoginViewModel(IAuthenticationServiceEx authenticationService, IWindowManager windowManager,
+        public LoginViewModel(IAuthenticationService authenticationService, IWindowManager windowManager,
                               [Import(AllowDefault = true)] ILookupRepository lookupRepository,
                               IErrorHandler errorHandler)
         {

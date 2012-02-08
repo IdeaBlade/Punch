@@ -14,23 +14,18 @@ using System;
 using System.ComponentModel.Composition;
 using System.Security.Principal;
 using Cocktail;
-using Common.Authentication;
+using Common.Security;
 using IdeaBlade.EntityModel;
 using Security;
 
 namespace TempHire.Authentication
 {
     [Export(typeof (IAuthenticationService))]
-    [Export(typeof (IAuthenticationServiceEx))]
+    [Export(typeof (IUserService))]
     [PartCreationPolicy(CreationPolicy.Shared)]
-    public class FakeAuthenticationService : IAuthenticationServiceEx
+    public class FakeAuthenticationService : IAuthenticationService, IUserService
     {
-        #region IAuthenticationServiceEx Members
-
-        public bool LinkAuthentication(EntityManager targetEm)
-        {
-            return false;
-        }
+        #region IAuthenticationService Members
 
         public IPrincipal Principal
         {
@@ -40,6 +35,11 @@ namespace TempHire.Authentication
         public bool IsLoggedIn
         {
             get { return true; }
+        }
+
+        public bool LinkAuthentication(EntityManager targetEm)
+        {
+            return false;
         }
 
         public OperationResult LoginAsync(ILoginCredential credential, Action onSuccess = null,
@@ -66,6 +66,10 @@ namespace TempHire.Authentication
         public event EventHandler<EventArgs> LoggedIn;
         public event EventHandler<EventArgs> LoggedOut;
         public event EventHandler<EventArgs> PrincipalChanged;
+
+        #endregion
+
+        #region IUserService Members
 
         public UserPrincipal CurrentUser
         {

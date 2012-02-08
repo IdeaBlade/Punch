@@ -173,6 +173,10 @@ namespace Cocktail
         /// <param name="instance">The instance for which to satisfy the MEF imports.</param>
         public static void BuildUp(object instance)
         {
+            // Skip if in design mode.
+            if (Execute.InDesignMode)
+                return;
+
             WarnIfNotConfigured();
             Container.SatisfyImportsOnce(instance);
         }

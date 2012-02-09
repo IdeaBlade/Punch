@@ -13,8 +13,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using Cocktail;
 using DomainModel;
+using IdeaBlade.EntityModel;
 
 namespace Common.SampleData
 {
@@ -45,6 +47,7 @@ namespace Common.SampleData
 
         private void GenerateSampleData(TempHireEntities manager)
         {
+            var n = manager.FindEntities<object>(EntityState.AllButDetached).Count();
             var addressTypes = new List<AddressType>
                                    {
                                        new AddressType

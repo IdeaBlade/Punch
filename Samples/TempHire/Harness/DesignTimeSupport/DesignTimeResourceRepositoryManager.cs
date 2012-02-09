@@ -5,7 +5,7 @@ using DomainModel;
 
 namespace TempHire.DesignTimeSupport
 {
-    public class DesignTimeResourceRepositoryManager : IRepositoryManager<IResourceRepository>
+    public class DesignTimeResourceRepositoryManager : IRepositoryManager<IStaffingResourceRepository>
     {
         private readonly IEntityManagerProvider<TempHireEntities> _entityManagerProvider;
 
@@ -14,17 +14,17 @@ namespace TempHire.DesignTimeSupport
             _entityManagerProvider = entityManagerProvider;
         }
 
-        public IResourceRepository Create()
+        public IStaffingResourceRepository Create()
         {
             throw new NotImplementedException();
         }
 
-        public IResourceRepository GetRepository(Guid key)
+        public IStaffingResourceRepository GetRepository(Guid key)
         {
-            return new ResourceRepository(_entityManagerProvider);
+            return new StaffingResourceRepository(_entityManagerProvider);
         }
 
-        public void Add(Guid key, IResourceRepository repository)
+        public void Add(Guid key, IStaffingResourceRepository repository)
         {
             throw new NotImplementedException();
         }

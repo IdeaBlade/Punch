@@ -206,6 +206,9 @@
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authentication\FakeAuthenticationService.cs" />
+    <Compile Include="DesignTimeSupport\DesignTimeEntityManagerProvider.cs" />
+    <Compile Include="DesignTimeSupport\DesignTimeResourceRepositoryManager.cs" />
+    <Compile Include="DesignTimeSupport\ViewModelLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

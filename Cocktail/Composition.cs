@@ -181,7 +181,7 @@ namespace Cocktail
             Container.SatisfyImportsOnce(instance);
         }
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT5
 
         /// <summary>
         /// Enables full design time support for the specified EntityManager type.
@@ -219,7 +219,7 @@ namespace Cocktail
         public static OperationResult AddXap(string relativeUri, Action onSuccess = null, Action<Exception> onFail = null)
         {
             XapDownloadOperation operation;
-            if (XapDownloadOperations.TryGetValue(relativeUri, out operation) && !operation.HasError) 
+            if (XapDownloadOperations.TryGetValue(relativeUri, out operation) && !operation.HasError)
                 return operation.AsOperationResult();
 
             var op = XapDownloadOperations[relativeUri] = new XapDownloadOperation(relativeUri);

@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -60,6 +61,15 @@ namespace Cocktail
         }
 
         /// <summary>
+        /// Override to substitute the default composition catalog with a custom catalog.
+        /// </summary>
+        /// <returns>Return the custom catalog that should be used by Cocktail to get access to MEF exports.</returns>
+        protected virtual ComposablePartCatalog PrepareCompositionCatalog()
+        {
+            return Composition.AggregateCatalog;
+        }
+
+        /// <summary>
         /// Called by the bootstrapper's constructor at runtime to start the framework.
         /// </summary>
         protected override void StartRuntime()
@@ -78,9 +88,10 @@ namespace Cocktail
 
             EnsureBootstrapperHasNoExports();
 
+            Composition.Configure(catalog: PrepareCompositionCatalog());
             var batch = new CompositionBatch();
             PrepareCompositionContainer(batch);
-            Composition.Configure(batch);
+            Composition.Compose(batch);
             UpdateAssemblySource();
             Composition.Recomposed += (s, args) => UpdateAssemblySource();
             AddValueConverterConventions();
@@ -153,18 +164,18 @@ namespace Cocktail
             Type type = GetType();
 
             // Throw exception if class is decorated with ExportAttribute
-            if (type.GetCustomAttributes(typeof(ExportAttribute), true).Any())
+            if (type.GetCustomAttributes(typeof (ExportAttribute), true).Any())
                 throw new CompositionException(StringResources.BootstrapperMustNotBeDecoratedWithExports);
 
             // Throw exception if any of the class members are decorated with ExportAttribute
-            if (type.GetMembers().Any(m => m.GetCustomAttributes(typeof(ExportAttribute), true).Any()))
+            if (type.GetMembers().Any(m => m.GetCustomAttributes(typeof (ExportAttribute), true).Any()))
                 throw new CompositionException(StringResources.BootstrapperMustNotBeDecoratedWithExports);
         }
 
         private void UpdateAssemblySource()
         {
             IObservableCollection<Assembly> assemblySource = AssemblySource.Instance;
-            IEnumerable<Assembly> assemblies = Composition.Catalog.Catalogs.OfType<AssemblyCatalog>()
+            IEnumerable<Assembly> assemblies = Composition.AggregateCatalog.Catalogs.OfType<AssemblyCatalog>()
                 .Select(c => c.Assembly)
                 .Where(a => !assemblySource.Contains(a));
 

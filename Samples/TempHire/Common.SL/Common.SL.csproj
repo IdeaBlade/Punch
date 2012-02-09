@@ -81,6 +81,9 @@
     <Reference Include="IdeaBlade.Validation.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="MefContrib.Silverlight">
+      <HintPath>..\Libs\MefContrib\MefContrib.Silverlight.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System.ComponentModel.Composition">
       <SpecificVersion>False</SpecificVersion>
@@ -101,6 +104,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BootstrapperBase.cs" />
     <Compile Include="Security\IUserService.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\SourceToTabItemsConverter.cs" />

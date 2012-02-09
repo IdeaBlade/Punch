@@ -1,9 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentFile Version="2010" Moniker="..\Cocktail\Bin.Desktop\Debug\Cocktail.Desktop.dll" DocType="DX.NET">
+<ContentFile Version="2010" Moniker="..\Cocktail\Bin.Desktop\Debug\Cocktail.dll" DocType="DX.NET">
   <RelatedProject>CocktailHelpReference.dxp</RelatedProject>
   <State>
     <Attributes />
   </State>
-  <LastSelectedItem />
-  <Filters />
+  <LastSelectedItem></LastSelectedItem>
+  <Filters>
+    <CONTENTSTORECOMMON>
+      <IsIncludedItemsOnly>true</IsIncludedItemsOnly>
+    </CONTENTSTORECOMMON>
+    <DX.NETCONTENTSTOREFILTER>
+      <ShowProtectedMembers>true</ShowProtectedMembers>
+      <ShowProtectedFriendMembers>true</ShowProtectedFriendMembers>
+      <ShowFriendMembers>false</ShowFriendMembers>
+      <ShowPrivateMembers>false</ShowPrivateMembers>
+      <ShowInheritedMembers>false</ShowInheritedMembers>
+      <IsSourceCodeContentVisible>true</IsSourceCodeContentVisible>
+    </DX.NETCONTENTSTOREFILTER>
+  </Filters>
 </ContentFile>

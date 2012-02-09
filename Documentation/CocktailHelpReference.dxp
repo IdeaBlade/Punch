@@ -9,10 +9,8 @@
   <PropertyDefinitionValues />
   <Title />
   <ContentFiles>
-    <ContentFile FileName="Cocktail.Utils.SL.dxc" Moniker="..\Cocktail.Utils\Bin\Debug\Cocktail.Utils.SL.dll" DocType="DX.NET" />
-    <ContentFile FileName="Cocktail.SL.dxc" Moniker="..\Cocktail\Bin\Debug\Cocktail.SL.dll" DocType="DX.NET" />
-    <ContentFile FileName="Cocktail.Desktop.dxc" Moniker="..\Cocktail\Bin.Desktop\Debug\Cocktail.Desktop.dll" DocType="DX.NET" />
-    <ContentFile FileName="Cocktail.Utils.Desktop.dxc" Moniker="..\Cocktail.Utils\Bin.Desktop\Debug\Cocktail.Utils.Desktop.dll" DocType="DX.NET" />
+    <ContentFile FileName="Cocktail.Desktop.dxc" Moniker="..\Cocktail\Bin.Desktop\Debug\Cocktail.dll" DocType="DX.NET" />
+    <ContentFile FileName="Cocktail.Utils.Desktop.dxc" Moniker="..\Cocktail.Utils\Bin.Desktop\Debug\Cocktail.Utils.dll" DocType="DX.NET" />
   </ContentFiles>
   <ContentFromProjectPlugin />
   <Filters>
@@ -59,15 +57,20 @@
       <ExcludedItem>Cocktail.SL~Cocktail.MessageBoxView</ExcludedItem>
       <ExcludedItem>Cocktail.Desktop~Cocktail.DialogHostView</ExcludedItem>
       <ExcludedItem>Cocktail.Desktop~Cocktail.MessageBoxView</ExcludedItem>
+      <ExcludedItem>Cocktail~Cocktail.DialogHostView</ExcludedItem>
+      <ExcludedItem>Cocktail~Cocktail.EntityManagerDelegate</ExcludedItem>
+      <ExcludedItem>Cocktail~Cocktail.HarnessView</ExcludedItem>
+      <ExcludedItem>Cocktail~Cocktail.MessageBoxView</ExcludedItem>
+      <ExcludedItem>Cocktail~Cocktail.ShowDialogResult`1</ExcludedItem>
+      <ExcludedItem>Cocktail~Cocktail.TraceLoggerProvider</ExcludedItem>
+      <ExcludedItem>Cocktail~Cocktail.IEntityManagerSyncInterceptor</ExcludedItem>
     </ExcludedItems>
   </Filters>
   <ComProjectPlugin />
   <AjaxProjectPlugin />
   <DotNetAssemblies>
-    <Assembly FileName="..\Cocktail.Utils\Bin\Debug\Cocktail.Utils.SL.dll" RootTypeName="" />
-    <Assembly FileName="..\Cocktail\Bin\Debug\Cocktail.SL.dll" RootTypeName="" />
-    <Assembly FileName="..\Cocktail\Bin.Desktop\Debug\Cocktail.Desktop.dll" RootTypeName="" />
-    <Assembly FileName="..\Cocktail.Utils\Bin.Desktop\Debug\Cocktail.Utils.Desktop.dll" RootTypeName="" />
+    <Assembly FileName="..\Cocktail\Bin.Desktop\Debug\Cocktail.dll" RootTypeName="" />
+    <Assembly FileName="..\Cocktail.Utils\Bin.Desktop\Debug\Cocktail.Utils.dll" RootTypeName="" />
   </DotNetAssemblies>
   <DatabaseProjectPlugin>
     <Databases />

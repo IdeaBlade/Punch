@@ -7,6 +7,7 @@ for /R %%i in (.) do rmdir "%%i\Release" /s /q
 for /R %%i in (.) do rmdir "%%i\obj" /s /q
 for /R %%i in (.) do rmdir "%%i\bin" /s /q
 for /R %%i in (.) do rmdir "%%i\bin.Desktop" /s /q
+for /R %%i in (.) do rmdir "%%i\bin.SL5" /s /q
 for /R %%i in (.) do rmdir "%%i\TestShadowCopy" /s /q
 for /R %%i in (.) do rmdir "%%i\TestResults" /s /q
 for /R %%i in (.) do rmdir "%%i\ClientBin" /s /q

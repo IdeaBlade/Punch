@@ -73,6 +73,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Test.Web\LoginManager.cs">
+      <Link>LoginManager.cs</Link>
+    </Compile>
     <Compile Include="CompositionUnitTests.cs" />
     <Compile Include="DialogManagerUnitTests.cs" />
     <Compile Include="EventHandlerUnitTests.cs" />

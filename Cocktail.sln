@@ -28,6 +28,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktail.SL5", "Cocktail\Cocktail.SL5.csproj", "{65FCE695-2E91-4245-86D6-3FB3486AEFAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktail.Utils.SL5", "Cocktail.Utils\Cocktail.Utils.SL5.csproj", "{39915105-64A5-493F-B91B-838D5CEEE9F2}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Cocktail.vsmdi
@@ -131,6 +135,26 @@ Global
 		{7E2FF932-5278-4092-8CAA-1EE7EC22A405}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{7E2FF932-5278-4092-8CAA-1EE7EC22A405}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{7E2FF932-5278-4092-8CAA-1EE7EC22A405}.Release|x86.ActiveCfg = Release|Any CPU
+		{65FCE695-2E91-4245-86D6-3FB3486AEFAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65FCE695-2E91-4245-86D6-3FB3486AEFAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65FCE695-2E91-4245-86D6-3FB3486AEFAD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{65FCE695-2E91-4245-86D6-3FB3486AEFAD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{65FCE695-2E91-4245-86D6-3FB3486AEFAD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{65FCE695-2E91-4245-86D6-3FB3486AEFAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65FCE695-2E91-4245-86D6-3FB3486AEFAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65FCE695-2E91-4245-86D6-3FB3486AEFAD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{65FCE695-2E91-4245-86D6-3FB3486AEFAD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{65FCE695-2E91-4245-86D6-3FB3486AEFAD}.Release|x86.ActiveCfg = Release|Any CPU
+		{39915105-64A5-493F-B91B-838D5CEEE9F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39915105-64A5-493F-B91B-838D5CEEE9F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39915105-64A5-493F-B91B-838D5CEEE9F2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{39915105-64A5-493F-B91B-838D5CEEE9F2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{39915105-64A5-493F-B91B-838D5CEEE9F2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{39915105-64A5-493F-B91B-838D5CEEE9F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39915105-64A5-493F-B91B-838D5CEEE9F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39915105-64A5-493F-B91B-838D5CEEE9F2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{39915105-64A5-493F-B91B-838D5CEEE9F2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{39915105-64A5-493F-B91B-838D5CEEE9F2}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

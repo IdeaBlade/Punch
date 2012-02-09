@@ -66,16 +66,16 @@
     <NoConfig>true</NoConfig>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IdeaBlade.Aop.SL, Version=6.1.4.1, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Aop.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="IdeaBlade.Core.SL, Version=6.1.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Core.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.SL, Version=6.1.4.1, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.EntityModel.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="IdeaBlade.Validation.SL, Version=6.1.4.1, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Validation.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="mscorlib" />
@@ -83,7 +83,7 @@
       <HintPath>C:\Program Files (x86)\PostSharp 2.1\Reference Assemblies\Silverlight 3.0\PostSharp.SL.dll</HintPath>
     </Reference>
     <Reference Include="system" />
-    <Reference Include="System.ComponentModel.DataAnnotations, Version=5.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
@@ -109,7 +109,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Cocktail.Utils\Cocktail.Utils.SL.csproj">
+    <ProjectReference Include="..\..\..\Cocktail.Utils\Cocktail.Utils.SL5.csproj">
       <Project>{761B386E-02D2-45DE-B485-1545D50F148F}</Project>
       <Name>Cocktail.Utils.SL</Name>
     </ProjectReference>

@@ -12,7 +12,7 @@
     <RootNamespace>Common</RootNamespace>
     <AssemblyName>Common.SL</AssemblyName>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
@@ -67,7 +67,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\..\..\packages\Caliburn.Micro.1.3.1\lib\sl5\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\..\..\packages\Caliburn.Micro.1.3.1\lib\sl4\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL">
       <SpecificVersion>False</SpecificVersion>
@@ -143,11 +143,11 @@
     <Resource Include="Images\error_button.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Cocktail.Utils\Cocktail.Utils.SL5.csproj">
+    <ProjectReference Include="..\..\..\Cocktail.Utils\Cocktail.Utils.SL.csproj">
       <Project>{761B386E-02D2-45DE-B485-1545D50F148F}</Project>
       <Name>Cocktail.Utils.SL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Cocktail\Cocktail.SL5.csproj">
+    <ProjectReference Include="..\..\..\Cocktail\Cocktail.SL.csproj">
       <Project>{7ECA6212-BDB6-4325-946E-97D9C227E468}</Project>
       <Name>Cocktail.SL</Name>
     </ProjectReference>

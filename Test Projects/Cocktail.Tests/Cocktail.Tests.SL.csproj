@@ -159,9 +159,9 @@
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Cocktail\Cocktail.SL.csproj">
-      <Project>{7ECA6212-BDB6-4325-946E-97D9C227E468}</Project>
-      <Name>Cocktail.SL</Name>
+    <ProjectReference Include="..\..\Cocktail\Cocktail.SL5.csproj">
+      <Project>{65FCE695-2E91-4245-86D6-3FB3486AEFAD}</Project>
+      <Name>Cocktail.SL5</Name>
     </ProjectReference>
     <ProjectReference Include="..\Test.Model\Test.Model.SL.csproj">
       <Project>{B920BE08-ECDB-42CE-AD08-4D2B6426A2FE}</Project>

@@ -64,7 +64,10 @@ namespace Common
         private void SubscribeToEventAggregator(object instance)
         {
             if (instance is IHandle)
-                EventFns.Subscribe(instance);
+            {
+                LogFns.DebugWriteLine(string.Format("Automatically subscribing instance of {0} to EventAggregator.", instance.GetType().Name));
+                EventFns.Subscribe(instance);                
+            }
         }
     }
 }

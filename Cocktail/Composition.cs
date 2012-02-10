@@ -208,9 +208,11 @@ namespace Cocktail
         {
             if (Execute.InDesignMode)
             {
-                // Must be called before the first EM gets created
-                // This allows sample data to be deserialzied from a cache file at design time
-                IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(T).Assembly.FullName);
+                var assemblyName = typeof (T).Assembly.FullName;
+                if (IdeaBladeConfig.Instance.ProbeAssemblyNames.Contains(assemblyName)) 
+                    return;
+
+                IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(assemblyName);
             }
         }
 

@@ -1,9 +1,11 @@
 <UserControl x:Class="TempHire.Views.StaffingResource.StaffingResourceAddressListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:behaviors="clr-namespace:Common.Behaviors;assembly=Common.SL"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:Converters="clr-namespace:Common.Converters;assembly=Common.SL"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
              d:DesignHeight="492"
@@ -55,7 +57,11 @@
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
                                  Text="{Binding Item.Address1,
-                                                Mode=TwoWay}" />
+                                                Mode=TwoWay}">
+                            <i:Interaction.Behaviors>
+                                <behaviors:SelectAllOnFocusBehavior />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
                         <sdk:Label Grid.Row="2" Content="Address 2:" />
                         <TextBox Grid.Row="2"
                                  Grid.Column="1"
@@ -63,7 +69,11 @@
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
                                  Text="{Binding Item.Address2,
-                                                Mode=TwoWay}" />
+                                                Mode=TwoWay}">
+                            <i:Interaction.Behaviors>
+                                <behaviors:SelectAllOnFocusBehavior />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
                         <sdk:Label Grid.Row="3" Content="City:" />
                         <TextBox Grid.Row="3"
                                  Grid.Column="1"
@@ -71,7 +81,11 @@
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
                                  Text="{Binding Item.City,
-                                                Mode=TwoWay}" />
+                                                Mode=TwoWay}">
+                            <i:Interaction.Behaviors>
+                                <behaviors:SelectAllOnFocusBehavior />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
                         <sdk:Label Grid.Row="4" Content="State:" />
                         <ComboBox Grid.Row="4"
                                   Grid.Column="1"
@@ -94,7 +108,11 @@
                                  Margin="2"
                                  HorizontalAlignment="Left"
                                  Text="{Binding Item.Zipcode,
-                                                Mode=TwoWay}" />
+                                                Mode=TwoWay}">
+                            <i:Interaction.Behaviors>
+                                <behaviors:SelectAllOnFocusBehavior />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
                         <StackPanel Grid.RowSpan="6"
                                     Grid.Column="2"
                                     HorizontalAlignment="Stretch"

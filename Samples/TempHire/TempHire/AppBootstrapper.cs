@@ -26,7 +26,7 @@ namespace TempHire
         [Import]
         public ExportFactory<IEntityManagerProvider<TempHireEntities>> EntityManagerProviderFactory;
 
-        protected override IEnumerable<IResult> ConfigureAsync()
+        protected override IEnumerable<IResult> StartRuntimeAsync()
         {
             IEntityManagerProvider<TempHireEntities> provider = EntityManagerProviderFactory.CreateExport().Value;
             yield return provider.InitializeFakeBackingStoreAsync();

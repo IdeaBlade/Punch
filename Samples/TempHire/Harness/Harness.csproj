@@ -198,10 +198,6 @@
     <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceWorkExperienceViewModel.cs">
       <Link>ViewModels\StaffingResource\StaffingResourceWorkExperienceViewModel.cs</Link>
     </Compile>
-    <Compile Include="..\TempHire\Views\StaffingResource\StaffingResourceNameEditorView.xaml.cs">
-      <Link>Views\StaffingResource\StaffingResourceNameEditorView.xaml.cs</Link>
-      <DependentUpon>StaffingResourceNameEditorView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>

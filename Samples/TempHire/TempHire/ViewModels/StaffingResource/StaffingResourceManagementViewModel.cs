@@ -248,9 +248,6 @@ namespace TempHire.ViewModels.StaffingResource
 
                 if (operation.CompletedSuccessfully)
                 {
-                    // Rerun the search
-                    SearchPane.Search();
-
                     if (ActiveStaffingResource != null && ActiveStaffingResource.Id == staffingResource.Id)
                         ActiveItem.TryClose();
                 }
@@ -261,16 +258,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             using (ActiveDetail.Busy.GetTicket())
             {
-                var operation = ActiveRepository.SaveAsync(onFail: _errorHandler.HandleError);
-                yield return operation;
-
-                if (operation.CompletedSuccessfully)
-                {
-                    SearchPane.Search(ActiveStaffingResource.Id);
-
-                    NotifyOfPropertyChange(() => CanSave);
-                    NotifyOfPropertyChange(() => CanCancel);
-                }
+                yield return ActiveRepository.SaveAsync(onFail: _errorHandler.HandleError);
             }
         }
 

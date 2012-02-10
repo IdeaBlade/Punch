@@ -75,7 +75,7 @@
     <Folder Include="log\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Test.Model\Test.Model.Desktop.csproj">
+    <ProjectReference Include="..\Test.Model\Test.Model.csproj">
       <Project>{12BEA1AF-5380-4024-BEDD-C914B0C15178}</Project>
       <Name>Test.Model.Desktop</Name>
     </ProjectReference>

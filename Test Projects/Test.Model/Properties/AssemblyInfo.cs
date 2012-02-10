@@ -25,9 +25,9 @@ using System.Runtime.InteropServices;
 
 
 #if SILVERLIGHT
-[assembly: AssemblyTitle("SampleModel.SL")]
+[assembly: AssemblyTitle("Test.Model.SL")]
 #else
-[assembly: AssemblyTitle("SampleModel.Desktop")]
+[assembly: AssemblyTitle("Test.Model")]
 #endif
 
 [assembly: AssemblyDescription("")]

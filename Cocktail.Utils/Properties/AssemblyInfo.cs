@@ -27,7 +27,7 @@ using System.Windows.Markup;
 #if SILVERLIGHT
 [assembly: AssemblyTitle("Cocktail.Utils.SL")]
 #else
-[assembly: AssemblyTitle("Cocktail.Utils.Desktop")]
+[assembly: AssemblyTitle("Cocktail.Utils")]
 #endif
 
 [assembly: AssemblyDescription("")]

@@ -140,6 +140,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Documentation\CocktailHelpReference.dxp">
+      <Link>CocktailHelpReference.dxp</Link>
+    </None>
     <None Include="Cocktail.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

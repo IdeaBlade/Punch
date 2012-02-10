@@ -9,8 +9,8 @@
   <PropertyDefinitionValues />
   <Title />
   <ContentFiles>
-    <ContentFile FileName="Cocktail.Desktop.dxc" Moniker="..\Cocktail\Bin.Desktop\Debug\Cocktail.dll" DocType="DX.NET" />
-    <ContentFile FileName="Cocktail.Utils.Desktop.dxc" Moniker="..\Cocktail.Utils\Bin.Desktop\Debug\Cocktail.Utils.dll" DocType="DX.NET" />
+    <ContentFile FileName="Cocktail.dxc" Moniker="..\Cocktail\Bin\Debug\Cocktail.dll" DocType="DX.NET" />
+    <ContentFile FileName="Cocktail.Utils.dxc" Moniker="..\Cocktail.Utils\Bin\Debug\Cocktail.Utils.dll" DocType="DX.NET" />
   </ContentFiles>
   <ContentFromProjectPlugin />
   <Filters>
@@ -69,8 +69,8 @@
   <ComProjectPlugin />
   <AjaxProjectPlugin />
   <DotNetAssemblies>
-    <Assembly FileName="..\Cocktail\Bin.Desktop\Debug\Cocktail.dll" RootTypeName="" />
-    <Assembly FileName="..\Cocktail.Utils\Bin.Desktop\Debug\Cocktail.Utils.dll" RootTypeName="" />
+    <Assembly FileName="..\Cocktail\Bin\Debug\Cocktail.dll" RootTypeName="" />
+    <Assembly FileName="..\Cocktail.Utils\Bin\Debug\Cocktail.Utils.dll" RootTypeName="" />
   </DotNetAssemblies>
   <DatabaseProjectPlugin>
     <Databases />
@@ -134,7 +134,7 @@
   </WidgetsProjectPlugin>
   <ProjectProfiles>
     <ProjectProfile Id="39caa9b0-295d-4fcc-9037-4bc5f2195e31" Name="Cocktail Help File">
-      <DefaultItemQualifiedName>Cocktail.Desktop</DefaultItemQualifiedName>
+      <DefaultItemQualifiedName>Cocktail~Cocktail_namespace</DefaultItemQualifiedName>
       <StripMetadata>true</StripMetadata>
       <AlwaysCopyTemplateFiles>true</AlwaysCopyTemplateFiles>
       <OutputFileExtension>.html</OutputFileExtension>

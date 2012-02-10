@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentFile Version="2010" Moniker="..\Cocktail.Utils\Bin.Desktop\Debug\Cocktail.Utils.dll" DocType="DX.NET">
+<ContentFile Version="2010" Moniker="..\Cocktail.Utils\Bin\Debug\Cocktail.Utils.dll" DocType="DX.NET">
   <RelatedProject>CocktailHelpReference.dxp</RelatedProject>
   <State>
     <Attributes />

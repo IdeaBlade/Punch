@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cocktail.Tests</RootNamespace>
-    <AssemblyName>Cocktail.Tests.Desktop</AssemblyName>
+    <AssemblyName>Cocktail.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Bin.Desktop\Debug\</OutputPath>
+    <OutputPath>Bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,7 +28,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Bin.Desktop\Release\</OutputPath>
+    <OutputPath>Bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -106,11 +106,11 @@
     <Compile Include="BusyWatcherUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Cocktail\Cocktail.Desktop.csproj">
+    <ProjectReference Include="..\..\Cocktail\Cocktail.csproj">
       <Project>{10F63FBB-FB0D-4B76-9E3F-5979D19CB01F}</Project>
       <Name>Cocktail.Desktop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Test.Model\Test.Model.Desktop.csproj">
+    <ProjectReference Include="..\Test.Model\Test.Model.csproj">
       <Project>{12BEA1AF-5380-4024-BEDD-C914B0C15178}</Project>
       <Name>Test.Model.Desktop</Name>
     </ProjectReference>

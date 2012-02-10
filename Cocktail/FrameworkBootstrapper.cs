@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -60,13 +61,12 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Called by the bootstrapper's constructor at runtime to start the framework.
+        /// Override to substitute the default composition catalog with a custom catalog.
         /// </summary>
-        protected override void StartRuntime()
+        /// <returns>Return the custom catalog that should be used by Cocktail to get access to MEF exports.</returns>
+        protected virtual ComposablePartCatalog PrepareCompositionCatalog()
         {
-            base.StartRuntime();
-
-            ConfigureAsync().ToSequentialResult().Execute(OnComplete);
+            return Composition.AggregateCatalog;
         }
 
         /// <summary>
@@ -78,24 +78,35 @@ namespace Cocktail
 
             EnsureBootstrapperHasNoExports();
 
+            Composition.Configure(catalog: PrepareCompositionCatalog());
             var batch = new CompositionBatch();
             PrepareCompositionContainer(batch);
-            Composition.Configure(batch);
+            Composition.Compose(batch);
             UpdateAssemblySource();
             Composition.Recomposed += (s, args) => UpdateAssemblySource();
             AddValueConverterConventions();
         }
 
         /// <summary>
+        /// Called by the bootstrapper's constructor at runtime to start the framework.
+        /// </summary>
+        protected override void StartRuntime()
+        {
+            base.StartRuntime();
+
+            StartRuntimeAsync().ToSequentialResult().Execute(OnComplete);
+        }
+
+        /// <summary>
         /// Provides an opportunity to perform asynchronous configuration at runtime.
         /// </summary>
-        protected virtual IEnumerable<IResult> ConfigureAsync()
+        protected virtual IEnumerable<IResult> StartRuntimeAsync()
         {
             yield return AlwaysCompletedOperationResult.Instance;
         }
 
         /// <summary>
-        /// Calls action when <see cref="ConfigureAsync"/> completes. 
+        /// Calls action when <see cref="StartRuntimeAsync"/> completes. 
         /// </summary>
         /// <param name="completedAction">Action to be performed when configuration completes.</param>
         protected void WhenCompleted(Action completedAction)
@@ -153,18 +164,18 @@ namespace Cocktail
             Type type = GetType();
 
             // Throw exception if class is decorated with ExportAttribute
-            if (type.GetCustomAttributes(typeof(ExportAttribute), true).Any())
+            if (type.GetCustomAttributes(typeof (ExportAttribute), true).Any())
                 throw new CompositionException(StringResources.BootstrapperMustNotBeDecoratedWithExports);
 
             // Throw exception if any of the class members are decorated with ExportAttribute
-            if (type.GetMembers().Any(m => m.GetCustomAttributes(typeof(ExportAttribute), true).Any()))
+            if (type.GetMembers().Any(m => m.GetCustomAttributes(typeof (ExportAttribute), true).Any()))
                 throw new CompositionException(StringResources.BootstrapperMustNotBeDecoratedWithExports);
         }
 
         private void UpdateAssemblySource()
         {
             IObservableCollection<Assembly> assemblySource = AssemblySource.Instance;
-            IEnumerable<Assembly> assemblies = Composition.Catalog.Catalogs.OfType<AssemblyCatalog>()
+            IEnumerable<Assembly> assemblies = Composition.AggregateCatalog.Catalogs.OfType<AssemblyCatalog>()
                 .Select(c => c.Assembly)
                 .Where(a => !assemblySource.Contains(a));
 

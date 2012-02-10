@@ -78,6 +78,9 @@
     </Reference>
     <Reference Include="IdeaBlade.Validation.SL">
     </Reference>
+    <Reference Include="MefContrib.Silverlight">
+      <HintPath>..\Libs\MefContrib\MefContrib.Silverlight.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="PostSharp.SL">
       <HintPath>C:\Program Files (x86)\PostSharp 2.1\Reference Assemblies\Silverlight 3.0\PostSharp.SL.dll</HintPath>
@@ -92,9 +95,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Controls">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
+    <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Data">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -143,9 +144,6 @@
     <Compile Include="ViewModels\StaffingResource\StaffingResourceSkillsViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceSummaryViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceWorkExperienceViewModel.cs" />
-    <Compile Include="Views\StaffingResource\StaffingResourceNameEditorView.xaml.cs">
-      <DependentUpon>StaffingResourceNameEditorView.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

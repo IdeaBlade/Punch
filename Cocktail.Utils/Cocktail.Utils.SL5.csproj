@@ -88,7 +88,7 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(SolutionDir)Bin\Silverlight 5\$(ConfigurationName)"
-copy "$(TargetDir)\$(TargetName).*" "$(SolutionDir)Bin\Silverlight 5\$(ConfigurationName)"</PostBuildEvent>
+copy "$(TargetDir)$(TargetName).*" "$(SolutionDir)Bin\Silverlight 5\$(ConfigurationName)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

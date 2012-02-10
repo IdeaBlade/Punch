@@ -35,7 +35,6 @@ namespace TempHire.ViewModels.StaffingResource
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DisplayName = "Work Experience";
             // ReSharper restore DoNotCallOverridableMethodsInConstructor
-            EventFns.Subscribe(this);
         }
 
         public bool IsEmpty

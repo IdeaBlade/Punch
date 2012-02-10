@@ -10,16 +10,33 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using Caliburn.Micro;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Interactivity;
 
-namespace Common.Messages
+namespace Common.Behaviors
 {
-    public abstract class MessageProcessor<T> : IMessageProcessor, IHandle<T>
+    public class SelectAllOnFocusBehavior : Behavior<TextBox>
     {
-        #region IHandle<T> Members
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            AssociatedObject.GotFocus += AssociatedObjectOnGotFocus;
+        }
 
-        public abstract void Handle(T message);
+        private void AssociatedObjectOnGotFocus(object sender, RoutedEventArgs routedEventArgs)
+        {
+            if (sender is TextBox)
+            {
+                var textBox = sender as TextBox;
+                textBox.SelectAll();
+            }
+        }
 
-        #endregion
+        protected override void OnDetaching()
+        {
+            base.OnDetaching();
+            AssociatedObject.GotFocus -= AssociatedObjectOnGotFocus;
+        }
     }
 }

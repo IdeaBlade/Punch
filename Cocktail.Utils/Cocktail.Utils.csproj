@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cocktail</RootNamespace>
-    <AssemblyName>Cocktail.Utils.Desktop</AssemblyName>
+    <AssemblyName>Cocktail.Utils</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SkipPostSharp>True</SkipPostSharp>
@@ -18,20 +18,20 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Bin.Desktop\Debug\</OutputPath>
+    <OutputPath>Bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin.Desktop\Debug\Cocktail.Utils.Desktop.xml</DocumentationFile>
+    <DocumentationFile>Bin\Debug\Cocktail.Utils.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Bin.Desktop\Release\</OutputPath>
+    <OutputPath>Bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin.Desktop\Release\Cocktail.Utils.Desktop.xml</DocumentationFile>
+    <DocumentationFile>Bin\Release\Cocktail.Utils.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -63,7 +63,7 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(SolutionDir)Bin\Desktop\$(ConfigurationName)"
-copy "$(TargetDir)\$(TargetName).*" "$(SolutionDir)Bin\Desktop\$(ConfigurationName)"</PostBuildEvent>
+copy "$(TargetDir)$(TargetName).*" "$(SolutionDir)Bin\Desktop\$(ConfigurationName)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

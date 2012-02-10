@@ -17,13 +17,15 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
+using Common.Messages;
 using Common.Repositories;
 using DomainModel.Projections;
+using IdeaBlade.EntityModel;
 
 namespace TempHire.ViewModels.StaffingResource
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class StaffingResourceSearchViewModel : Screen, IDiscoverableViewModel, IHarnessAware
+    public class StaffingResourceSearchViewModel : Screen, IDiscoverableViewModel, IHarnessAware, IHandle<SavedMessage>
     {
         private readonly IErrorHandler _errorHandler;
         private readonly IStaffingResourceRepository _repository;
@@ -84,6 +86,39 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
+        #region IHandle<SavedMessage> Members
+
+        public void Handle(SavedMessage message)
+        {
+            // Exit if no StaffingResource was saved
+            if (!message.Entities.OfType<DomainModel.StaffingResource>().Any()) return;
+
+            // If selected staffing resource is detached now, that means it got deleted.
+            bool wasDeleted = message.Entities
+                .OfType<DomainModel.StaffingResource>()
+                .Any(r => r.EntityFacts.EntityState.IsDetached() && r.Id == CurrentStaffingResource.Id);
+
+            if (wasDeleted)
+            {
+                Search();
+                return;
+            }
+
+            if (CurrentStaffingResource != null)
+            {
+                Search(CurrentStaffingResource.Id);
+                return;
+            }
+
+            DomainModel.StaffingResource newStaffResource = message.Entities
+                .OfType<DomainModel.StaffingResource>()
+                .FirstOrDefault();
+            if (newStaffResource != null)
+                Search(newStaffResource.Id);
+        }
+
+        #endregion
+
         #region IHarnessAware Members
 
         public void Setup()
@@ -109,13 +144,15 @@ namespace TempHire.ViewModels.StaffingResource
             Busy.AddWatch();
 
             _repository.FindStaffingResourcesAsync(SearchText, "LastName",
-                                           result =>
-                                               {
-                                                   Items = new BindableCollection<StaffingResourceListItem>(result);
-                                                   CurrentStaffingResource = Items.FirstOrDefault(r => r.Id == selection) ??
-                                                                     Items.FirstOrDefault();
-                                               },
-                                           _errorHandler.HandleError)
+                                                   result =>
+                                                       {
+                                                           Items =
+                                                               new BindableCollection<StaffingResourceListItem>(result);
+                                                           CurrentStaffingResource =
+                                                               Items.FirstOrDefault(r => r.Id == selection) ??
+                                                               Items.FirstOrDefault();
+                                                       },
+                                                   _errorHandler.HandleError)
                 .OnComplete(args => Busy.RemoveWatch());
         }
 

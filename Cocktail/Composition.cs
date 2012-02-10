@@ -36,17 +36,27 @@ namespace Cocktail
 #endif
         private static bool _isConfigured;
         private static CompositionContainer _container;
+        private static ComposablePartCatalog _catalog;
 
         /// <summary>
-        /// Returns true if the CompositonHost has been configured.
+        /// Returns true if <see cref="Configure"/> has been called.
         /// </summary>
         public static bool IsConfigured
         {
             get { return _isConfigured; }
         }
 
-        /// <summary>Returns the catalog in use.</summary>
-        public static AggregateCatalog Catalog
+        /// <summary>Returns the current catalog in use.</summary>
+        /// <returns>Unless a custom catalog is provided through <see cref="Configure"/>, this property returns <see cref="AggregateCatalog"/></returns>
+        public static ComposablePartCatalog Catalog
+        {
+            get { return _catalog ?? AggregateCatalog; }
+        }
+
+        /// <summary>
+        /// Returns the AggregateCatalog in use by DevForce.
+        /// </summary>
+        public static AggregateCatalog AggregateCatalog
         {
             get { return CompositionHost.Instance.Catalog; }
         }
@@ -54,16 +64,21 @@ namespace Cocktail
         /// <summary>Returns the CompositionContainer in use.</summary>
         public static CompositionContainer Container
         {
-            get { return _container ?? (_container = new CompositionContainer(Catalog)); }
+            get
+            {
+                return _container ?? (_container = new CompositionContainer(Catalog));
+            }
         }
 
         /// <summary>Configures the CompositionHost.</summary>
         /// <param name="compositionBatch">
         ///     Optional changes to the <span><see cref="CompositionContainer"/></span> to include during the composition.
         /// </param>
-        public static void Configure(CompositionBatch compositionBatch = null)
+        /// <param name="catalog">The custom catalog to be used by Cocktail to get access to MEF exports.</param>
+        public static void Configure(CompositionBatch compositionBatch = null, ComposablePartCatalog catalog = null)
         {
-            if (IsConfigured) return;
+            //if (IsConfigured) return;
+            _catalog = catalog;
 
             _isConfigured = true;
             CompositionBatch batch = compositionBatch ?? new CompositionBatch();
@@ -95,13 +110,14 @@ namespace Cocktail
         /// Resets the CompositionContainer to it's initial state.
         /// </summary>
         /// <remarks>
-        /// After calling <see cref="Clear"/>, <see cref="Configure"/> must be called to configure the new CompositionContainer.
+        /// After calling <see cref="Clear"/>, <see cref="Configure"/> should be called to configure the new CompositionContainer.
         /// </remarks>
         public static void Clear()
         {
             if (_container != null)
                 _container.Dispose();
             _container = null;
+            _catalog = null;
             _isConfigured = false;
         }
 
@@ -141,7 +157,7 @@ namespace Cocktail
         /// 	<para>Returns an instance of the custom implementation for the provided type or contract name.</para>
         /// </summary>
         /// <param name="serviceType">The type of the requested instance.</param>
-        /// <param name="key">The contract name of the instance requested. If no contract name is specifed, the type will be used.</param>
+        /// <param name="key">The contract name of the instance requested. If no contract name is specified, the type will be used.</param>
         /// <param name="requiredCreationPolicy">Optionally specify whether the returned instance should be a shared, non-shared or any instance.</param>
         /// <returns>The requested instance.</returns>
         public static object GetInstance(Type serviceType, string key, CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
@@ -192,9 +208,11 @@ namespace Cocktail
         {
             if (Execute.InDesignMode)
             {
-                // Must be called before the first EM gets created
-                // This allows sample data to be deserialzied from a cache file at design time
-                IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(T).Assembly.FullName);
+                var assemblyName = typeof (T).Assembly.FullName;
+                if (IdeaBladeConfig.Instance.ProbeAssemblyNames.Contains(assemblyName)) 
+                    return;
+
+                IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(assemblyName);
             }
         }
 

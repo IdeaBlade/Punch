@@ -35,7 +35,6 @@ namespace TempHire.ViewModels.StaffingResource
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DisplayName = "Skills";
             // ReSharper restore DoNotCallOverridableMethodsInConstructor
-            EventFns.Subscribe(this);
         }
 
         public IEnumerable<Skill> SkillsSorted

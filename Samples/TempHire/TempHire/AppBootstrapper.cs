@@ -12,40 +12,25 @@
 
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Windows;
 using Caliburn.Micro;
 using Cocktail;
-using Common.Errors;
-using Common.Messages;
+using Common;
 using DomainModel;
 using TempHire.ViewModels;
 
 namespace TempHire
 {
-    public class AppBootstrapper : FrameworkBootstrapper<ShellViewModel>
+    public class AppBootstrapper : BootstrapperBase<ShellViewModel>
     {
-        // Automatically instantiate and hold all discovered MessageProcessors
-        [ImportMany(RequiredCreationPolicy = CreationPolicy.Shared)]
-        public IEnumerable<IMessageProcessor> MessageProcessors { get; set; }
-
-        [Import]
-        public IErrorHandler ErrorHandler { get; set; }
-
 #if FAKESTORE
         [Import]
         public ExportFactory<IEntityManagerProvider<TempHireEntities>> EntityManagerProviderFactory;
 
         protected override IEnumerable<IResult> ConfigureAsync()
         {
-            var provider = EntityManagerProviderFactory.CreateExport().Value;
+            IEntityManagerProvider<TempHireEntities> provider = EntityManagerProviderFactory.CreateExport().Value;
             yield return provider.InitializeFakeBackingStoreAsync();
         }
 #endif
-
-        protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
-        {
-            ErrorHandler.HandleError(e.ExceptionObject);
-            e.Handled = true;
-        }
     }
 }

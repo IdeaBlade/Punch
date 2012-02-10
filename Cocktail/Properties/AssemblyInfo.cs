@@ -27,7 +27,7 @@ using System.Resources;
 #if SILVERLIGHT
 [assembly: AssemblyTitle("Cocktail.SL")]
 #else
-[assembly: AssemblyTitle("Cocktail.Desktop")]
+[assembly: AssemblyTitle("Cocktail")]
 #endif
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
@@ -56,7 +56,7 @@ using System.Resources;
                                                      + "4bdd6effc405878d65cfc4911708ed650da935d733fc5dc707f74910e025ac080543e01a6cc863"
                                                      + "b9f85ffc")]
 #else
-[assembly: InternalsVisibleTo("Cocktail.Tests.Desktop, PublicKey=00240000048000009400000006020000002400005253413100040000010001000711e4133e5919"
+[assembly: InternalsVisibleTo("Cocktail.Tests, PublicKey=00240000048000009400000006020000002400005253413100040000010001000711e4133e5919"
                                                      + "6b877f67b04088121b1d6c3a25cb8791422c56986774125d0b805da768e11c38bbe2a395a98611"
                                                      + "5a66ef56c993ca31bef5d998cd98d53ba73a4c5b69fbbf197267b0b6c9ab232f8ff83794df4c7f"
                                                      + "e3ec9ce25e749ba984ed28135cca779fef9aca4e421831d13a6e8d2b3cb321002d5d3511895476"
@@ -92,5 +92,5 @@ using System.Resources;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("0.2.0.324")]
+[assembly: AssemblyVersion("0.2.0.326")]
 

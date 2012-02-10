@@ -13,26 +13,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using System.Windows;
 using Caliburn.Micro;
 using Cocktail;
+using Common;
 using Common.EntityManagerProviders;
-using Common.Errors;
-using Common.Messages;
 using DomainModel;
 using Security;
 
 namespace TempHire
 {
-    public class AppBootstrapper : FrameworkBootstrapper<HarnessViewModel>
+    public class AppBootstrapper : BootstrapperBase<HarnessViewModel>
     {
-        // Automatically instantiate and hold all discovered MessageProcessors
-        [ImportMany(RequiredCreationPolicy = CreationPolicy.Shared)]
-        public IEnumerable<IMessageProcessor> MessageProcessors { get; set; }
-
-        [Import]
-        public IErrorHandler ErrorHandler { get; set; }
-
         [Import]
         public IEntityManagerProvider<TempHireEntities> EntityManagerProvider;
 
@@ -47,12 +38,6 @@ namespace TempHire
 
             batch.AddExportedValue<IEntityManagerProvider<TempHireEntities>>(new DevTempHireEntityManagerProvider());
             batch.AddExportedValue<IEntityManagerProvider<SecurityEntities>>(new DevSecurityEntityManagerProvider());
-        }
-
-        protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
-        {
-            ErrorHandler.HandleError(e.ExceptionObject);
-            e.Handled = true;
         }
     }
 }

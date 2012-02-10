@@ -58,8 +58,6 @@ namespace TempHire.ViewModels.StaffingResource
             _dialogManager = dialogManager;
             _toolbar = toolbar;
 
-            EventFns.Subscribe(this);
-
             PropertyChanged += OnPropertyChanged;
 
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
@@ -246,7 +244,7 @@ namespace TempHire.ViewModels.StaffingResource
 
                 OperationResult operation =
                     repository.DeleteStaffingResourceAsync(staffingResource.Id, onFail: _errorHandler.HandleError);
-                yield return operation;                  
+                yield return operation;
 
                 if (operation.CompletedSuccessfully)
                 {

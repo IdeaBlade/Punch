@@ -40,8 +40,6 @@ namespace TempHire.ViewModels
             _workspaces = workspaces;
             _authenticationService = authenticationService;
             _loginFactory = loginFactory;
-
-            EventFns.Subscribe(this);
         }
 
         public IToolbarManager Toolbar { get; private set; }
@@ -75,8 +73,7 @@ namespace TempHire.ViewModels
             _workspaces.OrderBy(w => w.Sequence).ForEach(
                 w => mainGroup.Add(new ToolbarAction(this, w.DisplayName, () => NavigateTo(w))));
 
-            var logoutGroup = new ToolbarGroup(100)
-                                  {new ToolbarAction(this, "Logout", (Func<IEnumerable<IResult>>) Logout)};
+            var logoutGroup = new ToolbarGroup(100) { new ToolbarAction(this, "Logout", (Func<IEnumerable<IResult>>)Logout) };
 
             Toolbar.Clear();
             Toolbar.AddGroup(mainGroup);

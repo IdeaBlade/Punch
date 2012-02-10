@@ -99,9 +99,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Cocktail.Utils\Cocktail.Utils.Desktop.csproj">
+    <ProjectReference Include="..\..\..\Cocktail.Utils\Cocktail.Utils.csproj">
       <Project>{261E777A-1FE0-455E-87FD-DDB95B2757AA}</Project>
-      <Name>Cocktail.Utils.Desktop</Name>
+      <Name>Cocktail.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

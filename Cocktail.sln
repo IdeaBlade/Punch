@@ -9,17 +9,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktail.Tests.SL", "Test P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktail.Utils.SL", "Cocktail.Utils\Cocktail.Utils.SL.csproj", "{761B386E-02D2-45DE-B485-1545D50F148F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktail.Utils.Desktop", "Cocktail.Utils\Cocktail.Utils.Desktop.csproj", "{261E777A-1FE0-455E-87FD-DDB95B2757AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktail.Utils", "Cocktail.Utils\Cocktail.Utils.csproj", "{261E777A-1FE0-455E-87FD-DDB95B2757AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktail.SL", "Cocktail\Cocktail.SL.csproj", "{7ECA6212-BDB6-4325-946E-97D9C227E468}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktail.Desktop", "Cocktail\Cocktail.Desktop.csproj", "{10F63FBB-FB0D-4B76-9E3F-5979D19CB01F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktail", "Cocktail\Cocktail.csproj", "{10F63FBB-FB0D-4B76-9E3F-5979D19CB01F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Model.Desktop", "Test Projects\Test.Model\Test.Model.Desktop.csproj", "{12BEA1AF-5380-4024-BEDD-C914B0C15178}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Model", "Test Projects\Test.Model\Test.Model.csproj", "{12BEA1AF-5380-4024-BEDD-C914B0C15178}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Model.SL", "Test Projects\Test.Model\Test.Model.SL.csproj", "{B920BE08-ECDB-42CE-AD08-4D2B6426A2FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktail.Tests.Desktop", "Test Projects\Cocktail.Tests\Cocktail.Tests.Desktop.csproj", "{7E2FF932-5278-4092-8CAA-1EE7EC22A405}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktail.Tests", "Test Projects\Cocktail.Tests\Cocktail.Tests.csproj", "{7E2FF932-5278-4092-8CAA-1EE7EC22A405}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8C488C7E-C1A3-4FD6-96FF-D2517804A514}"
 	ProjectSection(SolutionItems) = preProject

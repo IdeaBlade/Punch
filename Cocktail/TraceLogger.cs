@@ -83,7 +83,7 @@ namespace Cocktail
         }
     }
 
-    /// <summary>Internal use."</summary>
+    /// <summary>Internal use.</summary>
     public sealed class TraceLoggerProvider : ITraceLoggerProvider
     {
         #region ITraceLoggerProvider Members

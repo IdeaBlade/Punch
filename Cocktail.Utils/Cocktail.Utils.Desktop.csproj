@@ -63,7 +63,7 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(SolutionDir)Bin\Desktop\$(ConfigurationName)"
-copy "$(TargetDir)\$(TargetName).*" "$(SolutionDir)Bin\Desktop\$(ConfigurationName)"</PostBuildEvent>
+copy "$(TargetDir)$(TargetName).*" "$(SolutionDir)Bin\Desktop\$(ConfigurationName)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -17,13 +17,15 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
+using Common.Messages;
 using Common.Repositories;
 using DomainModel.Projections;
+using IdeaBlade.EntityModel;
 
 namespace TempHire.ViewModels.StaffingResource
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class StaffingResourceSearchViewModel : Screen, IDiscoverableViewModel, IHarnessAware
+    public class StaffingResourceSearchViewModel : Screen, IDiscoverableViewModel, IHarnessAware, IHandle<SavedMessage>
     {
         private readonly IErrorHandler _errorHandler;
         private readonly IStaffingResourceRepository _repository;
@@ -129,6 +131,32 @@ namespace TempHire.ViewModels.StaffingResource
         {
             if (e.Key == Key.Enter)
                 Search();
+        }
+
+        public void Handle(SavedMessage message)
+        {
+            // If selected staffing resource is detached now, that means it got deleted.
+            var wasDeleted = message.Entities
+                .OfType<DomainModel.StaffingResource>()
+                .Any(r => r.EntityFacts.EntityState.IsDetached() && r.Id == CurrentStaffingResource.Id);
+
+            if (wasDeleted)
+            {
+                Search();
+                return;
+            }
+
+            if (CurrentStaffingResource != null)
+            {
+                Search(CurrentStaffingResource.Id);
+                return;
+            }
+
+            var newStaffResource = message.Entities
+                .OfType<DomainModel.StaffingResource>()
+                .FirstOrDefault();
+            if (newStaffResource != null)
+                Search(newStaffResource.Id);
         }
     }
 }

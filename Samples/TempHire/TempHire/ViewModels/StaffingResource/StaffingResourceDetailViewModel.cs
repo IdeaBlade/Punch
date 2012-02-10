@@ -172,14 +172,25 @@ namespace TempHire.ViewModels.StaffingResource
             if (Repository.HasChanges())
             {
                 var dialogResult =
-                    _dialogManager.ShowMessage("There are unsaved changes. Would you like to continue?",
-                                               DialogButtons.YesNo);
+                    _dialogManager.ShowMessage("There are unsaved changes. Would you like to save your changes?",
+                                               DialogButtons.YesNoCancel);
                 dialogResult.OnComplete(delegate
                                             {
                                                 if (dialogResult.DialogResult == DialogResult.Yes)
-                                                    Repository.RejectChanges();
+                                                {
+                                                    Busy.AddWatch();
+                                                    Repository.SaveAsync(() => callback(true), _errorHandler.HandleError)
+                                                        .OnComplete(args => Busy.RemoveWatch());
+                                                }
 
-                                                callback(dialogResult.DialogResult == DialogResult.Yes);
+                                                if (dialogResult.DialogResult == DialogResult.No)
+                                                {
+                                                    Repository.RejectChanges();
+                                                    callback(true);
+                                                }
+
+                                                if (dialogResult.DialogResult == DialogResult.Cancel)
+                                                    callback(false);
                                             });
             }
             else

@@ -10,34 +10,33 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using Caliburn.Micro;
-using Cocktail;
-using Common;
-using Common.EntityManagerProviders;
-using DomainModel;
-using Security;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Interactivity;
 
-namespace TempHire
+namespace Common.Behaviors
 {
-    public class AppBootstrapper : BootstrapperBase<HarnessViewModel>
+    public class SelectAllOnFocusBehavior : Behavior<TextBox>
     {
-        [Import]
-        public IEntityManagerProvider<TempHireEntities> EntityManagerProvider;
-
-        protected override IEnumerable<IResult> StartRuntimeAsync()
+        protected override void OnAttached()
         {
-            yield return EntityManagerProvider.InitializeFakeBackingStoreAsync();
+            base.OnAttached();
+            AssociatedObject.GotFocus += AssociatedObjectOnGotFocus;
         }
 
-        protected override void PrepareCompositionContainer(CompositionBatch batch)
+        private void AssociatedObjectOnGotFocus(object sender, RoutedEventArgs routedEventArgs)
         {
-            base.PrepareCompositionContainer(batch);
+            if (sender is TextBox)
+            {
+                var textBox = sender as TextBox;
+                textBox.SelectAll();
+            }
+        }
 
-            batch.AddExportedValue<IEntityManagerProvider<TempHireEntities>>(new DevTempHireEntityManagerProvider());
-            batch.AddExportedValue<IEntityManagerProvider<SecurityEntities>>(new DevSecurityEntityManagerProvider());
+        protected override void OnDetaching()
+        {
+            base.OnDetaching();
+            AssociatedObject.GotFocus -= AssociatedObjectOnGotFocus;
         }
     }
 }

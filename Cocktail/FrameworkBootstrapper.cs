@@ -70,16 +70,6 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Called by the bootstrapper's constructor at runtime to start the framework.
-        /// </summary>
-        protected override void StartRuntime()
-        {
-            base.StartRuntime();
-
-            ConfigureAsync().ToSequentialResult().Execute(OnComplete);
-        }
-
-        /// <summary>
         /// Configures the framework and sets up the IoC container.
         /// </summary>
         protected override void Configure()
@@ -98,15 +88,25 @@ namespace Cocktail
         }
 
         /// <summary>
+        /// Called by the bootstrapper's constructor at runtime to start the framework.
+        /// </summary>
+        protected override void StartRuntime()
+        {
+            base.StartRuntime();
+
+            StartRuntimeAsync().ToSequentialResult().Execute(OnComplete);
+        }
+
+        /// <summary>
         /// Provides an opportunity to perform asynchronous configuration at runtime.
         /// </summary>
-        protected virtual IEnumerable<IResult> ConfigureAsync()
+        protected virtual IEnumerable<IResult> StartRuntimeAsync()
         {
             yield return AlwaysCompletedOperationResult.Instance;
         }
 
         /// <summary>
-        /// Calls action when <see cref="ConfigureAsync"/> completes. 
+        /// Calls action when <see cref="StartRuntimeAsync"/> completes. 
         /// </summary>
         /// <param name="completedAction">Action to be performed when configuration completes.</param>
         protected void WhenCompleted(Action completedAction)

@@ -8,6 +8,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
              xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+             d:DataContext="{Binding Source={StaticResource ViewModelLocator},
+                                     Path=StaffingResourceSkillsViewModel}"
              d:DesignHeight="292"
              d:DesignWidth="640"
              mc:Ignorable="d">

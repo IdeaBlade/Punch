@@ -29,7 +29,7 @@ namespace Common.Behaviors
             if (sender is TextBox)
             {
                 var textBox = sender as TextBox;
-                textBox.SelectAll();
+                textBox.Dispatcher.BeginInvoke(textBox.SelectAll);
             }
         }
 

@@ -30,11 +30,12 @@ namespace Common.Behaviors
                 var grid = (sender as DataGrid);
                 if (grid.SelectedItem != null)
                 {
-                    grid.Dispatcher.BeginInvoke(delegate
-                                                    {
-                                                        grid.UpdateLayout();
-                                                        grid.ScrollIntoView(grid.SelectedItem, null);
-                                                    });
+                    grid.Dispatcher.BeginInvoke(
+                        () =>
+                        {
+                            grid.UpdateLayout();
+                            grid.ScrollIntoView(grid.SelectedItem, null);
+                        });
                 }
             }
         }

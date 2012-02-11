@@ -8,6 +8,8 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+             d:DataContext="{Binding Source={StaticResource ViewModelLocator},
+                                     Path=StaffingResourceAddressListViewModel}"
              d:DesignHeight="492"
              d:DesignWidth="741"
              mc:Ignorable="d">

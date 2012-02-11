@@ -24,6 +24,12 @@ namespace TempHire
 {
     public class AppBootstrapper : BootstrapperBase<HarnessViewModel>
     {
+        static AppBootstrapper()
+        {
+            Composition.EnableDesignTimeSupport<TempHireEntities>();            
+            Composition.EnableDesignTimeSupport<SecurityEntities>();
+        }
+
         [Import]
         public IEntityManagerProvider<TempHireEntities> EntityManagerProvider;
 
@@ -39,5 +45,6 @@ namespace TempHire
             batch.AddExportedValue<IEntityManagerProvider<TempHireEntities>>(new DevTempHireEntityManagerProvider());
             batch.AddExportedValue<IEntityManagerProvider<SecurityEntities>>(new DevSecurityEntityManagerProvider());
         }
+
     }
 }

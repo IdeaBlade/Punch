@@ -16,12 +16,19 @@ using Caliburn.Micro;
 using Cocktail;
 using Common;
 using DomainModel;
+using Security;
 using TempHire.ViewModels;
 
 namespace TempHire
 {
     public class AppBootstrapper : BootstrapperBase<ShellViewModel>
     {
+        static AppBootstrapper()
+        {
+            Composition.EnableDesignTimeSupport<TempHireEntities>();
+            Composition.EnableDesignTimeSupport<SecurityEntities>();
+        }
+
 #if FAKESTORE
         [Import]
         public ExportFactory<IEntityManagerProvider<TempHireEntities>> EntityManagerProviderFactory;

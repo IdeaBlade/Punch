@@ -52,8 +52,8 @@
     <Reference Include="IdeaBlade.Linq, Version=6.1.5.1, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="IdeaBlade.TestFramework.Desktop">
-      <HintPath>..\..\packages\IbAsyncTest.1.0\lib\net40\IdeaBlade.TestFramework.Desktop.dll</HintPath>
+    <Reference Include="IdeaBlade.TestFramework">
+      <HintPath>..\..\packages\IbAsyncTest.1.0.1\lib\net40\IdeaBlade.TestFramework.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation, Version=6.1.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -24,11 +24,6 @@
         </toolkit:BusyIndicator.BusyContent>
 
         <Border x:Name="Visible">
-            <!--
-                <ScrollViewer BorderThickness="0"
-                HorizontalScrollBarVisibility="Disabled"
-                VerticalScrollBarVisibility="Auto">
-            -->
             <Grid x:Name="LayoutRoot" Background="White">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -50,7 +45,6 @@
                     </sdk:TabControl.Effect>
                 </sdk:TabControl>
             </Grid>
-            <!--  </ScrollViewer>  -->
         </Border>
     </toolkit:BusyIndicator>
 </UserControl>

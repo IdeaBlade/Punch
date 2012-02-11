@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cocktail;
-using Common.BusyWatcher;
 using Common.Errors;
 using Common.Repositories;
 using Common.SampleData;
@@ -11,30 +10,30 @@ using DomainModel;
 using TempHire.Authentication;
 using TempHire.ViewModels;
 using TempHire.ViewModels.Login;
-using TempHire.ViewModels.Resource;
+using TempHire.ViewModels.StaffingResource;
 
 namespace TempHire.DesignTimeSupport
 {
     public class ViewModelLocator : DesignTimeViewModelLocatorBase<TempHireEntities>
     {
-        public ResourceAddressListViewModel ResourceAddressListViewModel
+        public StaffingResourceAddressListViewModel StaffingResourceAddressListViewModel
         {
             get
             {
-                return (ResourceAddressListViewModel)
-                       new ResourceAddressListViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
+                return (StaffingResourceAddressListViewModel)
+                       new StaffingResourceAddressListViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
                                                         null, DesignTimeErrorHandler.Instance,
                                                         DesignTimeDialogManager.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
 
-        public ResourceSummaryViewModel ResourceSummaryViewModel
+        public StaffingResourceSummaryViewModel StaffingResourceSummaryViewModel
         {
             get
             {
-                return (ResourceSummaryViewModel)
-                       new ResourceSummaryViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider), null,
+                return (StaffingResourceSummaryViewModel)
+                       new StaffingResourceSummaryViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider), null,
                                                     DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
@@ -50,22 +49,22 @@ namespace TempHire.DesignTimeSupport
             }
         }
 
-        public ResourceNameEditorViewModel ResourceNameEditorViewModel
+        public StaffingResourceNameEditorViewModel StaffingResourceNameEditorViewModel
         {
             get
             {
-                return new ResourceNameEditorViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
+                return new StaffingResourceNameEditorViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
                                                        DesignTimeErrorHandler.Instance)
                     .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
 
-        public ResourcePhoneListViewModel ResourcePhoneListViewModel
+        public StaffingResourcePhoneListViewModel StaffingResourcePhoneListViewModel
         {
             get
             {
-                return (ResourcePhoneListViewModel)
-                       new ResourcePhoneListViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
+                return (StaffingResourcePhoneListViewModel)
+                       new StaffingResourcePhoneListViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
                                                       null, DesignTimeErrorHandler.Instance,
                                                       DesignTimeDialogManager.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
@@ -82,52 +81,42 @@ namespace TempHire.DesignTimeSupport
             }
         }
 
-        public ResourceDetailViewModel ResourceDetailViewModel
+        public StaffingResourceDetailViewModel StaffingResourceDetailViewModel
         {
             get
             {
                 var rm = new DesignTimeResourceRepositoryManager(EntityManagerProvider);
-                return new ResourceDetailViewModel(rm,
-                                                   new ResourceSummaryViewModel(rm, null,
-                                                                                DesignTimeErrorHandler.Instance,
-                                                                                DesignTimeDialogManager.Instance),
-                                                   new IResourceDetailSection[]
-                                                       {
-                                                           new ResourceContactInfoViewModel(
-                                                               new ResourceAddressListViewModel(rm, null,
-                                                                                                DesignTimeErrorHandler.
-                                                                                                    Instance,
-                                                                                                DesignTimeDialogManager.
-                                                                                                    Instance),
-                                                               new ResourcePhoneListViewModel(rm, null,
-                                                                                              DesignTimeErrorHandler.
-                                                                                                  Instance,
-                                                                                              DesignTimeDialogManager.
-                                                                                                  Instance)),
-                                                           new ResourceRatesViewModel(rm, null,
-                                                                                      DesignTimeErrorHandler.Instance,
-                                                                                      DesignTimeDialogManager.Instance)
-                                                           ,
-                                                           new ResourceWorkExperienceViewModel(rm,
-                                                                                               DesignTimeErrorHandler.
-                                                                                                   Instance),
-                                                           new ResourceSkillsViewModel(rm,
-                                                                                       DesignTimeErrorHandler.Instance)
-                                                       },
-                                                   DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance,
-                                                   new BusyWatcher())
+                return new StaffingResourceDetailViewModel(
+                    rm,
+                    new StaffingResourceSummaryViewModel(rm, null, DesignTimeErrorHandler.Instance,
+                                                         DesignTimeDialogManager.Instance),
+                    new IStaffingResourceDetailSection[]
+                        {
+                            new StaffingResourceContactInfoViewModel(
+                                new StaffingResourceAddressListViewModel(rm, null, DesignTimeErrorHandler.Instance,
+                                                                         DesignTimeDialogManager.Instance),
+                                new StaffingResourcePhoneListViewModel(rm, null, DesignTimeErrorHandler.Instance,
+                                                                       DesignTimeDialogManager.Instance)),
+                            new StaffingResourceRatesViewModel(rm, null, DesignTimeErrorHandler.Instance,
+                                                               DesignTimeDialogManager.Instance)
+                            ,
+                            new StaffingResourceWorkExperienceViewModel(rm, DesignTimeErrorHandler.Instance),
+                            new StaffingResourceSkillsViewModel(rm, DesignTimeErrorHandler.Instance)
+                        },
+                    DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance)
                     .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
 
-        public ResourceRatesViewModel ResourceRatesViewModel
+        public StaffingResourceRatesViewModel StaffingResourceRatesViewModel
         {
             get
             {
-                return (ResourceRatesViewModel)
-                       new ResourceRatesViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider), null,
-                                                  DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance).
-                           Start(TempHireSampleDataProvider.CreateGuid(1));
+                return (StaffingResourceRatesViewModel)
+                       new StaffingResourceRatesViewModel(
+                           new DesignTimeResourceRepositoryManager(EntityManagerProvider),
+                           null, DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance)
+                           .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
 
@@ -142,48 +131,48 @@ namespace TempHire.DesignTimeSupport
             }
         }
 
-        public ResourceWorkExperienceViewModel ResourceWorkExperienceViewModel
+        public StaffingResourceWorkExperienceViewModel StaffingResourceWorkExperienceViewModel
         {
             get
             {
-                return (ResourceWorkExperienceViewModel)
-                       new ResourceWorkExperienceViewModel(
+                return (StaffingResourceWorkExperienceViewModel)
+                       new StaffingResourceWorkExperienceViewModel(
                            new DesignTimeResourceRepositoryManager(EntityManagerProvider),
                            DesignTimeErrorHandler.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
 
-        public ResourceSkillsViewModel ResourceSkillsViewModel
+        public StaffingResourceSkillsViewModel StaffingResourceSkillsViewModel
         {
             get
             {
-                return (ResourceSkillsViewModel)
-                       new ResourceSkillsViewModel(
+                return (StaffingResourceSkillsViewModel)
+                       new StaffingResourceSkillsViewModel(
                            new DesignTimeResourceRepositoryManager(EntityManagerProvider),
                            DesignTimeErrorHandler.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
 
-        public ResourceSearchViewModel ResourceSearchViewModel
+        public StaffingResourceSearchViewModel StaffingResourceSearchViewModel
         {
             get
             {
-                return new ResourceSearchViewModel(new ResourceRepository(EntityManagerProvider),
-                                                   DesignTimeErrorHandler.Instance, new BusyWatcher()).Start();
+                return new StaffingResourceSearchViewModel(new StaffingResourceRepository(EntityManagerProvider),
+                                                           DesignTimeErrorHandler.Instance).Start();
             }
         }
 
-        public ResourceManagementViewModel ResourceManagementViewModel
+        public StaffingResourceManagementViewModel StaffingResourceManagementViewModel
         {
             get
             {
                 var rm = new DesignTimeResourceRepositoryManager(EntityManagerProvider);
                 return
-                    new ResourceManagementViewModel(
-                        new ResourceSearchViewModel(new ResourceRepository(EntityManagerProvider),
-                                                    DesignTimeErrorHandler.Instance, new BusyWatcher()), null, null, rm,
+                    new StaffingResourceManagementViewModel(
+                        new StaffingResourceSearchViewModel(new StaffingResourceRepository(EntityManagerProvider),
+                                                            DesignTimeErrorHandler.Instance), null, null, rm,
                         DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance, null);
             }
         }
@@ -194,7 +183,7 @@ namespace TempHire.DesignTimeSupport
             {
                 return
                     new ShellViewModel(new List<IWorkspace>(), new ToolbarManager(), new FakeAuthenticationService(),
-                                       null, new BusyWatcher()).Start();
+                                       null).Start();
             }
         }
 
@@ -202,8 +191,7 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                return new LoginViewModel(new FakeAuthenticationService(), null, null, new BusyWatcher(),
-                                          DesignTimeErrorHandler.Instance)
+                return new LoginViewModel(new FakeAuthenticationService(), null, null, DesignTimeErrorHandler.Instance)
                            {FailureMessage = "FailureMessage at design time"};
             }
         }
@@ -224,21 +212,35 @@ namespace TempHire.DesignTimeSupport
                 get { return _instance ?? (_instance = new DesignTimeDialogManager()); }
             }
 
-            #region IDialogManager Members
-
-            public DialogOperationResult ShowDialog(object content, DialogButtons dialogButtons = DialogButtons.OkCancel,
-                                                    string title = null)
+            public DialogOperationResult<T> ShowDialog<T>(object content, IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult ShowMessage(string message, DialogButtons dialogButtons = DialogButtons.Ok,
-                                                     string title = null)
+            public DialogOperationResult<T> ShowDialog<T>(object content, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            #endregion
+            public DialogOperationResult<DialogResult> ShowDialog(object content, IEnumerable<DialogResult> dialogButtons, string title = null)
+            {
+                throw new NotImplementedException();
+            }
+
+            public DialogOperationResult<T> ShowMessage<T>(string message, IEnumerable<T> dialogButtons, string title = null)
+            {
+                throw new NotImplementedException();
+            }
+
+            public DialogOperationResult<T> ShowMessage<T>(string message, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
+            {
+                throw new NotImplementedException();
+            }
+
+            public DialogOperationResult<DialogResult> ShowMessage(string message, IEnumerable<DialogResult> dialogButtons, string title = null)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         #endregion

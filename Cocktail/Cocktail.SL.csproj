@@ -17,6 +17,10 @@
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <BaseOutputPath>Bin.SL</BaseOutputPath>
+    <IntermediateOutputPath>obj.SL\$(Configuration)</IntermediateOutputPath>
+    <OutputPath>$(BaseOutputPath)\$(Configuration)</OutputPath>
+    <DocumentationFile>$(BaseOutputPath)\$(Configuration)\Cocktail.SL.xml</DocumentationFile>
     <SkipPostSharp>True</SkipPostSharp>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -30,24 +34,20 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Bin.SL\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin.SL\Debug\Cocktail.SL.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Bin.SL\Release\</OutputPath>
     <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin.SL\Release\Cocktail.SL.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>

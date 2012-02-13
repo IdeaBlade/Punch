@@ -29,6 +29,9 @@
     <UsePlatformExtensions>false</UsePlatformExtensions>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <LinkedServerProject />
+    <BaseOutputPath>Bin.SL5</BaseOutputPath>
+    <IntermediateOutputPath>obj.SL5\$(Configuration)</IntermediateOutputPath>
+    <OutputPath>$(BaseOutputPath)\$(Configuration)</OutputPath>
     <SkipPostSharp>True</SkipPostSharp>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -57,7 +60,6 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Bin.SL\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -67,7 +69,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Bin.SL\Release\</OutputPath>
     <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>

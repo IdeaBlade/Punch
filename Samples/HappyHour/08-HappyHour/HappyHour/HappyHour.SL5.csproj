@@ -132,7 +132,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Cocktail\Cocktail.SL.csproj">
       <Project>{7ECA6212-BDB6-4325-946E-97D9C227E468}</Project>
-      <Name>Cocktail.SL</Name>
+      <Name>Cocktail.SL5</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model.SL\Model.SL.csproj">
       <Project>{2FAE104B-C54A-4FBC-B166-9208B30BD4D5}</Project>

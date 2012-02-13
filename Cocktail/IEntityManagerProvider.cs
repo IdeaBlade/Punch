@@ -19,13 +19,6 @@ namespace Cocktail
     public interface IEntityManagerProvider
     {
         /// <summary>
-        /// Signals that a Save of at least one entity has been performed
-        /// or changed entities have been imported from another entity manager.
-        /// Clients may use this event to force a data refresh. 
-        /// </summary>
-        event EventHandler<DataChangedEventArgs> DataChanged;
-
-        /// <summary>
         /// Returns true if the last save operation aborted due to a validation error.
         /// </summary>
         bool HasValidationError { get; }
@@ -35,6 +28,23 @@ namespace Cocktail
         /// if EntityManager.SaveChangesAsync is called while a previous SaveChangesAsync is still in progress.
         /// </summary>
         bool IsSaving { get; }
+
+        /// <summary>
+        /// Returns the EntityManager managed by this provider.
+        /// </summary>
+        EntityManager Manager { get; }
+
+        /// <summary>
+        /// Signals that a Save of at least one entity has been performed
+        /// or changed entities have been imported from another entity manager.
+        /// Clients may use this event to force a data refresh. 
+        /// </summary>
+        event EventHandler<DataChangedEventArgs> DataChanged;
+
+        /// <summary>
+        /// Event fired after the EntityManager got created.
+        /// </summary>
+        event EventHandler<EventArgs> ManagerCreated;
     }
 
     /// <summary>Generic interface identifying an EntityManagerProvider.</summary>
@@ -43,11 +53,6 @@ namespace Cocktail
         where T : EntityManager
     {
         /// <summary>Returns the EntityManager managed by this provider.</summary>
-        T Manager { get; }
-
-        /// <summary>
-        /// Event fired after the EntityManager got created.
-        /// </summary>
-        event EventHandler<EventArgs> ManagerCreated;
+        new T Manager { get; }
     }
 }

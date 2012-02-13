@@ -1,9 +1,9 @@
 
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyHour", "HappyHour\HappyHour.csproj", "{EF81CCCA-616B-4AEB-8779-42EDC1BCE165}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyHour.SL5", "HappyHour\HappyHour.SL5.csproj", "{EF81CCCA-616B-4AEB-8779-42EDC1BCE165}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktail.SL", "..\..\..\Cocktail\Cocktail.SL.csproj", "{7ECA6212-BDB6-4325-946E-97D9C227E468}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktail.SL5", "..\..\..\Cocktail\Cocktail.SL5.csproj", "{7ECA6212-BDB6-4325-946E-97D9C227E468}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Supporting Projects", "Supporting Projects", "{3365D23D-7CEB-46C3-B836-1AFAF841F90D}"
 EndProject

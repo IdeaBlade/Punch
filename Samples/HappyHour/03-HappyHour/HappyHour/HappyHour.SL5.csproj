@@ -109,7 +109,7 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Cocktail\Cocktail.SL.csproj">
+    <ProjectReference Include="..\..\..\..\Cocktail\Cocktail.SL5.csproj">
       <Project>{7ECA6212-BDB6-4325-946E-97D9C227E468}</Project>
       <Name>Cocktail.SL5</Name>
     </ProjectReference>

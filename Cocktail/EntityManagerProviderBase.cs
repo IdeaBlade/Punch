@@ -167,6 +167,11 @@ namespace Cocktail
             }
         }
 
+        EntityManager IEntityManagerProvider.Manager
+        {
+            get { return Manager; }
+        }
+
         /// <summary>
         /// Triggers the ManagerCreated event.
         /// </summary>

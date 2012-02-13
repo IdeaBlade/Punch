@@ -22,7 +22,6 @@
     <Style x:Key="DefaultButton" TargetType="Button">
         <Setter Property="FontFamily" Value="/HappyHour;component/assets/SegoeWP.ttf#Segoe WP" />
         <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="CharacterSpacing" Value="300" />
     </Style>
 
     <!--  Implicit Styles  -->

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -29,6 +29,8 @@
     <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
     <UsePlatformExtensions>false</UsePlatformExtensions>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <OutputPath>Bin.SL5\$(Configuration)</OutputPath>
+    <IntermediateOutputPath>obj.SL5\$(Configuration)</IntermediateOutputPath>
     <LinkedServerProject>
     </LinkedServerProject>
   </PropertyGroup>
@@ -42,7 +44,6 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Bin\Debug</OutputPath>
     <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -52,7 +53,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Bin\Release</OutputPath>
     <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -68,9 +68,7 @@
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -108,11 +106,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Cocktail\Cocktail.SL.csproj">
+    <ProjectReference Include="..\..\..\..\Cocktail\Cocktail.SL5.csproj">
       <Project>{7ECA6212-BDB6-4325-946E-97D9C227E468}</Project>
-      <Name>Cocktail.SL</Name>
+      <Name>Cocktail.SL5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Model.SL\Model.SL.csproj">
+    <ProjectReference Include="..\Model.SL\Model.SL5.csproj">
       <Project>{2FAE104B-C54A-4FBC-B166-9208B30BD4D5}</Project>
       <Name>Model.SL</Name>
     </ProjectReference>

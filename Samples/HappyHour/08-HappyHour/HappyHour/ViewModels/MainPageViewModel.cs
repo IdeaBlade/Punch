@@ -19,7 +19,6 @@ namespace HappyHour.ViewModels
                                           ImageFilename = "select_drink.png"
                                       };        
             Beverages.Add(PlaceHolderBeverage);
-            SelectedBeverage = PlaceHolderBeverage;
         }
 
         private IBeverageRepository Repository { get; set; }
@@ -30,6 +29,7 @@ namespace HappyHour.ViewModels
         protected override void OnInitialize()
         {
             Beverages.AddRange(Repository.FindAll()); // ToDo: Async version
+            SelectedBeverage = PlaceHolderBeverage;
             ReadyForNewDrink();
         }
 
@@ -40,7 +40,7 @@ namespace HappyHour.ViewModels
             set
             {
                 if (_selectedBeverage == value) return;// short circuit if no change
-                _selectedBeverage = value;
+                _selectedBeverage = value ?? PlaceHolderBeverage;
                 NotifyOfPropertyChange("SelectedBeverage");
                 NotifyOfPropertyChange(() => CanAddDrinkOrder);
                 AddDrinkOrder();

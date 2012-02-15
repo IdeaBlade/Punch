@@ -20,30 +20,31 @@ namespace Common.Repositories
 {
     public interface IStaffingResourceRepository : IRepository
     {
-        OperationResult CreateStaffingResourceAsync(string firstName, string middleName, string lastName,
-                                                    Action<StaffingResource> onSuccess = null,
-                                                    Action<Exception> onFail = null);
+        OperationResult<StaffingResource> CreateStaffingResourceAsync(
+            string firstName, string middleName, string lastName, Action<StaffingResource> onSuccess = null,
+            Action<Exception> onFail = null);
 
-        OperationResult GetAllStaffingResourcesAsync(Action<IEnumerable<StaffingResource>> onSuccess = null,
-                                                     Action<Exception> onFail = null);
+        OperationResult<IEnumerable<StaffingResource>> GetAllStaffingResourcesAsync(
+            Action<IEnumerable<StaffingResource>> onSuccess = null, Action<Exception> onFail = null);
 
-        OperationResult GetStaffingResourceAsync(Guid staffingResourceId, Action<StaffingResource> onSuccess = null,
-                                                 Action<Exception> onFail = null);
+        OperationResult<IEnumerable<StaffingResource>> GetStaffingResourceAsync(
+            Guid staffingResourceId, Action<StaffingResource> onSuccess = null, Action<Exception> onFail = null);
 
-        OperationResult GetAddressTypesAsync(Action<IEnumerable<AddressType>> onSuccess = null,
-                                             Action<Exception> onFail = null);
+        OperationResult<IEnumerable<AddressType>> GetAddressTypesAsync(
+            Action<IEnumerable<AddressType>> onSuccess = null, Action<Exception> onFail = null);
 
-        OperationResult GetPhoneTypesAsync(Action<IEnumerable<PhoneNumberType>> onSuccess = null,
-                                           Action<Exception> onFail = null);
+        OperationResult<IEnumerable<PhoneNumberType>> GetPhoneTypesAsync(
+            Action<IEnumerable<PhoneNumberType>> onSuccess = null, Action<Exception> onFail = null);
 
-        OperationResult GetRateTypesAsync(Action<IEnumerable<RateType>> onSuccess = null,
-                                          Action<Exception> onFail = null);
+        OperationResult<IEnumerable<RateType>> GetRateTypesAsync(
+            Action<IEnumerable<RateType>> onSuccess = null, Action<Exception> onFail = null);
 
-        OperationResult GetStatesAsync(Action<IEnumerable<State>> onSuccess = null, Action<Exception> onFail = null);
+        OperationResult<IEnumerable<State>> GetStatesAsync(Action<IEnumerable<State>> onSuccess = null,
+                                                           Action<Exception> onFail = null);
 
-        OperationResult FindStaffingResourcesAsync(string searchText, string orderBy,
-                                                   Action<IEnumerable<StaffingResourceListItem>> onSuccess = null,
-                                                   Action<Exception> onFail = null);
+        OperationResult<IEnumerable<StaffingResourceListItem>> FindStaffingResourcesAsync(
+            string searchText, string orderBy, Action<IEnumerable<StaffingResourceListItem>> onSuccess = null,
+            Action<Exception> onFail = null);
 
         OperationResult DeleteStaffingResourceAsync(Guid staffingResourceId, Action onSuccess = null,
                                                     Action<Exception> onFail = null);

@@ -11,6 +11,7 @@
 //====================================================================================================================
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Caliburn.Micro;
 using IdeaBlade.EntityModel;
@@ -41,6 +42,138 @@ namespace Cocktail
         public static OperationResult AsOperationResult(this INotifyCompleted asyncOp)
         {
             return new OperationResult(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<object> AsOperationResult(this CoroutineOperation asyncOp)
+        {
+            return new CoroutineOperationResult<object>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<T> AsOperationResult<T>(this CoroutineOperation asyncOp)
+        {
+            return new CoroutineOperationResult<T>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<IEnumerable> AsOperationResult(this EntityQueryOperation asyncOp)
+        {
+            return new EntityQueryOperationResult(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<IEnumerable<T>> AsOperationResult<T>(this EntityQueryOperation asyncOp)
+        {
+            return new EntityQueryOperationResult<T>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<IEnumerable<T>> AsOperationResult<T>(this EntityQueryOperation<T> asyncOp)
+        {
+            return new EntityQueryOperationResult<T>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<IEnumerable> AsOperationResult(this EntityRefetchOperation asyncOp)
+        {
+            return new EntityRefetchOperationResult(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<SaveResult> AsOperationResult(this EntitySaveOperation asyncOp)
+        {
+            return new EntitySaveOperationResult(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<object> AsOperationResult(this EntityScalarQueryOperation asyncOp)
+        {
+            return new EntityScalarQueryOperationResult<object>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<T> AsOperationResult<T>(this EntityScalarQueryOperation asyncOp)
+        {
+            return new EntityScalarQueryOperationResult<T>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<T> AsOperationResult<T>(this EntityScalarQueryOperation<T> asyncOp)
+        {
+            return new EntityScalarQueryOperationResult<T>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<object> AsOperationResult(this InvokeServerMethodOperation asyncOp)
+        {
+            return new InvokeServerMethodOperationResult<object>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<T> AsOperationResult<T>(this InvokeServerMethodOperation asyncOp)
+        {
+            return new InvokeServerMethodOperationResult<T>(asyncOp);
         }
 
         /// <summary>

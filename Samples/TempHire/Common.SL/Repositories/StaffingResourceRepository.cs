@@ -22,7 +22,7 @@ using IdeaBlade.Linq;
 
 namespace Common.Repositories
 {
-    [Export(typeof (IStaffingResourceRepository))]
+    [Export(typeof(IStaffingResourceRepository))]
     public class StaffingResourceRepository : RepositoryBase<TempHireEntities>, IStaffingResourceRepository
     {
         [ImportingConstructor]
@@ -36,29 +36,28 @@ namespace Common.Repositories
 
         #region IStaffingResourceRepository Members
 
-        public OperationResult CreateStaffingResourceAsync(string firstName, string middleName, string lastName,
-                                                           Action<StaffingResource> onSuccess = null,
-                                                           Action<Exception> onFail = null)
+        public OperationResult<StaffingResource> CreateStaffingResourceAsync(
+            string firstName, string middleName, string lastName, Action<StaffingResource> onSuccess = null,
+            Action<Exception> onFail = null)
         {
             return Coroutine.Start(() => CreateResourceCore(firstName, middleName, lastName),
                                    op => op.OnComplete(onSuccess, onFail))
-                .AsOperationResult();
+                .AsOperationResult<StaffingResource>();
         }
 
-        public OperationResult GetAllStaffingResourcesAsync(Action<IEnumerable<StaffingResource>> onSuccess = null,
-                                                            Action<Exception> onFail = null)
+        public OperationResult<IEnumerable<StaffingResource>> GetAllStaffingResourcesAsync(
+            Action<IEnumerable<StaffingResource>> onSuccess = null, Action<Exception> onFail = null)
         {
             IEntityQuery<StaffingResource> query =
                 Manager.StaffingResources.OrderBy(r => r.LastName).ThenBy(r => r.FirstName);
             return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public OperationResult GetStaffingResourceAsync(Guid staffingResourceId,
-                                                        Action<StaffingResource> onSuccess = null,
-                                                        Action<Exception> onFail = null)
+        public OperationResult<IEnumerable<StaffingResource>> GetStaffingResourceAsync(
+            Guid staffingResourceId, Action<StaffingResource> onSuccess = null, Action<Exception> onFail = null)
         {
             // Execute as IEntityQuery instead of IEntityScalarQuery in order to be cacheable. 
-            // IEntityScalarQuery is always satisfied from the Datasource.
+            // IEntityScalarQuery is always satisfied from the data source.
             IEntityQuery<StaffingResource> query = Manager.StaffingResources
                 .Where(r => r.Id == staffingResourceId)
                 .Include(r => r.Addresses)
@@ -69,31 +68,32 @@ namespace Common.Repositories
                                 onFail);
         }
 
-        public OperationResult GetAddressTypesAsync(Action<IEnumerable<AddressType>> onSuccess = null,
-                                                    Action<Exception> onFail = null)
+        public OperationResult<IEnumerable<AddressType>> GetAddressTypesAsync(
+            Action<IEnumerable<AddressType>> onSuccess = null,
+            Action<Exception> onFail = null)
         {
             IEntityQuery<AddressType> query = Manager.AddressTypes.OrderBy(t => t.Name).With(BaseDataQueryStrategy);
             return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public OperationResult GetPhoneTypesAsync(Action<IEnumerable<PhoneNumberType>> onSuccess = null,
-                                                  Action<Exception> onFail = null)
+        public OperationResult<IEnumerable<PhoneNumberType>> GetPhoneTypesAsync(
+            Action<IEnumerable<PhoneNumberType>> onSuccess = null, Action<Exception> onFail = null)
         {
             IEntityQuery<PhoneNumberType> query =
                 Manager.PhoneNumberTypes.OrderBy(t => t.Name).With(BaseDataQueryStrategy);
             return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public OperationResult GetRateTypesAsync(Action<IEnumerable<RateType>> onSuccess = null,
-                                                 Action<Exception> onFail = null)
+        public OperationResult<IEnumerable<RateType>> GetRateTypesAsync(
+            Action<IEnumerable<RateType>> onSuccess = null, Action<Exception> onFail = null)
         {
             IEntityQuery<RateType> query = Manager.RateTypes.OrderBy(t => t.Sequence).With(BaseDataQueryStrategy);
             return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public OperationResult FindStaffingResourcesAsync(string searchText, string orderBy,
-                                                          Action<IEnumerable<StaffingResourceListItem>> onSuccess = null,
-                                                          Action<Exception> onFail = null)
+        public OperationResult<IEnumerable<StaffingResourceListItem>> FindStaffingResourcesAsync(
+            string searchText, string orderBy, Action<IEnumerable<StaffingResourceListItem>> onSuccess = null,
+            Action<Exception> onFail = null)
         {
             IEntityQuery<StaffingResource> baseQuery = Manager.StaffingResources;
 
@@ -153,8 +153,8 @@ namespace Common.Repositories
                 .AsOperationResult();
         }
 
-        public OperationResult GetStatesAsync(Action<IEnumerable<State>> onSuccess = null,
-                                              Action<Exception> onFail = null)
+        public OperationResult<IEnumerable<State>> GetStatesAsync(Action<IEnumerable<State>> onSuccess = null,
+                                                                  Action<Exception> onFail = null)
         {
             IEntityQuery<State> query = Manager.States.OrderBy(s => s.Name).With(BaseDataQueryStrategy);
             return ExecuteQuery(query, onSuccess, onFail);

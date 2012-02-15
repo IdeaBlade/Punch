@@ -15,15 +15,14 @@ using System.Collections.Generic;
 using Cocktail;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
-using Action = System.Action;
 
 namespace Common.Repositories
 {
     public abstract class RepositoryBase<T> : IRepository
         where T : EntityManager
     {
-        private readonly IEntityManagerProvider<T> _entityManagerProvider;
         private readonly RepositoryBase<T> _baseData;
+        private readonly IEntityManagerProvider<T> _entityManagerProvider;
 
         protected RepositoryBase(IEntityManagerProvider<T> entityManagerProvider, RepositoryBase<T> baseData = null)
         {
@@ -38,12 +37,12 @@ namespace Common.Repositories
             get { return _entityManagerProvider.Manager; }
         }
 
-        #region IRepository Members
-
         public QueryStrategy BaseDataQueryStrategy
         {
             get { return _baseData != null ? QueryStrategy.CacheOnly : Manager.DefaultQueryStrategy; }
         }
+
+        #region IRepository Members
 
         public bool HasChanges()
         {
@@ -71,9 +70,9 @@ namespace Common.Repositories
             Manager.CacheStateManager.RestoreCacheState(baseData, restoreStrategy);
         }
 
-        protected OperationResult ExecuteQuery<TQuery>(IEntityQuery<TQuery> query,
-                                                        Action<IEnumerable<TQuery>> onSuccess,
-                                                        Action<Exception> onFail)
+        protected OperationResult<IEnumerable<TQuery>> ExecuteQuery<TQuery>(IEntityQuery<TQuery> query,
+                                                                            Action<IEnumerable<TQuery>> onSuccess,
+                                                                            Action<Exception> onFail)
         {
             return query.ExecuteAsync(op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
         }

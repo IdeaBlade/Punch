@@ -317,5 +317,29 @@ namespace Cocktail
             };
             return source;
         }
+
+        /// <summary>Extension method to process the result of a refetch operation.</summary>
+        /// <param name="source">The EntityRefetchOperation returned from an asynchronous refetch operation."/></param>
+        /// <param name="onSuccess">A callback to be called if the refetch was successful.</param>
+        /// <param name="onFail">A callback to be called if the refetch failed.</param>
+        /// <returns>Returns the EntityRefetchOperation passed to the method's source parameter.</returns>       
+        public static EntityRefetchOperation OnComplete(this EntityRefetchOperation source, 
+            Action<IEnumerable> onSuccess, Action<Exception> onFail)
+        {
+            source.Completed += (s, args) =>
+            {
+                if (args.CompletedSuccessfully)
+                {
+                    if (onSuccess != null) onSuccess(args.Results);
+                }
+
+                if (args.HasError && !args.IsErrorHandled && onFail != null)
+                {
+                    args.MarkErrorAsHandled();
+                    onFail(args.Error);
+                }
+            };
+            return source;
+        }
     }
 }

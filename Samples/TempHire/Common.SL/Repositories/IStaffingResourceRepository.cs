@@ -27,7 +27,7 @@ namespace Common.Repositories
         OperationResult<IEnumerable<StaffingResource>> GetAllStaffingResourcesAsync(
             Action<IEnumerable<StaffingResource>> onSuccess = null, Action<Exception> onFail = null);
 
-        OperationResult<IEnumerable<StaffingResource>> GetStaffingResourceAsync(
+        OperationResult<StaffingResource> GetStaffingResourceAsync(
             Guid staffingResourceId, Action<StaffingResource> onSuccess = null, Action<Exception> onFail = null);
 
         OperationResult<IEnumerable<AddressType>> GetAddressTypesAsync(

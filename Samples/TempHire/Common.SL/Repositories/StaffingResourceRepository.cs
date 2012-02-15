@@ -53,19 +53,12 @@ namespace Common.Repositories
             return ExecuteQuery(query, onSuccess, onFail);
         }
 
-        public OperationResult<IEnumerable<StaffingResource>> GetStaffingResourceAsync(
+        public OperationResult<StaffingResource> GetStaffingResourceAsync(
             Guid staffingResourceId, Action<StaffingResource> onSuccess = null, Action<Exception> onFail = null)
         {
-            // Execute as IEntityQuery instead of IEntityScalarQuery in order to be cacheable. 
-            // IEntityScalarQuery is always satisfied from the data source.
-            IEntityQuery<StaffingResource> query = Manager.StaffingResources
-                .Where(r => r.Id == staffingResourceId)
-                .Include(r => r.Addresses)
-                .Include(r => r.PhoneNumbers);
-
-            return ExecuteQuery(query,
-                                result => { if (onSuccess != null) onSuccess(result.First()); },
-                                onFail);
+            return Coroutine.Start(() => GetStaffingResourceCore(staffingResourceId),
+                                   op => op.OnComplete(onSuccess, onFail))
+                .AsOperationResult<StaffingResource>();
         }
 
         public OperationResult<IEnumerable<AddressType>> GetAddressTypesAsync(
@@ -161,6 +154,21 @@ namespace Common.Repositories
         }
 
         #endregion
+
+        private IEnumerable<INotifyCompleted> GetStaffingResourceCore(Guid staffingResourceId)
+        {
+            // Execute as IEntityQuery instead of IEntityScalarQuery in order to be cacheable. 
+            // IEntityScalarQuery is always satisfied from the data source.
+            IEntityQuery<StaffingResource> query = Manager.StaffingResources
+                .Where(r => r.Id == staffingResourceId)
+                .Include(r => r.Addresses)
+                .Include(r => r.PhoneNumbers);
+
+            EntityQueryOperation<StaffingResource> queryOperation;
+            yield return queryOperation = query.ExecuteAsync();
+
+            yield return Coroutine.Return(queryOperation.Results.First());
+        }
 
         private IEnumerable<INotifyCompleted> DeleteResourceCore(Guid staffingResourceId)
         {

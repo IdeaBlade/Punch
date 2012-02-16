@@ -16,6 +16,7 @@ using System.Windows.Interactivity;
 
 namespace Common.Behaviors
 {
+    [TypeConstraint(typeof(TextBox))]
     public class SelectAllOnFocusBehavior : Behavior<TextBox>
     {
         protected override void OnAttached()

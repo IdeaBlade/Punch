@@ -19,6 +19,14 @@
                           Color="#FF333333" />
     </sdk:ChildWindow.Effect>
 
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <cal:ActionMessage MethodName="KeyDown">
+                <cal:Parameter Value="$eventArgs" />
+            </cal:ActionMessage>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <toolkit:BusyIndicator BorderBrush="#FF1D5380" IsBusy="{Binding Busy.IsBusy}">
         <toolkit:BusyIndicator.BusyContent>
             <TextBlock Text="Please wait" />
@@ -65,6 +73,7 @@
                      VerticalAlignment="Center">
                 <i:Interaction.Behaviors>
                     <behaviors:SelectAllOnFocusBehavior />
+                    <behaviors:InitialFocusBehavior />
                 </i:Interaction.Behaviors>
             </TextBox>
             <sdk:Label Grid.Row="2"

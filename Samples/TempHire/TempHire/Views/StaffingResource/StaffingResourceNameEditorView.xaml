@@ -36,6 +36,7 @@
                  VerticalAlignment="Center">
             <i:Interaction.Behaviors>
                 <behaviors:SelectAllOnFocusBehavior />
+                <behaviors:InitialFocusBehavior />
             </i:Interaction.Behaviors>
         </TextBox>
         <TextBox x:Name="MiddleName"

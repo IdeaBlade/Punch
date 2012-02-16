@@ -10,41 +10,24 @@
 //  http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using System.Windows;
+using System.Windows.Browser;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
 namespace Common.Behaviors
 {
-    [TypeConstraint(typeof(DataGrid))]
-    public class ScrollIntoViewBehavior : Behavior<DataGrid>
+    [TypeConstraint(typeof (Control))]
+    public class InitialFocusBehavior : Behavior<Control>
     {
         protected override void OnAttached()
         {
             base.OnAttached();
-            AssociatedObject.SelectionChanged += AssociatedObjectSelectionChanged;
-        }
 
-        private void AssociatedObjectSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (sender is DataGrid)
-            {
-                var grid = (sender as DataGrid);
-                if (grid.SelectedItem != null)
-                {
-                    grid.Dispatcher.BeginInvoke(
-                        () =>
-                        {
-                            grid.UpdateLayout();
-                            grid.ScrollIntoView(grid.SelectedItem, null);
-                        });
-                }
-            }
-        }
+            if (!Application.Current.IsRunningOutOfBrowser)
+                HtmlPage.Plugin.Focus();
 
-        protected override void OnDetaching()
-        {
-            base.OnDetaching();
-            AssociatedObject.SelectionChanged -= AssociatedObjectSelectionChanged;
+            AssociatedObject.Loaded += (sender, args) => AssociatedObject.Focus();
         }
     }
 }

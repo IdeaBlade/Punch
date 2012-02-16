@@ -64,6 +64,7 @@
       <ExcludedItem>Cocktail~Cocktail.ShowDialogResult`1</ExcludedItem>
       <ExcludedItem>Cocktail~Cocktail.TraceLoggerProvider</ExcludedItem>
       <ExcludedItem>Cocktail~Cocktail.IEntityManagerSyncInterceptor</ExcludedItem>
+      <ExcludedItem>Cocktail~Cocktail.AuthenticationManagerProvider</ExcludedItem>
     </ExcludedItems>
   </Filters>
   <ComProjectPlugin />

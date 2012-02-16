@@ -236,7 +236,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             yield return
                 _dialogManager.ShowMessage(string.Format("Are you sure you want to delete {0}?", staffingResource.FullName),
-                                           DialogResult.No, DialogButtons.YesNo);
+                                           DialogResult.Yes, DialogResult.No, DialogButtons.YesNo);
 
             using (ActiveDetail.Busy.GetTicket())
             {

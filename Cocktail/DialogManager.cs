@@ -42,6 +42,9 @@ namespace Cocktail
         /// <param name="dialogButtons">
         /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
         /// </param>
+        /// <param name="defaultButton"> 
+        /// Specifies the default button. The Enter key will be mapped to this button.
+        /// </param>
         /// <param name="cancelButton">
         /// Specifies the button taking on the special role of the cancel function. If the user clicks this button, 
         /// the DialogOperationResult will be marked as cancelled.
@@ -51,9 +54,9 @@ namespace Cocktail
         /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
         /// </typeparam>
         /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        public DialogOperationResult<T> ShowDialog<T>(object content, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
+        public DialogOperationResult<T> ShowDialog<T>(object content, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
         {
-            var result = new ShowDialogResult<T>(content, dialogButtons, cancelButton, title);
+            var result = new ShowDialogResult<T>(content, dialogButtons, defaultButton, cancelButton, title);
             result.Show();
             return result;
         }
@@ -67,7 +70,7 @@ namespace Cocktail
         /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
         public DialogOperationResult<DialogResult> ShowDialog(object content, IEnumerable<DialogResult> dialogButtons, string title = null)
         {
-            var result = new ShowDialogResult<DialogResult>(content, dialogButtons, DialogResult.Cancel, title);
+            var result = new ShowDialogResult<DialogResult>(content, dialogButtons, DialogResult.Ok, DialogResult.Cancel, title);
             result.Show();
             return result;
         }
@@ -95,6 +98,9 @@ namespace Cocktail
         /// <param name="dialogButtons">
         /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
         /// </param>
+        /// <param name="defaultButton"> 
+        /// Specifies the default button. The Enter key will be mapped to this button.
+        /// </param>
         /// <param name="cancelButton">
         /// Specifies the button taking on the special role of the cancel function. If the user clicks this button, 
         /// the DialogOperationResult will be marked as cancelled.
@@ -104,10 +110,10 @@ namespace Cocktail
         /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
         /// </typeparam>
         /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        public DialogOperationResult<T> ShowMessage<T>(string message, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
+        public DialogOperationResult<T> ShowMessage<T>(string message, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
         {
             var messageBox = CreateMessageBox(message);
-            var result = new ShowDialogResult<T>(messageBox, dialogButtons, cancelButton, title);
+            var result = new ShowDialogResult<T>(messageBox, dialogButtons, defaultButton, cancelButton, title);
             result.Show();
             return result;
         }
@@ -122,7 +128,7 @@ namespace Cocktail
         public DialogOperationResult<DialogResult> ShowMessage(string message, IEnumerable<DialogResult> dialogButtons, string title = null)
         {
             var messageBox = CreateMessageBox(message);
-            var result = new ShowDialogResult<DialogResult>(messageBox, dialogButtons, DialogResult.Cancel, title);
+            var result = new ShowDialogResult<DialogResult>(messageBox, dialogButtons, DialogResult.Ok, DialogResult.Cancel, title);
             result.Show();
             return result;
         }

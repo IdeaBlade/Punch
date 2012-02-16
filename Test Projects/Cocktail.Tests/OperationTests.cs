@@ -43,6 +43,21 @@ namespace Cocktail.Tests
             Assert.IsTrue(operation.IsErrorHandled);
         }
 
+        [TestMethod]
+        public void ShouldNotWrapExistingOperationResult()
+        {
+            var op1 = new OperationResult(AlwaysCompleted.Instance);
+            var op2 = op1.AsOperationResult();
+            Assert.IsTrue(ReferenceEquals(op1, op2));
+        }
+
+        [TestMethod]
+        public void ShouldWrapINotifyCompleted()
+        {
+            var op = AlwaysCompleted.Instance.AsOperationResult();
+            Assert.IsNotNull(op);
+        }
+
         private class CompleteWithError : INotifyCompleted
         {
             private readonly INotifyCompletedArgs _args = new CompleteWithErrorArgs();

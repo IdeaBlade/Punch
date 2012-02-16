@@ -41,6 +41,7 @@ namespace Cocktail.Tests
             Assert.IsTrue(operation.Cancelled);
         }
 
+        [TestMethod]
         public void ShouldNotCancel()
         {
             TestWindowManager.Instance.TestDialogResult = DialogResult.Ok;
@@ -50,13 +51,24 @@ namespace Cocktail.Tests
             Assert.IsFalse(operation.Cancelled);
         }
 
+        [TestMethod]
         public void ShouldUseCustomCancel()
         {
             TestWindowManager.Instance.TestDialogResult = "Cancel";
-            var operation = _dialogManager.ShowMessage("Test", "Ok", "Cancel", new[] {"Ok", "Cancel"});
+            var operation = _dialogManager.ShowMessage("Test", null, "Cancel", new[] {"Ok", "Cancel"});
 
             Assert.IsTrue(operation.DialogResult == "Cancel");
             Assert.IsTrue(operation.Cancelled);
+        }
+
+        [TestMethod]
+        public void ShouldNotUseCustomCancel()
+        {
+            TestWindowManager.Instance.TestDialogResult = "Cancel";
+            var operation = _dialogManager.ShowMessage("Test", null, null, new[] { "Ok", "Cancel" });
+
+            Assert.IsTrue(operation.DialogResult == "Cancel");
+            Assert.IsFalse(operation.Cancelled);
         }
 
         protected override void PrepareCompositionContainer(CompositionBatch batch)

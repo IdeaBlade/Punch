@@ -49,7 +49,7 @@ namespace Common.Repositories
             return Manager.HasChanges();
         }
 
-        public OperationResult SaveAsync(Action onSuccess = null, Action<Exception> onFail = null)
+        public OperationResult<SaveResult> SaveAsync(Action onSuccess = null, Action<Exception> onFail = null)
         {
             return Manager.SaveChangesAsync(op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
         }

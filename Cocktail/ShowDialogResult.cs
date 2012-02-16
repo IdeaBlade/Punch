@@ -23,9 +23,11 @@ namespace Cocktail
     {
         private readonly T _cancelButton;
         private readonly object _content;
+        private readonly T _defaultButton;
         private readonly IEnumerable<T> _dialogButtons;
         private readonly PartLocator<DialogHostBase> _dialogHostLocator;
         private readonly bool _hasCancelButton;
+        private readonly bool _hasDefaultButton;
         private readonly string _title;
         private DialogHostBase _dialogHost;
 
@@ -45,6 +47,14 @@ namespace Cocktail
             _cancelButton = cancelButton;
         }
 
+        internal ShowDialogResult(object content, IEnumerable<T> dialogButtons, T defaultButton, T cancelButton,
+                                  string title = null)
+            : this(content, dialogButtons, cancelButton, title)
+        {
+            _hasDefaultButton = true;
+            _defaultButton = defaultButton;
+        }
+
         /// <summary>
         /// Internal use.
         /// </summary>
@@ -56,7 +66,7 @@ namespace Cocktail
         /// </summary>
         public override T DialogResult
         {
-            get { return _dialogHost == null ? default(T) : (T)_dialogHost.DialogResult; }
+            get { return _dialogHost == null ? default(T) : (T) _dialogHost.DialogResult; }
         }
 
         /// <summary>Indicates whether the dialog or message box has been cancelled.</summary>
@@ -68,7 +78,9 @@ namespace Cocktail
 
         internal void Show()
         {
-            _dialogHost = _dialogHostLocator.GetPart().Start(_title, _content, _dialogButtons);
+            _dialogHost = _dialogHostLocator.GetPart().Start(_title, _content, _dialogButtons,
+                                                             _hasDefaultButton ? (object) _defaultButton : null,
+                                                             _hasCancelButton ? (object) _cancelButton : null);
             _dialogHost.Completed += OnCompleted;
             WindowManager.ShowDialog(_dialogHost);
         }

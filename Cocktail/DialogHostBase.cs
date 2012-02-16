@@ -16,6 +16,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using Caliburn.Micro;
 
 namespace Cocktail
@@ -28,6 +31,8 @@ namespace Cocktail
     {
         private IEnumerable<DialogButton> _dialogButtons;
         private object _dialogResult;
+        private object _defaultButton;
+        private object _cancelButton;
 
         static DialogHostBase()
         {
@@ -69,11 +74,13 @@ namespace Cocktail
         internal event EventHandler<EventArgs> Completed;
 
         /// <summary>Initializes and starts the dialog host.</summary>
-        public DialogHostBase Start(string title, object content, IEnumerable dialogButtons)
+        public DialogHostBase Start(string title, object content, IEnumerable dialogButtons, object defaultButton, object cancelButton)
         {
             DisplayName = title;
             _dialogButtons =
                 new ObservableCollection<DialogButton>(dialogButtons.Cast<object>().Select(v => new DialogButton(v)));
+            _defaultButton = defaultButton;
+            _cancelButton = cancelButton;
 
             ActivateItem(content);
             return this;
@@ -105,6 +112,35 @@ namespace Cocktail
             if (Completed == null) return;
 
             EventFns.RaiseOnce(ref Completed, this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Called when DialogHostView's Loaded event fires.
+        /// </summary>
+        /// <param name="view"/>
+        protected override void OnViewLoaded(object view)
+        {
+            base.OnViewLoaded(view);
+            ((UIElement) view).KeyDown += (sender, args) => OnKeyDown(args);
+        }
+
+        private void OnKeyDown(KeyEventArgs args)
+        {
+            if (args.Key == Key.Escape && _cancelButton != null)
+            {
+                var button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
+                if (button == null || !button.Enabled)
+                    return;
+                Close(button);
+            }
+
+            if (args.Key == Key.Enter && _defaultButton != null)
+            {
+                var button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_defaultButton));
+                if (button == null || !button.Enabled)
+                    return;
+                Close(button);
+            }
         }
     }
 }

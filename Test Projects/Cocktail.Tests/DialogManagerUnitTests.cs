@@ -53,7 +53,7 @@ namespace Cocktail.Tests
         public void ShouldUseCustomCancel()
         {
             TestWindowManager.Instance.TestDialogResult = "Cancel";
-            var operation = _dialogManager.ShowMessage("Test", "Cancel", new[] {"Ok", "Cancel"});
+            var operation = _dialogManager.ShowMessage("Test", "Ok", "Cancel", new[] {"Ok", "Cancel"});
 
             Assert.IsTrue(operation.DialogResult == "Cancel");
             Assert.IsTrue(operation.Cancelled);

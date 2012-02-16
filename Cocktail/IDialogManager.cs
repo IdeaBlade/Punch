@@ -86,6 +86,9 @@ namespace Cocktail
         /// <param name="dialogButtons">
         /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
         /// </param>
+        /// <param name="defaultButton"> 
+        /// Specifies the default button. The Enter key will be mapped to this button.
+        /// </param>
         /// <param name="cancelButton">
         /// Specifies the designated cancel button. If the user clicks this button, the DialogOperationResult will be marked as cancelled.
         /// </param>
@@ -94,7 +97,7 @@ namespace Cocktail
         /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
         /// </typeparam>
         /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        DialogOperationResult<T> ShowDialog<T>(object content, T cancelButton, IEnumerable<T> dialogButtons,
+        DialogOperationResult<T> ShowDialog<T>(object content, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons,
                                                string title = null);
 
         /// <summary>Displays a modal dialog with a custom view model.</summary>
@@ -124,6 +127,9 @@ namespace Cocktail
         /// <param name="dialogButtons">
         /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
         /// </param>
+        /// <param name="defaultButton"> 
+        /// Specifies the default button. The Enter key will be mapped to this button.
+        /// </param>
         /// <param name="cancelButton">
         /// Specifies the designated cancel button. If the user clicks this button, the DialogOperationResult will be marked as cancelled.
         /// </param>
@@ -132,7 +138,7 @@ namespace Cocktail
         /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
         /// </typeparam>
         /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        DialogOperationResult<T> ShowMessage<T>(string message, T cancelButton, IEnumerable<T> dialogButtons,
+        DialogOperationResult<T> ShowMessage<T>(string message, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons,
                                                 string title = null);
 
         /// <summary>Displays a modal message box.</summary>

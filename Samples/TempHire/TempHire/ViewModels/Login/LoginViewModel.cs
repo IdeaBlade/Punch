@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Text;
+using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
@@ -134,6 +135,14 @@ namespace TempHire.ViewModels.Login
                     TryClose();
                 }
             }
+        }
+
+        public IEnumerable<IResult> KeyDown(KeyEventArgs args)
+        {
+            if (args.Key != Key.Enter)
+                yield break;
+
+            yield return Login().ToSequentialResult();
         }
 
         private void OnComplete()

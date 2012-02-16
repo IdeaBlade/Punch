@@ -78,6 +78,15 @@
             </Border>
         </Grid>
     </ControlTemplate>
+
+    <Style TargetType="ContentControl">
+        <Setter Property="IsTabStop" Value="False" />
+    </Style>
+    
+    <Style TargetType="ItemsControl">
+        <Setter Property="IsTabStop" Value="False" />
+    </Style>
+
     <Style TargetType="Button">
         <Setter Property="FontFamily" Value="Verdana" />
         <Setter Property="FontSize" Value="10.667" />
@@ -85,6 +94,7 @@
         <Setter Property="Foreground" Value="#FFFFFFFF" />
         <Setter Property="Padding" Value="3" />
         <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="BorderBrush">
             <Setter.Value>
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
@@ -2123,6 +2133,7 @@
         </Setter>
     </Style>
     <Style x:Key="AddButton_Style" TargetType="Button">
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Background" Value="#FF1F3B53" />
         <Setter Property="Foreground" Value="#FF000000" />
         <Setter Property="Padding" Value="3" />

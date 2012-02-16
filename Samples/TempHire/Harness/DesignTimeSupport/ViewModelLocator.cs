@@ -217,7 +217,7 @@ namespace TempHire.DesignTimeSupport
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<T> ShowDialog<T>(object content, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
+            public DialogOperationResult<T> ShowDialog<T>(object content, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
@@ -232,7 +232,7 @@ namespace TempHire.DesignTimeSupport
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<T> ShowMessage<T>(string message, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
+            public DialogOperationResult<T> ShowMessage<T>(string message, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }

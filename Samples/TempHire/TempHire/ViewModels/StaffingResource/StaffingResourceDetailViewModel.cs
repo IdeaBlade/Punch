@@ -173,7 +173,7 @@ namespace TempHire.ViewModels.StaffingResource
             {
                 var dialogResult =
                     _dialogManager.ShowMessage("There are unsaved changes. Would you like to save your changes?",
-                                               DialogButtons.YesNoCancel);
+                                               DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel);
                 dialogResult.OnComplete(delegate
                                             {
                                                 if (dialogResult.DialogResult == DialogResult.Yes)

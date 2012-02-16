@@ -41,6 +41,8 @@ namespace Cocktail
         /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
         public static OperationResult AsOperationResult(this INotifyCompleted asyncOp)
         {
+            if (asyncOp is OperationResult)
+                return (OperationResult) asyncOp;
             return new OperationResult(asyncOp);
         }
 

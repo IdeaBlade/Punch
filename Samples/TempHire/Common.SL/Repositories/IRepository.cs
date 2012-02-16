@@ -12,6 +12,7 @@
 
 using System;
 using Cocktail;
+using IdeaBlade.EntityModel;
 using Action = System.Action;
 
 namespace Common.Repositories
@@ -20,7 +21,7 @@ namespace Common.Repositories
     {
         bool HasChanges();
 
-        OperationResult SaveAsync(Action onSuccess = null, Action<Exception> onFail = null);
+        OperationResult<SaveResult> SaveAsync(Action onSuccess = null, Action<Exception> onFail = null);
 
         void RejectChanges();
     }

@@ -13,13 +13,18 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Primitives;
-using System.Windows;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Messages;
 using MefContrib.Hosting.Interception;
 using MefContrib.Hosting.Interception.Configuration;
+
+#if SILVERLIGHT
+using System.Windows;
+#else
+using System.Windows.Threading;
+#endif
 
 namespace Common
 {
@@ -42,11 +47,20 @@ namespace Common
 
         #endregion
 
+
+#if SILVERLIGHT
         protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
             ErrorHandler.HandleError(e.ExceptionObject);
             e.Handled = true;
         }
+#else
+        protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            ErrorHandler.HandleError(e.Exception);
+            e.Handled = true;
+        }
+#endif
 
         protected override void BuildUp(object instance)
         {

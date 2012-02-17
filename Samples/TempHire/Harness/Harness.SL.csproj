@@ -223,7 +223,7 @@
       <Project>{7ECA6212-BDB6-4325-946E-97D9C227E468}</Project>
       <Name>Cocktail.SL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common.SL\Common.SL.csproj">
+    <ProjectReference Include="..\Common\Common.SL.csproj">
       <Project>{3D676816-91A4-4B53-877E-95FE5B348480}</Project>
       <Name>Common.SL</Name>
     </ProjectReference>

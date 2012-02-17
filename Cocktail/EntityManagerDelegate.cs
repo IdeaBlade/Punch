@@ -11,6 +11,7 @@
 //====================================================================================================================
 
 using System.ComponentModel.Composition;
+using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
 
@@ -18,7 +19,7 @@ namespace Cocktail
 {
     /// <summary>Internal use.</summary>
     [InheritedExport]
-    public abstract class EntityManagerDelegate
+    public abstract class EntityManagerDelegate : IHideObjectMembers
     {
     }
 

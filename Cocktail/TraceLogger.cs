@@ -20,7 +20,7 @@ namespace Cocktail
     /// <remarks>
     /// The logging can be customized by setting the LogWriter delegate to a custom LogWriter.
     /// </remarks>
-    public sealed class TraceLogger : ITraceLogger
+    public sealed class TraceLogger : ITraceLogger, IHideObjectMembers
     {
         private static readonly ITraceLogger DefaultTraceLogger;
 

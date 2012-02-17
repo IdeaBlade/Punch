@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
+using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 
 namespace Cocktail
@@ -24,7 +25,7 @@ namespace Cocktail
     /// where an <see cref = "IResult" /> or <see cref="INotifyCompleted" /> is expected.
     /// </summary>
     /// <seealso cref="CoroutineFns"/>
-    public class OperationResult : IResult, INotifyCompleted
+    public class OperationResult : IResult, INotifyCompleted, IHideObjectMembers
     {
         private readonly INotifyCompleted _asyncOp;
         private INotifyCompletedArgs _args;

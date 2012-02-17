@@ -66,14 +66,21 @@ namespace Cocktail
         /// </summary>
         public override T DialogResult
         {
-            get { return _dialogHost == null ? default(T) : (T) _dialogHost.DialogResult; }
+            get
+            {
+                return _dialogHost == null || _dialogHost.DialogResult == null
+                           ? default(T)
+                           : (T) _dialogHost.DialogResult;
+            }
         }
 
         /// <summary>Indicates whether the dialog or message box has been cancelled.</summary>
         /// <value>Cancelled is set to true, if the user clicked the designated cancel button in response to the dialog or message box.</value>
         public override bool Cancelled
         {
-            get { return _hasCancelButton && DialogResult.Equals(_cancelButton); }
+// ReSharper disable CompareNonConstrainedGenericWithNull
+            get { return _hasCancelButton && (DialogResult != null) && DialogResult.Equals(_cancelButton); }
+// ReSharper restore CompareNonConstrainedGenericWithNull
         }
 
         internal void Show()

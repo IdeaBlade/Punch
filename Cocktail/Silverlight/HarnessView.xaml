@@ -4,7 +4,6 @@
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
              d:DesignHeight="406"
              d:DesignWidth="730"
              mc:Ignorable="d">
@@ -23,6 +22,9 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <sdk:Frame x:Name="ActiveItem" Grid.Column="1" />
+        <ContentControl x:Name="ActiveItem"
+                        Grid.Column="1"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch" />
     </Grid>
 </UserControl>

@@ -124,6 +124,9 @@
     <Compile Include="IDialogManager.cs" />
     <Compile Include="LogFns.cs" />
     <Compile Include="MessageBoxBase.cs" />
+    <Compile Include="MessageBoxView.xaml.cs">
+      <DependentUpon>MessageBoxView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OperationFns.cs" />
     <Compile Include="FakeBackingStore.cs" />
     <Compile Include="FrameworkBootstrapper.cs" />
@@ -148,9 +151,6 @@
     <Compile Include="Silverlight\HarnessView.xaml.cs">
       <DependentUpon>HarnessView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Silverlight\MessageBoxView.xaml.cs">
-      <DependentUpon>MessageBoxView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="StringResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -164,15 +164,15 @@
     <Compile Include="WeakRefDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="MessageBoxView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Silverlight\DialogHostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Silverlight\HarnessView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Silverlight\MessageBoxView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

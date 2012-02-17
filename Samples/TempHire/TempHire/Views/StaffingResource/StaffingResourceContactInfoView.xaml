@@ -20,12 +20,12 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <sdk:Frame x:Name="StaffingResourceAddressList"
-                       Grid.Row="1"
-                       Margin="0,0,20,0" />
-            <sdk:Frame x:Name="StaffingResourcePhoneList"
-                       Grid.Row="1"
-                       Grid.Column="1" />
+            <ContentControl x:Name="StaffingResourceAddressList"
+                            Grid.Row="1"
+                            Margin="0,0,20,0" />
+            <ContentControl x:Name="StaffingResourcePhoneList"
+                            Grid.Row="1"
+                            Grid.Column="1" />
             <sdk:Label Content="Addresses:"
                        FontSize="18"
                        FontWeight="Bold" />

@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <conv:SourceToTabItemsConverter x:Key="SourceToTabItemsConverter" />
         <ControlTemplate x:Key="TabItemContentTemplate">
-            <sdk:Frame Margin="5" cal:View.Model="{Binding .}" />
+            <ContentControl Margin="5" cal:View.Model="{Binding .}" />
         </ControlTemplate>
     </UserControl.Resources>
 
@@ -29,7 +29,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <sdk:Frame x:Name="StaffingResourceSummary" Margin="10,2,10,10" />
+                <ContentControl x:Name="StaffingResourceSummary" Margin="10,2,10,10" />
                 <sdk:TabControl Grid.Row="1"
                                 Margin="20,0,20,5"
                                 BorderBrush="#FF1D5380"

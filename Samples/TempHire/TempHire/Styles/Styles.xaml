@@ -81,6 +81,8 @@
 
     <Style TargetType="ContentControl">
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
     </Style>
     
     <Style TargetType="ItemsControl">

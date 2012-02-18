@@ -99,7 +99,7 @@
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="PostSharp.SL">
-	<HintPath>$(ProgramFiles)\PostSharp 2.1\Reference Assemblies\Silverlight 3.0\PostSharp.SL.dll</HintPath>
+      <HintPath>$(ProgramFiles)\PostSharp 2.1\Reference Assemblies\Silverlight 3.0\PostSharp.SL.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition">
       <SpecificVersion>False</SpecificVersion>
@@ -247,13 +247,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\TempHire\Views\Login\LoginView.xaml">
-      <Link>Views\Login\LoginView.xaml</Link>
+    <Page Include="..\TempHire\Views\Login\LoginView.Silverlight.xaml">
+      <Link>Views\Login\LoginView.Silverlight.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\TempHire\Views\ShellView.xaml">
-      <Link>Views\ShellView.xaml</Link>
+    <Page Include="..\TempHire\Views\ShellView.Silverlight.xaml">
+      <Link>Views\ShellView.Silverlight.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

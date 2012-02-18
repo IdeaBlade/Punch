@@ -10,22 +10,27 @@
 //  http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using System.Windows;
-using System.Windows.Browser;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
+#if SILVERLIGHT
+using System.Windows;
+using System.Windows.Browser;
+#endif
+
 namespace Common.Behaviors
 {
-    [TypeConstraint(typeof (Control))]
+    [TypeConstraint(typeof(Control))]
     public class InitialFocusBehavior : Behavior<Control>
     {
         protected override void OnAttached()
         {
             base.OnAttached();
 
+#if SILVERLIGHT
             if (!Application.Current.IsRunningOutOfBrowser)
                 HtmlPage.Plugin.Focus();
+#endif
 
             AssociatedObject.Loaded += (sender, args) => AssociatedObject.Focus();
         }

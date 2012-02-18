@@ -10,6 +10,7 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
@@ -30,7 +31,7 @@ namespace Common.Behaviors
             if (sender is TextBox)
             {
                 var textBox = sender as TextBox;
-                textBox.Dispatcher.BeginInvoke(textBox.SelectAll);
+                textBox.Dispatcher.BeginInvoke(new Action(textBox.SelectAll));
             }
         }
 

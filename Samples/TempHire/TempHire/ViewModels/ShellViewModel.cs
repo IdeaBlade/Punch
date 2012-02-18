@@ -87,6 +87,16 @@ namespace TempHire.ViewModels
             return this;
         }
 
+        public IEnumerable<IResult> Login()
+        {
+            yield return _loginFactory.CreatePart();
+
+#if !SILVERLIGHT
+            if (!_authenticationService.IsLoggedIn)
+                TryClose();
+#endif
+        }
+
         public IEnumerable<IResult> Logout()
         {
             IWorkspace home = GetHomeScreen();
@@ -98,7 +108,7 @@ namespace TempHire.ViewModels
 
             yield return _authenticationService.LogoutAsync();
 
-            yield return _loginFactory.CreatePart();
+            yield return Login().ToSequentialResult();
         }
 
         protected IEnumerable<IResult> NavigateTo(IWorkspace workspace)
@@ -117,8 +127,7 @@ namespace TempHire.ViewModels
             base.OnViewLoaded(view);
 
             // Launch login dialog
-            LoginViewModel login = _loginFactory.CreatePart();
-            login.Execute();
+            Login().ToSequentialResult().Execute();
         }
 
         private IWorkspace GetHomeScreen()

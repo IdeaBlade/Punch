@@ -110,6 +110,8 @@
     <Compile Include="Behaviors\ScrollIntoViewBehavior.cs" />
     <Compile Include="Behaviors\SelectAllOnFocusBehavior.cs" />
     <Compile Include="BootstrapperBase.cs" />
+    <Compile Include="Factories\IPartFactory.cs" />
+    <Compile Include="Factories\PartFactoryBase.cs" />
     <Compile Include="Security\IUserService.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\SourceToTabItemsConverter.cs" />

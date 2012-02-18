@@ -19,6 +19,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Caliburn.Micro;
+using IdeaBlade.Core;
 using Action = System.Action;
 
 namespace Cocktail
@@ -26,7 +27,7 @@ namespace Cocktail
     /// <summary>
     /// Abstract base class for the FrameworkBootstrapper
     /// </summary>
-    public abstract class FrameworkBootstrapper : Bootstrapper
+    public abstract class FrameworkBootstrapper : Bootstrapper, IHideObjectMembers
     {
         private bool _completed;
         private Action _completedActions;

@@ -77,7 +77,7 @@
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="PostSharp.SL">
-      <HintPath>C:\Program Files (x86)\PostSharp 2.1\Reference Assemblies\Silverlight 3.0\PostSharp.SL.dll</HintPath>
+	<HintPath>$(ProgramFiles)\PostSharp 2.1\Reference Assemblies\Silverlight 3.0\PostSharp.SL.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations">
       <SpecificVersion>False</SpecificVersion>

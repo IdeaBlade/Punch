@@ -12,13 +12,14 @@
 
 using System;
 using Caliburn.Micro;
+using IdeaBlade.Core;
 
 namespace Cocktail
 {
     /// <summary>
     /// An implementation of <see cref="IResult"/> providing information about the modal dialog or message box.
     /// </summary>
-    public abstract class DialogOperationResult<T> : IResult
+    public abstract class DialogOperationResult<T> : IResult, IHideObjectMembers
     {
         private ResultCompletionEventArgs _completionEventArgs;
 

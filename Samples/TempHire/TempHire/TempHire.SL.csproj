@@ -83,7 +83,7 @@
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="PostSharp.SL">
-      <HintPath>C:\Program Files (x86)\PostSharp 2.1\Reference Assemblies\Silverlight 3.0\PostSharp.SL.dll</HintPath>
+      <HintPath>$(ProgramFiles)\PostSharp 2.1\Reference Assemblies\Silverlight 3.0\PostSharp.SL.dll</HintPath>
     </Reference>
     <Reference Include="system" />
     <Reference Include="System.ComponentModel.Composition">
@@ -113,8 +113,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
+    <Compile Include="App.Silverlight.xaml.cs">
+      <DependentUpon>App.Silverlight.xaml</DependentUpon>
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authentication\TempHireAuthenticationService.cs" />
@@ -146,12 +146,6 @@
     <Compile Include="ViewModels\StaffingResource\StaffingResourceWorkExperienceViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:MarkupCompilePass1</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +168,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ApplicationDefinition Include="App.Silverlight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
     <Page Include="Views\StaffingResource\AddressTypeSelectorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

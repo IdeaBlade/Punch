@@ -15,6 +15,7 @@ using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
+using Common.Factories;
 using Common.Repositories;
 
 namespace TempHire.ViewModels.StaffingResource
@@ -22,12 +23,12 @@ namespace TempHire.ViewModels.StaffingResource
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceSummaryViewModel : StaffingResourceScreenBase
     {
-        private readonly ExportFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
+        private readonly IPartFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
         private readonly IDialogManager _dialogManager;
 
         [ImportingConstructor]
         public StaffingResourceSummaryViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                        ExportFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
+                                        IPartFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
                                         IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(repositoryManager, errorHandler)
         {
@@ -37,7 +38,7 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> EditName()
         {
-            StaffingResourceNameEditorViewModel nameEditor = _nameEditorFactory.CreateExport().Value;
+            StaffingResourceNameEditorViewModel nameEditor = _nameEditorFactory.CreatePart();
             yield return _dialogManager.ShowDialog(nameEditor.Start(StaffingResource.Id), DialogButtons.OkCancel);
 
             StaffingResource.FirstName = nameEditor.FirstName;

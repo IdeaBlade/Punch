@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
+using Common.Factories;
 using Common.Messages;
 using Common.Repositories;
 using Common.Toolbar;
@@ -32,10 +33,10 @@ namespace TempHire.ViewModels.StaffingResource
     public class StaffingResourceManagementViewModel : Conductor<IScreen>, IDiscoverableViewModel, IHandle<EntityChangedMessage>,
                                                IWorkspace
     {
-        private readonly ExportFactory<StaffingResourceDetailViewModel> _detailFactory;
+        private readonly IPartFactory<StaffingResourceDetailViewModel> _detailFactory;
         private readonly IDialogManager _dialogManager;
         private readonly IErrorHandler _errorHandler;
-        private readonly ExportFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
+        private readonly IPartFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
         private readonly IRepositoryManager<IStaffingResourceRepository> _repositoryManager;
         private readonly DispatcherTimer _selectionChangeTimer;
         private readonly IToolbarManager _toolbar;
@@ -44,8 +45,8 @@ namespace TempHire.ViewModels.StaffingResource
 
         [ImportingConstructor]
         public StaffingResourceManagementViewModel(StaffingResourceSearchViewModel searchPane,
-                                           ExportFactory<StaffingResourceDetailViewModel> detailFactory,
-                                           ExportFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
+                                           IPartFactory<StaffingResourceDetailViewModel> detailFactory,
+                                           IPartFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
                                            IRepositoryManager<IStaffingResourceRepository> repositoryManager,
                                            IErrorHandler errorHandler, IDialogManager dialogManager,
                                            IToolbarManager toolbar)
@@ -183,7 +184,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             if (SearchPane.CurrentStaffingResource != null)
             {
-                Func<StaffingResourceDetailViewModel> target = () => ActiveDetail ?? _detailFactory.CreateExport().Value;
+                Func<StaffingResourceDetailViewModel> target = () => ActiveDetail ?? _detailFactory.CreatePart();
                 new NavigateResult<StaffingResourceDetailViewModel>(this, target)
                     {
                         Prepare = nav => nav.Target.Start(SearchPane.CurrentStaffingResource.Id)
@@ -216,12 +217,12 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> Add()
         {
-            StaffingResourceNameEditorViewModel nameEditor = _nameEditorFactory.CreateExport().Value;
+            StaffingResourceNameEditorViewModel nameEditor = _nameEditorFactory.CreatePart();
             yield return _dialogManager.ShowDialog(nameEditor, DialogButtons.OkCancel);
 
             SearchPane.CurrentStaffingResource = null;
 
-            Func<StaffingResourceDetailViewModel> target = () => ActiveDetail ?? _detailFactory.CreateExport().Value;
+            Func<StaffingResourceDetailViewModel> target = () => ActiveDetail ?? _detailFactory.CreatePart();
             yield return
                 new NavigateResult<StaffingResourceDetailViewModel>(this, target)
                     {

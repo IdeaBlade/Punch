@@ -24,12 +24,11 @@ namespace TempHire
     {
 #if FAKESTORE
         [Import]
-        public ExportFactory<IEntityManagerProvider<TempHireEntities>> EntityManagerProviderFactory;
+        public IEntityManagerProvider<TempHireEntities> EntityManagerProvider;
 
         protected override IEnumerable<IResult> StartRuntimeAsync()
         {
-            IEntityManagerProvider<TempHireEntities> provider = EntityManagerProviderFactory.CreateExport().Value;
-            yield return provider.InitializeFakeBackingStoreAsync();
+            yield return EntityManagerProvider.InitializeFakeBackingStoreAsync();
         }
 #endif
     }

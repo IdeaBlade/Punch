@@ -36,12 +36,12 @@
     </Reference>
     <Reference Include="IdeaBlade.Core" />
     <Reference Include="IdeaBlade.EntityModel" />
-    <Reference Include="IdeaBlade.Linq, Version=6.1.5.1, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
-    <Reference Include="IdeaBlade.Validation, Version=6.1.5.1, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
+    <Reference Include="IdeaBlade.Linq" />
+    <Reference Include="IdeaBlade.Validation" />
     <Reference Include="MefContrib">
       <HintPath>..\Libs\MefContrib\MefContrib.dll</HintPath>
     </Reference>
-    <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL" />
+    <Reference Include="PostSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />

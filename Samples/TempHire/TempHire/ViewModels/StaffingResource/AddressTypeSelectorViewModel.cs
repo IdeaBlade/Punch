@@ -15,6 +15,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Common.Errors;
+using Common.Factories;
 using Common.Repositories;
 using DomainModel;
 
@@ -27,8 +28,8 @@ namespace TempHire.ViewModels.StaffingResource
         private readonly IRepositoryManager<IStaffingResourceRepository> _repositoryManager;
         private BindableCollection<AddressType> _addressTypes;
         private IStaffingResourceRepository _repository;
-        private Guid _staffingResourceId;
         private AddressType _selectedAddressType;
+        private Guid _staffingResourceId;
 
         [ImportingConstructor]
         public AddressTypeSelectorViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
@@ -79,5 +80,10 @@ namespace TempHire.ViewModels.StaffingResource
             if (close)
                 _repository = null;
         }
+    }
+
+    [Export(typeof(IPartFactory<AddressTypeSelectorViewModel>))]
+    public class AddressTypeSelectorViewModelFactory : PartFactoryBase<AddressTypeSelectorViewModel>
+    {
     }
 }

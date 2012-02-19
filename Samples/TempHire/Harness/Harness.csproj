@@ -41,13 +41,13 @@
     <Reference Include="Caliburn.Micro">
       <HintPath>..\..\..\packages\Caliburn.Micro.1.3.1\lib\net40\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core, Version=6.1.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
-    <Reference Include="IdeaBlade.EntityModel, Version=6.1.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
-    <Reference Include="IdeaBlade.Validation, Version=6.1.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
+    <Reference Include="IdeaBlade.Core" />
+    <Reference Include="IdeaBlade.EntityModel" />
+    <Reference Include="IdeaBlade.Validation" />
     <Reference Include="MefContrib">
       <HintPath>..\Libs\MefContrib\MefContrib.dll</HintPath>
     </Reference>
-    <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL" />
+    <Reference Include="PostSharp" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />

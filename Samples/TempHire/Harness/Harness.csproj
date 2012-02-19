@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AEE7F04F-20BB-4589-944C-CEDCAE62E4A2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TempHire</RootNamespace>
+    <AssemblyName>Harness</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <SkipPostSharp>True</SkipPostSharp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\..\..\packages\Caliburn.Micro.1.3.1\lib\net40\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.Core, Version=6.1.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
+    <Reference Include="IdeaBlade.EntityModel, Version=6.1.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
+    <Reference Include="IdeaBlade.Validation, Version=6.1.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
+    <Reference Include="MefContrib">
+      <HintPath>..\Libs\MefContrib\MefContrib.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\..\..\packages\Caliburn.Micro.1.3.1\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended, Version=1.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.1.5.0\lib\net40\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\TempHire\EntityManagerDelegate.cs">
+      <Link>EntityManagerDelegate.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\SyncInterceptor.cs">
+      <Link>SyncInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\HomeViewModel.cs">
+      <Link>ViewModels\HomeViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Login\LoginViewModel.cs">
+      <Link>ViewModels\Login\LoginViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\ShellViewModel.cs">
+      <Link>ViewModels\ShellViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\AddressTypeSelectorViewModel.cs">
+      <Link>ViewModels\StaffingResource\AddressTypeSelectorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\IStaffingResourceDetailSection.cs">
+      <Link>ViewModels\StaffingResource\IStaffingResourceDetailSection.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\PhoneTypeSelectorViewModel.cs">
+      <Link>ViewModels\StaffingResource\PhoneTypeSelectorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\RateTypeSelectorViewModel.cs">
+      <Link>ViewModels\StaffingResource\RateTypeSelectorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceAddressListViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceAddressListViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceContactInfoViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceContactInfoViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceDetailViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceDetailViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceManagementViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceManagementViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceNameEditorViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceNameEditorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourcePhoneItemViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourcePhoneItemViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourcePhoneListViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourcePhoneListViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceRatesViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceRatesViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceScreenBase.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceScreenBase.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceSearchViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceSearchViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceSkillsViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceSkillsViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceSummaryViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceSummaryViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceWorkExperienceViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceWorkExperienceViewModel.cs</Link>
+    </Compile>
+    <Compile Include="App.Wpf.xaml.cs">
+      <DependentUpon>App.Wpf.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="Authentication\FakeAuthenticationService.cs" />
+    <Compile Include="DesignTimeSupport\DesignTimeEntityManagerProvider.cs" />
+    <Compile Include="DesignTimeSupport\DesignTimeResourceRepositoryManager.cs" />
+    <Compile Include="DesignTimeSupport\ViewModelLocator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Cocktail\Cocktail.csproj">
+      <Project>{10F63FBB-FB0D-4B76-9E3F-5979D19CB01F}</Project>
+      <Name>Cocktail</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{106B77CD-EE99-40DD-82CE-2CD5C69A4464}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainModel\DomainModel.csproj">
+      <Project>{58F6DA15-8C8C-4FC0-A277-A6FFCDEDBF24}</Project>
+      <Name>DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Security\Security.csproj">
+      <Project>{5DA86954-CB04-4E4B-815D-D1D38B8501B4}</Project>
+      <Name>Security</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="..\TempHire\App.config">
+      <Link>App.config</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.Wpf.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="..\TempHire\Views\HomeView.xaml">
+      <Link>Views\HomeView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Login\LoginView.Wpf.xaml">
+      <Link>Views\Login\LoginView.Wpf.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\ShellView.Wpf.xaml">
+      <Link>Views\ShellView.Wpf.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceManagementView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceManagementView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

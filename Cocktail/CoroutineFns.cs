@@ -186,7 +186,7 @@ namespace Cocktail
         public static void Execute(this IResult result, Action<ResultCompletionEventArgs> callback = null)
         {
             if (callback != null)
-                result.Completed += (sender, args) => callback(args);
+                result.Completed += (sender, args) => Caliburn.Micro.Execute.OnUIThread(() => callback(args));
             result.Execute(null);
         }
 

@@ -66,7 +66,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Fakestore|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Fakestore\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SILVERLIGHT;HARNESS;FAKESTORE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <DebugType>full</DebugType>

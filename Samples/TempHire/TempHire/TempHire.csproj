@@ -59,9 +59,24 @@
     <Reference Include="Caliburn.Micro">
       <HintPath>..\..\..\packages\Caliburn.Micro.1.3.1\lib\net40\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel" />
-    <Reference Include="IdeaBlade.Core" />
-    <Reference Include="IdeaBlade.Validation" />
+    <Reference Include="IdeaBlade.Aop">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IdeaBlade.EntityModel">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IdeaBlade.Core">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IdeaBlade.EntityModel.Server">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IdeaBlade.Linq">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IdeaBlade.Validation">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MefContrib">
       <HintPath>..\Libs\MefContrib\MefContrib.dll</HintPath>
     </Reference>

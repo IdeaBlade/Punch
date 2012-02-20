@@ -17,7 +17,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
 
@@ -29,10 +28,10 @@ namespace Cocktail
     [PartNotDiscoverable]
     public class DialogHostBase : Conductor<object>, IDialogHost
     {
+        private object _cancelButton;
+        private object _defaultButton;
         private IEnumerable<DialogButton> _dialogButtons;
         private object _dialogResult;
-        private object _defaultButton;
-        private object _cancelButton;
 
         static DialogHostBase()
         {
@@ -74,7 +73,8 @@ namespace Cocktail
         internal event EventHandler<EventArgs> Completed;
 
         /// <summary>Initializes and starts the dialog host.</summary>
-        public DialogHostBase Start(string title, object content, IEnumerable dialogButtons, object defaultButton, object cancelButton)
+        public DialogHostBase Start(string title, object content, IEnumerable dialogButtons, object defaultButton,
+                                    object cancelButton)
         {
             DisplayName = title;
             _dialogButtons =
@@ -124,11 +124,35 @@ namespace Cocktail
             ((UIElement) view).KeyDown += (sender, args) => OnKeyDown(args);
         }
 
+        /// <summary>
+        /// Called to check whether the dialog host can be closed.
+        /// </summary>
+        public override void CanClose(Action<bool> callback)
+        {
+            if (DialogResult != null)
+            {
+                callback(true);
+                return;
+            }
+
+            if (_cancelButton != null)
+            {
+                DialogButton button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
+                if (button == null || !button.Enabled)
+                    return;
+                DialogResult = button.Value;
+                callback(true);
+                return;
+            }
+
+            callback(false);
+        }
+
         private void OnKeyDown(KeyEventArgs args)
         {
             if (args.Key == Key.Escape && _cancelButton != null)
             {
-                var button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
+                DialogButton button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
                 if (button == null || !button.Enabled)
                     return;
                 Close(button);
@@ -136,7 +160,7 @@ namespace Cocktail
 
             if (args.Key == Key.Enter && _defaultButton != null)
             {
-                var button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_defaultButton));
+                DialogButton button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_defaultButton));
                 if (button == null || !button.Enabled)
                     return;
                 Close(button);

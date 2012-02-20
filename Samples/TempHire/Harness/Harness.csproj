@@ -215,6 +215,11 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="..\TempHire\Styles\Styles.Wpf.xaml">
+      <Link>Styles\Styles.Wpf.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\TempHire\Views\StaffingResource\RateTypeSelectorView.xaml">
       <Link>Views\StaffingResource\RateTypeSelectorView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>

@@ -18,6 +18,7 @@ using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
+using Common.Factories;
 using Common.Repositories;
 using DomainModel;
 
@@ -26,12 +27,12 @@ namespace TempHire.ViewModels.StaffingResource
     [Export(typeof(IStaffingResourceDetailSection)), PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceRatesViewModel : StaffingResourceScreenBase, IStaffingResourceDetailSection
     {
-        private readonly ExportFactory<RateTypeSelectorViewModel> _rateTypeSelectorFactory;
+        private readonly IPartFactory<RateTypeSelectorViewModel> _rateTypeSelectorFactory;
         private readonly IDialogManager _dialogManager;
 
         [ImportingConstructor]
         public StaffingResourceRatesViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                      ExportFactory<RateTypeSelectorViewModel> rateTypeSelectorFactory,
+                                      IPartFactory<RateTypeSelectorViewModel> rateTypeSelectorFactory,
                                       IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(repositoryManager, errorHandler)
         {
@@ -96,7 +97,7 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> Add()
         {
-            RateTypeSelectorViewModel rateTypeSelector = _rateTypeSelectorFactory.CreateExport().Value;
+            RateTypeSelectorViewModel rateTypeSelector = _rateTypeSelectorFactory.CreatePart();
             yield return _dialogManager.ShowDialog(rateTypeSelector.Start(StaffingResource.Id), DialogButtons.OkCancel);
 
             StaffingResource.AddRate(rateTypeSelector.SelectedRateType);

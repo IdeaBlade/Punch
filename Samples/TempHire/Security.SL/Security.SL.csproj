@@ -80,7 +80,7 @@
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="PostSharp.SL">
-	<HintPath>$(ProgramFiles)\PostSharp 2.1\Reference Assemblies\Silverlight 3.0\PostSharp.SL.dll</HintPath>
+      <HintPath>$(ProgramFiles)\PostSharp 2.1\Reference Assemblies\Silverlight 3.0\PostSharp.SL.dll</HintPath>
     </Reference>
     <Reference Include="system" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -95,6 +95,12 @@
     <Compile Include="..\Security\CryptoHelper.cs">
       <Link>CryptoHelper.cs</Link>
     </Compile>
+    <Compile Include="..\Security\Messages\LoggedInMessage.cs">
+      <Link>Messages\LoggedInMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\Security\Messages\LoggedOutMessage.cs">
+      <Link>Messages\LoggedOutMessage.cs</Link>
+    </Compile>
     <Compile Include="..\Security\SecurityEntities.cs">
       <Link>SecurityEntities.cs</Link>
     </Compile>
@@ -104,8 +110,6 @@
     <Compile Include="..\Security\UserPrincipal.cs">
       <Link>UserPrincipal.cs</Link>
     </Compile>
-    <Compile Include="Messages\LoggedInMessage.cs" />
-    <Compile Include="Messages\LoggedOutMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

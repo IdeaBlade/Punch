@@ -1,11 +1,10 @@
 <UserControl x:Class="TempHire.Views.StaffingResource.StaffingResourceNameEditorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:behaviors="clr-namespace:Common.Behaviors;assembly=Common.SL"
+             xmlns:common="http://temphire.ideablade.com/common"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
              d:DesignHeight="100"
              d:DesignWidth="400"
              mc:Ignorable="d">
@@ -21,13 +20,17 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <sdk:Label Margin="2" Content="First name:" />
-        <sdk:Label Grid.Row="1"
+        <TextBlock Margin="2"
+                   VerticalAlignment="Center"
+                   Text="First name:" />
+        <TextBlock Grid.Row="1"
                    Margin="2"
-                   Content="Middle name:" />
-        <sdk:Label Grid.Row="2"
+                   VerticalAlignment="Center"
+                   Text="Middle name:" />
+        <TextBlock Grid.Row="2"
                    Margin="2"
-                   Content="Last name:" />
+                   VerticalAlignment="Center"
+                   Text="Last name:" />
         <TextBox x:Name="FirstName"
                  Grid.Column="1"
                  Height="25"
@@ -35,8 +38,8 @@
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Center">
             <i:Interaction.Behaviors>
-                <behaviors:SelectAllOnFocusBehavior />
-                <behaviors:InitialFocusBehavior />
+                <common:SelectAllOnFocusBehavior />
+                <common:InitialFocusBehavior />
             </i:Interaction.Behaviors>
         </TextBox>
         <TextBox x:Name="MiddleName"
@@ -47,7 +50,7 @@
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Center">
             <i:Interaction.Behaviors>
-                <behaviors:SelectAllOnFocusBehavior />
+                <common:SelectAllOnFocusBehavior />
             </i:Interaction.Behaviors>
         </TextBox>
         <TextBox x:Name="LastName"
@@ -58,7 +61,7 @@
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Center">
             <i:Interaction.Behaviors>
-                <behaviors:SelectAllOnFocusBehavior />
+                <common:SelectAllOnFocusBehavior />
             </i:Interaction.Behaviors>
         </TextBox>
     </Grid>

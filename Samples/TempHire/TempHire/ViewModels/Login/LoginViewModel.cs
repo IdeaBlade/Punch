@@ -18,6 +18,7 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
+using Common.Factories;
 using Common.Repositories;
 using IdeaBlade.EntityModel;
 using Security;
@@ -160,5 +161,10 @@ namespace TempHire.ViewModels.Login
             if (close)
                 OnComplete();
         }
+    }
+
+    [Export(typeof (IPartFactory<LoginViewModel>))]
+    public class LoginViewModelFactory : PartFactoryBase<LoginViewModel>
+    {
     }
 }

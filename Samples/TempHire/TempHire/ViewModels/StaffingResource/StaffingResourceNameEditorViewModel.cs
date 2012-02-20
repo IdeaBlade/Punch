@@ -15,6 +15,7 @@ using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
+using Common.Factories;
 using Common.Repositories;
 
 namespace TempHire.ViewModels.StaffingResource
@@ -33,7 +34,7 @@ namespace TempHire.ViewModels.StaffingResource
 
         [ImportingConstructor]
         public StaffingResourceNameEditorViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                           IErrorHandler errorHandler)
+                                                   IErrorHandler errorHandler)
         {
             _repositoryManager = repositoryManager;
             _errorHandler = errorHandler;
@@ -86,13 +87,13 @@ namespace TempHire.ViewModels.StaffingResource
         {
             _staffingResourceId = staffingResourceId;
             Repository.GetStaffingResourceAsync(_staffingResourceId,
-                                        result =>
-                                            {
-                                                FirstName = result.FirstName;
-                                                MiddleName = result.MiddleName;
-                                                LastName = result.LastName;
-                                            },
-                                        _errorHandler.HandleError);
+                                                result =>
+                                                    {
+                                                        FirstName = result.FirstName;
+                                                        MiddleName = result.MiddleName;
+                                                        LastName = result.LastName;
+                                                    },
+                                                _errorHandler.HandleError);
             return this;
         }
 
@@ -126,5 +127,10 @@ namespace TempHire.ViewModels.StaffingResource
             _okButton = this.DialogHost().GetButton(DialogResult.Ok);
             _okButton.Enabled = IsComplete;
         }
+    }
+
+    [Export(typeof (IPartFactory<StaffingResourceNameEditorViewModel>))]
+    public class StaffingResourceNameEditorViewModelFactory : PartFactoryBase<StaffingResourceNameEditorViewModel>
+    {
     }
 }

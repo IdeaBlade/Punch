@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{106B77CD-EE99-40DD-82CE-2CD5C69A4464}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Common</RootNamespace>
+    <AssemblyName>Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SkipPostSharp>True</SkipPostSharp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\..\..\packages\Caliburn.Micro.1.3.1\lib\net40\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.Core" />
+    <Reference Include="IdeaBlade.EntityModel" />
+    <Reference Include="IdeaBlade.Linq" />
+    <Reference Include="IdeaBlade.Validation" />
+    <Reference Include="MefContrib">
+      <HintPath>..\Libs\MefContrib\MefContrib.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Caliburn.Micro.1.3.1\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Behaviors\BindablePasswordBehavior.cs" />
+    <Compile Include="Behaviors\InitialFocusBehavior.cs" />
+    <Compile Include="Behaviors\ScrollIntoViewBehavior.cs" />
+    <Compile Include="Behaviors\SelectAllOnFocusBehavior.cs" />
+    <Compile Include="BootstrapperBase.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="EntityManagerProviders\DevSecurityEntityManagerProvider.cs" />
+    <Compile Include="EntityManagerProviders\DevTempHireEntityManagerProvider.cs" />
+    <Compile Include="EntityManagerProviders\SecurityEntityManagerProvider.cs" />
+    <Compile Include="EntityManagerProviders\TempHireEntityManagerProvider.cs" />
+    <Compile Include="Errors\ErrorHandler.cs" />
+    <Compile Include="Errors\IErrorHandler.cs" />
+    <Compile Include="Factories\PartFactoryBase.cs" />
+    <Compile Include="Factories\IPartFactory.cs" />
+    <Compile Include="Messages\EntityChangedMessage.cs" />
+    <Compile Include="Messages\IMessageProcessor.cs" />
+    <Compile Include="Messages\MessageProcessor.cs" />
+    <Compile Include="Messages\SavedMessage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ILookupRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\IRepositoryManager.cs" />
+    <Compile Include="Repositories\IStaffingResourceRepository.cs" />
+    <Compile Include="Repositories\RepositoryBase.cs" />
+    <Compile Include="Repositories\RepositoryManagers.cs" />
+    <Compile Include="Repositories\StaffingResourceRepository.cs" />
+    <Compile Include="SampleData\SecuritySampleDataProvider.cs" />
+    <Compile Include="SampleData\TempHireSampleDataProvider.cs" />
+    <Compile Include="Security\IUserService.cs" />
+    <Compile Include="Toolbar\IToolbarManager.cs" />
+    <Compile Include="Toolbar\ToolbarAction.cs" />
+    <Compile Include="Toolbar\ToolbarManager.cs" />
+    <Compile Include="Validation\ValidationErrorHandler.cs" />
+    <Compile Include="Validation\ValidationErrorMessage.cs" />
+    <Compile Include="Validation\ValidationErrorMessageProcessor.cs" />
+    <Compile Include="Validation\ValidationErrorsViewModel.cs" />
+    <Compile Include="Workspace\IWorkspace.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Cocktail.Utils\Cocktail.Utils.csproj">
+      <Project>{261E777A-1FE0-455E-87FD-DDB95B2757AA}</Project>
+      <Name>Cocktail.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Cocktail\Cocktail.csproj">
+      <Project>{10F63FBB-FB0D-4B76-9E3F-5979D19CB01F}</Project>
+      <Name>Cocktail</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TempHire\DomainModel\DomainModel.csproj">
+      <Project>{58F6DA15-8C8C-4FC0-A277-A6FFCDEDBF24}</Project>
+      <Name>DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Security\Security.csproj">
+      <Project>{5DA86954-CB04-4E4B-815D-D1D38B8501B4}</Project>
+      <Name>Security</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\error_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Validation\ValidationErrorsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

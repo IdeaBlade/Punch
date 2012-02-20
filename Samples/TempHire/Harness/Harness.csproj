@@ -188,6 +188,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceContactInfoView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceContactInfoView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceNameEditorView.xaml">
       <Link>Views\StaffingResource\StaffingResourceNameEditorView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>

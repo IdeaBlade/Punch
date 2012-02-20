@@ -8,6 +8,7 @@
             <local:AppBootstrapper x:Key="AppBootstrapper" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Styles.xaml"/>
+                <ResourceDictionary Source="Styles/Styles.Silverlight.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

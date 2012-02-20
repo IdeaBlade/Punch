@@ -24,7 +24,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;HARNESS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -183,6 +183,11 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="..\TempHire\Styles\Styles.xaml">
+      <Link>Styles\Styles.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
     <Page Include="..\TempHire\Views\HomeView.xaml">
       <Link>Views\HomeView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -195,6 +200,16 @@
     </Page>
     <Page Include="..\TempHire\Views\ShellView.Wpf.xaml">
       <Link>Views\ShellView.Wpf.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\AddressTypeSelectorView.xaml">
+      <Link>Views\StaffingResource\AddressTypeSelectorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceAddressListView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceAddressListView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

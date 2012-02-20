@@ -129,9 +129,15 @@ namespace Cocktail
         /// </summary>
         public override void CanClose(Action<bool> callback)
         {
-            if (_defaultButton != null)
+            if (DialogResult != null)
             {
-                DialogButton button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_defaultButton));
+                callback(true);
+                return;
+            }
+
+            if (_cancelButton != null)
+            {
+                DialogButton button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
                 if (button == null || !button.Enabled)
                     return;
                 DialogResult = button.Value;

@@ -232,11 +232,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="..\TempHire\Styles\Styles.xaml">
+    <Resource Include="..\TempHire\Styles\Styles.Silverlight.xaml">
+      <Link>Styles\Styles.Silverlight.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="..\TempHire\Styles\Styles.xaml">
       <Link>Styles\Styles.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </Resource>
     <Page Include="..\TempHire\Views\HomeView.xaml">
       <Link>Views\HomeView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>

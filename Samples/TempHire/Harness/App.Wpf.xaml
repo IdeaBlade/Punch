@@ -11,7 +11,7 @@
                     <local:AppBootstrapper x:Key="AppBootstrapper" />
                     <designTimeSupport:ViewModelLocator x:Key="ViewModelLocator" />
                 </ResourceDictionary>
-                <!--  <ResourceDictionary Source="Styles/Styles.xaml"/>  -->
+                <ResourceDictionary Source="Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

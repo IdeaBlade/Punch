@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Windows.Markup;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -25,6 +26,21 @@ using System.Runtime.InteropServices;
                                                      + "4bdd6effc405878d65cfc4911708ed650da935d733fc5dc707f74910e025ac080543e01a6cc863"
                                                      + "b9f85ffc")]
 #endif
+
+[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common")]
+[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Behaviors")]
+[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Converters")]
+[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.EntityManagerProviders")]
+[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Errors")]
+[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Factories")]
+[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Messages")]
+[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Repositories")]
+[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.SampleData")]
+[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Security")]
+[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Toolbar")]
+[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Validation")]
+[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Workspace")]
+
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

@@ -198,6 +198,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceRatesView.Wpf.xaml">
+      <Link>Views\StaffingResource\StaffingResourceRatesView.Wpf.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSummaryView.xaml">
       <Link>Views\StaffingResource\StaffingResourceSummaryView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>

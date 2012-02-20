@@ -1,12 +1,11 @@
 <UserControl x:Class="TempHire.Views.StaffingResource.StaffingResourceRatesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:behaviors="clr-namespace:Common.Behaviors;assembly=Common.SL"
+             xmlns:common="http://temphire.ideablade.com/common"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
              xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
              d:DataContext="{Binding Source={StaticResource ViewModelLocator},
                                      Path=StaffingResourceRatesViewModel}"
@@ -23,7 +22,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <sdk:Label Content="Rates:"
+        <TextBlock Text="Rates:"
                    FontSize="18"
                    FontWeight="Bold" />
         <StackPanel x:Name="IsEmpty"
@@ -53,11 +52,10 @@
                             <ColumnDefinition Width="80" />
                             <ColumnDefinition Width="80" />
                         </Grid.ColumnDefinitions>
-                        <sdk:Label Margin="2"
+                        <TextBlock Margin="2"
                                    HorizontalAlignment="Stretch"
-                                   VerticalAlignment="Stretch"
-                                   VerticalContentAlignment="Center"
-                                   Content="{Binding RateType.DisplayName}"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding RateType.DisplayName}"
                                    FontWeight="Bold" />
                         <TextBox Grid.Column="1"
                                  Height="25"
@@ -67,7 +65,7 @@
                                                 Mode=TwoWay}"
                                  TextAlignment="Right">
                             <i:Interaction.Behaviors>
-                                <behaviors:SelectAllOnFocusBehavior />
+                                <common:SelectAllOnFocusBehavior />
                             </i:Interaction.Behaviors>
                         </TextBox>
                         <StackPanel Grid.Column="2"

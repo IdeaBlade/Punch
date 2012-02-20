@@ -50,6 +50,8 @@
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
                                  Text="{Binding Item.AreaCode,
+                                                ValidatesOnDataErrors=True,
+                                                ValidatesOnExceptions=True,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />
@@ -60,6 +62,8 @@
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
                                  Text="{Binding Item.Number,
+                                                ValidatesOnDataErrors=True,
+                                                ValidatesOnExceptions=True,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />

@@ -146,7 +146,7 @@
     <Resource Include="Images\error_button.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Validation\ValidationErrorsView.xaml">
+    <Page Include="Validation\ValidationErrorsView.Wpf.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -60,6 +60,8 @@
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
                                  Text="{Binding Item.Address1,
+                                                ValidatesOnDataErrors=True,
+                                                ValidatesOnExceptions=True,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />
@@ -74,6 +76,8 @@
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
                                  Text="{Binding Item.Address2,
+                                                ValidatesOnDataErrors=True,
+                                                ValidatesOnExceptions=True,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />
@@ -88,6 +92,8 @@
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
                                  Text="{Binding Item.City,
+                                                ValidatesOnDataErrors=True,
+                                                ValidatesOnExceptions=True,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />
@@ -107,6 +113,8 @@
                                                         Path=DataContext.States}"
                                   MaxDropDownHeight="200"
                                   SelectedValue="{Binding Item.StateId,
+                                                          ValidatesOnDataErrors=True,
+                                                          ValidatesOnExceptions=True,
                                                           Mode=TwoWay}"
                                   SelectedValuePath="Id" />
                         <TextBlock Grid.Row="5"
@@ -119,6 +127,8 @@
                                  Margin="2"
                                  HorizontalAlignment="Left"
                                  Text="{Binding Item.Zipcode,
+                                                ValidatesOnDataErrors=True,
+                                                ValidatesOnExceptions=True,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />

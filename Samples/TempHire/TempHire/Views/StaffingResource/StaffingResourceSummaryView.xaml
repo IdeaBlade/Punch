@@ -36,6 +36,8 @@
                  VerticalAlignment="Top"
                  AcceptsReturn="True"
                  Text="{Binding StaffingResource.Summary,
+                                ValidatesOnDataErrors=True,
+                                ValidatesOnExceptions=True,
                                 Mode=TwoWay}"
                  TextWrapping="Wrap"
                  VerticalScrollBarVisibility="Auto">

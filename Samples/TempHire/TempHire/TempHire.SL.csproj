@@ -237,7 +237,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\StaffingResource\StaffingResourceWorkExperienceView.xaml">
+    <Page Include="Views\StaffingResource\StaffingResourceWorkExperienceView.Silverlight.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

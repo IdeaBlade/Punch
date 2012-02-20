@@ -213,6 +213,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceWorkExperienceView.Wpf.xaml">
+      <Link>Views\StaffingResource\StaffingResourceWorkExperienceView.Wpf.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Resource Include="..\TempHire\Styles\Styles.xaml">
       <Link>Styles\Styles.xaml</Link>
       <Generator>MSBuild:Compile</Generator>

@@ -193,6 +193,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceDetailView.Wpf.xaml">
+      <Link>Views\StaffingResource\StaffingResourceDetailView.Wpf.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceNameEditorView.xaml">
       <Link>Views\StaffingResource\StaffingResourceNameEditorView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -205,6 +210,11 @@
     </Page>
     <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceRatesView.Wpf.xaml">
       <Link>Views\StaffingResource\StaffingResourceRatesView.Wpf.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSearchView.Wpf.xaml">
+      <Link>Views\StaffingResource\StaffingResourceSearchView.Wpf.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

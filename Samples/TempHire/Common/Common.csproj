@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Behaviors\BindablePasswordBehavior.cs" />
     <Compile Include="Behaviors\InitialFocusBehavior.cs" />
+    <Compile Include="Behaviors\ScrollIntoViewBehavior.cs" />
     <Compile Include="Behaviors\SelectAllOnFocusBehavior.cs" />
     <Compile Include="BootstrapperBase.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
@@ -118,7 +119,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\error_button.png" />
+    <Resource Include="Images\error_button.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Validation\ValidationErrorsView.xaml">

@@ -282,8 +282,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceDetailView.xaml">
-      <Link>Views\StaffingResource\StaffingResourceDetailView.xaml</Link>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceDetailView.Silverlight.xaml">
+      <Link>Views\StaffingResource\StaffingResourceDetailView.Silverlight.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -307,8 +307,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSearchView.xaml">
-      <Link>Views\StaffingResource\StaffingResourceSearchView.xaml</Link>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSearchView.Silverlight.xaml">
+      <Link>Views\StaffingResource\StaffingResourceSearchView.Silverlight.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

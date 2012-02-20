@@ -1,7 +1,7 @@
 <UserControl x:Class="TempHire.Views.StaffingResource.StaffingResourceSearchView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:behaviors="clr-namespace:Common.Behaviors;assembly=Common.SL"
+             xmlns:common="http://temphire.ideablade.com/common"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -41,7 +41,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <i:Interaction.Behaviors>
-                    <behaviors:SelectAllOnFocusBehavior />
+                    <common:SelectAllOnFocusBehavior />
                 </i:Interaction.Behaviors>
             </TextBox>
             <Button x:Name="Search"
@@ -84,7 +84,7 @@
                     <sdk:DataGridTextColumn Binding="{Binding PhoneNumber, Mode=OneWay}" Header="Phone" />
                 </sdk:DataGrid.Columns>
                 <i:Interaction.Behaviors>
-                    <behaviors:ScrollIntoViewBehavior />
+                    <common:ScrollIntoViewBehavior />
                 </i:Interaction.Behaviors>
             </sdk:DataGrid>
         </toolkit:BusyIndicator>

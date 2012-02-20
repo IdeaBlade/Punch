@@ -32,11 +32,11 @@ namespace Common.Behaviors
                 if (grid.SelectedItem != null)
                 {
                     grid.Dispatcher.BeginInvoke(
-                        () =>
+                        new System.Action(() =>
                         {
                             grid.UpdateLayout();
                             grid.ScrollIntoView(grid.SelectedItem, null);
-                        });
+                        }));
                 }
             }
         }

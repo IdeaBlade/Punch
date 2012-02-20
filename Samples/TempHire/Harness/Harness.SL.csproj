@@ -312,8 +312,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSkillsView.xaml">
-      <Link>Views\StaffingResource\StaffingResourceSkillsView.xaml</Link>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSkillsView.Silverlight.xaml">
+      <Link>Views\StaffingResource\StaffingResourceSkillsView.Silverlight.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

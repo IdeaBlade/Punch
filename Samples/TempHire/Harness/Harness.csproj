@@ -183,6 +183,26 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="..\TempHire\Views\StaffingResource\RateTypeSelectorView.xaml">
+      <Link>Views\StaffingResource\RateTypeSelectorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceNameEditorView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceNameEditorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourcePhoneListView.xaml">
+      <Link>Views\StaffingResource\StaffingResourcePhoneListView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSummaryView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceSummaryView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Resource Include="..\TempHire\Styles\Styles.xaml">
       <Link>Styles\Styles.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -205,6 +225,11 @@
     </Page>
     <Page Include="..\TempHire\Views\StaffingResource\AddressTypeSelectorView.xaml">
       <Link>Views\StaffingResource\AddressTypeSelectorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\PhoneTypeSelectorView.xaml">
+      <Link>Views\StaffingResource\PhoneTypeSelectorView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

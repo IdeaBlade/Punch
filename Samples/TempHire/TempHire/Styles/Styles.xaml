@@ -250,4 +250,17 @@
         </Setter>
     </Style>
 
+    <Style x:Key="HyperlinkButton_Style" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <ContentControl>
+                        <ContentPresenter />
+                    </ContentControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+
 </ResourceDictionary>

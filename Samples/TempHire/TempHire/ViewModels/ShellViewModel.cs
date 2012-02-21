@@ -120,6 +120,10 @@ namespace TempHire.ViewModels
         {
             base.OnInitialize();
             Start();
+
+#if !SILVERLIGHT
+            DisplayName = "TempHire for WPF";
+#endif
         }
 
         protected override void OnViewLoaded(object view)

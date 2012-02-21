@@ -30,8 +30,9 @@ using Action = System.Action;
 namespace TempHire.ViewModels.StaffingResource
 {
     [Export]
-    public class StaffingResourceManagementViewModel : Conductor<IScreen>, IDiscoverableViewModel, IHandle<EntityChangedMessage>,
-                                               IWorkspace
+    public class StaffingResourceManagementViewModel : Conductor<IScreen>, IDiscoverableViewModel,
+                                                       IHandle<EntityChangedMessage>,
+                                                       IWorkspace
     {
         private readonly IPartFactory<StaffingResourceDetailViewModel> _detailFactory;
         private readonly IDialogManager _dialogManager;
@@ -45,11 +46,11 @@ namespace TempHire.ViewModels.StaffingResource
 
         [ImportingConstructor]
         public StaffingResourceManagementViewModel(StaffingResourceSearchViewModel searchPane,
-                                           IPartFactory<StaffingResourceDetailViewModel> detailFactory,
-                                           IPartFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
-                                           IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                           IErrorHandler errorHandler, IDialogManager dialogManager,
-                                           IToolbarManager toolbar)
+                                                   IPartFactory<StaffingResourceDetailViewModel> detailFactory,
+                                                   IPartFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
+                                                   IRepositoryManager<IStaffingResourceRepository> repositoryManager,
+                                                   IErrorHandler errorHandler, IDialogManager dialogManager,
+                                                   IToolbarManager toolbar)
         {
             SearchPane = searchPane;
             _detailFactory = detailFactory;
@@ -65,7 +66,7 @@ namespace TempHire.ViewModels.StaffingResource
             DisplayName = "Resource Management";
             // ReSharper restore DoNotCallOverridableMethodsInConstructor
 
-            _selectionChangeTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 200) };
+            _selectionChangeTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 200)};
             _selectionChangeTimer.Tick += OnSelectionChangeElapsed;
         }
 
@@ -163,7 +164,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             Start();
             SearchPane.PropertyChanged += OnSearchPanePropertyChanged;
-            ((IActivate)SearchPane).Activate();
+            ((IActivate) SearchPane).Activate();
 
             if (_toolbarGroup == null)
             {
@@ -210,7 +211,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             base.OnDeactivate(close);
             SearchPane.PropertyChanged -= OnSearchPanePropertyChanged;
-            ((IDeactivate)SearchPane).Deactivate(close);
+            ((IDeactivate) SearchPane).Deactivate(close);
 
             _toolbar.RemoveGroup(_toolbarGroup);
         }
@@ -236,31 +237,37 @@ namespace TempHire.ViewModels.StaffingResource
             StaffingResourceListItem staffingResource = SearchPane.CurrentStaffingResource;
 
             yield return
-                _dialogManager.ShowMessage(string.Format("Are you sure you want to delete {0}?", staffingResource.FullName),
-                                           DialogResult.Yes, DialogResult.No, DialogButtons.YesNo);
+                _dialogManager.ShowMessage(
+                    string.Format("Are you sure you want to delete {0}?", staffingResource.FullName),
+                    DialogResult.Yes, DialogResult.No, DialogButtons.YesNo);
 
+            OperationResult operation;
             using (ActiveDetail.Busy.GetTicket())
             {
                 IStaffingResourceRepository repository = _repositoryManager.GetRepository(staffingResource.Id);
 
-                OperationResult operation =
-                    repository.DeleteStaffingResourceAsync(staffingResource.Id, onFail: _errorHandler.HandleError);
-                yield return operation;
-
-                if (operation.CompletedSuccessfully)
-                {
-                    if (ActiveStaffingResource != null && ActiveStaffingResource.Id == staffingResource.Id)
-                        ActiveItem.TryClose();
-                }
+                yield return (operation = repository.DeleteStaffingResourceAsync(staffingResource.Id))
+                    .ContinueOnError();
             }
+
+            if (operation.CompletedSuccessfully)
+            {
+                if (ActiveStaffingResource != null && ActiveStaffingResource.Id == staffingResource.Id)
+                    ActiveItem.TryClose();
+            }
+
+            if (operation.HasError)
+                _errorHandler.HandleError(operation.Error);
         }
 
         public IEnumerable<IResult> Save()
         {
+            OperationResult<SaveResult> saveOperation;
             using (ActiveDetail.Busy.GetTicket())
-            {
-                yield return ActiveRepository.SaveAsync(onFail: _errorHandler.HandleError);
-            }
+                yield return (saveOperation = ActiveRepository.SaveAsync()).ContinueOnError();
+
+            if (saveOperation.HasError)
+                _errorHandler.HandleError(saveOperation.Error);
         }
 
         public void Cancel()

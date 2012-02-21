@@ -75,8 +75,9 @@ namespace Cocktail
         /// </param>
         public static void DefaultLogWriter(object message)
         {
-            // Log to the default DevForce logger
-            DefaultTraceLogger.Log(message);
+            // Log to the default DevForce logger, unless the default logger is the NullLogger
+            if (!(DefaultTraceLogger is NullLogger))
+                DefaultTraceLogger.Log(message);
 
             // For convenience, let's also log to the console.
             Debug.WriteLine(message);

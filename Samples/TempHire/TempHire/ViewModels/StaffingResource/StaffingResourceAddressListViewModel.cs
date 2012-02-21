@@ -18,6 +18,7 @@ using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
+using Common.Factories;
 using Common.Repositories;
 using DomainModel;
 using IdeaBlade.Core;
@@ -27,7 +28,7 @@ namespace TempHire.ViewModels.StaffingResource
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceAddressListViewModel : StaffingResourceScreenBase
     {
-        private readonly ExportFactory<AddressTypeSelectorViewModel> _addressTypeSelectorFactory;
+        private readonly IPartFactory<AddressTypeSelectorViewModel> _addressTypeSelectorFactory;
         private readonly IDialogManager _dialogManager;
         private readonly IRepositoryManager<IStaffingResourceRepository> _repositoryManager;
         private BindableCollection<StaffingResourceAddressItemViewModel> _addresses;
@@ -35,7 +36,7 @@ namespace TempHire.ViewModels.StaffingResource
 
         [ImportingConstructor]
         public StaffingResourceAddressListViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                            ExportFactory<AddressTypeSelectorViewModel> addressTypeSelectorFactory,
+                                            IPartFactory<AddressTypeSelectorViewModel> addressTypeSelectorFactory,
                                             IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(repositoryManager, errorHandler)
         {
@@ -134,7 +135,7 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> Add()
         {
-            AddressTypeSelectorViewModel addressTypeSelector = _addressTypeSelectorFactory.CreateExport().Value;
+            AddressTypeSelectorViewModel addressTypeSelector = _addressTypeSelectorFactory.CreatePart();
             yield return _dialogManager.ShowDialog(addressTypeSelector.Start(StaffingResource.Id), DialogButtons.OkCancel);
 
             StaffingResource.AddAddress(addressTypeSelector.SelectedAddressType);

@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
              d:DesignHeight="100"
              d:DesignWidth="300"
              mc:Ignorable="d">
@@ -15,7 +14,7 @@
             <ColumnDefinition Width="80" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <sdk:Label Content="Select type:" />
+        <TextBlock VerticalAlignment="Center" Text="Select type:" />
         <ComboBox Grid.Column="1"
                   Height="25"
                   Margin="2"

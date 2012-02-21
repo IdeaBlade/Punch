@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3CDF9103-91FB-417E-81A8-AEC269276939}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TempHire</RootNamespace>
+    <AssemblyName>Harness</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures>
+    </SupportedCultures>
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>Harness.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>Harness.App</SilverlightAppEntry>
+    <TestPageFileName>HarnessTestPage.html</TestPageFileName>
+    <CreateTestPage>true</CreateTestPage>
+    <ValidateXaml>true</ValidateXaml>
+    <EnableOutOfBrowser>false</EnableOutOfBrowser>
+    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
+    <UsePlatformExtensions>false</UsePlatformExtensions>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <LinkedServerProject>
+    </LinkedServerProject>
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>4.0.20901.0</ExpressionBlendVersion>
+    <SkipPostSharp>True</SkipPostSharp>
+    <BaseOutputPath>Bin.SL</BaseOutputPath>
+    <IntermediateOutputPath>obj.SL\$(Configuration)</IntermediateOutputPath>
+    <OutputPath>$(BaseOutputPath)\$(Configuration)</OutputPath>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;HARNESS</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Fakestore|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;HARNESS;FAKESTORE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>Bin\Debug\Harness.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <NoConfig>true</NoConfig>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\..\..\packages\Caliburn.Micro.1.3.1\lib\sl4\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.Core.SL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="IdeaBlade.EntityModel.SL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="IdeaBlade.Validation.SL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="MefContrib.Silverlight">
+      <HintPath>..\Libs\MefContrib\MefContrib.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="PostSharp.SL">
+      <HintPath>$(ProgramFiles)\PostSharp 2.1\Reference Assemblies\Silverlight 3.0\PostSharp.SL.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition.Initialization">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Browser" />
+    <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Data">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Data.Input">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Navigation">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Toolkit">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\..\..\packages\Caliburn.Micro.1.3.1\lib\sl4\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\TempHire\EntityManagerDelegate.cs">
+      <Link>EntityManagerDelegate.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\SyncInterceptor.cs">
+      <Link>SyncInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\HomeViewModel.cs">
+      <Link>ViewModels\HomeViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\Login\LoginViewModel.cs">
+      <Link>ViewModels\Login\LoginViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\ShellViewModel.cs">
+      <Link>ViewModels\ShellViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\AddressTypeSelectorViewModel.cs">
+      <Link>ViewModels\StaffingResource\AddressTypeSelectorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\IStaffingResourceDetailSection.cs">
+      <Link>ViewModels\StaffingResource\IStaffingResourceDetailSection.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\PhoneTypeSelectorViewModel.cs">
+      <Link>ViewModels\StaffingResource\PhoneTypeSelectorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\RateTypeSelectorViewModel.cs">
+      <Link>ViewModels\StaffingResource\RateTypeSelectorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceAddressListViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceAddressListViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceContactInfoViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceContactInfoViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceDetailViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceDetailViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceManagementViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceManagementViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceNameEditorViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceNameEditorViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourcePhoneItemViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourcePhoneItemViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourcePhoneListViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourcePhoneListViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceRatesViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceRatesViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceScreenBase.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceScreenBase.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceSearchViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceSearchViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceSkillsViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceSkillsViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceSummaryViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceSummaryViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceWorkExperienceViewModel.cs">
+      <Link>ViewModels\StaffingResource\StaffingResourceWorkExperienceViewModel.cs</Link>
+    </Compile>
+    <Compile Include="App.Silverlight.xaml.cs">
+      <DependentUpon>App.Silverlight.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="Authentication\FakeAuthenticationService.cs" />
+    <Compile Include="DesignTimeSupport\DesignTimeEntityManagerProvider.cs" />
+    <Compile Include="DesignTimeSupport\DesignTimeResourceRepositoryManager.cs" />
+    <Compile Include="DesignTimeSupport\ViewModelLocator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Cocktail\Cocktail.SL.csproj">
+      <Project>{7ECA6212-BDB6-4325-946E-97D9C227E468}</Project>
+      <Name>Cocktail.SL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.SL.csproj">
+      <Project>{3D676816-91A4-4B53-877E-95FE5B348480}</Project>
+      <Name>Common.SL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainModel.SL\DomainModel.SL.csproj">
+      <Project>{77A1A2B1-66E8-4141-8405-87AB13775FB8}</Project>
+      <Name>DomainModel.SL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Security.SL\Security.SL.csproj">
+      <Project>{DD97F37C-E978-4483-B0BC-CFC49940B560}</Project>
+      <Name>Security.SL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\TempHire\Styles\Styles.Silverlight.xaml">
+      <Link>Styles\Styles.Silverlight.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="..\TempHire\Styles\Styles.xaml">
+      <Link>Styles\Styles.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Page Include="..\TempHire\Views\HomeView.xaml">
+      <Link>Views\HomeView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\Login\LoginView.Silverlight.xaml">
+      <Link>Views\Login\LoginView.Silverlight.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\ShellView.Silverlight.xaml">
+      <Link>Views\ShellView.Silverlight.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\AddressTypeSelectorView.xaml">
+      <Link>Views\StaffingResource\AddressTypeSelectorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\PhoneTypeSelectorView.xaml">
+      <Link>Views\StaffingResource\PhoneTypeSelectorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\RateTypeSelectorView.xaml">
+      <Link>Views\StaffingResource\RateTypeSelectorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceAddressListView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceAddressListView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceContactInfoView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceContactInfoView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceDetailView.Silverlight.xaml">
+      <Link>Views\StaffingResource\StaffingResourceDetailView.Silverlight.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceManagementView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceManagementView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceNameEditorView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceNameEditorView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourcePhoneListView.xaml">
+      <Link>Views\StaffingResource\StaffingResourcePhoneListView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceRatesView.Silverlight.xaml">
+      <Link>Views\StaffingResource\StaffingResourceRatesView.Silverlight.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSearchView.Silverlight.xaml">
+      <Link>Views\StaffingResource\StaffingResourceSearchView.Silverlight.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSkillsView.Silverlight.xaml">
+      <Link>Views\StaffingResource\StaffingResourceSkillsView.Silverlight.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSummaryView.xaml">
+      <Link>Views\StaffingResource\StaffingResourceSummaryView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceWorkExperienceView.Silverlight.xaml">
+      <Link>Views\StaffingResource\StaffingResourceWorkExperienceView.Silverlight.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <ApplicationDefinition Include="App.Silverlight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

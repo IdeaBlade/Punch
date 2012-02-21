@@ -17,6 +17,7 @@ using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
+using Common.Factories;
 using Common.Repositories;
 using DomainModel;
 using IdeaBlade.Core;
@@ -26,13 +27,13 @@ namespace TempHire.ViewModels.StaffingResource
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourcePhoneListViewModel : StaffingResourceScreenBase
     {
-        private readonly ExportFactory<PhoneTypeSelectorViewModel> _phoneTypeSelectorFactory;
+        private readonly IPartFactory<PhoneTypeSelectorViewModel> _phoneTypeSelectorFactory;
         private readonly IDialogManager _dialogManager;
         private BindableCollection<StaffingResourcePhoneItemViewModel> _phoneNumbers;
 
         [ImportingConstructor]
         public StaffingResourcePhoneListViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                          ExportFactory<PhoneTypeSelectorViewModel> phoneTypeSelectorFactory,
+                                          IPartFactory<PhoneTypeSelectorViewModel> phoneTypeSelectorFactory,
                                           IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(repositoryManager, errorHandler)
         {
@@ -98,7 +99,7 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> Add()
         {
-            PhoneTypeSelectorViewModel phoneTypeSelector = _phoneTypeSelectorFactory.CreateExport().Value;
+            PhoneTypeSelectorViewModel phoneTypeSelector = _phoneTypeSelectorFactory.CreatePart();
             yield return _dialogManager.ShowDialog(phoneTypeSelector.Start(StaffingResource.Id), DialogButtons.OkCancel);
 
             StaffingResource.AddPhoneNumber(phoneTypeSelector.SelectedPhoneType);

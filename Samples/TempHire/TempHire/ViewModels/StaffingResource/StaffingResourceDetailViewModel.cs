@@ -18,6 +18,7 @@ using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
+using Common.Factories;
 using Common.Repositories;
 using IdeaBlade.Core;
 
@@ -29,7 +30,7 @@ namespace TempHire.ViewModels.StaffingResource
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceDetailViewModel : Conductor<IScreen>.Collection.OneActive, IDiscoverableViewModel,
-                                           IHarnessAware
+                                                   IHarnessAware
     {
         private readonly IDialogManager _dialogManager;
         private readonly IErrorHandler _errorHandler;
@@ -41,9 +42,9 @@ namespace TempHire.ViewModels.StaffingResource
 
         [ImportingConstructor]
         public StaffingResourceDetailViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                       StaffingResourceSummaryViewModel staffingResourceSummary,
-                                       [ImportMany] IEnumerable<IStaffingResourceDetailSection> sections,
-                                       IErrorHandler errorHandler, IDialogManager dialogManager)
+                                               StaffingResourceSummaryViewModel staffingResourceSummary,
+                                               [ImportMany] IEnumerable<IStaffingResourceDetailSection> sections,
+                                               IErrorHandler errorHandler, IDialogManager dialogManager)
         {
             StaffingResourceSummary = staffingResourceSummary;
             _repositoryManager = repositoryManager;
@@ -137,12 +138,12 @@ namespace TempHire.ViewModels.StaffingResource
 
             _repository = _repositoryManager.Create();
             _repository.CreateStaffingResourceAsync(firstName, middleName, lastName,
-                                            resource =>
-                                                {
-                                                    _repositoryManager.Add(resource.Id, _repository);
-                                                    Start(resource.Id);
-                                                },
-                                            _errorHandler.HandleError)
+                                                    resource =>
+                                                    {
+                                                        _repositoryManager.Add(resource.Id, _repository);
+                                                        Start(resource.Id);
+                                                    },
+                                                    _errorHandler.HandleError)
                 .OnComplete(args => Busy.RemoveWatch());
 
             return this;
@@ -151,13 +152,13 @@ namespace TempHire.ViewModels.StaffingResource
         protected override void OnActivate()
         {
             base.OnActivate();
-            ((IActivate) StaffingResourceSummary).Activate();
+            ((IActivate)StaffingResourceSummary).Activate();
         }
 
         protected override void OnDeactivate(bool close)
         {
             base.OnDeactivate(close);
-            ((IDeactivate) StaffingResourceSummary).Deactivate(close);
+            ((IDeactivate)StaffingResourceSummary).Deactivate(close);
 
             if (close)
             {
@@ -171,7 +172,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             if (Repository.HasChanges())
             {
-                var dialogResult =
+                DialogOperationResult<DialogResult> dialogResult =
                     _dialogManager.ShowMessage("There are unsaved changes. Would you like to save your changes?",
                                                DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel);
                 dialogResult.OnComplete(delegate
@@ -196,5 +197,10 @@ namespace TempHire.ViewModels.StaffingResource
             else
                 base.CanClose(callback);
         }
+    }
+
+    [Export(typeof(IPartFactory<StaffingResourceDetailViewModel>))]
+    public class StaffingResourceDetailViewModelFactory : PartFactoryBase<StaffingResourceDetailViewModel>
+    {
     }
 }

@@ -63,6 +63,16 @@ namespace TempHire.Authentication
             return AlwaysCompletedOperationResult.Instance;
         }
 
+        public bool Login(ILoginCredential credential)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Logout()
+        {
+            throw new NotImplementedException();
+        }
+
         public event EventHandler<EventArgs> LoggedIn;
         public event EventHandler<EventArgs> LoggedOut;
         public event EventHandler<EventArgs> PrincipalChanged;

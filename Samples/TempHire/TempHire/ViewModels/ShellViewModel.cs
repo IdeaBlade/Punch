@@ -16,6 +16,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
+using Common.Factories;
 using Common.Toolbar;
 using Common.Workspace;
 using IdeaBlade.Core;
@@ -29,12 +30,12 @@ namespace TempHire.ViewModels
                                   IHandle<LoggedOutMessage>
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly ExportFactory<LoginViewModel> _loginFactory;
+        private readonly IPartFactory<LoginViewModel> _loginFactory;
         private readonly IEnumerable<IWorkspace> _workspaces;
 
         [ImportingConstructor]
         public ShellViewModel([ImportMany] IEnumerable<IWorkspace> workspaces, IToolbarManager toolbar,
-                              IAuthenticationService authenticationService, ExportFactory<LoginViewModel> loginFactory)
+                              IAuthenticationService authenticationService, IPartFactory<LoginViewModel> loginFactory)
         {
             Toolbar = toolbar;
             _workspaces = workspaces;
@@ -86,6 +87,16 @@ namespace TempHire.ViewModels
             return this;
         }
 
+        public IEnumerable<IResult> Login()
+        {
+            yield return _loginFactory.CreatePart();
+
+#if !SILVERLIGHT
+            if (!_authenticationService.IsLoggedIn)
+                TryClose();
+#endif
+        }
+
         public IEnumerable<IResult> Logout()
         {
             IWorkspace home = GetHomeScreen();
@@ -97,7 +108,7 @@ namespace TempHire.ViewModels
 
             yield return _authenticationService.LogoutAsync();
 
-            yield return _loginFactory.CreateExport().Value;
+            yield return Login().ToSequentialResult();
         }
 
         protected IEnumerable<IResult> NavigateTo(IWorkspace workspace)
@@ -109,6 +120,10 @@ namespace TempHire.ViewModels
         {
             base.OnInitialize();
             Start();
+
+#if !SILVERLIGHT
+            DisplayName = "TempHire for WPF";
+#endif
         }
 
         protected override void OnViewLoaded(object view)
@@ -116,8 +131,7 @@ namespace TempHire.ViewModels
             base.OnViewLoaded(view);
 
             // Launch login dialog
-            LoginViewModel login = _loginFactory.CreateExport().Value;
-            login.Execute();
+            Login().ToSequentialResult().Execute();
         }
 
         private IWorkspace GetHomeScreen()

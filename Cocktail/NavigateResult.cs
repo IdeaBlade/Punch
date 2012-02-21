@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
+using IdeaBlade.Core;
 
 namespace Cocktail
 {
@@ -20,7 +21,7 @@ namespace Cocktail
     /// An implementation of <see cref = "IResult" /> that implements navigation logic.
     /// </summary>
     /// <typeparam name="T">The type of the ViewModel navigated to</typeparam>
-    public class NavigateResult<T> : IResult
+    public class NavigateResult<T> : IResult, IHideObjectMembers
         where T : class
     {
         private readonly Func<T> _targetDelegate;

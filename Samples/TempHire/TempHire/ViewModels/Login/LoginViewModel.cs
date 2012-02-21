@@ -126,15 +126,27 @@ namespace TempHire.ViewModels.Login
                 Username = null;
                 Password = null;
 
-                yield return _authenticationService.LoginAsync(credential, onFail: e => FailureMessage = e.Message);
+                OperationResult operation;
+                yield return (operation = _authenticationService.LoginAsync(credential)).ContinueOnError();
 
                 if (_authenticationService.IsLoggedIn)
                 {
                     if (_lookupRepository != null)
-                        yield return _lookupRepository.InitializeAsync(onFail: _errorHandler.HandleError);
+                    {
+                        yield return (operation = _lookupRepository.InitializeAsync()).ContinueOnError();
+
+                        if (operation.HasError)
+                        {
+                            FailureMessage = "Failed to preload lookup repository. Try again!";
+                            yield break;
+                        }
+                    }
 
                     TryClose();
                 }
+
+                if (operation.HasError)
+                    FailureMessage = operation.Error.Message;
             }
         }
 

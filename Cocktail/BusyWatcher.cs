@@ -33,7 +33,7 @@ namespace Cocktail
     ///         using (Busy.GetTicket())
     ///         {
     ///             // Snip .. removed for clarity
-    ///             yield return _authenticationService.LoginAsync(credential, onFail: e =&gt; FailureMessage = e.Message);
+    ///             yield return _authenticationService.LoginAsync(credential);
     ///  
     ///             if (_authenticationService.IsLoggedIn)
     ///                 TryClose();

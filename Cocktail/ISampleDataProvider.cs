@@ -10,6 +10,7 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 
 namespace Cocktail
@@ -54,7 +55,7 @@ namespace Cocktail
     ///     Composition.Configure(batch);
     /// </code>
     /// </example>
-    public interface ISampleDataProvider<in T>
+    public interface ISampleDataProvider<in T> : IHideObjectMembers
         where T : EntityManager
     {
         /// <summary>This method is called by the EntityManagerProvider to initialize the EntityManager cache with sample data. Use EntityManager.AttachEntities or

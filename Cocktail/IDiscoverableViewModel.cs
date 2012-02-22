@@ -10,6 +10,7 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
 
 namespace Cocktail
@@ -21,7 +22,7 @@ namespace Cocktail
     /// generate a list of views that can be launched.
     /// </summary>
     [InterfaceExport(typeof(IDiscoverableViewModel))]
-    public interface IDiscoverableViewModel
+    public interface IDiscoverableViewModel : IHideObjectMembers
     {
     }
 }

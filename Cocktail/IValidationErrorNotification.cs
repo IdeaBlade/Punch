@@ -10,6 +10,7 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.Validation;
 
@@ -23,7 +24,7 @@ namespace Cocktail
     /// [PartCreationPolicy(CreationPolicy.Shared)]
     /// public class ValidationErrorProcessor : IValidationErrorNotification
     /// {
-    ///     // Let the UI know that a validation error occured.
+    ///     // Let the UI know that a validation error occurred.
     ///     public OnValidationError(VerifierResultCollection validationErrors)
     ///     {
     ///         EventFns.Publish(new HandleValidationErrors(validationErrors));
@@ -31,9 +32,9 @@ namespace Cocktail
     /// }</code>
     /// </example>
     [InterfaceExport(typeof(IValidationErrorNotification))]
-    public interface IValidationErrorNotification
+    public interface IValidationErrorNotification : IHideObjectMembers
     {
-        /// <summary>Method called by the framework if validation errors occured during the save.</summary>
+        /// <summary>Method called by the framework if validation errors occurred during the save.</summary>
         /// <param name="validationErrors">Collection containing all validation errors.</param>
         void OnValidationError(VerifierResultCollection validationErrors);
     }

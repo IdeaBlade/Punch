@@ -11,6 +11,7 @@
 //====================================================================================================================
 
 using System.Collections.Generic;
+using IdeaBlade.Core;
 
 namespace Cocktail
 {
@@ -67,7 +68,7 @@ namespace Cocktail
     }
 
     /// <summary>A service that manages modal dialogs and message boxes.</summary>
-    public interface IDialogManager
+    public interface IDialogManager : IHideObjectMembers
     {
         /// <summary>Displays a modal dialog with a custom view model.</summary>
         /// <param name="content">The custom view model to host in the dialog.</param>

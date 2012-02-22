@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>CocktailCTP</id>
+    <version>0.3.0</version>
+    <authors>Marcel Good, Ward Bell, Rob Eisenberg</authors>
+    <owners>IdeaBlade</owners>
+    <licenseUrl>http://cocktail.ideablade.com/licensing</licenseUrl>
+    <projectUrl>http://cocktail.ideablade.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <summary>Cocktail is an application development platform that takes the pain out of the development of data-driven Rich Internet Applications (RIA) in Silverlight or WPF Desktop Applications.</summary>
+    <description>Cocktail leverages established patterns and approaches, such as MVVM und builds on DevForce 2010 rich data service capabilities.</description>
+    <releaseNotes>
+      - New: Generic OperationResult&lt;T&gt; class for returning result values from asynchronous operations.
+      - New: Additional AsOperationResult extension methods for the various DevForce operations.
+      - Breaking change: Enhanced DialogManager to support a default button, enter and ESC keys (Method signature change).
+      - New: Improved look and feel of DialogManager for WPF.
+      - Fix: Threading issue during asynchronous bootstrapping in WPF.
+      - Fix: Duplicate log output if DevForces fails to create log file.
+      - New: Seperate solutions to build Cocktail for WPF, Silerlight 4 and Silverlight 5 only.
+      - New: WPF version of TempHire
+      - Enhancements to TempHire.
+      - Minor code cleanup and optimizations.
+    </releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>Cocktail,DevForce,Silverlight,WPF</tags>
+  </metadata>
+  <files>
+    <file src="..\Cocktail\Bin\Release\Cocktail*.*" target="lib\net40" />
+    <file src="..\Cocktail\Bin.SL\Release\Cocktail*.*" target="lib\sl40" />
+    <file src="..\Cocktail\Bin.SL5\Release\Cocktail*.*" target="lib\sl50" />
+    <file src="..\Cocktail\Bin\Release\Caliburn.Micro.*" target="lib\net40" />
+    <file src="..\Cocktail\Bin.SL\Release\Caliburn.Micro.*" target="lib\sl40" />
+    <file src="..\Cocktail\Bin.SL5\Release\Caliburn.Micro.*" target="lib\sl50" />
+    <file src="..\Cocktail\Bin\Release\System.Windows.Interactivity.*" target="lib\net40" />
+    <file src="..\Cocktail\Bin.SL\Release\System.Windows.Interactivity.*" target="lib\sl40" />
+    <file src="..\Cocktail\Bin.SL5\Release\System.Windows.Interactivity.*" target="lib\sl50" />
+    <file src="..\Cocktail.Utils\Bin\Release\Cocktail*.*" target="lib\net40" />
+    <file src="..\Cocktail.Utils\Bin.SL\Release\Cocktail*.*" target="lib\sl40" />
+    <file src="..\Cocktail.Utils\Bin.SL5\Release\Cocktail*.*" target="lib\sl50" />
+    <file src="..\Cocktail\**\*.cs" target="src\Cocktail" />
+    <file src="..\Cocktail\**\*.xaml" target="src\Cocktail" />
+    <file src="..\Cocktail.Utils\**\*.cs" target="src\Cocktail.Utils" />
+  </files>
+</package>

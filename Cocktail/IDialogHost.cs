@@ -10,10 +10,12 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using IdeaBlade.Core;
+
 namespace Cocktail
 {
     /// <summary>Public interface to interact with the dialog host.</summary>
-    public interface IDialogHost
+    public interface IDialogHost : IHideObjectMembers
     {
         /// <summary>Returns the user's response to a dialog or message box.</summary>
         object DialogResult { get; }

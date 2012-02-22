@@ -19,7 +19,6 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Caliburn.Micro;
-using IdeaBlade.Core;
 using Action = System.Action;
 
 namespace Cocktail
@@ -27,7 +26,7 @@ namespace Cocktail
     /// <summary>
     /// Abstract base class for the FrameworkBootstrapper
     /// </summary>
-    public abstract class FrameworkBootstrapper : Bootstrapper, IHideObjectMembers
+    public abstract class FrameworkBootstrapper : Bootstrapper
     {
         private bool _completed;
         private Action _completedActions;
@@ -118,7 +117,7 @@ namespace Cocktail
                 completedAction();
                 return;
             }
-            _completedActions = (Action) Delegate.Combine(_completedActions, completedAction);
+            _completedActions = (Action)Delegate.Combine(_completedActions, completedAction);
         }
 
         /// <summary>
@@ -165,11 +164,11 @@ namespace Cocktail
             Type type = GetType();
 
             // Throw exception if class is decorated with ExportAttribute
-            if (type.GetCustomAttributes(typeof (ExportAttribute), true).Any())
+            if (type.GetCustomAttributes(typeof(ExportAttribute), true).Any())
                 throw new CompositionException(StringResources.BootstrapperMustNotBeDecoratedWithExports);
 
             // Throw exception if any of the class members are decorated with ExportAttribute
-            if (type.GetMembers().Any(m => m.GetCustomAttributes(typeof (ExportAttribute), true).Any()))
+            if (type.GetMembers().Any(m => m.GetCustomAttributes(typeof(ExportAttribute), true).Any()))
                 throw new CompositionException(StringResources.BootstrapperMustNotBeDecoratedWithExports);
         }
 
@@ -237,9 +236,9 @@ namespace Cocktail
 #if SILVERLIGHT
                 () => DisplayRootViewFor(Application, typeof (TRootModel))
 #else
-                () => DisplayRootViewFor(typeof (TRootModel))
+() => DisplayRootViewFor(typeof(TRootModel))
 #endif
-                );
+);
         }
     }
 }

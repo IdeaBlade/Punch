@@ -13,9 +13,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
-using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 
 namespace Cocktail
@@ -25,7 +25,7 @@ namespace Cocktail
     /// where an <see cref = "IResult" /> or <see cref="INotifyCompleted" /> is expected.
     /// </summary>
     /// <seealso cref="CoroutineFns"/>
-    public class OperationResult : IResult, INotifyCompleted, IHideObjectMembers
+    public class OperationResult : IResult, INotifyCompleted
     {
         private readonly INotifyCompleted _asyncOp;
         private INotifyCompletedArgs _args;
@@ -120,6 +120,43 @@ namespace Cocktail
         }
 
         private event EventHandler<ResultCompletionEventArgs> Completed;
+
+        #region Hide Object Members
+
+        /// <summary>
+        /// Hidden.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override bool Equals(object obj)
+        {
+            // ReSharper disable BaseObjectEqualsIsObjectEquals
+            return base.Equals(obj);
+            // ReSharper restore BaseObjectEqualsIsObjectEquals
+        }
+
+        /// <summary>
+        /// Hidden.
+        /// </summary>
+        // ReSharper disable NonReadonlyFieldInGetHashCode
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        // ReSharper restore NonReadonlyFieldInGetHashCode
+        public override int GetHashCode()
+        {
+            // ReSharper disable BaseObjectGetHashCodeCallInGetHashCode
+            return base.GetHashCode();
+            // ReSharper restore BaseObjectGetHashCodeCallInGetHashCode
+        }
+
+        /// <summary>
+        /// Hidden.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
+        #endregion
     }
 
     /// <summary>

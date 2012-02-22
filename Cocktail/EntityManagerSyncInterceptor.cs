@@ -10,7 +10,6 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 
@@ -25,7 +24,7 @@ namespace Cocktail
     /// of entities.
     /// </summary>
     [InterfaceExport(typeof(IEntityManagerSyncInterceptor))]
-    public abstract class EntityManagerSyncInterceptor : IEntityManagerSyncInterceptor, IHideObjectMembers
+    public abstract class EntityManagerSyncInterceptor : IEntityManagerSyncInterceptor
     {
         /// <summary>Provides access to the importing or exporting EntityManager.</summary>
         /// <value>The instance of the EntityManager currently in the process of exporting or importing changed entities.</value>

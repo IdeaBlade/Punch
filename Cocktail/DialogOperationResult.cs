@@ -11,15 +11,15 @@
 //====================================================================================================================
 
 using System;
+using System.ComponentModel;
 using Caliburn.Micro;
-using IdeaBlade.Core;
 
 namespace Cocktail
 {
     /// <summary>
     /// An implementation of <see cref="IResult"/> providing information about the modal dialog or message box.
     /// </summary>
-    public abstract class DialogOperationResult<T> : IResult, IHideObjectMembers
+    public abstract class DialogOperationResult<T> : IResult
     {
         private ResultCompletionEventArgs _completionEventArgs;
 
@@ -71,5 +71,42 @@ namespace Cocktail
         }
 
         private event EventHandler<ResultCompletionEventArgs> Completed;
+
+        #region Hide Object Members
+
+        /// <summary>
+        /// Hidden.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override bool Equals(object obj)
+        {
+// ReSharper disable BaseObjectEqualsIsObjectEquals
+            return base.Equals(obj);
+// ReSharper restore BaseObjectEqualsIsObjectEquals
+        }
+
+        /// <summary>
+        /// Hidden.
+        /// </summary>
+// ReSharper disable NonReadonlyFieldInGetHashCode
+        [EditorBrowsable(EditorBrowsableState.Never)]
+// ReSharper restore NonReadonlyFieldInGetHashCode
+        public override int GetHashCode()
+        {
+// ReSharper disable BaseObjectGetHashCodeCallInGetHashCode
+            return base.GetHashCode();
+// ReSharper restore BaseObjectGetHashCodeCallInGetHashCode
+        }
+
+        /// <summary>
+        /// Hidden.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
+        #endregion
     }
 }

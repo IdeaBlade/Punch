@@ -12,8 +12,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Caliburn.Micro;
-using IdeaBlade.Core;
 
 namespace Cocktail
 {
@@ -21,7 +21,7 @@ namespace Cocktail
     /// An implementation of <see cref = "IResult" /> that implements navigation logic.
     /// </summary>
     /// <typeparam name="T">The type of the ViewModel navigated to</typeparam>
-    public class NavigateResult<T> : IResult, IHideObjectMembers
+    public class NavigateResult<T> : IResult
         where T : class
     {
         private readonly Func<T> _targetDelegate;
@@ -64,7 +64,7 @@ namespace Cocktail
         public Action<NavigateResult<T>> Prepare;
 
         /// <summary>
-        /// Delegate that allows for asynchronous preperation of the target ViewModel.
+        /// Delegate that allows for asynchronous preparation of the target ViewModel.
         /// </summary>
         /// <returns>An implementation of IResult</returns>
         public Func<NavigateResult<T>, IResult> PrepareAsync;
@@ -184,6 +184,43 @@ namespace Cocktail
             public event EventHandler<ResultCompletionEventArgs> Completed = delegate { };
 
             #endregion
+        }
+
+        #endregion
+
+        #region Hide Object Members
+
+        /// <summary>
+        /// Hidden.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override bool Equals(object obj)
+        {
+            // ReSharper disable BaseObjectEqualsIsObjectEquals
+            return base.Equals(obj);
+            // ReSharper restore BaseObjectEqualsIsObjectEquals
+        }
+
+        /// <summary>
+        /// Hidden.
+        /// </summary>
+        // ReSharper disable NonReadonlyFieldInGetHashCode
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        // ReSharper restore NonReadonlyFieldInGetHashCode
+        public override int GetHashCode()
+        {
+            // ReSharper disable BaseObjectGetHashCodeCallInGetHashCode
+            return base.GetHashCode();
+            // ReSharper restore BaseObjectGetHashCodeCallInGetHashCode
+        }
+
+        /// <summary>
+        /// Hidden.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override string ToString()
+        {
+            return base.ToString();
         }
 
         #endregion

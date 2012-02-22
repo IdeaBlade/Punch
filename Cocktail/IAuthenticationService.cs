@@ -12,6 +12,7 @@
 
 using System;
 using System.Security.Principal;
+using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using Action = System.Action;
 
@@ -32,7 +33,7 @@ namespace Cocktail
     ///     }
     /// }</code>
     /// </example>
-    public interface IAuthenticationService : IAuthenticationManager
+    public interface IAuthenticationService : IAuthenticationManager, IHideObjectMembers
     {
         /// <summary>
         /// Returns the <see cref="IPrincipal"/> representing the current user.

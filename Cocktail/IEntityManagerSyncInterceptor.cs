@@ -10,10 +10,12 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using IdeaBlade.Core;
+
 namespace Cocktail
 {
     /// <summary>Internal use.</summary>
-    public interface IEntityManagerSyncInterceptor
+    public interface IEntityManagerSyncInterceptor : IHideObjectMembers
     {
         /// <summary>Internal use.</summary>
         bool ShouldExportEntity(object entity);

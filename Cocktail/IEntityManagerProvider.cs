@@ -11,12 +11,13 @@
 //====================================================================================================================
 
 using System;
+using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
     /// <summary>Interface identifying an EntityManagerProvider.</summary>
-    public interface IEntityManagerProvider
+    public interface IEntityManagerProvider : IHideObjectMembers
     {
         /// <summary>
         /// Returns true if the last save operation aborted due to a validation error.

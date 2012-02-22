@@ -10,10 +10,12 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using IdeaBlade.Core;
+
 namespace Cocktail
 {
     /// <summary>Implement IHarnessAware to provide setup logic for when the ViewModel is launched inside of the development harness.</summary>
-    public interface IHarnessAware
+    public interface IHarnessAware : IHideObjectMembers
     {
         /// <summary>Provides the setup logic to be run before the ViewModel is activated inside of the development harness.</summary>
         void Setup();

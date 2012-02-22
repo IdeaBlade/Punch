@@ -10,12 +10,14 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using IdeaBlade.Core;
+
 namespace Cocktail
 {
     /// <summary>
     /// A service to manage a busy indicator
     /// </summary>
-    public interface IBusyWatcher
+    public interface IBusyWatcher : IHideObjectMembers
     {
         /// <summary>
         /// Returns true if the state of the BusyWatcher is currently busy. This property can be directly bound

@@ -39,6 +39,9 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Cocktail.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -63,7 +66,9 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(SolutionDir)Bin\Desktop\$(ConfigurationName)"
-copy "$(TargetDir)$(TargetName).*" "$(SolutionDir)Bin\Desktop\$(ConfigurationName)"</PostBuildEvent>
+xcopy "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\Desktop\$(ConfigurationName)" /y
+xcopy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)Bin\Desktop\$(ConfigurationName)" /y
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

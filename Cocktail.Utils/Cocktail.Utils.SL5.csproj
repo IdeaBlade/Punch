@@ -57,6 +57,9 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Cocktail.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib">
       <Private>True</Private>
@@ -88,7 +91,9 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(SolutionDir)Bin\Silverlight 5\$(ConfigurationName)"
-copy "$(TargetDir)$(TargetName).*" "$(SolutionDir)Bin\Silverlight 5\$(ConfigurationName)"</PostBuildEvent>
+xcopy "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\Silverlight 5\$(ConfigurationName)" /y
+xcopy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)Bin\Silverlight 5\$(ConfigurationName)" /y
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -107,6 +107,15 @@ namespace Cocktail
             return base.ToString();
         }
 
+        /// <summary>
+        /// Hidden.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public new Type GetType()
+        {
+            return base.GetType();
+        }
+
         #endregion
     }
 }

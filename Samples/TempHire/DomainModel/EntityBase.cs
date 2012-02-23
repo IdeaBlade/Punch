@@ -21,7 +21,7 @@ namespace DomainModel
 {
     [ProvideEntityAspect]
     [DataContract(IsReference = true)]
-    public class EntityBase
+    public abstract class EntityBase
     {
         private EntityFacts _entityFacts;
 

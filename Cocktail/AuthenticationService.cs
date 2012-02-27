@@ -13,35 +13,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.Composition;
 using System.Security.Principal;
+using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
-using Action = System.Action;
-using Coroutine = IdeaBlade.EntityModel.Coroutine;
+using IdeaBlade.EntityModel.Security;
 
 namespace Cocktail
 {
-    /// <summary>Is used by DevForce to obtain the authentication service used by the application.</summary>
-    [PartNotDiscoverable]
-    public class AuthenticationManagerProvider : IAuthenticationProvider
-    {
-        private static readonly PartLocator<IAuthenticationService> AuthenticationServiceLocator
-            = new PartLocator<IAuthenticationService>(CreationPolicy.Shared);
-
-        #region Implementation of IAuthenticationProvider
-
-        /// <summary>Returns the authentication service used by the Application.</summary>
-        /// <returns></returns>
-        public IAuthenticationManager GetAuthenticationManager()
-        {
-            return AuthenticationServiceLocator.GetPart();
-        }
-
-        #endregion
-    }
-
     /// <summary>Default implementation of an authentication service. Subclass if different behavior is desired, otherwise use as-is.</summary>
-    /// <typeparam name="T">The type of the main EntityManager that should be used to handle Login and Logout.</typeparam>
     /// <example>
     /// 	<code title="Example" description="Demonstrates how to enable the authentication service in an application. " lang="CS">
     /// public class AppBootstrapper : FrameworkBootstrapper&lt;MainFrameViewModel&gt;
@@ -51,41 +30,29 @@ namespace Cocktail
     ///         base.PrepareCompositionContainer(batch);
     ///  
     ///         // Inject the authentication service into the framework.
-    ///         batch.AddExportedValue&lt;IAuthenticationService&gt;(new AuthenticationService&lt;NorthwindIBEntities&gt;());
+    ///         batch.AddExportedValue&lt;IAuthenticationService&gt;(new AuthenticationService());
     ///     }
     /// }</code>
     /// </example>
-    public class AuthenticationService<T> : IAuthenticationService, INotifyPropertyChanged
-        where T : EntityManager
+    public class AuthenticationService : IAuthenticationService, IAuthenticationContext, INotifyPropertyChanged
     {
-        private T _manager;
-
-        /// <summary>Initializes a new instance.</summary>
-        public AuthenticationService(T entityManager = null)
-        {
-            Manager = entityManager;
-        }
-
-        #region Implementation of IAuthenticationManager
+        private string _connectionsOptionsName;
+        private IAuthenticationContext _authenticationContext;
 
         /// <summary>
-        /// Called by an EntityManager to request authentication credentials.
+        /// Creates a new AuthenticationService instance.
         /// </summary>
-        /// <param name="target">The EntityManager requesting credentials</param>
-        /// <returns>
-        /// True if the link was made
-        /// </returns>
-        public virtual bool LinkAuthentication(EntityManager target)
+        public AuthenticationService()
         {
-            if (!Manager.IsLoggedIn) return false;
-
-            target.LinkForAuthentication(Manager);
-            return true;
+            _authenticationContext = LoggedOutAuthenticationContext.Instance;
         }
 
-        #endregion
+        #region Implementation of IAuthenticationService
 
-        #region Implementation of IAuthenticationService<T>
+        Guid IAuthenticationContext.SessionKey
+        {
+            get { return _authenticationContext.SessionKey; }
+        }
 
         /// <summary>
         /// Returns the <see cref="IPrincipal"/> representing the current user.
@@ -93,20 +60,45 @@ namespace Cocktail
         /// <value>Returns the current principal or null if not logged in.</value>
         public virtual IPrincipal Principal
         {
-            get { return Manager.Principal; }
+            get { return _authenticationContext.Principal; }
+        }
+
+        IsLoggedIn IAuthenticationContext.IsLoggedIn
+        {
+            get { return _authenticationContext.IsLoggedIn; }
+        }
+
+        IDictionary<string, object> IAuthenticationContext.ExtendedPropertyMap
+        {
+            get { return _authenticationContext.ExtendedPropertyMap; }
         }
 
         /// <summary>Returns whether the user is logged in.</summary>
         /// <value>Returns true if user is logged in.</value>
-        public virtual bool IsLoggedIn { get { return Manager.IsLoggedIn && Principal.Identity.IsAuthenticated; } }
+        public virtual bool IsLoggedIn
+        {
+            get
+            {
+                return _authenticationContext.IsLoggedIn == IdeaBlade.EntityModel.Security.IsLoggedIn.LoggedIn &&
+                       Principal.Identity.IsAuthenticated;
+            }
+        }
+
+        /// <summary>
+        /// Returns the current DevForce AuthenticationContext.
+        /// </summary>
+        public IAuthenticationContext AuthenticationContext
+        {
+            get { return this; }
+        }
 
         /// <summary>Login with the supplied credential.</summary>
         /// <param name="credential">
         /// 	<para>The supplied credential.</para>
         /// </param>
         /// <param name="onSuccess">Callback called when login was successful.</param>
-        /// <param name="onFail">Callback called when an error occured during login.</param>
-        public OperationResult LoginAsync(ILoginCredential credential, Action onSuccess, Action<Exception> onFail)
+        /// <param name="onFail">Callback called when an error occurred during login.</param>
+        public OperationResult LoginAsync(ILoginCredential credential, Action onSuccess = null, Action<Exception> onFail = null)
         {
             CoroutineOperation coop = Coroutine.Start(
                 () => LoginAsyncCore(credential),
@@ -114,6 +106,7 @@ namespace Cocktail
                 {
                     if (op.CompletedSuccessfully)
                     {
+                        _authenticationContext = (IAuthenticationContext)op.Result;
                         OnPrincipalChanged();
                         OnLoggedIn();
                     }
@@ -128,32 +121,35 @@ namespace Cocktail
         protected virtual IEnumerable<INotifyCompleted> LoginAsyncCore(ILoginCredential credential)
         {
             // Logout before logging in with new set of credentials
-            if (Manager.IsLoggedIn) yield return LogoutAsync(null, null);
+            if (IsLoggedIn) yield return LogoutAsync();
 
-            yield return Manager.LoginAsync(credential);
+            LoginOperation operation;
+            yield return operation = Authenticator.Instance.LoginAsync(credential, ConnectionOptions.ToLoginOptions());
+
+            yield return Coroutine.Return(operation.AuthenticationContext);
         }
 
         /// <summary>Logs out the current user.</summary>
-        /// <param name="onSuccess">Callback called when logout was successful.</param>
-        /// <param name="onFail">Callback called when an error occured during logout.</param>
-        public OperationResult LogoutAsync(Action onSuccess, Action<Exception> onFail)
+        /// <param name="callback">Callback called when logout completes.</param>
+        public OperationResult LogoutAsync(Action callback = null)
         {
-            BaseOperation op = Manager.LogoutAsync();
-            op.Completed += (s, args) =>
+            if (!IsLoggedIn)
             {
-                if (args.CompletedSuccessfully)
-                {
-                    OnPrincipalChanged();
-                    OnLoggedOut();
-                    if (onSuccess != null) onSuccess();
-                }
+                if (callback != null) callback();
+                return AlwaysCompletedOperationResult.Instance;
+            }
 
-                if (args.HasError && onFail != null)
-                {
-                    args.MarkErrorAsHandled();
-                    onFail(args.Error);
-                }
-            };
+            BaseOperation op = Authenticator.Instance.LogoutAsync(_authenticationContext);
+            op.Completed += (s, args) =>
+                                {
+                                    // Ignore the error. We don't care if the logout couldn't reach the server.
+                                    if (args.HasError)
+                                        args.MarkErrorAsHandled();
+
+                                    OnPrincipalChanged();
+                                    OnLoggedOut();
+                                    if (callback != null) callback();
+                                };
 
             return op.AsOperationResult();
         }
@@ -164,25 +160,32 @@ namespace Cocktail
         /// <param name="credential">
         /// 	<para>The supplied credential.</para>
         /// </param>
-        /// <returns>A boolean indicating success or failure.</returns>
-        public bool Login(ILoginCredential credential)
+        /// <returns>A Boolean indicating success or failure.</returns>
+        public void Login(ILoginCredential credential)
         {
             // Logout before logging in with new set of credentials
-            if (Manager.IsLoggedIn) Logout();
+            if (IsLoggedIn) Logout();
 
-            if (Manager.Login(credential))
-            {
-                OnPrincipalChanged();
-                OnLoggedIn();
-                return true;
-            }
-            return false;
+            _authenticationContext = Authenticator.Instance.Login(credential, ConnectionOptions.ToLoginOptions());
+            OnPrincipalChanged();
+            OnLoggedIn();
         }
 
         /// <summary>Logs out the current user.</summary>
         public void Logout()
         {
-            Manager.Logout();
+            if (!IsLoggedIn) return;
+
+            try
+            {
+                Authenticator.Instance.Logout(_authenticationContext);
+            }
+            // ReSharper disable EmptyGeneralCatchClause
+            catch (Exception)
+            // ReSharper restore EmptyGeneralCatchClause
+            {
+                // Ignore error. We don't care if the logout doesn't reach the server.
+            }
             OnPrincipalChanged();
             OnLoggedOut();
         }
@@ -191,26 +194,31 @@ namespace Cocktail
 
         #endregion
 
-        /// <summary>Returns the EntityManager to be used for authentication</summary>
-        protected T Manager
-        {
-            get
-            {
-                if (_manager != null) return _manager;
-
-                var providerLocator = new PartLocator<IEntityManagerProvider<T>>(CreationPolicy.Any);
-                var provider = (EntityManagerProviderBase<T>)providerLocator.GetPart();
-                return _manager = provider.CreateAuthenticationManager();
-            }
-            private set { _manager = value; }
-        }
-
         #region INotifyPropertyChanged Members
 
         /// <summary>Notifies of changed properties.</summary>
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         #endregion
+
+        /// <summary>
+        /// Creates a new AuthenticationService from the current AuthenticationService and assigns the specified <see cref="ConnectionOptions"/> name.
+        /// </summary>
+        /// <param name="connectionOptionsName">The <see cref="ConnectionOptions"/> name to be assigned.</param>
+        /// <returns>A new AuthenticationService instance.</returns>
+        public AuthenticationService With(string connectionOptionsName)
+        {
+            var authenticationService = new AuthenticationService(this) { _connectionsOptionsName = connectionOptionsName };
+            return authenticationService;
+        }
+
+        /// <summary>
+        /// Returns the ConnectionOptions used by the current EntityManagerProvider.
+        /// </summary>
+        protected ConnectionOptions ConnectionOptions
+        {
+            get { return ConnectionOptions.GetByName(_connectionsOptionsName); }
+        }
 
         /// <summary>Internal use.</summary>
         protected void NotifyPropertyChanged(string propertyName)
@@ -221,6 +229,9 @@ namespace Cocktail
         /// <summary>Triggers the LoggedIn event.</summary>
         protected virtual void OnLoggedIn()
         {
+            DebugFns.WriteLine(string.Format(StringResources.SuccessfullyLoggedIn, ConnectionOptions.Name,
+                                             ConnectionOptions.IsFake));
+
             NotifyPropertyChanged("IsLoggedIn");
             LoggedIn(this, EventArgs.Empty);
         }
@@ -228,6 +239,7 @@ namespace Cocktail
         /// <summary>Triggers the LoggedOut event.</summary>
         protected virtual void OnLoggedOut()
         {
+            _authenticationContext = LoggedOutAuthenticationContext.Instance;
             NotifyPropertyChanged("IsLoggedIn");
             LoggedOut(this, EventArgs.Empty);
         }
@@ -251,5 +263,112 @@ namespace Cocktail
         /// Signals that the principal has changed due to a login or logout.
         /// </summary>
         public event EventHandler<EventArgs> PrincipalChanged = delegate { };
+
+        private AuthenticationService(AuthenticationService authenticationService)
+        {
+            _connectionsOptionsName = authenticationService._connectionsOptionsName;
+            _authenticationContext = authenticationService._authenticationContext;
+        }
+    }
+
+    internal class LoggedOutAuthenticationContext : IAuthenticationContext
+    {
+        private static LoggedOutAuthenticationContext _instance;
+        private Dictionary<string, object> _extendedPropertyMap;
+
+        protected LoggedOutAuthenticationContext()
+        {
+        }
+
+        public static LoggedOutAuthenticationContext Instance
+        {
+            get { return _instance ?? (_instance = new LoggedOutAuthenticationContext()); }
+        }
+
+        #region IAuthenticationContext Members
+
+        public Guid SessionKey
+        {
+            get { return Guid.Empty; }
+        }
+
+        public IPrincipal Principal
+        {
+            get { return null; }
+        }
+
+        public IsLoggedIn IsLoggedIn
+        {
+            get { return IsLoggedIn.LoggedOutMustLoginExplicitly; }
+        }
+
+        public IDictionary<string, object> ExtendedPropertyMap
+        {
+            get { return _extendedPropertyMap ?? (_extendedPropertyMap = new Dictionary<string, object>()); }
+        }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// A singleton implementation of the AuthenticationContext for an anonymous user.
+    /// </summary>
+    public class AnonymousAuthenticationContext : IAuthenticationContext
+    {
+        private static AnonymousAuthenticationContext _instance;
+        private Dictionary<string, object> _extendedPropertyMap;
+        private IPrincipal _principal;
+        private Guid? _sessionKey;
+
+        /// <summary>
+        /// Creates a new AnonymousAuthenticationContext.
+        /// </summary>
+        protected AnonymousAuthenticationContext()
+        {
+        }
+
+        /// <summary>
+        /// Returns the current instance.
+        /// </summary>
+        public static AnonymousAuthenticationContext Instance
+        {
+            get { return _instance ?? (_instance = new AnonymousAuthenticationContext()); }
+        }
+
+        #region Implementation of IAuthenticationContext
+
+        /// <summary>
+        /// Token uniquely identifying a user session to the Entity Server.
+        /// </summary>
+        public Guid SessionKey
+        {
+            get { return (Guid)(_sessionKey ?? (_sessionKey = (Guid?)Guid.NewGuid())); }
+        }
+
+        /// <summary>
+        /// The <see cref="T:System.Security.Principal.IPrincipal"/> representing the logged in user.
+        /// </summary>
+        public IPrincipal Principal
+        {
+            get { return _principal ?? (_principal = new UserBase(new UserIdentity("Anonymous"))); }
+        }
+
+        /// <summary>
+        /// Returns whether this context is logged in.
+        /// </summary>
+        public IsLoggedIn IsLoggedIn
+        {
+            get { return IsLoggedIn.LoggedIn; }
+        }
+
+        /// <summary>
+        /// Additional properties.
+        /// </summary>
+        public IDictionary<string, object> ExtendedPropertyMap
+        {
+            get { return _extendedPropertyMap ?? (_extendedPropertyMap = new Dictionary<string, object>()); }
+        }
+
+        #endregion
     }
 }

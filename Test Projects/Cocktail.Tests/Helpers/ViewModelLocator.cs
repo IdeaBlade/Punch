@@ -39,7 +39,9 @@ namespace Cocktail.Tests.Helpers
 
         protected override IEntityManagerProvider<NorthwindIBEntities> CreateEntityManagerProvider()
         {
-            return new DesignTimeEntityManagerProvider(new SampleDataProvider());
+            return new EntityManagerProvider<NorthwindIBEntities>()
+                .With(new SampleDataProvider())
+                .With(ConnectionOptions.DesignTime.Name);
         }
     }
 }

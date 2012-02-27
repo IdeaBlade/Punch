@@ -14,6 +14,7 @@ using System;
 using System.Security.Principal;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
+using IdeaBlade.EntityModel.Security;
 using Action = System.Action;
 
 namespace Cocktail
@@ -33,7 +34,7 @@ namespace Cocktail
     ///     }
     /// }</code>
     /// </example>
-    public interface IAuthenticationService : IAuthenticationManager, IHideObjectMembers
+    public interface IAuthenticationService : IHideObjectMembers
     {
         /// <summary>
         /// Returns the <see cref="IPrincipal"/> representing the current user.
@@ -45,18 +46,22 @@ namespace Cocktail
         /// <value>Returns true if user is logged in.</value>
         bool IsLoggedIn { get; }
 
+        /// <summary>
+        /// Returns the current DevForce AuthenticationContext.
+        /// </summary>
+        IAuthenticationContext AuthenticationContext { get; }
+
         /// <summary>Login with the supplied credential.</summary>
         /// <param name="credential">
         /// 	<para>The supplied credential.</para>
         /// </param>
         /// <param name="onSuccess">Callback called when login was successful.</param>
-        /// <param name="onFail">Callback called when an error occured during login.</param>
+        /// <param name="onFail">Callback called when an error occurred during login.</param>
         OperationResult LoginAsync(ILoginCredential credential, Action onSuccess = null, Action<Exception> onFail = null);
 
         /// <summary>Logs out the current user.</summary>
-        /// <param name="onSuccess">Callback called when logout was successful.</param>
-        /// <param name="onFail">Callback called when an error occured during logout.</param>
-        OperationResult LogoutAsync(Action onSuccess = null, Action<Exception> onFail = null);
+        /// <param name="callback">Callback called when logout completes.</param>
+        OperationResult LogoutAsync(Action callback = null);
 
 #if !SILVERLIGHT
 
@@ -64,8 +69,8 @@ namespace Cocktail
         /// <param name="credential">
         /// 	<para>The supplied credential.</para>
         /// </param>
-        /// <returns>A boolean indicating success or failure.</returns>
-        bool Login(ILoginCredential credential);
+        /// <returns>A Boolean indicating success or failure.</returns>
+        void Login(ILoginCredential credential);
 
         /// <summary>Logs out the current user.</summary>
         void Logout();

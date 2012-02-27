@@ -118,6 +118,7 @@
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authentication\TempHireAuthenticationService.cs" />
+    <Compile Include="ConnectionOptionsResolver.cs" />
     <Compile Include="EntityManagerDelegate.cs" />
     <Compile Include="EntityManagerProviderFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

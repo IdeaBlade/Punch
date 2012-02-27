@@ -21,7 +21,10 @@ using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
+
+#if SILVERLIGHT
 using Action = System.Action;
+#endif
 
 namespace Cocktail
 {
@@ -37,6 +40,22 @@ namespace Cocktail
         private static bool _isConfigured;
         private static CompositionContainer _container;
         private static ComposablePartCatalog _catalog;
+
+        static Composition()
+        {
+            EntityManager.EntityManagerCreated += OnEntityManagerCreated;
+        }
+
+        private static void OnEntityManagerCreated(object sender, EntityManagerCreatedEventArgs args)
+        {
+            if (!args.EntityManager.IsClient)
+                return;
+
+            var locator = new PartLocator<IAuthenticationService>(
+                CreationPolicy.Shared, () => args.EntityManager.CompositionContext);
+            if (locator.IsAvailable)
+                args.EntityManager.AuthenticationContext = locator.GetPart().AuthenticationContext;
+        }
 
         /// <summary>
         /// Returns true if <see cref="Configure"/> has been called.
@@ -64,10 +83,7 @@ namespace Cocktail
         /// <summary>Returns the CompositionContainer in use.</summary>
         public static CompositionContainer Container
         {
-            get
-            {
-                return _container ?? (_container = new CompositionContainer(Catalog));
-            }
+            get { return _container ?? (_container = new CompositionContainer(Catalog)); }
         }
 
         /// <summary>Configures the CompositionHost.</summary>
@@ -85,9 +101,6 @@ namespace Cocktail
 
             if (!ExportExists<IEventAggregator>())
                 batch.AddExportedValue<IEventAggregator>(new EventAggregator());
-
-            if (!ExportExists<IAuthenticationProvider>())
-                batch.AddExportedValue<IAuthenticationProvider>(new AuthenticationManagerProvider());
 
             Compose(batch);
         }
@@ -131,10 +144,10 @@ namespace Cocktail
         {
             WarnIfNotConfigured();
 
-            var exports = GetExportsCore(typeof(T), null, requiredCreationPolicy).ToList();
+            List<Export> exports = GetExportsCore(typeof (T), null, requiredCreationPolicy).ToList();
             if (!exports.Any())
                 throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
-                                                  typeof(T).FullName));
+                                                  typeof (T).FullName));
 
             return exports.Select(e => e.Value).Cast<T>().First();
         }
@@ -149,7 +162,7 @@ namespace Cocktail
         {
             WarnIfNotConfigured();
 
-            var exports = GetExportsCore(typeof(T), null, requiredCreationPolicy);
+            IEnumerable<Export> exports = GetExportsCore(typeof (T), null, requiredCreationPolicy);
             return exports.Select(e => e.Value).Cast<T>();
         }
 
@@ -160,11 +173,12 @@ namespace Cocktail
         /// <param name="key">The contract name of the instance requested. If no contract name is specified, the type will be used.</param>
         /// <param name="requiredCreationPolicy">Optionally specify whether the returned instance should be a shared, non-shared or any instance.</param>
         /// <returns>The requested instance.</returns>
-        public static object GetInstance(Type serviceType, string key, CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
+        public static object GetInstance(Type serviceType, string key,
+                                         CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
             WarnIfNotConfigured();
 
-            var exports = GetExportsCore(serviceType, key, requiredCreationPolicy).ToList();
+            List<Export> exports = GetExportsCore(serviceType, key, requiredCreationPolicy).ToList();
             if (!exports.Any())
                 throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
                                                   serviceType != null ? serviceType.ToString() : key));
@@ -178,7 +192,8 @@ namespace Cocktail
         /// <param name="serviceType">Type of the requested instances.</param>
         /// <param name="requiredCreationPolicy">Optionally specify whether the returned instances should be shared, non-shared or any instances.</param>
         /// <returns>The requested instances.</returns>
-        public static IEnumerable<object> GetInstances(Type serviceType, CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
+        public static IEnumerable<object> GetInstances(Type serviceType,
+                                                       CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
             WarnIfNotConfigured();
             IEnumerable<Export> exports = GetExportsCore(serviceType, null, requiredCreationPolicy);
@@ -208,8 +223,8 @@ namespace Cocktail
         {
             if (Execute.InDesignMode)
             {
-                var assemblyName = typeof (T).Assembly.FullName;
-                if (IdeaBladeConfig.Instance.ProbeAssemblyNames.Contains(assemblyName)) 
+                string assemblyName = typeof (T).Assembly.FullName;
+                if (IdeaBladeConfig.Instance.ProbeAssemblyNames.Contains(assemblyName))
                     return;
 
                 IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(assemblyName);
@@ -229,11 +244,11 @@ namespace Cocktail
 
 #if SILVERLIGHT
 
-        /// <summary>Asynchronously downloads a XAP file and adds all exported parts to the catalog.</summary>
-        /// <param name="relativeUri">The relative URI for the XAP file to be downloaded.</param>
-        /// <param name="onSuccess">User callback to be called when operation completes successfully.</param>
-        /// <param name="onFail">User callback to be called when operation completes with an error.</param>
-        /// <returns>Returns a handle to the download operation.</returns>
+    /// <summary>Asynchronously downloads a XAP file and adds all exported parts to the catalog.</summary>
+    /// <param name="relativeUri">The relative URI for the XAP file to be downloaded.</param>
+    /// <param name="onSuccess">User callback to be called when operation completes successfully.</param>
+    /// <param name="onFail">User callback to be called when operation completes with an error.</param>
+    /// <returns>Returns a handle to the download operation.</returns>
         public static OperationResult AddXap(string relativeUri, Action onSuccess = null, Action<Exception> onFail = null)
         {
             XapDownloadOperation operation;
@@ -260,7 +275,7 @@ namespace Cocktail
 
         internal static void EnsureRequiredProbeAssemblies()
         {
-            IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(EntityManagerProviderBase<>).Assembly.FullName);
+            IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof (EntityManagerProvider<>).Assembly.FullName);
         }
 
         internal static IEnumerable<Export> GetExportsCore(Type serviceType, string key, CreationPolicy policy)
@@ -345,7 +360,7 @@ namespace Cocktail
             actions(_completedEventArgs);
         }
 
-        #region Implementation of INotifyCompleted
+    #region Implementation of INotifyCompleted
 
         /// <summary>
         /// Action to be performed when the asynchronous operation completes.
@@ -387,7 +402,7 @@ namespace Cocktail
             get { return _completedEventArgs != null ? _completedEventArgs.Error : null; }
         }
 
-        #endregion
+    #endregion
     }
 
     internal class XapDownloadCompletedEventArgs : EventArgs, INotifyCompletedArgs
@@ -403,7 +418,7 @@ namespace Cocktail
             //_dynamicXapLoadedEventArgs = dynamicXapLoadedEventArgs;
         }
 
-        #region Implementation of INotifyCompletedArgs
+    #region Implementation of INotifyCompletedArgs
 
         /// <summary>
         /// The exception if the action failed.
@@ -431,7 +446,7 @@ namespace Cocktail
         /// </summary>
         public bool IsErrorHandled { get; set; }
 
-        #endregion
+    #endregion
     }
 
 #endif

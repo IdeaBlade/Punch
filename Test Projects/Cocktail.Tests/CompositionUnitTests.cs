@@ -28,10 +28,10 @@ namespace Cocktail.Tests
         [Tag("Composition")]
         public void ShouldDiscoverInjectedAuthenticationService()
         {
-            var injectedService = new AuthenticationService<NorthwindIBEntities>(new NorthwindIBEntities(false));
+            var injectedService = new AuthenticationService();
 
             CompositionContext ctx = CompositionContext.Default
-                .WithGenerator(typeof (IAuthenticationService), () => injectedService)
+                .WithGenerator(typeof(IAuthenticationService), () => injectedService)
                 .WithName("ShouldDiscoverInjectedAuthenticationService");
 
             IAuthenticationService auth1 =
@@ -48,7 +48,7 @@ namespace Cocktail.Tests
         public void ShouldDiscoverDefault()
         {
             CompositionContext context = CompositionContext.Default
-                .WithGenerator(typeof (IEntityManagerSyncInterceptor), () => new SyncInterceptor())
+                .WithGenerator(typeof(IEntityManagerSyncInterceptor), () => new SyncInterceptor())
                 .WithName("ShouldDiscoverDefault");
 
             var partLocator1 = new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.Any, () => context);
@@ -57,11 +57,11 @@ namespace Cocktail.Tests
                 .WithDefaultGenerator(() => new DefaultEntityManagerSyncInterceptor());
 
             IEntityManagerSyncInterceptor obj1 = partLocator1.GetPart();
-            Assert.IsTrue(obj1.GetType() == typeof (SyncInterceptor),
+            Assert.IsTrue(obj1.GetType() == typeof(SyncInterceptor),
                           "Should have found the SyncInterceptor");
 
             IEntityManagerSyncInterceptor obj2 = partLocator2.GetPart();
-            Assert.IsTrue(obj2.GetType() == typeof (DefaultEntityManagerSyncInterceptor),
+            Assert.IsTrue(obj2.GetType() == typeof(DefaultEntityManagerSyncInterceptor),
                           "Should have found the DefaultSyncInterceptor");
         }
 
@@ -92,7 +92,7 @@ namespace Cocktail.Tests
         {
             var interceptor = new TestEntityManagerDelegate();
             CompositionContext contextWithEntityManagerDelegate = CompositionContext.Fake
-                .WithGenerator(typeof (EntityManagerDelegate), () => interceptor)
+                .WithGenerator(typeof(EntityManagerDelegate), () => interceptor)
                 .WithName("ShouldRaiseQueryEvents");
             CompositionContextResolver.Add(contextWithEntityManagerDelegate);
 
@@ -101,13 +101,13 @@ namespace Cocktail.Tests
 
             DoItAsync(
                 () =>
-                    {
-                        Assert.IsTrue(interceptor.QueriedRaised == 0);
-                        Assert.IsTrue(interceptor.QueryingRaised == 0);
-                        Assert.IsTrue(interceptor.FetchingRaised == 0);
+                {
+                    Assert.IsTrue(interceptor.QueriedRaised == 0);
+                    Assert.IsTrue(interceptor.QueryingRaised == 0);
+                    Assert.IsTrue(interceptor.FetchingRaised == 0);
 
-                        EntityQuery<Customer> q = emp.Manager.Customers;
-                        var asyncFns = new Func<INotifyCompleted>[]
+                    EntityQuery<Customer> q = emp.Manager.Customers;
+                    var asyncFns = new Func<INotifyCompleted>[]
                                            {
                                                emp.InitializeFakeBackingStoreAsync,
                                                () => q.ExecuteAsync(op =>
@@ -123,8 +123,8 @@ namespace Cocktail.Tests
                                                                         })
                                            };
 
-                        Coroutine.Start(asyncFns, op => TestComplete());
-                    });
+                    Coroutine.Start(asyncFns, op => TestComplete());
+                });
         }
 
         [TestMethod]
@@ -134,7 +134,7 @@ namespace Cocktail.Tests
         {
             var interceptor = new TestEntityManagerDelegate();
             CompositionContext contextWithEntityManagerDelegate = CompositionContext.Fake
-                .WithGenerator(typeof (EntityManagerDelegate), () => interceptor)
+                .WithGenerator(typeof(EntityManagerDelegate), () => interceptor)
                 .WithName("ShouldRaiseSaveEvents");
             CompositionContextResolver.Add(contextWithEntityManagerDelegate);
 
@@ -143,17 +143,17 @@ namespace Cocktail.Tests
 
             DoItAsync(
                 () =>
-                    {
-                        Assert.IsTrue(interceptor.SavingRaised == 0);
-                        Assert.IsTrue(interceptor.SavedRaised == 0);
-                        Assert.IsTrue(interceptor.EntityChangingRaised == 0);
-                        Assert.IsTrue(interceptor.EntityChangedRaised == 0);
+                {
+                    Assert.IsTrue(interceptor.SavingRaised == 0);
+                    Assert.IsTrue(interceptor.SavedRaised == 0);
+                    Assert.IsTrue(interceptor.EntityChangingRaised == 0);
+                    Assert.IsTrue(interceptor.EntityChangedRaised == 0);
 
-                        var customer = emp.Manager.CreateEntity<Customer>();
-                        emp.Manager.AddEntity(customer);
-                        customer.CompanyName = "Foo";
+                    var customer = emp.Manager.CreateEntity<Customer>();
+                    emp.Manager.AddEntity(customer);
+                    customer.CompanyName = "Foo";
 
-                        var asyncFns = new Func<INotifyCompleted>[]
+                    var asyncFns = new Func<INotifyCompleted>[]
                                            {
                                                emp.InitializeFakeBackingStoreAsync,
                                                () => emp.Manager.SaveChangesAsync(
@@ -175,8 +175,8 @@ namespace Cocktail.Tests
                                                        })
                                            };
 
-                        Coroutine.Start(asyncFns, op => TestComplete());
-                    });
+                    Coroutine.Start(asyncFns, op => TestComplete());
+                });
         }
 
         [TestMethod]
@@ -185,7 +185,7 @@ namespace Cocktail.Tests
         {
             var interceptor = new TestEntityManagerDelegate();
             CompositionContext contextWithEntityManagerDelegate = CompositionContext.Fake
-                .WithGenerator(typeof (EntityManagerDelegate), () => interceptor)
+                .WithGenerator(typeof(EntityManagerDelegate), () => interceptor)
                 .WithName("ShouldRaiseClearedEvent");
             CompositionContextResolver.Add(contextWithEntityManagerDelegate);
 

@@ -115,10 +115,6 @@
     <Compile Include="Security\IUserService.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\SourceToTabItemsConverter.cs" />
-    <Compile Include="EntityManagerProviders\DevSecurityEntityManagerProvider.cs" />
-    <Compile Include="EntityManagerProviders\DevTempHireEntityManagerProvider.cs" />
-    <Compile Include="EntityManagerProviders\SecurityEntityManagerProvider.cs" />
-    <Compile Include="EntityManagerProviders\TempHireEntityManagerProvider.cs" />
     <Compile Include="Errors\ErrorHandler.cs" />
     <Compile Include="Errors\IErrorHandler.cs" />
     <Compile Include="Messages\EntityChangedMessage.cs" />

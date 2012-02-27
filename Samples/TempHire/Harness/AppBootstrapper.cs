@@ -16,7 +16,6 @@ using System.ComponentModel.Composition.Hosting;
 using Caliburn.Micro;
 using Cocktail;
 using Common;
-using Common.EntityManagerProviders;
 using DomainModel;
 using Security;
 
@@ -42,8 +41,10 @@ namespace TempHire
         {
             base.PrepareCompositionContainer(batch);
 
-            batch.AddExportedValue<IEntityManagerProvider<TempHireEntities>>(new DevTempHireEntityManagerProvider());
-            batch.AddExportedValue<IEntityManagerProvider<SecurityEntities>>(new DevSecurityEntityManagerProvider());
+            batch.AddExportedValue<IEntityManagerProvider<TempHireEntities>>(
+                new EntityManagerProvider<TempHireEntities>().With(ConnectionOptionsResolver.TempHireFake.Name));
+            batch.AddExportedValue<IEntityManagerProvider<SecurityEntities>>(
+                new EntityManagerProvider<SecurityEntities>().With(ConnectionOptionsResolver.TempHireFake.Name));
         }
     }
 }

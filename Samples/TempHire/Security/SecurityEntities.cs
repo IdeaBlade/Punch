@@ -16,8 +16,7 @@ namespace Security
 {
     public class SecurityEntities : EntityManager
     {
-        public SecurityEntities(bool shouldConnect = true, string compositionContextName = null)
-            : base(shouldConnect, compositionContextName: compositionContextName)
+        public SecurityEntities(EntityManagerContext context) : base(context)
         {
         }
 

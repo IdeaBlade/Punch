@@ -18,10 +18,10 @@ using Security.Messages;
 
 namespace TempHire.Authentication
 {
-    [Export(typeof (IAuthenticationService))]
-    [Export(typeof (IUserService))]
+    [Export(typeof(IAuthenticationService))]
+    [Export(typeof(IUserService))]
     [PartCreationPolicy(CreationPolicy.Shared)]
-    public class TempHireAuthenticationService : AuthenticationService<SecurityEntities>, IUserService
+    public class TempHireAuthenticationService : AuthenticationService, IUserService
     {
         #region IUserService Members
 

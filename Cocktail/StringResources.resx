@@ -226,6 +226,24 @@
     <value>The Fake Store has not been initialized.</value>
   </data>
   <data name="NonSuitableEmpForFakeStoreOperation" xml:space="preserve">
-    <value>Attempted to initialize or reset the fake backing store on a non-suitable EntityManagerProvider. Ensure that the EntityManagerProvider extends from FakeStoreEntityManagerProviderBase&lt;T&gt;.</value>
+    <value>Attempted to initialize or reset the fake backing store on a non-suitable EntityManagerProvider. Ensure that the EntityManagerProvider uses the correct ConnectionOptions.</value>
+  </data>
+  <data name="MissingEntityManagerConstructor" xml:space="preserve">
+    <value>Unable to create an instance of EntityManager: {0}. Required constructor not found. Please add the following constructor: public {0}(IdeaBlade.EntityModel.EntityManagerContext).</value>
+  </data>
+  <data name="SuccessfullyCreatedEntityManager" xml:space="preserve">
+    <value>Successfully created new instance of EntityManager: {0} with connection info: {1}, IsFake={2}.</value>
+  </data>
+  <data name="SuccessfullyLoggedIn" xml:space="preserve">
+    <value>Successfully performed user login with connection info: {0}, IsFake={1}.</value>
+  </data>
+  <data name="ConnectionOptionsNameMissmatch" xml:space="preserve">
+    <value>The name of the ConnectionOptions returned by IConnectionOptionsResolver: {0} does not match the value of the name parameter: {1}.</value>
+  </data>
+  <data name="ConnectionOptionsNoNameYet" xml:space="preserve">
+    <value>The current ConnectionOptions doesn't have a name yet. Use WithName to assign a name.</value>
+  </data>
+  <data name="ConnectionOptionsNotFound" xml:space="preserve">
+    <value>Unable to find ConnectionOptions with the name: {0}.</value>
   </data>
 </root>

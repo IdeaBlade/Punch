@@ -106,13 +106,13 @@
     <Compile Include="AuthenticationService.cs" />
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />
+    <Compile Include="ConnectionOptions.cs" />
     <Compile Include="DialogButton.cs" />
     <Compile Include="DialogHostFns.cs" />
     <Compile Include="DialogHostBase.cs" />
     <Compile Include="DialogManager.cs" />
     <Compile Include="DialogOperationResult.cs" />
-    <Compile Include="EntityManagerProviderBase.cs" />
-    <Compile Include="FakeStoreEntityManagerProviderBase.cs" />
+    <Compile Include="EntityManagerProvider.cs" />
     <Compile Include="DefaultDebugLogger.cs" />
     <Compile Include="Composition.cs" />
     <Compile Include="DataChangedEventArgs.cs" />
@@ -122,7 +122,9 @@
     <Compile Include="EventDispatcher.cs" />
     <Compile Include="EventFns.cs" />
     <Compile Include="CoroutineFns.cs" />
+    <Compile Include="FakeStoreEntityManagerProviderFns.cs" />
     <Compile Include="IBusyWatcher.cs" />
+    <Compile Include="IConnectionOptionsResolver.cs" />
     <Compile Include="IDialogHost.cs" />
     <Compile Include="IDialogManager.cs" />
     <Compile Include="LogFns.cs" />

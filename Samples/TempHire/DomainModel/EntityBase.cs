@@ -36,18 +36,13 @@ namespace DomainModel
         }
     }
 
-    /// <summary>
-    /// Encapsulate access to facts from the DevForce <see cref="EntityAspect"/>.
-    /// </summary>
-    public class EntityFacts : INotifyPropertyChanged
+    public class EntityFacts
     {
         private readonly EntityAspect _entityAspect;
 
         public EntityFacts(object entity)
         {
             _entityAspect = EntityAspect.Wrap(entity);
-            _entityAspect.EntityPropertyChanged +=
-                (s, args) => RaiseEntityFactsPropertyChanged(string.Empty);
         }
 
         public EntityState EntityState
@@ -70,43 +65,15 @@ namespace DomainModel
             get { return _entityAspect.IsNullOrPendingEntity; }
         }
 
-        public bool HasErrors
-        {
-            get { return _entityAspect.ValidationErrors.HasErrors; }
-        }
-
-        public EntityAspect.VerifierErrorsCollection ValidationErrors
-        {
-            get { return _entityAspect.ValidationErrors; }
-        }
-
         protected internal EntityAspect EntityAspect
         {
             get { return _entityAspect; }
-        }
-
-        public void RaisePropertyChanged(string propertyName)
-        {
-            _entityAspect.ForcePropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
 
         public event PropertyChangedEventHandler EntityPropertyChanged
         {
             add { _entityAspect.EntityPropertyChanged += value; }
             remove { _entityAspect.EntityPropertyChanged -= value; }
-        }
-
-        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
-        {
-            add { EntityFactsPropertyChanged += value; }
-            remove { EntityFactsPropertyChanged -= value; }
-        }
-        protected event PropertyChangedEventHandler EntityFactsPropertyChanged;
-
-        protected void RaiseEntityFactsPropertyChanged(string propertyName)
-        {
-            if (null == EntityFactsPropertyChanged) return;
-            EntityFactsPropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

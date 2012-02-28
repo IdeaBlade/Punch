@@ -24,7 +24,22 @@ namespace Cocktail
     /// <summary>
     /// Holds EntityServer connection parameters independent of an EntityManagerProvider.
     /// </summary>
-    public class ConnectionOptions
+    /// <example>This example shows how to configure and export and EntityManagerProvider using the fake store.
+    /// <code>
+    ///     public class EntityManagerProviderFactory
+    ///     {
+    ///         [Export]
+    ///         public IEntityManagerProvider&lt;TempHireEntities&gt; TempHireEntityManagerProvider
+    ///         {
+    ///             get
+    ///             {
+    ///                 return new EntityManagerProvider&lt;TempHireEntities&gt;().With(ConnectionOptions.Fake.Name);
+    ///             }
+    ///         }
+    ///     }
+    /// </code>
+    /// </example>
+    public sealed class ConnectionOptions
     {
         /// <summary>
         /// The default connection options. Used when nothing else is specified.

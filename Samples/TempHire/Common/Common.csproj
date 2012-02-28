@@ -92,10 +92,6 @@
     <Compile Include="Behaviors\SelectAllOnFocusBehavior.cs" />
     <Compile Include="BootstrapperBase.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="EntityManagerProviders\DevSecurityEntityManagerProvider.cs" />
-    <Compile Include="EntityManagerProviders\DevTempHireEntityManagerProvider.cs" />
-    <Compile Include="EntityManagerProviders\SecurityEntityManagerProvider.cs" />
-    <Compile Include="EntityManagerProviders\TempHireEntityManagerProvider.cs" />
     <Compile Include="Errors\ErrorHandler.cs" />
     <Compile Include="Errors\IErrorHandler.cs" />
     <Compile Include="Factories\PartFactoryBase.cs" />

@@ -16,12 +16,13 @@ using System.Security.Principal;
 using Cocktail;
 using Common.Security;
 using IdeaBlade.EntityModel;
+using IdeaBlade.EntityModel.Security;
 using Security;
 
 namespace TempHire.Authentication
 {
-    [Export(typeof (IAuthenticationService))]
-    [Export(typeof (IUserService))]
+    [Export(typeof(IAuthenticationService))]
+    [Export(typeof(IUserService))]
     [PartCreationPolicy(CreationPolicy.Shared)]
     public class FakeAuthenticationService : IAuthenticationService, IUserService
     {
@@ -37,9 +38,14 @@ namespace TempHire.Authentication
             get { return true; }
         }
 
-        public bool LinkAuthentication(EntityManager targetEm)
+        public IAuthenticationContext AuthenticationContext
         {
-            return false;
+            get { return AnonymousAuthenticationContext.Instance; }
+        }
+
+        public ConnectionOptions ConnectionOptions
+        {
+            get { return ConnectionOptions.Fake; }
         }
 
         public OperationResult LoginAsync(ILoginCredential credential, Action onSuccess = null,
@@ -53,7 +59,7 @@ namespace TempHire.Authentication
             return AlwaysCompletedOperationResult.Instance;
         }
 
-        public OperationResult LogoutAsync(Action onSuccess = null, Action<Exception> onFail = null)
+        public OperationResult LogoutAsync(Action callback = null)
         {
             if (LoggedOut != null)
                 LoggedOut(this, EventArgs.Empty);
@@ -63,7 +69,7 @@ namespace TempHire.Authentication
             return AlwaysCompletedOperationResult.Instance;
         }
 
-        public bool Login(ILoginCredential credential)
+        public void Login(ILoginCredential credential)
         {
             throw new NotImplementedException();
         }

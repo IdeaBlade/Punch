@@ -32,6 +32,7 @@ namespace Cocktail
         private object _defaultButton;
         private IEnumerable<DialogButton> _dialogButtons;
         private object _dialogResult;
+        private DialogButton _dialogButton;
 
         static DialogHostBase()
         {
@@ -90,6 +91,7 @@ namespace Cocktail
         /// <param name="dialogButton">The button that was clicked.</param>
         public void Close(DialogButton dialogButton)
         {
+            _dialogButton = dialogButton;
             DialogResult = dialogButton.Value;
             TryClose();
         }
@@ -129,23 +131,30 @@ namespace Cocktail
         /// </summary>
         public override void CanClose(Action<bool> callback)
         {
-            if (DialogResult != null)
+            try
             {
-                callback(true);
-                return;
-            }
-
-            if (_cancelButton != null)
-            {
-                DialogButton button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
-                if (button == null || !button.Enabled)
+                if (_dialogButton != null)
+                {
+                    base.CanClose(callback);
                     return;
-                DialogResult = button.Value;
-                callback(true);
-                return;
-            }
+                }
 
-            callback(false);
+                if (_cancelButton != null)
+                {
+                    DialogButton button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
+                    if (button == null || !button.Enabled)
+                        return;
+                    DialogResult = button.Value;
+                    base.CanClose(callback);
+                    return;
+                }
+
+                callback(false);
+            }
+            finally 
+            {
+                _dialogButton = null;
+            }
         }
 
         private void OnKeyDown(KeyEventArgs args)

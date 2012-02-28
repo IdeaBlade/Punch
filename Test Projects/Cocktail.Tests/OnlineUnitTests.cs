@@ -29,8 +29,7 @@ namespace Cocktail.Tests
         public INotifyCompleted ResetFakeBackingStore(string compositionContextName)
         {
             var provider =
-                EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName) as
-                DevelopmentEntityManagerProvider;
+                EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName);
             if (provider != null)
                 return provider.ResetFakeBackingStoreAsync();
 
@@ -63,7 +62,7 @@ namespace Cocktail.Tests
                                                () => TestInit(CompositionContext.Fake.Name),
                                                () =>
                                                repository.GetCustomers(null,
-                                                                       (customers) =>
+                                                                       customers =>
                                                                            {
                                                                                Assert.IsTrue(customers.Any(),
                                                                                              "Should have some customers");
@@ -127,7 +126,7 @@ namespace Cocktail.Tests
                                 "Customer should still be in second EntityManager");
 
                             INotifyCompleted sop = rep1.Save();
-                            sop.WhenCompleted((args1) =>
+                            sop.WhenCompleted(args1 =>
                                                   {
                                                       Assert.IsNull(
                                                           rep2.EntityManagerProvider.Manager.FindEntity(
@@ -149,12 +148,15 @@ namespace Cocktail.Tests
             bool loggedOutFired = false;
             bool managerCreatedFired = false;
 
-            var auth = new AuthenticationService<NorthwindIBEntities>(new NorthwindIBEntities());
+            var auth = new AuthenticationService();
             CompositionContext contextWithAuthService = CompositionContext.Fake
                 .WithGenerator(typeof(IAuthenticationService), () => auth)
                 .WithName("ShouldLoginLogout");
             CompositionContextResolver.Add(contextWithAuthService);
-            var emp = new DevelopmentEntityManagerProvider("ShouldLoginLogout");
+            var connectionOptions =
+                ConnectionOptions.Default.WithCompositionContext("ShouldLoginLogout").WithName("ShouldLoginLogout");
+            ConnectionOptionsResolver.Add(connectionOptions);
+            var emp = new EntityManagerProvider<NorthwindIBEntities>().With("ShouldLoginLogout");
 
             auth.PrincipalChanged += (s, e) => principalChangedFired = true;
             auth.LoggedIn += (s, e) => loggedInFired = true;
@@ -170,7 +172,7 @@ namespace Cocktail.Tests
                                            {
                                                () => TestInit("ShouldLoginLogout"),
                                                () =>
-                                               auth.LoginAsync(new LoginCredential("test", "test", null), null, null),
+                                               auth.LoginAsync(new LoginCredential("test", "test", null)),
                                                () =>
                                                    {
                                                        Assert.IsTrue(principalChangedFired,
@@ -186,9 +188,9 @@ namespace Cocktail.Tests
 
                                                        Assert.IsTrue(managerCreatedFired,
                                                                      "ManagerCreated should have been fired");
-                                                       Assert.IsNotNull(manager.Principal,
+                                                       Assert.IsNotNull(manager.AuthenticationContext.Principal,
                                                                         "The principal should not be null on the EntitiyManager");
-                                                       Assert.IsTrue(manager.Principal.Identity.Name == "test",
+                                                       Assert.IsTrue(manager.AuthenticationContext.Principal.Identity.Name == "test",
                                                                      "Principal should have the same username");
 
                                                        principalChangedFired = false;
@@ -196,7 +198,7 @@ namespace Cocktail.Tests
                                                        managerCreatedFired = false;
                                                        return AlwaysCompleted.Instance;
                                                    },
-                                               () => auth.LogoutAsync(null, null),
+                                               () => auth.LogoutAsync(),
                                                () =>
                                                    {
                                                        Assert.IsTrue(principalChangedFired,
@@ -223,7 +225,7 @@ namespace Cocktail.Tests
                                                        manager = emp.Manager;
                                                        Assert.IsTrue(managerCreatedFired,
                                                                      "ManagerCreated should have been fired");
-                                                       Assert.IsNull(manager.Principal,
+                                                       Assert.IsNull(manager.AuthenticationContext.Principal,
                                                                      "The principal should be null on the EntitiyManager");
 
                                                        return AlwaysCompleted.Instance;
@@ -232,6 +234,30 @@ namespace Cocktail.Tests
 
                     Coroutine.Start(asyncFns, op => TestComplete());
                 });
+        }
+
+        [TestMethod]
+        public void ShouldReturnFakeConnectionOptions()
+        {
+            var emp = new EntityManagerProvider<EntityManager>().With(ConnectionOptions.Fake.Name);
+            Assert.IsTrue(emp.ConnectionOptions.IsFake);
+            Assert.IsFalse(emp.ConnectionOptions.IsDesignTime);
+        }
+
+        [TestMethod]
+        public void ShouldReturnDesignTimeConnectionOptions()
+        {
+            var emp = new EntityManagerProvider<EntityManager>().With(ConnectionOptions.DesignTime.Name);
+            Assert.IsTrue(emp.ConnectionOptions.IsDesignTime);
+            Assert.IsFalse(emp.ConnectionOptions.IsFake);
+        }
+
+        [TestMethod]
+        public void ShouldReturnFakeStoreAuthenticationService()
+        {
+            var authSvc = new AuthenticationService().With(ConnectionOptions.Fake.Name);
+            Assert.IsTrue(authSvc.ConnectionOptions.IsFake);
+            Assert.IsFalse(authSvc.ConnectionOptions.IsDesignTime);
         }
     }
 }

@@ -10,6 +10,7 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using System.ComponentModel.Composition;
 using Test.Model;
 
 namespace Cocktail.Tests.Helpers
@@ -19,7 +20,19 @@ namespace Cocktail.Tests.Helpers
         public static IEntityManagerProvider<NorthwindIBEntities> CreateTestEntityManagerProvider(
             string compositionContextName = null)
         {
-            return new DevelopmentEntityManagerProvider(compositionContextName);
+            if (string.IsNullOrEmpty(compositionContextName))
+                return new EntityManagerProvider<NorthwindIBEntities>().With(ConnectionOptions.Fake.Name);
+
+            ConnectionOptions connectionOptions =
+                ConnectionOptions.Default.WithCompositionContext(compositionContextName).WithName(compositionContextName);
+            ConnectionOptionsResolver.Add(connectionOptions);
+            return new EntityManagerProvider<NorthwindIBEntities>().With(compositionContextName);
+        }
+
+        [Export]
+        public IEntityManagerProvider<NorthwindIBEntities>  EntityManagerProvider
+        {
+            get { return CreateTestEntityManagerProvider(); }
         }
     }
 }

@@ -10,12 +10,13 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using IdeaBlade.EntityModel;
+
 namespace Test.Model
 {
     public partial class NorthwindIBEntities
     {
-        public NorthwindIBEntities(bool shouldConnect = true, string compositionContextName = null)
-            : base(shouldConnect, compositionContextName: compositionContextName)
+        public NorthwindIBEntities(EntityManagerContext context) : base(context)
         {
         }
     }

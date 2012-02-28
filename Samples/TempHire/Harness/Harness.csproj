@@ -175,7 +175,7 @@
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authentication\FakeAuthenticationService.cs" />
-    <Compile Include="DesignTimeSupport\DesignTimeEntityManagerProvider.cs" />
+    <Compile Include="ConnectionOptionsResolver.cs" />
     <Compile Include="DesignTimeSupport\DesignTimeResourceRepositoryManager.cs" />
     <Compile Include="DesignTimeSupport\ViewModelLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -215,11 +215,11 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="..\TempHire\Styles\Styles.Wpf.xaml">
+    <Resource Include="..\TempHire\Styles\Styles.Wpf.xaml">
       <Link>Styles\Styles.Wpf.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </Resource>
     <Page Include="..\TempHire\Views\StaffingResource\RateTypeSelectorView.xaml">
       <Link>Views\StaffingResource\RateTypeSelectorView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>

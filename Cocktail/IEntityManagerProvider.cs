@@ -31,6 +31,11 @@ namespace Cocktail
         bool IsSaving { get; }
 
         /// <summary>
+        /// Specifies the ConnectionOptions used by the current EntityManagerProvider.
+        /// </summary>
+        ConnectionOptions ConnectionOptions { get; }
+
+        /// <summary>
         /// Returns the EntityManager managed by this provider.
         /// </summary>
         EntityManager Manager { get; }

@@ -26,14 +26,19 @@ namespace Cocktail
 
         private bool _probed;
         private Func<T> _defaultGenerator;
-        private Action<T> _initializer;
 
         internal PartLocator(CreationPolicy creationPolicy, Func<CompositionContext> compositionContextDelegate = null)
         {
             _compositionContextDelegate = compositionContextDelegate ?? (() => CompositionContext.Default);
             _creationPolicy = creationPolicy;
             _defaultGenerator = () => null;
-            _initializer = instance => { };
+        }
+
+        internal PartLocator(PartLocator<T> partLocator)
+        {
+            _compositionContextDelegate = partLocator._compositionContextDelegate;
+            _creationPolicy = partLocator._creationPolicy;
+            _defaultGenerator = partLocator._defaultGenerator;
         }
 
         internal bool Probed { get { return _probed || _instance != null; } }
@@ -60,17 +65,12 @@ namespace Cocktail
             if (_instance != null)
             {
                 WriteTrace();
-                _initializer(_instance);
                 return _instance;
             }
 
             // Do not probe if the CompositionHost isn't configured.
             if (!Composition.IsConfigured)
-            {
-                var defaultInstance = DefaultGenerator();
-                if (defaultInstance != null) _initializer(defaultInstance);
-                return defaultInstance;
-            }
+                return DefaultGenerator();
 
             // Look for the part in the MEF container
             var exports =
@@ -83,7 +83,6 @@ namespace Cocktail
             _probed = true;
             WriteTrace();
 
-            if (_instance != null) Initializer(_instance);
             return _instance;
         }
 
@@ -92,22 +91,10 @@ namespace Cocktail
             if (generator == null)
                 throw new ArgumentNullException();
 
-            var clone = (PartLocator<T>)MemberwiseClone();
-            clone._defaultGenerator = generator;
-            return clone;
-        }
-
-        internal PartLocator<T> WithInitializer(Action<T> initializer)
-        {
-            if (initializer == null)
-                throw new ArgumentNullException();
-
-            var clone = (PartLocator<T>)MemberwiseClone();
-            clone._initializer = initializer;
-            return clone;
+            var partLocator = new PartLocator<T>(this) {_defaultGenerator = generator};
+            return partLocator;
         }
 
         protected Func<T> DefaultGenerator { get { return _defaultGenerator; } }
-        protected Action<T> Initializer { get { return _initializer; } }
     }
 }

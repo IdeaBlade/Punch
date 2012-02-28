@@ -16,8 +16,7 @@ namespace DomainModel
 {
     public class TempHireEntities : EntityManager
     {
-        public TempHireEntities(bool shouldConnect = true, string compositionContextName = null)
-            : base(shouldConnect, compositionContextName: compositionContextName)
+        public TempHireEntities(EntityManagerContext context) : base(context)
         {
         }
 

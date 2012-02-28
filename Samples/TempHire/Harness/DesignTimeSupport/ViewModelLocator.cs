@@ -198,7 +198,9 @@ namespace TempHire.DesignTimeSupport
 
         protected override IEntityManagerProvider<TempHireEntities> CreateEntityManagerProvider()
         {
-            return new DesignTimeEntityManagerProvider(new TempHireSampleDataProvider());
+            return new EntityManagerProvider<TempHireEntities>()
+                .With(new TempHireSampleDataProvider())
+                .With(ConnectionOptions.DesignTime.Name);
         }
 
         #region Nested type: DesignTimeDialogManager

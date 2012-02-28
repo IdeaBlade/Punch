@@ -34,7 +34,7 @@ namespace Cocktail
         public static bool IsHandler(object handler, Type messageType)
         {
             IEnumerable<Type> interfaces = handler.GetType().GetInterfaces()
-                .Where(i => typeof (IHandle).IsAssignableFrom(i) && i.IsGenericType);
+                .Where(i => typeof(IHandle).IsAssignableFrom(i) && i.IsGenericType);
 
             return interfaces.Any(i => i.GetGenericArguments()[0].IsAssignableFrom(messageType));
         }
@@ -46,16 +46,16 @@ namespace Cocktail
         public static void Forward(object handler, object message)
         {
             IEnumerable<Type> interfaces = handler.GetType().GetInterfaces()
-                .Where(i => typeof (IHandle).IsAssignableFrom(i) && i.IsGenericType);
+                .Where(i => typeof(IHandle).IsAssignableFrom(i) && i.IsGenericType);
 
             IEnumerable<Type> handlers =
                 interfaces.Where(i => i.GetGenericArguments()[0].IsInstanceOfType(message));
             handlers.ForEach(
                 @interface =>
-                    {
-                        MethodInfo method = @interface.GetMethod("Handle");
-                        method.Invoke(handler, new[] {message});
-                    });
+                {
+                    MethodInfo method = @interface.GetMethod("Handle");
+                    method.Invoke(handler, new[] { message });
+                });
         }
 
         /// <summary>Raises the given event and then clears all event handlers.</summary>
@@ -67,6 +67,7 @@ namespace Cocktail
         {
             EventHandler<T> handlers = @event;
             @event = null;
+            if (handlers == null) return;
             handlers(sender, args);
         }
 

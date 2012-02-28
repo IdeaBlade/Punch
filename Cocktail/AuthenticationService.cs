@@ -11,6 +11,7 @@
 //====================================================================================================================
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Security.Principal;
@@ -276,11 +277,11 @@ namespace Cocktail
     internal class LoggedOutAuthenticationContext : IAuthenticationContext
     {
         private static LoggedOutAuthenticationContext _instance;
-        private readonly Dictionary<string, object> _extendedPropertyMap;
+        private readonly IDictionary<string, object> _extendedPropertyMap;
 
         protected LoggedOutAuthenticationContext()
         {
-            _extendedPropertyMap = _extendedPropertyMap = new Dictionary<string, object>();
+            _extendedPropertyMap = new ReadOnlyDictionary<string, object>();
         }
 
         public static LoggedOutAuthenticationContext Instance
@@ -319,7 +320,7 @@ namespace Cocktail
     public class AnonymousAuthenticationContext : IAuthenticationContext
     {
         private static AnonymousAuthenticationContext _instance;
-        private readonly Dictionary<string, object> _extendedPropertyMap;
+        private readonly IDictionary<string, object> _extendedPropertyMap;
         private readonly IPrincipal _principal;
         private readonly Guid _sessionKey;
 
@@ -330,7 +331,7 @@ namespace Cocktail
         {
             _sessionKey = Guid.NewGuid();
             _principal = new UserBase(new UserIdentity("Anonymous"));
-            _extendedPropertyMap = new Dictionary<string, object>();
+            _extendedPropertyMap = new ReadOnlyDictionary<string, object>();
         }
 
         /// <summary>
@@ -376,5 +377,96 @@ namespace Cocktail
         }
 
         #endregion
+    }
+
+    internal class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
+    {
+        private readonly IDictionary<TKey, TValue> _innerDictionary;
+
+        public ReadOnlyDictionary()
+        {
+            _innerDictionary = new Dictionary<TKey, TValue>();
+        }
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        {
+            return _innerDictionary.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _innerDictionary.GetEnumerator();
+        }
+
+        public void Add(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotSupportedException(StringResources.DictionaryIsReadOnly);
+        }
+
+        public void Clear()
+        {
+            throw new NotSupportedException(StringResources.DictionaryIsReadOnly);
+        }
+
+        public bool Contains(KeyValuePair<TKey, TValue> item)
+        {
+            return _innerDictionary.Contains(item);
+        }
+
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        {
+            _innerDictionary.CopyTo(array, arrayIndex);
+        }
+
+        public bool Remove(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotSupportedException(StringResources.DictionaryIsReadOnly);
+        }
+
+        public int Count
+        {
+            get { return _innerDictionary.Count; }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return true; }
+        }
+
+        public bool ContainsKey(TKey key)
+        {
+            return _innerDictionary.ContainsKey(key);
+        }
+
+        public void Add(TKey key, TValue value)
+        {
+            throw new NotSupportedException(StringResources.DictionaryIsReadOnly);
+        }
+
+        public bool Remove(TKey key)
+        {
+            throw new NotSupportedException(StringResources.DictionaryIsReadOnly);
+        }
+
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            return _innerDictionary.TryGetValue(key, out value);
+        }
+
+        public TValue this[TKey key]
+        {
+            get { return _innerDictionary[key]; }
+            set { throw new NotSupportedException(StringResources.DictionaryIsReadOnly); }
+        }
+
+        public ICollection<TKey> Keys
+        {
+            get { return _innerDictionary.Keys; }
+        }
+
+        public ICollection<TValue> Values
+        {
+            get { return _innerDictionary.Values; }
+        }
     }
 }

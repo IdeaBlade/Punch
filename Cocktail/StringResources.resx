@@ -249,4 +249,7 @@
   <data name="MissingDefaultConstructor" xml:space="preserve">
     <value>Unable to create a new instance of {0}. The type does not have a parameterless constructor.</value>
   </data>
+  <data name="DictionaryIsReadOnly" xml:space="preserve">
+    <value>This dictionary is read-only.</value>
+  </data>
 </root>

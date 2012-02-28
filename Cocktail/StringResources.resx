@@ -246,4 +246,7 @@
   <data name="ConnectionOptionsNotFound" xml:space="preserve">
     <value>Unable to find ConnectionOptions with the name: {0}.</value>
   </data>
+  <data name="MissingDefaultConstructor" xml:space="preserve">
+    <value>Unable to create a new instance of {0}. The type does not have a parameterless constructor.</value>
+  </data>
 </root>

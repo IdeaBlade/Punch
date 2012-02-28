@@ -137,10 +137,7 @@ namespace Cocktail
         /// </summary>
         public LoginOptions ToLoginOptions()
         {
-            bool usesDistributedEntityService = EntityServiceOption == EntityServiceOption.UseDefaultService
-                                                    ? IdeaBladeConfig.Instance.ObjectServer.ClientSettings.IsDistributed
-                                                    : EntityServiceOption == EntityServiceOption.UseDistributedService;
-            return new LoginOptions(DataSourceExtension, CompositionContextName, usesDistributedEntityService,
+            return new LoginOptions(DataSourceExtension, CompositionContextName, EntityServiceOption,
                                     ServiceKey);
         }
 

@@ -25,7 +25,7 @@ namespace Cocktail
 {
     /// <summary>Manages and provides an EntityManager.</summary>
     /// <typeparam name="T">The type of the EntityManager</typeparam>
-    public class EntityManagerProvider<T> : IEntityManagerProvider<T>, IHandle<SyncDataMessage<T>>
+    public class EntityManagerProvider<T> : IEntityManagerProvider<T>, IHandle<SyncDataMessage<T>>, ICloneable
         where T : EntityManager
     {
         private readonly PartLocator<IEventAggregator> _eventAggregatorLocator;
@@ -58,7 +58,9 @@ namespace Cocktail
         /// <returns>A new EntityManagerProvider instance.</returns>
         public EntityManagerProvider<T> With(string connectionOptionsName)
         {
-            return new EntityManagerProvider<T>(this) {_connectionOptionsName = connectionOptionsName};
+            var newInstance = (EntityManagerProvider<T>) ((ICloneable) this).Clone();
+            newInstance._connectionOptionsName = connectionOptionsName;
+            return newInstance;
         }
 
         /// <summary>
@@ -68,13 +70,15 @@ namespace Cocktail
         /// <returns>A new EntityManagerProvider instance.</returns>
         public EntityManagerProvider<T> With(params ISampleDataProvider<T>[] sampleDataProviders)
         {
-            return new EntityManagerProvider<T>(this) {SampleDataProviders = sampleDataProviders};
+            var newInstance = (EntityManagerProvider<T>) ((ICloneable) this).Clone();
+            newInstance.SampleDataProviders = sampleDataProviders;
+            return newInstance;
         }
 
         #region IEntityManagerProvider<T> Members
 
         /// <summary>
-        /// Specifies the <see cref="IEntityManagerProvider.ConnectionOptions"/> used by the current EntityManagerProvider.
+        /// Specifies the ConnectionOptions used by the current EntityManagerProvider.
         /// </summary>
         public ConnectionOptions ConnectionOptions
         {
@@ -223,12 +227,6 @@ namespace Cocktail
         }
 
 #endif
-
-        private EntityManagerProvider(EntityManagerProvider<T> entityManagerProvider)
-            : this()
-        {
-            SampleDataProviders = entityManagerProvider.SampleDataProviders;
-        }
 
         private T CreateEntityManagerCore()
         {
@@ -496,6 +494,21 @@ namespace Cocktail
                        (_sampleDataProviders = Composition.GetInstances<ISampleDataProvider<T>>());
             }
             set { _sampleDataProviders = value; }
+        }
+
+        object ICloneable.Clone()
+        {
+            try
+            {
+                var newInstance = (EntityManagerProvider<T>) Activator.CreateInstance(GetType());
+                newInstance._connectionOptionsName = _connectionOptionsName;
+                newInstance._sampleDataProviders = _sampleDataProviders;
+                return newInstance;
+            }
+            catch (MissingMethodException)
+            {
+                throw new MissingMethodException(string.Format(StringResources.MissingDefaultConstructor, GetType().Name));
+            }
         }
     }
 }

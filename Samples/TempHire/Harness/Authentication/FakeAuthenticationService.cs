@@ -43,6 +43,11 @@ namespace TempHire.Authentication
             get { return AnonymousAuthenticationContext.Instance; }
         }
 
+        public ConnectionOptions ConnectionOptions
+        {
+            get { return ConnectionOptions.Fake; }
+        }
+
         public OperationResult LoginAsync(ILoginCredential credential, Action onSuccess = null,
                                           Action<Exception> onFail = null)
         {

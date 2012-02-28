@@ -34,7 +34,8 @@ namespace Cocktail
     ///     }
     /// }</code>
     /// </example>
-    public class AuthenticationService : IAuthenticationService, IAuthenticationContext, INotifyPropertyChanged
+    public class AuthenticationService : IAuthenticationService, IAuthenticationContext, INotifyPropertyChanged,
+                                         ICloneable
     {
         private string _connectionsOptionsName;
         private IAuthenticationContext _authenticationContext;
@@ -63,9 +64,9 @@ namespace Cocktail
             get { return _authenticationContext.Principal; }
         }
 
-        IsLoggedIn IAuthenticationContext.IsLoggedIn
+        LoginState IAuthenticationContext.LoginState
         {
-            get { return _authenticationContext.IsLoggedIn; }
+            get { return _authenticationContext.LoginState; }
         }
 
         IDictionary<string, object> IAuthenticationContext.ExtendedPropertyMap
@@ -79,7 +80,7 @@ namespace Cocktail
         {
             get
             {
-                return _authenticationContext.IsLoggedIn == IdeaBlade.EntityModel.Security.IsLoggedIn.LoggedIn &&
+                return _authenticationContext.LoginState == LoginState.LoggedIn &&
                        Principal.Identity.IsAuthenticated;
             }
         }
@@ -98,20 +99,21 @@ namespace Cocktail
         /// </param>
         /// <param name="onSuccess">Callback called when login was successful.</param>
         /// <param name="onFail">Callback called when an error occurred during login.</param>
-        public OperationResult LoginAsync(ILoginCredential credential, Action onSuccess = null, Action<Exception> onFail = null)
+        public OperationResult LoginAsync(ILoginCredential credential, Action onSuccess = null,
+                                          Action<Exception> onFail = null)
         {
             CoroutineOperation coop = Coroutine.Start(
                 () => LoginAsyncCore(credential),
                 op =>
-                {
-                    if (op.CompletedSuccessfully)
                     {
-                        _authenticationContext = (IAuthenticationContext)op.Result;
-                        OnPrincipalChanged();
-                        OnLoggedIn();
-                    }
-                    op.OnComplete(onSuccess, onFail);
-                });
+                        if (op.CompletedSuccessfully)
+                        {
+                            _authenticationContext = (IAuthenticationContext) op.Result;
+                            OnPrincipalChanged();
+                            OnLoggedIn();
+                        }
+                        op.OnComplete(onSuccess, onFail);
+                    });
 
             return coop.AsOperationResult();
         }
@@ -156,11 +158,11 @@ namespace Cocktail
 
 #if !SILVERLIGHT
 
-        /// <summary>Login with the supplied credential.</summary>
-        /// <param name="credential">
-        /// 	<para>The supplied credential.</para>
-        /// </param>
-        /// <returns>A Boolean indicating success or failure.</returns>
+    /// <summary>Login with the supplied credential.</summary>
+    /// <param name="credential">
+    /// 	<para>The supplied credential.</para>
+    /// </param>
+    /// <returns>A Boolean indicating success or failure.</returns>
         public void Login(ILoginCredential credential)
         {
             // Logout before logging in with new set of credentials
@@ -208,14 +210,15 @@ namespace Cocktail
         /// <returns>A new AuthenticationService instance.</returns>
         public AuthenticationService With(string connectionOptionsName)
         {
-            var authenticationService = new AuthenticationService(this) { _connectionsOptionsName = connectionOptionsName };
+            var authenticationService = (AuthenticationService) ((ICloneable) this).Clone();
+            authenticationService._connectionsOptionsName = connectionOptionsName;
             return authenticationService;
         }
 
         /// <summary>
-        /// Returns the ConnectionOptions used by the current EntityManagerProvider.
+        /// Specifies the <see cref="IEntityManagerProvider.ConnectionOptions"/> used by the current AuthenticationService.
         /// </summary>
-        protected ConnectionOptions ConnectionOptions
+        public ConnectionOptions ConnectionOptions
         {
             get { return ConnectionOptions.GetByName(_connectionsOptionsName); }
         }
@@ -264,20 +267,20 @@ namespace Cocktail
         /// </summary>
         public event EventHandler<EventArgs> PrincipalChanged = delegate { };
 
-        private AuthenticationService(AuthenticationService authenticationService)
+        object ICloneable.Clone()
         {
-            _connectionsOptionsName = authenticationService._connectionsOptionsName;
-            _authenticationContext = authenticationService._authenticationContext;
+            return MemberwiseClone();
         }
     }
 
     internal class LoggedOutAuthenticationContext : IAuthenticationContext
     {
         private static LoggedOutAuthenticationContext _instance;
-        private Dictionary<string, object> _extendedPropertyMap;
+        private readonly Dictionary<string, object> _extendedPropertyMap;
 
         protected LoggedOutAuthenticationContext()
         {
+            _extendedPropertyMap = _extendedPropertyMap = new Dictionary<string, object>();
         }
 
         public static LoggedOutAuthenticationContext Instance
@@ -297,14 +300,14 @@ namespace Cocktail
             get { return null; }
         }
 
-        public IsLoggedIn IsLoggedIn
+        public LoginState LoginState
         {
-            get { return IsLoggedIn.LoggedOutMustLoginExplicitly; }
+            get { return LoginState.LoggedOutMustLoginExplicitly; }
         }
 
         public IDictionary<string, object> ExtendedPropertyMap
         {
-            get { return _extendedPropertyMap ?? (_extendedPropertyMap = new Dictionary<string, object>()); }
+            get { return _extendedPropertyMap; }
         }
 
         #endregion
@@ -316,15 +319,18 @@ namespace Cocktail
     public class AnonymousAuthenticationContext : IAuthenticationContext
     {
         private static AnonymousAuthenticationContext _instance;
-        private Dictionary<string, object> _extendedPropertyMap;
-        private IPrincipal _principal;
-        private Guid? _sessionKey;
+        private readonly Dictionary<string, object> _extendedPropertyMap;
+        private readonly IPrincipal _principal;
+        private readonly Guid _sessionKey;
 
         /// <summary>
         /// Creates a new AnonymousAuthenticationContext.
         /// </summary>
         protected AnonymousAuthenticationContext()
         {
+            _sessionKey = Guid.NewGuid();
+            _principal = new UserBase(new UserIdentity("Anonymous"));
+            _extendedPropertyMap = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -342,7 +348,7 @@ namespace Cocktail
         /// </summary>
         public Guid SessionKey
         {
-            get { return (Guid)(_sessionKey ?? (_sessionKey = (Guid?)Guid.NewGuid())); }
+            get { return _sessionKey; }
         }
 
         /// <summary>
@@ -350,15 +356,15 @@ namespace Cocktail
         /// </summary>
         public IPrincipal Principal
         {
-            get { return _principal ?? (_principal = new UserBase(new UserIdentity("Anonymous"))); }
+            get { return _principal; }
         }
 
         /// <summary>
         /// Returns whether this context is logged in.
         /// </summary>
-        public IsLoggedIn IsLoggedIn
+        public LoginState LoginState
         {
-            get { return IsLoggedIn.LoggedIn; }
+            get { return LoginState.LoggedIn; }
         }
 
         /// <summary>
@@ -366,7 +372,7 @@ namespace Cocktail
         /// </summary>
         public IDictionary<string, object> ExtendedPropertyMap
         {
-            get { return _extendedPropertyMap ?? (_extendedPropertyMap = new Dictionary<string, object>()); }
+            get { return _extendedPropertyMap; }
         }
 
         #endregion

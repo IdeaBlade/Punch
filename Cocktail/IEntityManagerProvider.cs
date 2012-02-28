@@ -31,7 +31,7 @@ namespace Cocktail
         bool IsSaving { get; }
 
         /// <summary>
-        /// Specifies the <see cref="ConnectionOptions"/> used by the current EntityManagerProvider.
+        /// Specifies the ConnectionOptions used by the current EntityManagerProvider.
         /// </summary>
         ConnectionOptions ConnectionOptions { get; }
 

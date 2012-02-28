@@ -51,6 +51,11 @@ namespace Cocktail
         /// </summary>
         IAuthenticationContext AuthenticationContext { get; }
 
+        /// <summary>
+        /// Specifies the ConnectionOptions used by the current AuthenticationService.
+        /// </summary>
+        ConnectionOptions ConnectionOptions { get; }
+
         /// <summary>Login with the supplied credential.</summary>
         /// <param name="credential">
         /// 	<para>The supplied credential.</para>

@@ -235,5 +235,29 @@ namespace Cocktail.Tests
                     Coroutine.Start(asyncFns, op => TestComplete());
                 });
         }
+
+        [TestMethod]
+        public void ShouldReturnFakeConnectionOptions()
+        {
+            var emp = new EntityManagerProvider<EntityManager>().With(ConnectionOptions.Fake.Name);
+            Assert.IsTrue(emp.ConnectionOptions.IsFake);
+            Assert.IsFalse(emp.ConnectionOptions.IsDesignTime);
+        }
+
+        [TestMethod]
+        public void ShouldReturnDesignTimeConnectionOptions()
+        {
+            var emp = new EntityManagerProvider<EntityManager>().With(ConnectionOptions.DesignTime.Name);
+            Assert.IsTrue(emp.ConnectionOptions.IsDesignTime);
+            Assert.IsFalse(emp.ConnectionOptions.IsFake);
+        }
+
+        [TestMethod]
+        public void ShouldReturnFakeStoreAuthenticationService()
+        {
+            var authSvc = new AuthenticationService().With(ConnectionOptions.Fake.Name);
+            Assert.IsTrue(authSvc.ConnectionOptions.IsFake);
+            Assert.IsFalse(authSvc.ConnectionOptions.IsDesignTime);
+        }
     }
 }

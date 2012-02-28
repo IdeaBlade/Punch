@@ -2,9 +2,20 @@
 <ContentFile Version="2010" Moniker="..\Cocktail\Bin\Debug\Cocktail.dll" DocType="DX.NET">
   <RelatedProject>CocktailHelpReference.dxp</RelatedProject>
   <State>
-    <Attributes />
+    <Attributes>
+      <Attribute key="dtscrollpos" valuetype="integer">612</Attribute>
+      <Attribute key="lang_VB" valuetype="string">on</Attribute>
+      <Attribute key="lang_VBUsage" valuetype="string">on</Attribute>
+      <Attribute key="lang_CS" valuetype="string">on</Attribute>
+      <Attribute key="lang_CPP2005" valuetype="string">on</Attribute>
+      <Attribute key="inheritedMembers" valuetype="string">on</Attribute>
+      <Attribute key="protectedMembers" valuetype="string">on</Attribute>
+    </Attributes>
   </State>
-  <LastSelectedItem></LastSelectedItem>
+  <LastSelectedItem>Cocktail~Cocktail.EntityManagerProvider`1</LastSelectedItem>
+  <item qn="Cocktail~Cocktail.EntityManagerProvider`1~With">
+    <summary ChangeDateTime="2012-02-28T08:34:10.8087276Z">Creates a new EntityManagerProvider from the current EntityManagerProvider and assigns the specified value.</summary>
+  </item>
   <Filters>
     <CONTENTSTORECOMMON>
       <IsIncludedItemsOnly>true</IsIncludedItemsOnly>

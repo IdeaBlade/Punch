@@ -2,26 +2,15 @@
 <package >
   <metadata>
     <id>CocktailCTP</id>
-    <version>0.3.1</version>
-    <authors>Marcel Good, Ward Bell, Rob Eisenberg</authors>
+    <version>0.4.0</version>
+    <authors>Marcel Good,Ward Bell,Rob Eisenberg</authors>
     <owners>IdeaBlade</owners>
     <licenseUrl>http://cocktail.ideablade.com/licensing</licenseUrl>
     <projectUrl>http://cocktail.ideablade.com/</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <summary>Cocktail is an application development platform that takes the pain out of the development of data-driven Rich Internet Applications (RIA) in Silverlight or WPF Desktop Applications.</summary>
     <description>Cocktail leverages established patterns and approaches, such as MVVM und builds on DevForce 2010 rich data service capabilities.</description>
-    <releaseNotes>
-      - New: Generic OperationResult&lt;T&gt; class for returning result values from asynchronous operations.
-      - New: Additional AsOperationResult extension methods for the various DevForce operations.
-      - Breaking change: Enhanced DialogManager to support a default button, enter and ESC keys (Method signature change).
-      - New: Improved look and feel of DialogManager for WPF.
-      - Fix: Threading issue during asynchronous bootstrapping in WPF.
-      - Fix: Duplicate log output if DevForces fails to create log file.
-      - New: Seperate solutions to build Cocktail for WPF, Silerlight 4 and Silverlight 5 only.
-      - New: WPF version of TempHire
-      - Enhancements to TempHire.
-      - Minor code cleanup and optimizations.
-    </releaseNotes>
+    <releaseNotes>http://drc.ideablade.com/xwiki/bin/view/Documentation/cocktail-040-release-notes</releaseNotes>
     <copyright>Copyright 2012</copyright>
     <tags>Cocktail,DevForce,Silverlight,WPF</tags>
   </metadata>

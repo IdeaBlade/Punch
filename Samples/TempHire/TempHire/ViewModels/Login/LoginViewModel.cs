@@ -17,7 +17,6 @@ using System.Text;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;
-using Common.Errors;
 using Common.Factories;
 using Common.Repositories;
 using IdeaBlade.EntityModel;
@@ -29,7 +28,6 @@ namespace TempHire.ViewModels.Login
     public class LoginViewModel : Screen, IResult
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IErrorHandler _errorHandler;
         private readonly ILookupRepository _lookupRepository;
         private readonly IWindowManager _windowManager;
         private string _failureMessage;
@@ -39,14 +37,12 @@ namespace TempHire.ViewModels.Login
 
         [ImportingConstructor]
         public LoginViewModel(IAuthenticationService authenticationService, IWindowManager windowManager,
-                              [Import(AllowDefault = true)] ILookupRepository lookupRepository,
-                              IErrorHandler errorHandler)
+                              [Import(AllowDefault = true)] ILookupRepository lookupRepository)
         {
             Busy = new BusyWatcher();
             _authenticationService = authenticationService;
             _windowManager = windowManager;
             _lookupRepository = lookupRepository;
-            _errorHandler = errorHandler;
 // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DisplayName = "";
 // ReSharper restore DoNotCallOverridableMethodsInConstructor

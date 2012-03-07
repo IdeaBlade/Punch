@@ -191,7 +191,7 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                return new LoginViewModel(new FakeAuthenticationService(), null, null, DesignTimeErrorHandler.Instance)
+                return new LoginViewModel(new FakeAuthenticationService(), null, null)
                            {FailureMessage = "FailureMessage at design time"};
             }
         }

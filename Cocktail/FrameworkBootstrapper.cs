@@ -236,7 +236,7 @@ namespace Cocktail
 #if SILVERLIGHT
                 () => DisplayRootViewFor(Application, typeof (TRootModel))
 #else
-() => DisplayRootViewFor(typeof(TRootModel))
+                () => DisplayRootViewFor(typeof(TRootModel))
 #endif
 );
         }

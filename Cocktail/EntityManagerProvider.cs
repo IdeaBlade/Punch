@@ -117,7 +117,7 @@ namespace Cocktail
         /// <summary>
         /// Event fired after the EntityManager got created.
         /// </summary>
-        public event EventHandler<EventArgs> ManagerCreated = delegate { };
+        public event EventHandler<EntityManagerCreatedEventArgs> ManagerCreated = delegate { };
 
         /// <summary>
         /// Returns true if the last save operation aborted due to a validation error.
@@ -169,7 +169,7 @@ namespace Cocktail
         /// </summary>
         protected virtual void OnManagerCreated()
         {
-            ManagerCreated(this, EventArgs.Empty);
+            ManagerCreated(this, new EntityManagerCreatedEventArgs(_manager));
         }
 
         /// <summary>

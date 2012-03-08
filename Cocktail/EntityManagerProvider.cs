@@ -32,7 +32,7 @@ namespace Cocktail
         private readonly PartLocator<IEntityManagerSyncInterceptor> _syncInterceptorLocator;
         private string _connectionOptionsName;
         private IEnumerable<EntityKey> _deletedEntityKeys;
-        private IEnumerable<EntityManagerDelegate<T>> _entityManagerInterceptors;
+        private IEnumerable<EntityManagerDelegate<T>> _entityManagerDelegates;
         private EventDispatcher<T> _eventDispatcher;
         private IEnumerable<ISampleDataProvider<T>> _sampleDataProviders;
         private EntityCacheState _storeEcs;
@@ -233,8 +233,7 @@ namespace Cocktail
             if (Composition.IsRecomposing)
                 throw new InvalidOperationException(StringResources.CreatingEntityManagerDuringRecompositionNotAllowed);
 
-            if (Composition.IsConfigured)
-                Composition.BuildUp(this);
+            Composition.BuildUp(this);
 
             T manager = CreateEntityManager();
 
@@ -362,8 +361,6 @@ namespace Cocktail
 
         private void Validate(EntitySavingEventArgs args)
         {
-            if (!Composition.IsConfigured) return;
-
             var allValidationErrors = new VerifierResultCollection();
 
             foreach (object entity in args.Entities)
@@ -434,25 +431,23 @@ namespace Cocktail
         {
             get
             {
-                if (_entityManagerInterceptors != null) return _entityManagerInterceptors;
-
-                if (!Composition.IsConfigured) return new EntityManagerDelegate<T>[0];
+                if (_entityManagerDelegates != null) return _entityManagerDelegates;
 
                 IEnumerable i = Manager.CompositionContext.GetExportedInstances(typeof (EntityManagerDelegate));
                 if (i != null)
-                    _entityManagerInterceptors = i.OfType<EntityManagerDelegate<T>>().ToList();
+                    _entityManagerDelegates = i.OfType<EntityManagerDelegate<T>>().ToList();
 
-                if (_entityManagerInterceptors == null || !_entityManagerInterceptors.Any())
-                    _entityManagerInterceptors = Composition.GetInstances<EntityManagerDelegate>()
+                if (_entityManagerDelegates == null || !_entityManagerDelegates.Any())
+                    _entityManagerDelegates = Composition.GetInstances<EntityManagerDelegate>()
                         .OfType<EntityManagerDelegate<T>>()
                         .ToList();
 
-                TraceFns.WriteLine(_entityManagerInterceptors.Any()
+                TraceFns.WriteLine(_entityManagerDelegates.Any()
                                        ? string.Format(StringResources.ProbedForEntityManagerDelegateAndFoundMatch,
-                                                       _entityManagerInterceptors.Count())
+                                                       _entityManagerDelegates.Count())
                                        : StringResources.ProbedForEntityManagerDelegateAndFoundNoMatch);
 
-                return _entityManagerInterceptors;
+                return _entityManagerDelegates;
             }
         }
 
@@ -461,8 +456,6 @@ namespace Cocktail
             get
             {
                 if (_validationErrorNotifiers != null) return _validationErrorNotifiers;
-
-                if (!Composition.IsConfigured) return new IValidationErrorNotification[0];
 
                 IEnumerable i = Manager.CompositionContext.GetExportedInstances(typeof (IValidationErrorNotification));
                 if (i != null)

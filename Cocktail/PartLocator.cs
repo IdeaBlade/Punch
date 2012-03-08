@@ -68,10 +68,6 @@ namespace Cocktail
                 return _instance;
             }
 
-            // Do not probe if the CompositionHost isn't configured.
-            if (!Composition.IsConfigured)
-                return DefaultGenerator();
-
             // Look for the part in the MEF container
             var exports =
                 Composition.GetExportsCore(typeof (T), null, _creationPolicy).ToList();

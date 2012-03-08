@@ -37,7 +37,6 @@ namespace Cocktail
         private static readonly Dictionary<string, XapDownloadOperation> XapDownloadOperations =
             new Dictionary<string, XapDownloadOperation>();
 #endif
-        private static bool _isConfigured;
         private static CompositionContainer _container;
         private static ComposablePartCatalog _catalog;
 
@@ -55,14 +54,6 @@ namespace Cocktail
                 CreationPolicy.Shared, () => args.EntityManager.CompositionContext);
             if (locator.IsAvailable)
                 args.EntityManager.AuthenticationContext = locator.GetPart().AuthenticationContext;
-        }
-
-        /// <summary>
-        /// Returns true if <see cref="Configure"/> has been called.
-        /// </summary>
-        public static bool IsConfigured
-        {
-            get { return _isConfigured; }
         }
 
         /// <summary>Returns the current catalog in use.</summary>
@@ -93,10 +84,9 @@ namespace Cocktail
         /// <param name="catalog">The custom catalog to be used by Cocktail to get access to MEF exports.</param>
         public static void Configure(CompositionBatch compositionBatch = null, ComposablePartCatalog catalog = null)
         {
-            //if (IsConfigured) return;
+            Clear();
             _catalog = catalog;
 
-            _isConfigured = true;
             CompositionBatch batch = compositionBatch ?? new CompositionBatch();
 
             if (!ExportExists<IEventAggregator>())
@@ -111,8 +101,6 @@ namespace Cocktail
         /// </param>
         public static void Compose(CompositionBatch compositionBatch)
         {
-            WarnIfNotConfigured();
-
             if (compositionBatch == null)
                 throw new ArgumentNullException("compositionBatch");
 
@@ -131,7 +119,6 @@ namespace Cocktail
                 _container.Dispose();
             _container = null;
             _catalog = null;
-            _isConfigured = false;
         }
 
         /// <summary>
@@ -142,8 +129,6 @@ namespace Cocktail
         /// <returns>The requested instance.</returns>
         public static T GetInstance<T>(CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            WarnIfNotConfigured();
-
             List<Export> exports = GetExportsCore(typeof (T), null, requiredCreationPolicy).ToList();
             if (!exports.Any())
                 throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
@@ -160,8 +145,6 @@ namespace Cocktail
         /// <returns>The requested instances.</returns>
         public static IEnumerable<T> GetInstances<T>(CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            WarnIfNotConfigured();
-
             IEnumerable<Export> exports = GetExportsCore(typeof (T), null, requiredCreationPolicy);
             return exports.Select(e => e.Value).Cast<T>();
         }
@@ -176,8 +159,6 @@ namespace Cocktail
         public static object GetInstance(Type serviceType, string key,
                                          CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            WarnIfNotConfigured();
-
             List<Export> exports = GetExportsCore(serviceType, key, requiredCreationPolicy).ToList();
             if (!exports.Any())
                 throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
@@ -195,7 +176,6 @@ namespace Cocktail
         public static IEnumerable<object> GetInstances(Type serviceType,
                                                        CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            WarnIfNotConfigured();
             IEnumerable<Export> exports = GetExportsCore(serviceType, null, requiredCreationPolicy);
             return exports.Select(e => e.Value);
         }
@@ -208,7 +188,6 @@ namespace Cocktail
             if (Execute.InDesignMode)
                 return;
 
-            WarnIfNotConfigured();
             Container.SatisfyImportsOnce(instance);
         }
 
@@ -302,15 +281,6 @@ namespace Cocktail
         }
 
         internal static bool IsRecomposing { get; set; }
-
-        #region Private Methods
-
-        private static void WarnIfNotConfigured()
-        {
-            DebugFns.WriteLineIf(!IsConfigured, StringResources.CompositionHelperIsNotConfigured);
-        }
-
-        #endregion
     }
 
 #if SILVERLIGHT

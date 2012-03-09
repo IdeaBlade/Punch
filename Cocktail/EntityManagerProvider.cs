@@ -26,7 +26,8 @@ namespace Cocktail
 {
     /// <summary>Manages and provides an EntityManager.</summary>
     /// <typeparam name="T">The type of the EntityManager</typeparam>
-    public class EntityManagerProvider<T> : IEntityManagerProvider<T>, IHandle<SyncDataMessage<T>>, ICloneable
+    public class EntityManagerProvider<T> : IEntityManagerProvider<T>, ICloneable,
+        IHandle<SyncDataMessage<T>>, IHandle<PrincipalChangedMessage>, IHandle<EntityManagerEventMessage<T>> 
         where T : EntityManager
     {
         private readonly PartLocator<IEntityManagerSyncInterceptor> _syncInterceptorLocator;
@@ -37,7 +38,7 @@ namespace Cocktail
         private IEnumerable<ISampleDataProvider<T>> _sampleDataProviders;
         private EntityCacheState _storeEcs;
 
-        private T _manager;
+        private EntityManagerWrapper<T> _entityManagerWrapper;
         private IEnumerable<IValidationErrorNotification> _validationErrorNotifiers;
 
         /// <summary>Initializes a new instance.</summary>
@@ -87,12 +88,12 @@ namespace Cocktail
         {
             get
             {
-                if (_manager == null)
+                if (_entityManagerWrapper == null)
                 {
-                    _manager = CreateEntityManagerCore();
+                    _entityManagerWrapper = new EntityManagerWrapper<T>(CreateEntityManagerCore());
                     OnManagerCreated();
                 }
-                return _manager;
+                return _entityManagerWrapper.Manager;
             }
         }
 
@@ -156,7 +157,7 @@ namespace Cocktail
         /// </summary>
         protected virtual void OnManagerCreated()
         {
-            ManagerCreated(this, new EntityManagerCreatedEventArgs(_manager));
+            ManagerCreated(this, new EntityManagerCreatedEventArgs(_entityManagerWrapper.Manager));
         }
 
         /// <summary>
@@ -221,6 +222,7 @@ namespace Cocktail
                 throw new InvalidOperationException(StringResources.CreatingEntityManagerDuringRecompositionNotAllowed);
 
             Composition.BuildUp(this);
+            EventFns.Subscribe(this);
 
             T manager = CreateEntityManager();
 
@@ -237,12 +239,6 @@ namespace Cocktail
 
             EventDispatcher.InstallEventHandlers(manager);
 
-            var locator =
-                new PartLocator<IAuthenticationService>(CreationPolicy.Shared, () => CompositionContext);
-            if (locator.IsAvailable)
-                EventDispatcher.InstallEventHandlers(locator.GetPart());
-
-            EventFns.Subscribe(this);
 
             return manager;
         }
@@ -257,25 +253,43 @@ namespace Cocktail
             manager.Clear();
         }
 
-        private void OnPrincipalChanged(object sender, EventArgs args)
+        void IHandle<PrincipalChangedMessage>.Handle(PrincipalChangedMessage message)
         {
             // Let's clear the cache from the previous user and
             // release the EntityManager. A new EntityManager will
             // automatically be created and linked to the new
             // security context.
-            if (_manager != null)
+            if (_entityManagerWrapper != null)
             {
-                _manager.Clear();
-                _manager.Disconnect();
-                _manager.Querying +=
+                _entityManagerWrapper.Manager.Clear();
+                _entityManagerWrapper.Manager.Disconnect();
+                _entityManagerWrapper.Manager.Querying +=
                     delegate { throw new InvalidOperationException(StringResources.InvalidUseOfExpiredEntityManager); };
-                _manager.Saving +=
+                _entityManagerWrapper.Manager.Saving +=
                     delegate { throw new InvalidOperationException(StringResources.InvalidUseOfExpiredEntityManager); };
             }
-            _manager = null;
+            _entityManagerWrapper = null;
         }
 
-        private void OnQuerying(object sender, EntityQueryingEventArgs e)
+        void IHandle<EntityManagerEventMessage<T>>.Handle(EntityManagerEventMessage<T> message)
+        {
+            if (_entityManagerWrapper == null) return;
+            if (!ReferenceEquals(_entityManagerWrapper.Manager, message.EntityManager)) return;
+
+            var entityQueryingEventArgs = message.EventArgs as EntityQueryingEventArgs;
+            if (entityQueryingEventArgs != null)
+                OnQuerying(entityQueryingEventArgs);
+
+            var entitySavingEventArgs = message.EventArgs as EntitySavingEventArgs;
+            if (entitySavingEventArgs != null)
+                OnSaving(entitySavingEventArgs);
+
+            var entitySavedEventArgs = message.EventArgs as EntitySavedEventArgs;
+            if (entitySavedEventArgs != null)
+                OnSaved(entitySavedEventArgs);
+        }
+
+        private void OnQuerying(EntityQueryingEventArgs e)
         {
             // In design mode all queries must be forced to execute against the cache.
             if (Execute.InDesignMode)
@@ -293,7 +307,7 @@ namespace Cocktail
             return syncInterceptor;
         }
 
-        private void OnSaved(object sender, EntitySavedEventArgs e)
+        private void OnSaved(EntitySavedEventArgs e)
         {
             try
             {
@@ -325,7 +339,7 @@ namespace Cocktail
                 RaiseDataChangedEvent(syncData.SavedEntities, syncData.DeletedEntityKeys);
         }
 
-        private void OnSaving(object sender, EntitySavingEventArgs e)
+        private void OnSaving(EntitySavingEventArgs e)
         {
             if (IsSaving)
                 throw new InvalidOperationException(
@@ -411,19 +425,7 @@ namespace Cocktail
 
         private EventDispatcher<T> EventDispatcher
         {
-            get
-            {
-                if (_eventDispatcher == null)
-                {
-                    _eventDispatcher = new EventDispatcher<T>(EntityManagerDelegates);
-                    _eventDispatcher.PrincipalChanged += OnPrincipalChanged;
-                    _eventDispatcher.Querying += OnQuerying;
-                    _eventDispatcher.Saving += OnSaving;
-                    _eventDispatcher.Saved += OnSaved;
-                }
-
-                return _eventDispatcher;
-            }
+            get { return _eventDispatcher ?? (_eventDispatcher = new EventDispatcher<T>(EntityManagerDelegates)); }
         }
 
         private IEnumerable<EntityManagerDelegate<T>> EntityManagerDelegates

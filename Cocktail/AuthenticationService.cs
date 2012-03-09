@@ -255,6 +255,7 @@ namespace Cocktail
         {
             NotifyPropertyChanged("Principal");
             PrincipalChanged(this, EventArgs.Empty);
+            EventFns.Publish(new PrincipalChangedMessage(Principal));
         }
 
         /// <summary>Signals that a user successfully logged in.</summary>

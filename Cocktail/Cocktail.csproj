@@ -82,8 +82,10 @@
     <Compile Include="DialogManager.cs" />
     <Compile Include="DialogOperationResult.cs" />
     <Compile Include="EntityManagerDelegate.cs" />
+    <Compile Include="EntityManagerEventMessage.cs" />
     <Compile Include="EntityManagerProvider.cs" />
     <Compile Include="EntityManagerSyncInterceptor.cs" />
+    <Compile Include="EntityManagerWrapper.cs" />
     <Compile Include="EventDispatcher.cs" />
     <Compile Include="EventFns.cs" />
     <Compile Include="FakeBackingStore.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="OperationResult.cs" />
     <Compile Include="PartLocator.cs" />
     <Compile Include="PathToImageSourceConverter.cs" />
+    <Compile Include="PrincipalChangedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShowDialogResult.cs" />
     <Compile Include="StringResources.Designer.cs">

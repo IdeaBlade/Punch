@@ -20,21 +20,10 @@ namespace Cocktail
     internal class EventDispatcher<T> where T : EntityManager
     {
         private readonly IEnumerable<EntityManagerDelegate<T>> _interceptors;
-        private IAuthenticationService _authenticationService;
 
         public EventDispatcher(IEnumerable<EntityManagerDelegate<T>> interceptors)
         {
             _interceptors = interceptors;
-        }
-
-        internal void InstallEventHandlers(IAuthenticationService authenticationService)
-        {
-            if (ReferenceEquals(_authenticationService, authenticationService))
-                return; // Noop
-
-            _authenticationService = authenticationService;
-            _authenticationService.PrincipalChanged += new EventHandler<EventArgs>(OnPrincipalChanged)
-                .MakeWeak(eh => _authenticationService.PrincipalChanged -= eh);
         }
 
         internal void InstallEventHandlers(T manager)
@@ -87,11 +76,6 @@ namespace Cocktail
             _interceptors.ForEach(i => i.OnEntityChanged((T)sender, e));
         }
 
-        internal void OnPrincipalChanged(object sender, EventArgs e)
-        {
-            PrincipalChanged(sender, e);
-        }
-
         internal void OnQuerying(object sender, EntityQueryingEventArgs e)
         {
             _interceptors.ForEach(i => i.OnQuerying((T)sender, e));
@@ -113,9 +97,8 @@ namespace Cocktail
             Saved(sender, e);
         }
 
-        internal event EventHandler<EventArgs> PrincipalChanged = delegate { };
-        internal event EventHandler<EntityQueryingEventArgs> Querying = delegate { };
-        internal event EventHandler<EntitySavingEventArgs> Saving = delegate { };
-        internal event EventHandler<EntitySavedEventArgs> Saved = delegate { };
+        private event EventHandler<EntityQueryingEventArgs> Querying = delegate { };
+        private event EventHandler<EntitySavingEventArgs> Saving = delegate { };
+        private event EventHandler<EntitySavedEventArgs> Saved = delegate { };
     }
 }

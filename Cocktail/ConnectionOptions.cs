@@ -148,6 +148,14 @@ namespace Cocktail
         public bool IsDesignTime { get; private set; }
 
         /// <summary>
+        /// Returns the <see cref="CompositionContext"/> used for this connection.
+        /// </summary>
+        public CompositionContext CompositionContext
+        {
+            get { return CompositionContext.GetByName(CompositionContextName); }
+        }
+
+        /// <summary>
         /// Converts the ConnectionOptions to a <see cref="LoginOptions"/> instance.
         /// </summary>
         public LoginOptions ToLoginOptions()

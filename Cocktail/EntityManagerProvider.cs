@@ -18,6 +18,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Caliburn.Micro;
 using IdeaBlade.Core;
+using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
 
@@ -28,7 +29,6 @@ namespace Cocktail
     public class EntityManagerProvider<T> : IEntityManagerProvider<T>, IHandle<SyncDataMessage<T>>, ICloneable
         where T : EntityManager
     {
-        private readonly PartLocator<IEventAggregator> _eventAggregatorLocator;
         private readonly PartLocator<IEntityManagerSyncInterceptor> _syncInterceptorLocator;
         private string _connectionOptionsName;
         private IEnumerable<EntityKey> _deletedEntityKeys;
@@ -43,11 +43,8 @@ namespace Cocktail
         /// <summary>Initializes a new instance.</summary>
         public EntityManagerProvider()
         {
-            _eventAggregatorLocator =
-                new PartLocator<IEventAggregator>(CreationPolicy.Shared, () => Manager.CompositionContext);
             _syncInterceptorLocator =
-                new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.NonShared,
-                                                               () => Manager.CompositionContext)
+                new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.NonShared, () => CompositionContext)
                     .WithDefaultGenerator(() => new DefaultEntityManagerSyncInterceptor());
         }
 
@@ -93,16 +90,6 @@ namespace Cocktail
                 if (_manager == null)
                 {
                     _manager = CreateEntityManagerCore();
-                    EventDispatcher.InstallEventHandlers(_manager);
-
-                    var locator =
-                        new PartLocator<IAuthenticationService>(CreationPolicy.Shared, () => _manager.CompositionContext);
-                    if (locator.IsAvailable)
-                        EventDispatcher.InstallEventHandlers(locator.GetPart());
-
-                    if (EventAggregator != null)
-                        EventAggregator.Subscribe(this);
-
                     OnManagerCreated();
                 }
                 return _manager;
@@ -196,7 +183,7 @@ namespace Cocktail
 
         internal OperationResult ResetFakeBackingStoreAsync()
         {
-            if (!FakeBackingStore.Exists(Manager.CompositionContext.Name))
+            if (!FakeBackingStore.Exists(CompositionContext.Name))
                 throw new InvalidOperationException(StringResources.TheFakeStoreHasNotBeenInitialized);
 
             // Create a separate isolated EntityManager
@@ -206,14 +193,14 @@ namespace Cocktail
             if (_storeEcs == null)
                 PopulateStoreEcs(manager);
 
-            return FakeBackingStore.Get(Manager.CompositionContext.Name).ResetAsync(manager, _storeEcs);
+            return FakeBackingStore.Get(CompositionContext.Name).ResetAsync(manager, _storeEcs);
         }
 
 #if !SILVERLIGHT
 
         internal void ResetFakeBackingStore()
         {
-            if (!FakeBackingStore.Exists(Manager.CompositionContext.Name))
+            if (!FakeBackingStore.Exists(CompositionContext.Name))
                 throw new InvalidOperationException(StringResources.TheFakeStoreHasNotBeenInitialized);
 
             // Create a separate isolated EntityManager
@@ -223,7 +210,7 @@ namespace Cocktail
             if (_storeEcs == null)
                 PopulateStoreEcs(manager);
 
-            FakeBackingStore.Get(Manager.CompositionContext.Name).Reset(manager, _storeEcs);
+            FakeBackingStore.Get(CompositionContext.Name).Reset(manager, _storeEcs);
         }
 
 #endif
@@ -247,6 +234,15 @@ namespace Cocktail
                 if (SampleDataProviders != null)
                     SampleDataProviders.ForEach(p => p.AddSampleData(manager));
             }
+
+            EventDispatcher.InstallEventHandlers(manager);
+
+            var locator =
+                new PartLocator<IAuthenticationService>(CreationPolicy.Shared, () => CompositionContext);
+            if (locator.IsAvailable)
+                EventDispatcher.InstallEventHandlers(locator.GetPart());
+
+            EventFns.Subscribe(this);
 
             return manager;
         }
@@ -321,10 +317,8 @@ namespace Cocktail
 
         private void PublishEntities(IEnumerable<object> exportEntities)
         {
-            if (EventAggregator == null) return;
-
             var syncData = new SyncDataMessage<T>(this, exportEntities, _deletedEntityKeys);
-            EventAggregator.Publish(syncData);
+            EventFns.Publish(syncData);
 
             // Signal to our clients that data has changed
             if (syncData.SavedEntities.Any() || syncData.DeletedEntityKeys.Any())
@@ -410,6 +404,11 @@ namespace Cocktail
             if (DataChanged != null) DataChanged(this, args);
         }
 
+        private CompositionContext CompositionContext
+        {
+            get { return ConnectionOptions.CompositionContext; }
+        }
+
         private EventDispatcher<T> EventDispatcher
         {
             get
@@ -433,7 +432,7 @@ namespace Cocktail
             {
                 if (_entityManagerDelegates != null) return _entityManagerDelegates;
 
-                IEnumerable i = Manager.CompositionContext.GetExportedInstances(typeof (EntityManagerDelegate));
+                IEnumerable i = CompositionContext.GetExportedInstances(typeof (EntityManagerDelegate));
                 if (i != null)
                     _entityManagerDelegates = i.OfType<EntityManagerDelegate<T>>().ToList();
 
@@ -457,7 +456,7 @@ namespace Cocktail
             {
                 if (_validationErrorNotifiers != null) return _validationErrorNotifiers;
 
-                IEnumerable i = Manager.CompositionContext.GetExportedInstances(typeof (IValidationErrorNotification));
+                IEnumerable i = CompositionContext.GetExportedInstances(typeof (IValidationErrorNotification));
                 if (i != null)
                     _validationErrorNotifiers = i.Cast<IValidationErrorNotification>().ToList();
 
@@ -472,11 +471,6 @@ namespace Cocktail
 
                 return _validationErrorNotifiers;
             }
-        }
-
-        private IEventAggregator EventAggregator
-        {
-            get { return _eventAggregatorLocator.GetPart(); }
         }
 
         private IEnumerable<ISampleDataProvider<T>> SampleDataProviders

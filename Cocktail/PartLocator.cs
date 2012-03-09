@@ -32,6 +32,8 @@ namespace Cocktail
             _compositionContextDelegate = compositionContextDelegate ?? (() => CompositionContext.Default);
             _creationPolicy = creationPolicy;
             _defaultGenerator = () => null;
+            Composition.Cleared +=
+                new EventHandler<EventArgs>(OnCompositionCleared).MakeWeak(eh => Composition.Cleared -= eh);
         }
 
         internal PartLocator(PartLocator<T> partLocator)
@@ -39,22 +41,19 @@ namespace Cocktail
             _compositionContextDelegate = partLocator._compositionContextDelegate;
             _creationPolicy = partLocator._creationPolicy;
             _defaultGenerator = partLocator._defaultGenerator;
+            Composition.Cleared +=
+                new EventHandler<EventArgs>(OnCompositionCleared).MakeWeak(eh => Composition.Cleared -= eh);
+        }
+
+        internal void OnCompositionCleared(object sender, EventArgs e)
+        {
+            _instance = null;
+            _probed = false;
         }
 
         internal bool Probed { get { return _probed || _instance != null; } }
 
         internal bool IsAvailable { get { return GetPart() != null; } }
-
-        private CompositionContext CompositionContext { get { return _compositionContextDelegate() ?? CompositionContext.Default; } }
-
-        private void WriteTrace()
-        {
-            if (_instance != null)
-                TraceFns.WriteLine(String.Format(StringResources.ProbedForServiceAndFoundMatch, typeof(T).Name,
-                                                 _instance.GetType().FullName));
-            else
-                TraceFns.WriteLine(String.Format(StringResources.ProbedForServiceFoundNoMatch, typeof(T).Name));
-        }
 
         internal T GetPart()
         {
@@ -92,5 +91,16 @@ namespace Cocktail
         }
 
         protected Func<T> DefaultGenerator { get { return _defaultGenerator; } }
+
+        private CompositionContext CompositionContext { get { return _compositionContextDelegate() ?? CompositionContext.Default; } }
+
+        private void WriteTrace()
+        {
+            if (_instance != null)
+                TraceFns.WriteLine(String.Format(StringResources.ProbedForServiceAndFoundMatch, typeof(T).Name,
+                                                 _instance.GetType().FullName));
+            else
+                TraceFns.WriteLine(String.Format(StringResources.ProbedForServiceFoundNoMatch, typeof(T).Name));
+        }
     }
 }

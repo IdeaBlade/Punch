@@ -119,6 +119,8 @@ namespace Cocktail
                 _container.Dispose();
             _container = null;
             _catalog = null;
+
+            Cleared(null, EventArgs.Empty);
         }
 
         /// <summary>
@@ -213,13 +215,18 @@ namespace Cocktail
 #endif
 
         /// <summary>
-        /// Raised when the composition container is modified after initialization.
+        /// Fired when the composition container is modified after initialization.
         /// </summary>
         public static event EventHandler<RecomposedEventArgs> Recomposed
         {
             add { CompositionHost.Recomposed += value; }
             remove { CompositionHost.Recomposed -= value; }
         }
+
+        /// <summary>
+        /// Fired after <see cref="Clear"/> has been called to clear the current CompositionContainer.
+        /// </summary>
+        public static event EventHandler<EventArgs> Cleared = delegate { }; 
 
 #if SILVERLIGHT
 

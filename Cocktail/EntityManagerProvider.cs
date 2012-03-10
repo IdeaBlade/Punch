@@ -26,17 +26,17 @@ namespace Cocktail
 {
     /// <summary>Manages and provides an EntityManager.</summary>
     /// <typeparam name="T">The type of the EntityManager</typeparam>
-    public class EntityManagerProvider<T> : IEntityManagerProvider<T>, ICloneable,
-        IHandle<SyncDataMessage<T>>, IHandle<PrincipalChangedMessage>, IHandle<EntityManagerEventMessage<T>> 
+    public class EntityManagerProvider<T> : EntityManagerProviderCore<T>,
+                                            IHandle<SyncDataMessage<T>>, IHandle<PrincipalChangedMessage>,
+                                            IHandle<EntityManagerEventMessage<T>>
         where T : EntityManager
     {
         private readonly PartLocator<IEntityManagerSyncInterceptor> _syncInterceptorLocator;
-        private string _connectionOptionsName;
         private IEnumerable<EntityKey> _deletedEntityKeys;
         private IEnumerable<EntityManagerDelegate<T>> _entityManagerDelegates;
-        private EventDispatcher<T> _eventDispatcher;
         private IEnumerable<ISampleDataProvider<T>> _sampleDataProviders;
         private EntityCacheState _storeEcs;
+        private bool _isSaving;
 
         private EntityManagerWrapper<T> _entityManagerWrapper;
         private IEnumerable<IValidationErrorNotification> _validationErrorNotifiers;
@@ -54,11 +54,9 @@ namespace Cocktail
         /// </summary>
         /// <param name="connectionOptionsName">The ConnectionOptions name to be assigned.</param>
         /// <returns>A new EntityManagerProvider instance.</returns>
-        public EntityManagerProvider<T> With(string connectionOptionsName)
+        public new EntityManagerProvider<T> With(string connectionOptionsName)
         {
-            var newInstance = (EntityManagerProvider<T>) ((ICloneable) this).Clone();
-            newInstance._connectionOptionsName = connectionOptionsName;
-            return newInstance;
+            return (EntityManagerProvider<T>) base.With(connectionOptionsName);
         }
 
         /// <summary>
@@ -75,16 +73,8 @@ namespace Cocktail
 
         #region IEntityManagerProvider<T> Members
 
-        /// <summary>
-        /// Specifies the ConnectionOptions used by the current EntityManagerProvider.
-        /// </summary>
-        public ConnectionOptions ConnectionOptions
-        {
-            get { return ConnectionOptions.GetByName(_connectionOptionsName); }
-        }
-
         /// <summary>Returns the EntityManager managed by this provider.</summary>
-        public T Manager
+        public override T Manager
         {
             get
             {
@@ -97,35 +87,26 @@ namespace Cocktail
             }
         }
 
-        EntityManager IEntityManagerProvider.Manager
-        {
-            get { return Manager; }
-        }
-
-        /// <summary>
-        /// Event fired after the EntityManager got created.
-        /// </summary>
-        public event EventHandler<EntityManagerCreatedEventArgs> ManagerCreated = delegate { };
-
-        /// <summary>
-        /// Returns true if the last save operation aborted due to a validation error.
-        /// </summary>
-        public bool HasValidationError { get; private set; }
-
         /// <summary>
         /// Returns true if a save is in progress. A <see cref="InvalidOperationException"/> is thrown 
         /// if EntityManager.SaveChangesAsync is called while a previous SaveChangesAsync is still in progress.
         /// </summary>
-        public bool IsSaving { get; private set; }
-
-        /// <summary>
-        /// Signals that a Save of at least one entity has been performed
-        /// or changed entities have been imported from another entity manager.
-        /// Clients may use this event to force a data refresh. 
-        /// </summary>
-        public event EventHandler<DataChangedEventArgs> DataChanged;
+        public override bool IsSaving
+        {
+            get { return _isSaving; }
+        }
 
         #endregion
+
+        /// <summary>
+        /// Creates a copy of the current EntityManagerProvider.
+        /// </summary>
+        public override object Clone()
+        {
+            var newInstance = (EntityManagerProvider<T>) base.Clone();
+            newInstance._sampleDataProviders = _sampleDataProviders;
+            return newInstance;
+        }
 
         #region IHandle<SyncDataMessage<T>> Members
 
@@ -151,36 +132,6 @@ namespace Cocktail
         }
 
         #endregion
-
-        /// <summary>
-        /// Triggers the ManagerCreated event.
-        /// </summary>
-        protected virtual void OnManagerCreated()
-        {
-            ManagerCreated(this, new EntityManagerCreatedEventArgs(_entityManagerWrapper.Manager));
-        }
-
-        /// <summary>
-        /// Creates a new EntityManager instance.
-        /// </summary>
-        /// <returns>T</returns>
-        protected virtual T CreateEntityManager()
-        {
-            try
-            {
-                ConnectionOptions connectionOptions = ConnectionOptions;
-                var manager = (T) Activator.CreateInstance(typeof (T), connectionOptions.ToEntityManagerContext());
-                DebugFns.WriteLine(string.Format(StringResources.SuccessfullyCreatedEntityManager,
-                                                 manager.GetType().FullName, connectionOptions.Name,
-                                                 connectionOptions.IsFake));
-                return manager;
-            }
-            catch (MissingMethodException)
-            {
-                throw new MissingMethodException(string.Format(StringResources.MissingEntityManagerConstructor,
-                                                               typeof (T).Name));
-            }
-        }
 
         internal OperationResult ResetFakeBackingStoreAsync()
         {
@@ -223,7 +174,7 @@ namespace Cocktail
 
             Composition.BuildUp(this);
             EventFns.Subscribe(this);
-
+            DiscoverAndHoldEntityManagerDelegates();
             T manager = CreateEntityManager();
 
             if (ConnectionOptions.IsDesignTime)
@@ -236,9 +187,6 @@ namespace Cocktail
                 if (SampleDataProviders != null)
                     SampleDataProviders.ForEach(p => p.AddSampleData(manager));
             }
-
-            EventDispatcher.InstallEventHandlers(manager);
-
 
             return manager;
         }
@@ -325,7 +273,7 @@ namespace Cocktail
             }
             finally
             {
-                IsSaving = false;
+                _isSaving = false;
             }
         }
 
@@ -344,14 +292,14 @@ namespace Cocktail
             if (IsSaving)
                 throw new InvalidOperationException(
                     StringResources.ThisEntityManagerIsCurrentlyBusyWithAPreviousSaveChangeAsync);
-            IsSaving = true;
+            _isSaving = true;
 
             try
             {
                 Validate(e);
                 if (e.Cancel)
                 {
-                    IsSaving = false;
+                    _isSaving = false;
                     return;
                 }
 
@@ -362,7 +310,7 @@ namespace Cocktail
             }
             catch (Exception)
             {
-                IsSaving = false;
+                _isSaving = false;
                 throw;
             }
         }
@@ -377,8 +325,8 @@ namespace Cocktail
                 if (entityAspect.EntityState.IsDeletedOrDetached()) continue;
 
                 VerifierResultCollection validationErrors = Manager.VerifierEngine.Execute(entity);
-                foreach (var i in EntityManagerDelegates)
-                    i.Validate(entity, validationErrors);
+                foreach (var d in _entityManagerDelegates ?? new EntityManagerDelegate<T>[0])
+                    d.Validate(entity, validationErrors);
                 // Extract only validation errors
                 validationErrors = validationErrors.Errors;
 
@@ -396,8 +344,6 @@ namespace Cocktail
                 ValidationErrorNotifiers.ForEach(s => s.OnValidationError(allValidationErrors));
                 args.Cancel = true;
             }
-
-            HasValidationError = args.Cancel;
         }
 
         private void RetainDeletedEntityKeys(IEnumerable<object> syncEntities)
@@ -414,8 +360,7 @@ namespace Cocktail
 
             if (!entityKeys.Any()) return;
 
-            var args = new DataChangedEventArgs(entityKeys, Manager);
-            if (DataChanged != null) DataChanged(this, args);
+            OnDataChanged(entityKeys);
         }
 
         private CompositionContext CompositionContext
@@ -423,33 +368,21 @@ namespace Cocktail
             get { return ConnectionOptions.CompositionContext; }
         }
 
-        private EventDispatcher<T> EventDispatcher
+        private void DiscoverAndHoldEntityManagerDelegates()
         {
-            get { return _eventDispatcher ?? (_eventDispatcher = new EventDispatcher<T>(EntityManagerDelegates)); }
-        }
+            IEnumerable i = CompositionContext.GetExportedInstances(typeof (EntityManagerDelegate));
+            if (i != null)
+                _entityManagerDelegates = i.OfType<EntityManagerDelegate<T>>().ToList();
 
-        private IEnumerable<EntityManagerDelegate<T>> EntityManagerDelegates
-        {
-            get
-            {
-                if (_entityManagerDelegates != null) return _entityManagerDelegates;
+            if (_entityManagerDelegates == null || !_entityManagerDelegates.Any())
+                _entityManagerDelegates = Composition.GetInstances<EntityManagerDelegate>()
+                    .OfType<EntityManagerDelegate<T>>()
+                    .ToList();
 
-                IEnumerable i = CompositionContext.GetExportedInstances(typeof (EntityManagerDelegate));
-                if (i != null)
-                    _entityManagerDelegates = i.OfType<EntityManagerDelegate<T>>().ToList();
-
-                if (_entityManagerDelegates == null || !_entityManagerDelegates.Any())
-                    _entityManagerDelegates = Composition.GetInstances<EntityManagerDelegate>()
-                        .OfType<EntityManagerDelegate<T>>()
-                        .ToList();
-
-                TraceFns.WriteLine(_entityManagerDelegates.Any()
-                                       ? string.Format(StringResources.ProbedForEntityManagerDelegateAndFoundMatch,
-                                                       _entityManagerDelegates.Count())
-                                       : StringResources.ProbedForEntityManagerDelegateAndFoundNoMatch);
-
-                return _entityManagerDelegates;
-            }
+            TraceFns.WriteLine(_entityManagerDelegates.Any()
+                                   ? string.Format(StringResources.ProbedForEntityManagerDelegateAndFoundMatch,
+                                                   _entityManagerDelegates.Count())
+                                   : StringResources.ProbedForEntityManagerDelegateAndFoundNoMatch);
         }
 
         private IEnumerable<IValidationErrorNotification> ValidationErrorNotifiers
@@ -483,21 +416,6 @@ namespace Cocktail
                        (_sampleDataProviders = Composition.GetInstances<ISampleDataProvider<T>>());
             }
             set { _sampleDataProviders = value; }
-        }
-
-        object ICloneable.Clone()
-        {
-            try
-            {
-                var newInstance = (EntityManagerProvider<T>) Activator.CreateInstance(GetType());
-                newInstance._connectionOptionsName = _connectionOptionsName;
-                newInstance._sampleDataProviders = _sampleDataProviders;
-                return newInstance;
-            }
-            catch (MissingMethodException)
-            {
-                throw new MissingMethodException(string.Format(StringResources.MissingDefaultConstructor, GetType().Name));
-            }
         }
     }
 }

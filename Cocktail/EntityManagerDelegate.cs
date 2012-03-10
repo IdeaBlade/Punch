@@ -11,6 +11,7 @@
 //====================================================================================================================
 
 using System.ComponentModel.Composition;
+using Caliburn.Micro;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
 
@@ -26,9 +27,52 @@ namespace Cocktail
     /// <typeparam name="T">The EntityManager type for which the events should be intercepted.</typeparam>
     /// <remarks>To handle events, create a new class extending EntityManagerDelegate&lt;T&gt; and override the respective methods. Multiple
     /// EntityManagerDelegates are supported.</remarks>
-    public abstract class EntityManagerDelegate<T> : EntityManagerDelegate
+    public abstract class EntityManagerDelegate<T> : EntityManagerDelegate, IHandle<EntityManagerEventMessage<T>>
         where T : EntityManager
     {
+        /// <summary>
+        /// Initializes a new EntityManagerDelegate instance.
+        /// </summary>
+        protected EntityManagerDelegate()
+        {
+            EventFns.Subscribe(this);
+        }
+
+        #region IHandle<EntityManagerEventMessage<T>> Members
+
+        void IHandle<EntityManagerEventMessage<T>>.Handle(EntityManagerEventMessage<T> message)
+        {
+            var entityManagerClearedEventArgs = message.EventArgs as EntityManagerClearedEventArgs;
+            if (entityManagerClearedEventArgs != null)
+                OnCleared(message.EntityManager, entityManagerClearedEventArgs);
+            var entityChangedEventArgs = message.EventArgs as EntityChangedEventArgs;
+            if (entityChangedEventArgs != null)
+                OnEntityChanged(message.EntityManager, entityChangedEventArgs);
+            var entityChangingEventArgs = message.EventArgs as EntityChangingEventArgs;
+            if (entityChangingEventArgs != null)
+                OnEntityChanging(message.EntityManager, entityChangingEventArgs);
+            var entityServerErrorEventArgs = message.EventArgs as EntityServerErrorEventArgs;
+            if (entityServerErrorEventArgs != null)
+                OnEntityServerError(message.EntityManager, entityServerErrorEventArgs);
+            var entityFetchingEventArgs = message.EventArgs as EntityFetchingEventArgs;
+            if (entityFetchingEventArgs != null)
+                OnFetching(message.EntityManager, entityFetchingEventArgs);
+            var entityQueriedEventArgs = message.EventArgs as EntityQueriedEventArgs;
+            if (entityQueriedEventArgs != null)
+                OnQueried(message.EntityManager, entityQueriedEventArgs);
+            var entityQueryingEventArgs = message.EventArgs as EntityQueryingEventArgs;
+            if (entityQueryingEventArgs != null)
+                OnQuerying(message.EntityManager, entityQueryingEventArgs);
+            var entitySavingEventArgs = message.EventArgs as EntitySavingEventArgs;
+            if (entitySavingEventArgs != null)
+                OnSaving(message.EntityManager, entitySavingEventArgs);
+            var entitySavedEventArgs = message.EventArgs as EntitySavedEventArgs;
+            if (entitySavedEventArgs != null)
+                OnSaved(message.EntityManager, entitySavedEventArgs);
+        }
+
+        #endregion
+
         /// <summary>Called whenever the entityManager is cleared.</summary>
         /// <param name="source">The EntityManager on which a EntityManager.Clear() has been called.</param>
         /// <param name="args">The original event arguments.</param>

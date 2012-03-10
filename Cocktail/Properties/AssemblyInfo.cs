@@ -13,14 +13,19 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Windows.Markup;
 using System.Resources;
+
+#if !SERVER
+using System.Windows.Markup;
+#endif
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 #if SILVERLIGHT
 [assembly: AssemblyTitle("Cocktail.SL")]
+#elif SERVER
+[assembly: AssemblyTitle("Cocktail.Server")]
 #else
 [assembly: AssemblyTitle("Cocktail")]
 #endif
@@ -33,11 +38,13 @@ using System.Resources;
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguageAttribute("en")]
 
+#if !SERVER
 [assembly: InternalsVisibleTo("Caliburn.Micro, PublicKey=0024000004800000940000000602000000240000525341310004000001000100a5f0e53ba56f57"
                                                      + "28067f02a18dcee7f9fc52dc8ff49a74407ef2a26b6c6d3eaa1c4701bd9f4c8fee660aa8b13c2a"
                                                      + "1de97ebfe3204bcc12cc61e069ebbe3d3732cfaab87502fc26efa5475caf108fa49e0f397b7d2a"
                                                      + "feb2349d72fcc11906f25c100db2d9167f55c998f0020ffec532dc1166e5a9eab8e961b3f711a1"
                                                      + "abff6ebe")]
+#endif
 
 #if SILVERLIGHT
 [assembly: InternalsVisibleTo("Cocktail.Tests.SL, PublicKey=00240000048000009400000006020000002400005253413100040000010001000711e4133e5919"
@@ -63,7 +70,9 @@ using System.Resources;
                                                      + "b9f85ffc")]
 #endif
 
+#if !SERVER
 [assembly: XmlnsDefinition("http://cocktail.ideablade.com", "Cocktail")]
+#endif
 
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -74,6 +83,8 @@ using System.Resources;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 #if SILVERLIGHT
 [assembly: Guid("0EE7DDF4-04AB-4048-B7C9-5B69DAEE5430")]
+#elif SERVER
+[assembly: Guid("39b48a80-892f-4e9d-8d06-2bf9e73fbf36")]
 #else
 [assembly: Guid("869C0A7C-3B83-44C0-8836-360EA78C9D6E")]
 #endif
@@ -87,5 +98,9 @@ using System.Resources;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
+#if SERVER
+[assembly: AssemblyVersion("0.0.0.513")]
+#else
 [assembly: AssemblyVersion("0.5.0.513")]
+#endif
 

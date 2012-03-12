@@ -23,6 +23,7 @@ namespace Cocktail
     /// Implements the core functionality of an EntityManagerProvider.
     /// <typeparam name="T">The type of the EntityManager</typeparam>
     /// </summary>
+    [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class EntityManagerProviderCore<T> : IEntityManagerProvider<T>, ICloneable
         where T : EntityManager

@@ -19,6 +19,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Caliburn.Micro;
+using IdeaBlade.Core;
 using Action = System.Action;
 
 namespace Cocktail
@@ -82,8 +83,8 @@ namespace Cocktail
             var batch = new CompositionBatch();
             PrepareCompositionContainer(batch);
             Composition.Compose(batch);
-            UpdateAssemblySource();
-            Composition.Recomposed += (s, args) => UpdateAssemblySource();
+            OnCatalogRecomposed();
+            Composition.Recomposed += (s, args) => OnCatalogRecomposed();
             AddValueConverterConventions();
         }
 
@@ -172,17 +173,34 @@ namespace Cocktail
                 throw new CompositionException(StringResources.BootstrapperMustNotBeDecoratedWithExports);
         }
 
-        private void UpdateAssemblySource()
+        private void OnCatalogRecomposed()
         {
-            IObservableCollection<Assembly> assemblySource = AssemblySource.Instance;
-            IEnumerable<Assembly> assemblies = Composition.AggregateCatalog.Catalogs.OfType<AssemblyCatalog>()
-                .Select(c => c.Assembly)
-                .Where(a => !assemblySource.Contains(a));
-
-            assemblySource.AddRange(assemblies);
+            UpdateAssemblySourceFromCatalog(Composition.AggregateCatalog);
 
             // The Bootstrapper is not owned by the container, so it doesn't automatically recompose
             BuildUp(this);
+        }
+
+        private void UpdateAssemblySourceFromCatalog(ComposablePartCatalog catalog)
+        {
+            if (catalog is AggregateCatalog)
+                UpdateAssemblySourceFromCatalog(catalog as AggregateCatalog);
+
+            if (catalog is AssemblyCatalog)
+                UpdateAssemblySourceFromCatalog(catalog as AssemblyCatalog);
+        }
+
+        private void UpdateAssemblySourceFromCatalog(AggregateCatalog catalog)
+        {
+            catalog.Catalogs.ForEach(UpdateAssemblySourceFromCatalog);
+        }
+
+        private void UpdateAssemblySourceFromCatalog(AssemblyCatalog catalog)
+        {
+            if (AssemblySource.Instance.Contains(catalog.Assembly)) 
+                return;
+
+            AssemblySource.Instance.Add(catalog.Assembly);
         }
 
         private void OnComplete(ResultCompletionEventArgs args)

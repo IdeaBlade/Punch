@@ -63,6 +63,7 @@
     <Compile Include="EntityManagerProviderCore.cs" />
     <Compile Include="IConnectionOptionsResolver.cs" />
     <Compile Include="IEntityManagerProvider.cs" />
+    <Compile Include="ObjectManager.cs" />
     <Compile Include="OperationFns.cs" />
     <Compile Include="PartLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +72,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="WeakRefDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="StringResources.resx">

@@ -9,11 +9,13 @@ for /R %%i in (.) do rmdir "%%i\obj.SL" /s /q
 for /R %%i in (.) do rmdir "%%i\obj.SL4" /s /q
 for /R %%i in (.) do rmdir "%%i\obj.SL5" /s /q
 for /R %%i in (.) do rmdir "%%i\obj.Desktop" /s /q
+for /R %%i in (.) do rmdir "%%i\obj.Server" /s /q
 for /R %%i in (.) do rmdir "%%i\bin" /s /q
 for /R %%i in (.) do rmdir "%%i\bin.SL" /s /q
 for /R %%i in (.) do rmdir "%%i\bin.SL4" /s /q
 for /R %%i in (.) do rmdir "%%i\bin.SL5" /s /q
 for /R %%i in (.) do rmdir "%%i\bin.Desktop" /s /q
+for /R %%i in (.) do rmdir "%%i\bin.Server" /s /q
 for /R %%i in (.) do rmdir "%%i\TestShadowCopy" /s /q
 for /R %%i in (.) do rmdir "%%i\TestResults" /s /q
 for /R %%i in (.) do rmdir "%%i\ClientBin" /s /q

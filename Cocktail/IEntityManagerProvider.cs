@@ -50,7 +50,7 @@ namespace Cocktail
         /// <summary>
         /// Event fired after the EntityManager got created.
         /// </summary>
-        event EventHandler<EventArgs> ManagerCreated;
+        event EventHandler<EntityManagerCreatedEventArgs> ManagerCreated;
     }
 
     /// <summary>Generic interface identifying an EntityManagerProvider.</summary>

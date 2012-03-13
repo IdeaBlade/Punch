@@ -28,8 +28,8 @@ namespace Common.Repositories
         {
             _entityManagerProvider = entityManagerProvider;
             _baseData = baseData;
-            _entityManagerProvider.ManagerCreated +=
-                new EventHandler<EventArgs>(OnManagerCreated).MakeWeak(eh => _entityManagerProvider.ManagerCreated -= eh);
+            _entityManagerProvider.ManagerCreated += new EventHandler<EntityManagerCreatedEventArgs>(OnManagerCreated)
+                .MakeWeak(eh => _entityManagerProvider.ManagerCreated -= eh);
         }
 
         protected T Manager
@@ -61,13 +61,13 @@ namespace Common.Repositories
 
         #endregion
 
-        protected internal virtual void OnManagerCreated(object sender, EventArgs e)
+        protected internal virtual void OnManagerCreated(object sender, EntityManagerCreatedEventArgs e)
         {
             if (_baseData == null) return;
 
             var restoreStrategy = new RestoreStrategy(false, false, MergeStrategy.OverwriteChanges);
             EntityCacheState baseData = _baseData.Manager.CacheStateManager.GetCacheState();
-            Manager.CacheStateManager.RestoreCacheState(baseData, restoreStrategy);
+            e.EntityManager.CacheStateManager.RestoreCacheState(baseData, restoreStrategy);
         }
 
         protected OperationResult<IEnumerable<TQuery>> ExecuteQuery<TQuery>(IEntityQuery<TQuery> query,

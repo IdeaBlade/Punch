@@ -117,20 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BootstrapperAlreadyExists" xml:space="preserve">
-    <value>There's already an instance of a bootstrapper. Only one instance per application can be created.</value>
-  </data>
   <data name="BootstrapperMustNotBeDecoratedWithExports" xml:space="preserve">
     <value>Bootstrapper classes or any of its members must not be decorated with the [Export] attribute</value>
-  </data>
-  <data name="MissingRequiredProbeAssemblies" xml:space="preserve">
-    <value>One or more required assemblies were not probed. Did you modify IdeaBladeConfig.Instance.ProbeAssemblyNames? The following assemblies must be probed: {0}</value>
-  </data>
-  <data name="ThePersistenceLayerFailedToInitialize" xml:space="preserve">
-    <value>The persistence layer failed to initialize</value>
-  </data>
-  <data name="UnableToObtainUserCredential" xml:space="preserve">
-    <value>Unable to obtain user credential</value>
   </data>
   <data name="InvalidPassword" xml:space="preserve">
     <value>Invalid Password!</value>
@@ -140,9 +128,6 @@
   </data>
   <data name="CouldNotLocateAnyInstancesOfContract" xml:space="preserve">
     <value>Could not locate any instances of contract {0}.</value>
-  </data>
-  <data name="CompositionHelperIsNotConfigured" xml:space="preserve">
-    <value>WARNING: Composition has not been configured. Not all types may be available.</value>
   </data>
   <data name="ManagerTriedToFetchData" xml:space="preserve">
     <value>Manager tried to fetch data.</value>
@@ -158,9 +143,6 @@
   </data>
   <data name="NoEntityManagerProviderFound" xml:space="preserve">
     <value>No EntityManagerProvider found.</value>
-  </data>
-  <data name="TheEntityManagerProviderIsNotReturningValidEntityManager" xml:space="preserve">
-    <value>The EntityManagerProvider is not returning a valid EntityManager. Please check the implementation.</value>
   </data>
   <data name="DefaultPasswordSalt" xml:space="preserve">
     <value>unlock leaven fox octave fierce embalm navel jollily vessel chisel ramp Susan faded toe</value>

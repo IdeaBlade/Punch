@@ -16,7 +16,6 @@ using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using Cocktail;
 using Common.Errors;
 using Common.Messages;
 using Common.Repositories;

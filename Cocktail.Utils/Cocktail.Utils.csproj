@@ -65,9 +65,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(SolutionDir)Bin\Desktop\$(ConfigurationName)"
-xcopy "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\Desktop\$(ConfigurationName)" /y
-xcopy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)Bin\Desktop\$(ConfigurationName)" /y
+    <PostBuildEvent>mkdir "$(SolutionDir)Bin\.NET 4\$(ConfigurationName)"
+xcopy "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\.NET 4\$(ConfigurationName)" /y
+xcopy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)Bin\.NET 4\$(ConfigurationName)" /y
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

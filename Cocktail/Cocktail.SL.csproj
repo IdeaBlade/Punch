@@ -98,6 +98,7 @@
     <Compile Include="AuthenticationService.cs" />
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />
+    <Compile Include="CompositionHelper.cs" />
     <Compile Include="ConnectionOptions.cs" />
     <Compile Include="DesignTimeViewModelLocatorBase.cs" />
     <Compile Include="DialogButton.cs" />
@@ -105,14 +106,16 @@
     <Compile Include="DialogHostBase.cs" />
     <Compile Include="DialogManager.cs" />
     <Compile Include="DialogOperationResult.cs" />
+    <Compile Include="EntityManagerEventMessage.cs" />
     <Compile Include="EntityManagerProvider.cs" />
     <Compile Include="DefaultDebugLogger.cs" />
     <Compile Include="Composition.cs" />
     <Compile Include="DataChangedEventArgs.cs" />
     <Compile Include="DefaultEntityManagerSyncInterceptor.cs" />
     <Compile Include="EntityManagerDelegate.cs" />
+    <Compile Include="EntityManagerProviderCore.cs" />
     <Compile Include="EntityManagerSyncInterceptor.cs" />
-    <Compile Include="EventDispatcher.cs" />
+    <Compile Include="EntityManagerWrapper.cs" />
     <Compile Include="EventFns.cs" />
     <Compile Include="CoroutineFns.cs" />
     <Compile Include="FakeStoreEntityManagerProviderFns.cs" />
@@ -140,6 +143,7 @@
     <Compile Include="ObjectManager.cs" />
     <Compile Include="PartLocator.cs" />
     <Compile Include="PathToImageSourceConverter.cs" />
+    <Compile Include="PrincipalChangedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HarnessViewModel.cs" />
     <Compile Include="ShowDialogResult.cs" />

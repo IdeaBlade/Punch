@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
-using System.Linq;
 using Caliburn.Micro;
 using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
@@ -37,9 +36,7 @@ namespace Cocktail
         private static readonly Dictionary<string, XapDownloadOperation> XapDownloadOperations =
             new Dictionary<string, XapDownloadOperation>();
 #endif
-        private static bool _isConfigured;
-        private static CompositionContainer _container;
-        private static ComposablePartCatalog _catalog;
+        private static readonly CompositionHelper CompositionHelper = new CompositionHelper(); 
 
         static Composition()
         {
@@ -57,19 +54,11 @@ namespace Cocktail
                 args.EntityManager.AuthenticationContext = locator.GetPart().AuthenticationContext;
         }
 
-        /// <summary>
-        /// Returns true if <see cref="Configure"/> has been called.
-        /// </summary>
-        public static bool IsConfigured
-        {
-            get { return _isConfigured; }
-        }
-
         /// <summary>Returns the current catalog in use.</summary>
         /// <returns>Unless a custom catalog is provided through <see cref="Configure"/>, this property returns <see cref="AggregateCatalog"/></returns>
         public static ComposablePartCatalog Catalog
         {
-            get { return _catalog ?? AggregateCatalog; }
+            get { return CompositionHelper.Catalog; }
         }
 
         /// <summary>
@@ -77,13 +66,13 @@ namespace Cocktail
         /// </summary>
         public static AggregateCatalog AggregateCatalog
         {
-            get { return CompositionHost.Instance.Catalog; }
+            get { return CompositionHelper.AggregateCatalog; }
         }
 
         /// <summary>Returns the CompositionContainer in use.</summary>
         public static CompositionContainer Container
         {
-            get { return _container ?? (_container = new CompositionContainer(Catalog)); }
+            get { return CompositionHelper.Container; }
         }
 
         /// <summary>Configures the CompositionHost.</summary>
@@ -93,13 +82,10 @@ namespace Cocktail
         /// <param name="catalog">The custom catalog to be used by Cocktail to get access to MEF exports.</param>
         public static void Configure(CompositionBatch compositionBatch = null, ComposablePartCatalog catalog = null)
         {
-            //if (IsConfigured) return;
-            _catalog = catalog;
+            CompositionHelper.Configure(catalog);
 
-            _isConfigured = true;
             CompositionBatch batch = compositionBatch ?? new CompositionBatch();
-
-            if (!ExportExists<IEventAggregator>())
+            if (!CompositionHelper.ExportExists<IEventAggregator>())
                 batch.AddExportedValue<IEventAggregator>(new EventAggregator());
 
             Compose(batch);
@@ -111,12 +97,7 @@ namespace Cocktail
         /// </param>
         public static void Compose(CompositionBatch compositionBatch)
         {
-            WarnIfNotConfigured();
-
-            if (compositionBatch == null)
-                throw new ArgumentNullException("compositionBatch");
-
-            Container.Compose(compositionBatch);
+            CompositionHelper.Compose(compositionBatch);
         }
 
         /// <summary>
@@ -127,11 +108,7 @@ namespace Cocktail
         /// </remarks>
         public static void Clear()
         {
-            if (_container != null)
-                _container.Dispose();
-            _container = null;
-            _catalog = null;
-            _isConfigured = false;
+            CompositionHelper.Clear();
         }
 
         /// <summary>
@@ -142,14 +119,7 @@ namespace Cocktail
         /// <returns>The requested instance.</returns>
         public static T GetInstance<T>(CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            WarnIfNotConfigured();
-
-            List<Export> exports = GetExportsCore(typeof (T), null, requiredCreationPolicy).ToList();
-            if (!exports.Any())
-                throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
-                                                  typeof (T).FullName));
-
-            return exports.Select(e => e.Value).Cast<T>().First();
+            return CompositionHelper.GetInstance<T>(requiredCreationPolicy);
         }
 
         /// <summary>
@@ -160,10 +130,7 @@ namespace Cocktail
         /// <returns>The requested instances.</returns>
         public static IEnumerable<T> GetInstances<T>(CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            WarnIfNotConfigured();
-
-            IEnumerable<Export> exports = GetExportsCore(typeof (T), null, requiredCreationPolicy);
-            return exports.Select(e => e.Value).Cast<T>();
+            return CompositionHelper.GetInstances<T>(requiredCreationPolicy);
         }
 
         /// <summary>
@@ -176,14 +143,7 @@ namespace Cocktail
         public static object GetInstance(Type serviceType, string key,
                                          CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            WarnIfNotConfigured();
-
-            List<Export> exports = GetExportsCore(serviceType, key, requiredCreationPolicy).ToList();
-            if (!exports.Any())
-                throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
-                                                  serviceType != null ? serviceType.ToString() : key));
-
-            return exports.First().Value;
+            return CompositionHelper.GetInstance(serviceType, key, requiredCreationPolicy);
         }
 
         /// <summary>
@@ -195,9 +155,7 @@ namespace Cocktail
         public static IEnumerable<object> GetInstances(Type serviceType,
                                                        CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
         {
-            WarnIfNotConfigured();
-            IEnumerable<Export> exports = GetExportsCore(serviceType, null, requiredCreationPolicy);
-            return exports.Select(e => e.Value);
+            return CompositionHelper.GetInstances(serviceType, requiredCreationPolicy);
         }
 
         /// <summary>Satisfies all the imports on the provided instance.</summary>
@@ -208,8 +166,7 @@ namespace Cocktail
             if (Execute.InDesignMode)
                 return;
 
-            WarnIfNotConfigured();
-            Container.SatisfyImportsOnce(instance);
+            CompositionHelper.BuildUp(instance);
         }
 
 #if !SILVERLIGHT5
@@ -234,12 +191,21 @@ namespace Cocktail
 #endif
 
         /// <summary>
-        /// Raised when the composition container is modified after initialization.
+        /// Fired when the composition container is modified after initialization.
         /// </summary>
         public static event EventHandler<RecomposedEventArgs> Recomposed
         {
             add { CompositionHost.Recomposed += value; }
             remove { CompositionHost.Recomposed -= value; }
+        }
+
+        /// <summary>
+        /// Fired after <see cref="Clear"/> has been called to clear the current CompositionContainer.
+        /// </summary>
+        public static event EventHandler<EventArgs> Cleared
+        {
+            add { CompositionHelper.Cleared += value; }
+            remove { CompositionHelper.Cleared -= value; }
         }
 
 #if SILVERLIGHT
@@ -280,37 +246,15 @@ namespace Cocktail
 
         internal static IEnumerable<Export> GetExportsCore(Type serviceType, string key, CreationPolicy policy)
         {
-            string contractName = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
-            string requiredTypeIdentity = serviceType != null
-                                              ? AttributedModelServices.GetTypeIdentity(serviceType)
-                                              : null;
-            var importDef = new ContractBasedImportDefinition(
-                contractName,
-                requiredTypeIdentity,
-                Enumerable.Empty<KeyValuePair<string, Type>>(),
-                ImportCardinality.ZeroOrMore,
-                false,
-                true,
-                policy);
-
-            return Container.GetExports(importDef);
+            return CompositionHelper.GetExportsCore(serviceType, key, policy);
         }
 
         internal static bool ExportExists<T>()
         {
-            return Container.GetExports<T>().Any();
+            return CompositionHelper.ExportExists<T>();
         }
 
         internal static bool IsRecomposing { get; set; }
-
-        #region Private Methods
-
-        private static void WarnIfNotConfigured()
-        {
-            DebugFns.WriteLineIf(!IsConfigured, StringResources.CompositionHelperIsNotConfigured);
-        }
-
-        #endregion
     }
 
 #if SILVERLIGHT

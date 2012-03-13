@@ -70,15 +70,6 @@ namespace Cocktail {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There&apos;s already an instance of a bootstrapper. Only one instance per application can be created..
-        /// </summary>
-        internal static string BootstrapperAlreadyExists {
-            get {
-                return ResourceManager.GetString("BootstrapperAlreadyExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Bootstrapper classes or any of its members must not be decorated with the [Export] attribute.
         /// </summary>
         internal static string BootstrapperMustNotBeDecoratedWithExports {
@@ -93,15 +84,6 @@ namespace Cocktail {
         internal static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to WARNING: Composition has not been configured. Not all types may be available..
-        /// </summary>
-        internal static string CompositionHelperIsNotConfigured {
-            get {
-                return ResourceManager.GetString("CompositionHelperIsNotConfigured", resourceCulture);
             }
         }
         
@@ -268,15 +250,6 @@ namespace Cocktail {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to One or more required assemblies were not probed. Did you modify IdeaBladeConfig.Instance.ProbeAssemblyNames? The following assemblies must be probed: {0}.
-        /// </summary>
-        internal static string MissingRequiredProbeAssemblies {
-            get {
-                return ResourceManager.GetString("MissingRequiredProbeAssemblies", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         internal static string No {
@@ -412,15 +385,6 @@ namespace Cocktail {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The EntityManagerProvider is not returning a valid EntityManager. Please check the implementation..
-        /// </summary>
-        internal static string TheEntityManagerProviderIsNotReturningValidEntityManager {
-            get {
-                return ResourceManager.GetString("TheEntityManagerProviderIsNotReturningValidEntityManager", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The Fake Store has not been initialized..
         /// </summary>
         internal static string TheFakeStoreHasNotBeenInitialized {
@@ -430,29 +394,11 @@ namespace Cocktail {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The persistence layer failed to initialize.
-        /// </summary>
-        internal static string ThePersistenceLayerFailedToInitialize {
-            get {
-                return ResourceManager.GetString("ThePersistenceLayerFailedToInitialize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to This EntityManager is currently busy with a previous SaveChangeAsync call..
         /// </summary>
         internal static string ThisEntityManagerIsCurrentlyBusyWithAPreviousSaveChangeAsync {
             get {
                 return ResourceManager.GetString("ThisEntityManagerIsCurrentlyBusyWithAPreviousSaveChangeAsync", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to obtain user credential.
-        /// </summary>
-        internal static string UnableToObtainUserCredential {
-            get {
-                return ResourceManager.GetString("UnableToObtainUserCredential", resourceCulture);
             }
         }
         

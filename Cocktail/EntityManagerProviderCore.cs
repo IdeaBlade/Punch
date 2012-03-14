@@ -39,7 +39,7 @@ namespace Cocktail
         {
             try
             {
-                var newInstance = (EntityManagerProvider<T>) Activator.CreateInstance(GetType());
+                var newInstance = (EntityManagerProviderCore<T>) Activator.CreateInstance(GetType());
                 newInstance._connectionOptionsName = _connectionOptionsName;
                 return newInstance;
             }

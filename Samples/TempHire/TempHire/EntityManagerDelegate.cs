@@ -11,10 +11,13 @@
 //====================================================================================================================
 
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Cocktail;
 using Common.Messages;
+using Common.Security;
 using DomainModel;
+using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
 
@@ -22,6 +25,14 @@ namespace TempHire
 {
     public class EntityManagerDelegate : EntityManagerDelegate<TempHireEntities>
     {
+        private readonly IUserService _userService;
+
+        [ImportingConstructor]
+        public EntityManagerDelegate(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         public override void OnEntityChanged(TempHireEntities source, EntityChangedEventArgs args)
         {
             EventFns.Publish(new EntityChangedMessage(args.Entity));
@@ -38,6 +49,23 @@ namespace TempHire
 
             rootEas.ForEach(ea => ea.SetModified());
             rootEas.ForEach(ea => args.Entities.Add(ea.Entity));
+
+            // Update Audit columns
+            args.Entities.OfType<AuditEntityBase>()
+                .Where(e => e.EntityFacts.EntityState.IsAdded())
+                .ForEach(e =>
+                             {
+                                 e.Created = e.Modified = SystemTime.Now;
+                                 e.CreatedUser = e.ModifyUser = _userService.CurrentUser.Name;
+                             });
+
+            args.Entities.OfType<AuditEntityBase>()
+                .Where(e => e.EntityFacts.EntityState.IsModified())
+                .ForEach(e =>
+                             {
+                                 e.Modified = SystemTime.Now;
+                                 e.ModifyUser = _userService.CurrentUser.Name;
+                             });
         }
 
         public override void OnSaved(TempHireEntities source, EntitySavedEventArgs args)

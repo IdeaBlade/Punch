@@ -20,7 +20,7 @@ using IdeaBlade.Validation;
 namespace DomainModel
 {
     [DataContract(IsReference = true)]
-    public class Address : EntityBase, IHasRoot
+    public class Address : AuditEntityBase, IHasRoot
     {
         internal Address()
         {

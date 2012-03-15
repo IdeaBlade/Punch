@@ -25,6 +25,9 @@ namespace DomainModel
             : base(connection)
         {
             Database.SetInitializer(new TempHireDbInitializer());
+
+            // DevForce already performs validation
+            Configuration.ValidateOnSaveEnabled = false;
         }
 
         public DbSet<StaffingResource> StaffingResources { get; set; }
@@ -352,7 +355,10 @@ namespace DomainModel
                            MiddleName = middle,
                            LastName = last,
                            Summary = summary,
-                           Timestamp = DateTime.Now
+                           Created = SystemTime.Now,
+                           CreatedUser = "SampleData",
+                           Modified = SystemTime.Now,
+                           ModifyUser = "SampleData"
                        };
         }
 
@@ -369,7 +375,11 @@ namespace DomainModel
                            State = state,
                            Zipcode = zip,
                            StaffingResource = staffingResource,
-                           Primary = primary
+                           Primary = primary,
+                           Created = SystemTime.Now,
+                           CreatedUser = "SampleData",
+                           Modified = SystemTime.Now,
+                           ModifyUser = "SampleData"
                        };
         }
 
@@ -383,7 +393,11 @@ namespace DomainModel
                            AreaCode = areaCode,
                            Number = phone,
                            StaffingResource = staffingResource,
-                           Primary = primary
+                           Primary = primary,
+                           Created = SystemTime.Now,
+                           CreatedUser = "SampleData",
+                           Modified = SystemTime.Now,
+                           ModifyUser = "SampleData"
                        };
         }
 
@@ -394,7 +408,11 @@ namespace DomainModel
                            Id = CombGuid.NewGuid(),
                            RateType = type,
                            Amount = amount,
-                           StaffingResource = staffingResource
+                           StaffingResource = staffingResource,
+                           Created = SystemTime.Now,
+                           CreatedUser = "SampleData",
+                           Modified = SystemTime.Now,
+                           ModifyUser = "SampleData"
                        };
         }
 
@@ -411,7 +429,11 @@ namespace DomainModel
                            Company = company,
                            Location = location,
                            PositionTitle = title,
-                           Description = description
+                           Description = description,
+                           Created = SystemTime.Now,
+                           CreatedUser = "SampleData",
+                           Modified = SystemTime.Now,
+                           ModifyUser = "SampleData"
                        };
         }
 
@@ -421,7 +443,11 @@ namespace DomainModel
                        {
                            Id = CombGuid.NewGuid(),
                            Description = desc,
-                           StaffingResource = staffingResource
+                           StaffingResource = staffingResource,
+                           Created = SystemTime.Now,
+                           CreatedUser = "SampleData",
+                           Modified = SystemTime.Now,
+                           ModifyUser = "SampleData"
                        };
         }
 

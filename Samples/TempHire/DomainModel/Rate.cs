@@ -18,7 +18,7 @@ using Cocktail;
 namespace DomainModel
 {
     [DataContract(IsReference = true)]
-    public class Rate : EntityBase, IHasRoot
+    public class Rate : AuditEntityBase, IHasRoot
     {
         internal Rate()
         {

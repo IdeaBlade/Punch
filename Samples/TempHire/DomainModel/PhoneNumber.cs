@@ -19,7 +19,7 @@ using IdeaBlade.EntityModel;
 namespace DomainModel
 {
     [DataContract(IsReference = true)]
-    public class PhoneNumber : EntityBase, IHasRoot
+    public class PhoneNumber : AuditEntityBase, IHasRoot
     {
         internal PhoneNumber()
         {

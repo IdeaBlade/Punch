@@ -10,6 +10,7 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
@@ -31,9 +32,34 @@ namespace DomainModel
             get { return _entityFacts ?? (_entityFacts = new EntityFacts(this)); }
         }
 
+        [DataMember]
+        [ConcurrencyCheck]
+        [ConcurrencyStrategy(ConcurrencyStrategy.AutoIncrement)]
+        public int RowVersion { get; internal set; }
+
         public virtual void Validate(VerifierResultCollection validationErrors)
         {
         }
+    }
+
+    [DataContract(IsReference = true)]
+    public abstract class AuditEntityBase : EntityBase
+    {
+        [DataMember]
+        [Required]
+        public DateTime Created { get; set; }
+
+        [DataMember]
+        [Required]
+        public string CreatedUser { get; set; }
+
+        [DataMember]
+        [Required]
+        public DateTime Modified { get; set; }
+
+        [DataMember]
+        [Required]
+        public string ModifyUser { get; set; }
     }
 
     public class EntityFacts

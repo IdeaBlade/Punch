@@ -307,7 +307,11 @@ namespace Common.SampleData
                            FirstName = first,
                            MiddleName = middle,
                            LastName = last,
-                           Summary = summary
+                           Summary = summary,
+                           Created = SystemTime.Now,
+                           CreatedUser = "SampleData",
+                           Modified = SystemTime.Now,
+                           ModifyUser = "SampleData"
                        };
         }
 
@@ -324,7 +328,11 @@ namespace Common.SampleData
                            StateId = state.Id,
                            Zipcode = zip,
                            StaffingResourceId = resid,
-                           Primary = primary
+                           Primary = primary,
+                           Created = SystemTime.Now,
+                           CreatedUser = "SampleData",
+                           Modified = SystemTime.Now,
+                           ModifyUser = "SampleData"
                        };
         }
 
@@ -337,7 +345,11 @@ namespace Common.SampleData
                            AreaCode = areaCode,
                            Number = phone,
                            StaffingResourceId = resid,
-                           Primary = primary
+                           Primary = primary,
+                           Created = SystemTime.Now,
+                           CreatedUser = "SampleData",
+                           Modified = SystemTime.Now,
+                           ModifyUser = "SampleData"
                        };
         }
 
@@ -348,7 +360,11 @@ namespace Common.SampleData
                            Id = CreateGuid(_rateId++),
                            RateTypeId = type.Id,
                            Amount = amount,
-                           StaffingResourceId = resid
+                           StaffingResourceId = resid,
+                           Created = SystemTime.Now,
+                           CreatedUser = "SampleData",
+                           Modified = SystemTime.Now,
+                           ModifyUser = "SampleData"
                        };
         }
 
@@ -364,7 +380,11 @@ namespace Common.SampleData
                            Company = company,
                            Location = location,
                            PositionTitle = title,
-                           Description = description
+                           Description = description,
+                           Created = SystemTime.Now,
+                           CreatedUser = "SampleData",
+                           Modified = SystemTime.Now,
+                           ModifyUser = "SampleData"
                        };
         }
 
@@ -374,7 +394,11 @@ namespace Common.SampleData
                        {
                            Id = CreateGuid(_skillId++),
                            Description = desc,
-                           StaffingResourceId = resid
+                           StaffingResourceId = resid,
+                           Created = SystemTime.Now,
+                           CreatedUser = "SampleData",
+                           Modified = SystemTime.Now,
+                           ModifyUser = "SampleData"
                        };
         }
 

@@ -18,6 +18,8 @@
     <IntermediateOutputPath>obj\$(Configuration)</IntermediateOutputPath>
     <OutputPath>$(BaseOutputPath)\$(Configuration)</OutputPath>
     <SkipPostSharp>True</SkipPostSharp>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\trunk\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -108,11 +110,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Cocktail\Cocktail.csproj">
       <Project>{10F63FBB-FB0D-4B76-9E3F-5979D19CB01F}</Project>
-      <Name>Cocktail.Desktop</Name>
+      <Name>Cocktail</Name>
     </ProjectReference>
     <ProjectReference Include="..\Test.Model\Test.Model.csproj">
       <Project>{12BEA1AF-5380-4024-BEDD-C914B0C15178}</Project>
-      <Name>Test.Model.Desktop</Name>
+      <Name>Test.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +122,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -18,7 +18,7 @@ using Cocktail;
 namespace DomainModel
 {
     [DataContract(IsReference = true)]
-    public class WorkExperienceItem : EntityBase, IHasRoot
+    public class WorkExperienceItem : AuditEntityBase, IHasRoot
     {
         internal WorkExperienceItem()
         {

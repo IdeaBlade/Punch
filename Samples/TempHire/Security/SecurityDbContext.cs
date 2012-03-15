@@ -24,6 +24,9 @@ namespace Security
             : base(connection)
         {
             Database.SetInitializer(new SecurityDbInitializer());
+        
+            // DevForce already performs validation
+            Configuration.ValidateOnSaveEnabled = false;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

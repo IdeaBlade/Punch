@@ -213,6 +213,10 @@
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Cocktail.Utils\Cocktail.Utils.SL.csproj">
+      <Project>{761B386E-02D2-45DE-B485-1545D50F148F}</Project>
+      <Name>Cocktail.Utils.SL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Cocktail\Cocktail.SL.csproj">
       <Project>{7ECA6212-BDB6-4325-946E-97D9C227E468}</Project>
       <Name>Cocktail.SL</Name>

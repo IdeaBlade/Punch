@@ -184,6 +184,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Cocktail.Utils\Cocktail.Utils.csproj">
+      <Project>{261E777A-1FE0-455E-87FD-DDB95B2757AA}</Project>
+      <Name>Cocktail.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Cocktail\Cocktail.csproj">
       <Project>{10F63FBB-FB0D-4B76-9E3F-5979D19CB01F}</Project>
       <Name>Cocktail</Name>

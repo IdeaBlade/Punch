@@ -23,7 +23,7 @@ using IdeaBlade.Validation;
 namespace DomainModel
 {
     [DataContract(IsReference = true)]
-    public class StaffingResource : EntityBase
+    public class StaffingResource : AuditEntityBase
     {
         internal StaffingResource()
         {
@@ -64,13 +64,6 @@ namespace DomainModel
         [DataMember]
         [Required]
         public string Summary { get; set; }
-
-        /// <summary>Gets or sets the Timestamp. </summary>
-        [DataMember]
-        [ConcurrencyCheck]
-        [ConcurrencyStrategy(ConcurrencyStrategy.AutoDateTime)]
-        [Required]
-        public DateTime Timestamp { get; set; }
 
         /// <summary>Gets the Addresses. </summary>
         [DataMember]

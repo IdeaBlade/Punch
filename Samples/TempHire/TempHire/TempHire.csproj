@@ -15,6 +15,8 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <SkipPostSharp>True</SkipPostSharp>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -57,21 +59,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\..\..\packages\Caliburn.Micro.1.3.1\lib\net40\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\CocktailCTP.0.5.0\lib\net40\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Aop">
-      <Private>True</Private>
+    <Reference Include="Cocktail">
+      <HintPath>..\packages\CocktailCTP.0.5.0\lib\net40\Cocktail.dll</HintPath>
+    </Reference>
+    <Reference Include="Cocktail.Utils">
+      <HintPath>..\packages\CocktailCTP.0.5.0\lib\net40\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel">
       <Private>True</Private>
     </Reference>
     <Reference Include="IdeaBlade.Core">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Server">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IdeaBlade.Linq">
       <Private>True</Private>
     </Reference>
     <Reference Include="IdeaBlade.Validation">
@@ -83,13 +82,11 @@
     <Reference Include="PostSharp" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Caliburn.Micro.1.3.1\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\packages\CocktailCTP.0.5.0\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -138,14 +135,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Cocktail.Utils\Cocktail.Utils.csproj">
-      <Project>{261E777A-1FE0-455E-87FD-DDB95B2757AA}</Project>
-      <Name>Cocktail.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Cocktail\Cocktail.csproj">
-      <Project>{10F63FBB-FB0D-4B76-9E3F-5979D19CB01F}</Project>
-      <Name>Cocktail</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{106B77CD-EE99-40DD-82CE-2CD5C69A4464}</Project>
       <Name>Common</Name>
@@ -248,6 +237,7 @@
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

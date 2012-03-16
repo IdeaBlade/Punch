@@ -17,8 +17,7 @@
     <SkipPostSharp>True</SkipPostSharp>
     <PublishDatabases>false</PublishDatabases>
     <DeployIisAppPath>Default Web Site/TempHire</DeployIisAppPath>
-    <JSLintSkip>
-    </JSLintSkip>
+    <JSLintSkip>|\Silverlight.js</JSLintSkip>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>

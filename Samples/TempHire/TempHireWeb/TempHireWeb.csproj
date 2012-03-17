@@ -17,9 +17,8 @@
     <SkipPostSharp>True</SkipPostSharp>
     <PublishDatabases>false</PublishDatabases>
     <DeployIisAppPath>Default Web Site/TempHire</DeployIisAppPath>
-    <JSLintSkip>|\Silverlight.js</JSLintSkip>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <JSLintSkip>
+    </JSLintSkip>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -137,5 +136,4 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

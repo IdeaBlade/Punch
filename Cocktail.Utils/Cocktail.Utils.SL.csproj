@@ -25,8 +25,6 @@
     <DocumentationFile>$(BaseOutputPath)\$(Configuration)\Cocktail.Utils.SL.xml</DocumentationFile>
     <SkipPostSharp>True</SkipPostSharp>
     <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\trunk\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
        MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
@@ -97,7 +95,6 @@ xcopy "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\Silverlight 4\$(Configu
 xcopy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)Bin\Silverlight 4\$(ConfigurationName)" /y
 </PostBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

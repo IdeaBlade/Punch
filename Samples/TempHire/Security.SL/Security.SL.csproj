@@ -20,6 +20,8 @@
     <BaseOutputPath>Bin.SL</BaseOutputPath>
     <OutputPath>$(BaseOutputPath)\$(Configuration)</OutputPath>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
        MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
@@ -65,6 +67,9 @@
     <NoConfig>true</NoConfig>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Cocktail.Utils.SL">
+      <HintPath>..\packages\CocktailCTP.0.5.0\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
+    </Reference>
     <Reference Include="IdeaBlade.Aop.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -112,15 +117,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Cocktail.Utils\Cocktail.Utils.SL.csproj">
-      <Project>{761B386E-02D2-45DE-B485-1545D50F148F}</Project>
-      <Name>Cocktail.Utils.SL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\Security\SecurityEntities.ibmmx">
       <Link>SecurityEntities.ibmmx</Link>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
@@ -130,6 +132,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

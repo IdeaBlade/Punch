@@ -269,6 +269,38 @@ namespace Cocktail
             return source;
         }
 
+        /// <summary>Extension method to process the result of an asynchronous save operation.</summary>
+        /// <param name="source">The EntitySaveOperation returned from an asynchronous save.</param>
+        /// <param name="onSuccess">A callback to be called if the asynchronous save was successful.</param>
+        /// <param name="onFail">A callback to be called if the asynchronous save failed.</param>
+        /// <returns>Returns the EntitySaveOperation passed to the method's source parameter.</returns>
+        /// <example>
+        /// 	<code title="Example" description="" lang="CS">
+        /// public OperationResult&lt;SaveResult&gt; Save(Action&lt;SaveResult&gt; onSuccess = null, Action&lt;Exception&gt; onFail = null)
+        /// {
+        ///     EntitySaveOperation op = Manager.SaveChangesAsync();
+        ///     return op.OnComplete(onSuccess, onFail).AsOperationResult();
+        /// }</code>
+        /// </example>
+        public static EntitySaveOperation OnComplete(this EntitySaveOperation source,
+                                                     Action<SaveResult> onSuccess, Action<Exception> onFail)
+        {
+            source.Completed += (s, args) =>
+            {
+                if (args.CompletedSuccessfully)
+                {
+                    if (onSuccess != null) onSuccess(args.SaveResult);
+                }
+
+                if (args.HasError && !args.IsErrorHandled && onFail != null)
+                {
+                    args.MarkErrorAsHandled();
+                    onFail(args.Error);
+                }
+            };
+            return source;
+        }
+
         /// <summary>Extension method to process the result of a server method operation with result value.</summary>
         /// <param name="source">The InvokeServerMethodOperation returned from InvokeServerMethodAsync()</param>
         /// <param name="onSuccess">A callback to be called if the server method was successful.

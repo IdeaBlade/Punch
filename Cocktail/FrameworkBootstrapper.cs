@@ -16,7 +16,6 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using Caliburn.Micro;
 using IdeaBlade.Core;
@@ -256,7 +255,7 @@ namespace Cocktail
 #else
                 () => DisplayRootViewFor(typeof(TRootModel))
 #endif
-);
+            );
         }
     }
 }

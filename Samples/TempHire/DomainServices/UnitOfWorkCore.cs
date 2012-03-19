@@ -23,17 +23,15 @@ namespace DomainServices
             : base(entityManagerProvider)
         {
             AddressTypes = new PreLoadRepository<AddressType>(entityManagerProvider, preLoader);
-            PhoneNumberTypes = new PreLoadRepository<PhoneNumberType>(entityManagerProvider, preLoader);
-            RateTypes = new PreLoadRepository<RateType>(entityManagerProvider, preLoader);
             States = new PreLoadRepository<State>(entityManagerProvider, preLoader);
+            PhoneNumberTypes = new PreLoadRepository<PhoneNumberType>(entityManagerProvider, preLoader);
         }
 
         #region IUnitOfWorkCore Members
 
         public IRepository<AddressType> AddressTypes { get; private set; }
-        public IRepository<PhoneNumberType> PhoneNumberTypes { get; private set; }
-        public IRepository<RateType> RateTypes { get; private set; }
         public IRepository<State> States { get; private set; }
+        public IRepository<PhoneNumberType> PhoneNumberTypes { get; private set; }
 
         #endregion
     }

@@ -55,7 +55,7 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
-        public RateTypeSelectorViewModel Start(IUnitOfWorkCore unitOfWork)
+        public RateTypeSelectorViewModel Start(IStaffingResourceUnitOfWork unitOfWork)
         {
             var orderBySelector = new SortSelector("Name");
             unitOfWork.RateTypes.FindAsync(

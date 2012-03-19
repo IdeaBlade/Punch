@@ -20,6 +20,7 @@ namespace DomainServices
     {
         IStaffingResourceFactory StaffingResourceFactory { get; }
 
+        IRepository<RateType> RateTypes { get; }
         IRepository<StaffingResource> StaffingResources { get; }
     }
 }

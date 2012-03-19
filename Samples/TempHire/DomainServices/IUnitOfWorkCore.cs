@@ -18,8 +18,7 @@ namespace DomainServices
     public interface IUnitOfWorkCore : IUnitOfWork
     {
         IRepository<AddressType> AddressTypes { get; }
-        IRepository<PhoneNumberType> PhoneNumberTypes { get; }
-        IRepository<RateType> RateTypes { get; }
         IRepository<State> States { get; }
+        IRepository<PhoneNumberType> PhoneNumberTypes { get; }
     }
 }

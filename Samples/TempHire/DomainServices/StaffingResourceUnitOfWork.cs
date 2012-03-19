@@ -30,6 +30,7 @@ namespace DomainServices
             : base(entityManagerProvider, preLoader)
         {
             StaffingResourceFactory = new StaffingResourceFactory(entityManagerProvider, AddressTypes, PhoneNumberTypes);
+            RateTypes = new PreLoadRepository<RateType>(entityManagerProvider, preLoader);
             StaffingResources = new StaffingResourceRepository(entityManagerProvider);
         }
 
@@ -37,6 +38,7 @@ namespace DomainServices
 
         public IStaffingResourceFactory StaffingResourceFactory { get; private set; }
 
+        public IRepository<RateType> RateTypes { get; private set; }
         public IRepository<StaffingResource> StaffingResources { get; private set; }
 
         #endregion

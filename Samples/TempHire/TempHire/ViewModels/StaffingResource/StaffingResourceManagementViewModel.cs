@@ -236,8 +236,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             StaffingResourceListItem staffingResource = SearchPane.CurrentStaffingResource;
 
-            yield return
-                _dialogManager.ShowMessage(
+            yield return _dialogManager.ShowMessage(
                     string.Format("Are you sure you want to delete {0}?", staffingResource.FullName),
                     DialogResult.Yes, DialogResult.No, DialogButtons.YesNo);
 

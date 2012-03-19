@@ -10,14 +10,14 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Common.Errors;
 using Common.Factories;
-using Common.Repositories;
 using DomainModel;
+using DomainServices;
+using IdeaBlade.Linq;
 
 namespace TempHire.ViewModels.StaffingResource
 {
@@ -25,23 +25,13 @@ namespace TempHire.ViewModels.StaffingResource
     public class RateTypeSelectorViewModel : Screen
     {
         private readonly IErrorHandler _errorHandler;
-        private readonly IRepositoryManager<IStaffingResourceRepository> _repositoryManager;
         private BindableCollection<RateType> _rateTypes;
-        private IStaffingResourceRepository _repository;
         private RateType _selectedRateType;
-        private Guid _staffingResourceId;
 
         [ImportingConstructor]
-        public RateTypeSelectorViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                         IErrorHandler errorHandler)
+        public RateTypeSelectorViewModel(IErrorHandler errorHandler)
         {
-            _repositoryManager = repositoryManager;
             _errorHandler = errorHandler;
-        }
-
-        private IStaffingResourceRepository Repository
-        {
-            get { return _repository ?? (_repository = _repositoryManager.GetRepository(_staffingResourceId)); }
         }
 
         public BindableCollection<RateType> RateTypes
@@ -65,20 +55,13 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
-        public RateTypeSelectorViewModel Start(Guid staffingResourceId)
+        public RateTypeSelectorViewModel Start(IUnitOfWorkCore unitOfWork)
         {
-            _staffingResourceId = staffingResourceId;
-            Repository.GetRateTypesAsync(result => RateTypes = new BindableCollection<RateType>(result),
-                                         _errorHandler.HandleError);
+            var orderBySelector = new SortSelector("Name");
+            unitOfWork.RateTypes.FindAsync(
+                null, orderBySelector, null, result => RateTypes = new BindableCollection<RateType>(result),
+                _errorHandler.HandleError);
             return this;
-        }
-
-        protected override void OnDeactivate(bool close)
-        {
-            base.OnDeactivate(close);
-
-            if (close)
-                _repository = null;
         }
     }
 

@@ -18,8 +18,8 @@ using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Factories;
-using Common.Repositories;
 using DomainModel;
+using DomainServices;
 using IdeaBlade.Core;
 
 namespace TempHire.ViewModels.StaffingResource
@@ -27,15 +27,15 @@ namespace TempHire.ViewModels.StaffingResource
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourcePhoneListViewModel : StaffingResourceScreenBase
     {
-        private readonly IPartFactory<PhoneTypeSelectorViewModel> _phoneTypeSelectorFactory;
         private readonly IDialogManager _dialogManager;
+        private readonly IPartFactory<PhoneTypeSelectorViewModel> _phoneTypeSelectorFactory;
         private BindableCollection<StaffingResourcePhoneItemViewModel> _phoneNumbers;
 
         [ImportingConstructor]
-        public StaffingResourcePhoneListViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                          IPartFactory<PhoneTypeSelectorViewModel> phoneTypeSelectorFactory,
-                                          IErrorHandler errorHandler, IDialogManager dialogManager)
-            : base(repositoryManager, errorHandler)
+        public StaffingResourcePhoneListViewModel(IUnitOfWorkManager<IStaffingResourceUnitOfWork> unitOfWorkManager,
+                                                  IPartFactory<PhoneTypeSelectorViewModel> phoneTypeSelectorFactory,
+                                                  IErrorHandler errorHandler, IDialogManager dialogManager)
+            : base(unitOfWorkManager, errorHandler)
         {
             _phoneTypeSelectorFactory = phoneTypeSelectorFactory;
             _dialogManager = dialogManager;
@@ -100,7 +100,7 @@ namespace TempHire.ViewModels.StaffingResource
         public IEnumerable<IResult> Add()
         {
             PhoneTypeSelectorViewModel phoneTypeSelector = _phoneTypeSelectorFactory.CreatePart();
-            yield return _dialogManager.ShowDialog(phoneTypeSelector.Start(StaffingResource.Id), DialogButtons.OkCancel);
+            yield return _dialogManager.ShowDialog(phoneTypeSelector.Start(UnitOfWork), DialogButtons.OkCancel);
 
             StaffingResource.AddPhoneNumber(phoneTypeSelector.SelectedPhoneType);
 

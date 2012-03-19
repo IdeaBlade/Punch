@@ -19,11 +19,12 @@ using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Factories;
-using Common.Repositories;
+using DomainServices;
+using DomainServices.SampleData;
 using IdeaBlade.Core;
 
 #if HARNESS
-using Common.SampleData;
+
 #endif
 
 namespace TempHire.ViewModels.StaffingResource
@@ -34,20 +35,20 @@ namespace TempHire.ViewModels.StaffingResource
     {
         private readonly IDialogManager _dialogManager;
         private readonly IErrorHandler _errorHandler;
-        private readonly IRepositoryManager<IStaffingResourceRepository> _repositoryManager;
         private readonly IEnumerable<IStaffingResourceDetailSection> _sections;
-        private IStaffingResourceRepository _repository;
+        private readonly IUnitOfWorkManager<IStaffingResourceUnitOfWork> _unitOfWorkManager;
         private DomainModel.StaffingResource _staffingResource;
         private Guid _staffingResourceId;
+        private IStaffingResourceUnitOfWork _unitOfWork;
 
         [ImportingConstructor]
-        public StaffingResourceDetailViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
+        public StaffingResourceDetailViewModel(IUnitOfWorkManager<IStaffingResourceUnitOfWork> unitOfWorkManager,
                                                StaffingResourceSummaryViewModel staffingResourceSummary,
                                                [ImportMany] IEnumerable<IStaffingResourceDetailSection> sections,
                                                IErrorHandler errorHandler, IDialogManager dialogManager)
         {
             StaffingResourceSummary = staffingResourceSummary;
-            _repositoryManager = repositoryManager;
+            _unitOfWorkManager = unitOfWorkManager;
             _sections = sections.ToList();
             _errorHandler = errorHandler;
             _dialogManager = dialogManager;
@@ -65,9 +66,9 @@ namespace TempHire.ViewModels.StaffingResource
             get { return StaffingResource != null; }
         }
 
-        private IStaffingResourceRepository Repository
+        private IStaffingResourceUnitOfWork UnitOfWork
         {
-            get { return _repository ?? (_repository = _repositoryManager.GetRepository(_staffingResourceId)); }
+            get { return _unitOfWork ?? (_unitOfWork = _unitOfWorkManager.Get(_staffingResourceId)); }
         }
 
         public int ActiveSectionIndex
@@ -92,7 +93,7 @@ namespace TempHire.ViewModels.StaffingResource
         public void Setup()
         {
 #if HARNESS
-    //Start("John", "M.", "Doe");
+            //Start("John", "M.", "Doe");
             Start(TempHireSampleDataProvider.CreateGuid(1));
 #endif
         }
@@ -109,10 +110,10 @@ namespace TempHire.ViewModels.StaffingResource
         {
             Busy.AddWatch();
 
-            _repository = null;
+            _unitOfWork = null;
             _staffingResourceId = staffingResourceId;
             // Bring resource into cache and defer starting of nested VMs until completed.
-            Repository.GetStaffingResourceAsync(staffingResourceId, OnStartCompleted, _errorHandler.HandleError)
+            UnitOfWork.StaffingResources.WithIdAsync(staffingResourceId, OnStartCompleted, _errorHandler.HandleError)
                 .OnComplete(args => Busy.RemoveWatch());
 
             return this;
@@ -136,14 +137,14 @@ namespace TempHire.ViewModels.StaffingResource
         {
             Busy.AddWatch();
 
-            _repository = _repositoryManager.Create();
-            _repository.CreateStaffingResourceAsync(firstName, middleName, lastName,
-                                                    resource =>
-                                                    {
-                                                        _repositoryManager.Add(resource.Id, _repository);
-                                                        Start(resource.Id);
-                                                    },
-                                                    _errorHandler.HandleError)
+            _unitOfWork = _unitOfWorkManager.Create();
+            _unitOfWork.StaffingResourceFactory.CreateAsync(firstName, middleName, lastName,
+                                                            resource =>
+                                                                {
+                                                                    _unitOfWorkManager.Add(resource.Id, _unitOfWork);
+                                                                    Start(resource.Id);
+                                                                },
+                                                            _errorHandler.HandleError)
                 .OnComplete(args => Busy.RemoveWatch());
 
             return this;
@@ -152,25 +153,25 @@ namespace TempHire.ViewModels.StaffingResource
         protected override void OnActivate()
         {
             base.OnActivate();
-            ((IActivate)StaffingResourceSummary).Activate();
+            ((IActivate) StaffingResourceSummary).Activate();
         }
 
         protected override void OnDeactivate(bool close)
         {
             base.OnDeactivate(close);
-            ((IDeactivate)StaffingResourceSummary).Deactivate(close);
+            ((IDeactivate) StaffingResourceSummary).Deactivate(close);
 
             if (close)
             {
                 StaffingResource = null;
-                _repository = null;
+                _unitOfWork = null;
                 Items.Clear();
             }
         }
 
         public override void CanClose(Action<bool> callback)
         {
-            if (Repository.HasChanges())
+            if (UnitOfWork.HasChanges())
             {
                 DialogOperationResult<DialogResult> dialogResult =
                     _dialogManager.ShowMessage("There are unsaved changes. Would you like to save your changes?",
@@ -180,13 +181,14 @@ namespace TempHire.ViewModels.StaffingResource
                                                 if (dialogResult.DialogResult == DialogResult.Yes)
                                                 {
                                                     Busy.AddWatch();
-                                                    Repository.SaveAsync(() => callback(true), _errorHandler.HandleError)
+                                                    UnitOfWork.CommitAsync(saveResult => callback(true),
+                                                                           _errorHandler.HandleError)
                                                         .OnComplete(args => Busy.RemoveWatch());
                                                 }
 
                                                 if (dialogResult.DialogResult == DialogResult.No)
                                                 {
-                                                    Repository.RejectChanges();
+                                                    UnitOfWork.Rollback();
                                                     callback(true);
                                                 }
 
@@ -199,7 +201,7 @@ namespace TempHire.ViewModels.StaffingResource
         }
     }
 
-    [Export(typeof(IPartFactory<StaffingResourceDetailViewModel>))]
+    [Export(typeof (IPartFactory<StaffingResourceDetailViewModel>))]
     public class StaffingResourceDetailViewModelFactory : PartFactoryBase<StaffingResourceDetailViewModel>
     {
     }

@@ -10,14 +10,14 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Common.Errors;
 using Common.Factories;
-using Common.Repositories;
 using DomainModel;
+using DomainServices;
+using IdeaBlade.Linq;
 
 namespace TempHire.ViewModels.StaffingResource
 {
@@ -25,23 +25,13 @@ namespace TempHire.ViewModels.StaffingResource
     public class PhoneTypeSelectorViewModel : Screen
     {
         private readonly IErrorHandler _errorHandler;
-        private readonly IRepositoryManager<IStaffingResourceRepository> _repositoryManager;
         private BindableCollection<PhoneNumberType> _phoneTypes;
-        private IStaffingResourceRepository _repository;
         private PhoneNumberType _selectedPhoneType;
-        private Guid _staffingResourceId;
 
         [ImportingConstructor]
-        public PhoneTypeSelectorViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                          IErrorHandler errorHandler)
+        public PhoneTypeSelectorViewModel(IErrorHandler errorHandler)
         {
-            _repositoryManager = repositoryManager;
             _errorHandler = errorHandler;
-        }
-
-        private IStaffingResourceRepository Repository
-        {
-            get { return _repository ?? (_repository = _repositoryManager.GetRepository(_staffingResourceId)); }
         }
 
         public BindableCollection<PhoneNumberType> PhoneTypes
@@ -65,20 +55,13 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
-        public PhoneTypeSelectorViewModel Start(Guid staffingResourceId)
+        public PhoneTypeSelectorViewModel Start(IUnitOfWorkCore unitOfWork)
         {
-            _staffingResourceId = staffingResourceId;
-            Repository.GetPhoneTypesAsync(results => PhoneTypes = new BindableCollection<PhoneNumberType>(results),
-                                          _errorHandler.HandleError);
+            var orderBySelector = new SortSelector("Name");
+            unitOfWork.PhoneNumberTypes.FindAsync(
+                null, orderBySelector, null, results => PhoneTypes = new BindableCollection<PhoneNumberType>(results),
+                _errorHandler.HandleError);
             return this;
-        }
-
-        protected override void OnDeactivate(bool close)
-        {
-            base.OnDeactivate(close);
-
-            if (close)
-                _repository = null;
         }
     }
 

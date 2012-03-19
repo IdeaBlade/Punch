@@ -18,7 +18,7 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Factories;
-using Common.Repositories;
+using DomainServices.Repositories;
 using IdeaBlade.EntityModel;
 using Security;
 
@@ -28,7 +28,7 @@ namespace TempHire.ViewModels.Login
     public class LoginViewModel : Screen, IResult
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly ILookupRepository _lookupRepository;
+        private readonly IPreLoader _preLoader;
         private readonly IWindowManager _windowManager;
         private string _failureMessage;
         private string _password;
@@ -37,12 +37,12 @@ namespace TempHire.ViewModels.Login
 
         [ImportingConstructor]
         public LoginViewModel(IAuthenticationService authenticationService, IWindowManager windowManager,
-                              [Import(AllowDefault = true)] ILookupRepository lookupRepository)
+                              [Import(AllowDefault = true)] IPreLoader preLoader)
         {
             Busy = new BusyWatcher();
             _authenticationService = authenticationService;
             _windowManager = windowManager;
-            _lookupRepository = lookupRepository;
+            _preLoader = preLoader;
 // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DisplayName = "";
 // ReSharper restore DoNotCallOverridableMethodsInConstructor
@@ -127,9 +127,9 @@ namespace TempHire.ViewModels.Login
 
                 if (_authenticationService.IsLoggedIn)
                 {
-                    if (_lookupRepository != null)
+                    if (_preLoader != null)
                     {
-                        yield return (operation = _lookupRepository.InitializeAsync()).ContinueOnError();
+                        yield return (operation = _preLoader.LoadAsync()).ContinueOnError();
 
                         if (operation.HasError)
                         {

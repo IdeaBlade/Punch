@@ -14,9 +14,10 @@ using System;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using Cocktail;
+using DomainServices.SampleData;
 
 #if HARNESS
-using Common.SampleData;
+
 #endif
 
 namespace TempHire.ViewModels.StaffingResource

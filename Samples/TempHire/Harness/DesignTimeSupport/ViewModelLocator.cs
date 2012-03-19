@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using Cocktail;
 using Common.Errors;
-using Common.Repositories;
-using Common.SampleData;
 using Common.Toolbar;
 using Common.Workspace;
 using DomainModel;
+using DomainServices;
+using DomainServices.Repositories;
+using DomainServices.SampleData;
 using TempHire.Authentication;
 using TempHire.ViewModels;
 using TempHire.ViewModels.Login;
@@ -21,9 +22,10 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 return (StaffingResourceAddressListViewModel)
-                       new StaffingResourceAddressListViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
-                                                        null, DesignTimeErrorHandler.Instance,
-                                                        DesignTimeDialogManager.Instance)
+                       new StaffingResourceAddressListViewModel(
+                           new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider),
+                           null, DesignTimeErrorHandler.Instance,
+                           DesignTimeDialogManager.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
@@ -33,8 +35,9 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 return (StaffingResourceSummaryViewModel)
-                       new StaffingResourceSummaryViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider), null,
-                                                    DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance)
+                       new StaffingResourceSummaryViewModel(
+                           new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider), null,
+                           DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
@@ -43,9 +46,8 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                return new AddressTypeSelectorViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
-                                                        DesignTimeErrorHandler.Instance)
-                    .Start(TempHireSampleDataProvider.CreateGuid(1));
+                return new AddressTypeSelectorViewModel(DesignTimeErrorHandler.Instance)
+                    .Start(new StaffingResourceUnitOfWork(EntityManagerProvider));
             }
         }
 
@@ -53,8 +55,9 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                return new StaffingResourceNameEditorViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
-                                                       DesignTimeErrorHandler.Instance)
+                return new StaffingResourceNameEditorViewModel(
+                    new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider),
+                    DesignTimeErrorHandler.Instance)
                     .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
@@ -64,9 +67,10 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 return (StaffingResourcePhoneListViewModel)
-                       new StaffingResourcePhoneListViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
-                                                      null, DesignTimeErrorHandler.Instance,
-                                                      DesignTimeDialogManager.Instance)
+                       new StaffingResourcePhoneListViewModel(
+                           new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider),
+                           null, DesignTimeErrorHandler.Instance,
+                           DesignTimeDialogManager.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
@@ -75,9 +79,8 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                return new PhoneTypeSelectorViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
-                                                      DesignTimeErrorHandler.Instance)
-                    .Start(TempHireSampleDataProvider.CreateGuid(1));
+                return new PhoneTypeSelectorViewModel(DesignTimeErrorHandler.Instance)
+                    .Start(new StaffingResourceUnitOfWork(EntityManagerProvider));
             }
         }
 
@@ -85,7 +88,7 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                var rm = new DesignTimeResourceRepositoryManager(EntityManagerProvider);
+                var rm = new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider);
                 return new StaffingResourceDetailViewModel(
                     rm,
                     new StaffingResourceSummaryViewModel(rm, null, DesignTimeErrorHandler.Instance,
@@ -114,7 +117,7 @@ namespace TempHire.DesignTimeSupport
             {
                 return (StaffingResourceRatesViewModel)
                        new StaffingResourceRatesViewModel(
-                           new DesignTimeResourceRepositoryManager(EntityManagerProvider),
+                           new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider),
                            null, DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
@@ -125,9 +128,8 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 return
-                    new RateTypeSelectorViewModel(new DesignTimeResourceRepositoryManager(EntityManagerProvider),
-                                                  DesignTimeErrorHandler.Instance).Start(
-                                                      TempHireSampleDataProvider.CreateGuid(1));
+                    new RateTypeSelectorViewModel(DesignTimeErrorHandler.Instance)
+                        .Start(new StaffingResourceUnitOfWork(EntityManagerProvider));
             }
         }
 
@@ -137,7 +139,7 @@ namespace TempHire.DesignTimeSupport
             {
                 return (StaffingResourceWorkExperienceViewModel)
                        new StaffingResourceWorkExperienceViewModel(
-                           new DesignTimeResourceRepositoryManager(EntityManagerProvider),
+                           new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider),
                            DesignTimeErrorHandler.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
@@ -149,7 +151,7 @@ namespace TempHire.DesignTimeSupport
             {
                 return (StaffingResourceSkillsViewModel)
                        new StaffingResourceSkillsViewModel(
-                           new DesignTimeResourceRepositoryManager(EntityManagerProvider),
+                           new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider),
                            DesignTimeErrorHandler.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
@@ -159,7 +161,7 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                return new StaffingResourceSearchViewModel(new StaffingResourceRepository(EntityManagerProvider),
+                return new StaffingResourceSearchViewModel(new StaffingResourceSearchRepository(EntityManagerProvider),
                                                            DesignTimeErrorHandler.Instance).Start();
             }
         }
@@ -168,10 +170,10 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                var rm = new DesignTimeResourceRepositoryManager(EntityManagerProvider);
+                var rm = new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider);
                 return
                     new StaffingResourceManagementViewModel(
-                        new StaffingResourceSearchViewModel(new StaffingResourceRepository(EntityManagerProvider),
+                        new StaffingResourceSearchViewModel(new StaffingResourceSearchRepository(EntityManagerProvider),
                                                             DesignTimeErrorHandler.Instance), null, null, rm,
                         DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance, null);
             }
@@ -214,35 +216,47 @@ namespace TempHire.DesignTimeSupport
                 get { return _instance ?? (_instance = new DesignTimeDialogManager()); }
             }
 
-            public DialogOperationResult<T> ShowDialog<T>(object content, IEnumerable<T> dialogButtons, string title = null)
+            #region IDialogManager Members
+
+            public DialogOperationResult<T> ShowDialog<T>(object content, IEnumerable<T> dialogButtons,
+                                                          string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<T> ShowDialog<T>(object content, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
+            public DialogOperationResult<T> ShowDialog<T>(object content, T defaultButton, T cancelButton,
+                                                          IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<DialogResult> ShowDialog(object content, IEnumerable<DialogResult> dialogButtons, string title = null)
+            public DialogOperationResult<DialogResult> ShowDialog(object content,
+                                                                  IEnumerable<DialogResult> dialogButtons,
+                                                                  string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<T> ShowMessage<T>(string message, IEnumerable<T> dialogButtons, string title = null)
+            public DialogOperationResult<T> ShowMessage<T>(string message, IEnumerable<T> dialogButtons,
+                                                           string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<T> ShowMessage<T>(string message, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
+            public DialogOperationResult<T> ShowMessage<T>(string message, T defaultButton, T cancelButton,
+                                                           IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<DialogResult> ShowMessage(string message, IEnumerable<DialogResult> dialogButtons, string title = null)
+            public DialogOperationResult<DialogResult> ShowMessage(string message,
+                                                                   IEnumerable<DialogResult> dialogButtons,
+                                                                   string title = null)
             {
                 throw new NotImplementedException();
             }
+
+            #endregion
         }
 
         #endregion

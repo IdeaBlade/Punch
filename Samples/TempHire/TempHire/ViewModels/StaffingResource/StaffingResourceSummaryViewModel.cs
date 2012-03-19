@@ -16,21 +16,21 @@ using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Factories;
-using Common.Repositories;
+using DomainServices;
 
 namespace TempHire.ViewModels.StaffingResource
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceSummaryViewModel : StaffingResourceScreenBase
     {
-        private readonly IPartFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
         private readonly IDialogManager _dialogManager;
+        private readonly IPartFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
 
         [ImportingConstructor]
-        public StaffingResourceSummaryViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                        IPartFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
-                                        IErrorHandler errorHandler, IDialogManager dialogManager)
-            : base(repositoryManager, errorHandler)
+        public StaffingResourceSummaryViewModel(IUnitOfWorkManager<IStaffingResourceUnitOfWork> unitOfWorkManager,
+                                                IPartFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
+                                                IErrorHandler errorHandler, IDialogManager dialogManager)
+            : base(unitOfWorkManager, errorHandler)
         {
             _nameEditorFactory = nameEditorFactory;
             _dialogManager = dialogManager;

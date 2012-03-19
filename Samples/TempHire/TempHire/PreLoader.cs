@@ -1,4 +1,4 @@
-﻿//====================================================================================================================
+//====================================================================================================================
 // Copyright (c) 2012 IdeaBlade
 //====================================================================================================================
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
@@ -14,28 +14,33 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Cocktail;
-using Common.Repositories;
 using DomainModel;
+using DomainServices.Repositories;
 using IdeaBlade.EntityModel;
-using Action = System.Action;
-using Coroutine = IdeaBlade.EntityModel.Coroutine;
 
-namespace TempHire.Repositories
+namespace TempHire
 {
-    [Export(typeof(ILookupRepository)), PartCreationPolicy(CreationPolicy.Shared)]
-    public class LookupRepository : RepositoryBase<TempHireEntities>, ILookupRepository
+    [Export(typeof(IPreLoader)), PartCreationPolicy(CreationPolicy.Shared)]
+    public class PreLoader : IPreLoader
     {
+        private readonly IEntityManagerProvider<TempHireEntities> _entityManagerProvider;
+
         [ImportingConstructor]
-        public LookupRepository(
+        public PreLoader(
             [Import(RequiredCreationPolicy = CreationPolicy.NonShared)] IEntityManagerProvider<TempHireEntities>
                 entityManagerProvider)
-            : base(entityManagerProvider)
         {
+            _entityManagerProvider = entityManagerProvider;
         }
 
         #region ILookupRepository Members
 
-        public OperationResult InitializeAsync(Action onSuccess = null, Action<Exception> onFail = null)
+        public TempHireEntities EntityManager
+        {
+            get { return _entityManagerProvider.Manager; }
+        }
+
+        public OperationResult LoadAsync(Action onSuccess = null, Action<Exception> onFail = null)
         {
             return Coroutine.StartParallel(InitializeCore, op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
         }
@@ -45,10 +50,10 @@ namespace TempHire.Repositories
         private IEnumerable<INotifyCompleted> InitializeCore()
         {
             // Cache all lookup tables
-            yield return Manager.PhoneNumberTypes.ExecuteAsync();
-            yield return Manager.AddressTypes.ExecuteAsync();
-            yield return Manager.RateTypes.ExecuteAsync();
-            yield return Manager.States.ExecuteAsync();
+            yield return EntityManager.PhoneNumberTypes.ExecuteAsync();
+            yield return EntityManager.AddressTypes.ExecuteAsync();
+            yield return EntityManager.RateTypes.ExecuteAsync();
+            yield return EntityManager.States.ExecuteAsync();
         }
     }
 }

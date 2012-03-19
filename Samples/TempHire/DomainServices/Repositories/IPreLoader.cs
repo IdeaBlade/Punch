@@ -1,4 +1,4 @@
-﻿//====================================================================================================================
+//====================================================================================================================
 // Copyright (c) 2012 IdeaBlade
 //====================================================================================================================
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
@@ -12,17 +12,14 @@
 
 using System;
 using Cocktail;
-using IdeaBlade.EntityModel;
-using Action = System.Action;
+using DomainModel;
 
-namespace Common.Repositories
+namespace DomainServices.Repositories
 {
-    public interface IRepository
+    public interface IPreLoader
     {
-        bool HasChanges();
+        TempHireEntities EntityManager { get; }
 
-        OperationResult<SaveResult> SaveAsync(Action onSuccess = null, Action<Exception> onFail = null);
-
-        void RejectChanges();
+        OperationResult LoadAsync(Action onSuccess = null, Action<Exception> onFail = null);
     }
 }

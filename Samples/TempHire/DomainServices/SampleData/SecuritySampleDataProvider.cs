@@ -16,7 +16,7 @@ using Cocktail;
 using DomainModel;
 using Security;
 
-namespace Common.SampleData
+namespace DomainServices.SampleData
 {
     /// <summary>
     /// Security sample data. Will be loaded TempHireEntities into the same fake store

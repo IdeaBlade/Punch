@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E8F633
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainServices.SL", "DomainServices\DomainServices.SL.csproj", "{DD374D18-BED3-42B6-8795-EFEEF3752C0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,12 @@ Global
 		{5DA86954-CB04-4E4B-815D-D1D38B8501B4}.Fakestore|Any CPU.Build.0 = Fakestore|Any CPU
 		{5DA86954-CB04-4E4B-815D-D1D38B8501B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DA86954-CB04-4E4B-815D-D1D38B8501B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD374D18-BED3-42B6-8795-EFEEF3752C0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD374D18-BED3-42B6-8795-EFEEF3752C0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD374D18-BED3-42B6-8795-EFEEF3752C0C}.Fakestore|Any CPU.ActiveCfg = Release|Any CPU
+		{DD374D18-BED3-42B6-8795-EFEEF3752C0C}.Fakestore|Any CPU.Build.0 = Release|Any CPU
+		{DD374D18-BED3-42B6-8795-EFEEF3752C0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD374D18-BED3-42B6-8795-EFEEF3752C0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

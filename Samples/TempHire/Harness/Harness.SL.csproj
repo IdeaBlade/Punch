@@ -87,6 +87,9 @@
     <Reference Include="Caliburn.Micro">
       <HintPath>..\packages\CocktailCTP.0.5.0\lib\sl40\Caliburn.Micro.dll</HintPath>
     </Reference>
+    <Reference Include="Cocktail.Contrib.SL">
+      <HintPath>..\packages\CocktailContrib.1.0.0\lib\sl40\Cocktail.Contrib.SL.dll</HintPath>
+    </Reference>
     <Reference Include="Cocktail.SL">
       <HintPath>..\packages\CocktailCTP.0.5.0\lib\sl40\Cocktail.SL.dll</HintPath>
     </Reference>
@@ -99,6 +102,7 @@
     <Reference Include="IdeaBlade.EntityModel.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="IdeaBlade.Linq.SL" />
     <Reference Include="IdeaBlade.Validation.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -206,11 +210,12 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authentication\FakeAuthenticationService.cs" />
     <Compile Include="ConnectionOptionsResolver.cs" />
-    <Compile Include="DesignTimeSupport\DesignTimeResourceRepositoryManager.cs" />
+    <Compile Include="DesignTimeSupport\DesignTimeStaffingResourceUnitOfWorkManager.cs" />
     <Compile Include="DesignTimeSupport\ViewModelLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +226,10 @@
     <ProjectReference Include="..\DomainModel.SL\DomainModel.SL.csproj">
       <Project>{77A1A2B1-66E8-4141-8405-87AB13775FB8}</Project>
       <Name>DomainModel.SL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainServices\DomainServices.SL.csproj">
+      <Project>{DD374D18-BED3-42B6-8795-EFEEF3752C0C}</Project>
+      <Name>DomainServices.SL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Security.SL\Security.SL.csproj">
       <Project>{DD97F37C-E978-4483-B0BC-CFC49940B560}</Project>

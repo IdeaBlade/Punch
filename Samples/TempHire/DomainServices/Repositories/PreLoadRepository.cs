@@ -31,6 +31,11 @@ namespace DomainServices.Repositories
                 .MakeWeak(eh => entityManagerProvider.ManagerCreated -= eh);
         }
 
+        protected bool IsPreLoaded
+        {
+            get { return _preLoader != null; }
+        }
+
         internal void OnManagerCreated(object sender, EntityManagerCreatedEventArgs e)
         {
             IEnumerable<T> entites = _preLoader.EntityManager.FindEntities<T>(EntityState.Unchanged);
@@ -41,13 +46,13 @@ namespace DomainServices.Repositories
                                                         string includeProperties)
         {
             IEntityQuery<T> query = base.GetFindQuery(predicate, sortSelector, includeProperties);
-            return _preLoader != null ? query.With(QueryStrategy.CacheOnly) : query;
+            return IsPreLoaded ? query.With(QueryStrategy.CacheOnly) : query;
         }
 
         protected override IEntityQuery GetKeyQuery(params object[] keyValues)
         {
             IEntityQuery query = base.GetKeyQuery(keyValues);
-            return _preLoader != null ? query.With(QueryStrategy.CacheOnly) : query;
+            return IsPreLoaded ? query.With(QueryStrategy.CacheOnly) : query;
         }
     }
 }

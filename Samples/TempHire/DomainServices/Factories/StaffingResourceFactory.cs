@@ -65,14 +65,14 @@ namespace DomainServices.Factories
 
             OperationResult<IEnumerable<AddressType>> op1;
             yield return
-                (op1 = _addressTypes.FindAsync(PredicateBuilder.Make("Default", FilterOperator.IsEqualTo, true)));
+                op1 = _addressTypes.FindAsync(PredicateBuilder.Make("Default", FilterOperator.IsEqualTo, true));
             AddressType addressType = op1.Result.First();
             staffingResource.AddAddress(addressType);
             staffingResource.PrimaryAddress = staffingResource.Addresses.First();
 
             OperationResult<IEnumerable<PhoneNumberType>> op2;
             yield return
-                (op2 = _phoneNumberTypes.FindAsync(PredicateBuilder.Make("Default", FilterOperator.IsEqualTo, true)));
+                op2 = _phoneNumberTypes.FindAsync(PredicateBuilder.Make("Default", FilterOperator.IsEqualTo, true));
             PhoneNumberType phoneType = op2.Result.First();
             staffingResource.AddPhoneNumber(phoneType);
             staffingResource.PrimaryPhoneNumber = staffingResource.PhoneNumbers.First();

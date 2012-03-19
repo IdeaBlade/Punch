@@ -123,13 +123,13 @@ namespace TempHire.ViewModels.Login
                 Password = null;
 
                 OperationResult operation;
-                yield return (operation = _authenticationService.LoginAsync(credential)).ContinueOnError();
+                yield return operation = _authenticationService.LoginAsync(credential).ContinueOnError();
 
                 if (_authenticationService.IsLoggedIn)
                 {
                     if (_preLoader != null)
                     {
-                        yield return (operation = _preLoader.LoadAsync()).ContinueOnError();
+                        yield return operation = _preLoader.LoadAsync().ContinueOnError();
 
                         if (operation.HasError)
                         {

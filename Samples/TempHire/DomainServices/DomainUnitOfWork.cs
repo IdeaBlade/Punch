@@ -28,11 +28,11 @@ namespace DomainServices
                 entityManagerProvider,
             [Import(AllowDefault = true)] IPreLoader preLoader = null) : base(entityManagerProvider)
         {
-            StaffingResourceFactory = new StaffingResourceFactory(entityManagerProvider, AddressTypes, PhoneNumberTypes);
             AddressTypes = new PreLoadRepository<AddressType>(entityManagerProvider, preLoader);
             States = new PreLoadRepository<State>(entityManagerProvider, preLoader);
             PhoneNumberTypes = new PreLoadRepository<PhoneNumberType>(entityManagerProvider, preLoader);
             RateTypes = new PreLoadRepository<RateType>(entityManagerProvider, preLoader);
+            StaffingResourceFactory = new StaffingResourceFactory(entityManagerProvider, AddressTypes, PhoneNumberTypes);
             StaffingResources = new StaffingResourceRepository(entityManagerProvider);
         }
 

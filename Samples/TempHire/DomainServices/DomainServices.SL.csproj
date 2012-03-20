@@ -75,9 +75,8 @@
   <ItemGroup>
     <Compile Include="Factories\IStaffingResourceFactory.cs" />
     <Compile Include="Factories\StaffingResourceFactory.cs" />
-    <Compile Include="IStaffingResourceUnitOfWork.cs" />
-    <Compile Include="IUnitOfWorkCore.cs" />
-    <Compile Include="IUnitOfWorkManager.cs" />
+    <Compile Include="IDomainUnitOfWork.cs" />
+    <Compile Include="IDomainUnitOfWorkManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IPreLoader.cs" />
     <Compile Include="Repositories\IStaffingResourceSearchRepository.cs" />
@@ -86,9 +85,8 @@
     <Compile Include="Repositories\StaffingResourceSearchRepository.cs" />
     <Compile Include="SampleData\SecuritySampleDataProvider.cs" />
     <Compile Include="SampleData\TempHireSampleDataProvider.cs" />
-    <Compile Include="StaffingResourceUnitOfWork.cs" />
-    <Compile Include="UnitOfWorkCore.cs" />
-    <Compile Include="UnitOfWorkManagers.cs" />
+    <Compile Include="DomainUnitOfWork.cs" />
+    <Compile Include="DomainUnitOfWorkManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -31,12 +31,12 @@ namespace TempHire.ViewModels.StaffingResource
     {
         private readonly IPartFactory<AddressTypeSelectorViewModel> _addressTypeSelectorFactory;
         private readonly IDialogManager _dialogManager;
-        private readonly IUnitOfWorkManager<IStaffingResourceUnitOfWork> _unitOfWorkManager;
+        private readonly IDomainUnitOfWorkManager<IDomainUnitOfWork> _unitOfWorkManager;
         private BindableCollection<StaffingResourceAddressItemViewModel> _addresses;
         private BindableCollection<State> _states;
 
         [ImportingConstructor]
-        public StaffingResourceAddressListViewModel(IUnitOfWorkManager<IStaffingResourceUnitOfWork> unitOfWorkManager,
+        public StaffingResourceAddressListViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
                                                     IPartFactory<AddressTypeSelectorViewModel>
                                                         addressTypeSelectorFactory,
                                                     IErrorHandler errorHandler, IDialogManager dialogManager)
@@ -103,7 +103,7 @@ namespace TempHire.ViewModels.StaffingResource
             // The list of states is preloaded into each EntityManager cache, so this should be fast
             if (States == null)
             {
-                IStaffingResourceUnitOfWork unitOfWork = _unitOfWorkManager.Get(staffingResourceId);
+                IDomainUnitOfWork unitOfWork = _unitOfWorkManager.Get(staffingResourceId);
                 var orderBySelector = new SortSelector("Name");
                 yield return unitOfWork.States.FindAsync(
                     null, orderBySelector, null, result => States = new BindableCollection<State>(result),

@@ -47,7 +47,7 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 return new AddressTypeSelectorViewModel(DesignTimeErrorHandler.Instance)
-                    .Start(new StaffingResourceUnitOfWork(EntityManagerProvider));
+                    .Start(new DomainUnitOfWork(EntityManagerProvider));
             }
         }
 
@@ -80,7 +80,7 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 return new PhoneTypeSelectorViewModel(DesignTimeErrorHandler.Instance)
-                    .Start(new StaffingResourceUnitOfWork(EntityManagerProvider));
+                    .Start(new DomainUnitOfWork(EntityManagerProvider));
             }
         }
 
@@ -129,7 +129,7 @@ namespace TempHire.DesignTimeSupport
             {
                 return
                     new RateTypeSelectorViewModel(DesignTimeErrorHandler.Instance)
-                        .Start(new StaffingResourceUnitOfWork(EntityManagerProvider));
+                        .Start(new DomainUnitOfWork(EntityManagerProvider));
             }
         }
 

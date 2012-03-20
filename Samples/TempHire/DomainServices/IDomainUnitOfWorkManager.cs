@@ -11,29 +11,13 @@
 // ====================================================================================================================
 
 using System;
-using System.ComponentModel.Composition;
-using Cocktail;
 
 namespace DomainServices
 {
-    public class UnitOfWorkManager<T> : ObjectManager<Guid, T>, IUnitOfWorkManager<T>
+    public interface IDomainUnitOfWorkManager<T>
     {
-        #region IUnitOfWorkManager<T> Members
-
-        public T Get(Guid key)
-        {
-            return GetObject(key);
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// Used to share instances of the StaffingResourceUnitOfWork among composed view models.
-    /// </summary>
-    [Export(typeof (IUnitOfWorkManager<IStaffingResourceUnitOfWork>))]
-    [PartCreationPolicy(CreationPolicy.Shared)]
-    public class StaffingResourceUnitOfWorkManager : UnitOfWorkManager<IStaffingResourceUnitOfWork>
-    {
+        T Create();
+        T Get(Guid key);
+        void Add(Guid key, T repository);
     }
 }

@@ -27,7 +27,7 @@ namespace TempHire.ViewModels.StaffingResource
         private readonly IPartFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
 
         [ImportingConstructor]
-        public StaffingResourceSummaryViewModel(IUnitOfWorkManager<IStaffingResourceUnitOfWork> unitOfWorkManager,
+        public StaffingResourceSummaryViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
                                                 IPartFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
                                                 IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(unitOfWorkManager, errorHandler)

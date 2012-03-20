@@ -1,4 +1,4 @@
-// ====================================================================================================================
+﻿// ====================================================================================================================
 //   Copyright (c) 2012 IdeaBlade
 // ====================================================================================================================
 //   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
@@ -12,13 +12,18 @@
 
 using Cocktail.Contrib.UnitOfWork;
 using DomainModel;
+using DomainServices.Factories;
 
 namespace DomainServices
 {
-    public interface IUnitOfWorkCore : IUnitOfWork
+    public interface IDomainUnitOfWork : IUnitOfWork
     {
+        IStaffingResourceFactory StaffingResourceFactory { get; }
+
         IRepository<AddressType> AddressTypes { get; }
         IRepository<State> States { get; }
         IRepository<PhoneNumberType> PhoneNumberTypes { get; }
+        IRepository<RateType> RateTypes { get; }
+        IRepository<StaffingResource> StaffingResources { get; }
     }
 }

@@ -26,21 +26,21 @@ namespace TempHire.ViewModels.StaffingResource
     {
         private DomainModel.StaffingResource _staffingResource;
         private Guid _staffingResourceId;
-        private IStaffingResourceUnitOfWork _unitOfWork;
+        private IDomainUnitOfWork _unitOfWork;
 
-        protected StaffingResourceScreenBase(IUnitOfWorkManager<IStaffingResourceUnitOfWork> unitOfWorkManager,
+        protected StaffingResourceScreenBase(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
                                              IErrorHandler errorHandler)
         {
-            UnitOfWorkManager = unitOfWorkManager;
+            DomainUnitOfWorkManager = unitOfWorkManager;
             ErrorHandler = errorHandler;
         }
 
-        public IUnitOfWorkManager<IStaffingResourceUnitOfWork> UnitOfWorkManager { get; private set; }
+        public IDomainUnitOfWorkManager<IDomainUnitOfWork> DomainUnitOfWorkManager { get; private set; }
         public IErrorHandler ErrorHandler { get; private set; }
 
-        protected IStaffingResourceUnitOfWork UnitOfWork
+        protected IDomainUnitOfWork UnitOfWork
         {
-            get { return _unitOfWork ?? (_unitOfWork = UnitOfWorkManager.Get(_staffingResourceId)); }
+            get { return _unitOfWork ?? (_unitOfWork = DomainUnitOfWorkManager.Get(_staffingResourceId)); }
         }
 
         public virtual DomainModel.StaffingResource StaffingResource

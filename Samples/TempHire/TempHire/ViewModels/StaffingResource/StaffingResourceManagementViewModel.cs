@@ -40,7 +40,7 @@ namespace TempHire.ViewModels.StaffingResource
         private readonly IPartFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
         private readonly DispatcherTimer _selectionChangeTimer;
         private readonly IToolbarManager _toolbar;
-        private readonly IUnitOfWorkManager<IStaffingResourceUnitOfWork> _unitOfWorkManager;
+        private readonly IDomainUnitOfWorkManager<IDomainUnitOfWork> _unitOfWorkManager;
         private IScreen _retainedActiveItem;
         private ToolbarGroup _toolbarGroup;
 
@@ -48,7 +48,7 @@ namespace TempHire.ViewModels.StaffingResource
         public StaffingResourceManagementViewModel(StaffingResourceSearchViewModel searchPane,
                                                    IPartFactory<StaffingResourceDetailViewModel> detailFactory,
                                                    IPartFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
-                                                   IUnitOfWorkManager<IStaffingResourceUnitOfWork> unitOfWorkManager,
+                                                   IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
                                                    IErrorHandler errorHandler, IDialogManager dialogManager,
                                                    IToolbarManager toolbar)
         {
@@ -77,7 +77,7 @@ namespace TempHire.ViewModels.StaffingResource
             get { return SearchPane.CurrentStaffingResource != null; }
         }
 
-        private IStaffingResourceUnitOfWork ActiveUnitOfWork
+        private IDomainUnitOfWork ActiveUnitOfWork
         {
             get { return _unitOfWorkManager.Get(ActiveStaffingResource.Id); }
         }
@@ -240,7 +240,7 @@ namespace TempHire.ViewModels.StaffingResource
                     string.Format("Are you sure you want to delete {0}?", staffingResource.FullName),
                     DialogResult.Yes, DialogResult.No, DialogButtons.YesNo);
 
-            IStaffingResourceUnitOfWork unitOfWork = _unitOfWorkManager.Get(staffingResource.Id);
+            IDomainUnitOfWork unitOfWork = _unitOfWorkManager.Get(staffingResource.Id);
 
             OperationResult operation;
             using (ActiveDetail.Busy.GetTicket())

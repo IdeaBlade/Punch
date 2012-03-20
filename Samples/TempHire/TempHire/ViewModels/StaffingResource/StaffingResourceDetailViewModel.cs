@@ -36,13 +36,13 @@ namespace TempHire.ViewModels.StaffingResource
         private readonly IDialogManager _dialogManager;
         private readonly IErrorHandler _errorHandler;
         private readonly IEnumerable<IStaffingResourceDetailSection> _sections;
-        private readonly IUnitOfWorkManager<IStaffingResourceUnitOfWork> _unitOfWorkManager;
+        private readonly IDomainUnitOfWorkManager<IDomainUnitOfWork> _unitOfWorkManager;
         private DomainModel.StaffingResource _staffingResource;
         private Guid _staffingResourceId;
-        private IStaffingResourceUnitOfWork _unitOfWork;
+        private IDomainUnitOfWork _unitOfWork;
 
         [ImportingConstructor]
-        public StaffingResourceDetailViewModel(IUnitOfWorkManager<IStaffingResourceUnitOfWork> unitOfWorkManager,
+        public StaffingResourceDetailViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
                                                StaffingResourceSummaryViewModel staffingResourceSummary,
                                                [ImportMany] IEnumerable<IStaffingResourceDetailSection> sections,
                                                IErrorHandler errorHandler, IDialogManager dialogManager)
@@ -66,7 +66,7 @@ namespace TempHire.ViewModels.StaffingResource
             get { return StaffingResource != null; }
         }
 
-        private IStaffingResourceUnitOfWork UnitOfWork
+        private IDomainUnitOfWork UnitOfWork
         {
             get { return _unitOfWork ?? (_unitOfWork = _unitOfWorkManager.Get(_staffingResourceId)); }
         }

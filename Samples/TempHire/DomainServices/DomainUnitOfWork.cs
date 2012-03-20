@@ -10,28 +10,41 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using System.ComponentModel.Composition;
 using Cocktail;
 using Cocktail.Contrib.UnitOfWork;
 using DomainModel;
+using DomainServices.Factories;
 using DomainServices.Repositories;
 
 namespace DomainServices
 {
-    public abstract class UnitOfWorkCore : UnitOfWork, IUnitOfWorkCore
+    [Export(typeof (IDomainUnitOfWork)), PartCreationPolicy(CreationPolicy.NonShared)]
+    public class DomainUnitOfWork : UnitOfWork, IDomainUnitOfWork
     {
-        protected UnitOfWorkCore(IEntityManagerProvider entityManagerProvider, IPreLoader preLoader)
-            : base(entityManagerProvider)
+        [ImportingConstructor]
+        public DomainUnitOfWork(
+            [Import(RequiredCreationPolicy = CreationPolicy.NonShared)] IEntityManagerProvider<TempHireEntities>
+                entityManagerProvider,
+            [Import(AllowDefault = true)] IPreLoader preLoader = null) : base(entityManagerProvider)
         {
+            StaffingResourceFactory = new StaffingResourceFactory(entityManagerProvider, AddressTypes, PhoneNumberTypes);
             AddressTypes = new PreLoadRepository<AddressType>(entityManagerProvider, preLoader);
             States = new PreLoadRepository<State>(entityManagerProvider, preLoader);
             PhoneNumberTypes = new PreLoadRepository<PhoneNumberType>(entityManagerProvider, preLoader);
+            RateTypes = new PreLoadRepository<RateType>(entityManagerProvider, preLoader);
+            StaffingResources = new StaffingResourceRepository(entityManagerProvider);
         }
 
-        #region IUnitOfWorkCore Members
+        #region IDomainUnitOfWork Members
+
+        public IStaffingResourceFactory StaffingResourceFactory { get; private set; }
 
         public IRepository<AddressType> AddressTypes { get; private set; }
         public IRepository<State> States { get; private set; }
         public IRepository<PhoneNumberType> PhoneNumberTypes { get; private set; }
+        public IRepository<RateType> RateTypes { get; private set; }
+        public IRepository<StaffingResource> StaffingResources { get; private set; }
 
         #endregion
     }

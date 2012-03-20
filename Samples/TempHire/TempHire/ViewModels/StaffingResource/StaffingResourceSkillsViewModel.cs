@@ -28,7 +28,7 @@ namespace TempHire.ViewModels.StaffingResource
                                                    IHandle<SavedMessage>
     {
         [ImportingConstructor]
-        public StaffingResourceSkillsViewModel(IUnitOfWorkManager<IStaffingResourceUnitOfWork> unitOfWorkManager,
+        public StaffingResourceSkillsViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
                                                IErrorHandler errorHandler)
             : base(unitOfWorkManager, errorHandler)
         {

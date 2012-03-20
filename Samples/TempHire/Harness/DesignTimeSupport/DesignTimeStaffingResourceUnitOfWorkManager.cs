@@ -5,7 +5,7 @@ using DomainServices;
 
 namespace TempHire.DesignTimeSupport
 {
-    public class DesignTimeStaffingResourceUnitOfWorkManager : IUnitOfWorkManager<IStaffingResourceUnitOfWork>
+    public class DesignTimeStaffingResourceUnitOfWorkManager : IDomainUnitOfWorkManager<IDomainUnitOfWork>
     {
         private readonly IEntityManagerProvider<TempHireEntities> _entityManagerProvider;
 
@@ -14,17 +14,17 @@ namespace TempHire.DesignTimeSupport
             _entityManagerProvider = entityManagerProvider;
         }
 
-        public IStaffingResourceUnitOfWork Create()
+        public IDomainUnitOfWork Create()
         {
             throw new NotImplementedException();
         }
 
-        public IStaffingResourceUnitOfWork Get(Guid key)
+        public IDomainUnitOfWork Get(Guid key)
         {
-            return new StaffingResourceUnitOfWork(_entityManagerProvider);
+            return new DomainUnitOfWork(_entityManagerProvider);
         }
 
-        public void Add(Guid key, IStaffingResourceUnitOfWork repository)
+        public void Add(Guid key, IDomainUnitOfWork repository)
         {
             throw new NotImplementedException();
         }

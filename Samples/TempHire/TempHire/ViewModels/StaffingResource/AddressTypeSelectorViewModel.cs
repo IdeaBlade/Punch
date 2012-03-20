@@ -55,7 +55,7 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
-        public AddressTypeSelectorViewModel Start(IUnitOfWorkCore unitOfWork)
+        public AddressTypeSelectorViewModel Start(IDomainUnitOfWork unitOfWork)
         {
             var orderBySelector = new SortSelector("Name");
             unitOfWork.AddressTypes.FindAsync(

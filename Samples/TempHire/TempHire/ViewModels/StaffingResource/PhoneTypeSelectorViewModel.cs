@@ -55,7 +55,7 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
-        public PhoneTypeSelectorViewModel Start(IUnitOfWorkCore unitOfWork)
+        public PhoneTypeSelectorViewModel Start(IDomainUnitOfWork unitOfWork)
         {
             var orderBySelector = new SortSelector("Name");
             unitOfWork.PhoneNumberTypes.FindAsync(

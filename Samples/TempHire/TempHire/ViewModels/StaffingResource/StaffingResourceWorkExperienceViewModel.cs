@@ -29,7 +29,7 @@ namespace TempHire.ViewModels.StaffingResource
     {
         [ImportingConstructor]
         public StaffingResourceWorkExperienceViewModel(
-            IUnitOfWorkManager<IStaffingResourceUnitOfWork> unitOfWorkManager,
+            IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
             IErrorHandler errorHandler)
             : base(unitOfWorkManager, errorHandler)
         {

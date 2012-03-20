@@ -33,8 +33,6 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Errors")]
 [assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Factories")]
 [assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Messages")]
-[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Repositories")]
-[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.SampleData")]
 [assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Security")]
 [assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Toolbar")]
 [assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Validation")]

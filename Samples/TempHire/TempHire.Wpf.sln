@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harness", "Harness\Harness.csproj", "{AEE7F04F-20BB-4589-944C-CEDCAE62E4A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainServices", "DomainServices\DomainServices.csproj", "{AA010C45-D661-46AC-97E2-7E111ACB99F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,21 @@ Global
 		{AEE7F04F-20BB-4589-944C-CEDCAE62E4A2}.Release|Mixed Platforms.Build.0 = Release|x86
 		{AEE7F04F-20BB-4589-944C-CEDCAE62E4A2}.Release|x86.ActiveCfg = Release|x86
 		{AEE7F04F-20BB-4589-944C-CEDCAE62E4A2}.Release|x86.Build.0 = Release|x86
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Fakestore|Any CPU.ActiveCfg = Release|Any CPU
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Fakestore|Any CPU.Build.0 = Release|Any CPU
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Fakestore|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Fakestore|Mixed Platforms.Build.0 = Release|Any CPU
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Fakestore|x86.ActiveCfg = Release|Any CPU
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

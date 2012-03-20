@@ -64,6 +64,9 @@
     <Reference Include="Cocktail">
       <HintPath>..\packages\CocktailCTP.0.5.0\lib\net40\Cocktail.dll</HintPath>
     </Reference>
+    <Reference Include="Cocktail.Contrib">
+      <HintPath>..\packages\CocktailContrib.1.0.0\lib\net40\Cocktail.Contrib.dll</HintPath>
+    </Reference>
     <Reference Include="Cocktail.Utils">
       <HintPath>..\packages\CocktailCTP.0.5.0\lib\net40\Cocktail.Utils.dll</HintPath>
     </Reference>
@@ -73,6 +76,7 @@
     <Reference Include="IdeaBlade.Core">
       <Private>True</Private>
     </Reference>
+    <Reference Include="IdeaBlade.Linq" />
     <Reference Include="IdeaBlade.Validation">
       <Private>True</Private>
     </Reference>
@@ -104,7 +108,7 @@
     <Compile Include="ConnectionOptionsResolver.cs" />
     <Compile Include="EntityManagerDelegate.cs" />
     <Compile Include="EntityManagerProviderFactory.cs" />
-    <Compile Include="Repositories\LookupRepository.cs" />
+    <Compile Include="PreLoader.cs" />
     <Compile Include="SyncInterceptor.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\Login\LoginViewModel.cs" />
@@ -142,6 +146,10 @@
     <ProjectReference Include="..\DomainModel\DomainModel.csproj">
       <Project>{58F6DA15-8C8C-4FC0-A277-A6FFCDEDBF24}</Project>
       <Name>DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainServices\DomainServices.csproj">
+      <Project>{AA010C45-D661-46AC-97E2-7E111ACB99F1}</Project>
+      <Name>DomainServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\Security\Security.csproj">
       <Project>{5DA86954-CB04-4E4B-815D-D1D38B8501B4}</Project>
@@ -230,7 +238,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
     <Page Include="Styles\Styles.Wpf.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

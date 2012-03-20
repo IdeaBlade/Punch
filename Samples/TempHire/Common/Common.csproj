@@ -56,16 +56,10 @@
     <Reference Include="Cocktail">
       <HintPath>..\packages\CocktailCTP.0.5.0\lib\net40\Cocktail.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\CocktailCTP.0.5.0\lib\net40\Cocktail.Utils.dll</HintPath>
-    </Reference>
     <Reference Include="IdeaBlade.Core">
       <Private>True</Private>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IdeaBlade.Linq">
       <Private>True</Private>
     </Reference>
     <Reference Include="IdeaBlade.Validation">
@@ -74,6 +68,7 @@
     <Reference Include="MefContrib">
       <HintPath>..\Libs\MefContrib\MefContrib.dll</HintPath>
     </Reference>
+    <Reference Include="PostSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -85,7 +80,6 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="PostSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\BindablePasswordBehavior.cs" />
@@ -103,15 +97,6 @@
     <Compile Include="Messages\MessageProcessor.cs" />
     <Compile Include="Messages\SavedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\ILookupRepository.cs" />
-    <Compile Include="Repositories\IRepository.cs" />
-    <Compile Include="Repositories\IRepositoryManager.cs" />
-    <Compile Include="Repositories\IStaffingResourceRepository.cs" />
-    <Compile Include="Repositories\RepositoryBase.cs" />
-    <Compile Include="Repositories\RepositoryManagers.cs" />
-    <Compile Include="Repositories\StaffingResourceRepository.cs" />
-    <Compile Include="SampleData\SecuritySampleDataProvider.cs" />
-    <Compile Include="SampleData\TempHireSampleDataProvider.cs" />
     <Compile Include="Security\IUserService.cs" />
     <Compile Include="Toolbar\IToolbarManager.cs" />
     <Compile Include="Toolbar\ToolbarAction.cs" />
@@ -123,10 +108,6 @@
     <Compile Include="Workspace\IWorkspace.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\TempHire\DomainModel\DomainModel.csproj">
-      <Project>{58F6DA15-8C8C-4FC0-A277-A6FFCDEDBF24}</Project>
-      <Name>DomainModel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Security\Security.csproj">
       <Project>{5DA86954-CB04-4E4B-815D-D1D38B8501B4}</Project>
       <Name>Security</Name>

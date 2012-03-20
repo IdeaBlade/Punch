@@ -74,16 +74,10 @@
     <Reference Include="Cocktail.SL">
       <HintPath>..\packages\CocktailCTP.0.5.0\lib\sl40\Cocktail.SL.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\CocktailCTP.0.5.0\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
-    </Reference>
     <Reference Include="IdeaBlade.Core.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.SL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="IdeaBlade.Linq.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="IdeaBlade.Validation.SL">
@@ -146,10 +140,6 @@
     <Resource Include="Images\error_button.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DomainModel.SL\DomainModel.SL.csproj">
-      <Project>{77A1A2B1-66E8-4141-8405-87AB13775FB8}</Project>
-      <Name>DomainModel.SL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Security.SL\Security.SL.csproj">
       <Project>{DD97F37C-E978-4483-B0BC-CFC49940B560}</Project>
       <Name>Security.SL</Name>

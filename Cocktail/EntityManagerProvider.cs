@@ -1,17 +1,16 @@
-//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.DataAnnotations;
@@ -24,8 +23,10 @@ using IdeaBlade.Validation;
 
 namespace Cocktail
 {
-    /// <summary>Manages and provides an EntityManager.</summary>
-    /// <typeparam name="T">The type of the EntityManager</typeparam>
+    /// <summary>
+    ///   Manages and provides an EntityManager.
+    /// </summary>
+    /// <typeparam name="T"> The type of the EntityManager </typeparam>
     public class EntityManagerProvider<T> : EntityManagerProviderCore<T>,
                                             IHandle<SyncDataMessage<T>>, IHandle<PrincipalChangedMessage>,
                                             IHandle<EntityManagerEventMessage<T>>
@@ -41,7 +42,9 @@ namespace Cocktail
         private EntityManagerWrapper<T> _entityManagerWrapper;
         private IEnumerable<IValidationErrorNotification> _validationErrorNotifiers;
 
-        /// <summary>Initializes a new instance.</summary>
+        /// <summary>
+        ///   Initializes a new instance.
+        /// </summary>
         public EntityManagerProvider()
         {
             _syncInterceptorLocator =
@@ -50,20 +53,21 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Creates a new EntityManagerProvider from the current EntityManagerProvider and assigns the specified <see cref="ConnectionOptions"/> name.
+        ///   Creates a new EntityManagerProvider from the current EntityManagerProvider and assigns the specified <see
+        ///    cref="ConnectionOptions" /> name.
         /// </summary>
-        /// <param name="connectionOptionsName">The ConnectionOptions name to be assigned.</param>
-        /// <returns>A new EntityManagerProvider instance.</returns>
+        /// <param name="connectionOptionsName"> The ConnectionOptions name to be assigned. </param>
+        /// <returns> A new EntityManagerProvider instance. </returns>
         public new EntityManagerProvider<T> With(string connectionOptionsName)
         {
             return (EntityManagerProvider<T>) base.With(connectionOptionsName);
         }
 
         /// <summary>
-        /// Creates a new EntityManagerProvider from the current EntityManagerProvider and assigns the specified sample data providers.
+        ///   Creates a new EntityManagerProvider from the current EntityManagerProvider and assigns the specified sample data providers.
         /// </summary>
-        /// <param name="sampleDataProviders">The sample data providers to be assigned.</param>
-        /// <returns>A new EntityManagerProvider instance.</returns>
+        /// <param name="sampleDataProviders"> The sample data providers to be assigned. </param>
+        /// <returns> A new EntityManagerProvider instance. </returns>
         public EntityManagerProvider<T> With(params ISampleDataProvider<T>[] sampleDataProviders)
         {
             var newInstance = (EntityManagerProvider<T>) ((ICloneable) this).Clone();
@@ -73,7 +77,9 @@ namespace Cocktail
 
         #region IEntityManagerProvider<T> Members
 
-        /// <summary>Returns the EntityManager managed by this provider.</summary>
+        /// <summary>
+        ///   Returns the EntityManager managed by this provider.
+        /// </summary>
         public override T Manager
         {
             get
@@ -88,8 +94,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Returns true if a save is in progress. A <see cref="InvalidOperationException"/> is thrown 
-        /// if EntityManager.SaveChangesAsync is called while a previous SaveChangesAsync is still in progress.
+        ///   Returns true if a save is in progress. A <see cref="InvalidOperationException" /> is thrown if EntityManager.SaveChangesAsync is called while a previous SaveChangesAsync is still in progress.
         /// </summary>
         public override bool IsSaving
         {
@@ -99,7 +104,7 @@ namespace Cocktail
         #endregion
 
         /// <summary>
-        /// Creates a copy of the current EntityManagerProvider.
+        ///   Creates a copy of the current EntityManagerProvider.
         /// </summary>
         public override object Clone()
         {
@@ -110,20 +115,22 @@ namespace Cocktail
 
         #region IHandle<SyncDataMessage<T>> Members
 
-        /// <summary>Internal use.</summary>
+        /// <summary>
+        ///   Internal use.
+        /// </summary>
         void IHandle<SyncDataMessage<T>>.Handle(SyncDataMessage<T> syncData)
         {
             if (syncData.IsSameProviderAs(this)) return;
 
             // Merge deletions
-            List<object> removers =
+            var removers =
                 syncData.DeletedEntityKeys.Select(key => Manager.FindEntity(key, false)).Where(
                     entity => entity != null).ToList();
             if (removers.Any()) Manager.RemoveEntities(removers);
 
             // Merge saved entities
-            IEntityManagerSyncInterceptor interceptor = GetSyncInterceptor();
-            IEnumerable<object> mergers = syncData.SavedEntities.Where(interceptor.ShouldImportEntity);
+            var interceptor = GetSyncInterceptor();
+            var mergers = syncData.SavedEntities.Where(interceptor.ShouldImportEntity);
             Manager.ImportEntities(mergers, MergeStrategy.PreserveChangesUpdateOriginal);
 
             // Signal to our clients that data has changed
@@ -139,7 +146,7 @@ namespace Cocktail
                 throw new InvalidOperationException(StringResources.TheFakeStoreHasNotBeenInitialized);
 
             // Create a separate isolated EntityManager
-            T manager = CreateEntityManager();
+            var manager = CreateEntityManager();
             manager.AuthenticationContext = AnonymousAuthenticationContext.Instance;
 
             if (_storeEcs == null)
@@ -156,7 +163,7 @@ namespace Cocktail
                 throw new InvalidOperationException(StringResources.TheFakeStoreHasNotBeenInitialized);
 
             // Create a separate isolated EntityManager
-            T manager = CreateEntityManager();
+            var manager = CreateEntityManager();
             manager.AuthenticationContext = AnonymousAuthenticationContext.Instance;
 
             if (_storeEcs == null)
@@ -175,7 +182,7 @@ namespace Cocktail
             Composition.BuildUp(this);
             EventFns.Subscribe(this);
             DiscoverAndHoldEntityManagerDelegates();
-            T manager = CreateEntityManager();
+            var manager = CreateEntityManager();
 
             if (ConnectionOptions.IsDesignTime)
             {
@@ -246,7 +253,7 @@ namespace Cocktail
 
         private IEntityManagerSyncInterceptor GetSyncInterceptor()
         {
-            IEntityManagerSyncInterceptor syncInterceptor = _syncInterceptorLocator.GetPart();
+            var syncInterceptor = _syncInterceptorLocator.GetPart();
 
             // If custom implementation, set EntityManager property
             if (syncInterceptor is EntityManagerSyncInterceptor)
@@ -261,8 +268,8 @@ namespace Cocktail
             {
                 if (!e.HasError)
                 {
-                    IEntityManagerSyncInterceptor interceptor = GetSyncInterceptor();
-                    List<object> exportEntities =
+                    var interceptor = GetSyncInterceptor();
+                    var exportEntities =
                         e.Entities.Where(
                             entity =>
                             interceptor.ShouldExportEntity(entity) &&
@@ -303,8 +310,8 @@ namespace Cocktail
                     return;
                 }
 
-                IEntityManagerSyncInterceptor interceptor = GetSyncInterceptor();
-                IEnumerable<object> syncEntities =
+                var interceptor = GetSyncInterceptor();
+                var syncEntities =
                     e.Entities.Where(interceptor.ShouldExportEntity);
                 RetainDeletedEntityKeys(syncEntities);
             }
@@ -319,12 +326,12 @@ namespace Cocktail
         {
             var allValidationErrors = new VerifierResultCollection();
 
-            foreach (object entity in args.Entities)
+            foreach (var entity in args.Entities)
             {
-                EntityAspect entityAspect = EntityAspect.Wrap(entity);
+                var entityAspect = EntityAspect.Wrap(entity);
                 if (entityAspect.EntityState.IsDeletedOrDetached()) continue;
 
-                VerifierResultCollection validationErrors = Manager.VerifierEngine.Execute(entity);
+                var validationErrors = Manager.VerifierEngine.Execute(entity);
                 foreach (var d in _entityManagerDelegates ?? new EntityManagerDelegate<T>[0])
                     d.Validate(entity, validationErrors);
                 // Extract only validation errors
@@ -355,7 +362,7 @@ namespace Cocktail
 
         private void RaiseDataChangedEvent(IEnumerable<object> savedEntities, IEnumerable<EntityKey> deletedEntityKeys)
         {
-            List<EntityKey> entityKeys =
+            var entityKeys =
                 savedEntities.Select(e => EntityAspect.Wrap(e).EntityKey).Concat(deletedEntityKeys).ToList();
 
             if (!entityKeys.Any()) return;
@@ -370,7 +377,7 @@ namespace Cocktail
 
         private void DiscoverAndHoldEntityManagerDelegates()
         {
-            IEnumerable i = CompositionContext.GetExportedInstances(typeof (EntityManagerDelegate));
+            var i = CompositionContext.GetExportedInstances(typeof(EntityManagerDelegate));
             if (i != null)
                 _entityManagerDelegates = i.OfType<EntityManagerDelegate<T>>().ToList();
 
@@ -391,7 +398,7 @@ namespace Cocktail
             {
                 if (_validationErrorNotifiers != null) return _validationErrorNotifiers;
 
-                IEnumerable i = CompositionContext.GetExportedInstances(typeof (IValidationErrorNotification));
+                var i = CompositionContext.GetExportedInstances(typeof(IValidationErrorNotification));
                 if (i != null)
                     _validationErrorNotifiers = i.Cast<IValidationErrorNotification>().ToList();
 

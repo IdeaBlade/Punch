@@ -47,17 +47,16 @@ namespace DomainServices.Factories
                                                              Action<StaffingResource> onSuccess = null,
                                                              Action<Exception> onFail = null)
         {
-            return
-                Coroutine.Start(() => CreateAsyncCore(firstName, middleName, lastName),
-                                op => op.OnComplete(onSuccess, onFail))
-                    .AsOperationResult<StaffingResource>();
+            return Coroutine.Start(() => CreateAsyncCore(firstName, middleName, lastName),
+                                   op => op.OnComplete(onSuccess, onFail))
+                .AsOperationResult<StaffingResource>();
         }
 
         #endregion
 
         private IEnumerable<INotifyCompleted> CreateAsyncCore(string firstName, string middleName, string lastName)
         {
-            StaffingResource staffingResource = StaffingResource.Create();
+            var staffingResource = StaffingResource.Create();
             staffingResource.FirstName = firstName;
             staffingResource.MiddleName = middleName;
             staffingResource.LastName = lastName;
@@ -66,14 +65,14 @@ namespace DomainServices.Factories
             OperationResult<IEnumerable<AddressType>> op1;
             yield return
                 op1 = _addressTypes.FindAsync(PredicateBuilder.Make("Default", FilterOperator.IsEqualTo, true));
-            AddressType addressType = op1.Result.First();
+            var addressType = op1.Result.First();
             staffingResource.AddAddress(addressType);
             staffingResource.PrimaryAddress = staffingResource.Addresses.First();
 
             OperationResult<IEnumerable<PhoneNumberType>> op2;
             yield return
                 op2 = _phoneNumberTypes.FindAsync(PredicateBuilder.Make("Default", FilterOperator.IsEqualTo, true));
-            PhoneNumberType phoneType = op2.Result.First();
+            var phoneType = op2.Result.First();
             staffingResource.AddPhoneNumber(phoneType);
             staffingResource.PrimaryPhoneNumber = staffingResource.PhoneNumbers.First();
 

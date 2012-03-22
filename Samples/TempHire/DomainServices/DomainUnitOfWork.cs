@@ -19,7 +19,7 @@ using DomainServices.Repositories;
 
 namespace DomainServices
 {
-    [Export(typeof (IDomainUnitOfWork)), PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export(typeof(IDomainUnitOfWork)), PartCreationPolicy(CreationPolicy.NonShared)]
     public class DomainUnitOfWork : UnitOfWork, IDomainUnitOfWork
     {
         [ImportingConstructor]

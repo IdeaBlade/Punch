@@ -11,7 +11,6 @@
 // ====================================================================================================================
 
 using System;
-using System.Collections.Generic;
 using Cocktail;
 using Cocktail.Contrib.UnitOfWork;
 using IdeaBlade.Core;
@@ -38,20 +37,20 @@ namespace DomainServices.Repositories
 
         internal void OnManagerCreated(object sender, EntityManagerCreatedEventArgs e)
         {
-            IEnumerable<T> entites = _preLoader.EntityManager.FindEntities<T>(EntityState.Unchanged);
+            var entites = _preLoader.EntityManager.FindEntities<T>(EntityState.Unchanged);
             e.EntityManager.ImportEntities(entites, MergeStrategy.OverwriteChanges);
         }
 
         protected override IEntityQuery<T> GetFindQuery(IPredicateDescription predicate, ISortSelector sortSelector,
                                                         string includeProperties)
         {
-            IEntityQuery<T> query = base.GetFindQuery(predicate, sortSelector, includeProperties);
+            var query = base.GetFindQuery(predicate, sortSelector, includeProperties);
             return IsPreLoaded ? query.With(QueryStrategy.CacheOnly) : query;
         }
 
         protected override IEntityQuery GetKeyQuery(params object[] keyValues)
         {
-            IEntityQuery query = base.GetKeyQuery(keyValues);
+            var query = base.GetKeyQuery(keyValues);
             return IsPreLoaded ? query.With(QueryStrategy.CacheOnly) : query;
         }
     }

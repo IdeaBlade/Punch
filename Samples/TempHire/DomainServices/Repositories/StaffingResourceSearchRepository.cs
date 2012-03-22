@@ -22,7 +22,7 @@ using IdeaBlade.Linq;
 
 namespace DomainServices.Repositories
 {
-    [Export(typeof (IStaffingResourceSearchRepository)), PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export(typeof(IStaffingResourceSearchRepository)), PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceSearchRepository : IStaffingResourceSearchRepository
     {
         private readonly IEntityManagerProvider<TempHireEntities> _entityManagerProvider;
@@ -67,7 +67,7 @@ namespace DomainServices.Repositories
                                                         resource.PhoneNumbers.FirstOrDefault(p => p.Primary).Number.
                                                             Contains(searchText));
 
-            IEntityQuery<StaffingResourceListItem> query =
+            var query =
                 baseQuery.Select(resource => new StaffingResourceListItem
                                                  {
                                                      Id = resource.Id,

@@ -17,13 +17,14 @@ using Cocktail;
 namespace DomainServices
 {
     /// <summary>
-    /// Used to share instances of the DomainUnitOfWork among composed view models.
+    ///   Used to share instances of the DomainUnitOfWork among composed view models.
     /// </summary>
-    [Export(typeof (IDomainUnitOfWorkManager<IDomainUnitOfWork>))]
+    [Export(typeof(IDomainUnitOfWorkManager<IDomainUnitOfWork>))]
     [PartCreationPolicy(CreationPolicy.Shared)]
-    public class DomainUnitOfWorkManager : ObjectManager<Guid, IDomainUnitOfWork>, IDomainUnitOfWorkManager<IDomainUnitOfWork>
+    public class DomainUnitOfWorkManager : ObjectManager<Guid, IDomainUnitOfWork>,
+                                           IDomainUnitOfWorkManager<IDomainUnitOfWork>
     {
-        #region IDomainUnitOfWorkManager<T> Members
+        #region IDomainUnitOfWorkManager<IDomainUnitOfWork> Members
 
         public IDomainUnitOfWork Get(Guid key)
         {

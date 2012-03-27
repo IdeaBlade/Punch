@@ -1,14 +1,14 @@
-//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
 using System;
 using System.Collections.Generic;
@@ -20,11 +20,10 @@ using Cocktail;
 using Common.Errors;
 using Common.Factories;
 using DomainServices;
-using DomainServices.SampleData;
 using IdeaBlade.Core;
 
 #if HARNESS
-
+using DomainServices.SampleData;
 #endif
 
 namespace TempHire.ViewModels.StaffingResource
@@ -93,7 +92,7 @@ namespace TempHire.ViewModels.StaffingResource
         public void Setup()
         {
 #if HARNESS
-            //Start("John", "M.", "Doe");
+    //Start("John", "M.", "Doe");
             Start(TempHireSampleDataProvider.CreateGuid(1));
 #endif
         }
@@ -140,10 +139,10 @@ namespace TempHire.ViewModels.StaffingResource
             _unitOfWork = _unitOfWorkManager.Create();
             _unitOfWork.StaffingResourceFactory.CreateAsync(firstName, middleName, lastName,
                                                             resource =>
-                                                                {
-                                                                    _unitOfWorkManager.Add(resource.Id, _unitOfWork);
-                                                                    Start(resource.Id);
-                                                                },
+                                                            {
+                                                                _unitOfWorkManager.Add(resource.Id, _unitOfWork);
+                                                                Start(resource.Id);
+                                                            },
                                                             _errorHandler.HandleError)
                 .OnComplete(args => Busy.RemoveWatch());
 
@@ -153,13 +152,13 @@ namespace TempHire.ViewModels.StaffingResource
         protected override void OnActivate()
         {
             base.OnActivate();
-            ((IActivate) StaffingResourceSummary).Activate();
+            ((IActivate)StaffingResourceSummary).Activate();
         }
 
         protected override void OnDeactivate(bool close)
         {
             base.OnDeactivate(close);
-            ((IDeactivate) StaffingResourceSummary).Deactivate(close);
+            ((IDeactivate)StaffingResourceSummary).Deactivate(close);
 
             if (close)
             {
@@ -173,7 +172,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             if (UnitOfWork.HasChanges())
             {
-                DialogOperationResult<DialogResult> dialogResult =
+                var dialogResult =
                     _dialogManager.ShowMessage("There are unsaved changes. Would you like to save your changes?",
                                                DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel);
                 dialogResult.OnComplete(delegate
@@ -201,7 +200,7 @@ namespace TempHire.ViewModels.StaffingResource
         }
     }
 
-    [Export(typeof (IPartFactory<StaffingResourceDetailViewModel>))]
+    [Export(typeof(IPartFactory<StaffingResourceDetailViewModel>))]
     public class StaffingResourceDetailViewModelFactory : PartFactoryBase<StaffingResourceDetailViewModel>
     {
     }

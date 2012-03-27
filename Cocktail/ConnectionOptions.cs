@@ -144,7 +144,7 @@ namespace Cocktail
         public bool IsDesignTime { get; private set; }
 
         /// <summary>
-        /// Returns the <see cref="CompositionContext"/> used for this connection.
+        /// Returns the <see cref="IdeaBlade.Core.Composition.CompositionContext"/> used for this connection.
         /// </summary>
         public CompositionContext CompositionContext
         {

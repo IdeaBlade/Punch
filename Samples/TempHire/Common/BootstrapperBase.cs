@@ -1,14 +1,14 @@
-﻿//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+﻿// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -47,7 +47,6 @@ namespace Common
 
         #endregion
 
-
 #if SILVERLIGHT
         protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
@@ -71,7 +70,7 @@ namespace Common
         // Use InterceptingCatalog from MefContrib to centrally handle EventAggregator subscriptions.
         protected override ComposablePartCatalog PrepareCompositionCatalog()
         {
-            InterceptionConfiguration cfg = new InterceptionConfiguration().AddInterceptor(this);
+            var cfg = new InterceptionConfiguration().AddInterceptor(this);
             return new InterceptingCatalog(Composition.Catalog, cfg);
         }
 
@@ -79,8 +78,9 @@ namespace Common
         {
             if (instance is IHandle)
             {
-                LogFns.DebugWriteLine(string.Format("Automatically subscribing instance of {0} to EventAggregator.", instance.GetType().Name));
-                EventFns.Subscribe(instance);                
+                LogFns.DebugWriteLine(string.Format("Automatically subscribing instance of {0} to EventAggregator.",
+                                                    instance.GetType().Name));
+                EventFns.Subscribe(instance);
             }
         }
     }

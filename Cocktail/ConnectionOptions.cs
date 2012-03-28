@@ -59,6 +59,7 @@ namespace Cocktail
             new ConnectionOptions("DesignTime", false, isDesignTime: true);
 
         private string _name;
+        private string _compositionContextName;
 
         /// <summary>
         /// Creates a ConnectionOptions instance with the given name and options.
@@ -79,7 +80,7 @@ namespace Cocktail
             ShouldConnect = shouldConnect;
             DataSourceExtension = dataSourceExtension;
             EntityServiceOption = entityServiceOption;
-            CompositionContextName = compositionContextName;
+            _compositionContextName = compositionContextName;
             ServiceKey = serviceKey;
             IsDesignTime = isDesignTime;
         }
@@ -90,7 +91,7 @@ namespace Cocktail
             ShouldConnect = connectionOptions.ShouldConnect;
             DataSourceExtension = connectionOptions.DataSourceExtension;
             EntityServiceOption = connectionOptions.EntityServiceOption;
-            CompositionContextName = connectionOptions.CompositionContextName;
+            _compositionContextName = connectionOptions._compositionContextName;
             ServiceKey = connectionOptions.ServiceKey;
             IsDesignTime = connectionOptions.IsDesignTime;
         }
@@ -125,11 +126,6 @@ namespace Cocktail
         public EntityServiceOption EntityServiceOption { get; private set; }
 
         /// <summary>
-        /// The name of the <see cref="CompositionContext"/> used to resolve dependencies and extensions.
-        /// </summary>
-        public string CompositionContextName { get; private set; }
-
-        /// <summary>
         /// Names the key providing the address of the application server with which the EntityManager will communicate.
         /// </summary>
         public string ServiceKey { get; private set; }
@@ -139,7 +135,7 @@ namespace Cocktail
         /// </summary>
         public bool IsFake
         {
-            get { return CompositionContext.GetByName(CompositionContextName).IsFake; }
+            get { return CompositionContext.IsFake; }
         }
 
         /// <summary>
@@ -148,11 +144,11 @@ namespace Cocktail
         public bool IsDesignTime { get; private set; }
 
         /// <summary>
-        /// Returns the <see cref="CompositionContext"/> used for this connection.
+        /// Returns the <see cref="IdeaBlade.Core.Composition.CompositionContext"/> used for this connection.
         /// </summary>
         public CompositionContext CompositionContext
         {
-            get { return CompositionContext.GetByName(CompositionContextName); }
+            get { return CompositionContext.GetByName(_compositionContextName); }
         }
 
         /// <summary>
@@ -160,7 +156,7 @@ namespace Cocktail
         /// </summary>
         public LoginOptions ToLoginOptions()
         {
-            return new LoginOptions(DataSourceExtension, CompositionContextName, EntityServiceOption,
+            return new LoginOptions(DataSourceExtension, _compositionContextName, EntityServiceOption,
                                     ServiceKey);
         }
 
@@ -171,7 +167,7 @@ namespace Cocktail
         public EntityManagerContext ToEntityManagerContext(EntityManagerOptions entityManagerOptions = null)
         {
             return new EntityManagerContext(ShouldConnect, DataSourceExtension, EntityServiceOption,
-                                            CompositionContextName, entityManagerOptions, ServiceKey);
+                                            _compositionContextName, entityManagerOptions, ServiceKey);
         }
 
         /// <summary>
@@ -193,7 +189,7 @@ namespace Cocktail
         public ConnectionOptions WithCompositionContext(string compositionContextName)
         {
             if (compositionContextName == null) throw new ArgumentNullException("compositionContextName");
-            return new ConnectionOptions(this) {CompositionContextName = compositionContextName};
+            return new ConnectionOptions(this) { _compositionContextName = compositionContextName };
         }
 
         /// <summary>

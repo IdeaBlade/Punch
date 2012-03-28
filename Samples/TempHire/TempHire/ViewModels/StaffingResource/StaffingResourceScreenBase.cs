@@ -14,33 +14,33 @@ using System;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
-using Common.Repositories;
+using DomainServices;
 
 #if HARNESS
-using Common.SampleData;
+using DomainServices.SampleData;
 #endif
 
 namespace TempHire.ViewModels.StaffingResource
 {
     public abstract class StaffingResourceScreenBase : Screen, IDiscoverableViewModel, IHarnessAware
     {
-        private IStaffingResourceRepository _repository;
         private DomainModel.StaffingResource _staffingResource;
         private Guid _staffingResourceId;
+        private IDomainUnitOfWork _unitOfWork;
 
-        protected StaffingResourceScreenBase(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                     IErrorHandler errorHandler)
+        protected StaffingResourceScreenBase(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
+                                             IErrorHandler errorHandler)
         {
-            RepositoryManager = repositoryManager;
+            DomainUnitOfWorkManager = unitOfWorkManager;
             ErrorHandler = errorHandler;
         }
 
-        public IRepositoryManager<IStaffingResourceRepository> RepositoryManager { get; private set; }
+        public IDomainUnitOfWorkManager<IDomainUnitOfWork> DomainUnitOfWorkManager { get; private set; }
         public IErrorHandler ErrorHandler { get; private set; }
 
-        protected IStaffingResourceRepository Repository
+        protected IDomainUnitOfWork UnitOfWork
         {
-            get { return _repository ?? (_repository = RepositoryManager.GetRepository(_staffingResourceId)); }
+            get { return _unitOfWork ?? (_unitOfWork = DomainUnitOfWorkManager.Get(_staffingResourceId)); }
         }
 
         public virtual DomainModel.StaffingResource StaffingResource
@@ -66,9 +66,10 @@ namespace TempHire.ViewModels.StaffingResource
 
         public virtual StaffingResourceScreenBase Start(Guid staffingResourceId)
         {
-            _repository = null;
+            _unitOfWork = null;
             _staffingResourceId = staffingResourceId;
-            Repository.GetStaffingResourceAsync(staffingResourceId, result => StaffingResource = result, ErrorHandler.HandleError);
+            UnitOfWork.StaffingResources.WithIdAsync(staffingResourceId, result => StaffingResource = result,
+                                                     ErrorHandler.HandleError);
             return this;
         }
 
@@ -79,7 +80,7 @@ namespace TempHire.ViewModels.StaffingResource
             if (close)
             {
                 StaffingResource = null;
-                _repository = null;
+                _unitOfWork = null;
             }
         }
     }

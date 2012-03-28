@@ -18,18 +18,20 @@ using System.Linq;
 using Caliburn.Micro;
 using Common.Errors;
 using Common.Messages;
-using Common.Repositories;
 using DomainModel;
+using DomainServices;
 
 namespace TempHire.ViewModels.StaffingResource
 {
-    [Export(typeof(IStaffingResourceDetailSection)), PartCreationPolicy(CreationPolicy.NonShared)]
-    public class StaffingResourceWorkExperienceViewModel : StaffingResourceScreenBase, IStaffingResourceDetailSection, IHandle<SavedMessage>
+    [Export(typeof (IStaffingResourceDetailSection)), PartCreationPolicy(CreationPolicy.NonShared)]
+    public class StaffingResourceWorkExperienceViewModel : StaffingResourceScreenBase, IStaffingResourceDetailSection,
+                                                           IHandle<SavedMessage>
     {
         [ImportingConstructor]
-        public StaffingResourceWorkExperienceViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                               IErrorHandler errorHandler)
-            : base(repositoryManager, errorHandler)
+        public StaffingResourceWorkExperienceViewModel(
+            IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
+            IErrorHandler errorHandler)
+            : base(unitOfWorkManager, errorHandler)
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DisplayName = "Work Experience";

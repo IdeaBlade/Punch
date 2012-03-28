@@ -20,9 +20,9 @@ using IdeaBlade.EntityModel;
 namespace Cocktail
 {
     /// <summary>
-    /// Implements the core functionality of an EntityManagerProvider.
-    /// <typeparam name="T">The type of the EntityManager</typeparam>
+    ///   Implements the core functionality of an EntityManagerProvider.
     /// </summary>
+    /// <typeparam name="T"> The type of the EntityManager </typeparam>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class EntityManagerProviderCore<T> : IEntityManagerProvider<T>, ICloneable
@@ -33,7 +33,7 @@ namespace Cocktail
         #region ICloneable Members
 
         /// <summary>
-        /// Creates a copy of the current EntityManagerProvider.
+        ///   Creates a copy of the current EntityManagerProvider.
         /// </summary>
         public virtual object Clone()
         {
@@ -54,14 +54,16 @@ namespace Cocktail
         #region IEntityManagerProvider<T> Members
 
         /// <summary>
-        /// Specifies the ConnectionOptions used by the current EntityManagerProvider.
+        ///   Specifies the ConnectionOptions used by the current EntityManagerProvider.
         /// </summary>
         public ConnectionOptions ConnectionOptions
         {
             get { return ConnectionOptions.GetByName(_connectionOptionsName); }
         }
 
-        /// <summary>Returns the EntityManager managed by this provider.</summary>
+        /// <summary>
+        ///   Returns the EntityManager managed by this provider.
+        /// </summary>
         public abstract T Manager { get; }
 
         EntityManager IEntityManagerProvider.Manager
@@ -70,12 +72,12 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Event fired after the EntityManager got created.
+        ///   Event fired after the EntityManager got created.
         /// </summary>
         public event EventHandler<EntityManagerCreatedEventArgs> ManagerCreated = delegate { };
 
         /// <summary>
-        /// Returns true if any entities in the EntityManager cache have validation errors.
+        ///   Returns true if any entities in the EntityManager cache have validation errors.
         /// </summary>
         public bool HasValidationError
         {
@@ -88,25 +90,23 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Returns true if a save is in progress. A <see cref="InvalidOperationException"/> is thrown 
-        /// if EntityManager.SaveChangesAsync is called while a previous SaveChangesAsync is still in progress.
+        ///   Returns true if a save is in progress. A <see cref="InvalidOperationException" /> is thrown if EntityManager.SaveChangesAsync is called while a previous SaveChangesAsync is still in progress.
         /// </summary>
         public abstract bool IsSaving { get; }
 
         /// <summary>
-        /// Signals that a Save of at least one entity has been performed
-        /// or changed entities have been imported from another entity manager.
-        /// Clients may use this event to force a data refresh. 
+        ///   Signals that a Save of at least one entity has been performed or changed entities have been imported from another entity manager. Clients may use this event to force a data refresh.
         /// </summary>
         public event EventHandler<DataChangedEventArgs> DataChanged;
 
         #endregion
 
         /// <summary>
-        /// Creates a new EntityManagerProvider from the current EntityManagerProvider and assigns the specified <see cref="ConnectionOptions"/> name.
+        ///   Creates a new EntityManagerProvider from the current EntityManagerProvider and assigns the specified <see
+        ///    cref="ConnectionOptions" /> name.
         /// </summary>
-        /// <param name="connectionOptionsName">The ConnectionOptions name to be assigned.</param>
-        /// <returns>A new EntityManagerProvider instance.</returns>
+        /// <param name="connectionOptionsName"> The ConnectionOptions name to be assigned. </param>
+        /// <returns> A new EntityManagerProvider instance. </returns>
         protected EntityManagerProviderCore<T> With(string connectionOptionsName)
         {
             var newInstance = (EntityManagerProviderCore<T>) ((ICloneable) this).Clone();
@@ -115,7 +115,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Triggers the ManagerCreated event.
+        ///   Triggers the ManagerCreated event.
         /// </summary>
         protected virtual void OnManagerCreated()
         {
@@ -123,15 +123,14 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Creates a new EntityManager instance.
+        ///   Creates a new EntityManager instance.
         /// </summary>
-        /// <returns>T</returns>
         protected virtual T CreateEntityManager()
         {
             try
             {
-                ConnectionOptions connectionOptions = ConnectionOptions;
-                var manager = (T) Activator.CreateInstance(typeof (T), connectionOptions.ToEntityManagerContext());
+                var connectionOptions = ConnectionOptions;
+                var manager = (T) Activator.CreateInstance(typeof(T), connectionOptions.ToEntityManagerContext());
                 DebugFns.WriteLine(string.Format(StringResources.SuccessfullyCreatedEntityManager,
                                                  manager.GetType().FullName, connectionOptions.Name,
                                                  connectionOptions.IsFake));
@@ -140,14 +139,14 @@ namespace Cocktail
             catch (MissingMethodException)
             {
                 throw new MissingMethodException(string.Format(StringResources.MissingEntityManagerConstructor,
-                                                               typeof (T).Name));
+                                                               typeof(T).Name));
             }
         }
 
         /// <summary>
-        /// Triggers the DataChanged event.
+        ///   Triggers the DataChanged event.
         /// </summary>
-        /// <param name="entityKeys">The list of keys for the changed entities</param>
+        /// <param name="entityKeys"> The list of keys for the changed entities </param>
         protected void OnDataChanged(IEnumerable<EntityKey> entityKeys)
         {
             if (DataChanged != null)

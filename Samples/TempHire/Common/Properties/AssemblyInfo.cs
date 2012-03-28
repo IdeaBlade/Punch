@@ -13,9 +13,9 @@ using System.Windows.Markup;
 #endif
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("IdeaBlade")]
 [assembly: AssemblyProduct("TempHire")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
+[assembly: AssemblyCopyright("Copyright © 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,8 +33,6 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Errors")]
 [assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Factories")]
 [assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Messages")]
-[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Repositories")]
-[assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.SampleData")]
 [assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Security")]
 [assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Toolbar")]
 [assembly: XmlnsDefinition("http://temphire.ideablade.com/common", "Common.Validation")]

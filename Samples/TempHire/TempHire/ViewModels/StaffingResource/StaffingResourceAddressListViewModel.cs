@@ -19,9 +19,10 @@ using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Factories;
-using Common.Repositories;
 using DomainModel;
+using DomainServices;
 using IdeaBlade.Core;
+using IdeaBlade.Linq;
 
 namespace TempHire.ViewModels.StaffingResource
 {
@@ -30,17 +31,18 @@ namespace TempHire.ViewModels.StaffingResource
     {
         private readonly IPartFactory<AddressTypeSelectorViewModel> _addressTypeSelectorFactory;
         private readonly IDialogManager _dialogManager;
-        private readonly IRepositoryManager<IStaffingResourceRepository> _repositoryManager;
+        private readonly IDomainUnitOfWorkManager<IDomainUnitOfWork> _unitOfWorkManager;
         private BindableCollection<StaffingResourceAddressItemViewModel> _addresses;
         private BindableCollection<State> _states;
 
         [ImportingConstructor]
-        public StaffingResourceAddressListViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                            IPartFactory<AddressTypeSelectorViewModel> addressTypeSelectorFactory,
-                                            IErrorHandler errorHandler, IDialogManager dialogManager)
-            : base(repositoryManager, errorHandler)
+        public StaffingResourceAddressListViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
+                                                    IPartFactory<AddressTypeSelectorViewModel>
+                                                        addressTypeSelectorFactory,
+                                                    IErrorHandler errorHandler, IDialogManager dialogManager)
+            : base(unitOfWorkManager, errorHandler)
         {
-            _repositoryManager = repositoryManager;
+            _unitOfWorkManager = unitOfWorkManager;
             _addressTypeSelectorFactory = addressTypeSelectorFactory;
             _dialogManager = dialogManager;
         }
@@ -97,13 +99,15 @@ namespace TempHire.ViewModels.StaffingResource
         private IEnumerable<IResult> StartCore(Guid staffingResourceId)
         {
             // Load the list of states once first, before we continue with starting the ViewModel
-            // This is to ensure that the combobox binding doesn't goof up if the ItemSource is empty
+            // This is to ensure that the ComboBox binding doesn't goof up if the ItemSource is empty
             // The list of states is preloaded into each EntityManager cache, so this should be fast
             if (States == null)
             {
-                IStaffingResourceRepository repository = _repositoryManager.GetRepository(staffingResourceId);
-                yield return repository.GetStatesAsync(result => States = new BindableCollection<State>(result),
-                                                       ErrorHandler.HandleError);
+                IDomainUnitOfWork unitOfWork = _unitOfWorkManager.Get(staffingResourceId);
+                var orderBySelector = new SortSelector("Name");
+                yield return unitOfWork.States.FindAsync(
+                    null, orderBySelector, null, result => States = new BindableCollection<State>(result),
+                    ErrorHandler.HandleError);
             }
 
             base.Start(staffingResourceId);
@@ -136,7 +140,7 @@ namespace TempHire.ViewModels.StaffingResource
         public IEnumerable<IResult> Add()
         {
             AddressTypeSelectorViewModel addressTypeSelector = _addressTypeSelectorFactory.CreatePart();
-            yield return _dialogManager.ShowDialog(addressTypeSelector.Start(StaffingResource.Id), DialogButtons.OkCancel);
+            yield return _dialogManager.ShowDialog(addressTypeSelector.Start(UnitOfWork), DialogButtons.OkCancel);
 
             StaffingResource.AddAddress(addressTypeSelector.SelectedAddressType);
 

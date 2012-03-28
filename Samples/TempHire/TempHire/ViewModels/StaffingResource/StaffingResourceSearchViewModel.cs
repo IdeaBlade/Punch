@@ -18,8 +18,8 @@ using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Messages;
-using Common.Repositories;
 using DomainModel.Projections;
+using DomainServices.Repositories;
 using IdeaBlade.EntityModel;
 
 namespace TempHire.ViewModels.StaffingResource
@@ -28,14 +28,14 @@ namespace TempHire.ViewModels.StaffingResource
     public class StaffingResourceSearchViewModel : Screen, IDiscoverableViewModel, IHarnessAware, IHandle<SavedMessage>
     {
         private readonly IErrorHandler _errorHandler;
-        private readonly IStaffingResourceRepository _repository;
+        private readonly IStaffingResourceSearchRepository _repository;
         private StaffingResourceListItem _currentStaffingResource;
         private BindableCollection<StaffingResourceListItem> _items;
 
         private string _searchText;
 
         [ImportingConstructor]
-        public StaffingResourceSearchViewModel(IStaffingResourceRepository repository, IErrorHandler errorHandler)
+        public StaffingResourceSearchViewModel(IStaffingResourceSearchRepository repository, IErrorHandler errorHandler)
         {
             _repository = repository;
             _errorHandler = errorHandler;

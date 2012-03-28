@@ -10,14 +10,14 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Common.Errors;
 using Common.Factories;
-using Common.Repositories;
 using DomainModel;
+using DomainServices;
+using IdeaBlade.Linq;
 
 namespace TempHire.ViewModels.StaffingResource
 {
@@ -25,23 +25,13 @@ namespace TempHire.ViewModels.StaffingResource
     public class AddressTypeSelectorViewModel : Screen
     {
         private readonly IErrorHandler _errorHandler;
-        private readonly IRepositoryManager<IStaffingResourceRepository> _repositoryManager;
         private BindableCollection<AddressType> _addressTypes;
-        private IStaffingResourceRepository _repository;
         private AddressType _selectedAddressType;
-        private Guid _staffingResourceId;
 
         [ImportingConstructor]
-        public AddressTypeSelectorViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                            IErrorHandler errorHandler)
+        public AddressTypeSelectorViewModel(IErrorHandler errorHandler)
         {
-            _repositoryManager = repositoryManager;
             _errorHandler = errorHandler;
-        }
-
-        private IStaffingResourceRepository Repository
-        {
-            get { return _repository ?? (_repository = _repositoryManager.GetRepository(_staffingResourceId)); }
         }
 
         public BindableCollection<AddressType> AddressTypes
@@ -65,20 +55,13 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
-        public AddressTypeSelectorViewModel Start(Guid staffingResourceId)
+        public AddressTypeSelectorViewModel Start(IDomainUnitOfWork unitOfWork)
         {
-            _staffingResourceId = staffingResourceId;
-            Repository.GetAddressTypesAsync(result => AddressTypes = new BindableCollection<AddressType>(result),
-                                            _errorHandler.HandleError);
+            var orderBySelector = new SortSelector("Name");
+            unitOfWork.AddressTypes.FindAsync(
+                null, orderBySelector, null, result => AddressTypes = new BindableCollection<AddressType>(result),
+                _errorHandler.HandleError);
             return this;
-        }
-
-        protected override void OnDeactivate(bool close)
-        {
-            base.OnDeactivate(close);
-
-            if (close)
-                _repository = null;
         }
     }
 

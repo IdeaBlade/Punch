@@ -16,7 +16,7 @@ using System.ComponentModel.Composition;
 using Cocktail;
 using DomainModel;
 
-namespace Common.SampleData
+namespace DomainServices.SampleData
 {
     [Export(typeof(ISampleDataProvider<TempHireEntities>))]
     public class TempHireSampleDataProvider : ISampleDataProvider<TempHireEntities>

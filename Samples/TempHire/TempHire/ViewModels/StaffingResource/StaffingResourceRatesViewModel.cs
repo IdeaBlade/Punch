@@ -19,22 +19,22 @@ using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Factories;
-using Common.Repositories;
 using DomainModel;
+using DomainServices;
 
 namespace TempHire.ViewModels.StaffingResource
 {
-    [Export(typeof(IStaffingResourceDetailSection)), PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export(typeof (IStaffingResourceDetailSection)), PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceRatesViewModel : StaffingResourceScreenBase, IStaffingResourceDetailSection
     {
-        private readonly IPartFactory<RateTypeSelectorViewModel> _rateTypeSelectorFactory;
         private readonly IDialogManager _dialogManager;
+        private readonly IPartFactory<RateTypeSelectorViewModel> _rateTypeSelectorFactory;
 
         [ImportingConstructor]
-        public StaffingResourceRatesViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
-                                      IPartFactory<RateTypeSelectorViewModel> rateTypeSelectorFactory,
-                                      IErrorHandler errorHandler, IDialogManager dialogManager)
-            : base(repositoryManager, errorHandler)
+        public StaffingResourceRatesViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
+                                              IPartFactory<RateTypeSelectorViewModel> rateTypeSelectorFactory,
+                                              IErrorHandler errorHandler, IDialogManager dialogManager)
+            : base(unitOfWorkManager, errorHandler)
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DisplayName = "Rates";
@@ -98,7 +98,7 @@ namespace TempHire.ViewModels.StaffingResource
         public IEnumerable<IResult> Add()
         {
             RateTypeSelectorViewModel rateTypeSelector = _rateTypeSelectorFactory.CreatePart();
-            yield return _dialogManager.ShowDialog(rateTypeSelector.Start(StaffingResource.Id), DialogButtons.OkCancel);
+            yield return _dialogManager.ShowDialog(rateTypeSelector.Start(UnitOfWork), DialogButtons.OkCancel);
 
             StaffingResource.AddRate(rateTypeSelector.SelectedRateType);
         }

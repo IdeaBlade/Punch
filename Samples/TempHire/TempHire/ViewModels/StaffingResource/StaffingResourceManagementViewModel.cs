@@ -20,10 +20,10 @@ using Cocktail;
 using Common.Errors;
 using Common.Factories;
 using Common.Messages;
-using Common.Repositories;
 using Common.Toolbar;
 using Common.Workspace;
 using DomainModel.Projections;
+using DomainServices;
 using IdeaBlade.EntityModel;
 using Action = System.Action;
 
@@ -38,9 +38,9 @@ namespace TempHire.ViewModels.StaffingResource
         private readonly IDialogManager _dialogManager;
         private readonly IErrorHandler _errorHandler;
         private readonly IPartFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
-        private readonly IRepositoryManager<IStaffingResourceRepository> _repositoryManager;
         private readonly DispatcherTimer _selectionChangeTimer;
         private readonly IToolbarManager _toolbar;
+        private readonly IDomainUnitOfWorkManager<IDomainUnitOfWork> _unitOfWorkManager;
         private IScreen _retainedActiveItem;
         private ToolbarGroup _toolbarGroup;
 
@@ -48,14 +48,14 @@ namespace TempHire.ViewModels.StaffingResource
         public StaffingResourceManagementViewModel(StaffingResourceSearchViewModel searchPane,
                                                    IPartFactory<StaffingResourceDetailViewModel> detailFactory,
                                                    IPartFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
-                                                   IRepositoryManager<IStaffingResourceRepository> repositoryManager,
+                                                   IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
                                                    IErrorHandler errorHandler, IDialogManager dialogManager,
                                                    IToolbarManager toolbar)
         {
             SearchPane = searchPane;
             _detailFactory = detailFactory;
             _nameEditorFactory = nameEditorFactory;
-            _repositoryManager = repositoryManager;
+            _unitOfWorkManager = unitOfWorkManager;
             _errorHandler = errorHandler;
             _dialogManager = dialogManager;
             _toolbar = toolbar;
@@ -77,9 +77,9 @@ namespace TempHire.ViewModels.StaffingResource
             get { return SearchPane.CurrentStaffingResource != null; }
         }
 
-        private IStaffingResourceRepository ActiveRepository
+        private IDomainUnitOfWork ActiveUnitOfWork
         {
-            get { return _repositoryManager.GetRepository(ActiveStaffingResource.Id); }
+            get { return _unitOfWorkManager.Get(ActiveStaffingResource.Id); }
         }
 
         private StaffingResourceDetailViewModel ActiveDetail
@@ -96,7 +96,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             get
             {
-                return ActiveStaffingResource != null && ActiveRepository.HasChanges() &&
+                return ActiveStaffingResource != null && ActiveUnitOfWork.HasChanges() &&
                        !ActiveStaffingResource.EntityFacts.EntityState.IsDeleted();
             }
         }
@@ -236,18 +236,20 @@ namespace TempHire.ViewModels.StaffingResource
         {
             StaffingResourceListItem staffingResource = SearchPane.CurrentStaffingResource;
 
-            yield return
-                _dialogManager.ShowMessage(
+            yield return _dialogManager.ShowMessage(
                     string.Format("Are you sure you want to delete {0}?", staffingResource.FullName),
                     DialogResult.Yes, DialogResult.No, DialogButtons.YesNo);
+
+            IDomainUnitOfWork unitOfWork = _unitOfWorkManager.Get(staffingResource.Id);
 
             OperationResult operation;
             using (ActiveDetail.Busy.GetTicket())
             {
-                IStaffingResourceRepository repository = _repositoryManager.GetRepository(staffingResource.Id);
+                yield return operation = unitOfWork.StaffingResources.WithIdAsync(
+                    staffingResource.Id, result => unitOfWork.StaffingResources.Delete(result)).ContinueOnError();
 
-                yield return (operation = repository.DeleteStaffingResourceAsync(staffingResource.Id))
-                    .ContinueOnError();
+                if (operation.CompletedSuccessfully)
+                    yield return operation = unitOfWork.CommitAsync().ContinueOnError();
             }
 
             if (operation.CompletedSuccessfully)
@@ -264,7 +266,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             OperationResult<SaveResult> saveOperation;
             using (ActiveDetail.Busy.GetTicket())
-                yield return (saveOperation = ActiveRepository.SaveAsync()).ContinueOnError();
+                yield return saveOperation = ActiveUnitOfWork.CommitAsync().ContinueOnError();
 
             if (saveOperation.HasError)
                 _errorHandler.HandleError(saveOperation.Error);
@@ -273,7 +275,7 @@ namespace TempHire.ViewModels.StaffingResource
         public void Cancel()
         {
             bool shouldClose = ActiveStaffingResource.EntityFacts.EntityState.IsAdded();
-            ActiveRepository.RejectChanges();
+            ActiveUnitOfWork.Rollback();
 
             if (shouldClose)
                 ActiveDetail.TryClose();

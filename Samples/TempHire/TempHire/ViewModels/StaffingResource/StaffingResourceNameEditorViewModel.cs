@@ -16,7 +16,7 @@ using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Factories;
-using Common.Repositories;
+using DomainServices;
 
 namespace TempHire.ViewModels.StaffingResource
 {
@@ -24,25 +24,25 @@ namespace TempHire.ViewModels.StaffingResource
     public class StaffingResourceNameEditorViewModel : Screen
     {
         private readonly IErrorHandler _errorHandler;
-        private readonly IRepositoryManager<IStaffingResourceRepository> _repositoryManager;
+        private readonly IDomainUnitOfWorkManager<IDomainUnitOfWork> _unitOfWorkManager;
         private string _firstName;
         private string _lastName;
         private string _middleName;
         private DialogButton _okButton;
-        private IStaffingResourceRepository _repository;
+        private IDomainUnitOfWork _unitOfWork;
         private Guid _staffingResourceId;
 
         [ImportingConstructor]
-        public StaffingResourceNameEditorViewModel(IRepositoryManager<IStaffingResourceRepository> repositoryManager,
+        public StaffingResourceNameEditorViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
                                                    IErrorHandler errorHandler)
         {
-            _repositoryManager = repositoryManager;
+            _unitOfWorkManager = unitOfWorkManager;
             _errorHandler = errorHandler;
         }
 
-        private IStaffingResourceRepository Repository
+        private IDomainUnitOfWork UnitOfWork
         {
-            get { return _repository ?? (_repository = _repositoryManager.GetRepository(_staffingResourceId)); }
+            get { return _unitOfWork ?? (_unitOfWork = _unitOfWorkManager.Get(_staffingResourceId)); }
         }
 
         public string FirstName
@@ -86,14 +86,14 @@ namespace TempHire.ViewModels.StaffingResource
         public StaffingResourceNameEditorViewModel Start(Guid staffingResourceId)
         {
             _staffingResourceId = staffingResourceId;
-            Repository.GetStaffingResourceAsync(_staffingResourceId,
-                                                result =>
-                                                    {
-                                                        FirstName = result.FirstName;
-                                                        MiddleName = result.MiddleName;
-                                                        LastName = result.LastName;
-                                                    },
-                                                _errorHandler.HandleError);
+            UnitOfWork.StaffingResources.WithIdAsync(_staffingResourceId,
+                                                     result =>
+                                                         {
+                                                             FirstName = result.FirstName;
+                                                             MiddleName = result.MiddleName;
+                                                             LastName = result.LastName;
+                                                         },
+                                                     _errorHandler.HandleError);
             return this;
         }
 
@@ -118,7 +118,7 @@ namespace TempHire.ViewModels.StaffingResource
             base.OnDeactivate(close);
 
             if (close)
-                _repository = null;
+                _unitOfWork = null;
         }
 
         protected override void OnInitialize()

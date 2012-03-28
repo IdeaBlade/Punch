@@ -38,6 +38,8 @@
     <IntermediateOutputPath>obj.SL\$(Configuration)</IntermediateOutputPath>
     <OutputPath>$(BaseOutputPath)\$(Configuration)</OutputPath>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
        MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
@@ -83,7 +85,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\..\..\packages\Caliburn.Micro.1.3.1\lib\sl4\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\CocktailCTP.0.5.0\lib\sl40\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Cocktail.Contrib.SL">
+      <HintPath>..\packages\CocktailContrib.1.0.0\lib\sl40\Cocktail.Contrib.SL.dll</HintPath>
+    </Reference>
+    <Reference Include="Cocktail.SL">
+      <HintPath>..\packages\CocktailCTP.0.5.0\lib\sl40\Cocktail.SL.dll</HintPath>
+    </Reference>
+    <Reference Include="Cocktail.Utils.SL">
+      <HintPath>..\packages\CocktailCTP.0.5.0\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL">
       <SpecificVersion>False</SpecificVersion>
@@ -91,6 +102,7 @@
     <Reference Include="IdeaBlade.EntityModel.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="IdeaBlade.Linq.SL" />
     <Reference Include="IdeaBlade.Validation.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -98,20 +110,13 @@
       <HintPath>..\Libs\MefContrib\MefContrib.Silverlight.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="PostSharp.SL">
-      <HintPath>$(ProgramFiles)\PostSharp 2.1\Reference Assemblies\Silverlight 3.0\PostSharp.SL.dll</HintPath>
-    </Reference>
     <Reference Include="System.ComponentModel.Composition">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="System.ComponentModel.Composition.Initialization">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Browser" />
     <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Data">
       <SpecificVersion>False</SpecificVersion>
@@ -125,8 +130,8 @@
     <Reference Include="System.Windows.Controls.Toolkit">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="System.Windows.Interactivity">
-      <HintPath>..\..\..\packages\Caliburn.Micro.1.3.1\lib\sl4\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CocktailCTP.0.5.0\lib\sl40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -205,22 +210,15 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authentication\FakeAuthenticationService.cs" />
     <Compile Include="ConnectionOptionsResolver.cs" />
-    <Compile Include="DesignTimeSupport\DesignTimeResourceRepositoryManager.cs" />
+    <Compile Include="DesignTimeSupport\DesignTimeStaffingResourceUnitOfWorkManager.cs" />
     <Compile Include="DesignTimeSupport\ViewModelLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Cocktail.Utils\Cocktail.Utils.SL.csproj">
-      <Project>{761B386E-02D2-45DE-B485-1545D50F148F}</Project>
-      <Name>Cocktail.Utils.SL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Cocktail\Cocktail.SL.csproj">
-      <Project>{7ECA6212-BDB6-4325-946E-97D9C227E468}</Project>
-      <Name>Cocktail.SL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common\Common.SL.csproj">
       <Project>{3D676816-91A4-4B53-877E-95FE5B348480}</Project>
       <Name>Common.SL</Name>
@@ -228,6 +226,10 @@
     <ProjectReference Include="..\DomainModel.SL\DomainModel.SL.csproj">
       <Project>{77A1A2B1-66E8-4141-8405-87AB13775FB8}</Project>
       <Name>DomainModel.SL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainServices\DomainServices.SL.csproj">
+      <Project>{DD374D18-BED3-42B6-8795-EFEEF3752C0C}</Project>
+      <Name>DomainServices.SL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Security.SL\Security.SL.csproj">
       <Project>{DD97F37C-E978-4483-B0BC-CFC49940B560}</Project>
@@ -351,4 +353,5 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

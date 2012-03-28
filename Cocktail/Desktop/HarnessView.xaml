@@ -11,10 +11,15 @@
 
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.2*" />
-            <ColumnDefinition Width="0.8*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ItemsControl x:Name="Names" IsEnabled="{Binding Path=Ready}">
+        <ItemsControl x:Name="Names">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Margin="0,0,5,0" Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button cal:Message.Attach="ActivateViewModel($dataContext)"
@@ -23,6 +28,21 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <ContentControl x:Name="ActiveItem" Grid.Column="1" />
+        <GridSplitter Width="5"
+                      IsTabStop="False"
+                      ShowsPreview="True" />
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="ActiveName"
+                       Margin="10"
+                       HorizontalAlignment="Stretch"
+                       FontSize="12"
+                       FontWeight="Bold"
+                       TextAlignment="Center" />
+            <ContentControl x:Name="ActiveItem" Grid.Row="1" />
+        </Grid>
     </Grid>
 </Window>

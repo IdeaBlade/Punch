@@ -37,6 +37,8 @@ namespace DomainServices.Repositories
 
         internal void OnManagerCreated(object sender, EntityManagerCreatedEventArgs e)
         {
+            if (_preLoader == null) return;
+
             var entites = _preLoader.EntityManager.FindEntities<T>(EntityState.Unchanged);
             e.EntityManager.ImportEntities(entites, MergeStrategy.OverwriteChanges);
         }

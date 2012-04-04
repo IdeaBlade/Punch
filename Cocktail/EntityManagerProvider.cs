@@ -28,8 +28,7 @@ namespace Cocktail
     /// </summary>
     /// <typeparam name="T"> The type of the EntityManager </typeparam>
     public class EntityManagerProvider<T> : EntityManagerProviderCore<T>,
-                                            IHandle<SyncDataMessage<T>>, IHandle<PrincipalChangedMessage>,
-                                            IHandle<EntityManagerEventMessage<T>>
+                                            IHandle<SyncDataMessage<T>>, IHandle<PrincipalChangedMessage>
         where T : EntityManager
     {
         private readonly PartLocator<IEntityManagerSyncInterceptor> _syncInterceptorLocator;
@@ -226,31 +225,6 @@ namespace Cocktail
             _entityManagerWrapper = null;
         }
 
-        void IHandle<EntityManagerEventMessage<T>>.Handle(EntityManagerEventMessage<T> message)
-        {
-            if (_entityManagerWrapper == null) return;
-            if (!ReferenceEquals(_entityManagerWrapper.Manager, message.EntityManager)) return;
-
-            var entityQueryingEventArgs = message.EventArgs as EntityQueryingEventArgs;
-            if (entityQueryingEventArgs != null)
-                OnQuerying(entityQueryingEventArgs);
-
-            var entitySavingEventArgs = message.EventArgs as EntitySavingEventArgs;
-            if (entitySavingEventArgs != null)
-                OnSaving(entitySavingEventArgs);
-
-            var entitySavedEventArgs = message.EventArgs as EntitySavedEventArgs;
-            if (entitySavedEventArgs != null)
-                OnSaved(entitySavedEventArgs);
-        }
-
-        private void OnQuerying(EntityQueryingEventArgs e)
-        {
-            // In design mode all queries must be forced to execute against the cache.
-            if (Execute.InDesignMode)
-                e.Query = e.Query.With(QueryStrategy.CacheOnly);
-        }
-
         private IEntityManagerSyncInterceptor GetSyncInterceptor()
         {
             var syncInterceptor = _syncInterceptorLocator.GetPart();
@@ -377,6 +351,8 @@ namespace Cocktail
 
         private void DiscoverAndHoldEntityManagerDelegates()
         {
+            if (_entityManagerDelegates != null) return;
+
             var i = CompositionContext.GetExportedInstances(typeof(EntityManagerDelegate));
             if (i != null)
                 _entityManagerDelegates = i.OfType<EntityManagerDelegate<T>>().ToList();
@@ -390,6 +366,9 @@ namespace Cocktail
                                    ? string.Format(StringResources.ProbedForEntityManagerDelegateAndFoundMatch,
                                                    _entityManagerDelegates.Count())
                                    : StringResources.ProbedForEntityManagerDelegateAndFoundNoMatch);
+
+            // Append internal delegate to the list of delegates
+            _entityManagerDelegates = _entityManagerDelegates.Concat(new InternalDelegate(this)).ToList();
         }
 
         private IEnumerable<IValidationErrorNotification> ValidationErrorNotifiers
@@ -423,6 +402,46 @@ namespace Cocktail
                        (_sampleDataProviders = Composition.GetInstances<ISampleDataProvider<T>>());
             }
             set { _sampleDataProviders = value; }
+        }
+
+        [PartNotDiscoverable]
+        private class InternalDelegate : EntityManagerDelegate<T>
+        {
+            private readonly EntityManagerProvider<T> _entityManagerProvider;
+
+            public InternalDelegate(EntityManagerProvider<T> entityManagerProvider)
+            {
+                _entityManagerProvider = entityManagerProvider;
+            }
+
+            private bool IsSameEntityManager(EntityManager manager)
+            {
+                return _entityManagerProvider._entityManagerWrapper != null &&
+                       ReferenceEquals(_entityManagerProvider._entityManagerWrapper.Manager, manager);
+            }
+
+            public override void OnQuerying(T source, EntityQueryingEventArgs args)
+            {
+                if (!IsSameEntityManager(source)) return;
+
+                // In design mode all queries must be forced to execute against the cache.
+                if (Execute.InDesignMode)
+                    args.Query = args.Query.With(QueryStrategy.CacheOnly);
+            }
+
+            public override void OnSaving(T source, EntitySavingEventArgs args)
+            {
+                if (!IsSameEntityManager(source)) return;
+
+                _entityManagerProvider.OnSaving(args);
+            }
+
+            public override void OnSaved(T source, EntitySavedEventArgs args)
+            {
+                if (!IsSameEntityManager(source)) return;
+
+                _entityManagerProvider.OnSaved(args);
+            }
         }
     }
 }

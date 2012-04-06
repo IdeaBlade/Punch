@@ -18,6 +18,10 @@ using System.Linq;
 using Caliburn.Micro;
 using IdeaBlade.EntityModel;
 
+#if !SILVERLIGHT || SILVERLIGHT5
+using System.Threading.Tasks;
+#endif
+
 namespace Cocktail
 {
     /// <summary>
@@ -29,6 +33,10 @@ namespace Cocktail
     {
         private readonly INotifyCompleted _asyncOp;
         private INotifyCompletedArgs _args;
+
+#if !SILVERLIGHT || SILVERLIGHT5
+        private TaskCompletionSource<bool> _tcs;
+#endif
 
         /// <summary>Constructs a wrapper around the provided asynchronous function.</summary>
         /// <param name="asyncOp">The asynchronous DevForce function to be wrapped.</param>
@@ -77,6 +85,33 @@ namespace Cocktail
         {
             get { return _args != null && _args.Cancelled; }
         }
+
+#if !SILVERLIGHT || SILVERLIGHT5
+        /// <summary>
+        /// Returns a Task for the current OperationResult.
+        /// </summary>
+        public Task Task
+        {
+            get
+            {
+                if (_tcs != null) return _tcs.Task;
+
+                _tcs = new TaskCompletionSource<bool>();
+                _asyncOp.WhenCompleted(
+                    args =>
+                        {
+                            if (args.Cancelled)
+                                _tcs.TrySetCanceled();
+                            else if (args.Error != null && !args.IsErrorHandled)
+                                _tcs.TrySetException(args.Error);
+                            else
+                                _tcs.TrySetResult(true);
+                        });
+
+                return _tcs.Task;
+            }
+        }
+#endif
 
         #region Implementation of IResult
 
@@ -176,6 +211,10 @@ namespace Cocktail
     /// <seealso cref="CoroutineFns"/>
     public abstract class OperationResult<T> : OperationResult
     {
+#if !SILVERLIGHT || SILVERLIGHT5
+        private TaskCompletionSource<T> _tcs;
+#endif
+
         /// <summary>Constructs a wrapper around the provided asynchronous function.</summary>
         /// <param name="asyncOp">The asynchronous DevForce function to be wrapped.</param>
         protected OperationResult(INotifyCompleted asyncOp)
@@ -187,6 +226,33 @@ namespace Cocktail
         /// The result value of the operation.
         /// </summary>
         public abstract T Result { get; }
+
+#if !SILVERLIGHT || SILVERLIGHT5
+        /// <summary>
+        /// Returns a Task&lt;T&gt; for the current OperationResult.
+        /// </summary>
+        public new Task<T> Task
+        {
+            get
+            {
+                if (_tcs != null) return _tcs.Task;
+
+                _tcs = new TaskCompletionSource<T>();
+                ((INotifyCompleted)this).WhenCompleted(
+                    args =>
+                    {
+                        if (args.Cancelled)
+                            _tcs.TrySetCanceled();
+                        else if (args.Error != null && !args.IsErrorHandled)
+                            _tcs.TrySetException(args.Error);
+                        else
+                            _tcs.TrySetResult(args.Error == null ? Result : default(T));
+                    });
+
+                return _tcs.Task;
+            }
+        }
+#endif
     }
 
     internal class CoroutineOperationResult<T> : OperationResult<T>

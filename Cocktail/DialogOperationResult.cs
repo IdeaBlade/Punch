@@ -56,15 +56,16 @@ namespace Cocktail
             if (_tcs != null) return _tcs.Task;
 
             _tcs = new TaskCompletionSource<T>();
-            Completed += (sender, args) =>
-                             {
-                                 if (args.WasCancelled)
-                                     _tcs.TrySetCanceled();
-                                 else if (args.Error != null)
-                                     _tcs.TrySetException(args.Error);
-                                 else
-                                     _tcs.TrySetResult(args.Error == null ? DialogResult : default(T));
-                             };
+            ((IResult) this).Completed +=
+                (sender, args) =>
+                    {
+                        if (args.WasCancelled)
+                            _tcs.TrySetCanceled();
+                        else if (args.Error != null)
+                            _tcs.TrySetException(args.Error);
+                        else
+                            _tcs.TrySetResult(args.Error == null ? DialogResult : default(T));
+                    };
 
             return _tcs.Task;
         }

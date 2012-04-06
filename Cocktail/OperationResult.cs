@@ -97,26 +97,16 @@ namespace Cocktail
             _tcs = new TaskCompletionSource<bool>();
             _asyncOp.WhenCompleted(
                 args =>
-                    {
-                        if (args.Cancelled)
-                            _tcs.TrySetCanceled();
-                        else if (args.Error != null && !args.IsErrorHandled)
-                            _tcs.TrySetException(args.Error);
-                        else
-                            _tcs.TrySetResult(true);
-                    });
+                {
+                    if (args.Cancelled)
+                        _tcs.TrySetCanceled();
+                    else if (args.Error != null && !args.IsErrorHandled)
+                        _tcs.TrySetException(args.Error);
+                    else
+                        _tcs.TrySetResult(true);
+                });
 
             return _tcs.Task;
-        }
-
-        /// <summary>
-        /// Converts an OperationResult to a Task.
-        /// </summary>
-        /// <param name="operation">The OperationResult to be converted.</param>
-        /// <returns>The converted Task.</returns>
-        public static implicit operator Task(OperationResult operation)
-        {
-            return operation.AsTask();
         }
 #endif
 
@@ -243,28 +233,18 @@ namespace Cocktail
             if (_tcs != null) return _tcs.Task;
 
             _tcs = new TaskCompletionSource<T>();
-            ((INotifyCompleted) this).WhenCompleted(
+            ((INotifyCompleted)this).WhenCompleted(
                 args =>
-                    {
-                        if (args.Cancelled)
-                            _tcs.TrySetCanceled();
-                        else if (args.Error != null && !args.IsErrorHandled)
-                            _tcs.TrySetException(args.Error);
-                        else
-                            _tcs.TrySetResult(args.Error == null ? Result : default(T));
-                    });
+                {
+                    if (args.Cancelled)
+                        _tcs.TrySetCanceled();
+                    else if (args.Error != null && !args.IsErrorHandled)
+                        _tcs.TrySetException(args.Error);
+                    else
+                        _tcs.TrySetResult(args.Error == null ? Result : default(T));
+                });
 
             return _tcs.Task;
-        }
-
-        /// <summary>
-        /// Converts an OperationResult&lt;T&gt; to a Task&lt;T&gt;.
-        /// </summary>
-        /// <param name="operation">The OperationResult to be converted.</param>
-        /// <returns>The converted Task.</returns>
-        public static implicit operator Task<T>(OperationResult<T> operation)
-        {
-            return operation.AsTask();
         }
 #endif
     }

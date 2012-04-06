@@ -68,16 +68,6 @@ namespace Cocktail
 
             return _tcs.Task;
         }
-
-        /// <summary>
-        /// Converts a DialogOperationResult&lt;T&gt; to a Task&lt;T&gt;.
-        /// </summary>
-        /// <param name="operation">The DialogOperationResult to be converted.</param>
-        /// <returns>The converted Task.</returns>
-        public static implicit operator Task<T>(DialogOperationResult<T> operation)
-        {
-            return operation.AsTask();
-        }
 #endif        
         
         #region IResult Members

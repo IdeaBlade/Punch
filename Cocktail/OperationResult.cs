@@ -90,26 +90,23 @@ namespace Cocktail
         /// <summary>
         /// Returns a Task for the current OperationResult.
         /// </summary>
-        public Task Task
+        public Task AsTask()
         {
-            get
-            {
-                if (_tcs != null) return _tcs.Task;
+            if (_tcs != null) return _tcs.Task;
 
-                _tcs = new TaskCompletionSource<bool>();
-                _asyncOp.WhenCompleted(
-                    args =>
-                        {
-                            if (args.Cancelled)
-                                _tcs.TrySetCanceled();
-                            else if (args.Error != null && !args.IsErrorHandled)
-                                _tcs.TrySetException(args.Error);
-                            else
-                                _tcs.TrySetResult(true);
-                        });
+            _tcs = new TaskCompletionSource<bool>();
+            _asyncOp.WhenCompleted(
+                args =>
+                    {
+                        if (args.Cancelled)
+                            _tcs.TrySetCanceled();
+                        else if (args.Error != null && !args.IsErrorHandled)
+                            _tcs.TrySetException(args.Error);
+                        else
+                            _tcs.TrySetResult(true);
+                    });
 
-                return _tcs.Task;
-            }
+            return _tcs.Task;
         }
 
         /// <summary>
@@ -119,7 +116,7 @@ namespace Cocktail
         /// <returns>The converted Task.</returns>
         public static implicit operator Task(OperationResult operation)
         {
-            return operation.Task;
+            return operation.AsTask();
         }
 #endif
 
@@ -241,15 +238,13 @@ namespace Cocktail
         /// <summary>
         /// Returns a Task&lt;T&gt; for the current OperationResult.
         /// </summary>
-        public new Task<T> Task
+        public new Task<T> AsTask()
         {
-            get
-            {
-                if (_tcs != null) return _tcs.Task;
+            if (_tcs != null) return _tcs.Task;
 
-                _tcs = new TaskCompletionSource<T>();
-                ((INotifyCompleted)this).WhenCompleted(
-                    args =>
+            _tcs = new TaskCompletionSource<T>();
+            ((INotifyCompleted) this).WhenCompleted(
+                args =>
                     {
                         if (args.Cancelled)
                             _tcs.TrySetCanceled();
@@ -259,8 +254,7 @@ namespace Cocktail
                             _tcs.TrySetResult(args.Error == null ? Result : default(T));
                     });
 
-                return _tcs.Task;
-            }
+            return _tcs.Task;
         }
 
         /// <summary>
@@ -270,7 +264,7 @@ namespace Cocktail
         /// <returns>The converted Task.</returns>
         public static implicit operator Task<T>(OperationResult<T> operation)
         {
-            return operation.Task;
+            return operation.AsTask();
         }
 
         /// <summary>
@@ -280,7 +274,7 @@ namespace Cocktail
         /// <returns>The converted Task.</returns>
         public static implicit operator Task(OperationResult<T> operation)
         {
-            return operation.Task;
+            return operation.AsTask();
         }
 #endif
     }

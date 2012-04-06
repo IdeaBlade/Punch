@@ -14,6 +14,10 @@ using System;
 using System.ComponentModel;
 using Caliburn.Micro;
 
+#if !SILVERLIGHT || SILVERLIGHT5
+using System.Threading.Tasks;
+#endif
+
 namespace Cocktail
 {
     /// <summary>
@@ -22,6 +26,9 @@ namespace Cocktail
     public abstract class DialogOperationResult<T> : IResult
     {
         private ResultCompletionEventArgs _completionEventArgs;
+#if !SILVERLIGHT || SILVERLIGHT5
+        private TaskCompletionSource<T> _tcs;
+#endif
 
         /// <summary>
         /// Initializes and new instance of DialogOperationResult.
@@ -40,6 +47,39 @@ namespace Cocktail
         /// <value>Cancelled is set to true, if the user clicked the designated cancel button in response to the dialog or message box.</value>
         public abstract bool Cancelled { get; }
 
+#if !SILVERLIGHT || SILVERLIGHT5
+        /// <summary>
+        /// Returns a Task&lt;T&gt; for the current DialogOperationResult.
+        /// </summary>
+        public Task<T> AsTask()
+        {
+            if (_tcs != null) return _tcs.Task;
+
+            _tcs = new TaskCompletionSource<T>();
+            Completed += (sender, args) =>
+                             {
+                                 if (args.WasCancelled)
+                                     _tcs.TrySetCanceled();
+                                 else if (args.Error != null)
+                                     _tcs.TrySetException(args.Error);
+                                 else
+                                     _tcs.TrySetResult(args.Error == null ? DialogResult : default(T));
+                             };
+
+            return _tcs.Task;
+        }
+
+        /// <summary>
+        /// Converts a DialogOperationResult&lt;T&gt; to a Task&lt;T&gt;.
+        /// </summary>
+        /// <param name="operation">The DialogOperationResult to be converted.</param>
+        /// <returns>The converted Task.</returns>
+        public static implicit operator Task<T>(DialogOperationResult<T> operation)
+        {
+            return operation.AsTask();
+        }
+#endif        
+        
         #region IResult Members
 
         void IResult.Execute(ActionExecutionContext context)

@@ -266,16 +266,6 @@ namespace Cocktail
         {
             return operation.AsTask();
         }
-
-        /// <summary>
-        /// Converts an OperationResult&lt;T&gt; to a Task.
-        /// </summary>
-        /// <param name="operation">The OperationResult to be converted.</param>
-        /// <returns>The converted Task.</returns>
-        public static implicit operator Task(OperationResult<T> operation)
-        {
-            return operation.AsTask();
-        }
 #endif
     }
 

@@ -101,7 +101,10 @@ namespace Cocktail
                     if (args.Cancelled)
                         _tcs.TrySetCanceled();
                     else if (args.Error != null && !args.IsErrorHandled)
+                    {
                         _tcs.TrySetException(args.Error);
+                        args.IsErrorHandled = true;
+                    }
                     else
                         _tcs.TrySetResult(true);
                 });
@@ -239,7 +242,10 @@ namespace Cocktail
                     if (args.Cancelled)
                         _tcs.TrySetCanceled();
                     else if (args.Error != null && !args.IsErrorHandled)
+                    {
                         _tcs.TrySetException(args.Error);
+                        args.IsErrorHandled = true;
+                    }
                     else
                         _tcs.TrySetResult(args.Error == null ? Result : default(T));
                 });

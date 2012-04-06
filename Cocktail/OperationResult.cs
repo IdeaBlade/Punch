@@ -111,6 +111,16 @@ namespace Cocktail
                 return _tcs.Task;
             }
         }
+
+        /// <summary>
+        /// Converts an OperationResult to a Task.
+        /// </summary>
+        /// <param name="operation">The OperationResult to be converted.</param>
+        /// <returns>The converted Task.</returns>
+        public static implicit operator Task(OperationResult operation)
+        {
+            return operation.Task;
+        }
 #endif
 
         #region Implementation of IResult
@@ -251,6 +261,26 @@ namespace Cocktail
 
                 return _tcs.Task;
             }
+        }
+
+        /// <summary>
+        /// Converts an OperationResult&lt;T&gt; to a Task&lt;T&gt;.
+        /// </summary>
+        /// <param name="operation">The OperationResult to be converted.</param>
+        /// <returns>The converted Task.</returns>
+        public static implicit operator Task<T>(OperationResult<T> operation)
+        {
+            return operation.Task;
+        }
+
+        /// <summary>
+        /// Converts an OperationResult&lt;T&gt; to a Task.
+        /// </summary>
+        /// <param name="operation">The OperationResult to be converted.</param>
+        /// <returns>The converted Task.</returns>
+        public static implicit operator Task(OperationResult<T> operation)
+        {
+            return operation.Task;
         }
 #endif
     }

@@ -14,7 +14,7 @@ using System;
 using System.ComponentModel;
 using Caliburn.Micro;
 
-#if !SILVERLIGHT || SILVERLIGHT5
+#if !SILVERLIGHT4
 using System.Threading.Tasks;
 #endif
 
@@ -26,7 +26,7 @@ namespace Cocktail
     public abstract class DialogOperationResult<T> : IResult
     {
         private ResultCompletionEventArgs _completionEventArgs;
-#if !SILVERLIGHT || SILVERLIGHT5
+#if !SILVERLIGHT4
         private TaskCompletionSource<T> _tcs;
 #endif
 
@@ -47,7 +47,7 @@ namespace Cocktail
         /// <value>Cancelled is set to true, if the user clicked the designated cancel button in response to the dialog or message box.</value>
         public abstract bool Cancelled { get; }
 
-#if !SILVERLIGHT || SILVERLIGHT5
+#if !SILVERLIGHT4
         /// <summary>
         /// Returns a Task&lt;T&gt; for the current DialogOperationResult.
         /// </summary>

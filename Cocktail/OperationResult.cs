@@ -18,7 +18,7 @@ using System.Linq;
 using Caliburn.Micro;
 using IdeaBlade.EntityModel;
 
-#if !SILVERLIGHT || SILVERLIGHT5
+#if !SILVERLIGHT4
 using System.Threading.Tasks;
 #endif
 
@@ -34,7 +34,7 @@ namespace Cocktail
         private readonly INotifyCompleted _asyncOp;
         private INotifyCompletedArgs _args;
 
-#if !SILVERLIGHT || SILVERLIGHT5
+#if !SILVERLIGHT4
         private TaskCompletionSource<bool> _tcs;
 #endif
 
@@ -86,7 +86,7 @@ namespace Cocktail
             get { return _args != null && _args.Cancelled; }
         }
 
-#if !SILVERLIGHT || SILVERLIGHT5
+#if !SILVERLIGHT4
         /// <summary>
         /// Returns a Task for the current OperationResult.
         /// </summary>
@@ -211,7 +211,7 @@ namespace Cocktail
     /// <seealso cref="CoroutineFns"/>
     public abstract class OperationResult<T> : OperationResult
     {
-#if !SILVERLIGHT || SILVERLIGHT5
+#if !SILVERLIGHT4
         private TaskCompletionSource<T> _tcs;
 #endif
 
@@ -227,7 +227,7 @@ namespace Cocktail
         /// </summary>
         public abstract T Result { get; }
 
-#if !SILVERLIGHT || SILVERLIGHT5
+#if !SILVERLIGHT4
         /// <summary>
         /// Returns a Task&lt;T&gt; for the current OperationResult.
         /// </summary>

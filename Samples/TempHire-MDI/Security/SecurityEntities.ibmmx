@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntityModelMetadata xmlns:i="http://www.w3.org/2001/XMLSchema-instance" z:Id="1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" xmlns="http://ideablade.com/EntityModel">
+  <CreatedOn>2012-01-22T22:33:31.9243807-08:00</CreatedOn>
+  <DevForceVersion z:Id="2">6.1.5.0</DevForceVersion>
+  <EncodedLicenseKey z:Id="3">2jUPwTTHoGj29Vi0/lQ5PfPy7bqIigdsS0Qk82eraQEx3EIsrw1oXfXoJrcyrInT</EncodedLicenseKey>
+  <EntityMetadataSurrogates z:Id="4" z:Size="1">
+    <EntityMetadataSurrogate z:Id="5">
+      <DataProperties z:Id="6" z:Size="3">
+        <DataEntityPropertySurrogate z:Id="7">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Id="8" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
+            <d6p1:AssemblyQualifiedName z:Id="9">System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</d6p1:AssemblyQualifiedName>
+            <d6p1:IsNull>false</d6p1:IsNull>
+          </DataTypeWrapper>
+          <EntityTypeWrapper z:Id="10" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
+            <d6p1:AssemblyQualifiedName z:Id="11">Security.User, Security, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</d6p1:AssemblyQualifiedName>
+            <d6p1:IsNull>false</d6p1:IsNull>
+          </EntityTypeWrapper>
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>true</IsPartOfKey>
+          <Name z:Id="12">Id</Name>
+          <Ordinal>0</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="13">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Id="14" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
+            <d6p1:AssemblyQualifiedName z:Id="15">System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</d6p1:AssemblyQualifiedName>
+            <d6p1:IsNull>false</d6p1:IsNull>
+          </DataTypeWrapper>
+          <EntityTypeWrapper z:Ref="10" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="16">Username</Name>
+          <Ordinal>1</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+        <DataEntityPropertySurrogate z:Id="17">
+          <ConcurrencyStrategy>None</ConcurrencyStrategy>
+          <DataTypeWrapper z:Ref="14" i:nil="true" />
+          <EntityTypeWrapper z:Ref="10" i:nil="true" />
+          <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsNativeProperty>true</IsNativeProperty>
+          <IsNullable>false</IsNullable>
+          <IsPartOfKey>false</IsPartOfKey>
+          <Name z:Id="18">Password</Name>
+          <Ordinal>2</Ordinal>
+          <RelatedNavigationPropertyName i:nil="true" />
+        </DataEntityPropertySurrogate>
+      </DataProperties>
+      <DataSourceKeyName z:Id="19">SecurityEntities</DataSourceKeyName>
+      <DefaultEntityContainerName z:Id="20">SecurityDbContext</DefaultEntityContainerName>
+      <DefaultEntitySetName z:Id="21">SecurityDbContext.Users</DefaultEntitySetName>
+      <EntityTypeWrapper z:Ref="10" i:nil="true" />
+      <NavProperties z:Id="22" z:Size="0" />
+    </EntityMetadataSurrogate>
+  </EntityMetadataSurrogates>
+  <EntityRelationCollection z:Id="23" z:Size="0" />
+</EntityModelMetadata>

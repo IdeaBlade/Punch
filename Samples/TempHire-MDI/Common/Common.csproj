@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{106B77CD-EE99-40DD-82CE-2CD5C69A4464}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Common</RootNamespace>
+    <AssemblyName>Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SkipPostSharp>True</SkipPostSharp>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Fakestore|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Fakestore\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;FAKESTORE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\Common.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\packages\CocktailCTP.0.5.0\lib\net40\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Cocktail">
+      <HintPath>..\packages\CocktailCTP.0.5.0\lib\net40\Cocktail.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.Core">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IdeaBlade.EntityModel">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IdeaBlade.Validation">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MefContrib">
+      <HintPath>..\Libs\MefContrib\MefContrib.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\packages\CocktailCTP.0.5.0\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Behaviors\BindablePasswordBehavior.cs" />
+    <Compile Include="Behaviors\InitialFocusBehavior.cs" />
+    <Compile Include="Behaviors\ScrollIntoViewBehavior.cs" />
+    <Compile Include="Behaviors\SelectAllOnFocusBehavior.cs" />
+    <Compile Include="BootstrapperBase.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Errors\ErrorHandler.cs" />
+    <Compile Include="Errors\IErrorHandler.cs" />
+    <Compile Include="Factories\PartFactoryBase.cs" />
+    <Compile Include="Factories\IPartFactory.cs" />
+    <Compile Include="Messages\EntityChangedMessage.cs" />
+    <Compile Include="Messages\IMessageProcessor.cs" />
+    <Compile Include="Messages\MessageProcessor.cs" />
+    <Compile Include="Messages\SavedMessage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\IUserService.cs" />
+    <Compile Include="Tabs\ITabManager.cs" />
+    <Compile Include="Tabs\TabManager.cs" />
+    <Compile Include="Toolbar\IToolbarManager.cs" />
+    <Compile Include="Toolbar\ToolbarAction.cs" />
+    <Compile Include="Toolbar\ToolbarManager.cs" />
+    <Compile Include="Validation\ValidationErrorHandler.cs" />
+    <Compile Include="Validation\ValidationErrorMessage.cs" />
+    <Compile Include="Validation\ValidationErrorMessageProcessor.cs" />
+    <Compile Include="Validation\ValidationErrorsViewModel.cs" />
+    <Compile Include="Workspace\IWorkspace.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Security\Security.csproj">
+      <Project>{5DA86954-CB04-4E4B-815D-D1D38B8501B4}</Project>
+      <Name>Security</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\error_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Validation\ValidationErrorsView.Wpf.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

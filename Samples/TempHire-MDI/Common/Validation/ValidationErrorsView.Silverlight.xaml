@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Common.Validation.ValidationErrorsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="300"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+
+    <Grid x:Name="LayoutRoot">
+        <ScrollViewer MaxHeight="300"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding VerifierResults}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="16"
+                                   Height="16"
+                                   Margin="5"
+                                   VerticalAlignment="Center"
+                                   Source="/Common.SL;component/Images/error_button.png" />
+                            <TextBlock Margin="5"
+                                       Text="{Binding Message}"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

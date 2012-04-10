@@ -132,6 +132,11 @@ namespace TempHire.ViewModels.StaffingResource
             {
                 NotifyOfPropertyChange(() => CanSave);
                 NotifyOfPropertyChange(() => CanCancel);
+
+                if (ActiveStaffingResource == null) return;
+
+                SearchPane.CurrentStaffingResource =
+                    SearchPane.Items.FirstOrDefault(resource => resource.Id == ActiveStaffingResource.Id);
             }
         }
 

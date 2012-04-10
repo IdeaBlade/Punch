@@ -217,16 +217,14 @@ namespace TempHire.ViewModels.StaffingResource
 
                 if (responseOperation.DialogResult == DialogResult.Yes)
                 {
+                    OperationResult commit;
                     using (item.Busy.GetTicket())
-                    {
-                        OperationResult commit;
                         yield return commit = item.UnitOfWork.CommitAsync().ContinueOnError();
 
-                        if (commit.HasError)
-                        {
-                            _errorHandler.HandleError(commit.Error);
-                            yield break;
-                        }
+                    if (commit.HasError)
+                    {
+                        _errorHandler.HandleError(commit.Error);
+                        yield break;
                     }
                 }
 
@@ -245,7 +243,8 @@ namespace TempHire.ViewModels.StaffingResource
             SearchPane.CurrentStaffingResource = null;
 
             var tab = _tabManager.NewTab();
-            tab.Start(nameEditor.FirstName, nameEditor.MiddleName, nameEditor.LastName);
+            tab.Start(nameEditor.FirstName, nameEditor.MiddleName, nameEditor.LastName,
+                      vm => _tabManager.Add(vm.StaffingResource.Id, tab));
             ActivateItem(tab);
         }
 

@@ -14,8 +14,10 @@ using System;
 
 namespace Common.Tabs
 {
-    public interface ITabManager<out T>
+    public interface ITabManager<T>
     {
+        void Add(Guid key, T tab);
+
         bool TabExists(Guid key);
 
         T GetTab(Guid key);

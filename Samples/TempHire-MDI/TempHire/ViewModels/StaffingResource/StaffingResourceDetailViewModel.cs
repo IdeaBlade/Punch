@@ -93,12 +93,6 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
-        public void UpdateDisplayName()
-        {
-            if (StaffingResource == null) return;
-            DisplayName = StaffingResource.FullName + (UnitOfWork.HasChanges() ? "*" : "");
-        }
-
         #region IHandle<EntityChangedMessage> Members
 
         void IHandle<EntityChangedMessage>.Handle(EntityChangedMessage message)
@@ -122,26 +116,36 @@ namespace TempHire.ViewModels.StaffingResource
 
         #endregion
 
+        public void UpdateDisplayName()
+        {
+            if (StaffingResource == null) return;
+            DisplayName = StaffingResource.FullName + (UnitOfWork.HasChanges() ? "*" : "");
+        }
+
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "ActiveItem")
                 NotifyOfPropertyChange(() => ActiveSectionIndex);
         }
 
-        public StaffingResourceDetailViewModel Start(Guid staffingResourceId)
+        public StaffingResourceDetailViewModel Start(Guid staffingResourceId,
+                                                     Action<StaffingResourceDetailViewModel> callback = null)
         {
             Busy.AddWatch();
 
             _unitOfWork = null;
             _staffingResourceId = staffingResourceId;
             // Bring resource into cache and defer starting of nested VMs until completed.
-            UnitOfWork.StaffingResources.WithIdAsync(staffingResourceId, OnStartCompleted, _errorHandler.HandleError)
+            UnitOfWork.StaffingResources.WithIdAsync(staffingResourceId,
+                                                     resource => OnStartCompleted(resource, callback),
+                                                     _errorHandler.HandleError)
                 .OnComplete(args => Busy.RemoveWatch());
 
             return this;
         }
 
-        private void OnStartCompleted(DomainModel.StaffingResource staffingResource)
+        private void OnStartCompleted(DomainModel.StaffingResource staffingResource,
+                                      Action<StaffingResourceDetailViewModel> callback = null)
         {
             StaffingResource = staffingResource;
             StaffingResourceSummary.Start(staffingResource.Id);
@@ -153,9 +157,13 @@ namespace TempHire.ViewModels.StaffingResource
                 NotifyOfPropertyChange(() => Items);
                 ActivateItem(Items.First());
             }
+
+            if (callback != null)
+                callback(this);
         }
 
-        public StaffingResourceDetailViewModel Start(string firstName, string middleName, string lastName)
+        public StaffingResourceDetailViewModel Start(string firstName, string middleName, string lastName,
+                                                     Action<StaffingResourceDetailViewModel> callback = null)
         {
             Busy.AddWatch();
 
@@ -164,7 +172,7 @@ namespace TempHire.ViewModels.StaffingResource
                                                             resource =>
                                                                 {
                                                                     _unitOfWorkManager.Add(resource.Id, _unitOfWork);
-                                                                    Start(resource.Id);
+                                                                    Start(resource.Id, callback);
                                                                 },
                                                             _errorHandler.HandleError)
                 .OnComplete(args => Busy.RemoveWatch());
@@ -196,8 +204,9 @@ namespace TempHire.ViewModels.StaffingResource
             if (UnitOfWork.HasChanges())
             {
                 var dialogResult =
-                    _dialogManager.ShowMessage(string.Format("Do you want to save changes you made to {0}?", StaffingResource.FullName),
-                                               DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel);
+                    _dialogManager.ShowMessage(
+                        string.Format("Do you want to save changes you made to {0}?", StaffingResource.FullName),
+                        DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel);
                 dialogResult.OnComplete(delegate
                                             {
                                                 if (dialogResult.DialogResult == DialogResult.Yes)

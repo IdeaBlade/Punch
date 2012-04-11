@@ -55,7 +55,7 @@ namespace Cocktail
         /// <summary>
         /// Retrieves an object instance by key without creating a new instance if it doesn't exist.
         /// </summary>
-        /// <param name="key">he key used to look up the instance.</param>
+        /// <param name="key">The key used to look up the instance.</param>
         /// <returns>Null if no object for the given key exists.</returns>
         public T TryGetObject(TKey key)
         {

@@ -198,5 +198,28 @@ namespace Cocktail.Tests
 
             Assert.IsTrue(interceptor.ClearedRaised > 0);
         }
+
+        [TestMethod]
+        [Tag("Composition")]
+        public void ObjectManagerShouldCreateObject()
+        {
+            var objectManager = new ObjectManager<Guid, ICustomerRepository>();
+
+            var key = Guid.NewGuid();
+            var obj = objectManager.GetObject(key);
+            Assert.IsNotNull(obj);
+
+            obj = objectManager.TryGetObject(key);
+            Assert.IsNotNull(obj);
+        }
+
+        [TestMethod]
+        [Tag("Composition")]
+        public void ObjectManagerShouldReturnNullIfObjectDoesntExist()
+        {
+            var objectManager = new ObjectManager<Guid, ICustomerRepository>();
+            var obj = objectManager.TryGetObject(Guid.NewGuid());
+            Assert.IsNull(obj);
+        }
     }
 }

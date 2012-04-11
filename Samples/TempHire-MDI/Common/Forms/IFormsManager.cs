@@ -1,4 +1,4 @@
-﻿// ====================================================================================================================
+// ====================================================================================================================
 //   Copyright (c) 2012 IdeaBlade
 // ====================================================================================================================
 //   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
@@ -12,19 +12,19 @@
 
 using System;
 
-namespace Common.Tabs
+namespace Common.Forms
 {
-    public interface ITabManager<T>
+    public interface IFormsManager<T>
     {
-        void Add(Guid key, T tab);
+        void AddForm(Guid key, T form);
 
-        bool TabExists(Guid key);
+        bool FormExists(Guid key);
 
-        T GetTab(Guid key);
+        T GetForm(Guid key);
 
-        T NewTab();
+        T NewForm();
 
-        void DeleteTab(Guid key);
+        void DeleteForm(Guid key);
 
         void Clear();
     }

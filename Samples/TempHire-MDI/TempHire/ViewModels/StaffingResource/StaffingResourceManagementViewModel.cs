@@ -19,8 +19,8 @@ using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Factories;
+using Common.Forms;
 using Common.Messages;
-using Common.Tabs;
 using Common.Toolbar;
 using Common.Workspace;
 using DomainModel.Projections;
@@ -41,7 +41,7 @@ namespace TempHire.ViewModels.StaffingResource
         private readonly IToolbarManager _toolbar;
         private readonly IDomainUnitOfWorkManager<IDomainUnitOfWork> _unitOfWorkManager;
         private ToolbarGroup _toolbarGroup;
-        private readonly ITabManager<StaffingResourceDetailViewModel> _tabManager;
+        private readonly IFormsManager<StaffingResourceDetailViewModel> _forms;
 
         [ImportingConstructor]
         public StaffingResourceManagementViewModel(StaffingResourceSearchViewModel searchPane,
@@ -63,7 +63,7 @@ namespace TempHire.ViewModels.StaffingResource
             DisplayName = "Resource Management";
             // ReSharper restore DoNotCallOverridableMethodsInConstructor
 
-            _tabManager = new TabManager<StaffingResourceDetailViewModel>();
+            _forms = new FormsManager<StaffingResourceDetailViewModel>();
         }
 
         public StaffingResourceSearchViewModel SearchPane { get; private set; }
@@ -172,10 +172,10 @@ namespace TempHire.ViewModels.StaffingResource
         {
             var staffingResource = SearchPane.CurrentStaffingResource;
 
-            var tab = _tabManager.GetTab(staffingResource.Id);
-            if (tab.StaffingResource == null)
-                tab.Start(staffingResource.Id);
-            ActivateItem(tab);
+            var form = _forms.GetForm(staffingResource.Id);
+            if (form.StaffingResource == null)
+                form.Start(staffingResource.Id);
+            ActivateItem(form);
         }
 
         private void OnSearchPanePropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -191,7 +191,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             ActiveItem = null;
             Items.Clear();
-            _tabManager.Clear();
+            _forms.Clear();
 
             SearchPane.PropertyChanged -= OnSearchPanePropertyChanged;
             SearchPane.Open -= OpenStaffingResource;
@@ -210,21 +210,21 @@ namespace TempHire.ViewModels.StaffingResource
 
         private IEnumerable<IResult> CanCloseCore(Action<bool> callback)
         {
-            var pendingItems =
-                Items.Cast<StaffingResourceDetailViewModel>().Where(i => i.UnitOfWork.HasChanges()).ToList();
+            var pendingForms =
+                Items.Cast<StaffingResourceDetailViewModel>().Where(f => f.UnitOfWork.HasChanges()).ToList();
 
-            foreach (var item in pendingItems)
+            foreach (var pendingForm in pendingForms)
             {
                 DialogOperationResult<DialogResult> responseOperation;
                 yield return responseOperation = _dialogManager.ShowMessage(
-                    string.Format("Do you want to save changes you made to {0}?", item.StaffingResource.FullName),
+                    string.Format("Do you want to save changes you made to {0}?", pendingForm.StaffingResource.FullName),
                     DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel);
 
                 if (responseOperation.DialogResult == DialogResult.Yes)
                 {
                     OperationResult commit;
-                    using (item.Busy.GetTicket())
-                        yield return commit = item.UnitOfWork.CommitAsync().ContinueOnError();
+                    using (pendingForm.Busy.GetTicket())
+                        yield return commit = pendingForm.UnitOfWork.CommitAsync().ContinueOnError();
 
                     if (commit.HasError)
                     {
@@ -234,7 +234,7 @@ namespace TempHire.ViewModels.StaffingResource
                 }
 
                 if (responseOperation.DialogResult == DialogResult.No)
-                    item.UnitOfWork.Rollback();
+                    pendingForm.UnitOfWork.Rollback();
             }
 
             callback(true);
@@ -247,10 +247,10 @@ namespace TempHire.ViewModels.StaffingResource
 
             SearchPane.CurrentStaffingResource = null;
 
-            var tab = _tabManager.NewTab();
-            tab.Start(nameEditor.FirstName, nameEditor.MiddleName, nameEditor.LastName,
-                      vm => _tabManager.Add(vm.StaffingResource.Id, tab));
-            ActivateItem(tab);
+            var form = _forms.NewForm();
+            form.Start(nameEditor.FirstName, nameEditor.MiddleName, nameEditor.LastName,
+                      vm => _forms.AddForm(vm.StaffingResource.Id, form));
+            ActivateItem(form);
         }
 
         public IEnumerable<IResult> Delete()
@@ -273,8 +273,8 @@ namespace TempHire.ViewModels.StaffingResource
                     yield return operation = unitOfWork.CommitAsync().ContinueOnError();
             }
 
-            if (operation.CompletedSuccessfully && _tabManager.TabExists(staffingResource.Id))
-                _tabManager.GetTab(staffingResource.Id).TryClose();
+            if (operation.CompletedSuccessfully && _forms.FormExists(staffingResource.Id))
+                _forms.GetForm(staffingResource.Id).TryClose();
 
             if (operation.HasError)
                 _errorHandler.HandleError(operation.Error);

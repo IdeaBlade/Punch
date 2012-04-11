@@ -1,4 +1,4 @@
-﻿// ====================================================================================================================
+// ====================================================================================================================
 //   Copyright (c) 2012 IdeaBlade
 // ====================================================================================================================
 //   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
@@ -13,33 +13,42 @@
 using System;
 using Cocktail;
 
-namespace Common.Tabs
+namespace Common.Forms
 {
-    public class TabManager<T> : ObjectManager<Guid, T>, ITabManager<T> where T : class
+    public class FormsManager<T> : ObjectManager<Guid, T>, IFormsManager<T> where T : class
     {
-        public TabManager()
+        public FormsManager()
         {
             Composition.BuildUp(this);
         }
 
-        public bool TabExists(Guid key)
+        #region IFormsManager<T> Members
+
+        public void AddForm(Guid key, T form)
+        {
+            Add(key, form);
+        }
+
+        public bool FormExists(Guid key)
         {
             return Exists(key);
         }
 
-        public T GetTab(Guid key)
+        public T GetForm(Guid key)
         {
             return GetObject(key);
         }
 
-        public T NewTab()
+        public T NewForm()
         {
             return Create();
         }
 
-        public void DeleteTab(Guid key)
+        public void DeleteForm(Guid key)
         {
             Remove(key);
         }
+
+        #endregion
     }
 }

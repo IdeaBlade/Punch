@@ -92,14 +92,14 @@
     <Compile Include="Errors\IErrorHandler.cs" />
     <Compile Include="Factories\PartFactoryBase.cs" />
     <Compile Include="Factories\IPartFactory.cs" />
+    <Compile Include="Forms\FormsManager.cs" />
+    <Compile Include="Forms\IFormsManager.cs" />
     <Compile Include="Messages\EntityChangedMessage.cs" />
     <Compile Include="Messages\IMessageProcessor.cs" />
     <Compile Include="Messages\MessageProcessor.cs" />
     <Compile Include="Messages\SavedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\IUserService.cs" />
-    <Compile Include="Tabs\ITabManager.cs" />
-    <Compile Include="Tabs\TabManager.cs" />
     <Compile Include="Toolbar\IToolbarManager.cs" />
     <Compile Include="Toolbar\ToolbarAction.cs" />
     <Compile Include="Toolbar\ToolbarManager.cs" />

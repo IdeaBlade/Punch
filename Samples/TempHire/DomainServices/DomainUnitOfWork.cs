@@ -16,6 +16,7 @@ using Cocktail.Contrib.UnitOfWork;
 using DomainModel;
 using DomainServices.Factories;
 using DomainServices.Repositories;
+using IdeaBlade.EntityModel;
 
 namespace DomainServices
 {
@@ -26,7 +27,8 @@ namespace DomainServices
         public DomainUnitOfWork(
             [Import(RequiredCreationPolicy = CreationPolicy.NonShared)] IEntityManagerProvider<TempHireEntities>
                 entityManagerProvider,
-            [Import(AllowDefault = true)] IPreLoader preLoader = null) : base(entityManagerProvider)
+            [Import(AllowDefault = true)] IPreLoader preLoader = null)
+            : base(entityManagerProvider)
         {
             AddressTypes = new PreLoadRepository<AddressType>(entityManagerProvider, preLoader);
             States = new PreLoadRepository<State>(entityManagerProvider, preLoader);
@@ -37,6 +39,12 @@ namespace DomainServices
         }
 
         #region IDomainUnitOfWork Members
+
+        public bool HasEntity(object entity)
+        {
+            var entityAspect = EntityAspect.Wrap(entity);
+            return EntityManager == entityAspect.EntityManager;
+        }
 
         public IStaffingResourceFactory StaffingResourceFactory { get; private set; }
 

@@ -97,7 +97,8 @@ namespace TempHire.ViewModels.StaffingResource
 
         void IHandle<EntityChangedMessage>.Handle(EntityChangedMessage message)
         {
-            if (StaffingResource == null) return;
+            if (StaffingResource == null || !UnitOfWork.HasEntity(message.Entity)) 
+                return;
 
             UpdateDisplayName();
         }

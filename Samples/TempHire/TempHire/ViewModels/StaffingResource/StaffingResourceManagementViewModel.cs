@@ -110,6 +110,9 @@ namespace TempHire.ViewModels.StaffingResource
 
         public void Handle(EntityChangedMessage message)
         {
+            if (ActiveStaffingResource == null || !ActiveUnitOfWork.HasEntity(message.Entity))
+                return;
+
             NotifyOfPropertyChange(() => CanSave);
             NotifyOfPropertyChange(() => CanCancel);
         }

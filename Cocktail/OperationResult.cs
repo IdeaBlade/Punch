@@ -111,6 +111,15 @@ namespace Cocktail
 
             return _tcs.Task;
         }
+
+        /// <summary>
+        /// Implicitly casts the current OperationResult to type <see cref="Task"/>
+        /// </summary>
+        /// <param name="operation">The OperationResult to be converted.</param>
+        public static implicit operator Task(OperationResult operation)
+        {
+            return operation.AsTask();
+        }
 #endif
 
         #region Implementation of IResult
@@ -251,6 +260,24 @@ namespace Cocktail
                 });
 
             return _tcs.Task;
+        }
+
+        /// <summary>
+        /// Implicitly casts the current OperationResult to type <see cref="Task"/>
+        /// </summary>
+        /// <param name="operation">The OperationResult to be converted.</param>
+        public static implicit operator Task(OperationResult<T> operation)
+        {
+            return operation.AsTask();
+        }
+
+        /// <summary>
+        /// Implicitly casts the current OperationResult to type <see cref="Task{T}"/>
+        /// </summary>
+        /// <param name="operation">The OperationResult to be converted.</param>
+        public static implicit operator Task<T>(OperationResult<T> operation)
+        {
+            return operation.AsTask();
         }
 #endif
     }

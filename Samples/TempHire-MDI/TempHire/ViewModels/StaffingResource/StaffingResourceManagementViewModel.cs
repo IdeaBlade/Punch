@@ -264,7 +264,7 @@ namespace TempHire.ViewModels.StaffingResource
             IDomainUnitOfWork unitOfWork = _unitOfWorkManager.Get(staffingResource.Id);
 
             OperationResult operation;
-            using (ActiveDetail.Busy.GetTicket())
+            using (SearchPane.Busy.GetTicket())
             {
                 yield return operation = unitOfWork.StaffingResources.WithIdAsync(
                     staffingResource.Id, result => unitOfWork.StaffingResources.Delete(result)).ContinueOnError();

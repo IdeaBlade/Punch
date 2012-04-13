@@ -192,10 +192,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             base.OnDeactivate(close);
 
-            ActiveItem = null;
-            Items.Clear();
             _forms.Clear();
-
             SearchPane.PropertyChanged -= OnSearchPanePropertyChanged;
             SearchPane.Open -= OpenStaffingResource;
             ((IDeactivate)SearchPane).Deactivate(close);

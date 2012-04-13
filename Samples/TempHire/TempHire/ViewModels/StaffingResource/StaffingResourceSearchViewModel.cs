@@ -93,10 +93,10 @@ namespace TempHire.ViewModels.StaffingResource
             // Exit if no StaffingResource was saved
             if (!message.Entities.OfType<DomainModel.StaffingResource>().Any()) return;
 
-            // If selected staffing resource is detached now, that means it got deleted.
+            // If there are detached entities than they got deleted.
             bool wasDeleted = message.Entities
                 .OfType<DomainModel.StaffingResource>()
-                .Any(r => r.EntityFacts.EntityState.IsDetached() && r.Id == CurrentStaffingResource.Id);
+                .Any(r => r.EntityFacts.EntityState.IsDetached());
 
             if (wasDeleted)
             {

@@ -25,8 +25,7 @@ using System.Threading.Tasks;
 namespace Cocktail
 {
     /// <summary>
-    /// Encapsulates a DevForce asynchronous operation, that can interchangeably be  used in places  
-    /// where an <see cref = "IResult" /> or <see cref="INotifyCompleted" /> is expected.
+    /// Encapsulates and abstracts a DevForce asynchronous operation.
     /// </summary>
     /// <seealso cref="CoroutineFns"/>
     public class OperationResult : IResult, INotifyCompleted
@@ -213,9 +212,7 @@ namespace Cocktail
     }
 
     /// <summary>
-    /// Encapsulates a DevForce asynchronous operation, that can interchangeably be  used in places  
-    /// where an <see cref = "IResult" /> or <see cref="INotifyCompleted" /> is expected and provides
-    /// access to the result value of the operation.
+    /// Encapsulates and abstracts a DevForce asynchronous operation.
     /// </summary>
     /// <seealso cref="CoroutineFns"/>
     public abstract class OperationResult<T> : OperationResult

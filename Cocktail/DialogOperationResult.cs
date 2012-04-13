@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 namespace Cocktail
 {
     /// <summary>
-    /// An implementation of <see cref="IResult"/> providing information about the modal dialog or message box.
+    /// Represents an asynchronous operation handle to a dialog or message box.
     /// </summary>
     public abstract class DialogOperationResult<T> : IResult
     {

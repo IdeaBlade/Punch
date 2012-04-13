@@ -113,7 +113,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Implicitly casts the current OperationResult to type <see cref="Task"/>
+        /// Implicitly converts the current OperationResult to type <see cref="Task"/>
         /// </summary>
         /// <param name="operation">The OperationResult to be converted.</param>
         public static implicit operator Task(OperationResult operation)
@@ -263,7 +263,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Implicitly casts the current OperationResult to type <see cref="Task"/>
+        /// Implicitly converts the current OperationResult to type <see cref="Task"/>
         /// </summary>
         /// <param name="operation">The OperationResult to be converted.</param>
         public static implicit operator Task(OperationResult<T> operation)
@@ -272,7 +272,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Implicitly casts the current OperationResult to type <see cref="Task{T}"/>
+        /// Implicitly converts the current OperationResult to type <see cref="Task{T}"/>
         /// </summary>
         /// <param name="operation">The OperationResult to be converted.</param>
         public static implicit operator Task<T>(OperationResult<T> operation)

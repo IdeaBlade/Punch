@@ -71,7 +71,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Implicitly casts the current DialogOperationResult to type <see cref="Task"/>
+        /// Implicitly converts the current DialogOperationResult to type <see cref="Task"/>
         /// </summary>
         /// <param name="operation">The DialogOperationResult to be converted.</param>
         public static implicit operator Task(DialogOperationResult<T> operation)
@@ -80,7 +80,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Implicitly casts the current DialogOperationResult to type <see cref="Task{T}"/>
+        /// Implicitly converts the current DialogOperationResult to type <see cref="Task{T}"/>
         /// </summary>
         /// <param name="operation">The DialogOperationResult to be converted.</param>
         public static implicit operator Task<T>(DialogOperationResult<T> operation)

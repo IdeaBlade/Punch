@@ -60,11 +60,11 @@ namespace Cocktail
                 (sender, args) =>
                 {
                     if (args.WasCancelled)
-                        _tcs.TrySetCanceled();
+                        _tcs.SetCanceled();
                     else if (args.Error != null)
-                        _tcs.TrySetException(args.Error);
+                        _tcs.SetException(args.Error);
                     else
-                        _tcs.TrySetResult(args.Error == null ? DialogResult : default(T));
+                        _tcs.SetResult(args.Error == null ? DialogResult : default(T));
                 };
 
             return _tcs.Task;

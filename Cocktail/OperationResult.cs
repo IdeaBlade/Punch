@@ -98,14 +98,14 @@ namespace Cocktail
                 args =>
                 {
                     if (args.Cancelled)
-                        _tcs.TrySetCanceled();
+                        _tcs.SetCanceled();
                     else if (args.Error != null && !args.IsErrorHandled)
                     {
-                        _tcs.TrySetException(args.Error);
+                        _tcs.SetException(args.Error);
                         args.IsErrorHandled = true;
                     }
                     else
-                        _tcs.TrySetResult(true);
+                        _tcs.SetResult(true);
                 });
 
             return _tcs.Task;
@@ -246,14 +246,14 @@ namespace Cocktail
                 args =>
                 {
                     if (args.Cancelled)
-                        _tcs.TrySetCanceled();
+                        _tcs.SetCanceled();
                     else if (args.Error != null && !args.IsErrorHandled)
                     {
-                        _tcs.TrySetException(args.Error);
+                        _tcs.SetException(args.Error);
                         args.IsErrorHandled = true;
                     }
                     else
-                        _tcs.TrySetResult(args.Error == null ? Result : default(T));
+                        _tcs.SetResult(args.Error == null ? Result : default(T));
                 });
 
             return _tcs.Task;

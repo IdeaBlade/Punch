@@ -51,16 +51,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\CocktailCTP.0.5.0\lib\sl40\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\CocktailCTP.0.5.1\lib\sl40\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Contrib.SL">
-      <HintPath>..\packages\CocktailContrib.1.0.0\lib\sl40\Cocktail.Contrib.SL.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CocktailContrib.1.0.1\lib\sl40\Cocktail.Contrib.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\CocktailCTP.0.5.0\lib\sl40\Cocktail.SL.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CocktailCTP.0.5.1\lib\sl40\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\CocktailCTP.0.5.0\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CocktailCTP.0.5.1\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL" />
     <Reference Include="IdeaBlade.EntityModel.SL" />
@@ -89,9 +92,6 @@
     <Compile Include="DomainUnitOfWorkManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DomainModel.SL\DomainModel.SL.csproj">
       <Project>{77A1A2B1-66E8-4141-8405-87AB13775FB8}</Project>
       <Name>DomainModel.SL</Name>
@@ -100,6 +100,9 @@
       <Project>{DD97F37C-E978-4483-B0BC-CFC49940B560}</Project>
       <Name>Security.SL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>

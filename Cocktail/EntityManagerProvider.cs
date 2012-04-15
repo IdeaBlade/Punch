@@ -222,7 +222,7 @@ namespace Cocktail
         ///   Triggers the DataChanged event.
         /// </summary>
         /// <param name="entityKeys"> The list of keys for the changed entities </param>
-        protected void OnDataChanged(IEnumerable<EntityKey> entityKeys)
+        protected virtual void OnDataChanged(IEnumerable<EntityKey> entityKeys)
         {
             if (DataChanged != null)
                 DataChanged(this, new DataChangedEventArgs(entityKeys, Manager));

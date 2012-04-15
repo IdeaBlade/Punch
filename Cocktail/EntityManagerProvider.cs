@@ -27,7 +27,7 @@ namespace Cocktail
     /// Interface used to configure an EntityManagerProvider.
     /// </summary>
     /// <typeparam name="T">The type of EntityManager</typeparam>
-    public interface IEntityManagerProviderConfigurator<out T> : IHideObjectMembers where T : EntityManager
+    public interface IEntityManagerProviderConfigurator<T> : IHideObjectMembers where T : EntityManager
     {
         /// <summary>
         /// Configures the name of the <see cref="ConnectionOptions"/> to be used.
@@ -43,11 +43,25 @@ namespace Cocktail
         IEntityManagerProviderConfigurator<T> WithSampleDataProviders(params ISampleDataProvider<T>[] sampleDataProviders);
 
         /// <summary>
-        /// Configures the <see cref="IEntityManagerSyncInterceptor"/>.
+        /// Configures the SyncInterceptor.
         /// </summary>
         /// <param name="syncInterceptor">The SyncInterceptor to be used.</param>
         /// <remarks>If no SyncInterceptor is configured, the EntityManagerProvider will try to discover it through the MEF container.</remarks>
         IEntityManagerProviderConfigurator<T> WithSyncInterceptor(IEntityManagerSyncInterceptor syncInterceptor);
+
+        /// <summary>
+        /// Configures the EntityManagerDelegates.
+        /// </summary>
+        /// <param name="delegates">One or more EntityManagerDelegate.</param>
+        /// <remarks>If the EntityManagerDelegates are not configured, the EntityManagerProvider will try to discover them through the MEF container.</remarks>
+        IEntityManagerProviderConfigurator<T> WithDelegates(params EntityManagerDelegate<T>[] delegates);
+
+        /// <summary>
+        /// Configures the validation error notifiers.
+        /// </summary>
+        /// <param name="errorNotifiers">One or more validation error notifier.</param>
+        /// <remarks>If the validation error notifiers are not configured, the EntityManagerProvider will try to discover them through the MEF container.</remarks>
+        IEntityManagerProviderConfigurator<T> WithErrorNotifiers(params IValidationErrorNotification[] errorNotifiers);
     }
 
     /// <summary>
@@ -58,11 +72,9 @@ namespace Cocktail
         where T : EntityManager
     {
         private readonly EntityManagerProviderConfiguration<T> _configuration;
-        private IEnumerable<EntityManagerDelegate<T>> _entityManagerDelegates;
         private EntityManagerWrapper<T> _entityManagerWrapper;
         private IEnumerable<EntityKey> _deletedEntityKeys;
         private EntityCacheState _storeEcs;
-        private IEnumerable<IValidationErrorNotification> _validationErrorNotifiers;
 
         /// <summary>
         ///   Initializes a new instance.
@@ -257,7 +269,7 @@ namespace Cocktail
 
             Composition.BuildUp(this);
             EventFns.Subscribe(this);
-            DiscoverAndHoldEntityManagerDelegates();
+            EnsureDelegates();
             var manager = CreateEntityManager();
 
             if (ConnectionOptions.IsDesignTime)
@@ -368,7 +380,7 @@ namespace Cocktail
                 if (entityAspect.EntityState.IsDeletedOrDetached()) continue;
 
                 var validationErrors = Manager.VerifierEngine.Execute(entity);
-                foreach (var d in _entityManagerDelegates ?? new EntityManagerDelegate<T>[0])
+                foreach (var d in _configuration.Delegates ?? new EntityManagerDelegate<T>[0])
                     d.Validate(entity, validationErrors);
                 // Extract only validation errors
                 validationErrors = validationErrors.Errors;
@@ -442,22 +454,22 @@ namespace Cocktail
             get { return ConnectionOptions.CompositionContext; }
         }
 
-        private void DiscoverAndHoldEntityManagerDelegates()
+        private void EnsureDelegates()
         {
-            if (_entityManagerDelegates != null) return;
+            if (_configuration.Delegates != null) return;
 
             var i = CompositionContext.GetExportedInstances(typeof(EntityManagerDelegate));
             if (i != null)
-                _entityManagerDelegates = i.OfType<EntityManagerDelegate<T>>().ToList();
+                _configuration.WithDelegates(i.OfType<EntityManagerDelegate<T>>().ToArray());
 
-            if (_entityManagerDelegates == null || !_entityManagerDelegates.Any())
-                _entityManagerDelegates = Composition.GetInstances<EntityManagerDelegate>()
-                    .OfType<EntityManagerDelegate<T>>()
-                    .ToList();
+            if (_configuration.Delegates == null || !_configuration.Delegates.Any())
+                _configuration.WithDelegates(Composition.GetInstances<EntityManagerDelegate>()
+                                                 .OfType<EntityManagerDelegate<T>>()
+                                                 .ToArray());
 
-            TraceFns.WriteLine(_entityManagerDelegates.Any()
+            TraceFns.WriteLine(_configuration.Delegates.Any()
                                    ? string.Format(StringResources.ProbedForEntityManagerDelegateAndFoundMatch,
-                                                   _entityManagerDelegates.Count())
+                                                   _configuration.Delegates.Count())
                                    : StringResources.ProbedForEntityManagerDelegateAndFoundNoMatch);
         }
 
@@ -465,22 +477,23 @@ namespace Cocktail
         {
             get
             {
-                if (_validationErrorNotifiers != null) return _validationErrorNotifiers;
+                if (_configuration.ErrorNotifiers == null)
+                {
+                    var i = CompositionContext.GetExportedInstances(typeof(IValidationErrorNotification));
+                    if (i != null)
+                        _configuration.WithErrorNotifiers(i.Cast<IValidationErrorNotification>().ToArray());
 
-                var i = CompositionContext.GetExportedInstances(typeof(IValidationErrorNotification));
-                if (i != null)
-                    _validationErrorNotifiers = i.Cast<IValidationErrorNotification>().ToList();
+                    if (_configuration.ErrorNotifiers == null || !_configuration.ErrorNotifiers.Any())
+                        _configuration.WithErrorNotifiers(Composition.GetInstances<IValidationErrorNotification>().ToArray());
 
-                if (_validationErrorNotifiers == null || !_validationErrorNotifiers.Any())
-                    _validationErrorNotifiers = Composition.GetInstances<IValidationErrorNotification>().ToList();
+                    TraceFns.WriteLine(_configuration.ErrorNotifiers.Any()
+                                           ? string.Format(
+                                               StringResources.ProbedForIValidationErrorNotificationAndFoundMatch,
+                                               _configuration.ErrorNotifiers.Count())
+                                           : StringResources.ProbedForIValidationErrorNotificationAndFoundNoMatch);
+                }
 
-                TraceFns.WriteLine(_validationErrorNotifiers.Any()
-                                       ? string.Format(
-                                           StringResources.ProbedForIValidationErrorNotificationAndFoundMatch,
-                                           _validationErrorNotifiers.Count())
-                                       : StringResources.ProbedForIValidationErrorNotificationAndFoundNoMatch);
-
-                return _validationErrorNotifiers;
+                return _configuration.ErrorNotifiers;
             }
         }
 
@@ -516,10 +529,26 @@ namespace Cocktail
             return this;
         }
 
+        public IEntityManagerProviderConfigurator<T> WithDelegates(params EntityManagerDelegate<T>[] delegates)
+        {
+            Delegates = delegates;
+            return this;
+        }
+
+        public IEntityManagerProviderConfigurator<T> WithErrorNotifiers(params IValidationErrorNotification[] errorNotifiers)
+        {
+            ErrorNotifiers = errorNotifiers;
+            return this;
+        }
+
         public string ConnectionOptionsName { get; private set; }
 
         public IEnumerable<ISampleDataProvider<T>> SampleDataProviders { get; private set; }
 
         public IEntityManagerSyncInterceptor SyncInterceptor { get; private set; }
+
+        public IEnumerable<EntityManagerDelegate<T>> Delegates { get; private set; }
+
+        public IEnumerable<IValidationErrorNotification> ErrorNotifiers { get; private set; }
     }
 }

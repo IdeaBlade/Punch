@@ -73,7 +73,7 @@ namespace Cocktail
         /// The internal busy indicator is incremented by calling this method and as soon as the Dispose()
         /// method is called on the ticket, the internal busy counter is decremented.
         /// </remarks>
-        public BusyWatcherTicket GetTicket()
+        public IDisposable GetTicket()
         {
             return new BusyWatcherTicket(this);
         }
@@ -105,7 +105,7 @@ namespace Cocktail
         #region Nested type: BusyWatcherTicket
 
         /// <summary>A disposable ticket controlling busy state around a scope.</summary>
-        public class BusyWatcherTicket : IDisposable
+        private class BusyWatcherTicket : IDisposable
         {
             private readonly IBusyWatcher _parent;
 

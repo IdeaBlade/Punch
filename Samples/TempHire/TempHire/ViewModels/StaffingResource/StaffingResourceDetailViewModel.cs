@@ -164,7 +164,6 @@ namespace TempHire.ViewModels.StaffingResource
             {
                 StaffingResource = null;
                 _unitOfWork = null;
-                Items.Clear();
             }
         }
 

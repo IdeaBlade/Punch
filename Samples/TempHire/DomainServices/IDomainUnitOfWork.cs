@@ -18,6 +18,8 @@ namespace DomainServices
 {
     public interface IDomainUnitOfWork : IUnitOfWork
     {
+        bool HasEntity(object entity);
+
         IStaffingResourceFactory StaffingResourceFactory { get; }
 
         IRepository<AddressType> AddressTypes { get; }

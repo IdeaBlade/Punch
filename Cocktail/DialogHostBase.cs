@@ -100,10 +100,7 @@ namespace Cocktail
         protected override void OnDeactivate(bool close)
         {
             if (close)
-            {
                 OnComplete();
-                ActiveItem = null;
-            }
 
             base.OnDeactivate(close);
         }

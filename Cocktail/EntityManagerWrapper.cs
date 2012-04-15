@@ -33,9 +33,33 @@ namespace Cocktail
 
         public T Manager { get; private set; }
 
+        public void Clear()
+        {
+            Manager = null;
+            Querying = delegate { };
+            Saving = delegate { };
+            Saved = delegate { };
+        }
+
+        public event EventHandler<EntityQueryingEventArgs> Querying = delegate { };
+        public event EventHandler<EntitySavingEventArgs> Saving = delegate { };
+        public event EventHandler<EntitySavedEventArgs> Saved = delegate { };
+
         private void PublishEvent(EventArgs eventArgs)
         {
             EventFns.Publish(new EntityManagerEventMessage<T>(Manager, eventArgs));
+
+            var entityQueryingEventArgs = eventArgs as EntityQueryingEventArgs;
+            if (entityQueryingEventArgs != null)
+                Querying(Manager, entityQueryingEventArgs);
+
+            var entitySavingEventArgs = eventArgs as EntitySavingEventArgs;
+            if (entitySavingEventArgs != null)
+                Saving(Manager, entitySavingEventArgs);
+
+            var entitySavedEventArgs = eventArgs as EntitySavedEventArgs;
+            if (entitySavedEventArgs != null)
+                Saved(Manager, entitySavedEventArgs);
         }
     }
 }

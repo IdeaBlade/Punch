@@ -21,12 +21,15 @@ namespace Cocktail.Tests.Helpers
             string compositionContextName = null)
         {
             if (string.IsNullOrEmpty(compositionContextName))
-                return new EntityManagerProvider<NorthwindIBEntities>().With(ConnectionOptions.Fake.Name);
+                return
+                    new EntityManagerProvider<NorthwindIBEntities>()
+                        .Configure(provider => provider.WithConnectionOptions(ConnectionOptions.Fake.Name));
 
             ConnectionOptions connectionOptions =
                 ConnectionOptions.Default.WithCompositionContext(compositionContextName).WithName(compositionContextName);
             ConnectionOptionsResolver.Add(connectionOptions);
-            return new EntityManagerProvider<NorthwindIBEntities>().With(compositionContextName);
+            return new EntityManagerProvider<NorthwindIBEntities>()
+                        .Configure(provider => provider.WithConnectionOptions(compositionContextName));
         }
 
         [Export]

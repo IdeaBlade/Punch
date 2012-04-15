@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 namespace Cocktail
 {
     /// <summary>
-    /// An implementation of <see cref="IResult"/> providing information about the modal dialog or message box.
+    /// Represents an asynchronous operation handle to a dialog or message box.
     /// </summary>
     public abstract class DialogOperationResult<T> : IResult
     {
@@ -56,21 +56,39 @@ namespace Cocktail
             if (_tcs != null) return _tcs.Task;
 
             _tcs = new TaskCompletionSource<T>();
-            ((IResult) this).Completed +=
+            ((IResult)this).Completed +=
                 (sender, args) =>
-                    {
-                        if (args.WasCancelled)
-                            _tcs.TrySetCanceled();
-                        else if (args.Error != null)
-                            _tcs.TrySetException(args.Error);
-                        else
-                            _tcs.TrySetResult(args.Error == null ? DialogResult : default(T));
-                    };
+                {
+                    if (args.WasCancelled)
+                        _tcs.SetCanceled();
+                    else if (args.Error != null)
+                        _tcs.SetException(args.Error);
+                    else
+                        _tcs.SetResult(args.Error == null ? DialogResult : default(T));
+                };
 
             return _tcs.Task;
         }
-#endif        
-        
+
+        /// <summary>
+        /// Implicitly converts the current DialogOperationResult to type <see cref="Task"/>
+        /// </summary>
+        /// <param name="operation">The DialogOperationResult to be converted.</param>
+        public static implicit operator Task(DialogOperationResult<T> operation)
+        {
+            return operation.AsTask();
+        }
+
+        /// <summary>
+        /// Implicitly converts the current DialogOperationResult to type <see cref="Task{T}"/>
+        /// </summary>
+        /// <param name="operation">The DialogOperationResult to be converted.</param>
+        public static implicit operator Task<T>(DialogOperationResult<T> operation)
+        {
+            return operation.AsTask();
+        }
+#endif
+
         #region IResult Members
 
         void IResult.Execute(ActionExecutionContext context)
@@ -111,22 +129,22 @@ namespace Cocktail
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool Equals(object obj)
         {
-// ReSharper disable BaseObjectEqualsIsObjectEquals
+            // ReSharper disable BaseObjectEqualsIsObjectEquals
             return base.Equals(obj);
-// ReSharper restore BaseObjectEqualsIsObjectEquals
+            // ReSharper restore BaseObjectEqualsIsObjectEquals
         }
 
         /// <summary>
         /// Hidden.
         /// </summary>
-// ReSharper disable NonReadonlyFieldInGetHashCode
+        // ReSharper disable NonReadonlyFieldInGetHashCode
         [EditorBrowsable(EditorBrowsableState.Never)]
-// ReSharper restore NonReadonlyFieldInGetHashCode
+        // ReSharper restore NonReadonlyFieldInGetHashCode
         public override int GetHashCode()
         {
-// ReSharper disable BaseObjectGetHashCodeCallInGetHashCode
+            // ReSharper disable BaseObjectGetHashCodeCallInGetHashCode
             return base.GetHashCode();
-// ReSharper restore BaseObjectGetHashCodeCallInGetHashCode
+            // ReSharper restore BaseObjectGetHashCodeCallInGetHashCode
         }
 
         /// <summary>

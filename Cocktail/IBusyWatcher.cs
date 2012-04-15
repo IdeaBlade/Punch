@@ -10,6 +10,7 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using System;
 using IdeaBlade.Core;
 
 namespace Cocktail
@@ -34,7 +35,7 @@ namespace Cocktail
         /// The internal busy indicator is incremented by calling this method and as soon as the Dispose()
         /// method is called on the ticket, the internal busy counter is decremented.
         /// </remarks>
-        BusyWatcher.BusyWatcherTicket GetTicket();
+        IDisposable GetTicket();
 
         /// <summary>
         /// Increments the internal busy counter.

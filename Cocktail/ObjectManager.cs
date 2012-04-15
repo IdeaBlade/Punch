@@ -19,12 +19,12 @@ namespace Cocktail
     /// after a previous instance with the same key has been released.</summary>
     /// <typeparam name="TKey">The type of the key used to retrieve a shared instance.</typeparam>
     /// <typeparam name="T">The type of the instance.</typeparam>
-    public class ObjectManager<TKey, T>
+    public class ObjectManager<TKey, T> where T : class
     {
         private readonly WeakRefDictionary<TKey, T> _objects;
 
         /// <summary>Initializes a new ObjectManager</summary>
-        protected ObjectManager()
+        public ObjectManager()
         {
             _objects = new WeakRefDictionary<TKey, T>();
         }
@@ -35,13 +35,14 @@ namespace Cocktail
         public ExportFactory<T> ExportFactory { get; set; }
 #endif
 
-        /// <summary>Retrieves an object instance by key. If the key hasn't been encountered before, a new instance will be created.</summary>
+        /// <summary>
+        /// Retrieves an object instance by key. If the key hasn't been encountered before, a new instance will be created.
+        /// </summary>
         /// <param name="key">The key used to look up the instance. If the key is encountered for the first time, a new instance will be created.</param>
         /// <returns>An existing or new instance matching the key.</returns>
         public T GetObject(TKey key)
         {
             T obj;
-
             if (_objects.TryGetValue(key, out obj)) return obj;
 
             // No or dead repository for the given key. Create a new one.
@@ -51,11 +52,25 @@ namespace Cocktail
             return obj;
         }
 
+        /// <summary>
+        /// Retrieves an object instance by key without creating a new instance if it doesn't exist.
+        /// </summary>
+        /// <param name="key">The key used to look up the instance.</param>
+        /// <returns>Null if no object for the given key exists.</returns>
+        public T TryGetObject(TKey key)
+        {
+            T obj;
+            return _objects.TryGetValue(key, out obj) ? obj : null;
+        }
+
         /// <summary>Creates an object instance without adding it to the internal managed dictionary.</summary>
         /// <returns>Returns the new instance. Can later be added with <see cref="Add"/></returns>
         public T Create()
         {
 #if SILVERLIGHT
+            if (ExportFactory == null)
+                Composition.BuildUp(this);
+
             return ExportFactory.CreateExport().Value;
 #else
             return Composition.GetInstance<T>(CreationPolicy.NonShared);

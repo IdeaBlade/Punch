@@ -110,6 +110,9 @@ namespace TempHire.ViewModels.StaffingResource
 
         public void Handle(EntityChangedMessage message)
         {
+            if (ActiveStaffingResource == null || !ActiveUnitOfWork.HasEntity(message.Entity))
+                return;
+
             NotifyOfPropertyChange(() => CanSave);
             NotifyOfPropertyChange(() => CanCancel);
         }
@@ -206,9 +209,6 @@ namespace TempHire.ViewModels.StaffingResource
 
         protected override void OnDeactivate(bool close)
         {
-            if (close)
-                ActiveItem = null;
-
             base.OnDeactivate(close);
             SearchPane.PropertyChanged -= OnSearchPanePropertyChanged;
             ((IDeactivate) SearchPane).Deactivate(close);

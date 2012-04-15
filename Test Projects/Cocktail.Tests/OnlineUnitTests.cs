@@ -156,7 +156,8 @@ namespace Cocktail.Tests
             var connectionOptions =
                 ConnectionOptions.Default.WithCompositionContext("ShouldLoginLogout").WithName("ShouldLoginLogout");
             ConnectionOptionsResolver.Add(connectionOptions);
-            var emp = new EntityManagerProvider<NorthwindIBEntities>().With("ShouldLoginLogout");
+            var emp = new EntityManagerProvider<NorthwindIBEntities>()
+                .Configure(provider => provider.WithConnectionOptions("ShouldLoginLogout"));
 
             auth.PrincipalChanged += (s, e) => principalChangedFired = true;
             auth.LoggedIn += (s, e) => loggedInFired = true;
@@ -239,7 +240,8 @@ namespace Cocktail.Tests
         [TestMethod]
         public void ShouldReturnFakeConnectionOptions()
         {
-            var emp = new EntityManagerProvider<EntityManager>().With(ConnectionOptions.Fake.Name);
+            var emp = new EntityManagerProvider<EntityManager>()
+                .Configure(provider => provider.WithConnectionOptions(ConnectionOptions.Fake.Name));
             Assert.IsTrue(emp.ConnectionOptions.IsFake);
             Assert.IsFalse(emp.ConnectionOptions.IsDesignTime);
         }
@@ -247,7 +249,8 @@ namespace Cocktail.Tests
         [TestMethod]
         public void ShouldReturnDesignTimeConnectionOptions()
         {
-            var emp = new EntityManagerProvider<EntityManager>().With(ConnectionOptions.DesignTime.Name);
+            var emp = new EntityManagerProvider<EntityManager>()
+                .Configure(provider => provider.WithConnectionOptions(ConnectionOptions.DesignTime.Name));
             Assert.IsTrue(emp.ConnectionOptions.IsDesignTime);
             Assert.IsFalse(emp.ConnectionOptions.IsFake);
         }
@@ -255,7 +258,8 @@ namespace Cocktail.Tests
         [TestMethod]
         public void ShouldReturnFakeStoreAuthenticationService()
         {
-            var authSvc = new AuthenticationService().With(ConnectionOptions.Fake.Name);
+            var authSvc = new AuthenticationService()
+                .Configure(auth => auth.WithConnectionOptions(ConnectionOptions.Fake.Name));
             Assert.IsTrue(authSvc.ConnectionOptions.IsFake);
             Assert.IsFalse(authSvc.ConnectionOptions.IsDesignTime);
         }

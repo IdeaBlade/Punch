@@ -24,21 +24,44 @@ using IdeaBlade.Validation;
 namespace Cocktail
 {
     /// <summary>
+    /// Interface used to configure an EntityManagerProvider.
+    /// </summary>
+    /// <typeparam name="T">The type of EntityManager</typeparam>
+    public interface IEntityManagerProviderConfigurator<out T> : IHideObjectMembers where T : EntityManager
+    {
+        /// <summary>
+        /// Configures the name of the <see cref="ConnectionOptions"/> to be used.
+        /// </summary>
+        /// <param name="connectionOptionsName">The name of the ConnectionOptions.</param>
+        IEntityManagerProviderConfigurator<T> WithConnectionOptions(string connectionOptionsName);
+
+        /// <summary>
+        /// Configures the list of SampleDataProviders.
+        /// </summary>
+        /// <param name="sampleDataProviders">One or more sample data providers.</param>
+        /// <remarks>If the SampleDataProviders are not configured, the EntityManagerProvider will try to discover them through the MEF container.</remarks>
+        IEntityManagerProviderConfigurator<T> WithSampleDataProviders(params ISampleDataProvider<T>[] sampleDataProviders);
+
+        /// <summary>
+        /// Configures the <see cref="IEntityManagerSyncInterceptor"/>.
+        /// </summary>
+        /// <param name="syncInterceptor">The SyncInterceptor to be used.</param>
+        /// <remarks>If no SyncInterceptor is configured, the EntityManagerProvider will try to discover it through the MEF container.</remarks>
+        IEntityManagerProviderConfigurator<T> WithSyncInterceptor(IEntityManagerSyncInterceptor syncInterceptor);
+    }
+
+    /// <summary>
     ///   Manages and provides an EntityManager.
     /// </summary>
     /// <typeparam name="T"> The type of the EntityManager </typeparam>
-    public class EntityManagerProvider<T> : EntityManagerProviderCore<T>,
-                                            IHandle<SyncDataMessage<T>>, IHandle<PrincipalChangedMessage>
+    public class EntityManagerProvider<T> : IEntityManagerProvider<T>, IHandle<SyncDataMessage<T>>, IHandle<PrincipalChangedMessage>
         where T : EntityManager
     {
-        private readonly PartLocator<IEntityManagerSyncInterceptor> _syncInterceptorLocator;
-        private IEnumerable<EntityKey> _deletedEntityKeys;
+        private readonly EntityManagerProviderConfiguration<T> _configuration;
         private IEnumerable<EntityManagerDelegate<T>> _entityManagerDelegates;
-        private IEnumerable<ISampleDataProvider<T>> _sampleDataProviders;
-        private EntityCacheState _storeEcs;
-        private bool _isSaving;
-
         private EntityManagerWrapper<T> _entityManagerWrapper;
+        private IEnumerable<EntityKey> _deletedEntityKeys;
+        private EntityCacheState _storeEcs;
         private IEnumerable<IValidationErrorNotification> _validationErrorNotifiers;
 
         /// <summary>
@@ -46,46 +69,66 @@ namespace Cocktail
         /// </summary>
         public EntityManagerProvider()
         {
-            _syncInterceptorLocator =
-                new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.NonShared, () => CompositionContext)
-                    .WithDefaultGenerator(() => new DefaultEntityManagerSyncInterceptor());
+            _configuration = new EntityManagerProviderConfiguration<T>();
         }
 
         /// <summary>
-        ///   Creates a new EntityManagerProvider from the current EntityManagerProvider and assigns the specified <see
-        ///    cref="ConnectionOptions" /> name.
+        /// Configures the current EntityManagerProvider.
         /// </summary>
-        /// <param name="connectionOptionsName"> The ConnectionOptions name to be assigned. </param>
-        /// <returns> A new EntityManagerProvider instance. </returns>
-        public new EntityManagerProvider<T> With(string connectionOptionsName)
+        /// <param name="configure">Delegate to perform the configuration.</param>
+        public EntityManagerProvider<T> Configure(Action<IEntityManagerProviderConfigurator<T>> configure)
         {
-            return (EntityManagerProvider<T>) base.With(connectionOptionsName);
-        }
-
-        /// <summary>
-        ///   Creates a new EntityManagerProvider from the current EntityManagerProvider and assigns the specified sample data providers.
-        /// </summary>
-        /// <param name="sampleDataProviders"> The sample data providers to be assigned. </param>
-        /// <returns> A new EntityManagerProvider instance. </returns>
-        public EntityManagerProvider<T> With(params ISampleDataProvider<T>[] sampleDataProviders)
-        {
-            var newInstance = (EntityManagerProvider<T>) ((ICloneable) this).Clone();
-            newInstance.SampleDataProviders = sampleDataProviders;
-            return newInstance;
+            configure(_configuration);
+            return this;
         }
 
         #region IEntityManagerProvider<T> Members
 
         /// <summary>
+        ///   Specifies the ConnectionOptions used by the current EntityManagerProvider.
+        /// </summary>
+        public ConnectionOptions ConnectionOptions
+        {
+            get { return ConnectionOptions.GetByName(_configuration.ConnectionOptionsName); }
+        }
+
+        /// <summary>
+        ///   Returns true if any entities in the EntityManager cache have validation errors.
+        /// </summary>
+        public bool HasValidationError
+        {
+            get
+            {
+                return Manager.FindEntities<object>(EntityState.AllButDetached)
+                    .Select(EntityAspect.Wrap)
+                    .Any(a => a.ValidationErrors.HasErrors);
+            }
+        }
+
+        /// <summary>
+        ///   Returns true if a save is in progress. A <see cref="InvalidOperationException" /> is thrown if EntityManager.SaveChangesAsync is called while a previous SaveChangesAsync is still in progress.
+        /// </summary>
+        public bool IsSaving { get; private set; }
+
+        EntityManager IEntityManagerProvider.Manager
+        {
+            get { return Manager; }
+        }
+
+        /// <summary>
         ///   Returns the EntityManager managed by this provider.
         /// </summary>
-        public override T Manager
+        public T Manager
         {
             get
             {
                 if (_entityManagerWrapper == null)
                 {
                     _entityManagerWrapper = new EntityManagerWrapper<T>(CreateEntityManagerCore());
+                    _entityManagerWrapper.Querying += OnQuerying;
+                    _entityManagerWrapper.Saving += OnSaving;
+                    _entityManagerWrapper.Saved += OnSaved;
+
                     OnManagerCreated();
                 }
                 return _entityManagerWrapper.Manager;
@@ -93,24 +136,18 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Returns true if a save is in progress. A <see cref="InvalidOperationException" /> is thrown if EntityManager.SaveChangesAsync is called while a previous SaveChangesAsync is still in progress.
+        /// Signals that a Save of at least one entity has been performed
+        /// or changed entities have been imported from another entity manager.
+        /// Clients may use this event to force a data refresh. 
         /// </summary>
-        public override bool IsSaving
-        {
-            get { return _isSaving; }
-        }
-
-        #endregion
+        public event EventHandler<DataChangedEventArgs> DataChanged;
 
         /// <summary>
-        ///   Creates a copy of the current EntityManagerProvider.
+        /// Event fired after the EntityManager got created.
         /// </summary>
-        public override object Clone()
-        {
-            var newInstance = (EntityManagerProvider<T>) base.Clone();
-            newInstance._sampleDataProviders = _sampleDataProviders;
-            return newInstance;
-        }
+        public event EventHandler<EntityManagerCreatedEventArgs> ManagerCreated;
+
+        #endregion
 
         #region IHandle<SyncDataMessage<T>> Members
 
@@ -128,8 +165,7 @@ namespace Cocktail
             if (removers.Any()) Manager.RemoveEntities(removers);
 
             // Merge saved entities
-            var interceptor = GetSyncInterceptor();
-            var mergers = syncData.SavedEntities.Where(interceptor.ShouldImportEntity);
+            var mergers = syncData.SavedEntities.Where(SyncInterceptor.ShouldImportEntity);
             Manager.ImportEntities(mergers, MergeStrategy.PreserveChangesUpdateOriginal);
 
             // Signal to our clients that data has changed
@@ -172,6 +208,47 @@ namespace Cocktail
         }
 
 #endif
+
+        /// <summary>
+        ///   Triggers the ManagerCreated event.
+        /// </summary>
+        protected virtual void OnManagerCreated()
+        {
+            if (ManagerCreated != null)
+                ManagerCreated(this, new EntityManagerCreatedEventArgs(Manager));
+        }
+
+        /// <summary>
+        ///   Triggers the DataChanged event.
+        /// </summary>
+        /// <param name="entityKeys"> The list of keys for the changed entities </param>
+        protected void OnDataChanged(IEnumerable<EntityKey> entityKeys)
+        {
+            if (DataChanged != null)
+                DataChanged(this, new DataChangedEventArgs(entityKeys, Manager));
+        }
+
+        /// <summary>
+        ///   Creates a new EntityManager instance.
+        /// </summary>
+        protected virtual T CreateEntityManager()
+        {
+            try
+            {
+                var connectionOptions = ConnectionOptions;
+                var manager = (T)Activator.CreateInstance(typeof(T), connectionOptions.ToEntityManagerContext());
+
+                DebugFns.WriteLine(string.Format(StringResources.SuccessfullyCreatedEntityManager,
+                                                 manager.GetType().FullName, connectionOptions.Name,
+                                                 connectionOptions.IsFake));
+                return manager;
+            }
+            catch (MissingMethodException)
+            {
+                throw new MissingMethodException(string.Format(StringResources.MissingEntityManagerConstructor,
+                                                               typeof(T).Name));
+            }
+        }
 
         private T CreateEntityManagerCore()
         {
@@ -221,77 +298,62 @@ namespace Cocktail
                     delegate { throw new InvalidOperationException(StringResources.InvalidUseOfExpiredEntityManager); };
                 _entityManagerWrapper.Manager.Saving +=
                     delegate { throw new InvalidOperationException(StringResources.InvalidUseOfExpiredEntityManager); };
+                _entityManagerWrapper.Clear();
             }
             _entityManagerWrapper = null;
         }
 
-        private IEntityManagerSyncInterceptor GetSyncInterceptor()
+        private IEntityManagerSyncInterceptor SyncInterceptor
         {
-            var syncInterceptor = _syncInterceptorLocator.GetPart();
-
-            // If custom implementation, set EntityManager property
-            if (syncInterceptor is EntityManagerSyncInterceptor)
-                ((EntityManagerSyncInterceptor) syncInterceptor).EntityManager = Manager;
-
-            return syncInterceptor;
-        }
-
-        private void OnSaved(EntitySavedEventArgs e)
-        {
-            try
+            get
             {
-                if (!e.HasError)
+                if (_configuration.SyncInterceptor == null)
                 {
-                    var interceptor = GetSyncInterceptor();
-                    var exportEntities =
-                        e.Entities.Where(
-                            entity =>
-                            interceptor.ShouldExportEntity(entity) &&
-                            !_deletedEntityKeys.Contains(EntityAspect.Wrap(entity).EntityKey)).ToList();
-                    PublishEntities(exportEntities);
+                    var syncInterceptorLocator =
+                        new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.NonShared, () => CompositionContext)
+                            .WithDefaultGenerator(() => new DefaultEntityManagerSyncInterceptor());
+                    _configuration.WithSyncInterceptor(syncInterceptorLocator.GetPart());
                 }
-                _deletedEntityKeys = null;
-            }
-            finally
-            {
-                _isSaving = false;
+
+                // If custom implementation, set EntityManager property
+                var syncInterceptor = _configuration.SyncInterceptor as EntityManagerSyncInterceptor;
+                if (syncInterceptor != null)
+                    syncInterceptor.EntityManager = Manager;
+
+                return _configuration.SyncInterceptor;
             }
         }
 
-        private void PublishEntities(IEnumerable<object> exportEntities)
+        private void OnQuerying(object sender, EntityQueryingEventArgs args)
         {
-            var syncData = new SyncDataMessage<T>(this, exportEntities, _deletedEntityKeys);
-            EventFns.Publish(syncData);
-
-            // Signal to our clients that data has changed
-            if (syncData.SavedEntities.Any() || syncData.DeletedEntityKeys.Any())
-                RaiseDataChangedEvent(syncData.SavedEntities, syncData.DeletedEntityKeys);
+            // In design mode all queries must be forced to execute against the cache.
+            if (Execute.InDesignMode)
+                args.Query = args.Query.With(QueryStrategy.CacheOnly);
         }
 
-        private void OnSaving(EntitySavingEventArgs e)
+        private void OnSaving(object sender, EntitySavingEventArgs e)
         {
             if (IsSaving)
                 throw new InvalidOperationException(
                     StringResources.ThisEntityManagerIsCurrentlyBusyWithAPreviousSaveChangeAsync);
-            _isSaving = true;
+            IsSaving = true;
 
             try
             {
                 Validate(e);
                 if (e.Cancel)
                 {
-                    _isSaving = false;
+                    IsSaving = false;
                     return;
                 }
 
-                var interceptor = GetSyncInterceptor();
                 var syncEntities =
-                    e.Entities.Where(interceptor.ShouldExportEntity);
+                    e.Entities.Where(SyncInterceptor.ShouldExportEntity);
                 RetainDeletedEntityKeys(syncEntities);
             }
             catch (Exception)
             {
-                _isSaving = false;
+                IsSaving = false;
                 throw;
             }
         }
@@ -334,6 +396,37 @@ namespace Cocktail
                     e => EntityAspect.Wrap(e).EntityKey).ToList();
         }
 
+        private void OnSaved(object sender, EntitySavedEventArgs e)
+        {
+            try
+            {
+                if (!e.HasError)
+                {
+                    var exportEntities =
+                        e.Entities.Where(
+                            entity =>
+                            SyncInterceptor.ShouldExportEntity(entity) &&
+                            !_deletedEntityKeys.Contains(EntityAspect.Wrap(entity).EntityKey)).ToList();
+                    PublishEntities(exportEntities);
+                }
+                _deletedEntityKeys = null;
+            }
+            finally
+            {
+                IsSaving = false;
+            }
+        }
+
+        private void PublishEntities(IEnumerable<object> exportEntities)
+        {
+            var syncData = new SyncDataMessage<T>(this, exportEntities, _deletedEntityKeys);
+            EventFns.Publish(syncData);
+
+            // Signal to our clients that data has changed
+            if (syncData.SavedEntities.Any() || syncData.DeletedEntityKeys.Any())
+                RaiseDataChangedEvent(syncData.SavedEntities, syncData.DeletedEntityKeys);
+        }
+
         private void RaiseDataChangedEvent(IEnumerable<object> savedEntities, IEnumerable<EntityKey> deletedEntityKeys)
         {
             var entityKeys =
@@ -366,9 +459,6 @@ namespace Cocktail
                                    ? string.Format(StringResources.ProbedForEntityManagerDelegateAndFoundMatch,
                                                    _entityManagerDelegates.Count())
                                    : StringResources.ProbedForEntityManagerDelegateAndFoundNoMatch);
-
-            // Append internal delegate to the list of delegates
-            _entityManagerDelegates = _entityManagerDelegates.Concat(new InternalDelegate(this)).ToList();
         }
 
         private IEnumerable<IValidationErrorNotification> ValidationErrorNotifiers
@@ -398,50 +488,38 @@ namespace Cocktail
         {
             get
             {
-                return _sampleDataProviders ??
-                       (_sampleDataProviders = Composition.GetInstances<ISampleDataProvider<T>>());
-            }
-            set { _sampleDataProviders = value; }
-        }
+                if (_configuration.SampleDataProviders == null)
+                    _configuration.WithSampleDataProviders(Composition.GetInstances<ISampleDataProvider<T>>().ToArray());
 
-        [PartNotDiscoverable]
-        private class InternalDelegate : EntityManagerDelegate<T>
+                return _configuration.SampleDataProviders;
+            }
+        }
+    }
+
+    internal class EntityManagerProviderConfiguration<T> : IEntityManagerProviderConfigurator<T> where T : EntityManager
+    {
+        public IEntityManagerProviderConfigurator<T> WithConnectionOptions(string connectionOptionsName)
         {
-            private readonly EntityManagerProvider<T> _entityManagerProvider;
-
-            public InternalDelegate(EntityManagerProvider<T> entityManagerProvider)
-            {
-                _entityManagerProvider = entityManagerProvider;
-            }
-
-            private bool IsSameEntityManager(EntityManager manager)
-            {
-                return _entityManagerProvider._entityManagerWrapper != null &&
-                       ReferenceEquals(_entityManagerProvider._entityManagerWrapper.Manager, manager);
-            }
-
-            public override void OnQuerying(T source, EntityQueryingEventArgs args)
-            {
-                if (!IsSameEntityManager(source)) return;
-
-                // In design mode all queries must be forced to execute against the cache.
-                if (Execute.InDesignMode)
-                    args.Query = args.Query.With(QueryStrategy.CacheOnly);
-            }
-
-            public override void OnSaving(T source, EntitySavingEventArgs args)
-            {
-                if (!IsSameEntityManager(source)) return;
-
-                _entityManagerProvider.OnSaving(args);
-            }
-
-            public override void OnSaved(T source, EntitySavedEventArgs args)
-            {
-                if (!IsSameEntityManager(source)) return;
-
-                _entityManagerProvider.OnSaved(args);
-            }
+            ConnectionOptionsName = connectionOptionsName;
+            return this;
         }
+
+        public IEntityManagerProviderConfigurator<T> WithSampleDataProviders(params ISampleDataProvider<T>[] sampleDataProviders)
+        {
+            SampleDataProviders = sampleDataProviders;
+            return this;
+        }
+
+        public IEntityManagerProviderConfigurator<T> WithSyncInterceptor(IEntityManagerSyncInterceptor syncInterceptor)
+        {
+            SyncInterceptor = syncInterceptor;
+            return this;
+        }
+
+        public string ConnectionOptionsName { get; private set; }
+
+        public IEnumerable<ISampleDataProvider<T>> SampleDataProviders { get; private set; }
+
+        public IEntityManagerSyncInterceptor SyncInterceptor { get; private set; }
     }
 }

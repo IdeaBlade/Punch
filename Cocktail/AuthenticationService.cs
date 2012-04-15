@@ -21,6 +21,18 @@ using IdeaBlade.EntityModel.Security;
 
 namespace Cocktail
 {
+    /// <summary>
+    /// Interface used to configure the AuthenticationService
+    /// </summary>
+    public interface IAuthenticationServiceConfigurator : IHideObjectMembers
+    {
+        /// <summary>
+        /// Configures the name of the <see cref="ConnectionOptions"/> to be used.
+        /// </summary>
+        /// <param name="connectionOptionsName">The name of the ConnectionOptions.</param>
+        IAuthenticationServiceConfigurator WithConnectionOptions(string connectionOptionsName);
+    }
+
     /// <summary>Default implementation of an authentication service. Subclass if different behavior is desired, otherwise use as-is.</summary>
     /// <example>
     /// 	<code title="Example" description="Demonstrates how to enable the authentication service in an application. " lang="CS">
@@ -38,7 +50,7 @@ namespace Cocktail
     public class AuthenticationService : IAuthenticationService, IAuthenticationContext, INotifyPropertyChanged,
                                          ICloneable
     {
-        private string _connectionsOptionsName;
+        private readonly AuthenticationServiceConfiguration _configuration;
         private IAuthenticationContext _authenticationContext;
 
         /// <summary>
@@ -46,6 +58,7 @@ namespace Cocktail
         /// </summary>
         public AuthenticationService()
         {
+            _configuration = new AuthenticationServiceConfiguration();
             _authenticationContext = LoggedOutAuthenticationContext.Instance;
         }
 
@@ -106,15 +119,15 @@ namespace Cocktail
             CoroutineOperation coop = Coroutine.Start(
                 () => LoginAsyncCore(credential),
                 op =>
+                {
+                    if (op.CompletedSuccessfully)
                     {
-                        if (op.CompletedSuccessfully)
-                        {
-                            _authenticationContext = (IAuthenticationContext) op.Result;
-                            OnPrincipalChanged();
-                            OnLoggedIn();
-                        }
-                        op.OnComplete(onSuccess, onFail);
-                    });
+                        _authenticationContext = (IAuthenticationContext)op.Result;
+                        OnPrincipalChanged();
+                        OnLoggedIn();
+                    }
+                    op.OnComplete(onSuccess, onFail);
+                });
 
             return coop.AsOperationResult();
         }
@@ -159,11 +172,11 @@ namespace Cocktail
 
 #if !SILVERLIGHT
 
-    /// <summary>Login with the supplied credential.</summary>
-    /// <param name="credential">
-    /// 	<para>The supplied credential.</para>
-    /// </param>
-    /// <returns>A Boolean indicating success or failure.</returns>
+        /// <summary>Login with the supplied credential.</summary>
+        /// <param name="credential">
+        /// 	<para>The supplied credential.</para>
+        /// </param>
+        /// <returns>A Boolean indicating success or failure.</returns>
         public void Login(ILoginCredential credential)
         {
             // Logout before logging in with new set of credentials
@@ -205,15 +218,13 @@ namespace Cocktail
         #endregion
 
         /// <summary>
-        /// Creates a new AuthenticationService from the current AuthenticationService and assigns the specified <see cref="ConnectionOptions"/> name.
+        /// Configures the current AuthenticationService.
         /// </summary>
-        /// <param name="connectionOptionsName">The <see cref="ConnectionOptions"/> name to be assigned.</param>
-        /// <returns>A new AuthenticationService instance.</returns>
-        public AuthenticationService With(string connectionOptionsName)
+        /// <param name="configure">Delegate to perform the configuration.</param>
+        public AuthenticationService Configure(Action<IAuthenticationServiceConfigurator> configure)
         {
-            var authenticationService = (AuthenticationService) ((ICloneable) this).Clone();
-            authenticationService._connectionsOptionsName = connectionOptionsName;
-            return authenticationService;
+            configure(_configuration);
+            return this;
         }
 
         /// <summary>
@@ -221,7 +232,7 @@ namespace Cocktail
         /// </summary>
         public ConnectionOptions ConnectionOptions
         {
-            get { return ConnectionOptions.GetByName(_connectionsOptionsName); }
+            get { return ConnectionOptions.GetByName(_configuration.ConnectionOptionsName); }
         }
 
         /// <summary>Internal use.</summary>
@@ -378,6 +389,17 @@ namespace Cocktail
         }
 
         #endregion
+    }
+
+    internal class AuthenticationServiceConfiguration : IAuthenticationServiceConfigurator
+    {
+        public string ConnectionOptionsName { get; private set; }
+
+        public IAuthenticationServiceConfigurator WithConnectionOptions(string connectionOptionsName)
+        {
+            ConnectionOptionsName = connectionOptionsName;
+            return this;
+        }
     }
 
     internal class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>

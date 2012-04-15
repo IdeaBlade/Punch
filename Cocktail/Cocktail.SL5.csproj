@@ -121,7 +121,6 @@
     <Compile Include="DataChangedEventArgs.cs" />
     <Compile Include="DefaultEntityManagerSyncInterceptor.cs" />
     <Compile Include="EntityManagerDelegate.cs" />
-    <Compile Include="EntityManagerProviderCore.cs" />
     <Compile Include="EntityManagerSyncInterceptor.cs" />
     <Compile Include="EntityManagerWrapper.cs" />
     <Compile Include="EventFns.cs" />

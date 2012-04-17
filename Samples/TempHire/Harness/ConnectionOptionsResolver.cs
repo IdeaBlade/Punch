@@ -17,7 +17,7 @@ namespace TempHire
 {
     public class ConnectionOptionsResolver : IConnectionOptionsResolver
     {
-        public static ConnectionOptions TempHireFake = ConnectionOptions.Default
+        public static ConnectionOptions TempHireFake = ConnectionOptions.Fake
             .WithCompositionContext(CompositionContextResolver.TempHireFake.Name)
             .WithName("TempHireFake");
 

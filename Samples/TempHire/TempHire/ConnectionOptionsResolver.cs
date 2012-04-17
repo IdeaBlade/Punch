@@ -24,7 +24,8 @@ namespace TempHire
 #if FAKESTORE
             // Replace default connection info in order to connect to fake store
             if (name == ConnectionOptions.Default.Name)
-                return ConnectionOptions.Default.WithCompositionContext(CompositionContextResolver.TempHireFake.Name)
+                return ConnectionOptions.Fake
+                    .WithCompositionContext(CompositionContextResolver.TempHireFake.Name)
                     .WithName(ConnectionOptions.Default.Name);
 #endif
             return null;

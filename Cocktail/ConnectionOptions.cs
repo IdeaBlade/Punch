@@ -175,10 +175,11 @@ namespace Cocktail
         /// </summary>
         /// <param name="name">The name to be assigned.</param>
         /// <returns>A new ConnectionOptions instance.</returns>
+        /// <remarks>WithName must be used last. All the With... operations clear the name property.</remarks>
         public ConnectionOptions WithName(string name)
         {
             if (name == null) throw new ArgumentNullException("name");
-            return new ConnectionOptions(this) {Name = name};
+            return new ConnectionOptions(this) { Name = name };
         }
 
         /// <summary>
@@ -190,6 +191,48 @@ namespace Cocktail
         {
             if (compositionContextName == null) throw new ArgumentNullException("compositionContextName");
             return new ConnectionOptions(this) { _compositionContextName = compositionContextName };
+        }
+
+        /// <summary>
+        /// Creates a new ConnectionOptions from the current ConnectionOptions and assigns the specified data source extension.
+        /// </summary>
+        /// <param name="dataSourceExtension">The data source extension name to be assigned.</param>
+        /// <returns>A new ConnectionOptions instance.</returns>
+        public ConnectionOptions WithDataSourceExtension(string dataSourceExtension)
+        {
+            if (dataSourceExtension == null) throw new ArgumentNullException("dataSourceExtension");
+            return new ConnectionOptions(this) { DataSourceExtension = dataSourceExtension };
+        }
+
+        /// <summary>
+        /// Creates a new ConnectionOptions from the current ConnectionOptions and assigns the specified EntityServiceOption.
+        /// </summary>
+        /// <param name="entityServiceOption">The EntityServiceOption to be assigned.</param>
+        /// <returns>A new ConnectionOptions instance.</returns>
+        public ConnectionOptions WithEntityServiceOption(EntityServiceOption entityServiceOption)
+        {
+            return new ConnectionOptions(this) { EntityServiceOption = entityServiceOption };
+        }
+
+        /// <summary>
+        /// Creates a new ConnectionOptions from the current ConnectionOptions and assigns the specified service key.
+        /// </summary>
+        /// <param name="serviceKey">The service key to be assigned.</param>
+        /// <returns>A new ConnectionOptions instance.</returns>
+        public ConnectionOptions WithServiceKey(string serviceKey)
+        {
+            if (serviceKey == null) throw new ArgumentNullException("serviceKey");
+            return new ConnectionOptions(this) { ServiceKey = serviceKey };
+        }
+
+        /// <summary>
+        /// Creates a new ConnectionOptions from the current ConnectionOptions and specifies whether an EntityManager should connect.
+        /// </summary>
+        /// <param name="shouldConnect">True if an EntityManager should connect prior to the first server operation.</param>
+        /// <returns>A new ConnectionOptions instance.</returns>
+        public ConnectionOptions WithShouldConnect(bool shouldConnect)
+        {
+            return new ConnectionOptions(this) { ShouldConnect = shouldConnect };
         }
 
         /// <summary>

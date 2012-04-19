@@ -46,7 +46,7 @@ namespace DomainServices
             return EntityManager == entityAspect.EntityManager;
         }
 
-        public IStaffingResourceFactory StaffingResourceFactory { get; private set; }
+        public IFactory<StaffingResource> StaffingResourceFactory { get; private set; }
 
         public IRepository<AddressType> AddressTypes { get; private set; }
         public IRepository<State> States { get; private set; }

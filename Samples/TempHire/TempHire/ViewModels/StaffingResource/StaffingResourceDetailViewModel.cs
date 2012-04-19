@@ -137,10 +137,12 @@ namespace TempHire.ViewModels.StaffingResource
             Busy.AddWatch();
 
             _unitOfWork = _unitOfWorkManager.Create();
-            _unitOfWork.StaffingResourceFactory.CreateAsync(firstName, middleName, lastName,
-                                                            resource =>
+            _unitOfWork.StaffingResourceFactory.CreateAsync(resource =>
                                                             {
                                                                 _unitOfWorkManager.Add(resource.Id, _unitOfWork);
+                                                                resource.FirstName = firstName;
+                                                                resource.MiddleName = middleName;
+                                                                resource.LastName = lastName;
                                                                 Start(resource.Id);
                                                             },
                                                             _errorHandler.HandleError)

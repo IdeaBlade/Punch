@@ -57,7 +57,6 @@
   <ItemGroup>
     <Compile Include="DomainUnitOfWork.cs" />
     <Compile Include="DomainUnitOfWorkManager.cs" />
-    <Compile Include="Factories\IStaffingResourceFactory.cs" />
     <Compile Include="Factories\StaffingResourceFactory.cs" />
     <Compile Include="IDomainUnitOfWork.cs" />
     <Compile Include="IDomainUnitOfWorkManager.cs" />

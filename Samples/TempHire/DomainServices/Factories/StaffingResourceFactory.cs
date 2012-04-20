@@ -21,7 +21,7 @@ using IdeaBlade.Linq;
 
 namespace DomainServices.Factories
 {
-    public class StaffingResourceFactory : IStaffingResourceFactory
+    public class StaffingResourceFactory : IFactory<StaffingResource>
     {
         private readonly IRepository<AddressType> _addressTypes;
         private readonly IEntityManagerProvider<TempHireEntities> _entityManagerProvider;
@@ -43,23 +43,18 @@ namespace DomainServices.Factories
 
         #region IStaffingResourceFactory Members
 
-        public OperationResult<StaffingResource> CreateAsync(string firstName, string middleName, string lastName,
-                                                             Action<StaffingResource> onSuccess = null,
+        public OperationResult<StaffingResource> CreateAsync(Action<StaffingResource> onSuccess = null,
                                                              Action<Exception> onFail = null)
         {
-            return Coroutine.Start(() => CreateAsyncCore(firstName, middleName, lastName),
-                                   op => op.OnComplete(onSuccess, onFail))
+            return Coroutine.Start(CreateAsyncCore, op => op.OnComplete(onSuccess, onFail))
                 .AsOperationResult<StaffingResource>();
         }
 
         #endregion
 
-        private IEnumerable<INotifyCompleted> CreateAsyncCore(string firstName, string middleName, string lastName)
+        private IEnumerable<INotifyCompleted> CreateAsyncCore()
         {
             var staffingResource = StaffingResource.Create();
-            staffingResource.FirstName = firstName;
-            staffingResource.MiddleName = middleName;
-            staffingResource.LastName = lastName;
             EntityManager.AddEntity(staffingResource);
 
             OperationResult<IEnumerable<AddressType>> op1;

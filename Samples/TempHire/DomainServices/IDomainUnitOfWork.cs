@@ -12,7 +12,6 @@
 
 using Cocktail.Contrib.UnitOfWork;
 using DomainModel;
-using DomainServices.Factories;
 
 namespace DomainServices
 {
@@ -20,7 +19,7 @@ namespace DomainServices
     {
         bool HasEntity(object entity);
 
-        IStaffingResourceFactory StaffingResourceFactory { get; }
+        IFactory<StaffingResource> StaffingResourceFactory { get; }
 
         IRepository<AddressType> AddressTypes { get; }
         IRepository<State> States { get; }

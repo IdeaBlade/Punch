@@ -73,7 +73,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factories\IStaffingResourceFactory.cs" />
     <Compile Include="Factories\StaffingResourceFactory.cs" />
     <Compile Include="IDomainUnitOfWork.cs" />
     <Compile Include="IDomainUnitOfWorkManager.cs" />

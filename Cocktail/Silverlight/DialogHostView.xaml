@@ -18,7 +18,9 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ItemsControl x:Name="DialogButtons" Grid.Row="1">
+        <ItemsControl x:Name="DialogButtons"
+                      Grid.Row="1"
+                      IsTabStop="False">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" />
@@ -39,6 +41,8 @@
                         Width="Auto"
                         Height="Auto"
                         HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch" />
+                        VerticalContentAlignment="Stretch"
+                        IsTabStop="False"
+                        TabIndex="0" />
     </Grid>
 </controls:ChildWindow>

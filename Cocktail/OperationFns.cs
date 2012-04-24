@@ -14,12 +14,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
-    /// <summary>Provides extension methods for the DevForce <see cref="BaseOperation"/> implementations.</summary>
+    /// <summary>A collection of DevForce asynchronous operation extension methods.</summary>
     public static class OperationFns
     {
         /// <summary>Extension method to process the result of an asynchronous query operation.</summary>
@@ -372,6 +371,184 @@ namespace Cocktail
                 }
             };
             return source;
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult" /> that wraps a DevForce asynchronous function.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult AsOperationResult(this INotifyCompleted asyncOp)
+        {
+            if (asyncOp is OperationResult)
+                return (OperationResult)asyncOp;
+            return new OperationResult(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<object> AsOperationResult(this CoroutineOperation asyncOp)
+        {
+            return new CoroutineOperationResult<object>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<T> AsOperationResult<T>(this CoroutineOperation asyncOp)
+        {
+            return new CoroutineOperationResult<T>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<IEnumerable> AsOperationResult(this EntityQueryOperation asyncOp)
+        {
+            return new EntityQueryOperationResult(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<IEnumerable<T>> AsOperationResult<T>(this EntityQueryOperation asyncOp)
+        {
+            return new EntityQueryOperationResult<T>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<IEnumerable<T>> AsOperationResult<T>(this EntityQueryOperation<T> asyncOp)
+        {
+            return new EntityQueryOperationResult<T>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<IEnumerable> AsOperationResult(this EntityRefetchOperation asyncOp)
+        {
+            return new EntityRefetchOperationResult(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<SaveResult> AsOperationResult(this EntitySaveOperation asyncOp)
+        {
+            return new EntitySaveOperationResult(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<object> AsOperationResult(this EntityScalarQueryOperation asyncOp)
+        {
+            return new EntityScalarQueryOperationResult<object>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<T> AsOperationResult<T>(this EntityScalarQueryOperation asyncOp)
+        {
+            return new EntityScalarQueryOperationResult<T>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<T> AsOperationResult<T>(this EntityScalarQueryOperation<T> asyncOp)
+        {
+            return new EntityScalarQueryOperationResult<T>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<object> AsOperationResult(this InvokeServerMethodOperation asyncOp)
+        {
+            return new InvokeServerMethodOperationResult<object>(asyncOp);
+        }
+
+        /// <summary>
+        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
+        /// and provides access to the operation's result value.
+        /// </summary>
+        /// <param name="asyncOp">DevForce asynchronous operation.</param>
+        /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
+        public static OperationResult<T> AsOperationResult<T>(this InvokeServerMethodOperation asyncOp)
+        {
+            return new InvokeServerMethodOperationResult<T>(asyncOp);
+        }
+
+        /// <summary>Ensures that a Coroutine continues if the current operation encounters an error and
+        /// prevents an unhandled exception from being thrown.</summary>
+        /// <param name="operation">The operation for which the error should be marked as handled.</param>
+        /// <typeparam name="T">The type of the operation.</typeparam>
+        /// <returns>The current operation.</returns>
+        public static T ContinueOnError<T>(this T operation) where T : INotifyCompleted
+        {
+            operation.WhenCompleted(args => args.IsErrorHandled = args.Error != null);
+            return operation;
+        }
+
+        /// <summary>
+        /// Creates a continuation that executes when the target operation completes.
+        /// </summary>
+        /// <param name="operation">The target operation.</param>
+        /// <param name="continuationAction">An action to run when the operation completes. When run, the delegate will be passed the completed operation as an argument. If the operation completed with an error, the error will be marked as handled.</param>
+        /// <typeparam name="T">The type of the target operation.</typeparam>
+        /// <returns>The completed target operation.</returns>
+        /// <exception cref="ArgumentNullException">The continuationAction argument is null.</exception>
+        public static T ContinueWith<T>(this T operation, Action<T> continuationAction) where T : INotifyCompleted
+        {
+            if (continuationAction == null) throw new ArgumentNullException("continuationAction");
+
+            operation.WhenCompleted(
+                args =>
+                    {
+                        if (args.Error != null)
+                            args.IsErrorHandled = true;
+
+                        continuationAction(operation);
+                    });
+            return operation;
         }
     }
 }

@@ -101,8 +101,8 @@ namespace Cocktail
                         _tcs.SetCanceled();
                     else if (args.Error != null && !args.IsErrorHandled)
                     {
-                        _tcs.SetException(args.Error);
                         args.IsErrorHandled = true;
+                        _tcs.SetException(args.Error);
                     }
                     else
                         _tcs.SetResult(true);
@@ -249,8 +249,8 @@ namespace Cocktail
                         _tcs.SetCanceled();
                     else if (args.Error != null && !args.IsErrorHandled)
                     {
-                        _tcs.SetException(args.Error);
                         args.IsErrorHandled = true;
+                        _tcs.SetException(args.Error);
                     }
                     else
                         _tcs.SetResult(args.Error == null ? Result : default(T));

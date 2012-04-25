@@ -536,11 +536,11 @@ namespace Cocktail
         /// <typeparam name="T">The type of the target operation.</typeparam>
         /// <returns>The completed target operation.</returns>
         /// <exception cref="ArgumentNullException">The continuationAction argument is null.</exception>
-        public static T ContinueWith<T>(this T operation, Action<T> continuationAction) where T : INotifyCompleted
+        public static T ContinueWith<T>(this T operation, Action<T> continuationAction) where T : OperationResult
         {
             if (continuationAction == null) throw new ArgumentNullException("continuationAction");
 
-            operation.WhenCompleted(
+            ((INotifyCompleted) operation).WhenCompleted(
                 args =>
                     {
                         if (args.Error != null)

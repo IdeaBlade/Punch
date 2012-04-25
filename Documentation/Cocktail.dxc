@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentFile Version="2010" Moniker="..\Cocktail\Bin\Debug\Cocktail.dll" DocType="DX.NET">
+<ContentFile Version="2010" Moniker="..\Cocktail\Bin\Debug\Cocktail.dll" DocType="DX.NET" IsLocalizationDisabled="false">
   <RelatedProject>CocktailHelpReference.dxp</RelatedProject>
   <State>
     <Attributes>
-      <Attribute key="dtscrollpos" valuetype="integer">612</Attribute>
+      <Attribute key="dtscrollpos" valuetype="integer">0</Attribute>
       <Attribute key="lang_VB" valuetype="string">on</Attribute>
       <Attribute key="lang_VBUsage" valuetype="string">on</Attribute>
       <Attribute key="lang_CS" valuetype="string">on</Attribute>
@@ -12,14 +12,25 @@
       <Attribute key="protectedMembers" valuetype="string">on</Attribute>
     </Attributes>
   </State>
-  <LastSelectedItem>Cocktail~Cocktail.EntityManagerProvider`1</LastSelectedItem>
+  <LastSelectedItem>Cocktail~Cocktail.DialogOperationResult`1~ContinueWith</LastSelectedItem>
   <item qn="Cocktail~Cocktail.EntityManagerProvider`1~With">
     <summary ChangeDateTime="2012-02-28T08:34:10.8087276Z">Creates a new EntityManagerProvider from the current EntityManagerProvider and assigns the specified value.</summary>
+  </item>
+  <item qn="Cocktail~Cocktail.DialogOperationResult`1~ContinueWith">
+    <exception ChangeDateTime="2012-04-25T02:39:58.0530775Z" caption="" cref="System.ArgumentNullException" id="9ae33523-9a3f-4de3-a991-51f097f71478">The continuationAction argument is null.</exception>
+    <summary ChangeDateTime="2012-04-25T02:42:33.1979513Z">Creates a continuation that executes when the target operation completes.</summary>
+    <returns ChangeDateTime="2012-04-25T02:39:59.2041433Z">The completed target operation.</returns>
+  </item>
+  <item qn="Cocktail~Cocktail.DialogOperationResult`1~ContinueWith:continuationAction">
+    <param ChangeDateTime="2012-04-25T02:39:59.2041433Z">An action to run when the operation completes. When run, the delegate will be passed the completed operation as an argument.</param>
   </item>
   <Filters>
     <CONTENTSTORECOMMON>
       <IsIncludedItemsOnly>true</IsIncludedItemsOnly>
     </CONTENTSTORECOMMON>
+    <CONTENTSTORELOCALIZATION>
+      <IsPrimaryLocaleContentPreviewEnabled>true</IsPrimaryLocaleContentPreviewEnabled>
+    </CONTENTSTORELOCALIZATION>
     <DX.NETCONTENTSTOREFILTER>
       <ShowProtectedMembers>true</ShowProtectedMembers>
       <ShowProtectedFriendMembers>true</ShowProtectedFriendMembers>

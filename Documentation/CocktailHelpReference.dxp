@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DocumentXProject Id="98dea772-2319-4961-8be6-33c2fa11fed9" Version="2010.1">
+<DocumentXProject Id="98dea772-2319-4961-8be6-33c2fa11fed9" Version="2011.1">
+  <Features>
+    <Feature>Document! X</Feature>
+  </Features>
   <SeparateFiles>false</SeparateFiles>
   <Flags>
     <Flag Id="{46CEF21D-3301-4517-A875-A0906828390E}" HighlightColor="#FFA1FFD0">Exclude from Online</Flag>
@@ -131,7 +134,7 @@
     </TopicEditorState>
   </TopicsProjectPlugin>
   <WidgetsProjectPlugin>
-    <WidgetTypes Version="2010.0" />
+    <WidgetTypes Version="2011.1" />
   </WidgetsProjectPlugin>
   <ProjectProfiles>
     <ProjectProfile Id="39caa9b0-295d-4fcc-9037-4bc5f2195e31" Name="Cocktail Help File">
@@ -167,6 +170,8 @@
         <ExcludeEditorBrowsable>true</ExcludeEditorBrowsable>
         <ExcludeBrowsableFalse>true</ExcludeBrowsableFalse>
         <ExcludeObsolete>true</ExcludeObsolete>
+        <ExcludeCompilerGenerated>false</ExcludeCompilerGenerated>
+        <ExcludeDebuggerNonUserCode>false</ExcludeDebuggerNonUserCode>
         <GenerateXmlCommentFile>false</GenerateXmlCommentFile>
         <IncludeBreadcrumbs>true</IncludeBreadcrumbs>
         <IncludeAssemblyBreadcrumb>true</IncludeAssemblyBreadcrumb>
@@ -213,6 +218,7 @@
         <SyntaxSectionStyle>TemplateDefault</SyntaxSectionStyle>
         <IsVbSyntaxMerged>true</IsVbSyntaxMerged>
         <IncludeMemberIndexKeywords>true</IncludeMemberIndexKeywords>
+        <IncludeCodeContracts>false</IncludeCodeContracts>
         <ExcludedLanguages>
           <ExcludedLanguage>Delphi</ExcludedLanguage>
           <ExcludedLanguage>JScript</ExcludedLanguage>
@@ -225,7 +231,6 @@
         <NoInheritedMemberTopicsInternal>true</NoInheritedMemberTopicsInternal>
         <UseXmlCommentFile>true</UseXmlCommentFile>
         <NoInheritedInLists>false</NoInheritedInLists>
-        <ExcludeBrowsableFalse>false</ExcludeBrowsableFalse>
         <IncludeBreadcrumbs>true</IncludeBreadcrumbs>
         <IncludeComponentBreadcrumb>false</IncludeComponentBreadcrumb>
         <XmlIsland></XmlIsland>
@@ -261,7 +266,6 @@
       <Com>
         <IncludeRelationshipDiagrams>true</IncludeRelationshipDiagrams>
         <UseHelpStrings>true</UseHelpStrings>
-        <ExcludeBrowsableFalse>false</ExcludeBrowsableFalse>
         <IncludeBreadcrumbs>true</IncludeBreadcrumbs>
         <IncludeProjectBreadcrumb>false</IncludeProjectBreadcrumb>
         <IncludePrivateMembers>false</IncludePrivateMembers>
@@ -303,15 +307,13 @@
         <RemoveTaggedCommentsFromSource>true</RemoveTaggedCommentsFromSource>
         <IncludeBreadcrumbs>true</IncludeBreadcrumbs>
         <IncludeSchemaInformation>true</IncludeSchemaInformation>
+        <CheckAllExtendedProperties>false</CheckAllExtendedProperties>
         <SourceContentUsage>Merge</SourceContentUsage>
         <UseSourceContent>true</UseSourceContent>
         <MaximumDependencyLevel>5</MaximumDependencyLevel>
+        <UseSqlServerDataTypeNames>false</UseSqlServerDataTypeNames>
       </Database>
       <Xsd>
-        <TemplateName>Visual Studio 2008 Style</TemplateName>
-        <IncludeBreadcrumbs>true</IncludeBreadcrumbs>
-        <SourceContentUsage>Merge</SourceContentUsage>
-        <UseSourceContent>true</UseSourceContent>
         <IncludeOverview>true</IncludeOverview>
         <IncludeOverviewReferencedChildren>false</IncludeOverviewReferencedChildren>
         <OverviewLevels>5</OverviewLevels>
@@ -325,6 +327,10 @@
         <DiagramItemMaxRecurse>3</DiagramItemMaxRecurse>
         <GenerateDiagrams>true</GenerateDiagrams>
         <IsOverrideTemplateDiagramStyleEnabled>false</IsOverrideTemplateDiagramStyleEnabled>
+        <TemplateName>Visual Studio 2008 Style</TemplateName>
+        <IncludeBreadcrumbs>true</IncludeBreadcrumbs>
+        <SourceContentUsage>Merge</SourceContentUsage>
+        <UseSourceContent>true</UseSourceContent>
       </Xsd>
       <Filters />
       <HelpCompiler CompileHelpFile="true" IsWebOutputEnabled="true" IsMarkOfTheWebEnabled="false">
@@ -349,6 +355,32 @@
         <IsHelp3SigningEnabled>false</IsHelp3SigningEnabled>
         <IsHelp3ValidationEnabled>false</IsHelp3ValidationEnabled>
         <IsHelp3KeywordsEnabled>false</IsHelp3KeywordsEnabled>
+        <BrowserHelpTemplateName>Default</BrowserHelpTemplateName>
+        <IsCustomHtmlHelpWindowSettings>false</IsCustomHtmlHelpWindowSettings>
+        <CustomHtmlHelpWindowSettings>
+          <IsExpandVisible>true</IsExpandVisible>
+          <IsBackVisible>true</IsBackVisible>
+          <IsForwardVisible>true</IsForwardVisible>
+          <IsStopVisible>false</IsStopVisible>
+          <IsRefreshVisible>false</IsRefreshVisible>
+          <IsHomeVisible>false</IsHomeVisible>
+          <IsLocateVisible>true</IsLocateVisible>
+          <IsOptionsVisible>true</IsOptionsVisible>
+          <IsPrintVisible>true</IsPrintVisible>
+          <IsZoomVisible>false</IsZoomVisible>
+          <NavigationPaneWidth>200</NavigationPaneWidth>
+          <IsNavigationPaneInitiallyClosed>false</IsNavigationPaneInitiallyClosed>
+          <IsAutoSyncWithTocEnabled>true</IsAutoSyncWithTocEnabled>
+          <IsSearchTabVisible>true</IsSearchTabVisible>
+          <IsHistoryTabVisible>false</IsHistoryTabVisible>
+          <IsFavoritesTabVisible>true</IsFavoritesTabVisible>
+          <DefaultTab>Contents</DefaultTab>
+          <IsSaveUserWindowSettingsEnabled>true</IsSaveUserWindowSettingsEnabled>
+          <WindowSizeHeight>400</WindowSizeHeight>
+          <WindowSizeWidth>600</WindowSizeWidth>
+          <WindowLocationLeft>0</WindowLocationLeft>
+          <WindowLocationTop>0</WindowLocationTop>
+        </CustomHtmlHelpWindowSettings>
         <HelpFileName>CocktailHelpReference.chm</HelpFileName>
       </HelpCompiler>
       <RuleEngine>
@@ -380,9 +412,10 @@
         <IncludeOnlyCompletedTopics>false</IncludeOnlyCompletedTopics>
         <IsNewSource>CreationDateTime</IsNewSource>
         <IsNewCustomTopicPropertyId></IsNewCustomTopicPropertyId>
+        <IsAnchorParsingEnabled>false</IsAnchorParsingEnabled>
       </TopicsProjectProfilePlugin>
       <WidgetsProjectProfilePlugin>
-        <WidgetTypes Version="2010.0" />
+        <WidgetTypes Version="2011.1" />
       </WidgetsProjectProfilePlugin>
       <OtherFiles>
         <IsLogoEnabled>false</IsLogoEnabled>

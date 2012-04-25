@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using IdeaBlade.Aop;
+using IdeaBlade.Core.DomainServices;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
 
@@ -22,6 +23,7 @@ namespace DomainModel
 {
     [ProvideEntityAspect]
     [DataContract(IsReference = true)]
+    [RequiresAuthentication]
     public abstract class EntityBase
     {
         private EntityFacts _entityFacts;
@@ -43,6 +45,7 @@ namespace DomainModel
     }
 
     [DataContract(IsReference = true)]
+    [ClientCanSave(true)]
     public abstract class AuditEntityBase : EntityBase
     {
         [DataMember]

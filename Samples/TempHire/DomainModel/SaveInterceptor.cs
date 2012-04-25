@@ -1,16 +1,15 @@
-﻿//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+﻿// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
-using System.Collections.Generic;
 using System.Linq;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
@@ -21,6 +20,12 @@ namespace DomainModel
 {
     public class SaveInterceptor : EntityServerSaveInterceptor
     {
+        // Don't allow saving of any entity type by default. CanSave attribute must be used to allow saving of specific types
+        protected override bool DefaultAuthorization
+        {
+            get { return false; }
+        }
+
         protected override bool ValidateSave()
         {
             base.ValidateSave();
@@ -30,12 +35,12 @@ namespace DomainModel
             em.CacheStateManager.RestoreCacheState(EntityManager.CacheStateManager.GetCacheState());
 
             // Find all entities supporting custom validation                
-            List<EntityBase> entities =
+            var entities =
                 em.FindEntities(EntityState.AllButDetached).OfType<EntityBase>().ToList();
 
-            foreach (EntityBase e in entities)
+            foreach (var e in entities)
             {
-                EntityAspect entityAspect = EntityAspect.Wrap(e);
+                var entityAspect = EntityAspect.Wrap(e);
                 if (entityAspect.EntityState.IsDeletedOrDetached()) continue;
 
                 var validationErrors = new VerifierResultCollection();

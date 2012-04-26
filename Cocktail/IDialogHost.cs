@@ -26,7 +26,7 @@ namespace Cocktail
         DialogButton GetButton(object value);
 
         /// <summary>
-        /// Instruct the dialog host to try closing dialog window with the provided user response.
+        /// Instructs the dialog host to try closing the dialog window with the provided user response.
         /// </summary>
         /// <param name="dialogResult">The simulated user response.</param>
         void TryClose(object dialogResult);

@@ -113,7 +113,7 @@ namespace TempHire.ViewModels.StaffingResource
             _staffingResourceId = staffingResourceId;
             // Bring resource into cache and defer starting of nested VMs until completed.
             UnitOfWork.StaffingResources.WithIdAsync(staffingResourceId, OnStartCompleted, _errorHandler.HandleError)
-                .OnComplete(args => Busy.RemoveWatch());
+                .ContinueWith(op => Busy.RemoveWatch());
 
             return this;
         }
@@ -146,7 +146,7 @@ namespace TempHire.ViewModels.StaffingResource
                                                                 Start(resource.Id);
                                                             },
                                                             _errorHandler.HandleError)
-                .OnComplete(args => Busy.RemoveWatch());
+                .ContinueWith(op => Busy.RemoveWatch());
 
             return this;
         }
@@ -173,28 +173,27 @@ namespace TempHire.ViewModels.StaffingResource
         {
             if (UnitOfWork.HasChanges())
             {
-                var dialogResult =
-                    _dialogManager.ShowMessage("There are unsaved changes. Would you like to save your changes?",
-                                               DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel);
-                dialogResult.OnComplete(delegate
-                                            {
-                                                if (dialogResult.DialogResult == DialogResult.Yes)
-                                                {
-                                                    Busy.AddWatch();
-                                                    UnitOfWork.CommitAsync(saveResult => callback(true),
-                                                                           _errorHandler.HandleError)
-                                                        .OnComplete(args => Busy.RemoveWatch());
-                                                }
+                _dialogManager.ShowMessage("There are unsaved changes. Would you like to save your changes?",
+                                           DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel)
+                    .ContinueWith(op =>
+                                      {
+                                          if (op.DialogResult == DialogResult.Yes)
+                                          {
+                                              Busy.AddWatch();
+                                              UnitOfWork.CommitAsync(saveResult => callback(true),
+                                                                     _errorHandler.HandleError)
+                                                  .ContinueWith(commit => Busy.RemoveWatch());
+                                          }
 
-                                                if (dialogResult.DialogResult == DialogResult.No)
-                                                {
-                                                    UnitOfWork.Rollback();
-                                                    callback(true);
-                                                }
+                                          if (op.DialogResult == DialogResult.No)
+                                          {
+                                              UnitOfWork.Rollback();
+                                              callback(true);
+                                          }
 
-                                                if (dialogResult.DialogResult == DialogResult.Cancel)
-                                                    callback(false);
-                                            });
+                                          if (op.DialogResult == DialogResult.Cancel)
+                                              callback(false);
+                                      });
             }
             else
                 base.CanClose(callback);

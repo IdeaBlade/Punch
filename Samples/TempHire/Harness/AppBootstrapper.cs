@@ -42,9 +42,11 @@ namespace TempHire
             base.PrepareCompositionContainer(batch);
 
             batch.AddExportedValue<IEntityManagerProvider<TempHireEntities>>(
-                new EntityManagerProvider<TempHireEntities>().With(ConnectionOptionsResolver.TempHireFake.Name));
+                new EntityManagerProvider<TempHireEntities>().Configure(
+                    provider => provider.WithConnectionOptions(ConnectionOptionsResolver.TempHireFake.Name)));
             batch.AddExportedValue<IEntityManagerProvider<SecurityEntities>>(
-                new EntityManagerProvider<SecurityEntities>().With(ConnectionOptionsResolver.TempHireFake.Name));
+                new EntityManagerProvider<SecurityEntities>().Configure(
+                    provider => provider.WithConnectionOptions(ConnectionOptionsResolver.TempHireFake.Name)));
         }
     }
 }

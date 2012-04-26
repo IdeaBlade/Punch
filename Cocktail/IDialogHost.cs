@@ -24,5 +24,11 @@ namespace Cocktail
         /// <param name="value">The user response value associated with this button.</param>
         /// <returns>A logical object representing the dialog or message box button.</returns>
         DialogButton GetButton(object value);
+
+        /// <summary>
+        /// Instructs the dialog host to try closing the dialog window with the provided user response.
+        /// </summary>
+        /// <param name="dialogResult">The simulated user response.</param>
+        void TryClose(object dialogResult);
     }
 }

@@ -68,6 +68,12 @@ namespace Cocktail
             return DialogButtons.First(b => b.Value.Equals(value));
         }
 
+        void IDialogHost.TryClose(object dialogResult)
+        {
+            DialogResult = dialogResult;
+            TryClose();
+        }
+
         #endregion
 
         /// <summary>Signals that the user has responded to the dialog or message box.</summary>
@@ -92,8 +98,7 @@ namespace Cocktail
         public void Close(DialogButton dialogButton)
         {
             _dialogButton = dialogButton;
-            DialogResult = dialogButton.Value;
-            TryClose();
+            ((IDialogHost)this).TryClose(dialogButton.Value);
         }
 
         /// <summary>Internal use.</summary>

@@ -534,7 +534,7 @@ namespace Cocktail
         /// <param name="operation">The target operation.</param>
         /// <param name="continuationAction">An action to run when the operation completes. When run, the delegate will be passed the completed operation as an argument. If the operation completed with an error, the error will be marked as handled.</param>
         /// <typeparam name="T">The type of the target operation.</typeparam>
-        /// <returns>The completed target operation.</returns>
+        /// <returns>The target operation.</returns>
         /// <exception cref="ArgumentNullException">The continuationAction argument is null.</exception>
         public static T ContinueWith<T>(this T operation, Action<T> continuationAction) where T : OperationResult
         {

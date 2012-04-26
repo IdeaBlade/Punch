@@ -137,6 +137,8 @@ namespace Cocktail
                 if (_entityManagerWrapper == null)
                 {
                     _entityManagerWrapper = new EntityManagerWrapper<T>(CreateEntityManagerCore());
+                    _entityManagerWrapper.EntityChanged +=
+                        (sender, args) => OnEntityChanged(args.EntityAspect, args.Action);
                     _entityManagerWrapper.Querying += OnQuerying;
                     _entityManagerWrapper.Saving += OnSaving;
                     _entityManagerWrapper.Saved += OnSaved;
@@ -153,6 +155,11 @@ namespace Cocktail
         /// Clients may use this event to force a data refresh. 
         /// </summary>
         public event EventHandler<DataChangedEventArgs> DataChanged;
+
+        /// <summary>
+        /// Fired whenever an entity's state has changed in any significant manner.
+        /// </summary>
+        public event EventHandler<EntityChangedEventArgs> EntityChanged;
 
         /// <summary>
         /// Event fired after the EntityManager got created.
@@ -238,6 +245,17 @@ namespace Cocktail
         {
             if (DataChanged != null)
                 DataChanged(this, new DataChangedEventArgs(entityKeys, Manager));
+        }
+
+        /// <summary>
+        ///   Triggers the EntityChanged event.
+        /// </summary>
+        /// <param name="entityAspect">The changed entity's EntityAspect.</param>
+        /// <param name="entityAction">The action that caused this change.</param>
+        protected virtual void OnEntityChanged(EntityAspect entityAspect, EntityAction entityAction)
+        {
+            if (EntityChanged != null)
+                EntityChanged(this, new EntityChangedEventArgs(entityAspect, entityAction));
         }
 
         /// <summary>

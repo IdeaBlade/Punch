@@ -141,6 +141,9 @@ namespace Cocktail.Tests
             IEntityManagerProvider<NorthwindIBEntities> emp =
                 EntityManagerProviderFactory.CreateTestEntityManagerProvider("ShouldRaiseSaveEvents");
 
+            int entityChangedRaised = 0;
+            emp.EntityChanged += (sender, args) => entityChangedRaised++;
+
             DoItAsync(
                 () =>
                 {
@@ -159,6 +162,7 @@ namespace Cocktail.Tests
                                                () => emp.Manager.SaveChangesAsync(
                                                    op =>
                                                        {
+                                                           Assert.IsTrue(entityChangedRaised == 3);
                                                            Assert.IsTrue(interceptor.SavingRaised > 0);
                                                            Assert.IsTrue(interceptor.SavedRaised > 0);
                                                            Assert.IsTrue(interceptor.EntityChangingRaised > 0);

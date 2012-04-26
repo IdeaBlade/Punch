@@ -48,6 +48,11 @@ namespace Cocktail
         event EventHandler<DataChangedEventArgs> DataChanged;
 
         /// <summary>
+        /// Fired whenever an entity's state has changed in any significant manner.
+        /// </summary>
+        event EventHandler<EntityChangedEventArgs> EntityChanged;
+
+        /// <summary>
         /// Event fired after the EntityManager got created.
         /// </summary>
         event EventHandler<EntityManagerCreatedEventArgs> ManagerCreated;

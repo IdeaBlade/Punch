@@ -51,7 +51,7 @@ namespace Cocktail
         /// Creates a continuation that executes when the target operation completes.
         /// </summary>
         /// <param name="continuationAction">An action to run when the operation completes. When run, the delegate will be passed the completed operation as an argument.</param>
-        /// <returns>The completed target operation.</returns>
+        /// <returns>The target operation.</returns>
         /// <exception cref="ArgumentNullException">The continuationAction argument is null.</exception>
         public DialogOperationResult<T> ContinueWith(Action<DialogOperationResult<T>> continuationAction)
         {

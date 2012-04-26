@@ -153,7 +153,7 @@ namespace TempHire.ViewModels.StaffingResource
                                                                Items.FirstOrDefault();
                                                        },
                                                    _errorHandler.HandleError)
-                .OnComplete(args => Busy.RemoveWatch());
+                .ContinueWith(op => Busy.RemoveWatch());
         }
 
         public void Clear()

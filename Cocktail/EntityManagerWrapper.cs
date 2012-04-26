@@ -19,6 +19,7 @@ namespace Cocktail
     {
         public EntityManagerWrapper(T manager)
         {
+            Clear();
             Manager = manager;
             manager.Cleared += (sender, args) => PublishEvent(args);
             manager.EntityChanged += (sender, args) => PublishEvent(args);
@@ -36,18 +37,24 @@ namespace Cocktail
         public void Clear()
         {
             Manager = null;
+            EntityChanged = delegate { };
             Querying = delegate { };
             Saving = delegate { };
             Saved = delegate { };
         }
 
-        public event EventHandler<EntityQueryingEventArgs> Querying = delegate { };
-        public event EventHandler<EntitySavingEventArgs> Saving = delegate { };
-        public event EventHandler<EntitySavedEventArgs> Saved = delegate { };
+        public event EventHandler<EntityChangedEventArgs> EntityChanged; 
+        public event EventHandler<EntityQueryingEventArgs> Querying;
+        public event EventHandler<EntitySavingEventArgs> Saving;
+        public event EventHandler<EntitySavedEventArgs> Saved;
 
         private void PublishEvent(EventArgs eventArgs)
         {
             EventFns.Publish(new EntityManagerEventMessage<T>(Manager, eventArgs));
+
+            var entityChangedEventArgs = eventArgs as EntityChangedEventArgs;
+            if (entityChangedEventArgs != null)
+                EntityChanged(Manager, entityChangedEventArgs);
 
             var entityQueryingEventArgs = eventArgs as EntityQueryingEventArgs;
             if (entityQueryingEventArgs != null)

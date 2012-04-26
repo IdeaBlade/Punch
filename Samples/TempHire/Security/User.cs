@@ -15,11 +15,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Cocktail;
 using IdeaBlade.Aop;
+using IdeaBlade.EntityModel;
 
 namespace Security
 {
     [ProvideEntityAspect]
     [DataContract(IsReference = true)]
+    [ClientCanQuery(false)]
     public class User
     {
         internal User()

@@ -39,7 +39,7 @@ namespace TempHire.ViewModels.StaffingResource
         public IEnumerable<IResult> EditName()
         {
             StaffingResourceNameEditorViewModel nameEditor = _nameEditorFactory.CreatePart();
-            yield return _dialogManager.ShowDialog(nameEditor.Start(StaffingResource.Id), DialogButtons.OkCancel);
+            yield return _dialogManager.ShowDialogAsync(nameEditor.Start(StaffingResource.Id), DialogButtons.OkCancel);
 
             StaffingResource.FirstName = nameEditor.FirstName;
             StaffingResource.MiddleName = nameEditor.MiddleName;

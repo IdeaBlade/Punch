@@ -32,7 +32,7 @@ namespace Common.Validation
         public override void Handle(ValidationErrorMessage message)
         {
             ValidationErrorsViewModel content = _viewModelFactory.CreatePart().Start(message.VerifierResults);
-            _dialogManager.ShowDialog(content, DialogButtons.Ok);
+            _dialogManager.ShowDialogAsync(content, DialogButtons.Ok);
         }
     }
 }

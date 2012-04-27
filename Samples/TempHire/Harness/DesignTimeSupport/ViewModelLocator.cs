@@ -221,38 +221,38 @@ namespace TempHire.DesignTimeSupport
 
             #region IDialogManager Members
 
-            public DialogOperationResult<T> ShowDialog<T>(object content, IEnumerable<T> dialogButtons,
+            public DialogOperationResult<T> ShowDialogAsync<T>(object content, IEnumerable<T> dialogButtons,
                                                           string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<T> ShowDialog<T>(object content, T defaultButton, T cancelButton,
+            public DialogOperationResult<T> ShowDialogAsync<T>(object content, T defaultButton, T cancelButton,
                                                           IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<DialogResult> ShowDialog(object content,
+            public DialogOperationResult<DialogResult> ShowDialogAsync(object content,
                                                                   IEnumerable<DialogResult> dialogButtons,
                                                                   string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<T> ShowMessage<T>(string message, IEnumerable<T> dialogButtons,
+            public DialogOperationResult<T> ShowMessageAsync<T>(string message, IEnumerable<T> dialogButtons,
                                                            string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<T> ShowMessage<T>(string message, T defaultButton, T cancelButton,
+            public DialogOperationResult<T> ShowMessageAsync<T>(string message, T defaultButton, T cancelButton,
                                                            IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<DialogResult> ShowMessage(string message,
+            public DialogOperationResult<DialogResult> ShowMessageAsync(string message,
                                                                    IEnumerable<DialogResult> dialogButtons,
                                                                    string title = null)
             {

@@ -98,7 +98,7 @@ namespace TempHire.ViewModels.StaffingResource
         public IEnumerable<IResult> Add()
         {
             RateTypeSelectorViewModel rateTypeSelector = _rateTypeSelectorFactory.CreatePart();
-            yield return _dialogManager.ShowDialog(rateTypeSelector.Start(UnitOfWork), DialogButtons.OkCancel);
+            yield return _dialogManager.ShowDialogAsync(rateTypeSelector.Start(UnitOfWork), DialogButtons.OkCancel);
 
             StaffingResource.AddRate(rateTypeSelector.SelectedRateType);
         }

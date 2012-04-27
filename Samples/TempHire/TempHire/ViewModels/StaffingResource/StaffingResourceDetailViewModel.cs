@@ -173,7 +173,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             if (UnitOfWork.HasChanges())
             {
-                _dialogManager.ShowMessage("There are unsaved changes. Would you like to save your changes?",
+                _dialogManager.ShowMessageAsync("There are unsaved changes. Would you like to save your changes?",
                                            DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel)
                     .ContinueWith(op =>
                                       {

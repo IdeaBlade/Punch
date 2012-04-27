@@ -37,7 +37,7 @@ namespace Common.Errors
                 ((EntityManagerSaveException) ex).FailureType == PersistenceFailure.Concurrency)
                 customMessage = "Another user has previously saved the current record.";
 
-            _dialogManager.ShowMessage(customMessage ?? ex.Message, DialogButtons.Ok);
+            _dialogManager.ShowMessageAsync(customMessage ?? ex.Message, DialogButtons.Ok);
         }
 
         #endregion

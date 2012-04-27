@@ -100,7 +100,7 @@ namespace TempHire.ViewModels.StaffingResource
         public IEnumerable<IResult> Add()
         {
             PhoneTypeSelectorViewModel phoneTypeSelector = _phoneTypeSelectorFactory.CreatePart();
-            yield return _dialogManager.ShowDialog(phoneTypeSelector.Start(UnitOfWork), DialogButtons.OkCancel);
+            yield return _dialogManager.ShowDialogAsync(phoneTypeSelector.Start(UnitOfWork), DialogButtons.OkCancel);
 
             StaffingResource.AddPhoneNumber(phoneTypeSelector.SelectedPhoneType);
 

@@ -219,7 +219,7 @@ namespace TempHire.ViewModels.StaffingResource
         public IEnumerable<IResult> Add()
         {
             StaffingResourceNameEditorViewModel nameEditor = _nameEditorFactory.CreatePart();
-            yield return _dialogManager.ShowDialog(nameEditor, DialogButtons.OkCancel);
+            yield return _dialogManager.ShowDialogAsync(nameEditor, DialogButtons.OkCancel);
 
             SearchPane.CurrentStaffingResource = null;
 
@@ -236,7 +236,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             StaffingResourceListItem staffingResource = SearchPane.CurrentStaffingResource;
 
-            yield return _dialogManager.ShowMessage(
+            yield return _dialogManager.ShowMessageAsync(
                     string.Format("Are you sure you want to delete {0}?", staffingResource.FullName),
                     DialogResult.Yes, DialogResult.No, DialogButtons.YesNo);
 

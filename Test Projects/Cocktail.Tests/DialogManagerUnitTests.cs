@@ -35,7 +35,7 @@ namespace Cocktail.Tests
         public void ShouldCancel()
         {
             TestWindowManager.Instance.TestDialogResult = DialogResult.Cancel;
-            var operation = _dialogManager.ShowMessage("Test", DialogButtons.OkCancel);
+            var operation = _dialogManager.ShowMessageAsync("Test", DialogButtons.OkCancel);
 
             Assert.IsTrue(operation.DialogResult == DialogResult.Cancel);
             Assert.IsTrue(operation.Cancelled);
@@ -45,7 +45,7 @@ namespace Cocktail.Tests
         public void ShouldNotCancel()
         {
             TestWindowManager.Instance.TestDialogResult = DialogResult.Ok;
-            var operation = _dialogManager.ShowMessage("Test", DialogButtons.OkCancel);
+            var operation = _dialogManager.ShowMessageAsync("Test", DialogButtons.OkCancel);
 
             Assert.IsTrue(operation.DialogResult == DialogResult.Ok);
             Assert.IsFalse(operation.Cancelled);
@@ -55,7 +55,7 @@ namespace Cocktail.Tests
         public void ShouldUseCustomCancel()
         {
             TestWindowManager.Instance.TestDialogResult = "Cancel";
-            var operation = _dialogManager.ShowMessage("Test", null, "Cancel", new[] {"Ok", "Cancel"});
+            var operation = _dialogManager.ShowMessageAsync("Test", null, "Cancel", new[] {"Ok", "Cancel"});
 
             Assert.IsTrue(operation.DialogResult == "Cancel");
             Assert.IsTrue(operation.Cancelled);
@@ -65,7 +65,7 @@ namespace Cocktail.Tests
         public void ShouldNotUseCustomCancel()
         {
             TestWindowManager.Instance.TestDialogResult = "Cancel";
-            var operation = _dialogManager.ShowMessage("Test", null, null, new[] { "Ok", "Cancel" });
+            var operation = _dialogManager.ShowMessageAsync("Test", null, null, new[] { "Ok", "Cancel" });
 
             Assert.IsTrue(operation.DialogResult == "Cancel");
             Assert.IsFalse(operation.Cancelled);

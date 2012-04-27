@@ -140,7 +140,7 @@ namespace TempHire.ViewModels.StaffingResource
         public IEnumerable<IResult> Add()
         {
             AddressTypeSelectorViewModel addressTypeSelector = _addressTypeSelectorFactory.CreatePart();
-            yield return _dialogManager.ShowDialog(addressTypeSelector.Start(UnitOfWork), DialogButtons.OkCancel);
+            yield return _dialogManager.ShowDialogAsync(addressTypeSelector.Start(UnitOfWork), DialogButtons.OkCancel);
 
             StaffingResource.AddAddress(addressTypeSelector.SelectedAddressType);
 

@@ -41,9 +41,10 @@ namespace TempHire.ViewModels.StaffingResource
         private readonly DispatcherTimer _selectionChangeTimer;
         private readonly IToolbarManager _toolbar;
         private readonly IDomainUnitOfWorkManager<IDomainUnitOfWork> _unitOfWorkManager;
+        private readonly NavigationService<StaffingResourceDetailViewModel> _navigationService;
         private IScreen _retainedActiveItem;
         private ToolbarGroup _toolbarGroup;
-
+            
         [ImportingConstructor]
         public StaffingResourceManagementViewModel(StaffingResourceSearchViewModel searchPane,
                                                    IPartFactory<StaffingResourceDetailViewModel> detailFactory,
@@ -59,6 +60,7 @@ namespace TempHire.ViewModels.StaffingResource
             _errorHandler = errorHandler;
             _dialogManager = dialogManager;
             _toolbar = toolbar;
+            _navigationService = new NavigationService<StaffingResourceDetailViewModel>(this);
 
             PropertyChanged += OnPropertyChanged;
 
@@ -187,14 +189,8 @@ namespace TempHire.ViewModels.StaffingResource
             _selectionChangeTimer.Stop();
 
             if (SearchPane.CurrentStaffingResource != null)
-            {
-                Func<StaffingResourceDetailViewModel> target = () => ActiveDetail ?? _detailFactory.CreatePart();
-                new NavigateResult<StaffingResourceDetailViewModel>(this, target)
-                    {
-                        Prepare = nav => nav.Target.Start(SearchPane.CurrentStaffingResource.Id)
-                    }
-                    .Go();
-            }
+                _navigationService.NavigateToAsync(() => ActiveDetail ?? _detailFactory.CreatePart(),
+                                                   target => target.Start(SearchPane.CurrentStaffingResource.Id));
 
             NotifyOfPropertyChange(() => CanDelete);
         }
@@ -223,13 +219,9 @@ namespace TempHire.ViewModels.StaffingResource
 
             SearchPane.CurrentStaffingResource = null;
 
-            Func<StaffingResourceDetailViewModel> target = () => ActiveDetail ?? _detailFactory.CreatePart();
-            yield return
-                new NavigateResult<StaffingResourceDetailViewModel>(this, target)
-                    {
-                        Prepare = nav =>
-                                  nav.Target.Start(nameEditor.FirstName, nameEditor.MiddleName, nameEditor.LastName)
-                    };
+            yield return _navigationService.NavigateToAsync(
+                () => ActiveDetail ?? _detailFactory.CreatePart(),
+                target => target.Start(nameEditor.FirstName, nameEditor.MiddleName, nameEditor.LastName));
         }
 
         public IEnumerable<IResult> Delete()

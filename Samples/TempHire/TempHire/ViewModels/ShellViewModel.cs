@@ -32,7 +32,8 @@ namespace TempHire.ViewModels
         private readonly IAuthenticationService _authenticationService;
         private readonly IPartFactory<LoginViewModel> _loginFactory;
         private readonly IEnumerable<IWorkspace> _workspaces;
-
+        private readonly NavigationService<IWorkspace> _navigationService;
+            
         [ImportingConstructor]
         public ShellViewModel([ImportMany] IEnumerable<IWorkspace> workspaces, IToolbarManager toolbar,
                               IAuthenticationService authenticationService, IPartFactory<LoginViewModel> loginFactory)
@@ -41,6 +42,7 @@ namespace TempHire.ViewModels
             _workspaces = workspaces;
             _authenticationService = authenticationService;
             _loginFactory = loginFactory;
+            _navigationService = new NavigationService<IWorkspace>(this);
         }
 
         public IToolbarManager Toolbar { get; private set; }
@@ -72,7 +74,7 @@ namespace TempHire.ViewModels
         {
             var mainGroup = new ToolbarGroup(0);
             _workspaces.OrderBy(w => w.Sequence).ForEach(
-                w => mainGroup.Add(new ToolbarAction(this, w.DisplayName, () => NavigateTo(w))));
+                w => mainGroup.Add(new ToolbarAction(this, w.DisplayName, () => _navigationService.NavigateToAsync(() => w))));
 
             var logoutGroup = new ToolbarGroup(100) { new ToolbarAction(this, "Logout", (Func<IEnumerable<IResult>>)Logout) };
 
@@ -82,7 +84,7 @@ namespace TempHire.ViewModels
 
             IWorkspace home = GetHomeScreen();
             if (home != null)
-                NavigateTo(home).ToSequentialResult().Execute();
+                _navigationService.NavigateToAsync(() => home);
 
             return this;
         }
@@ -104,16 +106,11 @@ namespace TempHire.ViewModels
             if (home == null)
                 yield break;
 
-            yield return NavigateTo(home).ToSequentialResult();
+            yield return _navigationService.NavigateToAsync(() => home);
 
             yield return _authenticationService.LogoutAsync();
 
             yield return Login().ToSequentialResult();
-        }
-
-        protected IEnumerable<IResult> NavigateTo(IWorkspace workspace)
-        {
-            yield return new NavigateResult<IWorkspace>(this, () => workspace);
         }
 
         protected override void OnInitialize()

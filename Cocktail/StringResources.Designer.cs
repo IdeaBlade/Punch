@@ -250,6 +250,15 @@ namespace Cocktail {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The navigation is not in a valid state to be started..
+        /// </summary>
+        internal static string NavigationNotInValidState {
+            get {
+                return ResourceManager.GetString("NavigationNotInValidState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         internal static string No {

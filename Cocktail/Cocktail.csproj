@@ -106,6 +106,7 @@
     <Compile Include="LogFns.cs" />
     <Compile Include="MessageBoxBase.cs" />
     <Compile Include="NavigateResult.cs" />
+    <Compile Include="NavigationService.cs" />
     <Compile Include="ObjectManager.cs" />
     <Compile Include="OperationFns.cs" />
     <Compile Include="OperationResult.cs" />

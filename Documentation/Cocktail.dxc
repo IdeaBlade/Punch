@@ -3,7 +3,7 @@
   <RelatedProject>CocktailHelpReference.dxp</RelatedProject>
   <State>
     <Attributes>
-      <Attribute key="dtscrollpos" valuetype="integer">582</Attribute>
+      <Attribute key="dtscrollpos" valuetype="integer">393</Attribute>
       <Attribute key="lang_VB" valuetype="string">on</Attribute>
       <Attribute key="lang_VBUsage" valuetype="string">on</Attribute>
       <Attribute key="lang_CS" valuetype="string">on</Attribute>
@@ -12,7 +12,7 @@
       <Attribute key="protectedMembers" valuetype="string">on</Attribute>
     </Attributes>
   </State>
-  <LastSelectedItem>Cocktail~Cocktail.OperationFns~ContinueWith</LastSelectedItem>
+  <LastSelectedItem>Cocktail~Cocktail.NavigateResult`1~ContinueWith</LastSelectedItem>
   <item qn="Cocktail~Cocktail.EntityManagerProvider`1~With">
     <summary ChangeDateTime="2012-02-28T08:34:10.8087276Z">Creates a new EntityManagerProvider from the current EntityManagerProvider and assigns the specified value.</summary>
   </item>
@@ -23,6 +23,14 @@
   </item>
   <item qn="Cocktail~Cocktail.DialogOperationResult`1~ContinueWith:continuationAction">
     <param ChangeDateTime="2012-04-25T02:39:59.2041433Z">An action to run when the operation completes. When run, the delegate will be passed the completed operation as an argument.</param>
+  </item>
+  <item qn="Cocktail~Cocktail.NavigateResult`1~ContinueWith">
+    <exception ChangeDateTime="2012-04-28T23:19:57.6904798Z" caption="" cref="System.ArgumentNullException" id="a22709b3-48b2-4e4c-af0d-04f0325382d8">The continuationAction argument is null.</exception>
+    <summary ChangeDateTime="2012-04-28T23:19:58.7835423Z">Creates a continuation that executes when the navigation completes.</summary>
+    <returns ChangeDateTime="2012-04-28T23:19:58.7835423Z">The navigation operation.</returns>
+  </item>
+  <item qn="Cocktail~Cocktail.NavigateResult`1~ContinueWith:continuationAction">
+    <param ChangeDateTime="2012-04-28T23:19:58.7835423Z">An action to run when the navigation completes. When run, the delegate will be passed the completed navigation as an argument.</param>
   </item>
   <Filters>
     <CONTENTSTORECOMMON>

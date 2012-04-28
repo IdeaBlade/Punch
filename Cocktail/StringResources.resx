@@ -234,4 +234,7 @@
   <data name="DictionaryIsReadOnly" xml:space="preserve">
     <value>This dictionary is read-only.</value>
   </data>
+  <data name="NavigationNotInValidState" xml:space="preserve">
+    <value>The navigation is not in a valid state to be started.</value>
+  </data>
 </root>

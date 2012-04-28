@@ -32,7 +32,8 @@ namespace TempHire.ViewModels
         private readonly IAuthenticationService _authenticationService;
         private readonly IPartFactory<LoginViewModel> _loginFactory;
         private readonly IEnumerable<IWorkspace> _workspaces;
-
+        private readonly NavigationService<IWorkspace> _navigationService;
+            
         [ImportingConstructor]
         public ShellViewModel([ImportMany] IEnumerable<IWorkspace> workspaces, IToolbarManager toolbar,
                               IAuthenticationService authenticationService, IPartFactory<LoginViewModel> loginFactory)
@@ -41,6 +42,7 @@ namespace TempHire.ViewModels
             _workspaces = workspaces;
             _authenticationService = authenticationService;
             _loginFactory = loginFactory;
+            _navigationService = new NavigationService<IWorkspace>(this);
         }
 
         public IToolbarManager Toolbar { get; private set; }
@@ -113,7 +115,7 @@ namespace TempHire.ViewModels
 
         protected IEnumerable<IResult> NavigateTo(IWorkspace workspace)
         {
-            yield return new NavigateResult<IWorkspace>(this, () => workspace);
+            yield return _navigationService.NavigateToAsync(() => workspace);
         }
 
         protected override void OnInitialize()

@@ -26,14 +26,14 @@ using TempHire.ViewModels.Login;
 namespace TempHire.ViewModels
 {
     [Export]
-    public class ShellViewModel : Conductor<IWorkspace>, IDiscoverableViewModel, IHandle<LoggedInMessage>,
+    public class ShellViewModel : Conductor<IScreen>, IDiscoverableViewModel, IHandle<LoggedInMessage>,
                                   IHandle<LoggedOutMessage>
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IPartFactory<LoginViewModel> _loginFactory;
         private readonly IEnumerable<IWorkspace> _workspaces;
         private readonly NavigationService<IWorkspace> _navigationService;
-            
+
         [ImportingConstructor]
         public ShellViewModel([ImportMany] IEnumerable<IWorkspace> workspaces, IToolbarManager toolbar,
                               IAuthenticationService authenticationService, IPartFactory<LoginViewModel> loginFactory)
@@ -42,7 +42,8 @@ namespace TempHire.ViewModels
             _workspaces = workspaces;
             _authenticationService = authenticationService;
             _loginFactory = loginFactory;
-            _navigationService = new NavigationService<IWorkspace>(this);
+            _navigationService = new NavigationService<IWorkspace>(this)
+                .Configure(config => config.WithActivator(navigation => ActivateItem(navigation.Target.Content)));
         }
 
         public IToolbarManager Toolbar { get; private set; }
@@ -138,7 +139,7 @@ namespace TempHire.ViewModels
 
         private IEnumerable<IResult> NavigateToWorkspace(IWorkspace workspace)
         {
-            if (ActiveItem == workspace)
+            if (ActiveItem == workspace.Content)
                 yield break;
 
             yield return _navigationService.NavigateToAsync(() => workspace);

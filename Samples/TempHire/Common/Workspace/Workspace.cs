@@ -10,23 +10,46 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using System;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using Cocktail;
-using Common.Workspace;
 
-namespace TempHire.ViewModels
+namespace Common.Workspace
 {
-    public class HomeWorkspace : Workspace<HomeViewModel>
+    public abstract class Workspace<T> : IWorkspace where T : IScreen
     {
-        public HomeWorkspace()
-            : base("Home", true, 0)
-        {
-        }
-    }
+        private readonly bool _default;
+        private readonly int _sequence;
 
-    [Export]
-    public class HomeViewModel : Screen, IDiscoverableViewModel
-    {
+        protected Workspace(string displayName, bool @default, int sequence)
+        {
+            DisplayName = displayName;
+            _default = @default;
+            _sequence = sequence;
+        }
+
+        [Import]
+        public Lazy<T> LazyContent { get; set; }
+
+        #region IWorkspace Members
+
+        public string DisplayName { get; set; }
+
+        public bool IsDefault
+        {
+            get { return _default; }
+        }
+
+        public int Sequence
+        {
+            get { return _sequence; }
+        }
+
+        public IScreen Content
+        {
+            get { return LazyContent.Value; }
+        }
+
+        #endregion
     }
 }

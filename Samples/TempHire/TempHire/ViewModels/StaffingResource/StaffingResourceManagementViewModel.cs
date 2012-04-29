@@ -1,14 +1,14 @@
-//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
 using System;
 using System.Collections.Generic;
@@ -22,29 +22,35 @@ using Common.Factories;
 using Common.Messages;
 using Common.Toolbar;
 using Common.Workspace;
-using DomainModel.Projections;
 using DomainServices;
 using IdeaBlade.EntityModel;
 using Action = System.Action;
 
 namespace TempHire.ViewModels.StaffingResource
 {
+    public class StaffingResourceWorkspace : Workspace<StaffingResourceManagementViewModel>
+    {
+        public StaffingResourceWorkspace()
+            : base("Resource Management", false, 10)
+        {
+        }
+    }
+
     [Export]
     public class StaffingResourceManagementViewModel : Conductor<IScreen>, IDiscoverableViewModel,
-                                                       IHandle<EntityChangedMessage>,
-                                                       IWorkspace
+                                                       IHandle<EntityChangedMessage>
     {
         private readonly IPartFactory<StaffingResourceDetailViewModel> _detailFactory;
         private readonly IDialogManager _dialogManager;
         private readonly IErrorHandler _errorHandler;
         private readonly IPartFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
+        private readonly NavigationService<StaffingResourceDetailViewModel> _navigationService;
         private readonly DispatcherTimer _selectionChangeTimer;
         private readonly IToolbarManager _toolbar;
         private readonly IDomainUnitOfWorkManager<IDomainUnitOfWork> _unitOfWorkManager;
-        private readonly NavigationService<StaffingResourceDetailViewModel> _navigationService;
         private IScreen _retainedActiveItem;
         private ToolbarGroup _toolbarGroup;
-            
+
         [ImportingConstructor]
         public StaffingResourceManagementViewModel(StaffingResourceSearchViewModel searchPane,
                                                    IPartFactory<StaffingResourceDetailViewModel> detailFactory,
@@ -64,11 +70,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             PropertyChanged += OnPropertyChanged;
 
-            // ReSharper disable DoNotCallOverridableMethodsInConstructor
-            DisplayName = "Resource Management";
-            // ReSharper restore DoNotCallOverridableMethodsInConstructor
-
-            _selectionChangeTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 200)};
+            _selectionChangeTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 200) };
             _selectionChangeTimer.Tick += OnSelectionChangeElapsed;
         }
 
@@ -121,20 +123,6 @@ namespace TempHire.ViewModels.StaffingResource
 
         #endregion
 
-        #region IWorkspace Members
-
-        public bool IsDefault
-        {
-            get { return false; }
-        }
-
-        public int Sequence
-        {
-            get { return 10; }
-        }
-
-        #endregion
-
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "ActiveItem")
@@ -169,7 +157,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             Start();
             SearchPane.PropertyChanged += OnSearchPanePropertyChanged;
-            ((IActivate) SearchPane).Activate();
+            ((IActivate)SearchPane).Activate();
 
             if (_toolbarGroup == null)
             {
@@ -207,14 +195,14 @@ namespace TempHire.ViewModels.StaffingResource
         {
             base.OnDeactivate(close);
             SearchPane.PropertyChanged -= OnSearchPanePropertyChanged;
-            ((IDeactivate) SearchPane).Deactivate(close);
+            ((IDeactivate)SearchPane).Deactivate(close);
 
             _toolbar.RemoveGroup(_toolbarGroup);
         }
 
         public IEnumerable<IResult> Add()
         {
-            StaffingResourceNameEditorViewModel nameEditor = _nameEditorFactory.CreatePart();
+            var nameEditor = _nameEditorFactory.CreatePart();
             yield return _dialogManager.ShowDialogAsync(nameEditor, DialogButtons.OkCancel);
 
             SearchPane.CurrentStaffingResource = null;
@@ -226,13 +214,13 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> Delete()
         {
-            StaffingResourceListItem staffingResource = SearchPane.CurrentStaffingResource;
+            var staffingResource = SearchPane.CurrentStaffingResource;
 
             yield return _dialogManager.ShowMessageAsync(
-                    string.Format("Are you sure you want to delete {0}?", staffingResource.FullName),
-                    DialogResult.Yes, DialogResult.No, DialogButtons.YesNo);
+                string.Format("Are you sure you want to delete {0}?", staffingResource.FullName),
+                DialogResult.Yes, DialogResult.No, DialogButtons.YesNo);
 
-            IDomainUnitOfWork unitOfWork = _unitOfWorkManager.Get(staffingResource.Id);
+            var unitOfWork = _unitOfWorkManager.Get(staffingResource.Id);
 
             OperationResult operation;
             using (ActiveDetail.Busy.GetTicket())
@@ -266,7 +254,7 @@ namespace TempHire.ViewModels.StaffingResource
 
         public void Cancel()
         {
-            bool shouldClose = ActiveStaffingResource.EntityFacts.EntityState.IsAdded();
+            var shouldClose = ActiveStaffingResource.EntityFacts.EntityState.IsAdded();
             ActiveUnitOfWork.Rollback();
 
             if (shouldClose)

@@ -15,11 +15,13 @@ using IdeaBlade.Core.Composition;
 
 namespace Common.Workspace
 {
-    [InterfaceExport(typeof (IWorkspace))]
+    [InterfaceExport(typeof(IWorkspace))]
     public interface IWorkspace : IHaveDisplayName
     {
         bool IsDefault { get; }
 
         int Sequence { get; }
+
+        IScreen Content { get; }
     }
 }

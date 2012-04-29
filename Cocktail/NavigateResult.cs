@@ -210,9 +210,9 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Implicitly converts the current DialogOperationResult to type <see cref="Task" />
+        ///   Implicitly converts the current NavigateResult to type <see cref="Task" />
         /// </summary>
-        /// <param name="operation"> The DialogOperationResult to be converted. </param>
+        /// <param name="operation"> The NavigateResult to be converted. </param>
         public static implicit operator Task(NavigateResult<T> operation)
         {
             return operation.AsTask();

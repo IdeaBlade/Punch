@@ -106,7 +106,7 @@
     <Compile Include="Validation\ValidationErrorMessageProcessor.cs" />
     <Compile Include="Validation\ValidationErrorsViewModel.cs" />
     <Compile Include="Workspace\IWorkspace.cs" />
-    <Compile Include="Workspace\Workspace.cs" />
+    <Compile Include="Workspace\LazyWorkspace.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Security\Security.csproj">

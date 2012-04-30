@@ -28,7 +28,7 @@ using Action = System.Action;
 
 namespace TempHire.ViewModels.StaffingResource
 {
-    public class StaffingResourceWorkspace : Workspace<StaffingResourceManagementViewModel>
+    public class StaffingResourceWorkspace : LazyWorkspace<StaffingResourceManagementViewModel>
     {
         public StaffingResourceWorkspace()
             : base("Resource Management", false, 10)

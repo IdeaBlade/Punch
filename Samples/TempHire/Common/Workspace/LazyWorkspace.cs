@@ -16,12 +16,12 @@ using Caliburn.Micro;
 
 namespace Common.Workspace
 {
-    public abstract class Workspace<T> : IWorkspace where T : IScreen
+    public abstract class LazyWorkspace<T> : IWorkspace where T : IScreen
     {
         private readonly bool _default;
         private readonly int _sequence;
 
-        protected Workspace(string displayName, bool @default, int sequence)
+        protected LazyWorkspace(string displayName, bool @default, int sequence)
         {
             DisplayName = displayName;
             _default = @default;

@@ -101,11 +101,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DevForce.cf" />
+    <None Include="packages.config" />
     <EmbeddedResource Include="TempHireEntities.ibmmx">
       <HashCode>1150147350</HashCode>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

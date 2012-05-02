@@ -94,10 +94,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DevForce.cf" />
+    <None Include="packages.config" />
     <EmbeddedResource Include="SecurityEntities.ibmmx">
       <HashCode>-1180369476</HashCode>
     </EmbeddedResource>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

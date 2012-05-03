@@ -53,6 +53,10 @@ namespace Cocktail
                 return false;
             }
 
+            // Return if already initialized
+            if (FakeBackingStore.Exists(@this.Manager.CompositionContext.Name))
+                return true;
+
             FakeBackingStore.Create(@this.Manager.CompositionContext.Name);
 
             ResetFakeBackingStore(@this);

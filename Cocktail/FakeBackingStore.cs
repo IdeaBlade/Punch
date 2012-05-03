@@ -80,6 +80,9 @@ namespace Cocktail
             if (!manager.IsConnected)
                 yield return manager.ConnectAsync();
 
+            // Clear all data from the backing store
+            yield return Store.ClearAsync();
+            
             yield return Store.RestoreAsync(storeEcs);
         }
 
@@ -90,6 +93,9 @@ namespace Cocktail
             if (!manager.IsConnected)
                 manager.Connect();
 
+            // Clear all data from the backing store
+            Store.Clear();
+            
             Store.Restore(storeEcs);
 
             IsInitialized = true;

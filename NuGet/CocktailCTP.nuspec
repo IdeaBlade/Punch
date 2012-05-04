@@ -18,9 +18,12 @@
     <file src="..\Cocktail\Bin\Release\Cocktail*.*" target="lib\net40" />
     <file src="..\Cocktail\Bin.SL\Release\Cocktail*.*" target="lib\sl40" />
     <file src="..\Cocktail\Bin.SL5\Release\Cocktail*.*" target="lib\sl50" />
-    <file src="..\Cocktail\Bin\Release\Caliburn.Micro.*" target="lib\net40" />
-    <file src="..\Cocktail\Bin.SL\Release\Caliburn.Micro.*" target="lib\sl40" />
-    <file src="..\Cocktail\Bin.SL5\Release\Caliburn.Micro.*" target="lib\sl50" />
+    <file src="..\Cocktail\Bin\Release\Caliburn.Micro.dll" target="lib\net40" />
+    <file src="..\Cocktail\Bin.SL\Release\Caliburn.Micro.dll" target="lib\sl40" />
+    <file src="..\Cocktail\Bin.SL5\Release\Caliburn.Micro.dll" target="lib\sl50" />
+    <file src="..\Cocktail\Bin\Release\Caliburn.Micro.xml" target="lib\net40" />
+    <file src="..\Cocktail\Bin.SL\Release\Caliburn.Micro.xml" target="lib\sl40" />
+    <file src="..\Cocktail\Bin.SL5\Release\Caliburn.Micro.xml" target="lib\sl50" />
     <file src="..\Cocktail\Bin\Release\System.Windows.Interactivity.*" target="lib\net40" />
     <file src="..\Cocktail\Bin.SL\Release\System.Windows.Interactivity.*" target="lib\sl40" />
     <file src="..\Cocktail\Bin.SL5\Release\System.Windows.Interactivity.*" target="lib\sl50" />

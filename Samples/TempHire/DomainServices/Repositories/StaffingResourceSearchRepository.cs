@@ -18,7 +18,6 @@ using Cocktail;
 using DomainModel;
 using DomainModel.Projections;
 using IdeaBlade.EntityModel;
-using IdeaBlade.Linq;
 
 namespace DomainServices.Repositories
 {
@@ -91,7 +90,7 @@ namespace DomainServices.Repositories
                                                  });
 
             if (orderBy != null)
-                query = (IEntityQuery<StaffingResourceListItem>) orderBy(query);
+                query = (IEntityQuery<StaffingResourceListItem>)orderBy(query);
 
             return query.ExecuteAsync(op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
         }

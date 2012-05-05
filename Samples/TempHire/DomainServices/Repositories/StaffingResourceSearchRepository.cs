@@ -41,8 +41,9 @@ namespace DomainServices.Repositories
         #region IStaffingResourceSearchRepository Members
 
         public OperationResult<IEnumerable<StaffingResourceListItem>> FindStaffingResourcesAsync(
-            string searchText, string orderBy, Action<IEnumerable<StaffingResourceListItem>> onSuccess = null,
-            Action<Exception> onFail = null)
+            string searchText,
+            Func<IQueryable<StaffingResourceListItem>, IOrderedQueryable<StaffingResourceListItem>> orderBy = null,
+            Action<IEnumerable<StaffingResourceListItem>> onSuccess = null, Action<Exception> onFail = null)
         {
             IEntityQuery<StaffingResource> baseQuery = EntityManager.StaffingResources;
 
@@ -89,8 +90,8 @@ namespace DomainServices.Repositories
                                                          resource.PhoneNumbers.FirstOrDefault(p => p.Primary).Number
                                                  });
 
-            if (!string.IsNullOrWhiteSpace(orderBy))
-                query = query.OrderBySelector(new SortSelector(orderBy));
+            if (orderBy != null)
+                query = (IEntityQuery<StaffingResourceListItem>) orderBy(query);
 
             return query.ExecuteAsync(op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
         }

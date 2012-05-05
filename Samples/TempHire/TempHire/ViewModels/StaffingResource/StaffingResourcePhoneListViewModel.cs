@@ -21,6 +21,7 @@ using Common.Factories;
 using DomainModel;
 using DomainServices;
 using IdeaBlade.Core;
+using IdeaBlade.Linq;
 
 namespace TempHire.ViewModels.StaffingResource
 {
@@ -28,12 +29,12 @@ namespace TempHire.ViewModels.StaffingResource
     public class StaffingResourcePhoneListViewModel : StaffingResourceScreenBase
     {
         private readonly IDialogManager _dialogManager;
-        private readonly IPartFactory<PhoneTypeSelectorViewModel> _phoneTypeSelectorFactory;
+        private readonly IPartFactory<ItemSelectorViewModel> _phoneTypeSelectorFactory;
         private BindableCollection<StaffingResourcePhoneItemViewModel> _phoneNumbers;
 
         [ImportingConstructor]
         public StaffingResourcePhoneListViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
-                                                  IPartFactory<PhoneTypeSelectorViewModel> phoneTypeSelectorFactory,
+                                                  IPartFactory<ItemSelectorViewModel> phoneTypeSelectorFactory,
                                                   IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(unitOfWorkManager, errorHandler)
         {
@@ -99,10 +100,15 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> Add()
         {
-            PhoneTypeSelectorViewModel phoneTypeSelector = _phoneTypeSelectorFactory.CreatePart();
-            yield return _dialogManager.ShowDialogAsync(phoneTypeSelector.Start(UnitOfWork), DialogButtons.OkCancel);
+            var sortSelector = new SortSelector("Name");
+            var phoneTypes = UnitOfWork.PhoneNumberTypes;
+            var phoneTypeSelector = _phoneTypeSelectorFactory.CreatePart()
+                .Start("Select type:", "Name",
+                       () => phoneTypes.FindAsync(sortSelector: sortSelector, onFail: ErrorHandler.HandleError));
 
-            StaffingResource.AddPhoneNumber(phoneTypeSelector.SelectedPhoneType);
+            yield return _dialogManager.ShowDialogAsync(phoneTypeSelector, DialogButtons.OkCancel);
+
+            StaffingResource.AddPhoneNumber((PhoneNumberType) phoneTypeSelector.SelectedItem);
 
             EnsureDelete();
         }

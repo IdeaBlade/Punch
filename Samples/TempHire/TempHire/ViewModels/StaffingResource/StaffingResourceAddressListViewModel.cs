@@ -1,14 +1,14 @@
-//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
 using System;
 using System.Collections.Generic;
@@ -29,16 +29,15 @@ namespace TempHire.ViewModels.StaffingResource
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceAddressListViewModel : StaffingResourceScreenBase
     {
-        private readonly IPartFactory<AddressTypeSelectorViewModel> _addressTypeSelectorFactory;
         private readonly IDialogManager _dialogManager;
+        private readonly IPartFactory<ItemSelectorViewModel> _addressTypeSelectorFactory;
         private readonly IDomainUnitOfWorkManager<IDomainUnitOfWork> _unitOfWorkManager;
         private BindableCollection<StaffingResourceAddressItemViewModel> _addresses;
         private BindableCollection<State> _states;
 
         [ImportingConstructor]
         public StaffingResourceAddressListViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
-                                                    IPartFactory<AddressTypeSelectorViewModel>
-                                                        addressTypeSelectorFactory,
+                                                    IPartFactory<ItemSelectorViewModel> addressTypeSelectorFactory,
                                                     IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(unitOfWorkManager, errorHandler)
         {
@@ -103,7 +102,7 @@ namespace TempHire.ViewModels.StaffingResource
             // The list of states is preloaded into each EntityManager cache, so this should be fast
             if (States == null)
             {
-                IDomainUnitOfWork unitOfWork = _unitOfWorkManager.Get(staffingResourceId);
+                var unitOfWork = _unitOfWorkManager.Get(staffingResourceId);
                 var orderBySelector = new SortSelector("Name");
                 yield return unitOfWork.States.FindAsync(
                     null, orderBySelector, null, result => States = new BindableCollection<State>(result),
@@ -117,7 +116,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             if (e.OldItems != null)
             {
-                foreach (StaffingResourceAddressItemViewModel item in
+                foreach (var item in
                     e.OldItems.Cast<Address>().Select(a => Addresses.First(i => i.Item == a)))
                 {
                     Addresses.Remove(item);
@@ -139,10 +138,15 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> Add()
         {
-            AddressTypeSelectorViewModel addressTypeSelector = _addressTypeSelectorFactory.CreatePart();
-            yield return _dialogManager.ShowDialogAsync(addressTypeSelector.Start(UnitOfWork), DialogButtons.OkCancel);
+            var sortSelector = new SortSelector("DisplayName");
+            var addressTypes = UnitOfWork.AddressTypes;
+            var addressTypeSelector = _addressTypeSelectorFactory.CreatePart()
+                .Start("Select type:", "DisplayName",
+                       () => addressTypes.FindAsync(sortSelector: sortSelector, onFail: ErrorHandler.HandleError));
 
-            StaffingResource.AddAddress(addressTypeSelector.SelectedAddressType);
+            yield return _dialogManager.ShowDialogAsync(addressTypeSelector, DialogButtons.OkCancel);
+
+            StaffingResource.AddAddress((AddressType)addressTypeSelector.SelectedItem);
 
             EnsureDelete();
         }

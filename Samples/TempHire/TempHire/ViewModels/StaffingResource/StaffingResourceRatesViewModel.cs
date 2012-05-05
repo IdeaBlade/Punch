@@ -21,6 +21,7 @@ using Common.Errors;
 using Common.Factories;
 using DomainModel;
 using DomainServices;
+using IdeaBlade.Linq;
 
 namespace TempHire.ViewModels.StaffingResource
 {
@@ -28,11 +29,11 @@ namespace TempHire.ViewModels.StaffingResource
     public class StaffingResourceRatesViewModel : StaffingResourceScreenBase, IStaffingResourceDetailSection
     {
         private readonly IDialogManager _dialogManager;
-        private readonly IPartFactory<RateTypeSelectorViewModel> _rateTypeSelectorFactory;
+        private readonly IPartFactory<ItemSelectorViewModel> _rateTypeSelectorFactory;
 
         [ImportingConstructor]
         public StaffingResourceRatesViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
-                                              IPartFactory<RateTypeSelectorViewModel> rateTypeSelectorFactory,
+                                              IPartFactory<ItemSelectorViewModel> rateTypeSelectorFactory,
                                               IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(unitOfWorkManager, errorHandler)
         {
@@ -97,10 +98,15 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> Add()
         {
-            RateTypeSelectorViewModel rateTypeSelector = _rateTypeSelectorFactory.CreatePart();
-            yield return _dialogManager.ShowDialogAsync(rateTypeSelector.Start(UnitOfWork), DialogButtons.OkCancel);
+            var sortSelector = new SortSelector("DisplayName");
+            var rateTypes = UnitOfWork.RateTypes;
+            var rateTypeSelector = _rateTypeSelectorFactory.CreatePart()
+                .Start("Select type:", "DisplayName",
+                       () => rateTypes.FindAsync(sortSelector: sortSelector, onFail: ErrorHandler.HandleError));
 
-            StaffingResource.AddRate(rateTypeSelector.SelectedRateType);
+            yield return _dialogManager.ShowDialogAsync(rateTypeSelector, DialogButtons.OkCancel);
+
+            StaffingResource.AddRate((RateType) rateTypeSelector.SelectedItem);
         }
 
         public void Delete(Rate rate)

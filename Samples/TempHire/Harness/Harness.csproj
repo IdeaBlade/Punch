@@ -110,23 +110,17 @@
     <Compile Include="..\TempHire\ViewModels\HomeViewModel.cs">
       <Link>ViewModels\HomeViewModel.cs</Link>
     </Compile>
+    <Compile Include="..\TempHire\ViewModels\ItemSelectorViewModel.cs">
+      <Link>ViewModels\ItemSelectorViewModel.cs</Link>
+    </Compile>
     <Compile Include="..\TempHire\ViewModels\Login\LoginViewModel.cs">
       <Link>ViewModels\Login\LoginViewModel.cs</Link>
     </Compile>
     <Compile Include="..\TempHire\ViewModels\ShellViewModel.cs">
       <Link>ViewModels\ShellViewModel.cs</Link>
     </Compile>
-    <Compile Include="..\TempHire\ViewModels\StaffingResource\AddressTypeSelectorViewModel.cs">
-      <Link>ViewModels\StaffingResource\AddressTypeSelectorViewModel.cs</Link>
-    </Compile>
     <Compile Include="..\TempHire\ViewModels\StaffingResource\IStaffingResourceDetailSection.cs">
       <Link>ViewModels\StaffingResource\IStaffingResourceDetailSection.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\StaffingResource\PhoneTypeSelectorViewModel.cs">
-      <Link>ViewModels\StaffingResource\PhoneTypeSelectorViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\StaffingResource\RateTypeSelectorViewModel.cs">
-      <Link>ViewModels\StaffingResource\RateTypeSelectorViewModel.cs</Link>
     </Compile>
     <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs">
       <Link>ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs</Link>
@@ -220,8 +214,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Page Include="..\TempHire\Views\StaffingResource\RateTypeSelectorView.xaml">
-      <Link>Views\StaffingResource\RateTypeSelectorView.xaml</Link>
+    <Page Include="..\TempHire\Views\ItemSelectorView.xaml">
+      <Link>Views\ItemSelectorView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -287,16 +281,6 @@
     </Page>
     <Page Include="..\TempHire\Views\ShellView.Wpf.xaml">
       <Link>Views\ShellView.Wpf.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\StaffingResource\AddressTypeSelectorView.xaml">
-      <Link>Views\StaffingResource\AddressTypeSelectorView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\StaffingResource\PhoneTypeSelectorView.xaml">
-      <Link>Views\StaffingResource\PhoneTypeSelectorView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

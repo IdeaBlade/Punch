@@ -130,13 +130,11 @@
     <Compile Include="PreLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyncInterceptor.cs" />
+    <Compile Include="ViewModels\ItemSelectorViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\Login\LoginViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="ViewModels\StaffingResource\AddressTypeSelectorViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\IStaffingResourceDetailSection.cs" />
-    <Compile Include="ViewModels\StaffingResource\PhoneTypeSelectorViewModel.cs" />
-    <Compile Include="ViewModels\StaffingResource\RateTypeSelectorViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceAddressListViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceContactInfoViewModel.cs" />
@@ -184,23 +182,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="Views\ItemSelectorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Login\LoginView.Silverlight.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ShellView.Silverlight.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\StaffingResource\AddressTypeSelectorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\StaffingResource\PhoneTypeSelectorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\StaffingResource\RateTypeSelectorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

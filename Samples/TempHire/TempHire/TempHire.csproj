@@ -111,12 +111,10 @@
     <Compile Include="PreLoader.cs" />
     <Compile Include="SyncInterceptor.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\ItemSelectorViewModel.cs" />
     <Compile Include="ViewModels\Login\LoginViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="ViewModels\StaffingResource\AddressTypeSelectorViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\IStaffingResourceDetailSection.cs" />
-    <Compile Include="ViewModels\StaffingResource\PhoneTypeSelectorViewModel.cs" />
-    <Compile Include="ViewModels\StaffingResource\RateTypeSelectorViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceAddressListViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceContactInfoViewModel.cs" />
@@ -163,7 +161,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\StaffingResource\RateTypeSelectorView.xaml">
+    <Page Include="Views\ItemSelectorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -216,14 +214,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ShellView.Wpf.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\StaffingResource\AddressTypeSelectorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\StaffingResource\PhoneTypeSelectorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

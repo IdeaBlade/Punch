@@ -100,11 +100,11 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> Add()
         {
-            var sortSelector = new SortSelector("Name");
             var phoneTypes = UnitOfWork.PhoneNumberTypes;
             var phoneTypeSelector = _phoneTypeSelectorFactory.CreatePart()
                 .Start("Select type:", "Name",
-                       () => phoneTypes.FindAsync(sortSelector: sortSelector, onFail: ErrorHandler.HandleError));
+                       () => phoneTypes.FindAsync(orderBy: q => q.OrderBy(t => t.Name),
+                                                  onFail: ErrorHandler.HandleError));
 
             yield return _dialogManager.ShowDialogAsync(phoneTypeSelector, DialogButtons.OkCancel);
 

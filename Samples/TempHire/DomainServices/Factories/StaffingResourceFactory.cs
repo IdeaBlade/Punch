@@ -58,15 +58,13 @@ namespace DomainServices.Factories
             EntityManager.AddEntity(staffingResource);
 
             OperationResult<IEnumerable<AddressType>> op1;
-            yield return
-                op1 = _addressTypes.FindAsync(PredicateBuilder.Make("Default", FilterOperator.IsEqualTo, true));
+            yield return op1 = _addressTypes.FindAsync(t => t.Default);
             var addressType = op1.Result.First();
             staffingResource.AddAddress(addressType);
             staffingResource.PrimaryAddress = staffingResource.Addresses.First();
 
             OperationResult<IEnumerable<PhoneNumberType>> op2;
-            yield return
-                op2 = _phoneNumberTypes.FindAsync(PredicateBuilder.Make("Default", FilterOperator.IsEqualTo, true));
+            yield return op2 = _phoneNumberTypes.FindAsync(t => t.Default);
             var phoneType = op2.Result.First();
             staffingResource.AddPhoneNumber(phoneType);
             staffingResource.PrimaryPhoneNumber = staffingResource.PhoneNumbers.First();

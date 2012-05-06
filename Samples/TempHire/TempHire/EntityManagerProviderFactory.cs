@@ -24,7 +24,11 @@ namespace TempHire
         {
             get
             {
-                return new EntityManagerProvider<TempHireEntities>();
+                var provider = new EntityManagerProvider<TempHireEntities>();
+#if FAKESTORE
+                provider.Configure(config => config.WithConnectionOptions(ConnectionOptions.Fake.Name));
+#endif
+                return provider;
             }
         }
 
@@ -33,7 +37,11 @@ namespace TempHire
         {
             get
             {
-                return new EntityManagerProvider<SecurityEntities>();
+                var provider = new EntityManagerProvider<SecurityEntities>();
+#if FAKESTORE
+                provider.Configure(config => config.WithConnectionOptions(ConnectionOptions.Fake.Name));
+#endif
+                return provider;
             }
         }
     }

@@ -203,7 +203,6 @@
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authentication\FakeAuthenticationService.cs" />
-    <Compile Include="ConnectionOptionsResolver.cs" />
     <Compile Include="DesignTimeSupport\DesignTimeStaffingResourceUnitOfWorkManager.cs" />
     <Compile Include="DesignTimeSupport\ViewModelLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

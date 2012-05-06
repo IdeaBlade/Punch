@@ -93,9 +93,6 @@
     <Reference Include="System.Windows" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Security\Composition\CompositionContextResolver.cs">
-      <Link>Composition\CompositionContextResolver.cs</Link>
-    </Compile>
     <Compile Include="..\Security\CryptoHelper.cs">
       <Link>CryptoHelper.cs</Link>
     </Compile>

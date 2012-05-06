@@ -23,6 +23,13 @@ namespace TempHire.Authentication
     [PartCreationPolicy(CreationPolicy.Shared)]
     public class TempHireAuthenticationService : AuthenticationService, IUserService
     {
+#if FAKESTORE
+        public TempHireAuthenticationService()
+        {
+            Configure(config => config.WithConnectionOptions(ConnectionOptions.Fake.Name));
+        }
+#endif
+
         #region IUserService Members
 
         public UserPrincipal CurrentUser

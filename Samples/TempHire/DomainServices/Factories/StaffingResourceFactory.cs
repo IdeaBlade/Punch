@@ -17,7 +17,6 @@ using Cocktail;
 using Cocktail.Contrib.UnitOfWork;
 using DomainModel;
 using IdeaBlade.EntityModel;
-using IdeaBlade.Linq;
 
 namespace DomainServices.Factories
 {
@@ -41,7 +40,7 @@ namespace DomainServices.Factories
             get { return _entityManagerProvider.Manager; }
         }
 
-        #region IStaffingResourceFactory Members
+        #region IFactory<StaffingResource> Members
 
         public OperationResult<StaffingResource> CreateAsync(Action<StaffingResource> onSuccess = null,
                                                              Action<Exception> onFail = null)

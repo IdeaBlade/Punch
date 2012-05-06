@@ -22,15 +22,14 @@ using Common.Factories;
 using DomainModel;
 using DomainServices;
 using IdeaBlade.Core;
-using IdeaBlade.Linq;
 
 namespace TempHire.ViewModels.StaffingResource
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceAddressListViewModel : StaffingResourceScreenBase
     {
-        private readonly IDialogManager _dialogManager;
         private readonly IPartFactory<ItemSelectorViewModel> _addressTypeSelectorFactory;
+        private readonly IDialogManager _dialogManager;
         private readonly IDomainUnitOfWorkManager<IDomainUnitOfWork> _unitOfWorkManager;
         private BindableCollection<StaffingResourceAddressItemViewModel> _addresses;
         private BindableCollection<State> _states;
@@ -145,7 +144,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             yield return _dialogManager.ShowDialogAsync(addressTypeSelector, DialogButtons.OkCancel);
 
-            StaffingResource.AddAddress((AddressType)addressTypeSelector.SelectedItem);
+            StaffingResource.AddAddress((AddressType) addressTypeSelector.SelectedItem);
 
             EnsureDelete();
         }

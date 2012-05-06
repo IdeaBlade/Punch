@@ -28,11 +28,9 @@ namespace DomainServices.Repositories
             _preLoader = preLoader;
             entityManagerProvider.ManagerCreated += new EventHandler<EntityManagerCreatedEventArgs>(OnManagerCreated)
                 .MakeWeak(eh => entityManagerProvider.ManagerCreated -= eh);
-        }
 
-        protected bool IsPreLoaded
-        {
-            get { return _preLoader != null; }
+            if (preLoader != null)
+                DefaultQueryStrategy = QueryStrategy.CacheOnly;
         }
 
         internal void OnManagerCreated(object sender, EntityManagerCreatedEventArgs e)
@@ -41,19 +39,6 @@ namespace DomainServices.Repositories
 
             var entites = _preLoader.EntityManager.FindEntities<T>(EntityState.Unchanged);
             e.EntityManager.ImportEntities(entites, MergeStrategy.OverwriteChanges);
-        }
-
-        protected override IEntityQuery<T> GetFindQuery(IPredicateDescription predicate, ISortSelector sortSelector,
-                                                        string includeProperties)
-        {
-            var query = base.GetFindQuery(predicate, sortSelector, includeProperties);
-            return IsPreLoaded ? query.With(QueryStrategy.CacheOnly) : query;
-        }
-
-        protected override IEntityQuery GetKeyQuery(params object[] keyValues)
-        {
-            var query = base.GetKeyQuery(keyValues);
-            return IsPreLoaded ? query.With(QueryStrategy.CacheOnly) : query;
         }
     }
 }

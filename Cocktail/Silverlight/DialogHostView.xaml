@@ -18,8 +18,16 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <ContentControl x:Name="ActiveItem"
+                        Width="Auto"
+                        Height="Auto"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        IsTabStop="False"
+                        TabIndex="0" />
         <ItemsControl x:Name="DialogButtons"
                       Grid.Row="1"
+                      IsEnabled="{Binding ActionsEnabled}"
                       IsTabStop="False">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -37,12 +45,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <ContentControl x:Name="ActiveItem"
-                        Width="Auto"
-                        Height="Auto"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        IsTabStop="False"
-                        TabIndex="0" />
     </Grid>
 </controls:ChildWindow>

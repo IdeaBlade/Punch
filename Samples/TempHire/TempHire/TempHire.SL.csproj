@@ -72,16 +72,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\CocktailCTP.0.6.0\lib\sl40\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\CocktailCTP.0.6.1\lib\sl40\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Contrib.SL">
-      <HintPath>..\packages\CocktailContrib.1.0.2\lib\sl40\Cocktail.Contrib.SL.dll</HintPath>
+      <HintPath>..\packages\CocktailContrib.1.0.3\lib\sl40\Cocktail.Contrib.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\CocktailCTP.0.6.0\lib\sl40\Cocktail.SL.dll</HintPath>
+      <HintPath>..\packages\CocktailCTP.0.6.1\lib\sl40\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\CocktailCTP.0.6.0\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\CocktailCTP.0.6.1\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.SL">
     </Reference>
@@ -115,7 +115,7 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CocktailCTP.0.6.0\lib\sl40\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\CocktailCTP.0.6.1\lib\sl40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -124,19 +124,16 @@
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authentication\TempHireAuthenticationService.cs" />
-    <Compile Include="ConnectionOptionsResolver.cs" />
     <Compile Include="EntityManagerDelegate.cs" />
     <Compile Include="EntityManagerProviderFactory.cs" />
     <Compile Include="PreLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyncInterceptor.cs" />
+    <Compile Include="ViewModels\ItemSelectorViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\Login\LoginViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="ViewModels\StaffingResource\AddressTypeSelectorViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\IStaffingResourceDetailSection.cs" />
-    <Compile Include="ViewModels\StaffingResource\PhoneTypeSelectorViewModel.cs" />
-    <Compile Include="ViewModels\StaffingResource\RateTypeSelectorViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceAddressListViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceContactInfoViewModel.cs" />
@@ -184,23 +181,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="Views\ItemSelectorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Login\LoginView.Silverlight.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ShellView.Silverlight.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\StaffingResource\AddressTypeSelectorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\StaffingResource\PhoneTypeSelectorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\StaffingResource\RateTypeSelectorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

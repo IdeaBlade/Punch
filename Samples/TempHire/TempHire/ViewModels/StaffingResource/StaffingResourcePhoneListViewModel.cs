@@ -1,14 +1,14 @@
-//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -28,12 +28,12 @@ namespace TempHire.ViewModels.StaffingResource
     public class StaffingResourcePhoneListViewModel : StaffingResourceScreenBase
     {
         private readonly IDialogManager _dialogManager;
-        private readonly IPartFactory<PhoneTypeSelectorViewModel> _phoneTypeSelectorFactory;
+        private readonly IPartFactory<ItemSelectorViewModel> _phoneTypeSelectorFactory;
         private BindableCollection<StaffingResourcePhoneItemViewModel> _phoneNumbers;
 
         [ImportingConstructor]
         public StaffingResourcePhoneListViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
-                                                  IPartFactory<PhoneTypeSelectorViewModel> phoneTypeSelectorFactory,
+                                                  IPartFactory<ItemSelectorViewModel> phoneTypeSelectorFactory,
                                                   IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(unitOfWorkManager, errorHandler)
         {
@@ -77,7 +77,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             if (e.OldItems != null)
             {
-                foreach (StaffingResourcePhoneItemViewModel item in
+                foreach (var item in
                     e.OldItems.Cast<PhoneNumber>().Select(p => PhoneNumbers.First(i => i.Item == p)))
                 {
                     PhoneNumbers.Remove(item);
@@ -99,10 +99,15 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> Add()
         {
-            PhoneTypeSelectorViewModel phoneTypeSelector = _phoneTypeSelectorFactory.CreatePart();
-            yield return _dialogManager.ShowDialogAsync(phoneTypeSelector.Start(UnitOfWork), DialogButtons.OkCancel);
+            var phoneTypes = UnitOfWork.PhoneNumberTypes;
+            var phoneTypeSelector = _phoneTypeSelectorFactory.CreatePart()
+                .Start("Select type:", "Name",
+                       () => phoneTypes.FindAsync(orderBy: q => q.OrderBy(t => t.Name),
+                                                  onFail: ErrorHandler.HandleError));
 
-            StaffingResource.AddPhoneNumber(phoneTypeSelector.SelectedPhoneType);
+            yield return _dialogManager.ShowDialogAsync(phoneTypeSelector, DialogButtons.OkCancel);
+
+            StaffingResource.AddPhoneNumber((PhoneNumberType) phoneTypeSelector.SelectedItem);
 
             EnsureDelete();
         }

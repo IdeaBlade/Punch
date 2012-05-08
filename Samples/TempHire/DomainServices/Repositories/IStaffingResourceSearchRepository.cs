@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cocktail;
 using DomainModel.Projections;
 
@@ -20,7 +21,8 @@ namespace DomainServices.Repositories
     public interface IStaffingResourceSearchRepository
     {
         OperationResult<IEnumerable<StaffingResourceListItem>> FindStaffingResourcesAsync(
-            string searchText, string orderBy, Action<IEnumerable<StaffingResourceListItem>> onSuccess = null,
-            Action<Exception> onFail = null);
+            string searchText,
+            Func<IQueryable<StaffingResourceListItem>, IOrderedQueryable<StaffingResourceListItem>> orderBy = null,
+            Action<IEnumerable<StaffingResourceListItem>> onSuccess = null, Action<Exception> onFail = null);
     }
 }

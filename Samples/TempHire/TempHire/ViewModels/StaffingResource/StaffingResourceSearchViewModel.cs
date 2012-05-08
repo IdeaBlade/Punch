@@ -143,7 +143,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             Busy.AddWatch();
 
-            _repository.FindStaffingResourcesAsync(SearchText, "LastName",
+            _repository.FindStaffingResourcesAsync(SearchText, q => q.OrderBy(i => i.LastName),
                                                    result =>
                                                        {
                                                            Items =

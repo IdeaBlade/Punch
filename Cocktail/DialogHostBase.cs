@@ -1,14 +1,14 @@
-//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
 using System;
 using System.Collections;
@@ -22,24 +22,39 @@ using Caliburn.Micro;
 
 namespace Cocktail
 {
-    /// <summary>The base view model implementing the dialog host.</summary>
-    /// <remarks>To customize the dialog host, subclass DialogHostBase and implement a custom view to match the subclassed view model.</remarks>
+    /// <summary>
+    ///   The base view model implementing the dialog host.
+    /// </summary>
+    /// <remarks>
+    ///   To customize the dialog host, subclass DialogHostBase and implement a custom view to match the subclassed view model.
+    /// </remarks>
     [InheritedExport]
     [PartNotDiscoverable]
     public class DialogHostBase : Conductor<object>, IDialogHost
     {
         private object _cancelButton;
         private object _defaultButton;
+        private DialogButton _dialogButton;
         private IEnumerable<DialogButton> _dialogButtons;
         private object _dialogResult;
-        private DialogButton _dialogButton;
+        private bool _isClosing;
 
         static DialogHostBase()
         {
             ViewLocator.NameTransformer.AddRule("DialogHostBase$", "DialogHostView");
         }
 
-        /// <summary>Contains the list of buttons to be displayed.</summary>
+        /// <summary>
+        /// Initializes a new DialogHostBase instance.
+        /// </summary>
+        public DialogHostBase()
+        {
+            CloseStrategy = new DialogClosingStrategy(this);
+        }
+
+        /// <summary>
+        ///   Contains the list of buttons to be displayed.
+        /// </summary>
         public IEnumerable<DialogButton> DialogButtons
         {
             get { return _dialogButtons; }
@@ -50,9 +65,19 @@ namespace Cocktail
             }
         }
 
+        /// <summary>
+        /// Indicates whether the dialog actions (buttons) should be enabled or disabled.
+        /// </summary>
+        public bool ActionsEnabled
+        {
+            get { return !IsClosing; }
+        }
+
         #region IDialogHost Members
 
-        /// <summary>Returns the user's response to the dialog or message box.</summary>
+        /// <summary>
+        ///   Returns the user's response to the dialog or message box.
+        /// </summary>
         public object DialogResult
         {
             get { return _dialogResult; }
@@ -70,16 +95,23 @@ namespace Cocktail
 
         void IDialogHost.TryClose(object dialogResult)
         {
+            if (IsClosing) return;
+
+            IsClosing = true;
             DialogResult = dialogResult;
             TryClose();
         }
 
         #endregion
 
-        /// <summary>Signals that the user has responded to the dialog or message box.</summary>
+        /// <summary>
+        ///   Signals that the user has responded to the dialog or message box.
+        /// </summary>
         internal event EventHandler<EventArgs> Completed;
 
-        /// <summary>Initializes and starts the dialog host.</summary>
+        /// <summary>
+        ///   Initializes and starts the dialog host.
+        /// </summary>
         public DialogHostBase Start(string title, object content, IEnumerable dialogButtons, object defaultButton,
                                     object cancelButton)
         {
@@ -93,24 +125,30 @@ namespace Cocktail
             return this;
         }
 
-        /// <summary>Action invoked when the user clicks on any dialog or message box button.</summary>
-        /// <param name="dialogButton">The button that was clicked.</param>
+        /// <summary>
+        ///   Action invoked when the user clicks on any dialog or message box button.
+        /// </summary>
+        /// <param name="dialogButton"> The button that was clicked. </param>
         public void Close(DialogButton dialogButton)
         {
             _dialogButton = dialogButton;
             ((IDialogHost)this).TryClose(dialogButton.Value);
         }
 
-        /// <summary>Internal use.</summary>
+        /// <summary>
+        ///   Internal use.
+        /// </summary>
         protected override void OnDeactivate(bool close)
         {
+            base.OnDeactivate(close);
+
             if (close)
                 OnComplete();
-
-            base.OnDeactivate(close);
         }
 
-        /// <summary>Raises the <see cref="Completed"/> event.</summary>
+        /// <summary>
+        ///   Raises the <see cref="Completed" /> event.
+        /// </summary>
         protected void OnComplete()
         {
             if (Completed == null) return;
@@ -119,17 +157,17 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Called when DialogHostView's Loaded event fires.
+        ///   Called when DialogHostView's Loaded event fires.
         /// </summary>
-        /// <param name="view"/>
+        /// <param name="view" />
         protected override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
-            ((UIElement) view).KeyDown += (sender, args) => OnKeyDown(args);
+            ((UIElement)view).KeyDown += (sender, args) => OnKeyDown(args);
         }
 
         /// <summary>
-        /// Called to check whether the dialog host can be closed.
+        ///   Called to check whether the dialog host can be closed.
         /// </summary>
         public override void CanClose(Action<bool> callback)
         {
@@ -143,7 +181,7 @@ namespace Cocktail
 
                 if (_cancelButton != null)
                 {
-                    DialogButton button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
+                    var button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
                     if (button == null || !button.Enabled)
                         return;
                     DialogResult = button.Value;
@@ -153,7 +191,7 @@ namespace Cocktail
 
                 callback(false);
             }
-            finally 
+            finally
             {
                 _dialogButton = null;
             }
@@ -163,7 +201,7 @@ namespace Cocktail
         {
             if (args.Key == Key.Escape && _cancelButton != null)
             {
-                DialogButton button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
+                var button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
                 if (button == null || !button.Enabled)
                     return;
                 Close(button);
@@ -171,11 +209,51 @@ namespace Cocktail
 
             if (args.Key == Key.Enter && _defaultButton != null)
             {
-                DialogButton button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_defaultButton));
+                var button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_defaultButton));
                 if (button == null || !button.Enabled)
                     return;
                 Close(button);
             }
         }
+
+        private bool IsClosing
+        {
+            get { return _isClosing; }
+            set
+            {
+                _isClosing = value;
+                NotifyOfPropertyChange(() => ActionsEnabled);
+            }
+        }
+
+        #region Nested type: DialogClosingStrategy
+
+        private class DialogClosingStrategy : ICloseStrategy<object>
+        {
+            private readonly ICloseStrategy<object> _defaultStrategy = new DefaultCloseStrategy<object>();
+            private readonly DialogHostBase _dialogHost;
+
+            public DialogClosingStrategy(DialogHostBase dialogHost)
+            {
+                _dialogHost = dialogHost;
+            }
+
+            #region ICloseStrategy<object> Members
+
+            public void Execute(IEnumerable<object> toClose, Action<bool, IEnumerable<object>> callback)
+            {
+                _defaultStrategy.Execute(toClose, (canClose, closable) =>
+                                                      {
+                                                          callback(canClose, closable);
+
+                                                          if (!canClose)
+                                                              _dialogHost.IsClosing = false;
+                                                      });
+            }
+
+            #endregion
+        }
+
+        #endregion
     }
 }

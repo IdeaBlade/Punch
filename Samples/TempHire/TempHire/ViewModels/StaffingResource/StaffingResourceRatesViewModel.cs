@@ -1,14 +1,14 @@
-//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
 using System;
 using System.Collections.Generic;
@@ -24,15 +24,15 @@ using DomainServices;
 
 namespace TempHire.ViewModels.StaffingResource
 {
-    [Export(typeof (IStaffingResourceDetailSection)), PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export(typeof(IStaffingResourceDetailSection)), PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceRatesViewModel : StaffingResourceScreenBase, IStaffingResourceDetailSection
     {
         private readonly IDialogManager _dialogManager;
-        private readonly IPartFactory<RateTypeSelectorViewModel> _rateTypeSelectorFactory;
+        private readonly IPartFactory<ItemSelectorViewModel> _rateTypeSelectorFactory;
 
         [ImportingConstructor]
         public StaffingResourceRatesViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
-                                              IPartFactory<RateTypeSelectorViewModel> rateTypeSelectorFactory,
+                                              IPartFactory<ItemSelectorViewModel> rateTypeSelectorFactory,
                                               IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(unitOfWorkManager, errorHandler)
         {
@@ -97,10 +97,15 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> Add()
         {
-            RateTypeSelectorViewModel rateTypeSelector = _rateTypeSelectorFactory.CreatePart();
-            yield return _dialogManager.ShowDialogAsync(rateTypeSelector.Start(UnitOfWork), DialogButtons.OkCancel);
+            var rateTypes = UnitOfWork.RateTypes;
+            var rateTypeSelector = _rateTypeSelectorFactory.CreatePart()
+                .Start("Select type:", "DisplayName",
+                       () => rateTypes.FindAsync(orderBy: q => q.OrderBy(t => t.DisplayName),
+                                                 onFail: ErrorHandler.HandleError));
 
-            StaffingResource.AddRate(rateTypeSelector.SelectedRateType);
+            yield return _dialogManager.ShowDialogAsync(rateTypeSelector, DialogButtons.OkCancel);
+
+            StaffingResource.AddRate((RateType) rateTypeSelector.SelectedItem);
         }
 
         public void Delete(Rate rate)

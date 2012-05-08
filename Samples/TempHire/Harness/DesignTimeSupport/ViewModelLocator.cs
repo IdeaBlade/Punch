@@ -1,11 +1,22 @@
-﻿using System;
+﻿// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
+
+using System;
 using System.Collections.Generic;
 using Cocktail;
 using Common.Errors;
 using Common.Toolbar;
 using Common.Workspace;
 using DomainModel;
-using DomainServices;
 using DomainServices.Repositories;
 using DomainServices.SampleData;
 using TempHire.Authentication;
@@ -42,15 +53,6 @@ namespace TempHire.DesignTimeSupport
             }
         }
 
-        public AddressTypeSelectorViewModel AddressTypeSelectorViewModel
-        {
-            get
-            {
-                return new AddressTypeSelectorViewModel(DesignTimeErrorHandler.Instance)
-                    .Start(new DomainUnitOfWork(EntityManagerProvider));
-            }
-        }
-
         public StaffingResourceNameEditorViewModel StaffingResourceNameEditorViewModel
         {
             get
@@ -72,15 +74,6 @@ namespace TempHire.DesignTimeSupport
                            null, DesignTimeErrorHandler.Instance,
                            DesignTimeDialogManager.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
-            }
-        }
-
-        public PhoneTypeSelectorViewModel PhoneTypeSelectorViewModel
-        {
-            get
-            {
-                return new PhoneTypeSelectorViewModel(DesignTimeErrorHandler.Instance)
-                    .Start(new DomainUnitOfWork(EntityManagerProvider));
             }
         }
 
@@ -120,16 +113,6 @@ namespace TempHire.DesignTimeSupport
                            new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider),
                            null, DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance)
                            .Start(TempHireSampleDataProvider.CreateGuid(1));
-            }
-        }
-
-        public RateTypeSelectorViewModel RateTypeSelectorViewModel
-        {
-            get
-            {
-                return
-                    new RateTypeSelectorViewModel(DesignTimeErrorHandler.Instance)
-                        .Start(new DomainUnitOfWork(EntityManagerProvider));
             }
         }
 
@@ -201,11 +184,11 @@ namespace TempHire.DesignTimeSupport
         protected override IEntityManagerProvider<TempHireEntities> CreateEntityManagerProvider()
         {
             return new EntityManagerProvider<TempHireEntities>()
-                .Configure(provider => 
-                    {
-                        provider.WithConnectionOptions(ConnectionOptions.DesignTime.Name);
-                        provider.WithSampleDataProviders(new TempHireSampleDataProvider());
-                    });
+                .Configure(provider =>
+                               {
+                                   provider.WithConnectionOptions(ConnectionOptions.DesignTime.Name);
+                                   provider.WithSampleDataProviders(new TempHireSampleDataProvider());
+                               });
         }
 
         #region Nested type: DesignTimeDialogManager
@@ -222,39 +205,39 @@ namespace TempHire.DesignTimeSupport
             #region IDialogManager Members
 
             public DialogOperationResult<T> ShowDialogAsync<T>(object content, IEnumerable<T> dialogButtons,
-                                                          string title = null)
+                                                               string title = null)
             {
                 throw new NotImplementedException();
             }
 
             public DialogOperationResult<T> ShowDialogAsync<T>(object content, T defaultButton, T cancelButton,
-                                                          IEnumerable<T> dialogButtons, string title = null)
+                                                               IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
 
             public DialogOperationResult<DialogResult> ShowDialogAsync(object content,
-                                                                  IEnumerable<DialogResult> dialogButtons,
-                                                                  string title = null)
+                                                                       IEnumerable<DialogResult> dialogButtons,
+                                                                       string title = null)
             {
                 throw new NotImplementedException();
             }
 
             public DialogOperationResult<T> ShowMessageAsync<T>(string message, IEnumerable<T> dialogButtons,
-                                                           string title = null)
+                                                                string title = null)
             {
                 throw new NotImplementedException();
             }
 
             public DialogOperationResult<T> ShowMessageAsync<T>(string message, T defaultButton, T cancelButton,
-                                                           IEnumerable<T> dialogButtons, string title = null)
+                                                                IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
 
             public DialogOperationResult<DialogResult> ShowMessageAsync(string message,
-                                                                   IEnumerable<DialogResult> dialogButtons,
-                                                                   string title = null)
+                                                                        IEnumerable<DialogResult> dialogButtons,
+                                                                        string title = null)
             {
                 throw new NotImplementedException();
             }

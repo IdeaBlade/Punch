@@ -17,6 +17,7 @@ using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Messages;
+using IdeaBlade.EntityModel;
 using MefContrib.Hosting.Interception;
 using MefContrib.Hosting.Interception.Configuration;
 
@@ -66,6 +67,19 @@ namespace Common
             base.BuildUp(instance);
             SubscribeToEventAggregator(instance);
         }
+
+#if !SILVERLIGHT
+        protected override void StartRuntime()
+        {
+            base.StartRuntime();
+
+            // Enable asynchronous navigation for all navigation properties in every EntityManager.
+            var asyncStrategy = new EntityReferenceStrategy(EntityReferenceStrategy.Default.LoadStrategy,
+                                                            EntityReferenceStrategy.Default.MergeStrategy, true);
+            EntityManager.EntityManagerCreated +=
+                (sender, args) => args.EntityManager.DefaultEntityReferenceStrategy = asyncStrategy;
+        }
+#endif
 
         // Use InterceptingCatalog from MefContrib to centrally handle EventAggregator subscriptions.
         protected override ComposablePartCatalog PrepareCompositionCatalog()

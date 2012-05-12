@@ -40,6 +40,23 @@ namespace Cocktail
                 args.EntityManager.AuthenticationContext = locator.GetPart().AuthenticationContext;
         }
 
+        /// <summary>
+        ///   Configures the CompositionHost.
+        /// </summary>
+        /// <param name="compositionBatch"> Optional changes to the <see cref="CompositionContainer" /> to include during the composition. </param>
+        /// <param name="catalog"> The custom catalog to be used by Cocktail to get access to MEF exports. </param>
+        public static void Configure(CompositionBatch compositionBatch = null, ComposablePartCatalog catalog = null)
+        {
+            Clear();
+            _catalog = catalog;
+
+            var batch = compositionBatch ?? new CompositionBatch();
+            if (!ExportExists<IEventAggregator>())
+                batch.AddExportedValue<IEventAggregator>(new EventAggregator());
+
+            Compose(batch);
+        }
+
         /// <summary>Satisfies all the imports on the provided instance.</summary>
         /// <param name="instance">The instance for which to satisfy the MEF imports.</param>
         public static void BuildUp(object instance)

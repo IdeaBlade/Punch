@@ -16,7 +16,6 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
-using Caliburn.Micro;
 using IdeaBlade.Core.Composition;
 using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 
@@ -53,25 +52,6 @@ namespace Cocktail
         }
 
         internal static bool IsRecomposing { get; set; }
-
-        /// <summary>
-        ///   Configures the CompositionHost.
-        /// </summary>
-        /// <param name="compositionBatch"> Optional changes to the <span>
-        ///                                                           <see cref="CompositionContainer" />
-        ///                                                         </span> to include during the composition. </param>
-        /// <param name="catalog"> The custom catalog to be used by Cocktail to get access to MEF exports. </param>
-        public static void Configure(CompositionBatch compositionBatch = null, ComposablePartCatalog catalog = null)
-        {
-            Clear();
-            _catalog = catalog;
-
-            var batch = compositionBatch ?? new CompositionBatch();
-            if (!ExportExists<IEventAggregator>())
-                batch.AddExportedValue<IEventAggregator>(new EventAggregator());
-
-            Compose(batch);
-        }
 
         /// <summary>
         ///   Executes composition on the container, including the changes in the specified <see cref="CompositionBatch" /> .

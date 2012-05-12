@@ -119,6 +119,9 @@
     <Compile Include="DialogHostBase.cs" />
     <Compile Include="DialogManager.cs" />
     <Compile Include="DialogOperationResult.cs" />
+    <Compile Include="DialogOperationResult.Task.cs">
+      <DependentUpon>DialogOperationResult.cs</DependentUpon>
+    </Compile>
     <Compile Include="EntityManagerEventMessage.cs" />
     <Compile Include="EntityManagerProvider.cs" />
     <Compile Include="DefaultDebugLogger.cs" />
@@ -141,6 +144,9 @@
     <Compile Include="MessageBoxView.xaml.cs">
       <DependentUpon>MessageBoxView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NavigateResult.Task.cs">
+      <DependentUpon>NavigateResult.cs</DependentUpon>
+    </Compile>
     <Compile Include="NavigationService.cs" />
     <Compile Include="OperationFns.cs" />
     <Compile Include="FakeBackingStore.cs" />
@@ -155,6 +161,9 @@
     <Compile Include="IValidationErrorNotification.cs" />
     <Compile Include="NavigateResult.cs" />
     <Compile Include="ObjectManager.cs" />
+    <Compile Include="OperationResult.Task.cs">
+      <DependentUpon>OperationResult.cs</DependentUpon>
+    </Compile>
     <Compile Include="PartLocator.cs" />
     <Compile Include="PathToImageSourceConverter.cs" />
     <Compile Include="PrincipalChangedMessage.cs" />

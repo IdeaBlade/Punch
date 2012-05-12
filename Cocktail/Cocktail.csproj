@@ -69,6 +69,15 @@
     <Compile Include="AuthenticationService.cs" />
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />
+    <Compile Include="NavigateResult.Task.cs">
+      <DependentUpon>NavigateResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogOperationResult.Task.cs">
+      <DependentUpon>DialogOperationResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OperationResult.Task.cs">
+      <DependentUpon>OperationResult.cs</DependentUpon>
+    </Compile>
     <Compile Include="Composition.cs" />
     <Compile Include="Composition.Client.cs">
       <DependentUpon>Composition.cs</DependentUpon>

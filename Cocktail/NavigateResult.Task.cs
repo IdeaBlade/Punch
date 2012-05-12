@@ -11,30 +11,50 @@
 // ====================================================================================================================
 
 using System.Threading.Tasks;
+using Caliburn.Micro;
 
 namespace Cocktail
 {
-    /// <summary>
-    ///   Marks an awaitable object.
-    /// </summary>
-    public interface IAwaitable
+    public partial class NavigateResult<T> : IAwaitable
     {
-        /// <summary>
-        ///   Converts the current object to <see cref="Task" /> .
-        /// </summary>
-        Task AsTask();
-    }
+        private TaskCompletionSource<bool> _tcs;
 
-    /// <summary>
-    ///   Marks an awaitable object with a result value.
-    /// </summary>
-    /// <typeparam name="T"> The type of the result value. </typeparam>
-    public interface IAwaitable<T> : IAwaitable
-    {
+        #region IAwaitable Members
+
         /// <summary>
-        ///   Converts the current object to <see cref="Task{T}" /> .
+        ///   Returns a Task&lt;T&gt; for the current NavigateResult.
         /// </summary>
-        /// <returns> The type of the result value. </returns>
-        new Task<T> AsTask();
+        public Task AsTask()
+        {
+            if (_tcs != null) return _tcs.Task;
+
+            _tcs = new TaskCompletionSource<bool>();
+            ((IResult) this).Completed +=
+                (sender, args) =>
+                    {
+                        if (args.WasCancelled)
+                            _tcs.SetCanceled();
+                        else if (args.Error != null)
+                            _tcs.SetException(args.Error);
+                        else
+                            _tcs.SetResult(true);
+                    };
+
+            if (_status == Status.WaitingToRun)
+                Go();
+
+            return _tcs.Task;
+        }
+
+        #endregion
+
+        /// <summary>
+        ///   Implicitly converts the current NavigateResult to type <see cref="Task" />
+        /// </summary>
+        /// <param name="operation"> The NavigateResult to be converted. </param>
+        public static implicit operator Task(NavigateResult<T> operation)
+        {
+            return operation.AsTask();
+        }
     }
 }

@@ -55,7 +55,7 @@ namespace Cocktail.Tests
         public void ShouldUseCustomCancel()
         {
             TestWindowManager.Instance.TestDialogResult = "Cancel";
-            var operation = _dialogManager.ShowMessageAsync("Test", null, "Cancel", new[] {"Ok", "Cancel"});
+            var operation = _dialogManager.ShowMessageAsync("Test", null, "Cancel", new[] { "Ok", "Cancel" });
 
             Assert.IsTrue(operation.DialogResult == "Cancel");
             Assert.IsTrue(operation.Cancelled);
@@ -69,6 +69,26 @@ namespace Cocktail.Tests
 
             Assert.IsTrue(operation.DialogResult == "Cancel");
             Assert.IsFalse(operation.Cancelled);
+        }
+
+        [TestMethod]
+        public void ShouldNotCancelTask()
+        {
+            TestWindowManager.Instance.TestDialogResult = DialogResult.Ok;
+            var task = _dialogManager.ShowMessageAsync("Test", DialogButtons.OkCancel).AsTask();
+
+            Assert.IsTrue(task.IsCompleted);
+            Assert.IsTrue(task.Result == DialogResult.Ok);
+            Assert.IsFalse(task.IsCanceled);
+        }
+
+        [TestMethod]
+        public void ShouldCancelTask()
+        {
+            TestWindowManager.Instance.TestDialogResult = DialogResult.Cancel;
+            var task = _dialogManager.ShowMessageAsync("Test", DialogButtons.OkCancel).AsTask();
+
+            Assert.IsTrue(task.IsCanceled);
         }
 
         protected override void PrepareCompositionContainer(CompositionBatch batch)
@@ -111,6 +131,10 @@ namespace Cocktail.Tests
                 {
                     // Close will throw an expected exception, because it can't actually close the VM without a parent or a view.
                 }
+
+                // Simulating closing.
+                ((IDeactivate)rootModel).Deactivate(true);
+
 #if !SILVERLIGHT
                 return true;
 #endif

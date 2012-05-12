@@ -70,7 +70,9 @@
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />
     <Compile Include="Composition.cs" />
-    <Compile Include="CompositionHelper.cs" />
+    <Compile Include="Composition.Client.cs">
+      <DependentUpon>Composition.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConnectionOptions.cs" />
     <Compile Include="CoroutineFns.cs" />
     <Compile Include="DataChangedEventArgs.cs" />

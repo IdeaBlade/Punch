@@ -99,7 +99,12 @@
     <Compile Include="AuthenticationService.cs" />
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />
-    <Compile Include="CompositionHelper.cs" />
+    <Compile Include="Composition.Client.cs">
+      <DependentUpon>Composition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Composition.Silverlight.cs">
+      <DependentUpon>Composition.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConnectionOptions.cs" />
     <Compile Include="DesignTimeViewModelLocatorBase.cs" />
     <Compile Include="DialogButton.cs" />

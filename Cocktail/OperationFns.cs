@@ -18,7 +18,7 @@ using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
-    /// <summary>A collection of DevForce asynchronous operation extension methods.</summary>
+    /// <summary>A collection of asynchronous operation extension methods.</summary>
     public static class OperationFns
     {
         /// <summary>Extension method to process the result of an asynchronous query operation.</summary>

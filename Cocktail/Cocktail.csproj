@@ -93,6 +93,7 @@
     <Compile Include="FrameworkBootstrapper.cs" />
     <Compile Include="HarnessViewModel.cs" />
     <Compile Include="IAuthenticationService.cs" />
+    <Compile Include="IAwaitable.cs" />
     <Compile Include="IBusyWatcher.cs" />
     <Compile Include="IConnectionOptionsResolver.cs" />
     <Compile Include="IDialogHost.cs" />

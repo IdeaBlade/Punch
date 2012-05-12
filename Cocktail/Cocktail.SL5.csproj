@@ -126,6 +126,7 @@
     <Compile Include="EventFns.cs" />
     <Compile Include="CoroutineFns.cs" />
     <Compile Include="FakeStoreEntityManagerProviderFns.cs" />
+    <Compile Include="IAwaitable.cs" />
     <Compile Include="IBusyWatcher.cs" />
     <Compile Include="IConnectionOptionsResolver.cs" />
     <Compile Include="IDialogHost.cs" />

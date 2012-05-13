@@ -15,17 +15,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Caliburn.Micro;
 
-#if !SILVERLIGHT4
-using System.Threading.Tasks;
-#endif
-
 namespace Cocktail
 {
     /// <summary>
     ///   An implementation of <see cref="IResult" /> that implements navigation logic.
     /// </summary>
     /// <typeparam name="T"> The type of the ViewModel navigated to </typeparam>
-    public class NavigateResult<T> : IResult
+    public partial class NavigateResult<T> : IResult
         where T : class
     {
         private enum Status
@@ -40,9 +36,6 @@ namespace Cocktail
         private Status _status = Status.WaitingToRun;
         private Exception _error;
         private readonly Func<T> _targetDelegate;
-#if !SILVERLIGHT4
-        private TaskCompletionSource<bool> _tcs;
-#endif
 
         /// <summary>
         ///   Returns whether the navigation completed successfully.
@@ -182,42 +175,6 @@ namespace Cocktail
             ((IResult) this).Completed += (sender, args) => continuationAction(this);
             return this;
         }
-
-#if !SILVERLIGHT4
-        /// <summary>
-        ///   Returns a Task&lt;T&gt; for the current NavigateResult.
-        /// </summary>
-        public Task AsTask()
-        {
-            if (_tcs != null) return _tcs.Task;
-
-            _tcs = new TaskCompletionSource<bool>();
-            ((IResult) this).Completed +=
-                (sender, args) =>
-                    {
-                        if (args.WasCancelled)
-                            _tcs.SetCanceled();
-                        else if (args.Error != null)
-                            _tcs.SetException(args.Error);
-                        else
-                            _tcs.SetResult(true);
-                    };
-
-            if (_status == Status.WaitingToRun)
-                Go();
-
-            return _tcs.Task;
-        }
-
-        /// <summary>
-        ///   Implicitly converts the current NavigateResult to type <see cref="Task" />
-        /// </summary>
-        /// <param name="operation"> The NavigateResult to be converted. </param>
-        public static implicit operator Task(NavigateResult<T> operation)
-        {
-            return operation.AsTask();
-        }
-#endif
 
         #region IResult Members
 

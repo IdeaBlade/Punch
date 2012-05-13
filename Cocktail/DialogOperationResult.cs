@@ -14,21 +14,14 @@ using System;
 using System.ComponentModel;
 using Caliburn.Micro;
 
-#if !SILVERLIGHT4
-using System.Threading.Tasks;
-#endif
-
 namespace Cocktail
 {
     /// <summary>
     /// Represents an asynchronous operation handle to a dialog or message box.
     /// </summary>
-    public abstract class DialogOperationResult<T> : IResult
+    public abstract partial class DialogOperationResult<T> : IResult
     {
         private ResultCompletionEventArgs _completionEventArgs;
-#if !SILVERLIGHT4
-        private TaskCompletionSource<T> _tcs;
-#endif
 
         /// <summary>
         /// Initializes and new instance of DialogOperationResult.
@@ -60,48 +53,6 @@ namespace Cocktail
             ((IResult) this).Completed += (sender, args) => continuationAction(this);
             return this;
         }
-
-#if !SILVERLIGHT4
-        /// <summary>
-        /// Returns a Task&lt;T&gt; for the current DialogOperationResult.
-        /// </summary>
-        public Task<T> AsTask()
-        {
-            if (_tcs != null) return _tcs.Task;
-
-            _tcs = new TaskCompletionSource<T>();
-            ((IResult)this).Completed +=
-                (sender, args) =>
-                {
-                    if (args.WasCancelled)
-                        _tcs.SetCanceled();
-                    else if (args.Error != null)
-                        _tcs.SetException(args.Error);
-                    else
-                        _tcs.SetResult(args.Error == null ? DialogResult : default(T));
-                };
-
-            return _tcs.Task;
-        }
-
-        /// <summary>
-        /// Implicitly converts the current DialogOperationResult to type <see cref="Task"/>
-        /// </summary>
-        /// <param name="operation">The DialogOperationResult to be converted.</param>
-        public static implicit operator Task(DialogOperationResult<T> operation)
-        {
-            return operation.AsTask();
-        }
-
-        /// <summary>
-        /// Implicitly converts the current DialogOperationResult to type <see cref="Task{T}"/>
-        /// </summary>
-        /// <param name="operation">The DialogOperationResult to be converted.</param>
-        public static implicit operator Task<T>(DialogOperationResult<T> operation)
-        {
-            return operation.AsTask();
-        }
-#endif
 
         #region IResult Members
 

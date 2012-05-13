@@ -58,6 +58,29 @@ namespace Cocktail.Tests
             Assert.IsNotNull(op);
         }
 
+        [TestMethod]
+        public void ShouldCompleteTask()
+        {
+            var task = AlwaysCompletedOperationResult.Instance.AsTask();
+            
+            Assert.IsFalse(task.IsFaulted);
+            Assert.IsFalse(task.IsCanceled);
+        }
+
+        [TestMethod]
+        public void ShouldFailTaskAndMarkErrorAsHandled()
+        {
+            var op = new CompleteWithError().AsOperationResult();
+            var task = op.AsTask();
+            task.ContinueWith(t =>
+                                  {
+                                      Assert.IsTrue(t.IsFaulted);
+                                      Assert.IsFalse(t.IsCanceled);
+                                  });
+            Assert.IsTrue(op.IsErrorHandled);
+            Assert.IsTrue(task.IsFaulted);
+        }
+
         private class CompleteWithError : INotifyCompleted
         {
             private readonly INotifyCompletedArgs _args = new CompleteWithErrorArgs();

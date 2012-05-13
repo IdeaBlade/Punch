@@ -18,24 +18,16 @@ using System.Linq;
 using Caliburn.Micro;
 using IdeaBlade.EntityModel;
 
-#if !SILVERLIGHT4
-using System.Threading.Tasks;
-#endif
-
 namespace Cocktail
 {
     /// <summary>
     /// Encapsulates and abstracts a DevForce asynchronous operation.
     /// </summary>
     /// <seealso cref="CoroutineFns"/>
-    public class OperationResult : IResult, INotifyCompleted
+    public partial class OperationResult : IResult, INotifyCompleted
     {
         private readonly INotifyCompleted _asyncOp;
         private INotifyCompletedArgs _args;
-
-#if !SILVERLIGHT4
-        private TaskCompletionSource<bool> _tcs;
-#endif
 
         /// <summary>Constructs a wrapper around the provided asynchronous function.</summary>
         /// <param name="asyncOp">The asynchronous DevForce function to be wrapped.</param>
@@ -84,42 +76,6 @@ namespace Cocktail
         {
             get { return _args != null && _args.Cancelled; }
         }
-
-#if !SILVERLIGHT4
-        /// <summary>
-        /// Returns a Task for the current OperationResult.
-        /// </summary>
-        public Task AsTask()
-        {
-            if (_tcs != null) return _tcs.Task;
-
-            _tcs = new TaskCompletionSource<bool>();
-            _asyncOp.WhenCompleted(
-                args =>
-                {
-                    if (args.Cancelled)
-                        _tcs.SetCanceled();
-                    else if (args.Error != null && !args.IsErrorHandled)
-                    {
-                        args.IsErrorHandled = true;
-                        _tcs.SetException(args.Error);
-                    }
-                    else
-                        _tcs.SetResult(true);
-                });
-
-            return _tcs.Task;
-        }
-
-        /// <summary>
-        /// Implicitly converts the current OperationResult to type <see cref="Task"/>
-        /// </summary>
-        /// <param name="operation">The OperationResult to be converted.</param>
-        public static implicit operator Task(OperationResult operation)
-        {
-            return operation.AsTask();
-        }
-#endif
 
         #region Implementation of IResult
 
@@ -215,12 +171,8 @@ namespace Cocktail
     /// Encapsulates and abstracts a DevForce asynchronous operation.
     /// </summary>
     /// <seealso cref="CoroutineFns"/>
-    public abstract class OperationResult<T> : OperationResult
+    public abstract partial class OperationResult<T> : OperationResult
     {
-#if !SILVERLIGHT4
-        private TaskCompletionSource<T> _tcs;
-#endif
-
         /// <summary>Constructs a wrapper around the provided asynchronous function.</summary>
         /// <param name="asyncOp">The asynchronous DevForce function to be wrapped.</param>
         protected OperationResult(INotifyCompleted asyncOp)
@@ -232,51 +184,6 @@ namespace Cocktail
         /// The result value of the operation.
         /// </summary>
         public abstract T Result { get; }
-
-#if !SILVERLIGHT4
-        /// <summary>
-        /// Returns a Task&lt;T&gt; for the current OperationResult.
-        /// </summary>
-        public new Task<T> AsTask()
-        {
-            if (_tcs != null) return _tcs.Task;
-
-            _tcs = new TaskCompletionSource<T>();
-            ((INotifyCompleted)this).WhenCompleted(
-                args =>
-                {
-                    if (args.Cancelled)
-                        _tcs.SetCanceled();
-                    else if (args.Error != null && !args.IsErrorHandled)
-                    {
-                        args.IsErrorHandled = true;
-                        _tcs.SetException(args.Error);
-                    }
-                    else
-                        _tcs.SetResult(args.Error == null ? Result : default(T));
-                });
-
-            return _tcs.Task;
-        }
-
-        /// <summary>
-        /// Implicitly converts the current OperationResult to type <see cref="Task"/>
-        /// </summary>
-        /// <param name="operation">The OperationResult to be converted.</param>
-        public static implicit operator Task(OperationResult<T> operation)
-        {
-            return operation.AsTask();
-        }
-
-        /// <summary>
-        /// Implicitly converts the current OperationResult to type <see cref="Task{T}"/>
-        /// </summary>
-        /// <param name="operation">The OperationResult to be converted.</param>
-        public static implicit operator Task<T>(OperationResult<T> operation)
-        {
-            return operation.AsTask();
-        }
-#endif
     }
 
     internal class CoroutineOperationResult<T> : OperationResult<T>

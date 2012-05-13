@@ -107,13 +107,21 @@
     <Compile Include="AuthenticationService.cs" />
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />
-    <Compile Include="CompositionHelper.cs" />
+    <Compile Include="Composition.Client.cs">
+      <DependentUpon>Composition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Composition.Silverlight.cs">
+      <DependentUpon>Composition.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConnectionOptions.cs" />
     <Compile Include="DialogButton.cs" />
     <Compile Include="DialogHostFns.cs" />
     <Compile Include="DialogHostBase.cs" />
     <Compile Include="DialogManager.cs" />
     <Compile Include="DialogOperationResult.cs" />
+    <Compile Include="DialogOperationResult.Task.cs">
+      <DependentUpon>DialogOperationResult.cs</DependentUpon>
+    </Compile>
     <Compile Include="EntityManagerEventMessage.cs" />
     <Compile Include="EntityManagerProvider.cs" />
     <Compile Include="DefaultDebugLogger.cs" />
@@ -126,6 +134,7 @@
     <Compile Include="EventFns.cs" />
     <Compile Include="CoroutineFns.cs" />
     <Compile Include="FakeStoreEntityManagerProviderFns.cs" />
+    <Compile Include="IAwaitable.cs" />
     <Compile Include="IBusyWatcher.cs" />
     <Compile Include="IConnectionOptionsResolver.cs" />
     <Compile Include="IDialogHost.cs" />
@@ -134,6 +143,9 @@
     <Compile Include="MessageBoxBase.cs" />
     <Compile Include="MessageBoxView.xaml.cs">
       <DependentUpon>MessageBoxView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigateResult.Task.cs">
+      <DependentUpon>NavigateResult.cs</DependentUpon>
     </Compile>
     <Compile Include="NavigationService.cs" />
     <Compile Include="OperationFns.cs" />
@@ -149,6 +161,9 @@
     <Compile Include="IValidationErrorNotification.cs" />
     <Compile Include="NavigateResult.cs" />
     <Compile Include="ObjectManager.cs" />
+    <Compile Include="OperationResult.Task.cs">
+      <DependentUpon>OperationResult.cs</DependentUpon>
+    </Compile>
     <Compile Include="PartLocator.cs" />
     <Compile Include="PathToImageSourceConverter.cs" />
     <Compile Include="PrincipalChangedMessage.cs" />

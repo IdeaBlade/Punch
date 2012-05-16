@@ -386,12 +386,11 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
-        /// and provides access to the operation's result value.
+        /// Returns an implementation of <see cref = "OperationResult" /> that wraps a DevForce asynchronous function.
         /// </summary>
         /// <param name="asyncOp">DevForce asynchronous operation.</param>
         /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
-        public static OperationResult<object> AsOperationResult(this CoroutineOperation asyncOp)
+        public static OperationResult AsOperationResult(this CoroutineOperation asyncOp)
         {
             return new CoroutineOperationResult<object>(asyncOp);
         }
@@ -496,12 +495,11 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Returns an implementation of <see cref = "OperationResult&lt;T&gt;" /> that wraps a DevForce asynchronous function
-        /// and provides access to the operation's result value.
+        /// Returns an implementation of <see cref = "OperationResult" /> that wraps a DevForce asynchronous function.
         /// </summary>
         /// <param name="asyncOp">DevForce asynchronous operation.</param>
         /// <returns>OperationResult encapsulating the provided DevForce asynchronous operation.</returns>
-        public static OperationResult<object> AsOperationResult(this InvokeServerMethodOperation asyncOp)
+        public static OperationResult AsOperationResult(this InvokeServerMethodOperation asyncOp)
         {
             return new InvokeServerMethodOperationResult<object>(asyncOp);
         }

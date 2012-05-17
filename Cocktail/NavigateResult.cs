@@ -70,7 +70,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Returns whether the operation is completed regardless of whether it was cancelled or failed.
+        /// Returns whether the navigation is completed regardless of whether it was cancelled or failed.
         /// </summary>
         public bool IsCompleted
         {

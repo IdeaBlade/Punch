@@ -42,7 +42,7 @@ namespace Cocktail
         /// </summary>
         public bool CompletedSuccessfully
         {
-            get { return _args != null && _args.Error == null; }
+            get { return _args != null && _args.Error == null && !Cancelled; }
         }
 
         /// <summary>
@@ -67,6 +67,14 @@ namespace Cocktail
         public bool IsErrorHandled
         {
             get { return _args != null && _args.IsErrorHandled; }
+        }
+
+        /// <summary>
+        /// Returns whether the operation is completed regardless of whether it was cancelled or failed.
+        /// </summary>
+        public bool IsCompleted
+        {
+            get { return _args != null; }
         }
 
         /// <summary>

@@ -29,6 +29,7 @@ namespace Cocktail.Tests
             Assert.IsNull(operation.Error);
             Assert.IsFalse(operation.Cancelled);
             Assert.IsFalse(operation.IsErrorHandled);
+            Assert.IsTrue(operation.IsCompleted);
         }
 
         [TestMethod]
@@ -41,6 +42,20 @@ namespace Cocktail.Tests
             Assert.IsNotNull(operation.Error);
             Assert.IsFalse(operation.Cancelled);
             Assert.IsTrue(operation.IsErrorHandled);
+            Assert.IsTrue(operation.IsCompleted);
+        }
+
+        [TestMethod]
+        public void ShouldCancel()
+        {
+            var operation = new CancelledOperation().AsOperationResult();
+
+            Assert.IsFalse(operation.CompletedSuccessfully);
+            Assert.IsFalse(operation.HasError);
+            Assert.IsNull(operation.Error);
+            Assert.IsTrue(operation.Cancelled);
+            Assert.IsFalse(operation.IsErrorHandled);
+            Assert.IsTrue(operation.IsCompleted);
         }
 
         [TestMethod]
@@ -101,6 +116,29 @@ namespace Cocktail.Tests
                 public Exception Error { get; private set; }
                 public bool Cancelled { get; private set; }
                 public bool IsErrorHandled { get; set; }
+            }
+        }
+
+        private class CancelledOperation : INotifyCompleted
+        {
+            private readonly INotifyCompletedArgs _args = new CancelledOperationArgs();
+
+            private class CancelledOperationArgs : INotifyCompletedArgs
+            {
+                public CancelledOperationArgs()
+                {
+                    Error = null;
+                    Cancelled = true;
+                }
+
+                public Exception Error { get; private set; }
+                public bool Cancelled { get; private set; }
+                public bool IsErrorHandled { get; set; }
+            }
+
+            public void WhenCompleted(Action<INotifyCompletedArgs> completedAction)
+            {
+                completedAction(_args);
             }
         }
     }

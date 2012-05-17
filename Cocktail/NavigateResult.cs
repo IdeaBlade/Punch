@@ -70,6 +70,14 @@ namespace Cocktail
         }
 
         /// <summary>
+        /// Returns whether the operation is completed regardless of whether it was cancelled or failed.
+        /// </summary>
+        public bool IsCompleted
+        {
+            get { return _status == Status.RanToCompletion || _status == Status.Faulted || _status == Status.Cancelled; }
+        }
+
+        /// <summary>
         ///   Delegate that activates the target ViewModel upon completion of the navigation logic.
         /// </summary>
         /// <remarks>

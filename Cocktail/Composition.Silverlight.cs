@@ -119,7 +119,7 @@ namespace Cocktail
         /// </summary>
         public bool CompletedSuccessfully
         {
-            get { return _completedEventArgs != null && !_completedEventArgs.HasError; }
+            get { return _completedEventArgs != null && !_completedEventArgs.HasError && !_completedEventArgs.Cancelled; }
         }
 
         /// <summary>

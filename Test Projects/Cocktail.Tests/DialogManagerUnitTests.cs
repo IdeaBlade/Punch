@@ -39,6 +39,7 @@ namespace Cocktail.Tests
 
             Assert.IsTrue(operation.DialogResult == DialogResult.Cancel);
             Assert.IsTrue(operation.Cancelled);
+            Assert.IsTrue(operation.IsCompleted);
         }
 
         [TestMethod]
@@ -49,6 +50,7 @@ namespace Cocktail.Tests
 
             Assert.IsTrue(operation.DialogResult == DialogResult.Ok);
             Assert.IsFalse(operation.Cancelled);
+            Assert.IsTrue(operation.IsCompleted);
         }
 
         [TestMethod]
@@ -59,6 +61,7 @@ namespace Cocktail.Tests
 
             Assert.IsTrue(operation.DialogResult == "Cancel");
             Assert.IsTrue(operation.Cancelled);
+            Assert.IsTrue(operation.IsCompleted);
         }
 
         [TestMethod]
@@ -69,6 +72,7 @@ namespace Cocktail.Tests
 
             Assert.IsTrue(operation.DialogResult == "Cancel");
             Assert.IsFalse(operation.Cancelled);
+            Assert.IsTrue(operation.IsCompleted);
         }
 
         [TestMethod]

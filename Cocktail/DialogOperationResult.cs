@@ -41,6 +41,14 @@ namespace Cocktail
         public abstract bool Cancelled { get; }
 
         /// <summary>
+        /// Returns whether the operation is completed regardless of whether it was cancelled or failed.
+        /// </summary>
+        public bool IsCompleted
+        {
+            get { return _completionEventArgs != null; }
+        }
+
+        /// <summary>
         /// Creates a continuation that executes when the target operation completes.
         /// </summary>
         /// <param name="continuationAction">An action to run when the operation completes. When run, the delegate will be passed the completed operation as an argument.</param>

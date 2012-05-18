@@ -59,6 +59,19 @@ namespace Cocktail.Tests
         }
 
         [TestMethod]
+        public void ShouldBeIncomplete()
+        {
+            var operation = new IncompleteOperation().AsOperationResult();
+
+            Assert.IsFalse(operation.CompletedSuccessfully);
+            Assert.IsFalse(operation.HasError);
+            Assert.IsNull(operation.Error);
+            Assert.IsFalse(operation.Cancelled);
+            Assert.IsFalse(operation.IsErrorHandled);
+            Assert.IsFalse(operation.IsCompleted);
+        }
+
+        [TestMethod]
         public void ShouldNotWrapExistingOperationResult()
         {
             var op1 = new OperationResult(AlwaysCompleted.Instance);
@@ -139,6 +152,13 @@ namespace Cocktail.Tests
             public void WhenCompleted(Action<INotifyCompletedArgs> completedAction)
             {
                 completedAction(_args);
+            }
+        }
+
+        private class IncompleteOperation : INotifyCompleted
+        {
+            public void WhenCompleted(Action<INotifyCompletedArgs> completedAction)
+            {
             }
         }
     }

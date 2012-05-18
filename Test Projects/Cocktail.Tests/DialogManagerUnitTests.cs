@@ -76,6 +76,16 @@ namespace Cocktail.Tests
         }
 
         [TestMethod]
+        public void ShouldBeIncomplete()
+        {
+            var operation = new ShowDialogResult<object>(null, null);
+
+            Assert.IsNull(operation.DialogResult);
+            Assert.IsFalse(operation.Cancelled);
+            Assert.IsFalse(operation.IsCompleted);
+        }
+
+        [TestMethod]
         public void ShouldNotCancelTask()
         {
             TestWindowManager.Instance.TestDialogResult = DialogResult.Ok;

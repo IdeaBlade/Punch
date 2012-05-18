@@ -42,7 +42,7 @@ namespace Cocktail
         /// </summary>
         public bool CompletedSuccessfully
         {
-            get { return _args != null && _args.Error == null && !Cancelled; }
+            get { return IsCompleted && !HasError && !Cancelled; }
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Cocktail
         /// </summary>
         public bool HasError
         {
-            get { return _args != null && _args.Error != null; }
+            get { return IsCompleted && Error != null; }
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Cocktail
         /// </summary>
         public Exception Error
         {
-            get { return _args != null ? _args.Error : null; }
+            get { return IsCompleted ? _args.Error : null; }
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Cocktail
         /// </summary>
         public bool IsErrorHandled
         {
-            get { return _args != null && _args.IsErrorHandled; }
+            get { return IsCompleted && _args.IsErrorHandled; }
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Cocktail
         /// </summary>
         public bool Cancelled
         {
-            get { return _args != null && _args.Cancelled; }
+            get { return IsCompleted && _args.Cancelled; }
         }
 
         #region Implementation of IResult

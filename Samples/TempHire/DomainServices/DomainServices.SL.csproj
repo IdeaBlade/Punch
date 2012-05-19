@@ -68,16 +68,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\CocktailCTP.0.6.1\lib\sl40\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\CocktailCTP.0.6.2\lib\sl40\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Contrib.SL">
-      <HintPath>..\packages\CocktailContrib.1.0.3\lib\sl40\Cocktail.Contrib.SL.dll</HintPath>
+      <HintPath>..\packages\CocktailContrib.1.0.4\lib\sl40\Cocktail.Contrib.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\CocktailCTP.0.6.1\lib\sl40\Cocktail.SL.dll</HintPath>
+      <HintPath>..\packages\CocktailCTP.0.6.2\lib\sl40\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\CocktailCTP.0.6.1\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\CocktailCTP.0.6.2\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL" />
     <Reference Include="IdeaBlade.EntityModel.SL" />

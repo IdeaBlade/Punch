@@ -11,8 +11,11 @@
 //====================================================================================================================
 
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Cocktail.Tests.Helpers;
 using IdeaBlade.EntityModel;
+using Microsoft.Silverlight.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cocktail.Tests
@@ -107,6 +110,42 @@ namespace Cocktail.Tests
                                   });
             Assert.IsTrue(op.IsErrorHandled);
             Assert.IsTrue(task.IsFaulted);
+        }
+
+        [TestMethod]
+        [Asynchronous]
+        [Timeout(10000)]
+        public void ShouldWrapTaskCompleteSuccessfully()
+        {
+            DoItAsync(
+                () => Task.Factory.StartNew(() => true).AsOperationResult()
+                          .ContinueWith(op =>
+                                            {
+                                                Assert.IsTrue(op.CompletedSuccessfully);
+                                                Assert.IsFalse(op.HasError);
+                                                Assert.IsFalse(op.Cancelled);
+                                                Assert.IsTrue(op.Result);
+
+                                                TestComplete();
+                                            }));
+        }
+
+        [TestMethod]
+        [Asynchronous]
+        [Timeout(10000)]
+        public void ShouldWarpTaskCompleteWithError()
+        {
+            DoItAsync(
+                () => Task.Factory.StartNew(() => { throw new Exception("Fault"); }).AsOperationResult()
+                          .ContinueWith(op =>
+                                            {
+                                                Assert.IsFalse(op.CompletedSuccessfully);
+                                                Assert.IsTrue(op.HasError);
+                                                Assert.IsFalse(op.Cancelled);
+                                                Assert.IsNotNull(op.Error);
+
+                                                TestComplete();
+                                            }));
         }
 
         private class CompleteWithError : INotifyCompleted

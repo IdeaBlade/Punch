@@ -110,6 +110,11 @@ namespace TempHire.ViewModels.StaffingResource
             get { return CanSave; }
         }
 
+        public bool CanRefreshData
+        {
+            get { return ActiveStaffingResource != null; }
+        }
+
         #region IHandle<EntityChangedMessage> Members
 
         public void Handle(EntityChangedMessage message)
@@ -142,6 +147,7 @@ namespace TempHire.ViewModels.StaffingResource
             {
                 NotifyOfPropertyChange(() => CanSave);
                 NotifyOfPropertyChange(() => CanCancel);
+                NotifyOfPropertyChange(() => CanRefreshData);
             }
         }
 
@@ -166,7 +172,8 @@ namespace TempHire.ViewModels.StaffingResource
                                         new ToolbarAction(this, "Add", (Func<IEnumerable<IResult>>) Add),
                                         new ToolbarAction(this, "Delete", (Func<IEnumerable<IResult>>) Delete),
                                         new ToolbarAction(this, "Save", (Func<IEnumerable<IResult>>) Save),
-                                        new ToolbarAction(this, "Cancel", (Action) Cancel)
+                                        new ToolbarAction(this, "Cancel", (Action) Cancel),
+                                        new ToolbarAction(this, "Refresh", (Func<IEnumerable<IResult>>) RefreshData)
                                     };
             }
             _toolbar.AddGroup(_toolbarGroup);
@@ -259,6 +266,11 @@ namespace TempHire.ViewModels.StaffingResource
 
             if (shouldClose)
                 ActiveDetail.TryClose();
+        }
+
+        public IEnumerable<IResult> RefreshData()
+        {
+            return ActiveDetail.RefreshData();
         }
     }
 }

@@ -198,6 +198,17 @@ namespace TempHire.ViewModels.StaffingResource
             else
                 base.CanClose(callback);
         }
+
+        public IEnumerable<IResult> RefreshData()
+        {
+            if (UnitOfWork.HasChanges())
+                yield return _dialogManager.ShowMessageAsync(
+                    "There are unsaved changes. Refreshing the data will discard all unsaved changes.",
+                    DialogButtons.OkCancel);
+
+            UnitOfWork.Clear();
+            Start(StaffingResource.Id);
+        }
     }
 
     [Export(typeof(IPartFactory<StaffingResourceDetailViewModel>))]

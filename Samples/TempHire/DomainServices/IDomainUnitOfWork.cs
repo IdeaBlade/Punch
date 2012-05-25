@@ -26,5 +26,7 @@ namespace DomainServices
         IRepository<PhoneNumberType> PhoneNumberTypes { get; }
         IRepository<RateType> RateTypes { get; }
         IRepository<StaffingResource> StaffingResources { get; }
+
+        void Clear();
     }
 }

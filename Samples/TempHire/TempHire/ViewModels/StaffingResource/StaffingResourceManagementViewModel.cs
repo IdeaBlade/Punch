@@ -218,11 +218,11 @@ namespace TempHire.ViewModels.StaffingResource
         private void OnSelectionChangeElapsed(object sender, EventArgs e)
         {
             _selectionChangeTimer.Stop();
+            if (SearchPane.CurrentStaffingResource == null) return;
 
-            if (SearchPane.CurrentStaffingResource != null)
-                _navigationService.NavigateToAsync(() => ActiveDetail ?? _detailFactory.CreatePart(),
-                                                   target => target.Start(SearchPane.CurrentStaffingResource.Id))
-                    .ContinueWith(navigation => UpdateCommands());
+            _navigationService.NavigateToAsync(() => ActiveDetail ?? _detailFactory.CreatePart(),
+                                               target => target.Start(SearchPane.CurrentStaffingResource.Id))
+                .ContinueWith(navigation => UpdateCommands());
         }
 
         private void OnSearchPanePropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -250,17 +250,16 @@ namespace TempHire.ViewModels.StaffingResource
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "ActiveItem")
-            {
-                if (_retainedActiveItem != null)
-                    _retainedActiveItem.PropertyChanged -= OnActiveDetailPropertyChanged;
+            if (e.PropertyName != "ActiveItem") return;
 
-                _retainedActiveItem = ActiveItem;
-                if (ActiveItem != null)
-                    ActiveItem.PropertyChanged += OnActiveDetailPropertyChanged;
+            if (_retainedActiveItem != null)
+                _retainedActiveItem.PropertyChanged -= OnActiveDetailPropertyChanged;
 
-                UpdateCommands();
-            }
+            _retainedActiveItem = ActiveItem;
+            if (ActiveItem != null)
+                ActiveItem.PropertyChanged += OnActiveDetailPropertyChanged;
+
+            UpdateCommands();
         }
 
         private void OnActiveDetailPropertyChanged(object sender, PropertyChangedEventArgs e)

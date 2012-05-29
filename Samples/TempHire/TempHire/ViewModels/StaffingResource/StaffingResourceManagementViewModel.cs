@@ -125,9 +125,10 @@ namespace TempHire.ViewModels.StaffingResource
 
             SearchPane.CurrentStaffingResource = null;
 
-            yield return _navigationService.NavigateToAsync(
+            _navigationService.NavigateToAsync(
                 () => ActiveDetail ?? _detailFactory.CreatePart(),
-                target => target.Start(nameEditor.FirstName, nameEditor.MiddleName, nameEditor.LastName));
+                target => target.Start(nameEditor.FirstName, nameEditor.MiddleName, nameEditor.LastName))
+                .ContinueWith(navigation => { if (navigation.Cancelled) UpdateCommands(); });
         }
 
         public IEnumerable<IResult> Delete()
@@ -222,7 +223,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             _navigationService.NavigateToAsync(() => ActiveDetail ?? _detailFactory.CreatePart(),
                                                target => target.Start(SearchPane.CurrentStaffingResource.Id))
-                .ContinueWith(navigation => UpdateCommands());
+                .ContinueWith(navigation => { if (navigation.Cancelled) UpdateCommands(); });
         }
 
         private void OnSearchPanePropertyChanged(object sender, PropertyChangedEventArgs e)

@@ -112,41 +112,41 @@ namespace Cocktail.Tests
             Assert.IsTrue(task.IsFaulted);
         }
 
-        [TestMethod]
-        [Asynchronous]
-        [Timeout(10000)]
-        public void ShouldWrapTaskCompleteSuccessfully()
-        {
-            DoItAsync(
-                () => Task.Factory.StartNew(() => true).AsOperationResult()
-                          .ContinueWith(op =>
-                                            {
-                                                Assert.IsTrue(op.CompletedSuccessfully);
-                                                Assert.IsFalse(op.HasError);
-                                                Assert.IsFalse(op.Cancelled);
-                                                Assert.IsTrue(op.Result);
+        //[TestMethod]
+        //[Asynchronous]
+        //[Timeout(10000)]
+        //public void ShouldWrapTaskCompleteSuccessfully()
+        //{
+        //    DoItAsync(
+        //        () => Task.Factory.StartNew(() => true).AsOperationResult()
+        //                  .ContinueWith(op =>
+        //                                    {
+        //                                        Assert.IsTrue(op.CompletedSuccessfully);
+        //                                        Assert.IsFalse(op.HasError);
+        //                                        Assert.IsFalse(op.Cancelled);
+        //                                        Assert.IsTrue(op.Result);
 
-                                                TestComplete();
-                                            }));
-        }
+        //                                        TestComplete();
+        //                                    }));
+        //}
 
-        [TestMethod]
-        [Asynchronous]
-        [Timeout(10000)]
-        public void ShouldWarpTaskCompleteWithError()
-        {
-            DoItAsync(
-                () => Task.Factory.StartNew(() => { throw new Exception("Fault"); }).AsOperationResult()
-                          .ContinueWith(op =>
-                                            {
-                                                Assert.IsFalse(op.CompletedSuccessfully);
-                                                Assert.IsTrue(op.HasError);
-                                                Assert.IsFalse(op.Cancelled);
-                                                Assert.IsNotNull(op.Error);
+        //[TestMethod]
+        //[Asynchronous]
+        //[Timeout(10000)]
+        //public void ShouldWarpTaskCompleteWithError()
+        //{
+        //    DoItAsync(
+        //        () => Task.Factory.StartNew(() => { throw new Exception("Fault"); }).AsOperationResult()
+        //                  .ContinueWith(op =>
+        //                                    {
+        //                                        Assert.IsFalse(op.CompletedSuccessfully);
+        //                                        Assert.IsTrue(op.HasError);
+        //                                        Assert.IsFalse(op.Cancelled);
+        //                                        Assert.IsNotNull(op.Error);
 
-                                                TestComplete();
-                                            }));
-        }
+        //                                        TestComplete();
+        //                                    }));
+        //}
 
         private class CompleteWithError : INotifyCompleted
         {

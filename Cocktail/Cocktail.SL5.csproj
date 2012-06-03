@@ -151,9 +151,6 @@
     <Compile Include="OperationFns.cs" />
     <Compile Include="FakeBackingStore.cs" />
     <Compile Include="FrameworkBootstrapper.cs" />
-    <Compile Include="OperationFns.Task.cs">
-      <DependentUpon>OperationFns.cs</DependentUpon>
-    </Compile>
     <Compile Include="OperationResult.cs" />
     <Compile Include="IAuthenticationService.cs" />
     <Compile Include="IDiscoverableViewModel.cs" />

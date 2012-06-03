@@ -75,9 +75,6 @@
     <Compile Include="DialogOperationResult.Task.cs">
       <DependentUpon>DialogOperationResult.cs</DependentUpon>
     </Compile>
-    <Compile Include="OperationFns.Task.cs">
-      <DependentUpon>OperationFns.cs</DependentUpon>
-    </Compile>
     <Compile Include="OperationResult.Task.cs">
       <DependentUpon>OperationResult.cs</DependentUpon>
     </Compile>

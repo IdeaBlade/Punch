@@ -81,21 +81,6 @@ namespace TempHire.ViewModels.StaffingResource
             get { return SearchPane.CurrentStaffingResource != null; }
         }
 
-        private IDomainUnitOfWork ActiveUnitOfWork
-        {
-            get { return _unitOfWorkManager.Get(ActiveStaffingResource.Id); }
-        }
-
-        private StaffingResourceDetailViewModel ActiveDetail
-        {
-            get { return ActiveItem as StaffingResourceDetailViewModel; }
-        }
-
-        private DomainModel.StaffingResource ActiveStaffingResource
-        {
-            get { return ActiveDetail != null ? ActiveDetail.StaffingResource : null; }
-        }
-
         public bool CanSave
         {
             get
@@ -110,6 +95,11 @@ namespace TempHire.ViewModels.StaffingResource
             get { return CanSave; }
         }
 
+        public bool CanRefreshData
+        {
+            get { return ActiveStaffingResource != null && !ActiveStaffingResource.EntityFacts.EntityState.IsAdded(); }
+        }
+
         #region IHandle<EntityChangedMessage> Members
 
         public void Handle(EntityChangedMessage message)
@@ -117,87 +107,15 @@ namespace TempHire.ViewModels.StaffingResource
             if (ActiveStaffingResource == null || !ActiveUnitOfWork.HasEntity(message.Entity))
                 return;
 
-            NotifyOfPropertyChange(() => CanSave);
-            NotifyOfPropertyChange(() => CanCancel);
+            UpdateCommands();
         }
 
         #endregion
-
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "ActiveItem")
-            {
-                if (_retainedActiveItem != null)
-                    _retainedActiveItem.PropertyChanged -= OnActiveDetailPropertyChanged;
-
-                _retainedActiveItem = ActiveItem;
-                if (ActiveItem != null)
-                    ActiveItem.PropertyChanged += OnActiveDetailPropertyChanged;
-            }
-        }
-
-        private void OnActiveDetailPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "StaffingResource")
-            {
-                NotifyOfPropertyChange(() => CanSave);
-                NotifyOfPropertyChange(() => CanCancel);
-            }
-        }
 
         public StaffingResourceManagementViewModel Start()
         {
             SearchPane.Start();
             return this;
-        }
-
-        protected override void OnActivate()
-        {
-            base.OnActivate();
-
-            Start();
-            SearchPane.PropertyChanged += OnSearchPanePropertyChanged;
-            ((IActivate)SearchPane).Activate();
-
-            if (_toolbarGroup == null)
-            {
-                _toolbarGroup = new ToolbarGroup(10)
-                                    {
-                                        new ToolbarAction(this, "Add", (Func<IEnumerable<IResult>>) Add),
-                                        new ToolbarAction(this, "Delete", (Func<IEnumerable<IResult>>) Delete),
-                                        new ToolbarAction(this, "Save", (Func<IEnumerable<IResult>>) Save),
-                                        new ToolbarAction(this, "Cancel", (Action) Cancel)
-                                    };
-            }
-            _toolbar.AddGroup(_toolbarGroup);
-        }
-
-        private void OnSelectionChangeElapsed(object sender, EventArgs e)
-        {
-            _selectionChangeTimer.Stop();
-
-            if (SearchPane.CurrentStaffingResource != null)
-                _navigationService.NavigateToAsync(() => ActiveDetail ?? _detailFactory.CreatePart(),
-                                                   target => target.Start(SearchPane.CurrentStaffingResource.Id));
-
-            NotifyOfPropertyChange(() => CanDelete);
-        }
-
-        private void OnSearchPanePropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName != "CurrentStaffingResource") return;
-
-            if (_selectionChangeTimer.IsEnabled) _selectionChangeTimer.Stop();
-            _selectionChangeTimer.Start();
-        }
-
-        protected override void OnDeactivate(bool close)
-        {
-            base.OnDeactivate(close);
-            SearchPane.PropertyChanged -= OnSearchPanePropertyChanged;
-            ((IDeactivate)SearchPane).Deactivate(close);
-
-            _toolbar.RemoveGroup(_toolbarGroup);
         }
 
         public IEnumerable<IResult> Add()
@@ -207,9 +125,10 @@ namespace TempHire.ViewModels.StaffingResource
 
             SearchPane.CurrentStaffingResource = null;
 
-            yield return _navigationService.NavigateToAsync(
+            _navigationService.NavigateToAsync(
                 () => ActiveDetail ?? _detailFactory.CreatePart(),
-                target => target.Start(nameEditor.FirstName, nameEditor.MiddleName, nameEditor.LastName));
+                target => target.Start(nameEditor.FirstName, nameEditor.MiddleName, nameEditor.LastName))
+                .ContinueWith(navigation => { if (navigation.Cancelled) UpdateCommands(); });
         }
 
         public IEnumerable<IResult> Delete()
@@ -259,6 +178,103 @@ namespace TempHire.ViewModels.StaffingResource
 
             if (shouldClose)
                 ActiveDetail.TryClose();
+        }
+
+        public IEnumerable<IResult> RefreshData()
+        {
+            return ActiveDetail.RefreshData();
+        }
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+
+            Start();
+            SearchPane.PropertyChanged += OnSearchPanePropertyChanged;
+            ((IActivate)SearchPane).Activate();
+
+            if (_toolbarGroup == null)
+            {
+                _toolbarGroup = new ToolbarGroup(10)
+                                    {
+                                        new ToolbarAction(this, "Add", (Func<IEnumerable<IResult>>) Add),
+                                        new ToolbarAction(this, "Delete", (Func<IEnumerable<IResult>>) Delete),
+                                        new ToolbarAction(this, "Save", (Func<IEnumerable<IResult>>) Save),
+                                        new ToolbarAction(this, "Cancel", (Action) Cancel),
+                                        new ToolbarAction(this, "Refresh", (Func<IEnumerable<IResult>>) RefreshData)
+                                    };
+            }
+            _toolbar.AddGroup(_toolbarGroup);
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            base.OnDeactivate(close);
+            SearchPane.PropertyChanged -= OnSearchPanePropertyChanged;
+            ((IDeactivate)SearchPane).Deactivate(close);
+
+            _toolbar.RemoveGroup(_toolbarGroup);
+        }
+
+        private void OnSelectionChangeElapsed(object sender, EventArgs e)
+        {
+            _selectionChangeTimer.Stop();
+            if (SearchPane.CurrentStaffingResource == null) return;
+
+            _navigationService.NavigateToAsync(() => ActiveDetail ?? _detailFactory.CreatePart(),
+                                               target => target.Start(SearchPane.CurrentStaffingResource.Id))
+                .ContinueWith(navigation => { if (navigation.Cancelled) UpdateCommands(); });
+        }
+
+        private void OnSearchPanePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != "CurrentStaffingResource") return;
+
+            if (_selectionChangeTimer.IsEnabled) _selectionChangeTimer.Stop();
+            _selectionChangeTimer.Start();
+        }
+
+        private IDomainUnitOfWork ActiveUnitOfWork
+        {
+            get { return _unitOfWorkManager.Get(ActiveStaffingResource.Id); }
+        }
+
+        private StaffingResourceDetailViewModel ActiveDetail
+        {
+            get { return ActiveItem as StaffingResourceDetailViewModel; }
+        }
+
+        private DomainModel.StaffingResource ActiveStaffingResource
+        {
+            get { return ActiveDetail != null ? ActiveDetail.StaffingResource : null; }
+        }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != "ActiveItem") return;
+
+            if (_retainedActiveItem != null)
+                _retainedActiveItem.PropertyChanged -= OnActiveDetailPropertyChanged;
+
+            _retainedActiveItem = ActiveItem;
+            if (ActiveItem != null)
+                ActiveItem.PropertyChanged += OnActiveDetailPropertyChanged;
+
+            UpdateCommands();
+        }
+
+        private void OnActiveDetailPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "StaffingResource")
+                UpdateCommands();
+        }
+
+        private void UpdateCommands()
+        {
+            NotifyOfPropertyChange(() => CanSave);
+            NotifyOfPropertyChange(() => CanCancel);
+            NotifyOfPropertyChange(() => CanDelete);
+            NotifyOfPropertyChange(() => CanRefreshData);
         }
     }
 }

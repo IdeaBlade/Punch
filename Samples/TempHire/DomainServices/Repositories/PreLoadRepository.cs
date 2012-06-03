@@ -37,8 +37,20 @@ namespace DomainServices.Repositories
         {
             if (_preLoader == null) return;
 
+            Seed(e.EntityManager);
+            e.EntityManager.Cleared += new EventHandler<EntityManagerClearedEventArgs>(OnCleared)
+                .MakeWeak(eh => e.EntityManager.Cleared -= eh);
+        }
+
+        internal void OnCleared(object sender, EntityManagerClearedEventArgs e)
+        {
+            Seed(e.EntityManager);
+        }
+
+        private void Seed(EntityManager entityManager)
+        {
             var entites = _preLoader.EntityManager.FindEntities<T>(EntityState.Unchanged);
-            e.EntityManager.ImportEntities(entites, MergeStrategy.OverwriteChanges);
+            entityManager.ImportEntities(entites, MergeStrategy.OverwriteChanges);
         }
     }
 }

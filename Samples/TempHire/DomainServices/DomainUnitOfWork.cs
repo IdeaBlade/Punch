@@ -54,6 +54,11 @@ namespace DomainServices
         public IRepository<RateType> RateTypes { get; private set; }
         public IRepository<StaffingResource> StaffingResources { get; private set; }
 
+        public void Clear()
+        {
+            EntityManager.Clear();
+        }
+
         #endregion
     }
 }

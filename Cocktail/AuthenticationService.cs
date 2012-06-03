@@ -47,8 +47,7 @@ namespace Cocktail
     ///     }
     /// }</code>
     /// </example>
-    public class AuthenticationService : IAuthenticationService, IAuthenticationContext, INotifyPropertyChanged,
-                                         ICloneable
+    public class AuthenticationService : IAuthenticationService, IAuthenticationContext, INotifyPropertyChanged
     {
         private readonly AuthenticationServiceConfiguration _configuration;
         private IAuthenticationContext _authenticationContext;
@@ -176,7 +175,6 @@ namespace Cocktail
         /// <param name="credential">
         /// 	<para>The supplied credential.</para>
         /// </param>
-        /// <returns>A Boolean indicating success or failure.</returns>
         public void Login(ILoginCredential credential)
         {
             // Logout before logging in with new set of credentials
@@ -279,11 +277,6 @@ namespace Cocktail
         /// Signals that the principal has changed due to a login or logout.
         /// </summary>
         public event EventHandler<EventArgs> PrincipalChanged = delegate { };
-
-        object ICloneable.Clone()
-        {
-            return MemberwiseClone();
-        }
     }
 
     internal class LoggedOutAuthenticationContext : IAuthenticationContext

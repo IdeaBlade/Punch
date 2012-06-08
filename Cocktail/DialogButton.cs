@@ -14,14 +14,14 @@ using Caliburn.Micro;
 
 namespace Cocktail
 {
-    /// <summary>Logical definition of a dialog or message box button.</summary>
+    /// <summary>Represents an individual button displayed by the DialogHost.</summary>
     public class DialogButton : PropertyChangedBase
     {
         private bool _enabled;
 
         /// <summary>Initializes a new instance of DialogButton.</summary>
         /// <param name="value">The user response value associated with this button.</param>
-        public DialogButton(object value)
+        internal DialogButton(object value)
         {
             Value = value;
             Enabled = true;

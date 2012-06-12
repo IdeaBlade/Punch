@@ -178,10 +178,11 @@ namespace Cocktail
             if (syncData.IsSameProviderAs(this)) return;
 
             // Merge deletions
-            var removers =
-                syncData.DeletedEntityKeys.Select(key => Manager.FindEntity(key, false)).Where(
-                    entity => entity != null).ToList();
-            if (removers.Any()) Manager.RemoveEntities(removers);
+            var removers = syncData.DeletedEntityKeys
+                .Select(key => Manager.FindEntity(key, false))
+                .Where(entity => entity != null)
+                .ToList();
+            if (removers.Any()) Manager.RemoveEntities(removers, false);
 
             // Merge saved entities
             var mergers = syncData.SavedEntities.Where(SyncInterceptor.ShouldImportEntity);
@@ -377,8 +378,7 @@ namespace Cocktail
                     return;
                 }
 
-                var syncEntities =
-                    e.Entities.Where(SyncInterceptor.ShouldExportEntity);
+                var syncEntities = e.Entities.Where(SyncInterceptor.ShouldExportEntity);
                 RetainDeletedEntityKeys(syncEntities);
             }
             catch (Exception)
@@ -421,9 +421,10 @@ namespace Cocktail
 
         private void RetainDeletedEntityKeys(IEnumerable<object> syncEntities)
         {
-            _deletedEntityKeys =
-                syncEntities.Where(e => EntityAspect.Wrap(e).EntityState.IsDeleted()).Select(
-                    e => EntityAspect.Wrap(e).EntityKey).ToList();
+            _deletedEntityKeys = syncEntities
+                .Where(e => EntityAspect.Wrap(e).EntityState.IsDeleted())
+                .Select(e => EntityAspect.Wrap(e).EntityKey)
+                .ToList();
         }
 
         private void OnSaved(object sender, EntitySavedEventArgs e)
@@ -432,11 +433,11 @@ namespace Cocktail
             {
                 if (!e.HasError)
                 {
-                    var exportEntities =
-                        e.Entities.Where(
-                            entity =>
-                            SyncInterceptor.ShouldExportEntity(entity) &&
-                            !_deletedEntityKeys.Contains(EntityAspect.Wrap(entity).EntityKey)).ToList();
+                    var exportEntities = e.Entities
+                        .Where(entity => SyncInterceptor.ShouldExportEntity(entity) &&
+                                         !_deletedEntityKeys
+                                              .Contains(EntityAspect.Wrap(entity).EntityKey))
+                        .ToList();
                     PublishEntities(exportEntities);
                 }
                 _deletedEntityKeys = null;
@@ -459,8 +460,10 @@ namespace Cocktail
 
         private void RaiseDataChangedEvent(IEnumerable<object> savedEntities, IEnumerable<EntityKey> deletedEntityKeys)
         {
-            var entityKeys =
-                savedEntities.Select(e => EntityAspect.Wrap(e).EntityKey).Concat(deletedEntityKeys).ToList();
+            var entityKeys = savedEntities
+                .Select(e => EntityAspect.Wrap(e).EntityKey)
+                .Concat(deletedEntityKeys)
+                .ToList();
 
             if (!entityKeys.Any()) return;
 

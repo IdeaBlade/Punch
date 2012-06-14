@@ -10,7 +10,6 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cocktail;
@@ -20,38 +19,21 @@ using IdeaBlade.EntityModel;
 
 namespace DomainServices.Factories
 {
-    public class StaffingResourceFactory : IFactory<StaffingResource>
+    public class StaffingResourceFactory : Factory<StaffingResource>
     {
         private readonly IRepository<AddressType> _addressTypes;
-        private readonly IEntityManagerProvider<TempHireEntities> _entityManagerProvider;
         private readonly IRepository<PhoneNumberType> _phoneNumberTypes;
 
         public StaffingResourceFactory(IEntityManagerProvider<TempHireEntities> entityManagerProvider,
                                        IRepository<AddressType> addressTypes,
                                        IRepository<PhoneNumberType> phoneNumberTypes)
+            : base(entityManagerProvider)
         {
-            _entityManagerProvider = entityManagerProvider;
             _addressTypes = addressTypes;
             _phoneNumberTypes = phoneNumberTypes;
         }
 
-        private TempHireEntities EntityManager
-        {
-            get { return _entityManagerProvider.Manager; }
-        }
-
-        #region IFactory<StaffingResource> Members
-
-        public OperationResult<StaffingResource> CreateAsync(Action<StaffingResource> onSuccess = null,
-                                                             Action<Exception> onFail = null)
-        {
-            return Coroutine.Start(CreateAsyncCore, op => op.OnComplete(onSuccess, onFail))
-                .AsOperationResult<StaffingResource>();
-        }
-
-        #endregion
-
-        private IEnumerable<INotifyCompleted> CreateAsyncCore()
+        protected override IEnumerable<INotifyCompleted> CreateAsyncCore()
         {
             var staffingResource = StaffingResource.Create();
             EntityManager.AddEntity(staffingResource);

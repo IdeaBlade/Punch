@@ -13,7 +13,6 @@
 using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;

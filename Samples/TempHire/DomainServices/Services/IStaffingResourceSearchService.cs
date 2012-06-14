@@ -10,29 +10,16 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using Cocktail.Contrib.UnitOfWork;
-using DomainModel;
-using DomainServices.Services;
+using System;
+using System.Collections.Generic;
+using Cocktail;
+using DomainModel.Projections;
 
-namespace DomainServices
+namespace DomainServices.Services
 {
-    public interface IDomainUnitOfWork : IUnitOfWork
+    public interface IStaffingResourceSearchService
     {
-        bool HasEntity(object entity);
-
-        // Factories
-        IFactory<StaffingResource> StaffingResourceFactory { get; }
-
-        // Repositories
-        IRepository<AddressType> AddressTypes { get; }
-        IRepository<State> States { get; }
-        IRepository<PhoneNumberType> PhoneNumberTypes { get; }
-        IRepository<RateType> RateTypes { get; }
-        IRepository<StaffingResource> StaffingResources { get; }
-
-        // Services
-        IStaffingResourceSearchService Search { get; }
-
-        void Clear();
+        OperationResult<IEnumerable<StaffingResourceListItem>> Simple(
+            string text, Action<IEnumerable<StaffingResourceListItem>> onSuccess = null, Action<Exception> onFail = null);
     }
 }

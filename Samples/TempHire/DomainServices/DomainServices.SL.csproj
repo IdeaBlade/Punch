@@ -102,6 +102,8 @@
     <Compile Include="SampleData\TempHireSampleDataProvider.cs" />
     <Compile Include="DomainUnitOfWork.cs" />
     <Compile Include="DomainUnitOfWorkManager.cs" />
+    <Compile Include="Services\IStaffingResourceSearchService.cs" />
+    <Compile Include="Services\StaffingResourceSearchService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

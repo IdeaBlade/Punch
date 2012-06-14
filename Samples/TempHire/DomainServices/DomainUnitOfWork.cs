@@ -16,6 +16,7 @@ using Cocktail.Contrib.UnitOfWork;
 using DomainModel;
 using DomainServices.Factories;
 using DomainServices.Repositories;
+using DomainServices.Services;
 using IdeaBlade.EntityModel;
 
 namespace DomainServices
@@ -36,6 +37,7 @@ namespace DomainServices
             RateTypes = new PreLoadRepository<RateType>(entityManagerProvider, preLoader);
             StaffingResourceFactory = new StaffingResourceFactory(entityManagerProvider, AddressTypes, PhoneNumberTypes);
             StaffingResources = new StaffingResourceRepository(entityManagerProvider);
+            Search = new StaffingResourceSearchService(StaffingResources);
         }
 
         #region IDomainUnitOfWork Members
@@ -53,6 +55,8 @@ namespace DomainServices
         public IRepository<PhoneNumberType> PhoneNumberTypes { get; private set; }
         public IRepository<RateType> RateTypes { get; private set; }
         public IRepository<StaffingResource> StaffingResources { get; private set; }
+
+        public IStaffingResourceSearchService Search { get; private set; }
 
         public void Clear()
         {

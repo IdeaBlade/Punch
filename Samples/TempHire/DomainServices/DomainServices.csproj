@@ -82,6 +82,8 @@
     <Compile Include="Repositories\StaffingResourceRepository.cs" />
     <Compile Include="SampleData\SecuritySampleDataProvider.cs" />
     <Compile Include="SampleData\TempHireSampleDataProvider.cs" />
+    <Compile Include="Services\IStaffingResourceSearchService.cs" />
+    <Compile Include="Services\StaffingResourceSearchService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

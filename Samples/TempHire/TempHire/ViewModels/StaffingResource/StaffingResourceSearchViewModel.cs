@@ -144,43 +144,15 @@ namespace TempHire.ViewModels.StaffingResource
         {
             Busy.AddWatch();
 
-            Expression<Func<DomainModel.StaffingResource, bool>> filter = null;
-            if (!string.IsNullOrWhiteSpace(SearchText))
-                filter = x => x.FirstName.Contains(SearchText) ||
-                              x.MiddleName.Contains(SearchText) ||
-                              x.LastName.Contains(SearchText) ||
-                              x.Addresses.FirstOrDefault(a => a.Primary).Address1.Contains(SearchText) ||
-                              x.Addresses.FirstOrDefault(a => a.Primary).Address2.Contains(SearchText) ||
-                              x.Addresses.FirstOrDefault(a => a.Primary).City.Contains(SearchText) ||
-                              x.Addresses.FirstOrDefault(a => a.Primary).Zipcode.Contains(SearchText) ||
-                              x.Addresses.FirstOrDefault(a => a.Primary).State.Name.Contains(SearchText) ||
-                              x.Addresses.FirstOrDefault(a => a.Primary).State.ShortName.Contains(SearchText) ||
-                              x.PhoneNumbers.FirstOrDefault(p => p.Primary).AreaCode.Contains(SearchText) ||
-                              x.PhoneNumbers.FirstOrDefault(p => p.Primary).Number.Contains(SearchText);
-
-            _unitOfWork.StaffingResources.FindAsync(
-                q => q.Select(x => new StaffingResourceListItem
-                                       {
-                                           Id = x.Id,
-                                           FirstName = x.FirstName,
-                                           MiddleName = x.MiddleName,
-                                           LastName = x.LastName,
-                                           Address1 = x.Addresses.FirstOrDefault(a => a.Primary).Address1,
-                                           Address2 = x.Addresses.FirstOrDefault(a => a.Primary).Address2,
-                                           City = x.Addresses.FirstOrDefault(a => a.Primary).City,
-                                           State = x.Addresses.FirstOrDefault(a => a.Primary).State.ShortName,
-                                           Zipcode = x.Addresses.FirstOrDefault(a => a.Primary).Zipcode,
-                                           AreaCode = x.PhoneNumbers.FirstOrDefault(p => p.Primary).AreaCode,
-                                           Number = x.PhoneNumbers.FirstOrDefault(p => p.Primary).Number
-                                       }),
-                filter,
-                q => q.OrderBy(i => i.LastName),
-                result =>
-                    {
-                        Items = new BindableCollection<StaffingResourceListItem>(result);
-                        CurrentStaffingResource = Items.FirstOrDefault(r => r.Id == selection) ?? Items.FirstOrDefault();
-                    },
-                _errorHandler.HandleError)
+            _unitOfWork.Search.Simple(SearchText, result =>
+                                                      {
+                                                          Items =
+                                                              new BindableCollection<StaffingResourceListItem>(result);
+                                                          CurrentStaffingResource =
+                                                              Items.FirstOrDefault(r => r.Id == selection) ??
+                                                              Items.FirstOrDefault();
+                                                      },
+                                      _errorHandler.HandleError)
                 .ContinueWith(op => Busy.RemoveWatch());
         }
 

@@ -18,7 +18,6 @@ using Common.Toolbar;
 using Common.Workspace;
 using DomainModel;
 using DomainServices;
-using DomainServices.Repositories;
 using DomainServices.SampleData;
 using TempHire.Authentication;
 using TempHire.ViewModels;

@@ -14,10 +14,11 @@ using System;
 using System.Collections.Generic;
 using Cocktail;
 using DomainModel.Projections;
+using IdeaBlade.Core;
 
 namespace DomainServices.Services
 {
-    public interface IStaffingResourceSearchService
+    public interface IStaffingResourceSearchService : IHideObjectMembers
     {
         OperationResult<IEnumerable<StaffingResourceListItem>> Simple(
             string text, Action<IEnumerable<StaffingResourceListItem>> onSuccess = null, Action<Exception> onFail = null);

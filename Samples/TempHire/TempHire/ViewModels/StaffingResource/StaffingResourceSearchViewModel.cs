@@ -13,13 +13,14 @@
 using System;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Messages;
 using DomainModel.Projections;
-using DomainServices.Repositories;
+using DomainServices;
 using IdeaBlade.EntityModel;
 
 namespace TempHire.ViewModels.StaffingResource
@@ -27,17 +28,17 @@ namespace TempHire.ViewModels.StaffingResource
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceSearchViewModel : Screen, IDiscoverableViewModel, IHarnessAware, IHandle<SavedMessage>
     {
+        private readonly IDomainUnitOfWork _unitOfWork;
         private readonly IErrorHandler _errorHandler;
-        private readonly IStaffingResourceSearchRepository _repository;
         private StaffingResourceListItem _currentStaffingResource;
         private BindableCollection<StaffingResourceListItem> _items;
 
         private string _searchText;
 
         [ImportingConstructor]
-        public StaffingResourceSearchViewModel(IStaffingResourceSearchRepository repository, IErrorHandler errorHandler)
+        public StaffingResourceSearchViewModel(IDomainUnitOfWork unitOfWork, IErrorHandler errorHandler)
         {
-            _repository = repository;
+            _unitOfWork = unitOfWork;
             _errorHandler = errorHandler;
             Busy = new BusyWatcher();
         }
@@ -143,16 +144,43 @@ namespace TempHire.ViewModels.StaffingResource
         {
             Busy.AddWatch();
 
-            _repository.FindStaffingResourcesAsync(SearchText, q => q.OrderBy(i => i.LastName),
-                                                   result =>
-                                                       {
-                                                           Items =
-                                                               new BindableCollection<StaffingResourceListItem>(result);
-                                                           CurrentStaffingResource =
-                                                               Items.FirstOrDefault(r => r.Id == selection) ??
-                                                               Items.FirstOrDefault();
-                                                       },
-                                                   _errorHandler.HandleError)
+            Expression<Func<DomainModel.StaffingResource, bool>> filter = null;
+            if (!string.IsNullOrWhiteSpace(SearchText))
+                filter = x => x.FirstName.Contains(SearchText) ||
+                              x.MiddleName.Contains(SearchText) ||
+                              x.LastName.Contains(SearchText) ||
+                              x.Addresses.FirstOrDefault(a => a.Primary).Address1.Contains(SearchText) ||
+                              x.Addresses.FirstOrDefault(a => a.Primary).Address2.Contains(SearchText) ||
+                              x.Addresses.FirstOrDefault(a => a.Primary).City.Contains(SearchText) ||
+                              x.Addresses.FirstOrDefault(a => a.Primary).Zipcode.Contains(SearchText) ||
+                              x.Addresses.FirstOrDefault(a => a.Primary).State.Name.Contains(SearchText) ||
+                              x.Addresses.FirstOrDefault(a => a.Primary).State.ShortName.Contains(SearchText) ||
+                              x.PhoneNumbers.FirstOrDefault(p => p.Primary).AreaCode.Contains(SearchText) ||
+                              x.PhoneNumbers.FirstOrDefault(p => p.Primary).Number.Contains(SearchText);
+
+            _unitOfWork.StaffingResources.FindAsync(
+                q => q.Select(x => new StaffingResourceListItem
+                                       {
+                                           Id = x.Id,
+                                           FirstName = x.FirstName,
+                                           MiddleName = x.MiddleName,
+                                           LastName = x.LastName,
+                                           Address1 = x.Addresses.FirstOrDefault(a => a.Primary).Address1,
+                                           Address2 = x.Addresses.FirstOrDefault(a => a.Primary).Address2,
+                                           City = x.Addresses.FirstOrDefault(a => a.Primary).City,
+                                           State = x.Addresses.FirstOrDefault(a => a.Primary).State.ShortName,
+                                           Zipcode = x.Addresses.FirstOrDefault(a => a.Primary).Zipcode,
+                                           AreaCode = x.PhoneNumbers.FirstOrDefault(p => p.Primary).AreaCode,
+                                           Number = x.PhoneNumbers.FirstOrDefault(p => p.Primary).Number
+                                       }),
+                filter,
+                q => q.OrderBy(i => i.LastName),
+                result =>
+                    {
+                        Items = new BindableCollection<StaffingResourceListItem>(result);
+                        CurrentStaffingResource = Items.FirstOrDefault(r => r.Id == selection) ?? Items.FirstOrDefault();
+                    },
+                _errorHandler.HandleError)
                 .ContinueWith(op => Busy.RemoveWatch());
         }
 

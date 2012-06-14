@@ -65,7 +65,7 @@
       <HintPath>..\packages\CocktailCTP.0.6.3\lib\net40\Cocktail.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Contrib">
-      <HintPath>..\packages\CocktailContrib.1.0.6\lib\net40\Cocktail.Contrib.dll</HintPath>
+      <HintPath>..\packages\CocktailContrib.1.0.7\lib\net40\Cocktail.Contrib.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils">
       <HintPath>..\packages\CocktailCTP.0.6.3\lib\net40\Cocktail.Utils.dll</HintPath>

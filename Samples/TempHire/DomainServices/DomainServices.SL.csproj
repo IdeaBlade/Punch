@@ -70,8 +70,9 @@
     <Reference Include="Caliburn.Micro">
       <HintPath>..\packages\CocktailCTP.0.6.3\lib\sl40\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail.Contrib.SL">
-      <HintPath>..\packages\CocktailContrib.1.0.6\lib\sl40\Cocktail.Contrib.SL.dll</HintPath>
+    <Reference Include="Cocktail.Contrib.SL, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CocktailContrib.1.0.7\lib\sl40\Cocktail.Contrib.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
       <HintPath>..\packages\CocktailCTP.0.6.3\lib\sl40\Cocktail.SL.dll</HintPath>
@@ -95,10 +96,8 @@
     <Compile Include="IDomainUnitOfWorkManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IPreLoader.cs" />
-    <Compile Include="Repositories\IStaffingResourceSearchRepository.cs" />
     <Compile Include="Repositories\PreLoadRepository.cs" />
     <Compile Include="Repositories\StaffingResourceRepository.cs" />
-    <Compile Include="Repositories\StaffingResourceSearchRepository.cs" />
     <Compile Include="SampleData\SecuritySampleDataProvider.cs" />
     <Compile Include="SampleData\TempHireSampleDataProvider.cs" />
     <Compile Include="DomainUnitOfWork.cs" />

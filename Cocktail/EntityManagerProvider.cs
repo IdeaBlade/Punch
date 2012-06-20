@@ -197,16 +197,7 @@ namespace Cocktail
 
         internal OperationResult ResetFakeBackingStoreAsync()
         {
-            if (!FakeBackingStore.Exists(CompositionContext.Name))
-                throw new InvalidOperationException(StringResources.TheFakeStoreHasNotBeenInitialized);
-
-            // Create a separate isolated EntityManager
-            var manager = CreateEntityManager();
-            manager.AuthenticationContext = AnonymousAuthenticationContext.Instance;
-
-            if (_storeEcs == null)
-                PopulateStoreEcs(manager);
-
+            var manager = PrepareSampleData();
             return FakeBackingStore.Get(CompositionContext.Name).ResetAsync(manager, _storeEcs);
         }
 
@@ -214,16 +205,7 @@ namespace Cocktail
 
         internal void ResetFakeBackingStore()
         {
-            if (!FakeBackingStore.Exists(CompositionContext.Name))
-                throw new InvalidOperationException(StringResources.TheFakeStoreHasNotBeenInitialized);
-
-            // Create a separate isolated EntityManager
-            var manager = CreateEntityManager();
-            manager.AuthenticationContext = AnonymousAuthenticationContext.Instance;
-
-            if (_storeEcs == null)
-                PopulateStoreEcs(manager);
-
+            var manager = PrepareSampleData();
             FakeBackingStore.Get(CompositionContext.Name).Reset(manager, _storeEcs);
         }
 
@@ -527,6 +509,24 @@ namespace Cocktail
 
                 return _configuration.SampleDataProviders;
             }
+        }
+
+        private T PrepareSampleData()
+        {
+            if (!FakeBackingStore.Exists(CompositionContext.Name))
+                throw new InvalidOperationException(StringResources.TheFakeStoreHasNotBeenInitialized);
+
+            // Create a separate isolated EntityManager
+            var manager = CreateEntityManager();
+            manager.Options.UseDefaultAuthenticationContext = false;
+            manager.AuthenticationContext = AnonymousAuthenticationContext.Instance;
+            manager.DefaultQueryStrategy = QueryStrategy.CacheOnly;
+            manager.DefaultEntityReferenceStrategy = EntityReferenceStrategy.NoLoad;
+
+            if (_storeEcs == null)
+                PopulateStoreEcs(manager);
+
+            return manager;
         }
     }
 

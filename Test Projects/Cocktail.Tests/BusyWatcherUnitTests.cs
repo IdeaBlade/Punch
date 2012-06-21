@@ -10,6 +10,7 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using System;
 using Cocktail.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -72,6 +73,22 @@ namespace Cocktail.Tests
             Assert.IsTrue(busyWatcher.IsBusy);
             busyWatcher.RemoveWatch();
             Assert.IsFalse(busyWatcher.IsBusy);
+        }
+
+        [TestMethod]
+        public void ShoultThrowInvalidOperationException()
+        {
+            var expectedExceptionThrown = false;
+            try
+            {
+                var busyWatcher = new BusyWatcher();
+                busyWatcher.RemoveWatch();
+            }
+            catch (InvalidOperationException)
+            {
+                expectedExceptionThrown = true;
+            }
+            Assert.IsTrue(expectedExceptionThrown);
         }
     }
 }

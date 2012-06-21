@@ -94,6 +94,9 @@ namespace Cocktail
         /// </summary>
         public void RemoveWatch()
         {
+            if (_counter == 0)
+                throw new InvalidOperationException(StringResources.NoMatchingAddWatch);
+
             if (Interlocked.Decrement(ref _counter) == 0)
             {
                 NotifyOfPropertyChange(() => IsBusy);

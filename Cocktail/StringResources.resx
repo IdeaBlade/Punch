@@ -237,4 +237,7 @@
   <data name="NavigationNotInValidState" xml:space="preserve">
     <value>The navigation is not in a valid state to be started.</value>
   </data>
+  <data name="NoMatchingAddWatch" xml:space="preserve">
+    <value>RemoveWatch was called without a matching AddWatch call.</value>
+  </data>
 </root>

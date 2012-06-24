@@ -137,16 +137,23 @@ namespace TempHire.ViewModels.StaffingResource
             Busy.AddWatch();
 
             _unitOfWork = _unitOfWorkManager.Create();
-            _unitOfWork.StaffingResourceFactory.CreateAsync(resource =>
-                                                            {
-                                                                _unitOfWorkManager.Add(resource.Id, _unitOfWork);
-                                                                resource.FirstName = firstName;
-                                                                resource.MiddleName = middleName;
-                                                                resource.LastName = lastName;
-                                                                Start(resource.Id);
-                                                            },
-                                                            _errorHandler.HandleError)
-                .ContinueWith(op => Busy.RemoveWatch());
+            _unitOfWork.StaffingResourceFactory.CreateAsync()
+                .ContinueWith(op =>
+                                  {
+                                      if (op.CompletedSuccessfully)
+                                      {
+                                          _unitOfWorkManager.Add(op.Result.Id, _unitOfWork);
+                                          op.Result.FirstName = firstName;
+                                          op.Result.MiddleName = middleName;
+                                          op.Result.LastName = lastName;
+                                          Start(op.Result.Id);
+                                      }
+
+                                      if (op.HasError)
+                                          _errorHandler.HandleError(op.Error);
+
+                                      Busy.RemoveWatch();
+                                  });
 
             return this;
         }

@@ -143,16 +143,21 @@ namespace TempHire.ViewModels.StaffingResource
         {
             Busy.AddWatch();
 
-            _unitOfWork.Search.Simple(SearchText, result =>
-                                                      {
-                                                          Items =
-                                                              new BindableCollection<StaffingResourceListItem>(result);
-                                                          CurrentStaffingResource =
-                                                              Items.FirstOrDefault(r => r.Id == selection) ??
-                                                              Items.FirstOrDefault();
-                                                      },
-                                      _errorHandler.HandleError)
-                .ContinueWith(op => Busy.RemoveWatch());
+            _unitOfWork.Search.Simple(SearchText)
+                .ContinueWith(op =>
+                                  {
+                                      if (op.CompletedSuccessfully)
+                                      {
+                                          Items = new BindableCollection<StaffingResourceListItem>(op.Result);
+                                          CurrentStaffingResource = Items.FirstOrDefault(r => r.Id == selection) ??
+                                                                    Items.FirstOrDefault();
+                                      }
+
+                                      if (op.HasError)
+                                          _errorHandler.HandleError(op.Error);
+
+                                      Busy.RemoveWatch();
+                                  });
         }
 
         public void Clear()

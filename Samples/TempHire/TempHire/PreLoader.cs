@@ -35,17 +35,22 @@ namespace TempHire
 
         #region IPreLoader Members
 
-        public TempHireEntities EntityManager
-        {
-            get { return _entityManagerProvider.Manager; }
-        }
-
         public OperationResult LoadAsync(Action onSuccess = null, Action<Exception> onFail = null)
         {
             return Coroutine.StartParallel(InitializeCore, op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
         }
 
+        public IEnumerable<T> Get<T>() where T : class
+        {
+            return EntityManager.FindEntities<T>(EntityState.Unchanged);
+        }
+
         #endregion
+
+        private TempHireEntities EntityManager
+        {
+            get { return _entityManagerProvider.Manager; }
+        }
 
         private IEnumerable<INotifyCompleted> InitializeCore()
         {

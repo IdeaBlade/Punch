@@ -11,15 +11,15 @@
 //====================================================================================================================
 
 using System;
+using System.Collections.Generic;
 using Cocktail;
-using DomainModel;
 
 namespace DomainServices.Repositories
 {
     public interface IPreLoader
     {
-        TempHireEntities EntityManager { get; }
-
         OperationResult LoadAsync(Action onSuccess = null, Action<Exception> onFail = null);
+
+        IEnumerable<T> Get<T>() where T : class;
     }
 }

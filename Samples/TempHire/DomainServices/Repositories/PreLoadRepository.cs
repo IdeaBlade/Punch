@@ -49,8 +49,8 @@ namespace DomainServices.Repositories
 
         private void Seed(EntityManager entityManager)
         {
-            var entites = _preLoader.EntityManager.FindEntities<T>(EntityState.Unchanged);
-            entityManager.ImportEntities(entites, MergeStrategy.OverwriteChanges);
+            var entities = _preLoader.Get<T>();
+            entityManager.ImportEntities(entities, MergeStrategy.OverwriteChanges);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Cocktail
         /// <param name="onSuccess">User callback to be called when operation completes successfully.</param>
         /// <param name="onFail">User callback to be called when operation completes with an error.</param>
         /// <returns>Returns a handle to the download operation.</returns>
-        public static OperationResult AddXap(string relativeUri, Action onSuccess = null, Action<Exception> onFail = null)
+        public static OperationResult AddXapAsync(string relativeUri, Action onSuccess = null, Action<Exception> onFail = null)
         {
             XapDownloadOperation operation;
             if (XapDownloadOperations.TryGetValue(relativeUri, out operation) && !operation.HasError)

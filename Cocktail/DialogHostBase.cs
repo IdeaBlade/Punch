@@ -34,7 +34,6 @@ namespace Cocktail
     {
         private object _cancelButton;
         private object _defaultButton;
-        private DialogButton _dialogButton;
         private IEnumerable<DialogButton> _dialogButtons;
         private object _dialogResult;
         private bool _isClosing;
@@ -131,7 +130,6 @@ namespace Cocktail
         /// <param name="dialogButton"> The button that was clicked. </param>
         public void Close(DialogButton dialogButton)
         {
-            _dialogButton = dialogButton;
             ((IDialogHost)this).TryClose(dialogButton.Value);
         }
 
@@ -171,30 +169,23 @@ namespace Cocktail
         /// </summary>
         public override void CanClose(Action<bool> callback)
         {
-            try
+            if (DialogResult != null)
             {
-                if (_dialogButton != null)
-                {
-                    base.CanClose(callback);
-                    return;
-                }
-
-                if (_cancelButton != null)
-                {
-                    var button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
-                    if (button == null || !button.Enabled)
-                        return;
-                    DialogResult = button.Value;
-                    base.CanClose(callback);
-                    return;
-                }
-
-                callback(false);
+                base.CanClose(callback);
+                return;
             }
-            finally
+
+            if (_cancelButton != null)
             {
-                _dialogButton = null;
+                var button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
+                if (button == null || !button.Enabled)
+                    return;
+                DialogResult = button.Value;
+                base.CanClose(callback);
+                return;
             }
+
+            callback(false);
         }
 
         private void OnKeyDown(KeyEventArgs args)
@@ -246,8 +237,10 @@ namespace Cocktail
                                                       {
                                                           callback(canClose, closable);
 
-                                                          if (!canClose)
-                                                              _dialogHost.IsClosing = false;
+                                                          if (canClose) return;
+
+                                                          _dialogHost.IsClosing = false;
+                                                          _dialogHost.DialogResult = null;
                                                       });
             }
 

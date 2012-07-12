@@ -48,8 +48,9 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\CocktailCTP.0.6.3\lib\net40\Cocktail.Utils.dll</HintPath>
+    <Reference Include="Cocktail.Utils, Version=0.7.0.788, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CocktailCTP.0.7.0\lib\net40\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <SpecificVersion>False</SpecificVersion>

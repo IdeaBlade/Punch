@@ -51,20 +51,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\CocktailCTP.0.6.3\lib\net40\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\CocktailCTP.0.7.0\lib\net40\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail">
-      <HintPath>..\packages\CocktailCTP.0.6.3\lib\net40\Cocktail.dll</HintPath>
+      <HintPath>..\packages\CocktailCTP.0.7.0\lib\net40\Cocktail.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Contrib">
-      <HintPath>..\packages\CocktailContrib.1.0.7\lib\net40\Cocktail.Contrib.dll</HintPath>
+      <HintPath>..\packages\CocktailContrib.1.0.8\lib\net40\Cocktail.Contrib.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\CocktailCTP.0.6.3\lib\net40\Cocktail.Utils.dll</HintPath>
+      <HintPath>..\packages\CocktailCTP.0.7.0\lib\net40\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core" />
     <Reference Include="IdeaBlade.EntityModel" />
-    <Reference Include="IdeaBlade.Linq" />
     <Reference Include="IdeaBlade.Validation" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />

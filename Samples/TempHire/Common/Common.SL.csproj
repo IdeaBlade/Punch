@@ -68,11 +68,12 @@
     <NoConfig>true</NoConfig>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\CocktailCTP.0.6.3\lib\sl40\Caliburn.Micro.dll</HintPath>
+    <Reference Include="Caliburn.Micro, Version=1.3.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\CocktailCTP.0.7.0\lib\sl40\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\CocktailCTP.0.6.3\lib\sl40\Cocktail.SL.dll</HintPath>
+    <Reference Include="Cocktail.SL, Version=0.7.0.788, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CocktailCTP.0.7.0\lib\sl40\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL">
       <SpecificVersion>False</SpecificVersion>
@@ -101,7 +102,7 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CocktailCTP.0.6.3\lib\sl40\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\CocktailCTP.0.7.0\lib\sl40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

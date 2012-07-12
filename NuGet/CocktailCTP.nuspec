@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>CocktailCTP</id>
-    <version>0.6.3</version>
+    <version>0.7.0</version>
     <authors>Marcel Good,Ward Bell,Rob Eisenberg</authors>
     <owners>IdeaBlade</owners>
     <licenseUrl>http://cocktail.ideablade.com/licensing</licenseUrl>

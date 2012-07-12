@@ -74,13 +74,11 @@ namespace Common
             base.StartRuntime();
 
             // Enable asynchronous navigation for all navigation properties in every client EntityManager.
-            var asyncStrategy = new EntityReferenceStrategy(EntityReferenceStrategy.Default.LoadStrategy,
-                                                            EntityReferenceStrategy.Default.MergeStrategy, true);
             EntityManager.EntityManagerCreated +=
                 (sender, args) =>
                     {
                         if (args.EntityManager.IsClient)
-                            args.EntityManager.DefaultEntityReferenceStrategy = asyncStrategy;
+                            args.EntityManager.DefaultEntityReferenceStrategy = EntityReferenceStrategy.DefaultAsync;
                     };
         }
 #endif

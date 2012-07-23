@@ -12,7 +12,6 @@
 
 using System;
 using Cocktail;
-using Cocktail.Contrib.UnitOfWork;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 

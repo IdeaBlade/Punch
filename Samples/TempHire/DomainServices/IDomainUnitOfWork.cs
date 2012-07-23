@@ -10,7 +10,7 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using Cocktail.Contrib.UnitOfWork;
+using Cocktail;
 using DomainModel;
 using DomainServices.Services;
 
@@ -18,8 +18,6 @@ namespace DomainServices
 {
     public interface IDomainUnitOfWork : IUnitOfWork
     {
-        bool HasEntity(object entity);
-
         // Factories
         IFactory<StaffingResource> StaffingResourceFactory { get; }
 
@@ -32,7 +30,5 @@ namespace DomainServices
 
         // Services
         IStaffingResourceSearchService Search { get; }
-
-        void Clear();
     }
 }

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>CocktailCTP</id>
-    <version>0.7.1</version>
+    <version>0.8.0</version>
     <authors>Marcel Good,Ward Bell,Rob Eisenberg</authors>
     <owners>IdeaBlade</owners>
     <licenseUrl>http://cocktail.ideablade.com/licensing</licenseUrl>
@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <summary>Cocktail is an application development platform that takes the pain out of the development of data-driven rich XAML applications.</summary>
     <description>Cocktail is an application development platform that takes the pain out of the development of data-driven rich XAML applications.</description>
-    <releaseNotes>http://drc.ideablade.com/xwiki/bin/view/Documentation/cocktail-070-release-notes</releaseNotes>
+    <releaseNotes>http://drc.ideablade.com/xwiki/bin/view/Documentation/cocktail-080-release-notes</releaseNotes>
     <copyright>Copyright 2012</copyright>
     <tags>MVVM Silverlight WPF SL4 SL5 SL Convention Screen Coroutine Model-View-ViewModel Presentation UI ViewModel Caliburn.Micro DevForce ORM Entity Data LOB Enterprise</tags>
   </metadata>

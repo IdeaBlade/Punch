@@ -12,12 +12,10 @@
 
 using System.ComponentModel.Composition;
 using Cocktail;
-using Cocktail.Contrib.UnitOfWork;
 using DomainModel;
 using DomainServices.Factories;
 using DomainServices.Repositories;
 using DomainServices.Services;
-using IdeaBlade.EntityModel;
 
 namespace DomainServices
 {
@@ -42,12 +40,6 @@ namespace DomainServices
 
         #region IDomainUnitOfWork Members
 
-        public bool HasEntity(object entity)
-        {
-            var entityAspect = EntityAspect.Wrap(entity);
-            return EntityManager == entityAspect.EntityManager;
-        }
-
         public IFactory<StaffingResource> StaffingResourceFactory { get; private set; }
 
         public IRepository<AddressType> AddressTypes { get; private set; }
@@ -57,11 +49,6 @@ namespace DomainServices
         public IRepository<StaffingResource> StaffingResources { get; private set; }
 
         public IStaffingResourceSearchService Search { get; private set; }
-
-        public void Clear()
-        {
-            EntityManager.Clear();
-        }
 
         #endregion
     }

@@ -13,7 +13,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cocktail;
-using Cocktail.Contrib.UnitOfWork;
 using DomainModel;
 using IdeaBlade.EntityModel;
 

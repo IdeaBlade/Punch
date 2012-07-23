@@ -376,6 +376,15 @@ namespace Cocktail {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expected only one entity of type: {0}, with query: {1}, but found: {2}.
+        /// </summary>
+        internal static string ShouldHaveExactlyOneEntityErrorMessage {
+            get {
+                return ResourceManager.GetString("ShouldHaveExactlyOneEntityErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Successfully created new instance of EntityManager: {0} with connection info: {1}, IsFake={2}..
         /// </summary>
         internal static string SuccessfullyCreatedEntityManager {

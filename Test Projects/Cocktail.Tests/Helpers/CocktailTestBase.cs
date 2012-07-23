@@ -10,6 +10,8 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using IdeaBlade.EntityModel;
 using IdeaBlade.EntityModel.Security;
@@ -44,6 +46,27 @@ namespace Cocktail.Tests.Helpers
 
         protected virtual void PrepareCompositionContainer(CompositionBatch batch)
         {
+        }
+
+        public INotifyCompleted ResetFakeBackingStore(string compositionContextName)
+        {
+            var provider =
+                EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName);
+            if (provider != null)
+                return provider.ResetFakeBackingStoreAsync();
+
+            return AlwaysCompleted.Instance;
+        }
+
+        public INotifyCompleted TestInit(string compositionContextName)
+        {
+            var commands = new List<Func<INotifyCompleted>>
+                               {
+                                   () => EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName)
+                                       .InitializeFakeBackingStoreAsync(),
+                                   () => ResetFakeBackingStore(compositionContextName)
+                               };
+            return Coroutine.Start(commands);
         }
     }
 }

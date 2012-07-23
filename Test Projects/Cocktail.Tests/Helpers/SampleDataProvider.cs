@@ -30,11 +30,16 @@ namespace Cocktail.Tests.Helpers
 
         #endregion
 
+        public static Guid CreateGuid(int a)
+        {
+            return new Guid(a, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        }
+
         private static void AddCustomers(NorthwindIBEntities manager)
         {
             var customer1 = new Customer
                                 {
-                                    CustomerID = Guid.NewGuid(),
+                                    CustomerID = CreateGuid(1),
                                     CompanyName = "Company1",
                                     ContactName = "John Doe",
                                     Address = "SomeAddress",
@@ -45,7 +50,7 @@ namespace Cocktail.Tests.Helpers
 
             var customer2 = new Customer
                                 {
-                                    CustomerID = Guid.NewGuid(),
+                                    CustomerID = CreateGuid(2),
                                     CompanyName = "Company2",
                                     ContactName = "Jane Doe",
                                     Address = "SomeAddress",

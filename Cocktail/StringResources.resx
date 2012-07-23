@@ -240,4 +240,7 @@
   <data name="NoMatchingAddWatch" xml:space="preserve">
     <value>RemoveWatch was called without a matching AddWatch call.</value>
   </data>
+  <data name="ShouldHaveExactlyOneEntityErrorMessage" xml:space="preserve">
+    <value>Expected only one entity of type: {0}, with query: {1}, but found: {2}</value>
+  </data>
 </root>

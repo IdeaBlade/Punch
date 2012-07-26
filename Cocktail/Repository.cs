@@ -18,6 +18,7 @@ using System.Linq.Expressions;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Linq;
+using EntityKey = IdeaBlade.EntityModel.EntityKey;
 
 namespace Cocktail
 {
@@ -65,6 +66,7 @@ namespace Cocktail
         /// <param name="onSuccess"> Callback to be called when the entity retrieval was successful. </param>
         /// <param name="onFail"> Callback to be called when the entity retrieval failed. </param>
         /// <returns> Asynchronous operation result. </returns>
+        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         public OperationResult<T> WithIdAsync(object keyValue, Action<T> onSuccess = null,
                                               Action<Exception> onFail = null)
         {
@@ -78,20 +80,11 @@ namespace Cocktail
         /// <param name="onSuccess"> Callback to be called when the entity retrieval was successful. </param>
         /// <param name="onFail"> Callback to be called when the entity retrieval failed. </param>
         /// <returns> Asynchronous operation result. </returns>
+        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         public OperationResult<T> WithIdFromDataSourceAsync(object keyValue, Action<T> onSuccess = null,
                                                             Action<Exception> onFail = null)
         {
             return WithIdFromDataSourceAsync(new[] { keyValue }, onSuccess, onFail);
-        }
-
-        /// <summary>
-        ///   Retrieves the entity matching the provided key from the entity cache.
-        /// </summary>
-        /// <param name="keyValue"> The single primary key value. </param>
-        /// <returns> The retrieved entity. </returns>
-        public T WithIdFromCache(object keyValue)
-        {
-            return WithIdFromCache(new[] { keyValue });
         }
 
         /// <summary>
@@ -101,6 +94,7 @@ namespace Cocktail
         /// <param name="onSuccess"> Callback to be called when the entity retrieval was successful. </param>
         /// <param name="onFail"> Callback to be called when the entity retrieval failed. </param>
         /// <returns> Asynchronous operation result. </returns>
+        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         public OperationResult<T> WithIdAsync(object[] keyValues, Action<T> onSuccess = null,
                                               Action<Exception> onFail = null)
         {
@@ -116,6 +110,7 @@ namespace Cocktail
         /// <param name="onSuccess"> Callback to be called when the entity retrieval was successful. </param>
         /// <param name="onFail"> Callback to be called when the entity retrieval failed. </param>
         /// <returns> Asynchronous operation result. </returns>
+        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         public OperationResult<T> WithIdFromDataSourceAsync(object[] keyValues, Action<T> onSuccess = null,
                                                             Action<Exception> onFail = null)
         {
@@ -129,12 +124,13 @@ namespace Cocktail
         /// </summary>
         /// <param name="keyValues"> The composite primary key values. </param>
         /// <returns> The retrieved entity. </returns>
-        public T WithIdFromCache(object[] keyValues)
+        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
+        public T WithIdFromCache(params object[] keyValues)
         {
             var key = new EntityKey(typeof(T), keyValues);
             var entity = (T)EntityManager.FindEntity(key);
             if (entity == null)
-                throw new EntityServerException(ShouldHaveExactlyOneEntityErrorMessage(key.ToQuery(), 0));
+                throw new EntityNotFoundException(ShouldHaveExactlyOneEntityErrorMessage(key.ToQuery(), 0));
             return entity;
         }
 
@@ -396,6 +392,16 @@ namespace Cocktail
             entities.ToList().ForEach(Delete);
         }
 
+        /// <summary>
+        /// Returns true if the entity matching the provided key is found in the cache.
+        /// </summary>
+        /// <param name="keyValues">The primary key values</param>
+        public bool ExistsInCache(params object[] keyValues)
+        {
+            var key = new EntityKey(typeof(T), keyValues);
+            return EntityManager.FindEntity(key) != null;
+        }
+
         #endregion
 
         /// <summary>
@@ -491,7 +497,7 @@ namespace Cocktail
             var count = operation.Results.Cast<object>().Count();
             if (count != 1)
                 yield return Coroutine.Fail(
-                    new EntityServerException(ShouldHaveExactlyOneEntityErrorMessage(entityQuery, count)));
+                    new EntityNotFoundException(ShouldHaveExactlyOneEntityErrorMessage(entityQuery, count)));
 
             yield return Coroutine.Return(operation.Results.Cast<object>().First());
         }

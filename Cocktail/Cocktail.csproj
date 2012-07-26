@@ -70,6 +70,7 @@
     <Compile Include="AuthenticationService.cs" />
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />
+    <Compile Include="EntityNotFoundException.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="IFactory.cs" />
     <Compile Include="IRepository.cs" />

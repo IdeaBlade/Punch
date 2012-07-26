@@ -45,13 +45,6 @@ namespace Cocktail
                                                      Action<Exception> onFail = null);
 
         /// <summary>
-        ///   Retrieves the entity matching the provided key from the entity cache.
-        /// </summary>
-        /// <param name="keyValue"> The single primary key value. </param>
-        /// <returns> The retrieved entity. </returns>
-        T WithIdFromCache(object keyValue);
-
-        /// <summary>
         ///   Retrieves the entity matching the provided key with the repository's default query strategy.
         /// </summary>
         /// <param name="keyValues"> The composite primary key values. </param>
@@ -73,9 +66,9 @@ namespace Cocktail
         /// <summary>
         ///   Retrieves the entity matching the provided key from the entity cache.
         /// </summary>
-        /// <param name="keyValues"> The composite primary key values. </param>
+        /// <param name="keyValues"> The primary key values. </param>
         /// <returns> The retrieved entity. </returns>
-        T WithIdFromCache(object[] keyValues);
+        T WithIdFromCache(params object[] keyValues);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided predicateDescription with the repository's default query strategy.
@@ -246,5 +239,11 @@ namespace Cocktail
         /// </summary>
         /// <param name="entities"> Entities to be deleted. </param>
         void Delete(IEnumerable<T> entities);
+
+        /// <summary>
+        /// Returns true if the entity matching the provided key is found in the cache.
+        /// </summary>
+        /// <param name="keyValues">The primary key values</param>
+        bool ExistsInCache(params object[] keyValues);
     }
 }

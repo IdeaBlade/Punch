@@ -134,6 +134,7 @@
     <Compile Include="EntityManagerDelegate.cs" />
     <Compile Include="EntityManagerSyncInterceptor.cs" />
     <Compile Include="EntityManagerWrapper.cs" />
+    <Compile Include="EntityNotFoundException.cs" />
     <Compile Include="EventFns.cs" />
     <Compile Include="CoroutineFns.cs" />
     <Compile Include="Factory.cs" />

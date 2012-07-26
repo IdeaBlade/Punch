@@ -163,12 +163,13 @@ namespace Cocktail.Tests
                     var unitOfWork = new UnitOfWork<Customer>(provider);
 
                     var id = SampleDataProvider.CreateGuid(1);
+                    Assert.IsFalse(unitOfWork.Entities.ExistsInCache(id));
                     Customer customer = null;
                     try
                     {
                         customer = unitOfWork.Entities.WithIdFromCache(id);
                     }
-                    catch (EntityServerException)
+                    catch (EntityNotFoundException)
                     {
                         // Expected exception
                     }
@@ -183,6 +184,7 @@ namespace Cocktail.Tests
                                                                    {
                                                                        Assert.IsTrue(op.CompletedSuccessfully);
                                                                        Assert.IsNotNull(op.Result);
+                                                                       Assert.IsTrue(unitOfWork.Entities.ExistsInCache(id)); 
                                                                        customer = unitOfWork.Entities.WithIdFromCache(id);
                                                                        Assert.IsNotNull(customer);
                                                                        Assert.IsTrue(customer.CustomerID == id);

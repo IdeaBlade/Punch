@@ -21,6 +21,7 @@ using Common.Errors;
 using Common.Factories;
 using DomainModel;
 using DomainServices;
+using IdeaBlade.EntityModel;
 
 namespace TempHire.ViewModels.StaffingResource
 {
@@ -31,7 +32,7 @@ namespace TempHire.ViewModels.StaffingResource
         private readonly IPartFactory<ItemSelectorViewModel> _rateTypeSelectorFactory;
 
         [ImportingConstructor]
-        public StaffingResourceRatesViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
+        public StaffingResourceRatesViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                               IPartFactory<ItemSelectorViewModel> rateTypeSelectorFactory,
                                               IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(unitOfWorkManager, errorHandler)
@@ -45,7 +46,16 @@ namespace TempHire.ViewModels.StaffingResource
 
         public bool IsEmpty
         {
-            get { return StaffingResource == null || StaffingResource.Rates.Count == 0; }
+            get
+            {
+                return StaffingResource != null && !StaffingResource.Rates.IsPendingEntityList &&
+                       StaffingResource.Rates.Count == 0;
+            }
+        }
+
+        public bool IsPending
+        {
+            get { return StaffingResource == null || StaffingResource.Rates.IsPendingEntityList; }
         }
 
         public override DomainModel.StaffingResource StaffingResource
@@ -54,13 +64,20 @@ namespace TempHire.ViewModels.StaffingResource
             set
             {
                 if (base.StaffingResource != null)
+                {
                     base.StaffingResource.Rates.CollectionChanged -= RatesCollectionChanged;
+                    base.StaffingResource.Rates.PendingEntityListResolved -= RatesOnPendingEntityListResolved;
+                }
 
                 if (value != null)
+                {
                     value.Rates.CollectionChanged += RatesCollectionChanged;
+                    value.Rates.PendingEntityListResolved += RatesOnPendingEntityListResolved;
+                }
 
                 base.StaffingResource = value;
                 NotifyOfPropertyChange(() => IsEmpty);
+                NotifyOfPropertyChange(() => IsPending);
                 NotifyOfPropertyChange(() => RatesSorted);
             }
         }
@@ -82,18 +99,12 @@ namespace TempHire.ViewModels.StaffingResource
             get { return 10; }
         }
 
-        void IStaffingResourceDetailSection.Start(Guid staffingResourceId)
+        void IStaffingResourceDetailSection.Start(Guid staffingResourceId, bool readOnly)
         {
-            Start(staffingResourceId);
+            Start(staffingResourceId, readOnly);
         }
 
         #endregion
-
-        private void RatesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            NotifyOfPropertyChange(() => IsEmpty);
-            NotifyOfPropertyChange(() => RatesSorted);
-        }
 
         public IEnumerable<IResult> Add()
         {
@@ -111,6 +122,20 @@ namespace TempHire.ViewModels.StaffingResource
         public void Delete(Rate rate)
         {
             StaffingResource.DeleteRate(rate);
+        }
+
+        private void RatesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            NotifyOfPropertyChange(() => IsEmpty);
+            NotifyOfPropertyChange(() => IsPending);
+            NotifyOfPropertyChange(() => RatesSorted);
+        }
+
+        private void RatesOnPendingEntityListResolved(
+            object sender, PendingEntityListResolvedEventArgs<Rate> pendingEntityListResolvedEventArgs)
+        {
+            NotifyOfPropertyChange(() => IsPending);
+            NotifyOfPropertyChange(() => IsEmpty);
         }
     }
 }

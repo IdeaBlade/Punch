@@ -1,14 +1,14 @@
-﻿//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+﻿// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
 using System;
 using System.Collections.Generic;
@@ -26,13 +26,13 @@ using TempHire.ViewModels.Login;
 namespace TempHire.ViewModels
 {
     [Export]
-    public class ShellViewModel : Conductor<IScreen>, IDiscoverableViewModel, IHandle<LoggedInMessage>,
-                                  IHandle<LoggedOutMessage>
+    public class ShellViewModel : Conductor<IScreen>, IDiscoverableViewModel, IHarnessAware,
+                                  IHandle<LoggedInMessage>, IHandle<LoggedOutMessage>
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IPartFactory<LoginViewModel> _loginFactory;
-        private readonly IEnumerable<IWorkspace> _workspaces;
         private readonly NavigationService<IWorkspace> _navigationService;
+        private readonly IEnumerable<IWorkspace> _workspaces;
 
         [ImportingConstructor]
         public ShellViewModel([ImportMany] IEnumerable<IWorkspace> workspaces, IToolbarManager toolbar,
@@ -77,13 +77,14 @@ namespace TempHire.ViewModels
             _workspaces.OrderBy(w => w.Sequence).ForEach(
                 w => mainGroup.Add(new ToolbarAction(this, w.DisplayName, () => NavigateToWorkspace(w))));
 
-            var logoutGroup = new ToolbarGroup(100) { new ToolbarAction(this, "Logout", (Func<IEnumerable<IResult>>)Logout) };
+            var logoutGroup = new ToolbarGroup(100)
+                                  {new ToolbarAction(this, "Logout", (Func<IEnumerable<IResult>>) Logout)};
 
             Toolbar.Clear();
             Toolbar.AddGroup(mainGroup);
             Toolbar.AddGroup(logoutGroup);
 
-            IWorkspace home = GetHomeScreen();
+            var home = GetHomeScreen();
             if (home != null)
                 NavigateToWorkspace(home).ToSequentialResult().Execute();
 
@@ -102,7 +103,7 @@ namespace TempHire.ViewModels
 
         public IEnumerable<IResult> Logout()
         {
-            IWorkspace home = GetHomeScreen();
+            var home = GetHomeScreen();
             LogFns.DebugWriteLineIf(home == null, "No workspace marked as default.");
             if (home == null)
                 yield break;
@@ -143,6 +144,16 @@ namespace TempHire.ViewModels
                 yield break;
 
             yield return _navigationService.NavigateToAsync(() => workspace);
+        }
+
+        /// <summary>
+        /// Provides the setup logic to be run before the ViewModel is activated inside of the development harness.
+        /// </summary>
+        public void Setup()
+        {
+#if HARNESS
+            Start();
+#endif
         }
     }
 }

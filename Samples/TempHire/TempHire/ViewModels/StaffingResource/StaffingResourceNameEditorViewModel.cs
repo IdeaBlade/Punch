@@ -24,23 +24,23 @@ namespace TempHire.ViewModels.StaffingResource
     public class StaffingResourceNameEditorViewModel : Screen
     {
         private readonly IErrorHandler _errorHandler;
-        private readonly IDomainUnitOfWorkManager<IDomainUnitOfWork> _unitOfWorkManager;
+        private readonly IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
         private string _firstName;
         private string _lastName;
         private string _middleName;
         private DialogButton _okButton;
-        private IDomainUnitOfWork _unitOfWork;
+        private IResourceMgtUnitOfWork _unitOfWork;
         private Guid _staffingResourceId;
 
         [ImportingConstructor]
-        public StaffingResourceNameEditorViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
+        public StaffingResourceNameEditorViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                                    IErrorHandler errorHandler)
         {
             _unitOfWorkManager = unitOfWorkManager;
             _errorHandler = errorHandler;
         }
 
-        private IDomainUnitOfWork UnitOfWork
+        private IResourceMgtUnitOfWork UnitOfWork
         {
             get { return _unitOfWork ?? (_unitOfWork = _unitOfWorkManager.Get(_staffingResourceId)); }
         }

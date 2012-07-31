@@ -10,27 +10,25 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using System;
-using System.ComponentModel.Composition;
 using Cocktail;
+using DomainModel;
+using DomainServices.Services;
 
 namespace DomainServices
 {
-    /// <summary>
-    ///   Used to share instances of the DomainUnitOfWork among composed view models.
-    /// </summary>
-    [Export(typeof(IDomainUnitOfWorkManager<IDomainUnitOfWork>))]
-    [PartCreationPolicy(CreationPolicy.Shared)]
-    public class DomainUnitOfWorkManager : ObjectManager<Guid, IDomainUnitOfWork>,
-                                           IDomainUnitOfWorkManager<IDomainUnitOfWork>
+    public interface IResourceMgtUnitOfWork : IUnitOfWork
     {
-        #region IDomainUnitOfWorkManager<IDomainUnitOfWork> Members
+        // Factories
+        IFactory<StaffingResource> StaffingResourceFactory { get; }
 
-        public IDomainUnitOfWork Get(Guid key)
-        {
-            return GetObject(key);
-        }
+        // Repositories
+        IRepository<AddressType> AddressTypes { get; }
+        IRepository<State> States { get; }
+        IRepository<PhoneNumberType> PhoneNumberTypes { get; }
+        IRepository<RateType> RateTypes { get; }
+        IRepository<StaffingResource> StaffingResources { get; }
 
-        #endregion
+        // Services
+        IStaffingResourceSearchService Search { get; }
     }
 }

@@ -11,6 +11,7 @@
 //====================================================================================================================
 
 using Cocktail;
+using DomainModel;
 using IdeaBlade.EntityModel;
 
 namespace TempHire
@@ -24,8 +25,15 @@ namespace TempHire
 
         public override bool ShouldImportEntity(object entity)
         {
-            // Only import if the importing EntityManager holds a copy of the entity in its cache
-            return EntityManager.FindEntity(EntityAspect.Wrap(entity).EntityKey) != null;
+            // Only import if the importing EntityManager holds a copy of the entity or its root aggregate in its cache
+            if (EntityManager.FindEntity(EntityAspect.Wrap(entity).EntityKey) != null)
+                return true;
+
+            var hasRoot = entity as IHasRoot;
+            if (hasRoot != null)
+                return EntityManager.FindEntity(EntityAspect.Wrap(hasRoot.Root).EntityKey) != null;
+
+            return false;
         }
     }
 }

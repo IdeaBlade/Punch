@@ -44,7 +44,7 @@ namespace TempHire.ViewModels.StaffingResource
         public void Setup()
         {
 #if HARNESS
-            Start(TempHireSampleDataProvider.CreateGuid(1));
+            Start(TempHireSampleDataProvider.CreateGuid(1), false);
 #endif
         }
 
@@ -57,17 +57,17 @@ namespace TempHire.ViewModels.StaffingResource
             get { return 0; }
         }
 
-        void IStaffingResourceDetailSection.Start(Guid staffingResourceId)
+        void IStaffingResourceDetailSection.Start(Guid staffingResourceId, bool readOnly)
         {
-            Start(staffingResourceId);
+            Start(staffingResourceId, readOnly);
         }
 
         #endregion
 
-        public StaffingResourceContactInfoViewModel Start(Guid staffingResourceId)
+        public StaffingResourceContactInfoViewModel Start(Guid staffingResourceId, bool readOnly)
         {
-            ActivateItem(StaffingResourceAddressList.Start(staffingResourceId));
-            ActivateItem(StaffingResourcePhoneList.Start(staffingResourceId));
+            ActivateItem(StaffingResourceAddressList.Start(staffingResourceId, readOnly));
+            ActivateItem(StaffingResourcePhoneList.Start(staffingResourceId, readOnly));
             return this;
         }
     }

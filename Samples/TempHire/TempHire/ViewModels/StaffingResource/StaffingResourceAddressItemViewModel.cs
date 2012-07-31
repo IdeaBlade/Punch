@@ -1,14 +1,14 @@
-//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
 using System;
 using System.ComponentModel;
@@ -22,10 +22,11 @@ namespace TempHire.ViewModels.StaffingResource
     {
         private Address _item;
 
-        public StaffingResourceAddressItemViewModel(Address item)
+        public StaffingResourceAddressItemViewModel(Address item, bool readOnly)
         {
             Debug.Assert(item != null);
             Item = item;
+            IsReadOnly = readOnly;
         }
 
         public Address Item
@@ -40,9 +41,16 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
+        public bool IsReadOnly { get; private set; }
+
         public bool CanDelete
         {
-            get { return !Item.Primary && (Item.StaffingResource.Addresses.Count > 1); }
+            get { return !IsReadOnly && !Item.Primary && (Item.StaffingResource.Addresses.Count > 1); }
+        }
+
+        public bool CanSetPrimary
+        {
+            get { return !IsReadOnly && !Item.Primary; }
         }
 
         #region IDisposable Members
@@ -58,7 +66,10 @@ namespace TempHire.ViewModels.StaffingResource
         private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == Address.EntityPropertyNames.Primary)
+            {
                 NotifyOfPropertyChange(() => CanDelete);
+                NotifyOfPropertyChange(() => CanSetPrimary);
+            }
         }
     }
 }

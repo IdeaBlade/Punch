@@ -19,6 +19,6 @@ namespace TempHire.ViewModels.StaffingResource
     {
         int Index { get; }
 
-        void Start(Guid staffingResourceId);
+        void Start(Guid staffingResourceId, bool readOnly);
     }
 }

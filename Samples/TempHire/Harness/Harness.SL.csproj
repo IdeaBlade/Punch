@@ -152,6 +152,9 @@
     <Compile Include="..\TempHire\ViewModels\StaffingResource\IStaffingResourceDetailSection.cs">
       <Link>ViewModels\StaffingResource\IStaffingResourceDetailSection.cs</Link>
     </Compile>
+    <Compile Include="..\TempHire\ViewModels\StaffingResource\ResourceMgtViewModel.cs">
+      <Link>ViewModels\StaffingResource\ResourceMgtViewModel.cs</Link>
+    </Compile>
     <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs">
       <Link>ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs</Link>
     </Compile>
@@ -163,9 +166,6 @@
     </Compile>
     <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceDetailViewModel.cs">
       <Link>ViewModels\StaffingResource\StaffingResourceDetailViewModel.cs</Link>
-    </Compile>
-    <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceManagementViewModel.cs">
-      <Link>ViewModels\StaffingResource\StaffingResourceManagementViewModel.cs</Link>
     </Compile>
     <Compile Include="..\TempHire\ViewModels\StaffingResource\StaffingResourceNameEditorViewModel.cs">
       <Link>ViewModels\StaffingResource\StaffingResourceNameEditorViewModel.cs</Link>
@@ -256,6 +256,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="..\TempHire\Views\StaffingResource\ResourceMgtView.xaml">
+      <Link>Views\StaffingResource\ResourceMgtView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceAddressListView.xaml">
       <Link>Views\StaffingResource\StaffingResourceAddressListView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -268,11 +273,6 @@
     </Page>
     <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceDetailView.Silverlight.xaml">
       <Link>Views\StaffingResource\StaffingResourceDetailView.Silverlight.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceManagementView.xaml">
-      <Link>Views\StaffingResource\StaffingResourceManagementView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

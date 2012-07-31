@@ -32,7 +32,7 @@ namespace TempHire.ViewModels.StaffingResource
         private BindableCollection<StaffingResourcePhoneItemViewModel> _phoneNumbers;
 
         [ImportingConstructor]
-        public StaffingResourcePhoneListViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
+        public StaffingResourcePhoneListViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                                   IPartFactory<ItemSelectorViewModel> phoneTypeSelectorFactory,
                                                   IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(unitOfWorkManager, errorHandler)
@@ -55,7 +55,7 @@ namespace TempHire.ViewModels.StaffingResource
                 {
                     PhoneNumbers =
                         new BindableCollection<StaffingResourcePhoneItemViewModel>(
-                            value.PhoneNumbers.ToList().Select(p => new StaffingResourcePhoneItemViewModel(p)));
+                            value.PhoneNumbers.ToList().Select(p => new StaffingResourcePhoneItemViewModel(p, IsReadOnly)));
                     value.PhoneNumbers.CollectionChanged += PhoneNumbersCollectionChanged;
                 }
 
@@ -87,7 +87,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             if (e.NewItems != null)
                 e.NewItems.Cast<PhoneNumber>()
-                    .ForEach(p => PhoneNumbers.Add(new StaffingResourcePhoneItemViewModel(p)));
+                    .ForEach(p => PhoneNumbers.Add(new StaffingResourcePhoneItemViewModel(p, IsReadOnly)));
 
             EnsureDelete();
         }

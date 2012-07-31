@@ -1,14 +1,14 @@
-//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
 using System;
 using System.ComponentModel.Composition;
@@ -27,17 +27,19 @@ namespace TempHire.ViewModels.StaffingResource
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceSearchViewModel : Screen, IDiscoverableViewModel, IHarnessAware, IHandle<SavedMessage>
     {
-        private readonly IDomainUnitOfWork _unitOfWork;
         private readonly IErrorHandler _errorHandler;
+        private readonly IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
         private StaffingResourceListItem _currentStaffingResource;
         private BindableCollection<StaffingResourceListItem> _items;
 
         private string _searchText;
+        private IResourceMgtUnitOfWork _unitOfWork;
 
         [ImportingConstructor]
-        public StaffingResourceSearchViewModel(IDomainUnitOfWork unitOfWork, IErrorHandler errorHandler)
+        public StaffingResourceSearchViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
+                                               IErrorHandler errorHandler)
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWorkManager = unitOfWorkManager;
             _errorHandler = errorHandler;
             Busy = new BusyWatcher();
         }
@@ -86,6 +88,11 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
+        private IResourceMgtUnitOfWork UnitOfWork
+        {
+            get { return _unitOfWork ?? (_unitOfWork = _unitOfWorkManager.Get(Guid.Empty)); }
+        }
+
         #region IHandle<SavedMessage> Members
 
         public void Handle(SavedMessage message)
@@ -94,7 +101,7 @@ namespace TempHire.ViewModels.StaffingResource
             if (!message.Entities.OfType<DomainModel.StaffingResource>().Any()) return;
 
             // If there are detached entities than they got deleted.
-            bool wasDeleted = message.Entities
+            var wasDeleted = message.Entities
                 .OfType<DomainModel.StaffingResource>()
                 .Any(r => r.EntityFacts.EntityState.IsDetached());
 
@@ -110,7 +117,7 @@ namespace TempHire.ViewModels.StaffingResource
                 return;
             }
 
-            DomainModel.StaffingResource newStaffResource = message.Entities
+            var newStaffResource = message.Entities
                 .OfType<DomainModel.StaffingResource>()
                 .FirstOrDefault();
             if (newStaffResource != null)
@@ -143,7 +150,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             Busy.AddWatch();
 
-            _unitOfWork.Search.Simple(SearchText)
+            UnitOfWork.Search.Simple(SearchText)
                 .ContinueWith(op =>
                                   {
                                       if (op.CompletedSuccessfully)

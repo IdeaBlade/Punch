@@ -35,13 +35,14 @@ namespace TempHire.ViewModels.StaffingResource
         private readonly IDialogManager _dialogManager;
         private readonly IErrorHandler _errorHandler;
         private readonly IEnumerable<IStaffingResourceDetailSection> _sections;
-        private readonly IDomainUnitOfWorkManager<IDomainUnitOfWork> _unitOfWorkManager;
+        private readonly IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
+        private bool _isReadOnly;
         private DomainModel.StaffingResource _staffingResource;
         private Guid _staffingResourceId;
-        private IDomainUnitOfWork _unitOfWork;
+        private IResourceMgtUnitOfWork _unitOfWork;
 
         [ImportingConstructor]
-        public StaffingResourceDetailViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
+        public StaffingResourceDetailViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                                StaffingResourceSummaryViewModel staffingResourceSummary,
                                                [ImportMany] IEnumerable<IStaffingResourceDetailSection> sections,
                                                IErrorHandler errorHandler, IDialogManager dialogManager)
@@ -52,6 +53,7 @@ namespace TempHire.ViewModels.StaffingResource
             _errorHandler = errorHandler;
             _dialogManager = dialogManager;
             Busy = new BusyWatcher();
+            _isReadOnly = true;
 
             PropertyChanged += OnPropertyChanged;
         }
@@ -65,9 +67,24 @@ namespace TempHire.ViewModels.StaffingResource
             get { return StaffingResource != null; }
         }
 
-        private IDomainUnitOfWork UnitOfWork
+        public bool IsReadOnly
         {
-            get { return _unitOfWork ?? (_unitOfWork = _unitOfWorkManager.Get(_staffingResourceId)); }
+            get { return _isReadOnly; }
+            private set
+            {
+                _isReadOnly = value;
+                _unitOfWork = null;
+                NotifyOfPropertyChange(() => IsReadOnly);
+            }
+        }
+
+        public IResourceMgtUnitOfWork UnitOfWork
+        {
+            get
+            {
+                return _unitOfWork ??
+                       (_unitOfWork = _unitOfWorkManager.Get(IsReadOnly ? Guid.Empty : _staffingResourceId));
+            }
         }
 
         public int ActiveSectionIndex
@@ -93,7 +110,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
 #if HARNESS
     //Start("John", "M.", "Doe");
-            Start(TempHireSampleDataProvider.CreateGuid(1));
+            Start(TempHireSampleDataProvider.CreateGuid(1), false);
 #endif
         }
 
@@ -105,12 +122,13 @@ namespace TempHire.ViewModels.StaffingResource
                 NotifyOfPropertyChange(() => ActiveSectionIndex);
         }
 
-        public StaffingResourceDetailViewModel Start(Guid staffingResourceId)
+        public StaffingResourceDetailViewModel Start(Guid staffingResourceId, bool readOnly)
         {
             Busy.AddWatch();
 
             _unitOfWork = null;
             _staffingResourceId = staffingResourceId;
+            IsReadOnly = readOnly;
             // Bring resource into cache and defer starting of nested VMs until completed.
             UnitOfWork.StaffingResources.WithIdAsync(staffingResourceId, OnStartCompleted, _errorHandler.HandleError)
                 .ContinueWith(op => Busy.RemoveWatch());
@@ -121,9 +139,9 @@ namespace TempHire.ViewModels.StaffingResource
         private void OnStartCompleted(DomainModel.StaffingResource staffingResource)
         {
             StaffingResource = staffingResource;
-            StaffingResourceSummary.Start(staffingResource.Id);
+            StaffingResourceSummary.Start(staffingResource.Id, IsReadOnly);
 
-            _sections.ForEach(s => s.Start(staffingResource.Id));
+            _sections.ForEach(s => s.Start(staffingResource.Id, IsReadOnly));
             if (Items.Count == 0)
             {
                 Items.AddRange(_sections.OrderBy(s => s.Index).Cast<IScreen>());
@@ -146,7 +164,7 @@ namespace TempHire.ViewModels.StaffingResource
                                           op.Result.FirstName = firstName;
                                           op.Result.MiddleName = middleName;
                                           op.Result.LastName = lastName;
-                                          Start(op.Result.Id);
+                                          Start(op.Result.Id, false);
                                       }
 
                                       if (op.HasError)
@@ -161,13 +179,13 @@ namespace TempHire.ViewModels.StaffingResource
         protected override void OnActivate()
         {
             base.OnActivate();
-            ((IActivate)StaffingResourceSummary).Activate();
+            ((IActivate) StaffingResourceSummary).Activate();
         }
 
         protected override void OnDeactivate(bool close)
         {
             base.OnDeactivate(close);
-            ((IDeactivate)StaffingResourceSummary).Deactivate(close);
+            ((IDeactivate) StaffingResourceSummary).Deactivate(close);
 
             if (close)
             {
@@ -181,7 +199,7 @@ namespace TempHire.ViewModels.StaffingResource
             if (UnitOfWork.HasChanges())
             {
                 _dialogManager.ShowMessageAsync("There are unsaved changes. Would you like to save your changes?",
-                                           DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel)
+                                                DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel)
                     .ContinueWith(op =>
                                       {
                                           if (op.DialogResult == DialogResult.Yes)
@@ -214,7 +232,7 @@ namespace TempHire.ViewModels.StaffingResource
                     DialogButtons.OkCancel);
 
             UnitOfWork.Clear();
-            Start(StaffingResource.Id);
+            Start(StaffingResource.Id, IsReadOnly);
         }
     }
 

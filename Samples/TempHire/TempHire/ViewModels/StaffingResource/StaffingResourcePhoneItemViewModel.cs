@@ -22,10 +22,11 @@ namespace TempHire.ViewModels.StaffingResource
     {
         private PhoneNumber _item;
 
-        public StaffingResourcePhoneItemViewModel(PhoneNumber item)
+        public StaffingResourcePhoneItemViewModel(PhoneNumber item, bool readOnly)
         {
             Debug.Assert(item != null);
             Item = item;
+            IsReadOnly = readOnly;
         }
 
         public PhoneNumber Item
@@ -40,9 +41,16 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
+        public bool IsReadOnly { get; private set; }
+
         public bool CanDelete
         {
-            get { return !Item.Primary && (Item.StaffingResource.PhoneNumbers.Count > 1); }
+            get { return !IsReadOnly && !Item.Primary && (Item.StaffingResource.PhoneNumbers.Count > 1); }
+        }
+
+        public bool CanSetPrimary
+        {
+            get { return !IsReadOnly && !Item.Primary; }
         }
 
         #region IDisposable Members
@@ -58,7 +66,10 @@ namespace TempHire.ViewModels.StaffingResource
         private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == PhoneNumber.EntityPropertyNames.Primary)
+            {
                 NotifyOfPropertyChange(() => CanDelete);
+                NotifyOfPropertyChange(() => CanSetPrimary);
+            }
         }
     }
 }

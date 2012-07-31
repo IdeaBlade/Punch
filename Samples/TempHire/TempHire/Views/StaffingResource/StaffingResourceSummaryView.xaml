@@ -11,6 +11,10 @@
              d:DesignWidth="751"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <common:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    </UserControl.Resources>
+
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -20,6 +24,8 @@
                 Grid.RowSpan="1"
                 Margin="10,0,10,0"
                 HorizontalAlignment="Left"
+                IsEnabled="{Binding IsReadOnly,
+                                    Converter={StaticResource InverseBooleanConverter}}"
                 Style="{StaticResource HyperlinkButton_Style}">
             <TextBlock HorizontalAlignment="Left"
                        VerticalAlignment="Top"
@@ -35,6 +41,7 @@
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Top"
                  AcceptsReturn="True"
+                 IsReadOnly="{Binding IsReadOnly}"
                  Text="{Binding StaffingResource.Summary,
                                 ValidatesOnDataErrors=True,
                                 ValidatesOnExceptions=True,

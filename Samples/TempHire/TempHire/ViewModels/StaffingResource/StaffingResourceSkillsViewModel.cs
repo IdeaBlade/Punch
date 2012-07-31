@@ -20,6 +20,7 @@ using Common.Errors;
 using Common.Messages;
 using DomainModel;
 using DomainServices;
+using IdeaBlade.EntityModel;
 
 namespace TempHire.ViewModels.StaffingResource
 {
@@ -28,7 +29,7 @@ namespace TempHire.ViewModels.StaffingResource
                                                    IHandle<SavedMessage>
     {
         [ImportingConstructor]
-        public StaffingResourceSkillsViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
+        public StaffingResourceSkillsViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                                IErrorHandler errorHandler)
             : base(unitOfWorkManager, errorHandler)
         {
@@ -49,7 +50,16 @@ namespace TempHire.ViewModels.StaffingResource
 
         public bool IsEmpty
         {
-            get { return StaffingResource == null || StaffingResource.Skills.Count == 0; }
+            get
+            {
+                return StaffingResource != null && !StaffingResource.Skills.IsPendingEntityList &&
+                       StaffingResource.Skills.Count == 0;
+            }
+        }
+
+        public bool IsPending
+        {
+            get { return StaffingResource == null || StaffingResource.Skills.IsPendingEntityList; }
         }
 
         public override DomainModel.StaffingResource StaffingResource
@@ -58,13 +68,20 @@ namespace TempHire.ViewModels.StaffingResource
             set
             {
                 if (base.StaffingResource != null)
+                {
                     base.StaffingResource.Skills.CollectionChanged -= SkillsCollectionChanged;
+                    base.StaffingResource.Skills.PendingEntityListResolved -= SkillsOnPendingEntityListResolved;
+                }
 
                 if (value != null)
+                {
                     value.Skills.CollectionChanged += SkillsCollectionChanged;
+                    value.Skills.PendingEntityListResolved += SkillsOnPendingEntityListResolved;
+                }
 
                 base.StaffingResource = value;
                 NotifyOfPropertyChange(() => IsEmpty);
+                NotifyOfPropertyChange(() => IsPending);
                 NotifyOfPropertyChange(() => SkillsSorted);
             }
         }
@@ -86,18 +103,12 @@ namespace TempHire.ViewModels.StaffingResource
             get { return 30; }
         }
 
-        void IStaffingResourceDetailSection.Start(Guid staffingResourceId)
+        void IStaffingResourceDetailSection.Start(Guid staffingResourceId, bool readOnly)
         {
-            Start(staffingResourceId);
+            Start(staffingResourceId, readOnly);
         }
 
         #endregion
-
-        private void SkillsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            NotifyOfPropertyChange(() => IsEmpty);
-            NotifyOfPropertyChange(() => SkillsSorted);
-        }
 
         public void Add()
         {
@@ -107,6 +118,20 @@ namespace TempHire.ViewModels.StaffingResource
         public void Delete(Skill skill)
         {
             StaffingResource.DeleteSkill(skill);
+        }
+
+        private void SkillsOnPendingEntityListResolved(
+            object sender, PendingEntityListResolvedEventArgs<Skill> pendingEntityListResolvedEventArgs)
+        {
+            NotifyOfPropertyChange(() => IsPending);
+            NotifyOfPropertyChange(() => IsEmpty);
+        }
+
+        private void SkillsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            NotifyOfPropertyChange(() => IsEmpty);
+            NotifyOfPropertyChange(() => IsPending);
+            NotifyOfPropertyChange(() => SkillsSorted);
         }
     }
 }

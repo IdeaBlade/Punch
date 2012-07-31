@@ -134,7 +134,7 @@
     <Compile Include="ViewModels\StaffingResource\StaffingResourceAddressListViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceContactInfoViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceDetailViewModel.cs" />
-    <Compile Include="ViewModels\StaffingResource\StaffingResourceManagementViewModel.cs" />
+    <Compile Include="ViewModels\StaffingResource\ResourceMgtViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceNameEditorViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourcePhoneItemViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourcePhoneListViewModel.cs" />
@@ -201,7 +201,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\StaffingResource\StaffingResourceManagementView.xaml">
+    <Page Include="Views\StaffingResource\ResourceMgtView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

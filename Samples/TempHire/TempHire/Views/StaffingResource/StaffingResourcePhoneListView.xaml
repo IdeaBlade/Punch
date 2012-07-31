@@ -49,6 +49,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
+                                 IsReadOnly="{Binding IsReadOnly}"
                                  Text="{Binding Item.AreaCode,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
@@ -61,6 +62,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
+                                 IsReadOnly="{Binding IsReadOnly}"
                                  Text="{Binding Item.Number,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
@@ -79,8 +81,7 @@
                                     HorizontalAlignment="Left"
                                     cal:Message.Attach="SetPrimary($dataContext)"
                                     Content="Set Primary"
-                                    IsEnabled="{Binding Path=Item.Primary,
-                                                        Converter={StaticResource InverseBooleanConverter}}" />
+                                    IsEnabled="{Binding CanSetPrimary}" />
                             <Button Width="60"
                                     Height="25"
                                     Margin="2"
@@ -102,6 +103,8 @@
                     Height="25"
                     Margin="0,0,5,0"
                     VerticalAlignment="Center"
+                    IsEnabled="{Binding IsReadOnly,
+                                        Converter={StaticResource InverseBooleanConverter}}"
                     Style="{StaticResource AddButton_Style}" />
         </StackPanel>
     </Grid>

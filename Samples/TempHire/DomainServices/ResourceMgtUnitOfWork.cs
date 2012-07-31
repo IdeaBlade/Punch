@@ -19,11 +19,11 @@ using DomainServices.Services;
 
 namespace DomainServices
 {
-    [Export(typeof(IDomainUnitOfWork)), PartCreationPolicy(CreationPolicy.NonShared)]
-    public class DomainUnitOfWork : UnitOfWork, IDomainUnitOfWork
+    [Export(typeof(IResourceMgtUnitOfWork)), PartCreationPolicy(CreationPolicy.NonShared)]
+    public class ResourceMgtUnitOfWork : UnitOfWork, IResourceMgtUnitOfWork
     {
         [ImportingConstructor]
-        public DomainUnitOfWork(
+        public ResourceMgtUnitOfWork(
             [Import(RequiredCreationPolicy = CreationPolicy.NonShared)] IEntityManagerProvider<TempHireEntities>
                 entityManagerProvider,
             [Import(AllowDefault = true)] IPreLoader preLoader = null)

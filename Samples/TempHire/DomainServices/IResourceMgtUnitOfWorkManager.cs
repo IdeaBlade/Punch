@@ -14,7 +14,7 @@ using System;
 
 namespace DomainServices
 {
-    public interface IDomainUnitOfWorkManager<T>
+    public interface IResourceMgtUnitOfWorkManager<T>
     {
         T Create();
         T Get(Guid key);

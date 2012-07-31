@@ -30,12 +30,12 @@ namespace TempHire.ViewModels.StaffingResource
     {
         private readonly IPartFactory<ItemSelectorViewModel> _addressTypeSelectorFactory;
         private readonly IDialogManager _dialogManager;
-        private readonly IDomainUnitOfWorkManager<IDomainUnitOfWork> _unitOfWorkManager;
+        private readonly IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
         private BindableCollection<StaffingResourceAddressItemViewModel> _addresses;
         private BindableCollection<State> _states;
 
         [ImportingConstructor]
-        public StaffingResourceAddressListViewModel(IDomainUnitOfWorkManager<IDomainUnitOfWork> unitOfWorkManager,
+        public StaffingResourceAddressListViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                                     IPartFactory<ItemSelectorViewModel> addressTypeSelectorFactory,
                                                     IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(unitOfWorkManager, errorHandler)
@@ -59,7 +59,7 @@ namespace TempHire.ViewModels.StaffingResource
                 {
                     Addresses =
                         new BindableCollection<StaffingResourceAddressItemViewModel>(
-                            value.Addresses.ToList().Select(a => new StaffingResourceAddressItemViewModel(a)));
+                            value.Addresses.ToList().Select(a => new StaffingResourceAddressItemViewModel(a, IsReadOnly)));
                     value.Addresses.CollectionChanged += AddressesCollectionChanged;
                 }
 
@@ -87,27 +87,27 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
-        public override StaffingResourceScreenBase Start(Guid staffingResourceId)
+        public override StaffingResourceScreenBase Start(Guid staffingResourceId, bool readOnly)
         {
-            StartCore(staffingResourceId).ToSequentialResult().Execute();
+            StartCore(staffingResourceId, readOnly).ToSequentialResult().Execute();
 
             return this;
         }
 
-        private IEnumerable<IResult> StartCore(Guid staffingResourceId)
+        private IEnumerable<IResult> StartCore(Guid staffingResourceId, bool readOnly)
         {
             // Load the list of states once first, before we continue with starting the ViewModel
             // This is to ensure that the ComboBox binding doesn't goof up if the ItemSource is empty
             // The list of states is preloaded into each EntityManager cache, so this should be fast
             if (States == null)
             {
-                var unitOfWork = _unitOfWorkManager.Get(staffingResourceId);
+                var unitOfWork = _unitOfWorkManager.Get(Guid.Empty);
                 yield return unitOfWork.States.FindAsync(
                     null, q => q.OrderBy(s => s.Name), null, result => States = new BindableCollection<State>(result),
                     ErrorHandler.HandleError);
             }
 
-            base.Start(staffingResourceId);
+            base.Start(staffingResourceId, readOnly);
         }
 
         private void AddressesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -124,7 +124,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             if (e.NewItems != null)
                 e.NewItems.Cast<Address>()
-                    .ForEach(a => Addresses.Add(new StaffingResourceAddressItemViewModel(a)));
+                    .ForEach(a => Addresses.Add(new StaffingResourceAddressItemViewModel(a, IsReadOnly)));
 
             EnsureDelete();
         }

@@ -59,6 +59,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
+                                 IsReadOnly="{Binding IsReadOnly}"
                                  Text="{Binding Item.Address1,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
@@ -75,6 +76,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
+                                 IsReadOnly="{Binding IsReadOnly}"
                                  Text="{Binding Item.Address2,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
@@ -91,6 +93,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
+                                 IsReadOnly="{Binding IsReadOnly}"
                                  Text="{Binding Item.City,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
@@ -109,6 +112,8 @@
                                   Margin="2"
                                   HorizontalAlignment="Left"
                                   DisplayMemberPath="Name"
+                                  IsEnabled="{Binding IsReadOnly,
+                                                      Converter={StaticResource InverseBooleanConverter}}"
                                   ItemsSource="{Binding ElementName=LayoutRoot,
                                                         Path=DataContext.States}"
                                   MaxDropDownHeight="200"
@@ -126,6 +131,7 @@
                                  Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Left"
+                                 IsReadOnly="{Binding IsReadOnly}"
                                  Text="{Binding Item.Zipcode,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
@@ -145,8 +151,7 @@
                                     HorizontalAlignment="Center"
                                     cal:Message.Attach="SetPrimary($dataContext)"
                                     Content="Set Primary"
-                                    IsEnabled="{Binding Path=Item.Primary,
-                                                        Converter={StaticResource InverseBooleanConverter}}" />
+                                    IsEnabled="{Binding CanSetPrimary}" />
                             <Button Width="80"
                                     Height="25"
                                     Margin="10"
@@ -168,6 +173,8 @@
                     Height="25"
                     Margin="0,0,5,0"
                     VerticalAlignment="Center"
+                    IsEnabled="{Binding IsReadOnly,
+                                        Converter={StaticResource InverseBooleanConverter}}"
                     Style="{StaticResource AddButton_Style}" />
         </StackPanel>
     </Grid>

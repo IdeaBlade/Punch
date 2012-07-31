@@ -13,6 +13,7 @@
 using System;
 using Caliburn.Micro;
 using Cocktail;
+using Common;
 using Common.Errors;
 using DomainServices;
 
@@ -24,7 +25,7 @@ namespace TempHire.ViewModels.StaffingResource
 {
     public abstract class StaffingResourceScreenBase : Screen, IDiscoverableViewModel, IHarnessAware
     {
-        private bool _isReadOnly;
+        private EditMode _editMode;
         private DomainModel.StaffingResource _staffingResource;
         private Guid _staffingResourceId;
         private IResourceMgtUnitOfWork _unitOfWork;
@@ -34,30 +35,36 @@ namespace TempHire.ViewModels.StaffingResource
         {
             UnitOfWorkManager = unitOfWorkManager;
             ErrorHandler = errorHandler;
-            _isReadOnly = true;
+            EditMode = EditMode.View;
         }
 
         public IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> UnitOfWorkManager { get; private set; }
         public IErrorHandler ErrorHandler { get; private set; }
 
-        public bool IsReadOnly
+        public EditMode EditMode
         {
-            get { return _isReadOnly; }
+            get { return _editMode; }
             private set
             {
-                _isReadOnly = value;
+                _editMode = value;
                 _unitOfWork = null;
+                NotifyOfPropertyChange(() => EditMode);
                 NotifyOfPropertyChange(() => IsReadOnly);
             }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return EditMode == EditMode.View; }
         }
 
         protected IResourceMgtUnitOfWork UnitOfWork
         {
             get
             {
-                // Return the current sandbox UoW, or if the VM is in read-only mode return the shared UoW associated with Guid.Empty
-                return _unitOfWork ??
-                       (_unitOfWork = UnitOfWorkManager.Get(IsReadOnly ? Guid.Empty : _staffingResourceId));
+                // Return the current sandbox UoW, or if the VM is in view-only mode return the shared UoW associated with Guid.Empty
+                var key = EditMode == EditMode.View ? Guid.Empty : _staffingResourceId;
+                return _unitOfWork ?? (_unitOfWork = UnitOfWorkManager.Get(key));
             }
         }
 
@@ -76,17 +83,17 @@ namespace TempHire.ViewModels.StaffingResource
         public void Setup()
         {
 #if HARNESS
-            Start(TempHireSampleDataProvider.CreateGuid(1), false);
+            Start(TempHireSampleDataProvider.CreateGuid(1), EditMode.Edit);
 #endif
         }
 
         #endregion
 
-        public virtual StaffingResourceScreenBase Start(Guid staffingResourceId, bool readOnly)
+        public virtual StaffingResourceScreenBase Start(Guid staffingResourceId, EditMode editMode)
         {
             _unitOfWork = null;
             _staffingResourceId = staffingResourceId;
-            IsReadOnly = readOnly;
+            EditMode = editMode;
             UnitOfWork.StaffingResources.WithIdAsync(staffingResourceId, result => StaffingResource = result,
                                                      ErrorHandler.HandleError);
             return this;

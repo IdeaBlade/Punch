@@ -17,6 +17,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
+using Common;
 using Common.Errors;
 using Common.Factories;
 using DomainServices;
@@ -36,7 +37,7 @@ namespace TempHire.ViewModels.StaffingResource
         private readonly IErrorHandler _errorHandler;
         private readonly IEnumerable<IStaffingResourceDetailSection> _sections;
         private readonly IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
-        private bool _isReadOnly;
+        private EditMode _editMode;
         private DomainModel.StaffingResource _staffingResource;
         private Guid _staffingResourceId;
         private IResourceMgtUnitOfWork _unitOfWork;
@@ -53,7 +54,6 @@ namespace TempHire.ViewModels.StaffingResource
             _errorHandler = errorHandler;
             _dialogManager = dialogManager;
             Busy = new BusyWatcher();
-            _isReadOnly = true;
 
             PropertyChanged += OnPropertyChanged;
         }
@@ -69,12 +69,18 @@ namespace TempHire.ViewModels.StaffingResource
 
         public bool IsReadOnly
         {
-            get { return _isReadOnly; }
+            get { return EditMode == EditMode.View; }
+        }
+
+        public EditMode EditMode
+        {
+            get { return _editMode; }
             private set
             {
-                _isReadOnly = value;
+                _editMode = value;
                 _unitOfWork = null;
                 NotifyOfPropertyChange(() => IsReadOnly);
+                NotifyOfPropertyChange(() => EditMode);
             }
         }
 
@@ -82,9 +88,9 @@ namespace TempHire.ViewModels.StaffingResource
         {
             get
             {
-                // Return the current sandbox UoW, or if the VM is in read-only mode return the shared UoW associated with Guid.Empty
-                return _unitOfWork ??
-                       (_unitOfWork = _unitOfWorkManager.Get(IsReadOnly ? Guid.Empty : _staffingResourceId));
+                // Return the current sandbox UoW, or if the VM is in view-only mode return the shared UoW associated with Guid.Empty
+                var key = EditMode == EditMode.View ? Guid.Empty : _staffingResourceId;
+                return _unitOfWork ?? (_unitOfWork = _unitOfWorkManager.Get(key));
             }
         }
 
@@ -111,7 +117,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
 #if HARNESS
     //Start("John", "M.", "Doe");
-            Start(TempHireSampleDataProvider.CreateGuid(1), false);
+            Start(TempHireSampleDataProvider.CreateGuid(1), EditMode.Edit);
 #endif
         }
 
@@ -123,13 +129,13 @@ namespace TempHire.ViewModels.StaffingResource
                 NotifyOfPropertyChange(() => ActiveSectionIndex);
         }
 
-        public StaffingResourceDetailViewModel Start(Guid staffingResourceId, bool readOnly)
+        public StaffingResourceDetailViewModel Start(Guid staffingResourceId, EditMode editMode)
         {
             Busy.AddWatch();
 
             _unitOfWork = null;
             _staffingResourceId = staffingResourceId;
-            IsReadOnly = readOnly;
+            EditMode = editMode;
             // Bring resource into cache and defer starting of nested VMs until completed.
             UnitOfWork.StaffingResources.WithIdAsync(staffingResourceId, OnStartCompleted, _errorHandler.HandleError)
                 .ContinueWith(op => Busy.RemoveWatch());
@@ -140,9 +146,9 @@ namespace TempHire.ViewModels.StaffingResource
         private void OnStartCompleted(DomainModel.StaffingResource staffingResource)
         {
             StaffingResource = staffingResource;
-            StaffingResourceSummary.Start(staffingResource.Id, IsReadOnly);
+            StaffingResourceSummary.Start(staffingResource.Id, EditMode);
 
-            _sections.ForEach(s => s.Start(staffingResource.Id, IsReadOnly));
+            _sections.ForEach(s => s.Start(staffingResource.Id, EditMode));
             if (Items.Count == 0)
             {
                 Items.AddRange(_sections.OrderBy(s => s.Index).Cast<IScreen>());
@@ -165,7 +171,7 @@ namespace TempHire.ViewModels.StaffingResource
                                           op.Result.FirstName = firstName;
                                           op.Result.MiddleName = middleName;
                                           op.Result.LastName = lastName;
-                                          Start(op.Result.Id, false);
+                                          Start(op.Result.Id, EditMode.Edit);
                                       }
 
                                       if (op.HasError)
@@ -233,7 +239,7 @@ namespace TempHire.ViewModels.StaffingResource
                     DialogButtons.OkCancel);
 
             UnitOfWork.Clear();
-            Start(StaffingResource.Id, IsReadOnly);
+            Start(StaffingResource.Id, EditMode);
         }
     }
 

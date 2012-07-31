@@ -17,6 +17,7 @@ using System.ComponentModel.Composition;
 using System.Windows.Threading;
 using Caliburn.Micro;
 using Cocktail;
+using Common;
 using Common.Errors;
 using Common.Factories;
 using Common.Messages;
@@ -171,7 +172,7 @@ namespace TempHire.ViewModels.StaffingResource
 
         public void Edit()
         {
-            ActiveDetail.Start(ActiveStaffingResource.Id, false);
+            ActiveDetail.Start(ActiveStaffingResource.Id, EditMode.Edit);
         }
 
         public IEnumerable<IResult> Save()
@@ -181,7 +182,7 @@ namespace TempHire.ViewModels.StaffingResource
                 yield return saveOperation = ActiveUnitOfWork.CommitAsync().ContinueOnError();
 
             if (saveOperation.CompletedSuccessfully)
-                ActiveDetail.Start(ActiveStaffingResource.Id, true);
+                ActiveDetail.Start(ActiveStaffingResource.Id, EditMode.View);
 
             if (saveOperation.HasError)
                 _errorHandler.HandleError(saveOperation.Error);
@@ -195,7 +196,7 @@ namespace TempHire.ViewModels.StaffingResource
             if (shouldClose)
                 ActiveDetail.TryClose();
             else
-                ActiveDetail.Start(ActiveStaffingResource.Id, true);
+                ActiveDetail.Start(ActiveStaffingResource.Id, EditMode.View);
         }
 
         public IEnumerable<IResult> RefreshData()
@@ -241,7 +242,7 @@ namespace TempHire.ViewModels.StaffingResource
             if (SearchPane.CurrentStaffingResource == null) return;
 
             _navigationService.NavigateToAsync(() => ActiveDetail ?? _detailFactory.CreatePart(),
-                                               target => target.Start(SearchPane.CurrentStaffingResource.Id, true))
+                                               target => target.Start(SearchPane.CurrentStaffingResource.Id, EditMode.View))
                 .ContinueWith(navigation => { if (navigation.Cancelled) UpdateCommands(); });
         }
 

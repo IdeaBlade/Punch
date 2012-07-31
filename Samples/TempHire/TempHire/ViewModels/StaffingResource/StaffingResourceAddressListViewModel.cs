@@ -17,6 +17,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
+using Common;
 using Common.Errors;
 using Common.Factories;
 using DomainModel;
@@ -59,7 +60,7 @@ namespace TempHire.ViewModels.StaffingResource
                 {
                     Addresses =
                         new BindableCollection<StaffingResourceAddressItemViewModel>(
-                            value.Addresses.ToList().Select(a => new StaffingResourceAddressItemViewModel(a, IsReadOnly)));
+                            value.Addresses.ToList().Select(a => new StaffingResourceAddressItemViewModel(a, EditMode)));
                     value.Addresses.CollectionChanged += AddressesCollectionChanged;
                 }
 
@@ -87,14 +88,14 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
-        public override StaffingResourceScreenBase Start(Guid staffingResourceId, bool readOnly)
+        public override StaffingResourceScreenBase Start(Guid staffingResourceId, EditMode editMode)
         {
-            StartCore(staffingResourceId, readOnly).ToSequentialResult().Execute();
+            StartCore(staffingResourceId, editMode).ToSequentialResult().Execute();
 
             return this;
         }
 
-        private IEnumerable<IResult> StartCore(Guid staffingResourceId, bool readOnly)
+        private IEnumerable<IResult> StartCore(Guid staffingResourceId, EditMode editMode)
         {
             // Load the list of states once first, before we continue with starting the ViewModel
             // This is to ensure that the ComboBox binding doesn't goof up if the ItemSource is empty
@@ -107,7 +108,7 @@ namespace TempHire.ViewModels.StaffingResource
                     ErrorHandler.HandleError);
             }
 
-            base.Start(staffingResourceId, readOnly);
+            base.Start(staffingResourceId, editMode);
         }
 
         private void AddressesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -124,7 +125,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             if (e.NewItems != null)
                 e.NewItems.Cast<Address>()
-                    .ForEach(a => Addresses.Add(new StaffingResourceAddressItemViewModel(a, IsReadOnly)));
+                    .ForEach(a => Addresses.Add(new StaffingResourceAddressItemViewModel(a, EditMode)));
 
             EnsureDelete();
         }

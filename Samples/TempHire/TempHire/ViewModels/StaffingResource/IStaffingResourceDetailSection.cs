@@ -12,6 +12,7 @@
 
 using System;
 using Caliburn.Micro;
+using Common;
 
 namespace TempHire.ViewModels.StaffingResource
 {
@@ -19,6 +20,6 @@ namespace TempHire.ViewModels.StaffingResource
     {
         int Index { get; }
 
-        void Start(Guid staffingResourceId, bool readOnly);
+        void Start(Guid staffingResourceId, EditMode editMode);
     }
 }

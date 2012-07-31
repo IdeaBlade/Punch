@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using Cocktail;
+using Common;
 using Common.Errors;
 using Common.Toolbar;
 using Common.Workspace;
@@ -36,7 +37,7 @@ namespace TempHire.DesignTimeSupport
                            new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider),
                            null, DesignTimeErrorHandler.Instance,
                            DesignTimeDialogManager.Instance)
-                           .Start(TempHireSampleDataProvider.CreateGuid(1), true);
+                           .Start(TempHireSampleDataProvider.CreateGuid(1), EditMode.View);
             }
         }
 
@@ -48,7 +49,7 @@ namespace TempHire.DesignTimeSupport
                        new StaffingResourceSummaryViewModel(
                            new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider), null,
                            DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance)
-                           .Start(TempHireSampleDataProvider.CreateGuid(1), true);
+                           .Start(TempHireSampleDataProvider.CreateGuid(1), EditMode.View);
             }
         }
 
@@ -72,7 +73,7 @@ namespace TempHire.DesignTimeSupport
                            new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider),
                            null, DesignTimeErrorHandler.Instance,
                            DesignTimeDialogManager.Instance)
-                           .Start(TempHireSampleDataProvider.CreateGuid(1), true);
+                           .Start(TempHireSampleDataProvider.CreateGuid(1), EditMode.View);
             }
         }
 
@@ -99,7 +100,7 @@ namespace TempHire.DesignTimeSupport
                             new StaffingResourceSkillsViewModel(rm, DesignTimeErrorHandler.Instance)
                         },
                     DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance)
-                    .Start(TempHireSampleDataProvider.CreateGuid(1), true);
+                    .Start(TempHireSampleDataProvider.CreateGuid(1), EditMode.View);
             }
         }
 
@@ -111,7 +112,7 @@ namespace TempHire.DesignTimeSupport
                        new StaffingResourceRatesViewModel(
                            new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider),
                            null, DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance)
-                           .Start(TempHireSampleDataProvider.CreateGuid(1), true);
+                           .Start(TempHireSampleDataProvider.CreateGuid(1), EditMode.View);
             }
         }
 
@@ -123,7 +124,7 @@ namespace TempHire.DesignTimeSupport
                        new StaffingResourceWorkExperienceViewModel(
                            new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider),
                            DesignTimeErrorHandler.Instance)
-                           .Start(TempHireSampleDataProvider.CreateGuid(1), true);
+                           .Start(TempHireSampleDataProvider.CreateGuid(1), EditMode.View);
             }
         }
 
@@ -135,7 +136,7 @@ namespace TempHire.DesignTimeSupport
                        new StaffingResourceSkillsViewModel(
                            new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider),
                            DesignTimeErrorHandler.Instance)
-                           .Start(TempHireSampleDataProvider.CreateGuid(1), true);
+                           .Start(TempHireSampleDataProvider.CreateGuid(1), EditMode.View);
             }
         }
 

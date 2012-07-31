@@ -14,6 +14,7 @@ using System;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using Cocktail;
+using Common;
 
 #if HARNESS
 using DomainServices.SampleData;
@@ -44,7 +45,7 @@ namespace TempHire.ViewModels.StaffingResource
         public void Setup()
         {
 #if HARNESS
-            Start(TempHireSampleDataProvider.CreateGuid(1), false);
+            Start(TempHireSampleDataProvider.CreateGuid(1), EditMode.Edit);
 #endif
         }
 
@@ -57,17 +58,17 @@ namespace TempHire.ViewModels.StaffingResource
             get { return 0; }
         }
 
-        void IStaffingResourceDetailSection.Start(Guid staffingResourceId, bool readOnly)
+        void IStaffingResourceDetailSection.Start(Guid staffingResourceId, EditMode editMode)
         {
-            Start(staffingResourceId, readOnly);
+            Start(staffingResourceId, editMode);
         }
 
         #endregion
 
-        public StaffingResourceContactInfoViewModel Start(Guid staffingResourceId, bool readOnly)
+        public StaffingResourceContactInfoViewModel Start(Guid staffingResourceId, EditMode editMode)
         {
-            ActivateItem(StaffingResourceAddressList.Start(staffingResourceId, readOnly));
-            ActivateItem(StaffingResourcePhoneList.Start(staffingResourceId, readOnly));
+            ActivateItem(StaffingResourceAddressList.Start(staffingResourceId, editMode));
+            ActivateItem(StaffingResourcePhoneList.Start(staffingResourceId, editMode));
             return this;
         }
     }

@@ -55,7 +55,7 @@ namespace TempHire.ViewModels.StaffingResource
                 {
                     PhoneNumbers =
                         new BindableCollection<StaffingResourcePhoneItemViewModel>(
-                            value.PhoneNumbers.ToList().Select(p => new StaffingResourcePhoneItemViewModel(p, IsReadOnly)));
+                            value.PhoneNumbers.ToList().Select(p => new StaffingResourcePhoneItemViewModel(p, EditMode)));
                     value.PhoneNumbers.CollectionChanged += PhoneNumbersCollectionChanged;
                 }
 
@@ -87,7 +87,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             if (e.NewItems != null)
                 e.NewItems.Cast<PhoneNumber>()
-                    .ForEach(p => PhoneNumbers.Add(new StaffingResourcePhoneItemViewModel(p, IsReadOnly)));
+                    .ForEach(p => PhoneNumbers.Add(new StaffingResourcePhoneItemViewModel(p, EditMode)));
 
             EnsureDelete();
         }

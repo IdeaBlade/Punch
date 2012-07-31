@@ -16,6 +16,7 @@ using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
+using Common;
 using Common.Errors;
 using Common.Messages;
 using DomainModel;
@@ -103,9 +104,9 @@ namespace TempHire.ViewModels.StaffingResource
             get { return 30; }
         }
 
-        void IStaffingResourceDetailSection.Start(Guid staffingResourceId, bool readOnly)
+        void IStaffingResourceDetailSection.Start(Guid staffingResourceId, EditMode editMode)
         {
-            Start(staffingResourceId, readOnly);
+            Start(staffingResourceId, editMode);
         }
 
         #endregion

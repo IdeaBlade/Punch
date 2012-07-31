@@ -14,19 +14,21 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using Caliburn.Micro;
+using Common;
 using DomainModel;
 
 namespace TempHire.ViewModels.StaffingResource
 {
     public class StaffingResourceAddressItemViewModel : PropertyChangedBase, IDisposable
     {
+        private readonly EditMode _editMode;
         private Address _item;
 
-        public StaffingResourceAddressItemViewModel(Address item, bool readOnly)
+        public StaffingResourceAddressItemViewModel(Address item, EditMode editMode)
         {
+            _editMode = editMode;
             Debug.Assert(item != null);
             Item = item;
-            IsReadOnly = readOnly;
         }
 
         public Address Item
@@ -41,7 +43,10 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
-        public bool IsReadOnly { get; private set; }
+        public bool IsReadOnly
+        {
+            get { return _editMode == EditMode.View; }
+        }
 
         public bool CanDelete
         {

@@ -5,11 +5,11 @@ using DomainServices;
 
 namespace TempHire.DesignTimeSupport
 {
-    public class DesignTimeStaffingResourceUnitOfWorkManager : IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork>
+    public class DesignTimeResourceMgtUnitOfWorkManager : IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork>
     {
         private readonly IEntityManagerProvider<TempHireEntities> _entityManagerProvider;
 
-        public DesignTimeStaffingResourceUnitOfWorkManager(IEntityManagerProvider<TempHireEntities> entityManagerProvider)
+        public DesignTimeResourceMgtUnitOfWorkManager(IEntityManagerProvider<TempHireEntities> entityManagerProvider)
         {
             _entityManagerProvider = entityManagerProvider;
         }

@@ -199,7 +199,7 @@
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authentication\FakeAuthenticationService.cs" />
-    <Compile Include="DesignTimeSupport\DesignTimeStaffingResourceUnitOfWorkManager.cs" />
+    <Compile Include="DesignTimeSupport\DesignTimeResourceMgtUnitOfWorkManager.cs" />
     <Compile Include="DesignTimeSupport\ViewModelLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -31,10 +31,12 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                return new StaffingResourceAddressListViewModel(
-                    new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider),
-                    null, DesignTimeErrorHandler.Instance,
-                    DesignTimeDialogManager.Instance);
+                return (StaffingResourceAddressListViewModel)
+                       new StaffingResourceAddressListViewModel(
+                           new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider),
+                           null, DesignTimeErrorHandler.Instance,
+                           DesignTimeDialogManager.Instance)
+                           .Start(TempHireSampleDataProvider.CreateGuid(1), true);
             }
         }
 
@@ -42,9 +44,11 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                return new StaffingResourceSummaryViewModel(
-                    new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider), null,
-                    DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance);
+                return (StaffingResourceSummaryViewModel)
+                       new StaffingResourceSummaryViewModel(
+                           new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider), null,
+                           DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance)
+                           .Start(TempHireSampleDataProvider.CreateGuid(1), true);
             }
         }
 
@@ -53,8 +57,9 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 return new StaffingResourceNameEditorViewModel(
-                    new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider),
-                    DesignTimeErrorHandler.Instance);
+                    new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider),
+                    DesignTimeErrorHandler.Instance)
+                    .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
 
@@ -62,10 +67,12 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                return new StaffingResourcePhoneListViewModel(
-                    new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider),
-                    null, DesignTimeErrorHandler.Instance,
-                    DesignTimeDialogManager.Instance);
+                return (StaffingResourcePhoneListViewModel)
+                       new StaffingResourcePhoneListViewModel(
+                           new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider),
+                           null, DesignTimeErrorHandler.Instance,
+                           DesignTimeDialogManager.Instance)
+                           .Start(TempHireSampleDataProvider.CreateGuid(1), true);
             }
         }
 
@@ -73,7 +80,7 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                var rm = new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider);
+                var rm = new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider);
                 return new StaffingResourceDetailViewModel(
                     rm,
                     new StaffingResourceSummaryViewModel(rm, null, DesignTimeErrorHandler.Instance,
@@ -91,7 +98,8 @@ namespace TempHire.DesignTimeSupport
                             new StaffingResourceWorkExperienceViewModel(rm, DesignTimeErrorHandler.Instance),
                             new StaffingResourceSkillsViewModel(rm, DesignTimeErrorHandler.Instance)
                         },
-                    DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance);
+                    DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance)
+                    .Start(TempHireSampleDataProvider.CreateGuid(1), true);
             }
         }
 
@@ -99,9 +107,11 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                return new StaffingResourceRatesViewModel(
-                    new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider),
-                    null, DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance);
+                return (StaffingResourceRatesViewModel)
+                       new StaffingResourceRatesViewModel(
+                           new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider),
+                           null, DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance)
+                           .Start(TempHireSampleDataProvider.CreateGuid(1), true);
             }
         }
 
@@ -109,9 +119,11 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                return new StaffingResourceWorkExperienceViewModel(
-                    new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider),
-                    DesignTimeErrorHandler.Instance);
+                return (StaffingResourceWorkExperienceViewModel)
+                       new StaffingResourceWorkExperienceViewModel(
+                           new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider),
+                           DesignTimeErrorHandler.Instance)
+                           .Start(TempHireSampleDataProvider.CreateGuid(1), true);
             }
         }
 
@@ -119,9 +131,11 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                return new StaffingResourceSkillsViewModel(
-                    new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider),
-                    DesignTimeErrorHandler.Instance);
+                return (StaffingResourceSkillsViewModel)
+                       new StaffingResourceSkillsViewModel(
+                           new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider),
+                           DesignTimeErrorHandler.Instance)
+                           .Start(TempHireSampleDataProvider.CreateGuid(1), true);
             }
         }
 
@@ -129,8 +143,8 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
-                return new StaffingResourceSearchViewModel(new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider), 
-                                                           DesignTimeErrorHandler.Instance);
+                return new StaffingResourceSearchViewModel(new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider), 
+                                                           DesignTimeErrorHandler.Instance).Start();
             }
         }
 
@@ -138,9 +152,10 @@ namespace TempHire.DesignTimeSupport
         {
             get
             {
+                var rm = new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider);
                 return
                     new ResourceMgtViewModel(
-                        new StaffingResourceSearchViewModel(new DesignTimeStaffingResourceUnitOfWorkManager(EntityManagerProvider), 
+                        new StaffingResourceSearchViewModel(rm, 
                                                             DesignTimeErrorHandler.Instance), null, null,
                         DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance, null);
             }
@@ -152,7 +167,7 @@ namespace TempHire.DesignTimeSupport
             {
                 return
                     new ShellViewModel(new List<IWorkspace>(), new ToolbarManager(), new FakeAuthenticationService(),
-                                       null);
+                                       null).Start();
             }
         }
 

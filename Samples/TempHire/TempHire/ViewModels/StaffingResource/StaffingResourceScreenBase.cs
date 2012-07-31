@@ -32,12 +32,12 @@ namespace TempHire.ViewModels.StaffingResource
         protected StaffingResourceScreenBase(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                              IErrorHandler errorHandler)
         {
-            DomainUnitOfWorkManager = unitOfWorkManager;
+            UnitOfWorkManager = unitOfWorkManager;
             ErrorHandler = errorHandler;
             _isReadOnly = true;
         }
 
-        public IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> DomainUnitOfWorkManager { get; private set; }
+        public IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> UnitOfWorkManager { get; private set; }
         public IErrorHandler ErrorHandler { get; private set; }
 
         public bool IsReadOnly
@@ -55,8 +55,9 @@ namespace TempHire.ViewModels.StaffingResource
         {
             get
             {
+                // Return the current sandbox UoW, or if the VM is in read-only mode return the shared UoW associated with Guid.Empty
                 return _unitOfWork ??
-                       (_unitOfWork = DomainUnitOfWorkManager.Get(IsReadOnly ? Guid.Empty : _staffingResourceId));
+                       (_unitOfWork = UnitOfWorkManager.Get(IsReadOnly ? Guid.Empty : _staffingResourceId));
             }
         }
 

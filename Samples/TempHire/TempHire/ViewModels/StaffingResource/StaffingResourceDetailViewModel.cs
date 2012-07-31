@@ -82,6 +82,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             get
             {
+                // Return the current sandbox UoW, or if the VM is in read-only mode return the shared UoW associated with Guid.Empty
                 return _unitOfWork ??
                        (_unitOfWork = _unitOfWorkManager.Get(IsReadOnly ? Guid.Empty : _staffingResourceId));
             }

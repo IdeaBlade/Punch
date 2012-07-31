@@ -90,6 +90,7 @@ namespace TempHire.ViewModels.StaffingResource
 
         private IResourceMgtUnitOfWork UnitOfWork
         {
+            // Return the shared UoW associated with Guid.Empty
             get { return _unitOfWork ?? (_unitOfWork = _unitOfWorkManager.Get(Guid.Empty)); }
         }
 
@@ -177,6 +178,14 @@ namespace TempHire.ViewModels.StaffingResource
         {
             if (e.Key == Key.Enter)
                 Search();
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            base.OnDeactivate(close);
+
+            if (close)
+                _unitOfWork = null;
         }
     }
 }

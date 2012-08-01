@@ -22,7 +22,7 @@ namespace TempHire
 {
     public class AppBootstrapper : BootstrapperBase<ShellViewModel>
     {
-#if FAKESTORE
+#if FAKESTORE || DEMO
         [Import]
         public IEntityManagerProvider<TempHireEntities> EntityManagerProvider;
 

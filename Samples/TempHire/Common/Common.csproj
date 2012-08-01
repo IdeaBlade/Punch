@@ -89,6 +89,7 @@
     <Compile Include="Behaviors\SelectAllOnFocusBehavior.cs" />
     <Compile Include="BootstrapperBase.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="EditMode.cs" />
     <Compile Include="Errors\ErrorHandler.cs" />
     <Compile Include="Errors\IErrorHandler.cs" />
     <Compile Include="Factories\PartFactoryBase.cs" />

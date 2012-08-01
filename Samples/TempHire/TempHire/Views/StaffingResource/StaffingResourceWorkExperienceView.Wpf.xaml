@@ -12,10 +12,15 @@
              d:DesignWidth="800"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <common:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    </UserControl.Resources>
+
     <Grid x:Name="LayoutRoot"
           HorizontalAlignment="Stretch"
           Background="White">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -35,7 +40,18 @@
                        Text="No work experience found. Please add work experience by clicking the 'Add' button."
                        TextAlignment="Center" />
         </StackPanel>
-        <ItemsControl Grid.Row="3"
+        <StackPanel x:Name="IsPending"
+                    Grid.Row="3"
+                    Height="50"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    Orientation="Horizontal">
+            <TextBlock HorizontalAlignment="Stretch"
+                       VerticalAlignment="Center"
+                       Text="Loading..."
+                       TextAlignment="Center" />
+        </StackPanel>
+        <ItemsControl Grid.Row="4"
                       Margin="0,5,0,0"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
@@ -79,6 +95,9 @@
                                    Text="Location:" />
                         <DatePicker Grid.Row="1"
                                     Margin="2"
+                                    IsEnabled="{Binding ElementName=LayoutRoot,
+                                                        Path=DataContext.IsReadOnly,
+                                                        Converter={StaticResource InverseBooleanConverter}}"
                                     SelectedDate="{Binding From,
                                                            ValidatesOnDataErrors=True,
                                                            ValidatesOnExceptions=True,
@@ -86,6 +105,9 @@
                         <DatePicker Grid.Row="1"
                                     Grid.Column="1"
                                     Margin="2"
+                                    IsEnabled="{Binding ElementName=LayoutRoot,
+                                                        Path=DataContext.IsReadOnly,
+                                                        Converter={StaticResource InverseBooleanConverter}}"
                                     SelectedDate="{Binding To,
                                                            ValidatesOnDataErrors=True,
                                                            ValidatesOnExceptions=True,
@@ -93,6 +115,8 @@
                         <TextBox Grid.Row="1"
                                  Grid.Column="2"
                                  Margin="2"
+                                 IsReadOnly="{Binding ElementName=LayoutRoot,
+                                                      Path=DataContext.IsReadOnly}"
                                  Text="{Binding PositionTitle,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
@@ -104,6 +128,8 @@
                         <TextBox Grid.Row="1"
                                  Grid.Column="3"
                                  Margin="2"
+                                 IsReadOnly="{Binding ElementName=LayoutRoot,
+                                                      Path=DataContext.IsReadOnly}"
                                  Text="{Binding Location,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
@@ -122,6 +148,8 @@
                                  Grid.Column="2"
                                  Grid.ColumnSpan="2"
                                  Margin="2"
+                                 IsReadOnly="{Binding ElementName=LayoutRoot,
+                                                      Path=DataContext.IsReadOnly}"
                                  Text="{Binding Company,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
@@ -142,6 +170,8 @@
                                  Height="100"
                                  Margin="2,2,2,20"
                                  AcceptsReturn="True"
+                                 IsReadOnly="{Binding ElementName=LayoutRoot,
+                                                      Path=DataContext.IsReadOnly}"
                                  Text="{Binding Description,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
@@ -159,7 +189,10 @@
                             <Button Width="60"
                                     HorizontalAlignment="Center"
                                     cal:Message.Attach="Delete($dataContext)"
-                                    Content="Delete" />
+                                    Content="Delete"
+                                    IsEnabled="{Binding ElementName=LayoutRoot,
+                                                        Path=DataContext.IsReadOnly,
+                                                        Converter={StaticResource InverseBooleanConverter}}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
@@ -174,6 +207,9 @@
                     Height="25"
                     Margin="0,0,5,0"
                     VerticalAlignment="Center"
+                    IsEnabled="{Binding ElementName=LayoutRoot,
+                                        Path=DataContext.IsReadOnly,
+                                        Converter={StaticResource InverseBooleanConverter}}"
                     Style="{StaticResource AddButton_Style}" />
         </StackPanel>
     </Grid>

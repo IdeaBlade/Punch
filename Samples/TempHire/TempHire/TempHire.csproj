@@ -110,11 +110,11 @@
     <Compile Include="ViewModels\Login\LoginViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\IStaffingResourceDetailSection.cs" />
+    <Compile Include="ViewModels\StaffingResource\ResourceMgtViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceAddressItemViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceAddressListViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceContactInfoViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceDetailViewModel.cs" />
-    <Compile Include="ViewModels\StaffingResource\StaffingResourceManagementViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourceNameEditorViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourcePhoneItemViewModel.cs" />
     <Compile Include="ViewModels\StaffingResource\StaffingResourcePhoneListViewModel.cs" />
@@ -157,6 +157,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\ItemSelectorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\ResourceMgtView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -213,10 +217,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\StaffingResource\StaffingResourceAddressListView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\StaffingResource\StaffingResourceManagementView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -12,10 +12,15 @@
              d:DesignWidth="640"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <common:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    </UserControl.Resources>
+
     <Grid x:Name="LayoutRoot"
           HorizontalAlignment="Stretch"
           Background="White">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -35,7 +40,18 @@
                        Text="No skills found. Please add a skill by clicking the 'Add' button."
                        TextAlignment="Center" />
         </StackPanel>
-        <ItemsControl Grid.Row="3"
+        <StackPanel x:Name="IsPending"
+                    Grid.Row="3"
+                    Height="50"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    Orientation="Horizontal">
+            <TextBlock HorizontalAlignment="Stretch"
+                       VerticalAlignment="Center"
+                       Text="Loading..."
+                       TextAlignment="Center" />
+        </StackPanel>
+        <ItemsControl Grid.Row="4"
                       Margin="0,10,0,0"
                       ItemsSource="{Binding SkillsSorted}">
             <ItemsControl.ItemsPanel>
@@ -53,6 +69,8 @@
                         <TextBox Height="25"
                                  Margin="2"
                                  HorizontalAlignment="Stretch"
+                                 IsReadOnly="{Binding ElementName=LayoutRoot,
+                                                      Path=DataContext.IsReadOnly}"
                                  Text="{Binding Description,
                                                 Mode=TwoWay}"
                                  TextAlignment="Left">
@@ -68,7 +86,10 @@
                                     Margin="2"
                                     HorizontalAlignment="Left"
                                     cal:Message.Attach="Delete($dataContext)"
-                                    Content="Delete" />
+                                    Content="Delete"
+                                    IsEnabled="{Binding ElementName=LayoutRoot,
+                                                        Path=DataContext.IsReadOnly,
+                                                        Converter={StaticResource InverseBooleanConverter}}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
@@ -84,6 +105,9 @@
                     Margin="0,0,5,0"
                     VerticalAlignment="Center"
                     Content="Add"
+                    IsEnabled="{Binding ElementName=LayoutRoot,
+                                        Path=DataContext.IsReadOnly,
+                                        Converter={StaticResource InverseBooleanConverter}}"
                     Style="{StaticResource AddButton_Style}" />
         </StackPanel>
     </Grid>

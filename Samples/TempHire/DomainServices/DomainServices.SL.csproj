@@ -84,13 +84,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\CocktailCTP.0.8.0\lib\sl40\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.0.0\lib\sl40\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\CocktailCTP.0.8.0\lib\sl40\Cocktail.SL.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.0.0\lib\sl40\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\CocktailCTP.0.8.0\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.0.0\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL" />
     <Reference Include="IdeaBlade.EntityModel.SL" />

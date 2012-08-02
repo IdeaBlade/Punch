@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Cocktail.NET</id>
+    <version>1.0.0</version>
+    <title>Cocktail for .NET</title>
+    <authors>Marcel Good,Ward Bell,Rob Eisenberg</authors>
+    <owners>IdeaBlade</owners>
+    <licenseUrl>http://cocktail.ideablade.com/licensing</licenseUrl>
+    <projectUrl>http://cocktail.ideablade.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <summary>Cocktail is an application development platform that takes the pain out of the development of data-driven rich XAML applications.</summary>
+    <description>Cocktail is an application development platform that takes the pain out of the development of data-driven rich XAML applications.</description>
+    <releaseNotes>http://drc.ideablade.com/xwiki/bin/view/Documentation/cocktail-080-release-notes</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>MVVM Silverlight WPF SL4 SL5 SL Convention Screen Coroutine Model-View-ViewModel Presentation UI ViewModel Caliburn.Micro DevForce ORM Entity Data LOB Enterprise</tags>
+  </metadata>
+  <files>
+    <file src="..\Cocktail\Bin\Release\Cocktail*.*" target="lib\net40" />
+    <file src="..\Cocktail\Bin\Release\Caliburn.Micro.dll" target="lib\net40" />
+    <file src="..\Cocktail\Bin\Release\Caliburn.Micro.xml" target="lib\net40" />
+    <file src="..\Cocktail\Bin\Release\System.Windows.Interactivity.*" target="lib\net40" />
+    <file src="..\Cocktail.Utils\Bin\Release\Cocktail*.*" target="lib\net40" />
+    <file src="..\Cocktail\**\*.cs" target="src\Cocktail" />
+    <file src="..\Cocktail\**\*.xaml" target="src\Cocktail" />
+    <file src="..\Cocktail.Utils\**\*.cs" target="src\Cocktail.Utils" />
+  </files>
+</package>

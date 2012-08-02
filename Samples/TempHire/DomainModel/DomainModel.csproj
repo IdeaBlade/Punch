@@ -64,7 +64,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\CocktailCTP.0.8.0\lib\net40\Cocktail.Utils.dll</HintPath>
+      <HintPath>..\packages\Cocktail.NET.1.0.0\lib\net40\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <SpecificVersion>False</SpecificVersion>

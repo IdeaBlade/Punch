@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>CocktailCTP</id>
-    <version>0.8.0</version>
+    <id>Cocktail.Silverlight</id>
+    <version>1.0.0</version>
+    <title>Cocktail for Silverlight</title>
     <authors>Marcel Good,Ward Bell,Rob Eisenberg</authors>
     <owners>IdeaBlade</owners>
     <licenseUrl>http://cocktail.ideablade.com/licensing</licenseUrl>
@@ -15,19 +16,14 @@
     <tags>MVVM Silverlight WPF SL4 SL5 SL Convention Screen Coroutine Model-View-ViewModel Presentation UI ViewModel Caliburn.Micro DevForce ORM Entity Data LOB Enterprise</tags>
   </metadata>
   <files>
-    <file src="..\Cocktail\Bin\Release\Cocktail*.*" target="lib\net40" />
     <file src="..\Cocktail\Bin.SL\Release\Cocktail*.*" target="lib\sl40" />
     <file src="..\Cocktail\Bin.SL5\Release\Cocktail*.*" target="lib\sl50" />
-    <file src="..\Cocktail\Bin\Release\Caliburn.Micro.dll" target="lib\net40" />
     <file src="..\Cocktail\Bin.SL\Release\Caliburn.Micro.dll" target="lib\sl40" />
     <file src="..\Cocktail\Bin.SL5\Release\Caliburn.Micro.dll" target="lib\sl50" />
-    <file src="..\Cocktail\Bin\Release\Caliburn.Micro.xml" target="lib\net40" />
     <file src="..\Cocktail\Bin.SL\Release\Caliburn.Micro.xml" target="lib\sl40" />
     <file src="..\Cocktail\Bin.SL5\Release\Caliburn.Micro.xml" target="lib\sl50" />
-    <file src="..\Cocktail\Bin\Release\System.Windows.Interactivity.*" target="lib\net40" />
     <file src="..\Cocktail\Bin.SL\Release\System.Windows.Interactivity.*" target="lib\sl40" />
     <file src="..\Cocktail\Bin.SL5\Release\System.Windows.Interactivity.*" target="lib\sl50" />
-    <file src="..\Cocktail.Utils\Bin\Release\Cocktail*.*" target="lib\net40" />
     <file src="..\Cocktail.Utils\Bin.SL\Release\Cocktail*.*" target="lib\sl40" />
     <file src="..\Cocktail.Utils\Bin.SL5\Release\Cocktail*.*" target="lib\sl50" />
     <file src="..\Cocktail\**\*.cs" target="src\Cocktail" />

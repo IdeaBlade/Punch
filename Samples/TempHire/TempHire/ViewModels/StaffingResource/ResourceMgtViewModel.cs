@@ -68,11 +68,16 @@ namespace TempHire.ViewModels.StaffingResource
 
             PropertyChanged += OnPropertyChanged;
 
-            _selectionChangeTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 200)};
+            _selectionChangeTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 200) };
             _selectionChangeTimer.Tick += OnSelectionChangeElapsed;
         }
 
         public StaffingResourceSearchViewModel SearchPane { get; private set; }
+
+        public bool CanAdd
+        {
+            get { return ActiveDetail == null || ActiveDetail.IsReadOnly; }
+        }
 
         public bool CanDelete
         {
@@ -159,8 +164,10 @@ namespace TempHire.ViewModels.StaffingResource
             using (ActiveDetail.Busy.GetTicket())
             {
                 ActiveUnitOfWork.StaffingResources.Delete(ActiveStaffingResource);
-
-                yield return operation = ActiveUnitOfWork.CommitAsync().ContinueOnError();
+                yield return operation = ActiveUnitOfWork.CommitAsync()
+                                             .ContinueWith(
+                                                 op => { if (!op.CompletedSuccessfully) ActiveUnitOfWork.Rollback(); })
+                                             .ContinueOnError();
             }
 
             if (operation.CompletedSuccessfully)
@@ -210,7 +217,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             Start();
             SearchPane.PropertyChanged += OnSearchPanePropertyChanged;
-            ((IActivate) SearchPane).Activate();
+            ((IActivate)SearchPane).Activate();
 
             if (_toolbarGroup == null)
             {
@@ -231,7 +238,7 @@ namespace TempHire.ViewModels.StaffingResource
         {
             base.OnDeactivate(close);
             SearchPane.PropertyChanged -= OnSearchPanePropertyChanged;
-            ((IDeactivate) SearchPane).Deactivate(close);
+            ((IDeactivate)SearchPane).Deactivate(close);
 
             _toolbar.RemoveGroup(_toolbarGroup);
         }
@@ -281,6 +288,7 @@ namespace TempHire.ViewModels.StaffingResource
             NotifyOfPropertyChange(() => CanDelete);
             NotifyOfPropertyChange(() => CanRefreshData);
             NotifyOfPropertyChange(() => CanEdit);
+            NotifyOfPropertyChange(() => CanAdd);
         }
     }
 }

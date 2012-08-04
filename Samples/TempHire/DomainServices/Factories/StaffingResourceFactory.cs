@@ -40,14 +40,14 @@ namespace DomainServices.Factories
             OperationResult<IEnumerable<AddressType>> op1;
             yield return op1 = _addressTypes.FindAsync(t => t.Default);
             var addressType = op1.Result.First();
-            staffingResource.AddAddress(addressType);
-            staffingResource.PrimaryAddress = staffingResource.Addresses.First();
+            var address = staffingResource.AddAddress(addressType);
+            staffingResource.PrimaryAddress = address;
 
             OperationResult<IEnumerable<PhoneNumberType>> op2;
             yield return op2 = _phoneNumberTypes.FindAsync(t => t.Default);
             var phoneType = op2.Result.First();
-            staffingResource.AddPhoneNumber(phoneType);
-            staffingResource.PrimaryPhoneNumber = staffingResource.PhoneNumbers.First();
+            var phoneNumber = staffingResource.AddPhoneNumber(phoneType);
+            staffingResource.PrimaryPhoneNumber = phoneNumber;
 
             yield return Coroutine.Return(staffingResource);
         }

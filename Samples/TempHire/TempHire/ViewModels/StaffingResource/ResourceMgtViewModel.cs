@@ -164,10 +164,13 @@ namespace TempHire.ViewModels.StaffingResource
             using (ActiveDetail.Busy.GetTicket())
             {
                 ActiveUnitOfWork.StaffingResources.Delete(ActiveStaffingResource);
-                yield return operation = ActiveUnitOfWork.CommitAsync()
-                                             .ContinueWith(
-                                                 op => { if (!op.CompletedSuccessfully) ActiveUnitOfWork.Rollback(); })
-                                             .ContinueOnError();
+                yield return operation = ActiveUnitOfWork
+                                             .CommitAsync()
+                                             .ContinueWith(op =>
+                                                               {
+                                                                   if (!op.CompletedSuccessfully)
+                                                                       ActiveUnitOfWork.Rollback();
+                                                               });
             }
 
             if (operation.CompletedSuccessfully)
@@ -184,6 +187,19 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> Save()
         {
+            OperationResult<bool> checkDuplicates;
+            yield return checkDuplicates = ActiveUnitOfWork.Validation.CheckIfDuplicateAsync(
+                ActiveStaffingResource, onFail: _errorHandler.HandleError);
+            if (checkDuplicates.CompletedSuccessfully && checkDuplicates.Result)
+            {
+                yield return
+                    _dialogManager.ShowMessageAsync("A resource with the same name already exists.", DialogButtons.Ok);
+                yield break;
+            }
+
+            if (checkDuplicates.HasError)
+                yield break;
+
             OperationResult<SaveResult> saveOperation;
             using (ActiveDetail.Busy.GetTicket())
                 yield return saveOperation = ActiveUnitOfWork.CommitAsync().ContinueOnError();

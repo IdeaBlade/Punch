@@ -10,26 +10,15 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using System;
 using Cocktail;
 using DomainModel;
-using DomainServices.Services;
 
-namespace DomainServices
+namespace DomainServices.Services
 {
-    public interface IResourceMgtUnitOfWork : IUnitOfWork
+    public interface IValidationService
     {
-        // Factories
-        IFactory<StaffingResource> StaffingResourceFactory { get; }
-
-        // Repositories
-        IRepository<AddressType> AddressTypes { get; }
-        IRepository<State> States { get; }
-        IRepository<PhoneNumberType> PhoneNumberTypes { get; }
-        IRepository<RateType> RateTypes { get; }
-        IRepository<StaffingResource> StaffingResources { get; }
-
-        // Services
-        IStaffingResourceSearchService Search { get; }
-        IValidationService Validation { get; }
+        OperationResult<bool> CheckIfDuplicateAsync(StaffingResource staffingResource, Action<bool> onSuccess = null,
+                                                    Action<Exception> onFail = null);
     }
 }

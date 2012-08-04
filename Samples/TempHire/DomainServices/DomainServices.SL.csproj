@@ -114,7 +114,9 @@
     <Compile Include="ResourceMgtUnitOfWork.cs" />
     <Compile Include="ResourceMgtUnitOfWorkManager.cs" />
     <Compile Include="Services\IStaffingResourceSearchService.cs" />
+    <Compile Include="Services\IValidationService.cs" />
     <Compile Include="Services\StaffingResourceSearchService.cs" />
+    <Compile Include="Services\ValidationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DomainModel.SL\DomainModel.SL.csproj">

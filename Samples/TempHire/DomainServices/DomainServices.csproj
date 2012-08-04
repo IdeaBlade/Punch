@@ -79,7 +79,9 @@
     <Compile Include="SampleData\SecuritySampleDataProvider.cs" />
     <Compile Include="SampleData\TempHireSampleDataProvider.cs" />
     <Compile Include="Services\IStaffingResourceSearchService.cs" />
+    <Compile Include="Services\IValidationService.cs" />
     <Compile Include="Services\StaffingResourceSearchService.cs" />
+    <Compile Include="Services\ValidationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DomainModel\DomainModel.csproj">

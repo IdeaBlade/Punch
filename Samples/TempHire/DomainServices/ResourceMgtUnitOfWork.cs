@@ -38,7 +38,7 @@ namespace DomainServices
             Search = new StaffingResourceSearchService(StaffingResources);
         }
 
-        #region IDomainUnitOfWork Members
+        #region IResourceMgtUnitOfWork Members
 
         public IFactory<StaffingResource> StaffingResourceFactory { get; private set; }
 

@@ -36,7 +36,6 @@ namespace DomainServices
             StaffingResourceFactory = new StaffingResourceFactory(entityManagerProvider, AddressTypes, PhoneNumberTypes);
             StaffingResources = new StaffingResourceRepository(entityManagerProvider);
             Search = new StaffingResourceSearchService(StaffingResources);
-            Validation = new ValidationService(StaffingResources);
         }
 
         #region IResourceMgtUnitOfWork Members
@@ -50,7 +49,6 @@ namespace DomainServices
         public IRepository<StaffingResource> StaffingResources { get; private set; }
 
         public IStaffingResourceSearchService Search { get; private set; }
-        public IValidationService Validation { get; private set; }
 
         #endregion
     }

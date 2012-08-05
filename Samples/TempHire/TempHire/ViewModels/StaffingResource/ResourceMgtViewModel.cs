@@ -164,13 +164,10 @@ namespace TempHire.ViewModels.StaffingResource
             using (ActiveDetail.Busy.GetTicket())
             {
                 ActiveUnitOfWork.StaffingResources.Delete(ActiveStaffingResource);
-                yield return operation = ActiveUnitOfWork
-                                             .CommitAsync()
-                                             .ContinueWith(op =>
-                                                               {
-                                                                   if (!op.CompletedSuccessfully)
-                                                                       ActiveUnitOfWork.Rollback();
-                                                               });
+                yield return operation = ActiveUnitOfWork.CommitAsync()
+                                             .ContinueWith(
+                                                 op => { if (!op.CompletedSuccessfully) ActiveUnitOfWork.Rollback(); })
+                                             .ContinueOnError();
             }
 
             if (operation.CompletedSuccessfully)
@@ -187,37 +184,15 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> Save()
         {
-            bool duplicate = false;
-            Exception error = null;
-
+            OperationResult<SaveResult> saveOperation;
             using (ActiveDetail.Busy.GetTicket())
-            {
-                yield return ActiveUnitOfWork.Validation.CheckIfDuplicateAsync(ActiveStaffingResource)
-                    .ContinueWith(op =>
-                                      {
-                                          error = op.HasError ? op.Error : null;
-                                          duplicate = op.CompletedSuccessfully && op.Result;
-                                      });
+                yield return saveOperation = ActiveUnitOfWork.CommitAsync().ContinueOnError();
 
-                if (!duplicate && error == null)
-                    yield return ActiveUnitOfWork.CommitAsync()
-                        .ContinueWith(op => error = op.HasError ? op.Error : null);
-            }
+            if (saveOperation.CompletedSuccessfully)
+                ActiveDetail.Start(ActiveStaffingResource.Id, EditMode.View);
 
-            if (duplicate)
-            {
-                yield return
-                    _dialogManager.ShowMessageAsync("A resource with the same name already exists.", DialogButtons.Ok);
-                yield break;
-            }
-
-            if (error != null)
-            {
-                _errorHandler.HandleError(error);
-                yield break;
-            }
-
-            ActiveDetail.Start(ActiveStaffingResource.Id, EditMode.View);
+            if (saveOperation.HasError)
+                _errorHandler.HandleError(saveOperation.Error);
         }
 
         public void Cancel()

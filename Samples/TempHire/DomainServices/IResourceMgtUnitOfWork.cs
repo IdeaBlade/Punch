@@ -30,6 +30,5 @@ namespace DomainServices
 
         // Services
         IStaffingResourceSearchService Search { get; }
-        IValidationService Validation { get; }
     }
 }

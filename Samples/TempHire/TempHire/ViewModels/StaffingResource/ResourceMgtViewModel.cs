@@ -187,28 +187,37 @@ namespace TempHire.ViewModels.StaffingResource
 
         public IEnumerable<IResult> Save()
         {
-            OperationResult<bool> checkDuplicates;
-            yield return checkDuplicates = ActiveUnitOfWork.Validation.CheckIfDuplicateAsync(
-                ActiveStaffingResource, onFail: _errorHandler.HandleError);
-            if (checkDuplicates.CompletedSuccessfully && checkDuplicates.Result)
+            bool duplicate = false;
+            Exception error = null;
+
+            using (ActiveDetail.Busy.GetTicket())
+            {
+                yield return ActiveUnitOfWork.Validation.CheckIfDuplicateAsync(ActiveStaffingResource)
+                    .ContinueWith(op =>
+                                      {
+                                          error = op.HasError ? op.Error : null;
+                                          duplicate = op.CompletedSuccessfully && op.Result;
+                                      });
+
+                if (!duplicate && error == null)
+                    yield return ActiveUnitOfWork.CommitAsync()
+                        .ContinueWith(op => error = op.HasError ? op.Error : null);
+            }
+
+            if (duplicate)
             {
                 yield return
                     _dialogManager.ShowMessageAsync("A resource with the same name already exists.", DialogButtons.Ok);
                 yield break;
             }
 
-            if (checkDuplicates.HasError)
+            if (error != null)
+            {
+                _errorHandler.HandleError(error);
                 yield break;
+            }
 
-            OperationResult<SaveResult> saveOperation;
-            using (ActiveDetail.Busy.GetTicket())
-                yield return saveOperation = ActiveUnitOfWork.CommitAsync().ContinueOnError();
-
-            if (saveOperation.CompletedSuccessfully)
-                ActiveDetail.Start(ActiveStaffingResource.Id, EditMode.View);
-
-            if (saveOperation.HasError)
-                _errorHandler.HandleError(saveOperation.Error);
+            ActiveDetail.Start(ActiveStaffingResource.Id, EditMode.View);
         }
 
         public void Cancel()

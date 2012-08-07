@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 
@@ -9,36 +10,39 @@ namespace Cocktail
     public static class FakeStoreEntityManagerProviderFns
     {
         /// <summary>Initializes the fake backing store.</summary>
-        public static OperationResult InitializeFakeBackingStoreAsync<T>(this IEntityManagerProvider<T> @this)
+        /// <returns>Returns true if the EntityManagerProvider supports the fake backing store.</returns>
+        public static async Task<bool> InitializeFakeBackingStoreAsync<T>(this IEntityManagerProvider<T> @this)
             where T : EntityManager
         {
             if (!@this.ConnectionOptions.IsFake)
             {
                 DebugFns.WriteLine(StringResources.NonSuitableEmpForFakeStoreOperation);
-                return AlwaysCompletedOperationResult.Instance;
+                return false;
             }
 
-            string compositionContext = @this.Manager.CompositionContext.Name;
-            // Return the operation if fake store object already exists.
-            if (FakeBackingStore.Exists(compositionContext))
-                return FakeBackingStore.Get(compositionContext).InitializeOperation.AsOperationResult();
+            // Return if already initialized
+            if (FakeBackingStore.Exists(@this.Manager.CompositionContext.Name)) 
+                return true;
 
-            FakeBackingStore.Create(compositionContext);
+            FakeBackingStore.Create(@this.Manager.CompositionContext.Name);
 
-            return ResetFakeBackingStoreAsync(@this);
+            await ResetFakeBackingStoreAsync(@this);
+            return true;
         }
 
         /// <summary>Resets the fake backing store to its initial state.</summary>
-        public static OperationResult ResetFakeBackingStoreAsync<T>(this IEntityManagerProvider<T> @this)
+        /// <returns>Returns true if the EntityManagerProvider supports the fake backing store.</returns>
+        public static async Task<bool> ResetFakeBackingStoreAsync<T>(this IEntityManagerProvider<T> @this)
             where T : EntityManager
         {
-            if (!@this.ConnectionOptions.IsFake && @this is EntityManagerProvider<T>)
+            if (!@this.ConnectionOptions.IsFake || !(@this is EntityManagerProvider<T>))
             {
                 DebugFns.WriteLine(StringResources.NonSuitableEmpForFakeStoreOperation);
-                return AlwaysCompletedOperationResult.Instance;
+                return false;
             }
 
-            return ((EntityManagerProvider<T>)@this).ResetFakeBackingStoreAsync();
+            await ((EntityManagerProvider<T>)@this).ResetFakeBackingStoreAsync();
+            return true;
         }
 
 #if !SILVERLIGHT
@@ -67,7 +71,7 @@ namespace Cocktail
         /// <returns>Returns true if the EntityManagerProvider supports the fake backing store.</returns>
         public static bool ResetFakeBackingStore<T>(this IEntityManagerProvider<T> @this) where T : EntityManager
         {
-            if (!@this.ConnectionOptions.IsFake && @this is EntityManagerProvider<T>)
+            if (!@this.ConnectionOptions.IsFake || !(@this is EntityManagerProvider<T>))
             {
                 DebugFns.WriteLine(StringResources.NonSuitableEmpForFakeStoreOperation);
                 return false;

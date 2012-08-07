@@ -40,7 +40,8 @@ namespace Cocktail
         /// </summary>
         public static AggregateCatalog AggregateCatalog
         {
-            get { return CompositionHost.Instance.Catalog; }
+            // TODO: Verify where to get the AggregateCatalog from
+            get { return (AggregateCatalog)CompositionHost.Instance.Container.Catalog; }
         }
 
         /// <summary>

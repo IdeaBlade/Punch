@@ -11,6 +11,7 @@
 // ====================================================================================================================
 
 using System;
+using System.Threading.Tasks;
 using IdeaBlade.Core;
 
 namespace Cocktail
@@ -24,9 +25,7 @@ namespace Cocktail
         /// <summary>
         /// Creates a new entity instance of type T.
         /// </summary>
-        /// <param name="onSuccess">Callback to be called if the entity creation was successful.</param>
-        /// <param name="onFail">Callback to be called if the entity creation failed.</param>
-        /// <returns>Asynchronous operation result.</returns>
-        OperationResult<T> CreateAsync(Action<T> onSuccess = null, Action<Exception> onFail = null);
+        /// <returns>The newly created entity attached to the underlying EntityManager.</returns>
+        Task<T> CreateAsync();
     }
 }

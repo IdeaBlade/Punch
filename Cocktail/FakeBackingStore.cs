@@ -11,6 +11,7 @@
 //====================================================================================================================
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using IdeaBlade.EntityModel;
 
 namespace Cocktail
@@ -22,7 +23,6 @@ namespace Cocktail
 
         private readonly string _compositionContextName;
         private IEntityServerFakeBackingStore _store;
-        private CoroutineOperation _resetOp;
 
         public FakeBackingStore(string compositionContextName)
         {
@@ -40,20 +40,18 @@ namespace Cocktail
 
         public bool IsInitialized { get; private set; }
 
-        public CoroutineOperation InitializeOperation { get; private set; }
-
-        public OperationResult ResetAsync(EntityManager manager, EntityCacheState storeEcs)
+        public async Task ResetAsync(EntityManager manager, EntityCacheState storeEcs)
         {
-            _resetOp = Coroutine.Start(() => ResetCore(manager, storeEcs));
-            if (InitializeOperation == null)
-                InitializeOperation = _resetOp;
+            // Make sure we are connected.
+            if (!manager.IsConnected)
+                await manager.ConnectAsync();
 
-            return _resetOp.OnComplete(
-                () =>
-                {
-                    IsInitialized = true;
-                    _resetOp = null;
-                }, null).AsOperationResult();
+            // Clear all data from the backing store
+            await Store.ClearAsync();
+
+            await Store.RestoreAsync(storeEcs);
+
+            IsInitialized = true;
         }
 
         public static bool Exists(string compositionContextName)
@@ -72,18 +70,6 @@ namespace Cocktail
             FakeBackingStores.Add(compositionContextName, fakeBackingStore);
 
             return fakeBackingStore;
-        }
-
-        private IEnumerable<INotifyCompleted> ResetCore(EntityManager manager, EntityCacheState storeEcs)
-        {
-            // Make sure we are connected.
-            if (!manager.IsConnected)
-                yield return manager.ConnectAsync();
-
-            // Clear all data from the backing store
-            yield return Store.ClearAsync();
-            
-            yield return Store.RestoreAsync(storeEcs);
         }
 
 #if !SILVERLIGHT

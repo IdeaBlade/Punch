@@ -12,6 +12,7 @@
 
 using System;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using IdeaBlade.EntityModel.Security;
@@ -60,13 +61,10 @@ namespace Cocktail
         /// <param name="credential">
         /// 	<para>The supplied credential.</para>
         /// </param>
-        /// <param name="onSuccess">Callback called when login was successful.</param>
-        /// <param name="onFail">Callback called when an error occurred during login.</param>
-        OperationResult LoginAsync(ILoginCredential credential, Action onSuccess = null, Action<Exception> onFail = null);
+        Task LoginAsync(ILoginCredential credential);
 
         /// <summary>Logs out the current user.</summary>
-        /// <param name="callback">Callback called when logout completes.</param>
-        OperationResult LogoutAsync(Action callback = null);
+        Task LogoutAsync();
 
 #if !SILVERLIGHT
 

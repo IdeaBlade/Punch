@@ -16,6 +16,7 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using IdeaBlade.Core;
@@ -28,8 +29,7 @@ namespace Cocktail
     /// </summary>
     public abstract class FrameworkBootstrapper : Bootstrapper
     {
-        private bool _completed;
-        private Action _completedActions;
+        private Task _asyncBootstrapTask;
 
         /// <summary>
         /// Static initialization
@@ -94,30 +94,25 @@ namespace Cocktail
         {
             base.StartRuntime();
 
-            StartRuntimeAsync().ToSequentialResult().Execute(OnComplete);
+            _asyncBootstrapTask = StartRuntimeAsync();
         }
 
         /// <summary>
         /// Provides an opportunity to perform asynchronous configuration at runtime.
         /// </summary>
-        protected virtual IEnumerable<IResult> StartRuntimeAsync()
+        protected virtual Task StartRuntimeAsync()
         {
-            yield return AlwaysCompletedOperationResult.Instance;
+            return Task.FromResult(true);  // noop
         }
 
         /// <summary>
         /// Calls action when <see cref="StartRuntimeAsync"/> completes. 
         /// </summary>
         /// <param name="completedAction">Action to be performed when configuration completes.</param>
-        protected void WhenCompleted(Action completedAction)
+        protected async void WhenCompleted(Action completedAction)
         {
-            if (completedAction == null) return;
-            if (_completed)
-            {
-                completedAction();
-                return;
-            }
-            _completedActions = (Action)Delegate.Combine(_completedActions, completedAction);
+            await _asyncBootstrapTask;
+            completedAction();
         }
 
         /// <summary>
@@ -200,18 +195,6 @@ namespace Cocktail
                 return;
 
             AssemblySource.Instance.Add(catalog.Assembly);
-        }
-
-        private void OnComplete(ResultCompletionEventArgs args)
-        {
-            if (args.Error != null)
-                throw args.Error;
-
-            _completed = true;
-            Action actions = _completedActions;
-            _completedActions = null;
-            if (actions == null) return;
-            actions();
         }
     }
 

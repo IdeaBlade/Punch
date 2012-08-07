@@ -11,6 +11,7 @@
 // ====================================================================================================================
 
 using System;
+using System.Threading.Tasks;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 
@@ -40,10 +41,7 @@ namespace Cocktail
         /// <summary>
         ///   Commits all pending changes to the underlying data source.
         /// </summary>
-        /// <param name="onSuccess"> Callback to be called if the commit was successful. </param>
-        /// <param name="onFail"> Callback to be called if the commit failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
-        OperationResult<SaveResult> CommitAsync(Action<SaveResult> onSuccess = null, Action<Exception> onFail = null);
+        Task<SaveResult> CommitAsync();
 
         /// <summary>
         ///   Rolls back all pending changes.

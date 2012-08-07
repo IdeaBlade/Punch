@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Linq;
@@ -63,60 +64,46 @@ namespace Cocktail
         ///   Retrieves the entity matching the provided key with the repository's default query strategy.
         /// </summary>
         /// <param name="keyValue"> The single primary key value. </param>
-        /// <param name="onSuccess"> Callback to be called when the entity retrieval was successful. </param>
-        /// <param name="onFail"> Callback to be called when the entity retrieval failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
+        /// <returns> The retrieved entity. </returns>
         /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
-        public OperationResult<T> WithIdAsync(object keyValue, Action<T> onSuccess = null,
-                                              Action<Exception> onFail = null)
+        public Task<T> WithIdAsync(object keyValue)
         {
-            return WithIdAsync(new[] { keyValue }, onSuccess, onFail);
+            return WithIdAsync(new[] { keyValue });
         }
 
         /// <summary>
         ///   Retrieves the entity matching the provided key from the back-end data source.
         /// </summary>
         /// <param name="keyValue"> The single primary key value. </param>
-        /// <param name="onSuccess"> Callback to be called when the entity retrieval was successful. </param>
-        /// <param name="onFail"> Callback to be called when the entity retrieval failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
+        /// <returns> The retrieved entity. </returns>
         /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
-        public OperationResult<T> WithIdFromDataSourceAsync(object keyValue, Action<T> onSuccess = null,
-                                                            Action<Exception> onFail = null)
+        public Task<T> WithIdFromDataSourceAsync(object keyValue)
         {
-            return WithIdFromDataSourceAsync(new[] { keyValue }, onSuccess, onFail);
+            return WithIdFromDataSourceAsync(new[] { keyValue });
         }
 
         /// <summary>
         ///   Retrieves the entity matching the provided key with the repository's default query strategy.
         /// </summary>
         /// <param name="keyValues"> The composite primary key values. </param>
-        /// <param name="onSuccess"> Callback to be called when the entity retrieval was successful. </param>
-        /// <param name="onFail"> Callback to be called when the entity retrieval failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
+        /// <returns> The retrieved entity. </returns>
         /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
-        public OperationResult<T> WithIdAsync(object[] keyValues, Action<T> onSuccess = null,
-                                              Action<Exception> onFail = null)
+        public Task<T> WithIdAsync(object[] keyValues)
         {
             var query = GetKeyQuery(keyValues);
-            return Coroutine.Start(() => WithIdAsyncCore(query), op => op.OnComplete(onSuccess, onFail))
-                .AsOperationResult<T>();
+            return WithIdAsyncCore(query);
         }
 
         /// <summary>
         ///   Retrieves the entity matching the provided key from the back-end data source.
         /// </summary>
         /// <param name="keyValues"> The composite primary key values. </param>
-        /// <param name="onSuccess"> Callback to be called when the entity retrieval was successful. </param>
-        /// <param name="onFail"> Callback to be called when the entity retrieval failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
+        /// <returns> The retrieved entity. </returns>
         /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
-        public OperationResult<T> WithIdFromDataSourceAsync(object[] keyValues, Action<T> onSuccess = null,
-                                                            Action<Exception> onFail = null)
+        public Task<T> WithIdFromDataSourceAsync(object[] keyValues)
         {
             var query = GetKeyQuery(keyValues).With(QueryStrategy.DataSourceOnly);
-            return Coroutine.Start(() => WithIdAsyncCore(query), op => op.OnComplete(onSuccess, onFail))
-                .AsOperationResult<T>();
+            return WithIdAsyncCore(query);
         }
 
         /// <summary>
@@ -140,14 +127,10 @@ namespace Cocktail
         /// <param name="predicateDescription"> Optional predicate description to filter the returned list of entities </param>
         /// <param name="sortSelector"> Optional sort descriptor to sort the returned list of entities. </param>
         /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
-        /// <param name="onSuccess"> Optional callback to be called when the entity retrieval was successful. </param>
-        /// <param name="onFail"> Optional callback to be called when the entity retrieval failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
-        public OperationResult<IEnumerable<T>> FindAsync(IPredicateDescription predicateDescription = null,
-                                                         ISortSelector sortSelector = null,
-                                                         string includeProperties = null,
-                                                         Action<IEnumerable<T>> onSuccess = null,
-                                                         Action<Exception> onFail = null)
+        /// <returns> The list of retrieved entities. </returns>
+        public Task<IEnumerable<T>> FindAsync(IPredicateDescription predicateDescription = null,
+                                              ISortSelector sortSelector = null,
+                                              string includeProperties = null)
         {
             Expression<Func<T, bool>> predicate = null;
             if (predicateDescription != null)
@@ -156,7 +139,7 @@ namespace Cocktail
             if (sortSelector != null)
                 orderBy = q => q.OrderBySelector(sortSelector);
 
-            return FindAsync(predicate, orderBy, includeProperties, onSuccess, onFail);
+            return FindAsync(predicate, orderBy, includeProperties);
         }
 
         /// <summary>
@@ -165,20 +148,16 @@ namespace Cocktail
         /// <param name="projectionSelector"> The selector used to shape the result.</param>
         /// <param name="predicateDescription"> Optional predicate description to filter the returned list of entities </param>
         /// <param name="sortSelector"> Optional sort descriptor to sort the returned list of entities. </param>
-        /// <param name="onSuccess"> Optional callback to be called when the entity retrieval was successful. </param>
-        /// <param name="onFail"> Optional callback to be called when the entity retrieval failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
-        public OperationResult<IEnumerable> FindAsync(IProjectionSelector projectionSelector,
-                                                      IPredicateDescription predicateDescription = null,
-                                                      ISortSelector sortSelector = null,
-                                                      Action<IEnumerable> onSuccess = null,
-                                                      Action<Exception> onFail = null)
+        /// <returns> The list of retrieved objects. </returns>
+        public Task<IEnumerable> FindAsync(IProjectionSelector projectionSelector,
+                                           IPredicateDescription predicateDescription = null,
+                                           ISortSelector sortSelector = null)
         {
             if (projectionSelector == null)
                 throw new ArgumentNullException("projectionSelector");
 
             var query = GetFindQuery(projectionSelector, predicateDescription, sortSelector);
-            return query.ExecuteAsync().OnComplete(onSuccess, onFail).AsOperationResult();
+            return query.ExecuteAsync();
         }
 
         /// <summary>
@@ -187,14 +166,10 @@ namespace Cocktail
         /// <param name="predicateDescription"> Optional predicate description to filter the returned list of entities </param>
         /// <param name="sortSelector"> Optional sort descriptor to sort the returned list of entities. </param>
         /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
-        /// <param name="onSuccess"> Optional callback to be called when the entity retrieval was successful. </param>
-        /// <param name="onFail"> Optional callback to be called when the entity retrieval failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
-        public OperationResult<IEnumerable<T>> FindInDataSourceAsync(IPredicateDescription predicateDescription = null,
-                                                                     ISortSelector sortSelector = null,
-                                                                     string includeProperties = null,
-                                                                     Action<IEnumerable<T>> onSuccess = null,
-                                                                     Action<Exception> onFail = null)
+        /// <returns> The list of retrieved entities. </returns>
+        public Task<IEnumerable<T>> FindInDataSourceAsync(IPredicateDescription predicateDescription = null,
+                                                          ISortSelector sortSelector = null,
+                                                          string includeProperties = null)
         {
             Expression<Func<T, bool>> predicate = null;
             if (predicateDescription != null)
@@ -203,7 +178,7 @@ namespace Cocktail
             if (sortSelector != null)
                 orderBy = q => q.OrderBySelector(sortSelector);
 
-            return FindInDataSourceAsync(predicate, orderBy, includeProperties, onSuccess, onFail);
+            return FindInDataSourceAsync(predicate, orderBy, includeProperties);
         }
 
         /// <summary>
@@ -212,21 +187,17 @@ namespace Cocktail
         /// <param name="projectionSelector"> The selector used to shape the result.</param>
         /// <param name="predicateDescription"> Optional predicate description to filter the returned list of entities </param>
         /// <param name="sortSelector"> Optional sort descriptor to sort the returned list of entities. </param>
-        /// <param name="onSuccess"> Optional callback to be called when the entity retrieval was successful. </param>
-        /// <param name="onFail"> Optional callback to be called when the entity retrieval failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
-        public OperationResult<IEnumerable> FindInDataSourceAsync(IProjectionSelector projectionSelector,
-                                                                  IPredicateDescription predicateDescription = null,
-                                                                  ISortSelector sortSelector = null,
-                                                                  Action<IEnumerable> onSuccess = null,
-                                                                  Action<Exception> onFail = null)
+        /// <returns> The list of retrieved objects. </returns>
+        public Task<IEnumerable> FindInDataSourceAsync(IProjectionSelector projectionSelector,
+                                                       IPredicateDescription predicateDescription = null,
+                                                       ISortSelector sortSelector = null)
         {
             if (projectionSelector == null)
                 throw new ArgumentNullException("projectionSelector");
 
             var query =
                 GetFindQuery(projectionSelector, predicateDescription, sortSelector).With(QueryStrategy.DataSourceOnly);
-            return query.ExecuteAsync().OnComplete(onSuccess, onFail).AsOperationResult();
+            return query.ExecuteAsync();
         }
 
         /// <summary>
@@ -254,7 +225,7 @@ namespace Cocktail
         /// <param name="projectionSelector"> The selector used to shape the result.</param>
         /// <param name="predicateDescription"> Optional predicate description to filter the returned list of entities </param>
         /// <param name="sortSelector"> Optional sort descriptor to sort the returned list of entities. </param>
-        /// <returns> Asynchronous operation result. </returns>
+        /// <returns> The list of retrieved objects. </returns>
         public IEnumerable FindInCache(IProjectionSelector projectionSelector,
                                        IPredicateDescription predicateDescription = null,
                                        ISortSelector sortSelector = null)
@@ -273,17 +244,13 @@ namespace Cocktail
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
         /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
-        /// <param name="onSuccess"> Optional callback to be called when the entity retrieval was successful. </param>
-        /// <param name="onFail"> Optional callback to be called when the entity retrieval failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
-        public OperationResult<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate = null,
-                                                         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-                                                         string includeProperties = null,
-                                                         Action<IEnumerable<T>> onSuccess = null,
-                                                         Action<Exception> onFail = null)
+        /// <returns> The list of retrieved entities. </returns>
+        public Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate = null,
+                                              Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                              string includeProperties = null)
         {
             var query = GetFindQuery(predicate, orderBy, includeProperties);
-            return query.ExecuteAsync().OnComplete(onSuccess, onFail).AsOperationResult();
+            return query.ExecuteAsync();
         }
 
         /// <summary>
@@ -292,19 +259,16 @@ namespace Cocktail
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="onSuccess"> Optional callback to be called when the entity retrieval was successful. </param>
-        /// <param name="onFail"> Optional callback to be called when the entity retrieval failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
-        public OperationResult<IEnumerable<TResult>> FindAsync<TResult>(
+        /// <returns> The list of retrieved objects. </returns>
+        public Task<IEnumerable<TResult>> FindAsync<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null,
-            Action<IEnumerable<TResult>> onSuccess = null, Action<Exception> onFail = null)
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null)
         {
             if (selector == null)
                 throw new ArgumentNullException("selector");
 
             var query = GetFindQuery(selector, predicate, orderBy);
-            return query.ExecuteAsync().OnComplete(onSuccess, onFail).AsOperationResult();
+            return query.ExecuteAsync();
         }
 
         /// <summary>
@@ -313,15 +277,13 @@ namespace Cocktail
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
         /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
-        /// <param name="onSuccess"> Optional callback to be called when the entity retrieval was successful. </param>
-        /// <param name="onFail"> Optional callback to be called when the entity retrieval failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
-        public OperationResult<IEnumerable<T>> FindInDataSourceAsync(
+        /// <returns> The list of retrieved entities. </returns>
+        public Task<IEnumerable<T>> FindInDataSourceAsync(
             Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = null, Action<IEnumerable<T>> onSuccess = null, Action<Exception> onFail = null)
+            string includeProperties = null)
         {
             var query = GetFindQuery(predicate, orderBy, includeProperties).With(QueryStrategy.DataSourceOnly);
-            return query.ExecuteAsync().OnComplete(onSuccess, onFail).AsOperationResult();
+            return query.ExecuteAsync();
         }
 
         /// <summary>
@@ -330,19 +292,16 @@ namespace Cocktail
         /// <param name="selector"> The selector used to shape the result.</param>
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="onSuccess"> Optional callback to be called when the entity retrieval was successful. </param>
-        /// <param name="onFail"> Optional callback to be called when the entity retrieval failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
-        public OperationResult<IEnumerable<TResult>> FindInDataSourceAsync<TResult>(
+        /// <returns> The list of retrieved objects. </returns>
+        public Task<IEnumerable<TResult>> FindInDataSourceAsync<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null,
-            Action<IEnumerable<TResult>> onSuccess = null, Action<Exception> onFail = null)
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null)
         {
             if (selector == null)
                 throw new ArgumentNullException("selector");
 
             var query = GetFindQuery(selector, predicate, orderBy).With(QueryStrategy.DataSourceOnly);
-            return query.ExecuteAsync().OnComplete(onSuccess, onFail).AsOperationResult();
+            return query.ExecuteAsync();
         }
 
         /// <summary>
@@ -363,7 +322,7 @@ namespace Cocktail
         /// <param name="selector"> The selector used to shape the result.</param>
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <returns> Asynchronous operation result. </returns>
+        /// <returns> The list of retrieved objects. </returns>
         public IEnumerable<TResult> FindInCache<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null)
@@ -489,17 +448,14 @@ namespace Cocktail
             return query.With(DefaultQueryStrategy);
         }
 
-        private IEnumerable<INotifyCompleted> WithIdAsyncCore(IEntityQuery entityQuery)
+        private async Task<T> WithIdAsyncCore(IEntityQuery entityQuery)
         {
-            EntityQueryOperation operation;
-            yield return (operation = EntityManager.ExecuteQueryAsync(entityQuery));
+            var entities = (await EntityManager.ExecuteQueryAsync(entityQuery)).Cast<object>().ToList();
 
-            var count = operation.Results.Cast<object>().Count();
-            if (count != 1)
-                yield return Coroutine.Fail(
-                    new EntityNotFoundException(ShouldHaveExactlyOneEntityErrorMessage(entityQuery, count)));
+            if (entities.Count != 1)
+                throw new EntityNotFoundException(ShouldHaveExactlyOneEntityErrorMessage(entityQuery, entities.Count));
 
-            yield return Coroutine.Return(operation.Results.Cast<object>().First());
+            return (T)entities.First();
         }
 
         private IEnumerable<string> ParseIncludeProperties(string includeProperties)

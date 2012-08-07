@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
@@ -195,7 +196,7 @@ namespace Cocktail
 
         #endregion
 
-        internal OperationResult ResetFakeBackingStoreAsync()
+        internal Task ResetFakeBackingStoreAsync()
         {
             var manager = PrepareSampleData();
             return FakeBackingStore.Get(CompositionContext.Name).ResetAsync(manager, _storeEcs);

@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using IdeaBlade.EntityModel.Security;
@@ -110,63 +111,32 @@ namespace Cocktail
         /// <param name="credential">
         /// 	<para>The supplied credential.</para>
         /// </param>
-        /// <param name="onSuccess">Callback called when login was successful.</param>
-        /// <param name="onFail">Callback called when an error occurred during login.</param>
-        public OperationResult LoginAsync(ILoginCredential credential, Action onSuccess = null,
-                                          Action<Exception> onFail = null)
-        {
-            CoroutineOperation coop = Coroutine.Start(
-                () => LoginAsyncCore(credential),
-                op =>
-                {
-                    if (op.CompletedSuccessfully)
-                    {
-                        _authenticationContext = (IAuthenticationContext)op.Result;
-                        OnPrincipalChanged();
-                        OnLoggedIn();
-                    }
-                    op.OnComplete(onSuccess, onFail);
-                });
-
-            return coop.AsOperationResult();
-        }
-
-        /// <summary>Internal use.</summary>
-        /// <param name="credential">The user's credentials.</param>
-        protected virtual IEnumerable<INotifyCompleted> LoginAsyncCore(ILoginCredential credential)
+        public virtual async Task LoginAsync(ILoginCredential credential)
         {
             // Logout before logging in with new set of credentials
-            if (IsLoggedIn) yield return LogoutAsync();
+            if (IsLoggedIn) await LogoutAsync();
 
-            LoginOperation operation;
-            yield return operation = Authenticator.Instance.LoginAsync(credential, ConnectionOptions.ToLoginOptions());
-
-            yield return Coroutine.Return(operation.AuthenticationContext);
+            _authenticationContext = await Authenticator.Instance.LoginAsync(credential, ConnectionOptions.ToLoginOptions());
+            OnPrincipalChanged();
+            OnLoggedIn();
         }
 
         /// <summary>Logs out the current user.</summary>
-        /// <param name="callback">Callback called when logout completes.</param>
-        public OperationResult LogoutAsync(Action callback = null)
+        public virtual async Task LogoutAsync()
         {
-            if (!IsLoggedIn)
+            if (!IsLoggedIn) return;
+
+            try
             {
-                if (callback != null) callback();
-                return AlwaysCompletedOperationResult.Instance;
+                await Authenticator.Instance.LogoutAsync(_authenticationContext);
             }
-
-            BaseOperation op = Authenticator.Instance.LogoutAsync(_authenticationContext);
-            op.Completed += (s, args) =>
-                                {
-                                    // Ignore the error. We don't care if the logout couldn't reach the server.
-                                    if (args.HasError)
-                                        args.MarkErrorAsHandled();
-
-                                    OnPrincipalChanged();
-                                    OnLoggedOut();
-                                    if (callback != null) callback();
-                                };
-
-            return op.AsOperationResult();
+            catch (Exception e)
+            {
+                // Ignoring error. It doesn't matter if the logout didn't go through to the server.
+                TraceFns.WriteLine(string.Format(StringResources.LogoutFailed, e.Message));
+            }
+            OnPrincipalChanged();
+            OnLoggedOut();
         }
 
 #if !SILVERLIGHT
@@ -175,7 +145,7 @@ namespace Cocktail
         /// <param name="credential">
         /// 	<para>The supplied credential.</para>
         /// </param>
-        public void Login(ILoginCredential credential)
+        public virtual void Login(ILoginCredential credential)
         {
             // Logout before logging in with new set of credentials
             if (IsLoggedIn) Logout();
@@ -186,7 +156,7 @@ namespace Cocktail
         }
 
         /// <summary>Logs out the current user.</summary>
-        public void Logout()
+        public virtual void Logout()
         {
             if (!IsLoggedIn) return;
 
@@ -194,11 +164,10 @@ namespace Cocktail
             {
                 Authenticator.Instance.Logout(_authenticationContext);
             }
-            // ReSharper disable EmptyGeneralCatchClause
-            catch (Exception)
-            // ReSharper restore EmptyGeneralCatchClause
+            catch (Exception e)
             {
-                // Ignore error. We don't care if the logout doesn't reach the server.
+                // Ignoring error. It doesn't matter if the logout didn't go through to the server.
+                TraceFns.WriteLine(string.Format(StringResources.LogoutFailed, e.Message));
             }
             OnPrincipalChanged();
             OnLoggedOut();

@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using IdeaBlade.EntityModel;
 
 namespace Cocktail
@@ -46,32 +47,19 @@ namespace Cocktail
         #region IFactory<T> Members
 
         /// <summary>
-        ///   Creates a new entity instance of type T.
+        /// Creates a new entity instance of type T.
         /// </summary>
-        /// <param name="onSuccess"> Callback to be called if the entity creation was successful. </param>
-        /// <param name="onFail"> Callback to be called if the entity creation failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
-        public OperationResult<T> CreateAsync(Action<T> onSuccess = null, Action<Exception> onFail = null)
-        {
-            return Coroutine.Start(CreateAsyncCore, op => op.OnComplete(onSuccess, onFail)).AsOperationResult<T>();
-        }
-
-        #endregion
-
-        /// <summary>
-        ///   Implements to steps to create a new entity.
-        /// </summary>
-        /// <remarks>
-        ///   The default implementation looks for static Create method on the entity type with no parameters. If none is found, a new instance is created using the Activator class.
-        /// </remarks>
-        protected virtual IEnumerable<INotifyCompleted> CreateAsyncCore()
+        /// <returns>The newly created entity attached to the underlying EntityManager.</returns>
+        public virtual Task<T> CreateAsync()
         {
             var methodInfo = FindFactoryMethod(typeof(T));
             var instance = methodInfo != null ? methodInfo.Invoke(null, new object[0]) : Activator.CreateInstance<T>();
             EntityManager.AddEntity(instance);
 
-            yield return Coroutine.Return(instance);
+            return Task.FromResult((T)instance);
         }
+
+        #endregion
 
         /// <summary>
         /// Locates a suitable factory method for the provided type.

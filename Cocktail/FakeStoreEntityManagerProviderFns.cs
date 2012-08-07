@@ -32,7 +32,7 @@ namespace Cocktail
         public static OperationResult ResetFakeBackingStoreAsync<T>(this IEntityManagerProvider<T> @this)
             where T : EntityManager
         {
-            if (!@this.ConnectionOptions.IsFake && @this is EntityManagerProvider<T>)
+            if (!@this.ConnectionOptions.IsFake || !(@this is EntityManagerProvider<T>))
             {
                 DebugFns.WriteLine(StringResources.NonSuitableEmpForFakeStoreOperation);
                 return AlwaysCompletedOperationResult.Instance;
@@ -67,7 +67,7 @@ namespace Cocktail
         /// <returns>Returns true if the EntityManagerProvider supports the fake backing store.</returns>
         public static bool ResetFakeBackingStore<T>(this IEntityManagerProvider<T> @this) where T : EntityManager
         {
-            if (!@this.ConnectionOptions.IsFake && @this is EntityManagerProvider<T>)
+            if (!@this.ConnectionOptions.IsFake || !(@this is EntityManagerProvider<T>))
             {
                 DebugFns.WriteLine(StringResources.NonSuitableEmpForFakeStoreOperation);
                 return false;

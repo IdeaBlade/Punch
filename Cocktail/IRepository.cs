@@ -81,8 +81,8 @@ namespace Cocktail
         ///   Retrieves one or more entities matching the provided predicateDescription with the repository's default query strategy and projects the results into a different shape using the projectionSelector parameter.
         /// </summary>
         /// <param name="projectionSelector"> The selector used to shape the result.</param>
-        /// <param name="predicateDescription"> Optional predicate description to filter the returned list of entities </param>
-        /// <param name="sortSelector"> Optional sort descriptor to sort the returned list of entities. </param>
+        /// <param name="predicateDescription"> Optional predicate description to filter the returned list of objects. </param>
+        /// <param name="sortSelector"> Optional sort descriptor to sort the returned list of objects. </param>
         /// <returns> The list of retrieved objects. </returns>
         Task<IEnumerable> FindAsync(IProjectionSelector projectionSelector,
                                     IPredicateDescription predicateDescription = null,
@@ -103,8 +103,8 @@ namespace Cocktail
         ///   Retrieves one or more entities matching the provided predicateDescription from the back-end data source and projects the results into a different shape using the projectionSelector parameter.
         /// </summary>
         /// <param name="projectionSelector"> The selector used to shape the result.</param>
-        /// <param name="predicateDescription"> Optional predicate description to filter the returned list of entities </param>
-        /// <param name="sortSelector"> Optional sort descriptor to sort the returned list of entities. </param>
+        /// <param name="predicateDescription"> Optional predicate description to filter the returned list of objects. </param>
+        /// <param name="sortSelector"> Optional sort descriptor to sort the returned list of objects. </param>
         /// <returns> The list of retrieved objects. </returns>
         Task<IEnumerable> FindInDataSourceAsync(IProjectionSelector projectionSelector,
                                                IPredicateDescription predicateDescription = null,
@@ -123,8 +123,8 @@ namespace Cocktail
         ///   Retrieves one or more entities matching the provided predicateDescription from the cache and projects the results into a different shape using the projectionSelector parameter.
         /// </summary>
         /// <param name="projectionSelector"> The selector used to shape the result.</param>
-        /// <param name="predicateDescription"> Optional predicate description to filter the returned list of entities </param>
-        /// <param name="sortSelector"> Optional sort descriptor to sort the returned list of entities. </param>
+        /// <param name="predicateDescription"> Optional predicate description to filter the returned list of objects. </param>
+        /// <param name="sortSelector"> Optional sort descriptor to sort the returned list of objects. </param>
         /// <returns> The list of retrieved objects. </returns>
         IEnumerable FindInCache(IProjectionSelector projectionSelector,
                                 IPredicateDescription predicateDescription = null,
@@ -145,8 +145,8 @@ namespace Cocktail
         ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy and projects the results into a different shape using the selector parameter.
         /// </summary>
         /// <param name="selector"> The selector used to shape the result.</param>
-        /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
-        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
         /// <returns> The list of retrieved objects. </returns>
         Task<IEnumerable<TResult>> FindAsync<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate = null,
@@ -167,8 +167,8 @@ namespace Cocktail
         ///   Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
         /// </summary>
         /// <param name="selector"> The selector used to shape the result.</param>
-        /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
-        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
         /// <returns> The list of retrieved objects. </returns>
         Task<IEnumerable<TResult>> FindInDataSourceAsync<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate = null,
@@ -187,9 +187,9 @@ namespace Cocktail
         ///   Retrieves one or more entities matching the provided expression from the cache and projects the results into a different shape using the selector parameter.
         /// </summary>
         /// <param name="selector"> The selector used to shape the result.</param>
-        /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
-        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <returns> Asynchronous operation objects. </returns>
+        /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <returns> The list of retrieved objects. </returns>
         IEnumerable<TResult> FindInCache<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null);

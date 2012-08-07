@@ -56,7 +56,9 @@ namespace Cocktail
             var instance = methodInfo != null ? methodInfo.Invoke(null, new object[0]) : Activator.CreateInstance<T>();
             EntityManager.AddEntity(instance);
 
-            return Task.FromResult((T)instance);
+            var tcs = new TaskCompletionSource<T>();
+            tcs.SetResult((T)instance);
+            return tcs.Task;
         }
 
         #endregion

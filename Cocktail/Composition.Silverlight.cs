@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
@@ -25,163 +26,62 @@ namespace Cocktail
 
         /// <summary>Asynchronously downloads a XAP file and adds all exported parts to the catalog.</summary>
         /// <param name="relativeUri">The relative URI for the XAP file to be downloaded.</param>
-        /// <param name="onSuccess">User callback to be called when operation completes successfully.</param>
-        /// <param name="onFail">User callback to be called when operation completes with an error.</param>
-        /// <returns>Returns a handle to the download operation.</returns>
-        public static OperationResult AddXapAsync(string relativeUri, Action onSuccess = null, Action<Exception> onFail = null)
+        /// <returns>The asynchronous download <see cref="Task"/>.</returns>
+        public static Task AddXapAsync(string relativeUri)
         {
             XapDownloadOperation operation;
-            if (XapDownloadOperations.TryGetValue(relativeUri, out operation) && !operation.HasError)
-                return operation.AsOperationResult();
+            if (XapDownloadOperations.TryGetValue(relativeUri, out operation) && !operation.Task.IsFaulted)
+                return operation.Task;
 
-            var op = XapDownloadOperations[relativeUri] = new XapDownloadOperation(relativeUri);
-            op.WhenCompleted(
-                args =>
-                {
-                    if (args.Error == null && onSuccess != null)
-                        onSuccess();
-
-                    if (args.Error != null && onFail != null)
-                    {
-                        args.IsErrorHandled = true;
-                        onFail(args.Error);
-                    }
-                });
-            return op.AsOperationResult();
+            operation = XapDownloadOperations[relativeUri] = new XapDownloadOperation(relativeUri);
+            return operation.Task;
         }
     }
 
-    internal class XapDownloadOperation : INotifyCompleted
+    internal class XapDownloadOperation
     {
         private readonly DynamicXap _xap;
-        private XapDownloadCompletedEventArgs _completedEventArgs;
-        private Action<INotifyCompletedArgs> _notifyCompletedActions;
+        private readonly TaskCompletionSource<bool> _tcs;
 
         public XapDownloadOperation(string xapUri)
         {
+            _tcs = new TaskCompletionSource<bool>();
             _xap = new DynamicXap(new Uri(xapUri, UriKind.Relative));
             _xap.Loaded += (s, args) => XapDownloadCompleted(args);
         }
 
+        public Task Task
+        {
+            get { return _tcs.Task; }
+        }
+
         private void XapDownloadCompleted(DynamicXapLoadedEventArgs args)
         {
-            Exception error = null;
+            if (args.Cancelled)
+            {
+                _tcs.SetCanceled();
+                return;
+            }
+
             if (!args.HasError)
             {
                 Composition.IsRecomposing = true;
                 try
                 {
                     CompositionHost.Add(_xap);
+                    _tcs.SetResult(true);
                 }
                 catch (Exception e)
                 {
-                    error = e;
+                    _tcs.SetException(e);
                 }
                 finally
                 {
                     Composition.IsRecomposing = false;
                 }
             }
-
-            _completedEventArgs = new XapDownloadCompletedEventArgs(args.Cancelled, args.Error ?? error);
-
-            CallCompletedActions();
+            else
+                _tcs.SetException(args.Error);
         }
-
-        protected void CallCompletedActions()
-        {
-            Action<INotifyCompletedArgs> actions = _notifyCompletedActions;
-            _notifyCompletedActions = null;
-            if (actions == null) return;
-            actions(_completedEventArgs);
-        }
-
-        #region Implementation of INotifyCompleted
-
-        /// <summary>
-        /// Action to be performed when the asynchronous operation completes.
-        /// </summary>
-        /// <param name="completedAction"/>
-        public void WhenCompleted(Action<INotifyCompletedArgs> completedAction)
-        {
-            if (completedAction == null) return;
-            if (_completedEventArgs != null)
-            {
-                completedAction(_completedEventArgs);
-                return;
-            }
-            _notifyCompletedActions =
-                (Action<INotifyCompletedArgs>)Delegate.Combine(_notifyCompletedActions, completedAction);
-        }
-
-        /// <summary>
-        /// Returns whether the operation completed successfully
-        /// </summary>
-        public bool CompletedSuccessfully
-        {
-            get { return _completedEventArgs != null && !_completedEventArgs.HasError && !_completedEventArgs.Cancelled; }
-        }
-
-        /// <summary>
-        /// Returns whether the operation failed.
-        /// </summary>
-        public bool HasError
-        {
-            get { return _completedEventArgs != null && _completedEventArgs.HasError; }
-        }
-
-        /// <summary>
-        /// The exception if the action failed.
-        /// </summary>
-        public Exception Error
-        {
-            get { return _completedEventArgs != null ? _completedEventArgs.Error : null; }
-        }
-
-        #endregion
-    }
-
-    internal class XapDownloadCompletedEventArgs : EventArgs, INotifyCompletedArgs
-    {
-        private readonly bool _cancelled;
-        private readonly Exception _error;
-        //private readonly DynamicXapLoadedEventArgs _dynamicXapLoadedEventArgs;
-
-        public XapDownloadCompletedEventArgs(bool cancelled, Exception error)
-        {
-            _cancelled = cancelled;
-            _error = error;
-            //_dynamicXapLoadedEventArgs = dynamicXapLoadedEventArgs;
-        }
-
-        #region Implementation of INotifyCompletedArgs
-
-        /// <summary>
-        /// The exception if the action failed.
-        /// </summary>
-        public Exception Error
-        {
-            get { return _error; /*_dynamicXapLoadedEventArgs.Error;*/ }
-        }
-
-        /// <summary>
-        /// Whether the action was cancelled.
-        /// </summary>
-        public bool Cancelled
-        {
-            get { return _cancelled; /*_dynamicXapLoadedEventArgs.Cancelled;*/ }
-        }
-
-        /// <summary>
-        /// Returns whether the operation failed.
-        /// </summary>
-        public bool HasError { get { return _error != null; /*_dynamicXapLoadedEventArgs.HasError;*/ } }
-
-        /// <summary>
-        /// Whether the error was handled.
-        /// </summary>
-        public bool IsErrorHandled { get; set; }
-
-        #endregion
     }
 }

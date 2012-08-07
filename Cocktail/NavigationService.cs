@@ -11,6 +11,7 @@
 // ====================================================================================================================
 
 using System;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using IdeaBlade.Core;
 
@@ -27,26 +28,26 @@ namespace Cocktail
         /// </summary>
         /// <param name="activator">The activator action to be called upon to activate a new navigation target.</param>
         /// <remarks>If no activator is configured <see cref="IConductor.ActivateItem"/> is called automatically.</remarks>
-        INavigationServiceConfigurator<T> WithActivator(Action<NavigateResult<T>> activator);
+        INavigationServiceConfigurator<T> WithActivator(Action<NavigationProcessor<T>> activator);
 
         /// <summary>
         /// Configures the strategy to determine whether navigating away from the current target is permissible.
         /// </summary>
         /// <param name="strategy">The new navigation strategy.</param>
         /// <remarks>If no navigation strategy is configured, <see cref="IGuardClose.CanClose"/> of the current target is used to determine if navigating away is currently permissible.</remarks>
-        INavigationServiceConfigurator<T> WithNavigateAwayStrategy(Action<NavigateResult<T>, Action<bool>> strategy);
+        INavigationServiceConfigurator<T> WithNavigateAwayStrategy(Action<NavigationProcessor<T>, Action<bool>> strategy);
 
         /// <summary>
         /// Configures the strategy to determine whether navigating to the new target is permissible.
         /// </summary>
         /// <param name="strategy">The new navigation strategy.</param>
-        INavigationServiceConfigurator<T> WithNavigateToStrategy(Action<NavigateResult<T>, Action<bool>> strategy);
+        INavigationServiceConfigurator<T> WithNavigateToStrategy(Action<NavigationProcessor<T>, Action<bool>> strategy);
     }
 
     /// <summary>
     /// A configurable service to handle navigation.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of the ViewModel.</typeparam>
     public class NavigationService<T> where T : class
     {
         private readonly IConductActiveItem _conductor;
@@ -78,53 +79,52 @@ namespace Cocktail
         /// <param name="target">A function to determine the navigation target.</param>
         /// <param name="prepareTarget">An optional function to prepare the navigation target before it gets activated.</param>
         /// <param name="prepareTargetAsync">An optional function to asynchronously prepare the navigation target before it gets activated.</param>
-        /// <returns>An object representing the asynchronous navigation operation.</returns>
-        public NavigateResult<T> NavigateToAsync(Func<T> target, Action<T> prepareTarget = null,
-                                                 Func<T, IResult> prepareTargetAsync = null)
+        /// <returns>The asynchronous navigation <see cref="Task"/>.</returns>
+        public Task NavigateToAsync(Func<T> target, Action<T> prepareTarget = null, 
+                                    Func<T, Task> prepareTargetAsync = null)
         {
-            var navigation = new NavigateResult<T>(_conductor, target);
+            var processor = new NavigationProcessor<T>(_conductor, target);
             if (_configuration.Activator != null)
-                navigation.Activate = _configuration.Activator;
+                processor.Activate = _configuration.Activator;
             if (_configuration.NavigateAwayStrategy != null)
-                navigation.CanNavigateAway = _configuration.NavigateAwayStrategy;
+                processor.CanNavigateAway = _configuration.NavigateAwayStrategy;
             if (_configuration.NavigateToStrategy != null)
-                navigation.CanNavigateTo = _configuration.NavigateToStrategy;
+                processor.CanNavigateTo = _configuration.NavigateToStrategy;
 
             if (prepareTarget != null)
-                navigation.Prepare = nav => prepareTarget(nav.Target);
+                processor.Prepare = nav => prepareTarget(nav.Target);
             if (prepareTargetAsync != null)
-                navigation.PrepareAsync = nav => prepareTargetAsync(nav.Target);
+                processor.PrepareAsync = nav => prepareTargetAsync(nav.Target);
 
-            navigation.Go();
-            return navigation;
+            return processor.NavigateAsync();
         }
     }
 
     internal class NavigationServiceConfiguration<T> : INavigationServiceConfigurator<T>
         where T : class
     {
-        public Action<NavigateResult<T>> Activator { get; private set; }
+        public Action<NavigationProcessor<T>> Activator { get; private set; }
 
-        public Action<NavigateResult<T>, Action<bool>> NavigateAwayStrategy { get; private set; }
+        public Action<NavigationProcessor<T>, Action<bool>> NavigateAwayStrategy { get; private set; }
 
-        public Action<NavigateResult<T>, Action<bool>> NavigateToStrategy { get; private set; }
+        public Action<NavigationProcessor<T>, Action<bool>> NavigateToStrategy { get; private set; }
 
         #region INavigationServiceConfigurator<T> Members
 
-        public INavigationServiceConfigurator<T> WithActivator(Action<NavigateResult<T>> activator)
+        public INavigationServiceConfigurator<T> WithActivator(Action<NavigationProcessor<T>> activator)
         {
             Activator = activator;
             return this;
         }
 
         public INavigationServiceConfigurator<T> WithNavigateAwayStrategy(
-            Action<NavigateResult<T>, Action<bool>> strategy)
+            Action<NavigationProcessor<T>, Action<bool>> strategy)
         {
             NavigateAwayStrategy = strategy;
             return this;
         }
 
-        public INavigationServiceConfigurator<T> WithNavigateToStrategy(Action<NavigateResult<T>, Action<bool>> strategy)
+        public INavigationServiceConfigurator<T> WithNavigateToStrategy(Action<NavigationProcessor<T>, Action<bool>> strategy)
         {
             NavigateToStrategy = strategy;
             return this;

@@ -83,18 +83,11 @@
     <Compile Include="IFactory.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
-    <Compile Include="NavigateResult.Task.cs">
-      <DependentUpon>NavigateResult.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DialogOperationResult.Task.cs">
-      <DependentUpon>DialogOperationResult.cs</DependentUpon>
-    </Compile>
     <Compile Include="Composition.cs" />
     <Compile Include="Composition.Client.cs">
       <DependentUpon>Composition.cs</DependentUpon>
     </Compile>
     <Compile Include="ConnectionOptions.cs" />
-    <Compile Include="CoroutineFns.cs" />
     <Compile Include="DataChangedEventArgs.cs" />
     <Compile Include="DefaultDebugLogger.cs" />
     <Compile Include="DefaultEntityManagerSyncInterceptor.cs" />
@@ -103,7 +96,6 @@
     <Compile Include="DialogHostBase.cs" />
     <Compile Include="DialogHostFns.cs" />
     <Compile Include="DialogManager.cs" />
-    <Compile Include="DialogOperationResult.cs" />
     <Compile Include="EntityManagerDelegate.cs" />
     <Compile Include="EntityManagerEventMessage.cs" />
     <Compile Include="EntityManagerProvider.cs" />
@@ -115,7 +107,6 @@
     <Compile Include="FrameworkBootstrapper.cs" />
     <Compile Include="HarnessViewModel.cs" />
     <Compile Include="IAuthenticationService.cs" />
-    <Compile Include="IAwaitable.cs" />
     <Compile Include="IBusyWatcher.cs" />
     <Compile Include="IConnectionOptionsResolver.cs" />
     <Compile Include="IDialogHost.cs" />
@@ -128,7 +119,7 @@
     <Compile Include="IValidationErrorNotification.cs" />
     <Compile Include="LogFns.cs" />
     <Compile Include="MessageBoxBase.cs" />
-    <Compile Include="NavigateResult.cs" />
+    <Compile Include="NavigationProcessor.cs" />
     <Compile Include="NavigationService.cs" />
     <Compile Include="ObjectManager.cs" />
     <Compile Include="PartLocator.cs" />
@@ -136,7 +127,7 @@
     <Compile Include="PrincipalChangedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
-    <Compile Include="ShowDialogResult.cs" />
+    <Compile Include="Dialog.cs" />
     <Compile Include="StringResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

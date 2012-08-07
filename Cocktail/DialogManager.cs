@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 
 namespace Cocktail
 {
@@ -29,12 +30,11 @@ namespace Cocktail
         /// <typeparam name="T">
         /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
         /// </typeparam>
-        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        public DialogOperationResult<T> ShowDialogAsync<T>(object content, IEnumerable<T> dialogButtons, string title)
+        /// <returns>The dialog result.</returns>
+        public Task<T> ShowDialogAsync<T>(object content, IEnumerable<T> dialogButtons, string title)
         {
-            var result = new ShowDialogResult<T>(content, dialogButtons, title);
-            result.Show();
-            return result;
+            var dialog = new Dialog<T>(content, dialogButtons, title);
+            return dialog.Show();
         }
 
         /// <summary>Displays a modal dialog with a custom view model.</summary>
@@ -53,12 +53,11 @@ namespace Cocktail
         /// <typeparam name="T">
         /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
         /// </typeparam>
-        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        public DialogOperationResult<T> ShowDialogAsync<T>(object content, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
+        /// <returns>The dialog result.</returns>
+        public Task<T> ShowDialogAsync<T>(object content, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
         {
-            var result = new ShowDialogResult<T>(content, dialogButtons, defaultButton, cancelButton, title);
-            result.Show();
-            return result;
+            var dialog = new Dialog<T>(content, dialogButtons, defaultButton, cancelButton, title);
+            return dialog.Show();
         }
 
         /// <summary>Displays a modal dialog with a custom view model.</summary>
@@ -67,12 +66,11 @@ namespace Cocktail
         /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
         /// </param>
         /// <param name="title">Optional title of the dialog.</param>
-        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        public DialogOperationResult<DialogResult> ShowDialogAsync(object content, IEnumerable<DialogResult> dialogButtons, string title = null)
+        /// <returns>The dialog result.</returns>
+        public Task<DialogResult> ShowDialogAsync(object content, IEnumerable<DialogResult> dialogButtons, string title = null)
         {
-            var result = new ShowDialogResult<DialogResult>(content, dialogButtons, DialogResult.Ok, DialogResult.Cancel, title);
-            result.Show();
-            return result;
+            var dialog = new Dialog<DialogResult>(content, dialogButtons, DialogResult.Ok, DialogResult.Cancel, title);
+            return dialog.Show();
         }
 
         /// <summary>Displays a modal message box.</summary>
@@ -84,13 +82,12 @@ namespace Cocktail
         /// <typeparam name="T">
         /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
         /// </typeparam>
-        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        public DialogOperationResult<T> ShowMessageAsync<T>(string message, IEnumerable<T> dialogButtons, string title)
+        /// <returns>The dialog result.</returns>
+        public Task<T> ShowMessageAsync<T>(string message, IEnumerable<T> dialogButtons, string title)
         {
             var messageBox = CreateMessageBox(message);
-            var result = new ShowDialogResult<T>(messageBox, dialogButtons, title);
-            result.Show();
-            return result;
+            var dialog = new Dialog<T>(messageBox, dialogButtons, title);
+            return dialog.Show();
         }
 
         /// <summary>Displays a modal message box.</summary>
@@ -109,13 +106,12 @@ namespace Cocktail
         /// <typeparam name="T">
         /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
         /// </typeparam>
-        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        public DialogOperationResult<T> ShowMessageAsync<T>(string message, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
+        /// <returns>The dialog result.</returns>
+        public Task<T> ShowMessageAsync<T>(string message, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
         {
             var messageBox = CreateMessageBox(message);
-            var result = new ShowDialogResult<T>(messageBox, dialogButtons, defaultButton, cancelButton, title);
-            result.Show();
-            return result;
+            var dialog = new Dialog<T>(messageBox, dialogButtons, defaultButton, cancelButton, title);
+            return dialog.Show();
         }
 
         /// <summary>Displays a modal message box.</summary>
@@ -124,13 +120,12 @@ namespace Cocktail
         /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
         /// </param>
         /// <param name="title">Optional title of the message box.</param>
-        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        public DialogOperationResult<DialogResult> ShowMessageAsync(string message, IEnumerable<DialogResult> dialogButtons, string title = null)
+        /// <returns>The dialog result.</returns>
+        public Task<DialogResult> ShowMessageAsync(string message, IEnumerable<DialogResult> dialogButtons, string title = null)
         {
             var messageBox = CreateMessageBox(message);
-            var result = new ShowDialogResult<DialogResult>(messageBox, dialogButtons, DialogResult.Ok, DialogResult.Cancel, title);
-            result.Show();
-            return result;
+            var dialog = new Dialog<DialogResult>(messageBox, dialogButtons, DialogResult.Ok, DialogResult.Cancel, title);
+            return dialog.Show();
         }
 
         #endregion

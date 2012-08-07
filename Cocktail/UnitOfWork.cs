@@ -74,8 +74,6 @@ namespace Cocktail
         /// <summary>
         ///   Commits all pending changes to the underlying data source.
         /// </summary>
-        /// <param name="onSuccess"> Callback to be called if the commit was successful. </param>
-        /// <param name="onFail"> Callback to be called if the commit failed. </param>
         public virtual Task<SaveResult> CommitAsync()
         {
             return EntityManager.SaveChangesAsync();

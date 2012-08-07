@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 
 namespace Cocktail
@@ -19,8 +20,9 @@ namespace Cocktail
     /// <summary>
     /// Internal use.
     /// </summary>
-    public class ShowDialogResult<T> : DialogOperationResult<T>
+    internal class Dialog<T>
     {
+        private readonly IWindowManager _windowManager;
         private readonly T _cancelButton;
         private readonly object _content;
         private readonly T _defaultButton;
@@ -31,8 +33,9 @@ namespace Cocktail
         private readonly string _title;
         private DialogHostBase _dialogHost;
 
-        internal ShowDialogResult(object content, IEnumerable<T> dialogButtons, string title = null)
+        internal Dialog(object content, IEnumerable<T> dialogButtons, string title = null)
         {
+            _windowManager = Composition.GetInstance<IWindowManager>(CreationPolicy.Shared);
             _title = title;
             _content = content;
             _dialogButtons = dialogButtons;
@@ -40,14 +43,14 @@ namespace Cocktail
                 .WithDefaultGenerator(() => new DialogHostBase());
         }
 
-        internal ShowDialogResult(object content, IEnumerable<T> dialogButtons, T cancelButton, string title = null)
+        internal Dialog(object content, IEnumerable<T> dialogButtons, T cancelButton, string title = null)
             : this(content, dialogButtons, title)
         {
             _hasCancelButton = true;
             _cancelButton = cancelButton;
         }
 
-        internal ShowDialogResult(object content, IEnumerable<T> dialogButtons, T defaultButton, T cancelButton,
+        internal Dialog(object content, IEnumerable<T> dialogButtons, T defaultButton, T cancelButton,
                                   string title = null)
             : this(content, dialogButtons, cancelButton, title)
         {
@@ -56,15 +59,9 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Internal use.
-        /// </summary>
-        [Import]
-        public IWindowManager WindowManager { get; set; }
-
-        /// <summary>
         /// Returns the user's response to a dialog or message box.
         /// </summary>
-        public override T DialogResult
+        internal T DialogResult
         {
             get
             {
@@ -76,20 +73,28 @@ namespace Cocktail
 
         /// <summary>Indicates whether the dialog or message box has been cancelled.</summary>
         /// <value>Cancelled is set to true, if the user clicked the designated cancel button in response to the dialog or message box.</value>
-        public override bool Cancelled
+        internal bool Cancelled
         {
 // ReSharper disable CompareNonConstrainedGenericWithNull
             get { return _hasCancelButton && (DialogResult != null) && DialogResult.Equals(_cancelButton); }
 // ReSharper restore CompareNonConstrainedGenericWithNull
         }
 
-        internal void Show()
+        internal Task<T> Show()
         {
             _dialogHost = _dialogHostLocator.GetPart().Start(_title, _content, _dialogButtons,
                                                              _hasDefaultButton ? (object) _defaultButton : null,
                                                              _hasCancelButton ? (object) _cancelButton : null);
-            _dialogHost.Completed += OnCompleted;
-            WindowManager.ShowDialog(_dialogHost);
+            var tcs = new TaskCompletionSource<T>();
+            _dialogHost.Completed += (sender, args) =>
+                {
+                    if (Cancelled)
+                        tcs.SetCanceled();
+                    else
+                        tcs.SetResult(DialogResult);
+                };
+            _windowManager.ShowDialog(_dialogHost);
+            return tcs.Task;
         }
     }
 }

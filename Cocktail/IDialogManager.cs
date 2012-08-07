@@ -11,6 +11,7 @@
 //====================================================================================================================
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using IdeaBlade.Core;
 
 namespace Cocktail
@@ -79,8 +80,8 @@ namespace Cocktail
         /// <typeparam name="T">
         /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
         /// </typeparam>
-        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        DialogOperationResult<T> ShowDialogAsync<T>(object content, IEnumerable<T> dialogButtons, string title = null);
+        /// <returns>The dialog result.</returns>
+        Task<T> ShowDialogAsync<T>(object content, IEnumerable<T> dialogButtons, string title = null);
 
         /// <summary>Displays a modal dialog with a custom view model.</summary>
         /// <param name="content">The custom view model to host in the dialog.</param>
@@ -97,9 +98,9 @@ namespace Cocktail
         /// <typeparam name="T">
         /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
         /// </typeparam>
-        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        DialogOperationResult<T> ShowDialogAsync<T>(object content, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons,
-                                               string title = null);
+        /// <returns>The dialog result.</returns>
+        Task<T> ShowDialogAsync<T>(object content, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons,
+                                   string title = null);
 
         /// <summary>Displays a modal dialog with a custom view model.</summary>
         /// <param name="content">The custom view model to host in the dialog.</param>
@@ -107,9 +108,9 @@ namespace Cocktail
         /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
         /// </param>
         /// <param name="title">Optional title of the dialog.</param>
-        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        DialogOperationResult<DialogResult> ShowDialogAsync(object content, IEnumerable<DialogResult> dialogButtons,
-                                                       string title = null);
+        /// <returns>The dialog result.</returns>
+        Task<DialogResult> ShowDialogAsync(object content, IEnumerable<DialogResult> dialogButtons,
+                                           string title = null);
 
         /// <summary>Displays a modal message box.</summary>
         /// <param name="message">The message to display.</param>
@@ -120,8 +121,8 @@ namespace Cocktail
         /// <typeparam name="T">
         /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
         /// </typeparam>
-        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        DialogOperationResult<T> ShowMessageAsync<T>(string message, IEnumerable<T> dialogButtons, string title = null);
+        /// <returns>The dialog result.</returns>
+        Task<T> ShowMessageAsync<T>(string message, IEnumerable<T> dialogButtons, string title = null);
 
         /// <summary>Displays a modal message box.</summary>
         /// <param name="message">The message to display.</param>
@@ -138,9 +139,9 @@ namespace Cocktail
         /// <typeparam name="T">
         /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
         /// </typeparam>
-        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        DialogOperationResult<T> ShowMessageAsync<T>(string message, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons,
-                                                string title = null);
+        /// <returns>The dialog result.</returns>
+        Task<T> ShowMessageAsync<T>(string message, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons,
+                                    string title = null);
 
         /// <summary>Displays a modal message box.</summary>
         /// <param name="message">The message to display.</param>
@@ -148,8 +149,8 @@ namespace Cocktail
         /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
         /// </param>
         /// <param name="title">Optional title of the message box.</param>
-        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        DialogOperationResult<DialogResult> ShowMessageAsync(string message, IEnumerable<DialogResult> dialogButtons,
-                                                        string title = null);
+        /// <returns>The dialog result.</returns>
+        Task<DialogResult> ShowMessageAsync(string message, IEnumerable<DialogResult> dialogButtons,
+                                            string title = null);
     }
 }

@@ -42,7 +42,6 @@ namespace Cocktail
 
         public async Task ResetAsync(EntityCacheState storeEcs)
         {
-
             // Clear all data from the backing store
             await Store.ClearAsync();
 

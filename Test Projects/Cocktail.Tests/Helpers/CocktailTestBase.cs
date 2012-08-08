@@ -50,18 +50,33 @@ namespace Cocktail.Tests.Helpers
 
         public async Task ResetFakeBackingStoreAsync(string compositionContextName)
         {
-            var provider =
-                EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName);
+            var provider = EntityManagerProviderFactory
+                .CreateTestEntityManagerProvider(compositionContextName);
             if (provider != null)
+            {
+#if SILVERLIGHT
                 await provider.ResetFakeBackingStoreAsync();
+#else
+                provider.ResetFakeBackingStore();
+                await Task.FromResult(true);
+#endif
+            }
         }
 
         public async Task TestInit(string compositionContextName)
         {
-           await EntityManagerProviderFactory
-               .CreateTestEntityManagerProvider(compositionContextName)
-               .InitializeFakeBackingStoreAsync();
-           await ResetFakeBackingStoreAsync(compositionContextName);
+            var provider = EntityManagerProviderFactory
+                .CreateTestEntityManagerProvider(compositionContextName);
+            if (provider != null)
+            {
+#if SILVERLIGHT
+                await provider.InitializeFakeBackingStoreAsync();
+#else
+                provider.InitializeFakeBackingStore();
+                await Task.FromResult(true);
+#endif
+            }
+            await ResetFakeBackingStoreAsync(compositionContextName);
         }
     }
 }

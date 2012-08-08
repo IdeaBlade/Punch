@@ -29,19 +29,18 @@ namespace Cocktail
         /// <summary>
         ///   Returns the current catalog in use.
         /// </summary>
-        /// <returns> Unless a custom catalog is provided through <see cref="Configure" />, this property returns <see cref="AggregateCatalog" /> </returns>
+        /// <returns> Unless a custom catalog is provided through <see cref="Configure" />, this property returns <see cref="DefaultCatalog" /> </returns>
         public static ComposablePartCatalog Catalog
         {
-            get { return _catalog ?? AggregateCatalog; }
+            get { return _catalog ?? DefaultCatalog; }
         }
 
         /// <summary>
-        ///   Returns the AggregateCatalog in use by DevForce.
+        ///   Returns the default catalog in use by DevForce.
         /// </summary>
-        public static AggregateCatalog AggregateCatalog
+        public static ComposablePartCatalog DefaultCatalog
         {
-            // TODO: Verify where to get the AggregateCatalog from
-            get { return (AggregateCatalog)CompositionHost.Instance.Container.Catalog; }
+            get { return CompositionHost.Instance.Container.Catalog; }
         }
 
         /// <summary>

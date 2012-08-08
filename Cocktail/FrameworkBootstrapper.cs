@@ -66,7 +66,7 @@ namespace Cocktail
         /// <returns>Return the custom catalog that should be used by Cocktail to get access to MEF exports.</returns>
         protected virtual ComposablePartCatalog PrepareCompositionCatalog()
         {
-            return Composition.AggregateCatalog;
+            return Composition.DefaultCatalog;
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace Cocktail
 
         private void OnCatalogRecomposed()
         {
-            UpdateAssemblySourceFromCatalog(Composition.AggregateCatalog);
+            UpdateAssemblySourceFromCatalog(Composition.DefaultCatalog);
 
             // The Bootstrapper is not owned by the container, so it doesn't automatically recompose
             BuildUp(this);

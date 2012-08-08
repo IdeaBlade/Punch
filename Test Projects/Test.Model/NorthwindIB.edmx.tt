@@ -2,7 +2,7 @@
 <#@ output extension=".ReadMe" #>
 <#@ Assembly Name="System.Core.dll" #>
 <#@ Assembly Name="IdeaBlade.VisualStudio.DTE.dll" #>
-<#@ Assembly Name="IdeaBlade.VisualStudio.OM.CodeGenerator.dll" #>
+<#@ Assembly Name="IdeaBlade.VisualStudio.OM.CodeGenerator.11.0.dll" #>
 <#@ Assembly Name="IdeaBlade.EntityModel.Edm.Metadata.dll" #>
 <#@ import namespace="System" #>
 <#@ import namespace="System.Reflection" #>
@@ -10,9 +10,9 @@
 <#@ import namespace="IdeaBlade.VisualStudio.OM.CodeGenerator" #>
 <#@ import namespace="IdeaBlade.EntityModel.Edm.Metadata" #>
 <#
-	// Source for this file located at: C:\Users\mgood\AppData\Local\Microsoft\VisualStudio\10.0\Extensions\IdeaBlade, Inc\DevForce EDM Designer Extension\6.1.3.2\DomainModelTemplateCodeFirst.tt
+	// Source for this file located at: C:\USERS\MARCEL\APPDATA\LOCAL\MICROSOFT\VISUALSTUDIO\11.0\EXTENSIONS\KTVNU1ZK.0FZ\DomainModelTemplate.tt
 	// NorthwindIB.edmx  <--- This is needed so that "Transform Related Text Templates On Save" works correctly.
-	var template = new DomainModelTemplateCodeFirst(this);
+	var template = new DomainModelTemplate(this);
 	template.Generate();
 #>
 <#+ 

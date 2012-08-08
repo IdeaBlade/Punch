@@ -1,12 +1,12 @@
-﻿
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="NorthwindIBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+      <Schema Namespace="NorthwindIBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="NorthwindIBModelStoreContainer">
-          <EntitySet Name="Customer" EntityType="NorthwindIBModel.Store.Customer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Customer" EntityType="NorthwindIBModel.Store.Customer" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
         </EntityContainer>
         <EntityType Name="Customer">
           <Key>
@@ -30,8 +30,8 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="NorthwindIBModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:ib10="http://www.ideablade.com/edm/2010">
-        <EntityContainer Name="NorthwindIBEntities" annotation:LazyLoadingEnabled="true" ib10:Template="CodeFirst">
+      <Schema Namespace="NorthwindIBModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="NorthwindIBEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:ib12="http://www.ideablade.com/edm/2012">
           <EntitySet Name="Customers" EntityType="NorthwindIBModel.Customer" />
         </EntityContainer>
         <EntityType Name="Customer">
@@ -56,7 +56,7 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="NorthwindIBModelStoreContainer" CdmEntityContainer="NorthwindIBEntities">
           <EntitySetMapping Name="Customers"><EntityTypeMapping TypeName="NorthwindIBModel.Customer"><MappingFragment StoreEntitySet="Customer">
             <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
@@ -78,7 +78,7 @@
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <Connection>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
@@ -93,8 +93,8 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="NorthwindIB">
-        <EntityTypeShape EntityType="NorthwindIBModel.Customer" Width="1.5" PointX="0.75" PointY="0.75" Height="3.5186979166666665" IsExpanded="true" />
+      <Diagram Name="NorthwindIB" ZoomLevel="80">
+        <EntityTypeShape EntityType="NorthwindIBModel.Customer" Width="1.5" PointX="0.625" PointY="0.5" Height="3.5186979166666665" IsExpanded="true" />
       </Diagram>
     </Diagrams>
   </Designer>

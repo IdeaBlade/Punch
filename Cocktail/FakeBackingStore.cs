@@ -40,11 +40,8 @@ namespace Cocktail
 
         public bool IsInitialized { get; private set; }
 
-        public async Task ResetAsync(EntityManager manager, EntityCacheState storeEcs)
+        public async Task ResetAsync(EntityCacheState storeEcs)
         {
-            // Make sure we are connected.
-            if (!manager.IsConnected)
-                await manager.ConnectAsync();
 
             // Clear all data from the backing store
             await Store.ClearAsync();
@@ -74,11 +71,8 @@ namespace Cocktail
 
 #if !SILVERLIGHT
 
-        public void Reset(EntityManager manager, EntityCacheState storeEcs)
+        public void Reset(EntityCacheState storeEcs)
         {
-            if (!manager.IsConnected)
-                manager.Connect();
-
             // Clear all data from the backing store
             Store.Clear();
             

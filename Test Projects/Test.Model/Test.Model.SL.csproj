@@ -53,22 +53,19 @@
     <AssemblyOriginatorKeyFile>Cocktail.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IdeaBlade.Aop.SL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="IdeaBlade.Core.SL">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\DevForce 2012\Silverlight Assemblies\IdeaBlade.Core.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.SL">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\DevForce 2012\Silverlight Assemblies\IdeaBlade.EntityModel.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation.SL">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\DevForce 2012\Silverlight Assemblies\IdeaBlade.Validation.SL.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="PostSharp.SL">
-	<HintPath>$(ProgramFiles)\PostSharp 2.1\Reference Assemblies\Silverlight 3.0\PostSharp.SL.dll</HintPath>
-    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
@@ -76,14 +73,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Customer.cs" />
     <Compile Include="NorthwindIB.IB.Designer.cs" />
-    <Compile Include="NorthwindIBEntities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Cocktail.snk" />
-    <EmbeddedResource Include="NorthwindIBEntities.ibmmx" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>

@@ -46,10 +46,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\EntityFramework.5.0.0-rc\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Aop, Version=6.1.8.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.Aop.dll</HintPath>
-    </Reference>
     <Reference Include="IdeaBlade.Core, Version=6.1.8.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.Core.dll</HintPath>

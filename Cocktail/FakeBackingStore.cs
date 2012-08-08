@@ -42,9 +42,9 @@ namespace Cocktail
 
         public CoroutineOperation InitializeOperation { get; private set; }
 
-        public OperationResult ResetAsync(EntityManager manager, EntityCacheState storeEcs)
+        public OperationResult ResetAsync(EntityCacheState storeEcs)
         {
-            _resetOp = Coroutine.Start(() => ResetCore(manager, storeEcs));
+            _resetOp = Coroutine.Start(() => ResetCore(storeEcs));
             if (InitializeOperation == null)
                 InitializeOperation = _resetOp;
 
@@ -74,12 +74,8 @@ namespace Cocktail
             return fakeBackingStore;
         }
 
-        private IEnumerable<INotifyCompleted> ResetCore(EntityManager manager, EntityCacheState storeEcs)
+        private IEnumerable<INotifyCompleted> ResetCore(EntityCacheState storeEcs)
         {
-            // Make sure we are connected.
-            if (!manager.IsConnected)
-                yield return manager.ConnectAsync();
-
             // Clear all data from the backing store
             yield return Store.ClearAsync();
             
@@ -88,11 +84,8 @@ namespace Cocktail
 
 #if !SILVERLIGHT
 
-        public void Reset(EntityManager manager, EntityCacheState storeEcs)
+        public void Reset(EntityCacheState storeEcs)
         {
-            if (!manager.IsConnected)
-                manager.Connect();
-
             // Clear all data from the backing store
             Store.Clear();
             

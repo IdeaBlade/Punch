@@ -82,7 +82,7 @@ namespace Cocktail.Tests
         }
 
         [TestMethod]
-        //[Timeout(10000)]
+        [Timeout(10000)]
         public async Task ShouldRaiseQueryEvents()
         {
             var interceptor = new TestEntityManagerDelegate();

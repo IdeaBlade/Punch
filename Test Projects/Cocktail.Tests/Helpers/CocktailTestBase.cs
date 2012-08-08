@@ -10,16 +10,15 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
+using System.Threading.Tasks;
 using IdeaBlade.EntityModel;
 using IdeaBlade.EntityModel.Security;
-using IdeaBlade.TestFramework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cocktail.Tests.Helpers
 {
-    public class CocktailTestBase : DevForceTest
+    public class CocktailTestBase
     {
         static CocktailTestBase()
         {
@@ -35,7 +34,8 @@ namespace Cocktail.Tests.Helpers
         /// <summary>
         /// Called before each test
         /// </summary>
-        protected override void Context()
+        [TestInitialize]
+        public void TestInitialize()
         {
             Composition.Clear();
             Authenticator.Instance.DefaultAuthenticationContext = null;
@@ -48,25 +48,20 @@ namespace Cocktail.Tests.Helpers
         {
         }
 
-        public INotifyCompleted ResetFakeBackingStore(string compositionContextName)
+        public async Task ResetFakeBackingStoreAsync(string compositionContextName)
         {
             var provider =
                 EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName);
             if (provider != null)
-                return provider.ResetFakeBackingStoreAsync();
-
-            return AlwaysCompleted.Instance;
+                await provider.ResetFakeBackingStoreAsync();
         }
 
-        public INotifyCompleted TestInit(string compositionContextName)
+        public async Task TestInit(string compositionContextName)
         {
-            var commands = new List<Func<INotifyCompleted>>
-                               {
-                                   () => EntityManagerProviderFactory.CreateTestEntityManagerProvider(compositionContextName)
-                                       .InitializeFakeBackingStoreAsync(),
-                                   () => ResetFakeBackingStore(compositionContextName)
-                               };
-            return Coroutine.Start(commands);
+           await EntityManagerProviderFactory
+               .CreateTestEntityManagerProvider(compositionContextName)
+               .InitializeFakeBackingStoreAsync();
+           await ResetFakeBackingStoreAsync(compositionContextName);
         }
     }
 }

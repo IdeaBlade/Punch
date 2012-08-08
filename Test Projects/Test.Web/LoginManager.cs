@@ -44,13 +44,13 @@ namespace Test.Web
         ///             constructor overload of your domain manager.
         /// </para>
         /// <para>
-        /// Implementors should throw a <see cref="T:IdeaBlade.EntityModel.LoginException"/> if the credentials passed fail validation.
+        /// Implementers should throw a <see cref="T:IdeaBlade.EntityModel.LoginException"/> if the credentials passed fail validation.
         /// </para>
         /// </remarks>
         public IPrincipal Login(ILoginCredential credential, EntityManager entityManager)
         {
             if (credential == null)
-                return new UserBase(new UserIdentity("Anynoymous"));
+                return new UserBase(new UserIdentity("Anonymous"));
 
             return new UserBase(new UserIdentity(credential.UserName, "", true));
         }

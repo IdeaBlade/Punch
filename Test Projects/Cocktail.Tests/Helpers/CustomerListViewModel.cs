@@ -75,16 +75,12 @@ namespace Cocktail.Tests.Helpers
             return this;
         }
 
-        public void GetCustomers()
+        public async void GetCustomers()
         {
-            _repository.GetCustomers("ContactName",
-                                     customers =>
-                                         {
-                                             var c = customers.ToList();
-                                             var b = new ObservableCollection<Customer>(c);
-                                             Customers = new ObservableCollection<Customer>(customers);
-                                         Customers.CollectionChanged += CustomersCollectionChanged;
-                                     });
+            var customers = await _repository.GetCustomersAsync("ContactName");
+
+            Customers = new ObservableCollection<Customer>(customers);
+            Customers.CollectionChanged += CustomersCollectionChanged;
         }
 
         private void CustomersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -113,7 +109,7 @@ namespace Cocktail.Tests.Helpers
 
         public void Save()
         {
-            _repository.Save();
+            _repository.SaveAsync();
         }
     }
 }

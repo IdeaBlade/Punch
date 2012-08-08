@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Linq;
 using Test.Model;
@@ -50,10 +51,8 @@ namespace Cocktail.Tests.Helpers
         /// An example of a method to retrieve a collection of entities.
         /// </summary>
         /// <param name="orderByPropertyName"></param>
-        /// <param name="onSuccess"></param>
-        /// <param name="onFail"></param>
-        /// <returns>An object to notify completion. Facilitates the use of this operation in a Coroutine.</returns>
-        public INotifyCompleted GetCustomers(string orderByPropertyName, Action<IEnumerable<Customer>> onSuccess = null, Action<Exception> onFail = null)
+        /// <returns>List of customers</returns>
+        public Task<IEnumerable<Customer>> GetCustomersAsync(string orderByPropertyName)
         {
             IEntityQuery<Customer> query = Manager.Customers;
             if (orderByPropertyName != null)
@@ -62,8 +61,7 @@ namespace Cocktail.Tests.Helpers
                 query = query.OrderBySelector(selector);
             }
 
-            EntityQueryOperation<Customer> op = query.ExecuteAsync();
-            return op.OnComplete(onSuccess, onFail);
+            return query.ExecuteAsync();
         }
 
         public void AddCustomer(Customer customer)
@@ -79,13 +77,10 @@ namespace Cocktail.Tests.Helpers
         /// <summary>
         /// An example of a method to save pending changes.
         /// </summary>
-        /// <param name="onSuccess"></param>
-        /// <param name="onFail"></param>
-        /// <returns>An object to notify completion. Facilitates the use of this operation in a Coroutine.</returns>
-        public INotifyCompleted Save(Action onSuccess = null, Action<Exception> onFail = null)
+        /// <returns>SaveResult</returns>
+        public Task<SaveResult> SaveAsync()
         {
-            EntitySaveOperation op = Manager.SaveChangesAsync();
-            return op.OnComplete(onSuccess, onFail);
+            return Manager.SaveChangesAsync();
         }
 
         #endregion

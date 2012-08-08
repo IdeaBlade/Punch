@@ -12,10 +12,10 @@
 
 using System;
 using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using Cocktail.Tests.Helpers;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
-using Microsoft.Silverlight.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Test.Model;
 
@@ -25,7 +25,6 @@ namespace Cocktail.Tests
     public class CompositionUnitTests : CocktailTestBase
     {
         [TestMethod]
-        [Tag("Composition")]
         public void ShouldDiscoverInjectedAuthenticationService()
         {
             var injectedService = new AuthenticationService();
@@ -44,7 +43,6 @@ namespace Cocktail.Tests
         }
 
         [TestMethod]
-        [Tag("Composition")]
         public void ShouldDiscoverDefault()
         {
             CompositionContext context = CompositionContext.Default
@@ -66,7 +64,6 @@ namespace Cocktail.Tests
         }
 
         [TestMethod]
-        [Tag("Composition")]
         public void ShouldReturnSharedInstance()
         {
             var instance1 = Composition.GetInstance<SharedObject>();
@@ -76,7 +73,6 @@ namespace Cocktail.Tests
         }
 
         [TestMethod]
-        [Tag("Composition")]
         public void ShouldReturnNonSharedInstance()
         {
             var instance1 = Composition.GetInstance<NonSharedObject>();
@@ -86,9 +82,8 @@ namespace Cocktail.Tests
         }
 
         [TestMethod]
-        [Tag("Composition")]
-        [Asynchronous, Timeout(10000)]
-        public void ShouldRaiseQueryEvents()
+        //[Timeout(10000)]
+        public async Task ShouldRaiseQueryEvents()
         {
             var interceptor = new TestEntityManagerDelegate();
             CompositionContext contextWithEntityManagerDelegate = CompositionContext.Fake
@@ -99,131 +94,118 @@ namespace Cocktail.Tests
             IEntityManagerProvider<NorthwindIBEntities> emp =
                 EntityManagerProviderFactory.CreateTestEntityManagerProvider("ShouldRaiseQueryEvents");
 
-            DoItAsync(
-                () =>
-                {
-                    Assert.IsTrue(interceptor.QueriedRaised == 0);
-                    Assert.IsTrue(interceptor.QueryingRaised == 0);
-                    Assert.IsTrue(interceptor.FetchingRaised == 0);
+            Assert.IsTrue(interceptor.QueriedRaised == 0);
+            Assert.IsTrue(interceptor.QueryingRaised == 0);
+            Assert.IsTrue(interceptor.FetchingRaised == 0);
 
-                    EntityQuery<Customer> q = emp.Manager.Customers;
-                    var asyncFns = new Func<INotifyCompleted>[]
-                                           {
-                                               emp.InitializeFakeBackingStoreAsync,
-                                               () => q.ExecuteAsync(op =>
-                                                                        {
-                                                                            Assert.IsTrue(interceptor.QueriedRaised > 0);
-                                                                            Assert.IsTrue(interceptor.QueryingRaised > 0);
-                                                                            Assert.IsTrue(interceptor.FetchingRaised > 0);
+            await TestInit(emp.ConnectionOptions.CompositionContext.Name);
+            await emp.Manager.Customers.ExecuteAsync();
 
-                                                                            Assert.IsTrue(interceptor.QueryingRaised <
-                                                                                          interceptor.FetchingRaised);
-                                                                            Assert.IsTrue(interceptor.FetchingRaised <
-                                                                                          interceptor.QueriedRaised);
-                                                                        })
-                                           };
+            Assert.IsTrue(interceptor.QueriedRaised > 0);
+            Assert.IsTrue(interceptor.QueryingRaised > 0);
+            Assert.IsTrue(interceptor.FetchingRaised > 0);
 
-                    Coroutine.Start(asyncFns, op => TestComplete());
-                });
+            Assert.IsTrue(interceptor.QueryingRaised < interceptor.FetchingRaised);
+            Assert.IsTrue(interceptor.FetchingRaised < interceptor.QueriedRaised);
         }
 
-        [TestMethod]
-        [Tag("Composition")]
-        [Asynchronous, Timeout(10000)]
-        public void ShouldRaiseSaveEvents()
-        {
-            var interceptor = new TestEntityManagerDelegate();
-            CompositionContext contextWithEntityManagerDelegate = CompositionContext.Fake
-                .WithGenerator(typeof(EntityManagerDelegate), () => interceptor)
-                .WithName("ShouldRaiseSaveEvents");
-            CompositionContextResolver.Add(contextWithEntityManagerDelegate);
+    //    [TestMethod]
+    //    [Tag("Composition")]
+    //    [Asynchronous, Timeout(10000)]
+    //    public void ShouldRaiseSaveEvents()
+    //    {
+    //        var interceptor = new TestEntityManagerDelegate();
+    //        CompositionContext contextWithEntityManagerDelegate = CompositionContext.Fake
+    //            .WithGenerator(typeof(EntityManagerDelegate), () => interceptor)
+    //            .WithName("ShouldRaiseSaveEvents");
+    //        CompositionContextResolver.Add(contextWithEntityManagerDelegate);
 
-            IEntityManagerProvider<NorthwindIBEntities> emp =
-                EntityManagerProviderFactory.CreateTestEntityManagerProvider("ShouldRaiseSaveEvents");
+    //        IEntityManagerProvider<NorthwindIBEntities> emp =
+    //            EntityManagerProviderFactory.CreateTestEntityManagerProvider("ShouldRaiseSaveEvents");
 
-            int entityChangedRaised = 0;
-            emp.EntityChanged += (sender, args) => entityChangedRaised++;
+    //        int entityChangedRaised = 0;
+    //        emp.EntityChanged += (sender, args) => entityChangedRaised++;
 
-            DoItAsync(
-                () =>
-                {
-                    Assert.IsTrue(interceptor.SavingRaised == 0);
-                    Assert.IsTrue(interceptor.SavedRaised == 0);
-                    Assert.IsTrue(interceptor.EntityChangingRaised == 0);
-                    Assert.IsTrue(interceptor.EntityChangedRaised == 0);
+    //        DoItAsync(
+    //            () =>
+    //            {
+    //                Assert.IsTrue(interceptor.SavingRaised == 0);
+    //                Assert.IsTrue(interceptor.SavedRaised == 0);
+    //                Assert.IsTrue(interceptor.EntityChangingRaised == 0);
+    //                Assert.IsTrue(interceptor.EntityChangedRaised == 0);
 
-                    var customer = emp.Manager.CreateEntity<Customer>();
-                    emp.Manager.AddEntity(customer);
-                    customer.CompanyName = "Foo";
+    //                var customer = emp.Manager.CreateEntity<Customer>();
+    //                emp.Manager.AddEntity(customer);
+    //                customer.CompanyName = "Foo";
 
-                    var asyncFns = new Func<INotifyCompleted>[]
-                                           {
-                                               emp.InitializeFakeBackingStoreAsync,
-                                               () => emp.Manager.SaveChangesAsync(
-                                                   op =>
-                                                       {
-                                                           Assert.IsTrue(entityChangedRaised == 3);
-                                                           Assert.IsTrue(interceptor.SavingRaised > 0);
-                                                           Assert.IsTrue(interceptor.SavedRaised > 0);
-                                                           Assert.IsTrue(interceptor.EntityChangingRaised > 0);
-                                                           Assert.IsTrue(interceptor.EntityChangedRaised > 0);
+    //                var asyncFns = new Func<INotifyCompleted>[]
+    //                                       {
+    //                                           emp.InitializeFakeBackingStoreAsync,
+    //                                           () => emp.Manager.SaveChangesAsync(
+    //                                               op =>
+    //                                                   {
+    //                                                       Assert.IsTrue(entityChangedRaised == 3);
+    //                                                       Assert.IsTrue(interceptor.SavingRaised > 0);
+    //                                                       Assert.IsTrue(interceptor.SavedRaised > 0);
+    //                                                       Assert.IsTrue(interceptor.EntityChangingRaised > 0);
+    //                                                       Assert.IsTrue(interceptor.EntityChangedRaised > 0);
 
-                                                           Assert.IsTrue(interceptor.EntityChangingRaised <
-                                                                         interceptor.EntityChangedRaised);
-                                                           Assert.IsTrue(interceptor.SavingRaised <
-                                                                         interceptor.SavedRaised);
-                                                           Assert.IsTrue(interceptor.SavingRaised <
-                                                                         interceptor.EntityChangingRaised);
-                                                           Assert.IsTrue(interceptor.EntityChangedRaised <
-                                                                         interceptor.SavedRaised);
-                                                       })
-                                           };
+    //                                                       Assert.IsTrue(interceptor.EntityChangingRaised <
+    //                                                                     interceptor.EntityChangedRaised);
+    //                                                       Assert.IsTrue(interceptor.SavingRaised <
+    //                                                                     interceptor.SavedRaised);
+    //                                                       Assert.IsTrue(interceptor.SavingRaised <
+    //                                                                     interceptor.EntityChangingRaised);
+    //                                                       Assert.IsTrue(interceptor.EntityChangedRaised <
+    //                                                                     interceptor.SavedRaised);
+    //                                                   })
+    //                                       };
 
-                    Coroutine.Start(asyncFns, op => TestComplete());
-                });
-        }
+    //                Coroutine.Start(asyncFns, op => TestComplete());
+    //            });
+    //    }
 
-        [TestMethod]
-        [Tag("Composition")]
-        public void ShouldRaiseClearedEvent()
-        {
-            var interceptor = new TestEntityManagerDelegate();
-            CompositionContext contextWithEntityManagerDelegate = CompositionContext.Fake
-                .WithGenerator(typeof(EntityManagerDelegate), () => interceptor)
-                .WithName("ShouldRaiseClearedEvent");
-            CompositionContextResolver.Add(contextWithEntityManagerDelegate);
+    //    [TestMethod]
+    //    [Tag("Composition")]
+    //    public void ShouldRaiseClearedEvent()
+    //    {
+    //        var interceptor = new TestEntityManagerDelegate();
+    //        CompositionContext contextWithEntityManagerDelegate = CompositionContext.Fake
+    //            .WithGenerator(typeof(EntityManagerDelegate), () => interceptor)
+    //            .WithName("ShouldRaiseClearedEvent");
+    //        CompositionContextResolver.Add(contextWithEntityManagerDelegate);
 
-            IEntityManagerProvider<NorthwindIBEntities> emp =
-                EntityManagerProviderFactory.CreateTestEntityManagerProvider("ShouldRaiseClearedEvent");
+    //        IEntityManagerProvider<NorthwindIBEntities> emp =
+    //            EntityManagerProviderFactory.CreateTestEntityManagerProvider("ShouldRaiseClearedEvent");
 
-            Assert.IsTrue(interceptor.ClearedRaised == 0);
+    //        Assert.IsTrue(interceptor.ClearedRaised == 0);
 
-            emp.Manager.Clear();
+    //        emp.Manager.Clear();
 
-            Assert.IsTrue(interceptor.ClearedRaised > 0);
-        }
+    //        Assert.IsTrue(interceptor.ClearedRaised > 0);
+    //    }
 
-        [TestMethod]
-        [Tag("Composition")]
-        public void ObjectManagerShouldCreateObject()
-        {
-            var objectManager = new ObjectManager<Guid, ICustomerRepository>();
+    //    [TestMethod]
+    //    [Tag("Composition")]
+    //    public void ObjectManagerShouldCreateObject()
+    //    {
+    //        var objectManager = new ObjectManager<Guid, ICustomerRepository>();
 
-            var key = Guid.NewGuid();
-            var obj = objectManager.GetObject(key);
-            Assert.IsNotNull(obj);
+    //        var key = Guid.NewGuid();
+    //        var obj = objectManager.GetObject(key);
+    //        Assert.IsNotNull(obj);
 
-            obj = objectManager.TryGetObject(key);
-            Assert.IsNotNull(obj);
-        }
+    //        obj = objectManager.TryGetObject(key);
+    //        Assert.IsNotNull(obj);
+    //    }
 
-        [TestMethod]
-        [Tag("Composition")]
-        public void ObjectManagerShouldReturnNullIfObjectDoesntExist()
-        {
-            var objectManager = new ObjectManager<Guid, ICustomerRepository>();
-            var obj = objectManager.TryGetObject(Guid.NewGuid());
-            Assert.IsNull(obj);
-        }
+    //    [TestMethod]
+    //    [Tag("Composition")]
+    //    public void ObjectManagerShouldReturnNullIfObjectDoesntExist()
+    //    {
+    //        var objectManager = new ObjectManager<Guid, ICustomerRepository>();
+    //        var obj = objectManager.TryGetObject(Guid.NewGuid());
+    //        Assert.IsNull(obj);
+    //    }
     }
 }

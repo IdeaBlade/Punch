@@ -63,7 +63,7 @@ namespace Cocktail.Tests.Helpers
             }
         }
 
-        public async Task TestInit(string compositionContextName)
+        public async Task InitFakeBackingStoreAsync(string compositionContextName)
         {
             var provider = EntityManagerProviderFactory
                 .CreateTestEntityManagerProvider(compositionContextName);

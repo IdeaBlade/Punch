@@ -98,7 +98,7 @@ namespace Cocktail.Tests
             Assert.IsTrue(interceptor.QueryingRaised == 0);
             Assert.IsTrue(interceptor.FetchingRaised == 0);
 
-            await TestInit(emp.ConnectionOptions.CompositionContext.Name);
+            await InitFakeBackingStoreAsync(emp.ConnectionOptions.CompositionContext.Name);
             await emp.Manager.Customers.ExecuteAsync();
 
             Assert.IsTrue(interceptor.QueriedRaised > 0);

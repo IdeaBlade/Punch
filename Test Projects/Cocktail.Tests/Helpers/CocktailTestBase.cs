@@ -30,9 +30,11 @@ namespace Cocktail.Tests.Helpers
             // Keep each EM's authentication context separate for testing.
             e.EntityManager.Options.UseDefaultAuthenticationContext = false;
 
+#if !SILVERLIGHT
             // There's not SynchronizationContext when running desktop tests, so let's avoid 
             // thread authorization issues.
             e.EntityManager.AuthorizedThreadId = null;
+#endif
         }
 
         /// <summary>

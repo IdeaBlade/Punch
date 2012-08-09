@@ -246,4 +246,7 @@
   <data name="LogoutFailed" xml:space="preserve">
     <value>Logout failed with the following error: {0}. Error was ignored.</value>
   </data>
+  <data name="SourceAndTargetEntityManagerFromDifferentThread" xml:space="preserve">
+    <value>Skipping import because source and target EntityManager's are from different threads!</value>
+  </data>
 </root>

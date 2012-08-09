@@ -57,14 +57,5 @@ namespace Cocktail
         {
             return ReferenceEquals(provider, _source);
         }
-
-        /// <summary>Internal use.</summary>
-        public bool IsSameThread(IEntityManagerProvider<T> provider)
-        {
-            if (provider.Manager.AuthorizedThreadId == null)
-                return true;
-
-            return _source.Manager.AuthorizedThreadId == provider.Manager.AuthorizedThreadId;
-        }
     }
 }

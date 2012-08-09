@@ -47,7 +47,7 @@ namespace DomainModel
         [BeforeSet]
         internal void RemoveWhiteSpace(IEntityPropertySetInterceptorArgs args)
         {
-            if (args.EntityProperty.DataType != typeof(string))
+            if (args.EntityProperty.DataType != typeof(string) || args.Value ==  null)
                 return;
 
             args.Value = ((string) args.Value).Trim();

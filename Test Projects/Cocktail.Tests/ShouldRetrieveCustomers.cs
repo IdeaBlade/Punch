@@ -14,12 +14,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Cocktail.Tests.Helpers;
 using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Linq;
-using Microsoft.Silverlight.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Test.Model;
 
@@ -29,327 +29,186 @@ namespace Cocktail.Tests
     public class ShouldRetrieveCustomers : CocktailTestBase
     {
         [TestMethod]
-        [Asynchronous, Timeout(10000)]
-        public void WithPredicateDescription()
+        [Timeout(10000)]
+        public async Task WithPredicateDescription()
         {
-            DoItAsync(
-                () =>
-                {
-                    var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
-                    var unitOfWork = new UnitOfWork<Customer>(provider);
-                    var pd = PredicateBuilder.Make("City", FilterOperator.IsEqualTo, "SomeCity");
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+            var pd = PredicateBuilder.Make("City", FilterOperator.IsEqualTo, "SomeCity");
 
-                    var cmds = new List<Func<INotifyCompleted>>
-                                   {
-                                       () => TestInit(CompositionContext.Fake.Name),
-                                       () => unitOfWork.Entities.FindAsync(pd)
-                                                 .ContinueWith(op =>
-                                                                   {
-                                                                       Assert.IsTrue(op.CompletedSuccessfully);
-                                                                       Assert.IsTrue(op.Result.Any());
-                                                                       Assert.IsTrue(
-                                                                           op.Result.All(c => c.City == "SomeCity"));
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+            var customers = await unitOfWork.Entities.FindAsync(pd);
 
-                                                                       TestComplete();
-                                                                   })
-                                   };
-                    Coroutine.Start(cmds);
-                });
+            Assert.IsTrue(customers.Any());
+            Assert.IsTrue(customers.All(c => c.City == "SomeCity"));
         }
 
         [TestMethod]
-        [Asynchronous, Timeout(10000)]
-        public void WithPredicateExpression()
+        [Timeout(10000)]
+        public async Task WithPredicateExpression()
         {
-            DoItAsync(
-                () =>
-                {
-                    var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
-                    var unitOfWork = new UnitOfWork<Customer>(provider);
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
 
-                    var cmds = new List<Func<INotifyCompleted>>
-                                   {
-                                       () => TestInit(CompositionContext.Fake.Name),
-                                       () => unitOfWork.Entities.FindAsync(c => c.City == "SomeCity")
-                                                 .ContinueWith(op =>
-                                                                   {
-                                                                       Assert.IsTrue(op.CompletedSuccessfully);
-                                                                       Assert.IsTrue(op.Result.Any());
-                                                                       Assert.IsTrue(
-                                                                           op.Result.All(c => c.City == "SomeCity"));
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+            var customers = await unitOfWork.Entities.FindAsync(c => c.City == "SomeCity");
 
-                                                                       TestComplete();
-                                                                   })
-                                   };
-                    Coroutine.Start(cmds);
-                });
+            Assert.IsTrue(customers.Any());
+            Assert.IsTrue(customers.All(c => c.City == "SomeCity"));
         }
 
         [TestMethod]
-        [Asynchronous, Timeout(10000)]
-        public void WithPredicateExpressionFromCache()
+        [Timeout(10000)]
+        public async Task WithPredicateExpressionFromCache()
         {
-            DoItAsync(
-                () =>
-                {
-                    var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
-                    var unitOfWork = new UnitOfWork<Customer>(provider);
-                    Expression<Func<Customer, bool>> expression = c => c.City == "SomeCity";
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+            Expression<Func<Customer, bool>> expression = c => c.City == "SomeCity";
 
-                    var entities = unitOfWork.Entities.FindInCache(expression);
-                    Assert.IsTrue(!entities.Any());
+            var entities = unitOfWork.Entities.FindInCache(expression);
+            Assert.IsFalse(entities.Any());
 
-                    var cmds = new List<Func<INotifyCompleted>>
-                                   {
-                                       () => TestInit(CompositionContext.Fake.Name),
-                                       () => unitOfWork.Entities.FindInDataSourceAsync(expression)
-                                                 .ContinueWith(op =>
-                                                                   {
-                                                                       Assert.IsTrue(op.CompletedSuccessfully);
-                                                                       Assert.IsTrue(op.Result.Any());
-                                                                       Assert.IsTrue(
-                                                                           op.Result.All(c => c.City == "SomeCity"));
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+            var result = await unitOfWork.Entities.FindInDataSourceAsync(expression);
 
-                                                                       entities =
-                                                                           unitOfWork.Entities.FindInCache(expression);
-                                                                       Assert.IsTrue(entities.Count() ==
-                                                                                     op.Result.Count());
-                                                                       Assert.IsTrue(
-                                                                           entities.All(c => c.City == "SomeCity"));
+            Assert.IsTrue(result.Any());
+            Assert.IsTrue(result.All(c => c.City == "SomeCity"));
 
-                                                                       TestComplete();
-                                                                   })
-                                   };
-                    Coroutine.Start(cmds);
-                });
+            entities = unitOfWork.Entities.FindInCache(expression);
+            Assert.IsTrue(entities.Count() == result.Count());
+            Assert.IsTrue(entities.All(c => c.City == "SomeCity"));
         }
 
         [TestMethod]
-        [Asynchronous, Timeout(10000)]
-        public void WithId()
+        [Timeout(10000)]
+        public async Task WithId()
         {
-            DoItAsync(
-                () =>
-                {
-                    var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
-                    var unitOfWork = new UnitOfWork<Customer>(provider);
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
 
-                    var id = SampleDataProvider.CreateGuid(1);
-                    var cmds = new List<Func<INotifyCompleted>>
-                                   {
-                                       () => TestInit(CompositionContext.Fake.Name),
-                                       () => unitOfWork.Entities.WithIdAsync(id)
-                                                 .ContinueWith(op =>
-                                                                   {
-                                                                       Assert.IsTrue(op.CompletedSuccessfully);
-                                                                       Assert.IsNotNull(op.Result);
-                                                                       Assert.IsTrue(op.Result.CustomerID == id);
+            var id = SampleDataProvider.CreateGuid(1);
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+            var customer = await unitOfWork.Entities.WithIdAsync(id);
 
-                                                                       TestComplete();
-                                                                   })
-                                   };
-                    Coroutine.Start(cmds);
-                });
+            Assert.IsNotNull(customer);
+            Assert.IsTrue(customer.CustomerID == id);
         }
 
         [TestMethod]
-        [Asynchronous, Timeout(10000)]
-        public void WithIdFromCache()
+        [Timeout(10000)]
+        public async Task WithIdFromCache()
         {
-            DoItAsync(
-                () =>
-                {
-                    var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
-                    var unitOfWork = new UnitOfWork<Customer>(provider);
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
 
-                    var id = SampleDataProvider.CreateGuid(1);
-                    Assert.IsFalse(unitOfWork.Entities.ExistsInCache(id));
-                    Customer customer = null;
-                    try
-                    {
-                        customer = unitOfWork.Entities.WithIdFromCache(id);
-                    }
-                    catch (EntityNotFoundException)
-                    {
-                        // Expected exception
-                    }
-                    Assert.IsNull(customer);
+            var id = SampleDataProvider.CreateGuid(1);
+            Assert.IsFalse(unitOfWork.Entities.ExistsInCache(id));
+            Customer customer = null;
+            try
+            {
+                customer = unitOfWork.Entities.WithIdFromCache(id);
+            }
+            catch (EntityNotFoundException)
+            {
+                // Expected exception
+            }
+            Assert.IsNull(customer);
 
-                    // Fetch from data source
-                    var cmds = new List<Func<INotifyCompleted>>
-                                   {
-                                       () => TestInit(CompositionContext.Fake.Name),
-                                       () => unitOfWork.Entities.WithIdFromDataSourceAsync(id)
-                                                 .ContinueWith(op =>
-                                                                   {
-                                                                       Assert.IsTrue(op.CompletedSuccessfully);
-                                                                       Assert.IsNotNull(op.Result);
-                                                                       Assert.IsTrue(unitOfWork.Entities.ExistsInCache(id)); 
-                                                                       customer = unitOfWork.Entities.WithIdFromCache(id);
-                                                                       Assert.IsNotNull(customer);
-                                                                       Assert.IsTrue(customer.CustomerID == id);
+            // Fetch from data source
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+            await unitOfWork.Entities.WithIdFromDataSourceAsync(id);
 
-                                                                       TestComplete();
-                                                                   })
-                                   };
-                    Coroutine.Start(cmds);
-                });
+            Assert.IsTrue(unitOfWork.Entities.ExistsInCache(id));
+            customer = unitOfWork.Entities.WithIdFromCache(id);
+            Assert.IsNotNull(customer);
+            Assert.IsTrue(customer.CustomerID == id);
         }
 
         [TestMethod]
-        [Asynchronous, Timeout(10000)]
-        public void IfSortedWithSortSelector()
+        [Timeout(10000)]
+        public async Task IfSortedWithSortSelector()
         {
-            DoItAsync(
-                () =>
-                {
-                    var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
-                    var unitOfWork = new UnitOfWork<Customer>(provider);
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
 
-                    var selector = new SortSelector("City");
-                    var cmds = new List<Func<INotifyCompleted>>
-                                   {
-                                       () => TestInit(CompositionContext.Fake.Name),
-                                       () => unitOfWork.Entities.FindAsync(sortSelector: selector)
-                                                 .ContinueWith(op =>
-                                                                   {
-                                                                       Assert.IsTrue(op.CompletedSuccessfully);
-                                                                       Assert.IsTrue(op.Result.Any());
+            var selector = new SortSelector("City");
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+            var customers = await unitOfWork.Entities.FindAsync(sortSelector: selector);
 
-                                                                       TestComplete();
-                                                                   })
-                                   };
-                    Coroutine.Start(cmds);
-                });
+            Assert.IsTrue(customers.Any());
         }
 
         [TestMethod]
-        [Asynchronous, Timeout(10000)]
-        public void IfSortedWithSortFunction()
+        [Timeout(10000)]
+        public async Task IfSortedWithSortFunction()
         {
-            DoItAsync(
-                () =>
-                {
-                    var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
-                    var unitOfWork = new UnitOfWork<Customer>(provider);
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
 
-                    var cmds = new List<Func<INotifyCompleted>>
-                                   {
-                                       () => TestInit(CompositionContext.Fake.Name),
-                                       () => unitOfWork.Entities.FindAsync(orderBy: q => q.OrderBy(c => c.City))
-                                                 .ContinueWith(op =>
-                                                                   {
-                                                                       Assert.IsTrue(op.CompletedSuccessfully);
-                                                                       Assert.IsTrue(op.Result.Any());
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+            var customers = await unitOfWork.Entities.FindAsync(orderBy: q => q.OrderBy(c => c.City));
 
-                                                                       TestComplete();
-                                                                   })
-                                   };
-                    Coroutine.Start(cmds);
-                });
+            Assert.IsTrue(customers.Any());
         }
 
         [TestMethod]
-        [Asynchronous, Timeout(10000)]
-        public void WithSelector()
+        [Timeout(10000)]
+        public async Task WithSelector()
         {
-            DoItAsync(
-                () =>
-                {
-                    var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
-                    var unitOfWork = new UnitOfWork<Customer>(provider);
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
 
-                    var cmds = new List<Func<INotifyCompleted>>
-                                   {
-                                       () => TestInit(CompositionContext.Fake.Name),
-                                       () =>
-                                       unitOfWork.Entities.FindAsync(q => q.Select(x => x.CompanyName),
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+            var result = await unitOfWork.Entities.FindAsync(q => q.Select(x => x.CompanyName),
                                                                      x => x.City == "SomeCity",
-                                                                     q => q.OrderBy(x => x))
-                                           .ContinueWith(op =>
-                                                             {
-                                                                 Assert.IsTrue(op.CompletedSuccessfully);
-                                                                 Assert.IsTrue(op.Result.Any());
+                                                                     q => q.OrderBy(x => x));
 
-                                                                 TestComplete();
-                                                             })
-                                   };
-                    Coroutine.Start(cmds);
-                });
+            Assert.IsTrue(result.Any());
         }
 
         [TestMethod]
-        [Asynchronous, Timeout(10000)]
-        public void WithSelectorFromCache()
+        [Timeout(10000)]
+        public async Task WithSelectorFromCache()
         {
-            DoItAsync(
-                () =>
-                {
-                    var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
-                    var unitOfWork = new UnitOfWork<Customer>(provider);
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
 
-                    var cmds = new List<Func<INotifyCompleted>>
-                                   {
-                                       () => TestInit(CompositionContext.Fake.Name),
-                                       () =>
-                                       unitOfWork.Entities.FindInDataSourceAsync(x => x.City == "SomeCity",
-                                                                                 q => q.OrderBy(x => x.CompanyName))
-                                           .ContinueWith(op =>
-                                                             {
-                                                                 Assert.IsTrue(op.CompletedSuccessfully);
-                                                                 Assert.IsTrue(op.Result.Any());
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+            var customers = await unitOfWork.Entities.FindInDataSourceAsync(x => x.City == "SomeCity",
+                                                                                 q => q.OrderBy(x => x.CompanyName));
 
-                                                                 var names =
-                                                                     unitOfWork.Entities.FindInCache(
-                                                                         q => q.Select(x => x.CompanyName),
-                                                                         x => x.City == "SomeCity",
-                                                                         q => q.OrderBy(x => x));
-                                                                 Assert.IsTrue(names.Count() == op.Result.Count());
-                                                                 Assert.IsTrue(
-                                                                     names.All(
-                                                                         (value, index) =>
-                                                                         op.Result.ElementAt(index).CompanyName == value));
+            Assert.IsTrue(customers.Any());
 
-                                                                 TestComplete();
-                                                             })
-                                   };
-                    Coroutine.Start(cmds);
-                });
+            var names = unitOfWork.Entities.FindInCache(
+                            q => q.Select(x => x.CompanyName),
+                            x => x.City == "SomeCity",
+                            q => q.OrderBy(x => x));
+            Assert.IsTrue(names.Count() == customers.Count());
+            Assert.IsTrue(
+                names.All((value, index) => customers.ElementAt(index).CompanyName == value));
+
         }
 
         [TestMethod]
-        [Asynchronous, Timeout(10000)]
-        public void WithProjectionSelector()
+        [Timeout(10000)]
+        public async Task WithProjectionSelector()
         {
-            DoItAsync(
-                () =>
-                {
-                    var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
-                    var unitOfWork = new UnitOfWork<Customer>(provider);
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
 
-                    var selector =
-                        ProjectionSelector.Combine(new[]
-                                                           {
-                                                               new ProjectionSelector("CustomerID"),
-                                                               new ProjectionSelector("CompanyName")
-                                                           });
-                    var pd = PredicateBuilder.Make("City", FilterOperator.IsEqualTo, "SomeCity");
-                    var sortSelector = new SortSelector("CompanyName");
+            var selector =
+                ProjectionSelector.Combine(new[]
+                                        {
+                                            new ProjectionSelector("CustomerID"),
+                                            new ProjectionSelector("CompanyName")
+                                        });
+            var pd = PredicateBuilder.Make("City", FilterOperator.IsEqualTo, "SomeCity");
+            var sortSelector = new SortSelector("CompanyName");
 
-                    var cmds = new List<Func<INotifyCompleted>>
-                                   {
-                                       () => TestInit(CompositionContext.Fake.Name),
-                                       () => unitOfWork.Entities.FindAsync(selector, pd, sortSelector)
-                                                 .ContinueWith(op =>
-                                                                   {
-                                                                       Assert.IsTrue(op.CompletedSuccessfully);
-                                                                       Assert.IsTrue(op.Result.Cast<object>().Any());
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+            var result = await unitOfWork.Entities.FindAsync(selector, pd, sortSelector);
 
-                                                                       TestComplete();
-                                                                   })
-                                   };
-                    Coroutine.Start(cmds);
-                });
+            Assert.IsTrue(result.Cast<object>().Any());
         }
     }
 }

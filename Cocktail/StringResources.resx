@@ -243,4 +243,7 @@
   <data name="ShouldHaveExactlyOneEntityErrorMessage" xml:space="preserve">
     <value>Expected only one entity of type: {0}, with query: {1}, but found: {2}</value>
   </data>
+  <data name="LogoutFailed" xml:space="preserve">
+    <value>Logout failed with the following error: {0}. Error was ignored.</value>
+  </data>
 </root>

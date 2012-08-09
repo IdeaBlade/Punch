@@ -214,6 +214,15 @@ namespace Cocktail {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logout failed with the following error: {0}. Error was ignored..
+        /// </summary>
+        internal static string LogoutFailed {
+            get {
+                return ResourceManager.GetString("LogoutFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manager tried to fetch data..
         /// </summary>
         internal static string ManagerTriedToFetchData {

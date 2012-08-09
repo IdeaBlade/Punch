@@ -47,7 +47,7 @@ namespace Cocktail
     ///     }
     /// }</code>
     /// </example>
-    public class AuthenticationService : IAuthenticationService, IAuthenticationContext, INotifyPropertyChanged
+    public partial class AuthenticationService : IAuthenticationService, IAuthenticationContext, INotifyPropertyChanged
     {
         private readonly AuthenticationServiceConfiguration _configuration;
         private IAuthenticationContext _authenticationContext;
@@ -168,43 +168,6 @@ namespace Cocktail
 
             return op.AsOperationResult();
         }
-
-#if !SILVERLIGHT
-
-        /// <summary>Login with the supplied credential.</summary>
-        /// <param name="credential">
-        /// 	<para>The supplied credential.</para>
-        /// </param>
-        public void Login(ILoginCredential credential)
-        {
-            // Logout before logging in with new set of credentials
-            if (IsLoggedIn) Logout();
-
-            _authenticationContext = Authenticator.Instance.Login(credential, ConnectionOptions.ToLoginOptions());
-            OnPrincipalChanged();
-            OnLoggedIn();
-        }
-
-        /// <summary>Logs out the current user.</summary>
-        public void Logout()
-        {
-            if (!IsLoggedIn) return;
-
-            try
-            {
-                Authenticator.Instance.Logout(_authenticationContext);
-            }
-            // ReSharper disable EmptyGeneralCatchClause
-            catch (Exception)
-            // ReSharper restore EmptyGeneralCatchClause
-            {
-                // Ignore error. We don't care if the logout doesn't reach the server.
-            }
-            OnPrincipalChanged();
-            OnLoggedOut();
-        }
-
-#endif
 
         #endregion
 

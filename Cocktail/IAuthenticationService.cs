@@ -34,7 +34,7 @@ namespace Cocktail
     ///     }
     /// }</code>
     /// </example>
-    public interface IAuthenticationService : IHideObjectMembers
+    public partial interface IAuthenticationService : IHideObjectMembers
     {
         /// <summary>
         /// Returns the <see cref="IPrincipal"/> representing the current user.
@@ -67,20 +67,6 @@ namespace Cocktail
         /// <summary>Logs out the current user.</summary>
         /// <param name="callback">Callback called when logout completes.</param>
         OperationResult LogoutAsync(Action callback = null);
-
-#if !SILVERLIGHT
-
-        /// <summary>Login with the supplied credential.</summary>
-        /// <param name="credential">
-        /// 	<para>The supplied credential.</para>
-        /// </param>
-        /// <returns>A Boolean indicating success or failure.</returns>
-        void Login(ILoginCredential credential);
-
-        /// <summary>Logs out the current user.</summary>
-        void Logout();
-
-#endif
 
         /// <summary>Signals that a user successfully logged in.</summary>
         event EventHandler<EventArgs> LoggedIn;

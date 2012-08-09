@@ -89,7 +89,9 @@
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Silverlight.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ServerCompositionContextResolver.cs" />

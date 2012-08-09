@@ -169,10 +169,6 @@
       <Project>{65FCE695-2E91-4245-86D6-3FB3486AEFAD}</Project>
       <Name>Cocktail.SL5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Test.Model\Test.Model.SL.csproj">
-      <Project>{B920BE08-ECDB-42CE-AD08-4D2B6426A2FE}</Project>
-      <Name>Test.Model.SL</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <Import Condition="$(SilverlightVersion)=='v3.0'" Project="$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SilverlightToolkit\Tools\v3.0)Microsoft.Silverlight.Toolkit.Build.targets" />

@@ -175,7 +175,11 @@ namespace Cocktail
         /// </summary>
         void IHandle<SyncDataMessage<T>>.Handle(SyncDataMessage<T> syncData)
         {
-            if (syncData.IsSameProviderAs(this)) return;
+            // Skip if this provider sent the message or if EntityManager is authorized for a different thread
+            DebugFns.WriteLineIf(!syncData.IsSameThread(this),
+                                 StringResources.SourceAndTargetEntityManagerFromDifferentThread);
+            if (syncData.IsSameProviderAs(this) || !syncData.IsSameThread(this)) 
+                return;
 
             // Merge deletions
             var removers = syncData.DeletedEntityKeys

@@ -394,6 +394,15 @@ namespace Cocktail {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Skipping import because source and target EntityManager&apos;s are from different threads!.
+        /// </summary>
+        internal static string SourceAndTargetEntityManagerFromDifferentThread {
+            get {
+                return ResourceManager.GetString("SourceAndTargetEntityManagerFromDifferentThread", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Successfully created new instance of EntityManager: {0} with connection info: {1}, IsFake={2}..
         /// </summary>
         internal static string SuccessfullyCreatedEntityManager {

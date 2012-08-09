@@ -48,7 +48,7 @@ namespace Cocktail
     ///     }
     /// }</code>
     /// </example>
-    public class AuthenticationService : IAuthenticationService, IAuthenticationContext, INotifyPropertyChanged
+    public partial class AuthenticationService : IAuthenticationService, IAuthenticationContext, INotifyPropertyChanged
     {
         private readonly AuthenticationServiceConfiguration _configuration;
         private IAuthenticationContext _authenticationContext;
@@ -138,42 +138,6 @@ namespace Cocktail
             OnPrincipalChanged();
             OnLoggedOut();
         }
-
-#if !SILVERLIGHT
-
-        /// <summary>Login with the supplied credential.</summary>
-        /// <param name="credential">
-        /// 	<para>The supplied credential.</para>
-        /// </param>
-        public virtual void Login(ILoginCredential credential)
-        {
-            // Logout before logging in with new set of credentials
-            if (IsLoggedIn) Logout();
-
-            _authenticationContext = Authenticator.Instance.Login(credential, ConnectionOptions.ToLoginOptions());
-            OnPrincipalChanged();
-            OnLoggedIn();
-        }
-
-        /// <summary>Logs out the current user.</summary>
-        public virtual void Logout()
-        {
-            if (!IsLoggedIn) return;
-
-            try
-            {
-                Authenticator.Instance.Logout(_authenticationContext);
-            }
-            catch (Exception e)
-            {
-                // Ignoring error. It doesn't matter if the logout didn't go through to the server.
-                TraceFns.WriteLine(string.Format(StringResources.LogoutFailed, e.Message));
-            }
-            OnPrincipalChanged();
-            OnLoggedOut();
-        }
-
-#endif
 
         #endregion
 

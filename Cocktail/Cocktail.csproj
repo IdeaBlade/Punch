@@ -78,10 +78,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthenticationService.cs" />
+    <Compile Include="AuthenticationService.NET.cs">
+      <DependentUpon>AuthenticationService.cs</DependentUpon>
+    </Compile>
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />
+    <Compile Include="EntityManagerProvider.NET.cs">
+      <DependentUpon>EntityManagerProvider.cs</DependentUpon>
+    </Compile>
     <Compile Include="EntityNotFoundException.cs" />
     <Compile Include="Factory.cs" />
+    <Compile Include="FakeBackingStore.NET.cs">
+      <DependentUpon>FakeBackingStore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FakeStoreEntityManagerProviderFns.NET.cs">
+      <DependentUpon>FakeStoreEntityManagerProviderFns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IAuthenticationService.NET.cs">
+      <DependentUpon>IAuthenticationService.cs</DependentUpon>
+    </Compile>
     <Compile Include="IFactory.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />

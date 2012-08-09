@@ -17,7 +17,7 @@ using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
-    internal class FakeBackingStore
+    internal partial class FakeBackingStore
     {
         private static readonly Dictionary<string, FakeBackingStore> FakeBackingStores =
             new Dictionary<string, FakeBackingStore>();
@@ -69,19 +69,5 @@ namespace Cocktail
 
             return fakeBackingStore;
         }
-
-#if !SILVERLIGHT
-
-        public void Reset(EntityCacheState storeEcs)
-        {
-            // Clear all data from the backing store
-            Store.Clear();
-
-            Store.Restore(storeEcs);
-
-            IsInitialized = true;
-        }
-
-#endif
     }
 }

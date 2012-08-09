@@ -69,7 +69,7 @@ namespace Cocktail
     ///   Manages and provides an EntityManager.
     /// </summary>
     /// <typeparam name="T"> The type of the EntityManager </typeparam>
-    public class EntityManagerProvider<T> : IEntityManagerProvider<T>, IHandle<SyncDataMessage<T>>, IHandle<PrincipalChangedMessage>
+    public partial class EntityManagerProvider<T> : IEntityManagerProvider<T>, IHandle<SyncDataMessage<T>>, IHandle<PrincipalChangedMessage>
         where T : EntityManager
     {
         private readonly EntityManagerProviderConfiguration<T> _configuration;
@@ -201,16 +201,6 @@ namespace Cocktail
             EnsureSampleData();
             return FakeBackingStore.Get(CompositionContext.Name).ResetAsync(_storeEcs);
         }
-
-#if !SILVERLIGHT
-
-        internal void ResetFakeBackingStore()
-        {
-            EnsureSampleData();
-            FakeBackingStore.Get(CompositionContext.Name).Reset(_storeEcs);
-        }
-
-#endif
 
         /// <summary>
         ///   Triggers the ManagerCreated event.

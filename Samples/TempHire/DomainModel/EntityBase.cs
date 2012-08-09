@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using IdeaBlade.Aop;
+using IdeaBlade.Core;
 using IdeaBlade.Core.DomainServices;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
@@ -41,6 +42,15 @@ namespace DomainModel
 
         public virtual void Validate(VerifierResultCollection validationErrors)
         {
+        }
+
+        [BeforeSet]
+        internal void RemoveWhiteSpace(IEntityPropertySetInterceptorArgs args)
+        {
+            if (args.EntityProperty.DataType != typeof(string))
+                return;
+
+            args.Value = ((string) args.Value).Trim();
         }
     }
 

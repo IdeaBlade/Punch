@@ -94,6 +94,7 @@
       <Link>LoginManager.cs</Link>
     </Compile>
     <Compile Include="CompositionUnitTests.cs" />
+    <Compile Include="DialogManagerUnitTests.cs" />
     <Compile Include="Helpers\CocktailTestBase.cs" />
     <Compile Include="Helpers\CompositionContextResolver.cs" />
     <Compile Include="Helpers\ConnectionOptionsResolver.cs" />

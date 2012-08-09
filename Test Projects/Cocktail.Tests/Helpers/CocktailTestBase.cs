@@ -46,6 +46,12 @@ namespace Cocktail.Tests.Helpers
             var batch = new CompositionBatch();
             PrepareCompositionContainer(batch);
             Composition.Configure(batch);
+
+            Context();
+        }
+
+        protected virtual void Context()
+        {
         }
 
         protected virtual void PrepareCompositionContainer(CompositionBatch batch)

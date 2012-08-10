@@ -34,4 +34,7 @@ FOR /F "tokens=*" %%G IN ('DIR /B /S *.aqt') DO del "%%G"
 FOR /F "tokens=*" %%G IN ('DIR /B /S *.msi') DO del "%%G" 
 FOR /F "tokens=*" %%G IN ('DIR /B /S *.tmp') DO del "%%G" 
 
+FOR /F "tokens=*" %%G IN ('DIR /B /S *.sdf') DO del "%%G" 
+
+
 

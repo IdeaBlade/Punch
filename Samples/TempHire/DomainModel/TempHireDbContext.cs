@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using Cocktail;
 using IdeaBlade.EntityModel;
 
@@ -21,6 +22,11 @@ namespace DomainModel
     [DataSourceKeyName("TempHireEntities")]
     internal class TempHireDbContext : DbContext
     {
+        static TempHireDbContext()
+        {
+            Database.DefaultConnectionFactory = new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0");
+        }
+
         public TempHireDbContext(string connection = null)
             : base(connection)
         {

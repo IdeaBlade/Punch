@@ -24,6 +24,9 @@ namespace DomainModel
     {
         static TempHireDbContext()
         {
+            // This is currently a DevForce requirement in order to use SLQ CE with Code-First.
+            // See http://drc.ideablade.com/xwiki/bin/view/Documentation/code-first-sqlce
+            // Remove if not using SQL CE.
             Database.DefaultConnectionFactory = new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0");
         }
 

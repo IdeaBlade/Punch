@@ -18,12 +18,16 @@ namespace DomainModel
     {
         static TempHireEntities()
         {
-            // Disable TransactionScope. SQL Compact doesn't support TransactionScopes.
+            // Disable TransactionScope. SQL CE doesn't support TransactionScopes.
+            // This is safe for most scenarios even if not using SQL CE. TransactionScope primarily
+            // enables distributed transactions if an EntityManager saves to multiple physical databases.
+            // Distributed transactions are not supported in SQL CE.
             TransactionSettings.Default = new TransactionSettings(TransactionSettings.Default.IsolationLevel,
                                                                   TransactionSettings.Default.Timeout, false);
         }
 
-        public TempHireEntities(EntityManagerContext context) : base(context)
+        public TempHireEntities(EntityManagerContext context)
+            : base(context)
         {
         }
 

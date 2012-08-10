@@ -1,13 +1,15 @@
-
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyHour.SL4", "HappyHour\HappyHour.SL4.csproj", "{EF81CCCA-616B-4AEB-8779-42EDC1BCE165}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model.SL4", "Model.SL\Model.SL4.csproj", "{2FAE104B-C54A-4FBC-B166-9208B30BD4D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocktail.SL", "..\..\..\Cocktail\Cocktail.SL.csproj", "{7ECA6212-BDB6-4325-946E-97D9C227E468}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Supporting Projects", "Supporting Projects", "{3365D23D-7CEB-46C3-B836-1AFAF841F90D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5033058A-A063-46E8-952F-1FACAE5FE4CA}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\nuget.exe = .nuget\nuget.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,15 +25,8 @@ Global
 		{2FAE104B-C54A-4FBC-B166-9208B30BD4D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FAE104B-C54A-4FBC-B166-9208B30BD4D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FAE104B-C54A-4FBC-B166-9208B30BD4D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7ECA6212-BDB6-4325-946E-97D9C227E468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7ECA6212-BDB6-4325-946E-97D9C227E468}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7ECA6212-BDB6-4325-946E-97D9C227E468}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7ECA6212-BDB6-4325-946E-97D9C227E468}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{7ECA6212-BDB6-4325-946E-97D9C227E468} = {3365D23D-7CEB-46C3-B836-1AFAF841F90D}
 	EndGlobalSection
 EndGlobal

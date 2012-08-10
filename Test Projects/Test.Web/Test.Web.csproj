@@ -16,6 +16,8 @@
     <SilverlightApplicationList>{0D74727E-5C3A-4F77-B769-FD3E976B01F4}|..\Cocktail.Tests.SL\Cocktail.Tests.SL.csproj|ClientBin|False</SilverlightApplicationList>
     <SkipPostSharp>True</SkipPostSharp>
     <JSLintSkip>\Silverlight.js</JSLintSkip>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -81,7 +83,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Test.Model\Test.Model.csproj">
       <Project>{12BEA1AF-5380-4024-BEDD-C914B0C15178}</Project>
-      <Name>Test.Model.Desktop</Name>
+      <Name>Test.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -122,4 +124,5 @@
     if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8854.2\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

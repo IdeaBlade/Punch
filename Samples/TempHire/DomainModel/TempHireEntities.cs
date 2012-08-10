@@ -16,6 +16,13 @@ namespace DomainModel
 {
     public class TempHireEntities : EntityManager
     {
+        static TempHireEntities()
+        {
+            // Disable TransactionScope. SQL Compact doesn't support TransactionScopes.
+            TransactionSettings.Default = new TransactionSettings(TransactionSettings.Default.IsolationLevel,
+                                                                  TransactionSettings.Default.Timeout, false);
+        }
+
         public TempHireEntities(EntityManagerContext context) : base(context)
         {
         }

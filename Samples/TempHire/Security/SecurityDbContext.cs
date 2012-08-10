@@ -11,6 +11,7 @@
 //====================================================================================================================
 
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Text;
 using Cocktail;
 using IdeaBlade.EntityModel;
@@ -20,6 +21,11 @@ namespace Security
     [DataSourceKeyName("SecurityEntities")]
     internal class SecurityDbContext : DbContext
     {
+        static SecurityDbContext()
+        {
+            Database.DefaultConnectionFactory = new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0");
+        }
+
         public SecurityDbContext(string connection = null)
             : base(connection)
         {

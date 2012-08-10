@@ -14,7 +14,6 @@
     <FileAlignment>512</FileAlignment>
     <BaseOutputPath>Bin</BaseOutputPath>
     <OutputPath>$(BaseOutputPath)\$(Configuration)</OutputPath>
-    <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -46,18 +45,19 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\EntityFramework.5.0.0-rc\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core, Version=6.1.8.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Core">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.Core.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel, Version=6.1.8.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.EntityModel">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Linq">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Validation, Version=6.1.8.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Validation">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.Validation.dll</HintPath>
     </Reference>
@@ -74,10 +74,10 @@
     <Compile Include="NorthwindIB.IB.Designer.cs">
       <DependentUpon>NorthwindIB.edmx.tt</DependentUpon>
     </Compile>
+    <Compile Include="NorthwindIBDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
     <None Include="Cocktail.snk" />
     <None Include="NorthwindIB.edmx.ReadMe">
       <AutoGen>True</AutoGen>
@@ -89,7 +89,9 @@
       <TemplateName>DomainModelTemplate</TemplateName>
       <LastGenOutput>NorthwindIB.edmx.ReadMe</LastGenOutput>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

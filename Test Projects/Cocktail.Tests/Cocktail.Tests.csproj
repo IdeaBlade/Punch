@@ -57,7 +57,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Edm, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.EntityModel.Edm">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Edm.dll</HintPath>
     </Reference>
@@ -119,14 +119,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Cocktail.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Cocktail\Cocktail.csproj">
-      <Project>{10f63fbb-fb0d-4b76-9e3f-5979d19cb01f}</Project>
+      <Project>{10F63FBB-FB0D-4B76-9E3F-5979D19CB01F}</Project>
       <Name>Cocktail</Name>
     </ProjectReference>
     <ProjectReference Include="..\Test.Model\Test.Model.csproj">
-      <Project>{12bea1af-5380-4024-bedd-c914b0c15178}</Project>
+      <Project>{12BEA1AF-5380-4024-BEDD-C914B0C15178}</Project>
       <Name>Test.Model</Name>
     </ProjectReference>
   </ItemGroup>

@@ -17,6 +17,7 @@ for /R %%i in (.) do rmdir "%%i\bin.Desktop" /s /q
 for /R %%i in (.) do rmdir "%%i\TestShadowCopy" /s /q
 for /R %%i in (.) do rmdir "%%i\TestResults" /s /q
 for /R %%i in (.) do rmdir "%%i\ClientBin" /s /q
+for /R %%i in (.) do rmdir "%%i\packages" /s /q
 
  
 REM FOR /F "tokens=*" %%G IN ('DIR /B /S /AH *.suo') DO del "%%G" /AH
@@ -32,5 +33,8 @@ REM FOR /F "tokens=*" %%G IN ('DIR /B /S *.pdb') DO del "%%G"
 FOR /F "tokens=*" %%G IN ('DIR /B /S *.aqt') DO del "%%G" 
 FOR /F "tokens=*" %%G IN ('DIR /B /S *.msi') DO del "%%G" 
 FOR /F "tokens=*" %%G IN ('DIR /B /S *.tmp') DO del "%%G" 
+
+FOR /F "tokens=*" %%G IN ('DIR /B /S *.sdf') DO del "%%G" 
+
 
 

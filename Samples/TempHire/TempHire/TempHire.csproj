@@ -226,7 +226,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <Page Include="Styles\Styles.Wpf.xaml">
       <Generator>MSBuild:Compile</Generator>

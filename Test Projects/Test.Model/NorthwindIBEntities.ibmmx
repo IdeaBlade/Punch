@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityModelMetadata xmlns:i="http://www.w3.org/2001/XMLSchema-instance" z:Id="1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" xmlns="http://ideablade.com/EntityModel">
-  <CreatedOn>2012-02-09T18:33:19.3318383-08:00</CreatedOn>
-  <DevForceVersion z:Id="2">6.1.5.1</DevForceVersion>
+  <CreatedOn>2012-08-09T20:18:52.5053153-07:00</CreatedOn>
+  <DevForceVersion z:Id="2">6.1.8.0</DevForceVersion>
   <EncodedLicenseKey z:Id="3">jKmWYQJGOoj/5AQyNHlrTxL6VYKFhJ+gbSTEf9bTbmdX7WxpNmqaMW7SskaDaxbB</EncodedLicenseKey>
   <EntityMetadataSurrogates z:Id="4" z:Size="1">
     <EntityMetadataSurrogate z:Id="5">
@@ -176,11 +176,11 @@
         </DataEntityPropertySurrogate>
       </DataProperties>
       <DataSourceKeyName z:Id="41">NorthwindIBEntities</DataSourceKeyName>
-      <DefaultEntityContainerName z:Ref="41" i:nil="true" />
-      <DefaultEntitySetName z:Id="42">NorthwindIBEntities.Customers</DefaultEntitySetName>
+      <DefaultEntityContainerName z:Id="42">NorthwindIBDbContext</DefaultEntityContainerName>
+      <DefaultEntitySetName z:Id="43">NorthwindIBDbContext.Customers</DefaultEntitySetName>
       <EntityTypeWrapper z:Ref="10" i:nil="true" />
-      <NavProperties z:Id="43" z:Size="0" />
+      <NavProperties z:Id="44" z:Size="0" />
     </EntityMetadataSurrogate>
   </EntityMetadataSurrogates>
-  <EntityRelationCollection z:Id="44" z:Size="0" />
+  <EntityRelationCollection z:Id="45" z:Size="0" />
 </EntityModelMetadata>

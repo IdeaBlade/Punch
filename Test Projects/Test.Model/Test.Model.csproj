@@ -66,6 +66,7 @@
     <Compile Include="NorthwindIB.IB.Designer.cs">
       <DependentUpon>NorthwindIB.edmx.tt</DependentUpon>
     </Compile>
+    <Compile Include="NorthwindIBDbContext.cs" />
     <Compile Include="NorthwindIBEntities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -76,7 +77,6 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
     <None Include="Cocktail.snk" />
     <None Include="DevForce.cf" />
     <None Include="NorthwindIB.edmx.ReadMe">
@@ -90,7 +90,7 @@
       <LastGenOutput>NorthwindIB.edmx.ReadMe</LastGenOutput>
     </None>
     <EmbeddedResource Include="NorthwindIBEntities.ibmmx">
-      <HashCode>-395820280</HashCode>
+      <HashCode>740720244</HashCode>
     </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>

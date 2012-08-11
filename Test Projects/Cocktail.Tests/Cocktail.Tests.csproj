@@ -116,7 +116,7 @@
     <Compile Include="OnlineUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusyWatcherUnitTests.cs" />
-    <Compile Include="ShouldRetrieveCustomers.cs" />
+    <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Cocktail.snk" />

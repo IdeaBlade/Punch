@@ -10,6 +10,7 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cocktail;
@@ -32,7 +33,14 @@ namespace DomainServices.Factories
             _phoneNumberTypes = phoneNumberTypes;
         }
 
-        protected override IEnumerable<INotifyCompleted> CreateAsyncCore()
+        public override OperationResult<StaffingResource> CreateAsync(Action<StaffingResource> onSuccess = null,
+                                                                      Action<Exception> onFail = null)
+        {
+            return Coroutine.Start(CreateAsyncCore, op => op.OnComplete(onSuccess, onFail))
+                .AsOperationResult<StaffingResource>();
+        }
+
+        protected IEnumerable<INotifyCompleted> CreateAsyncCore()
         {
             var staffingResource = StaffingResource.Create();
             EntityManager.AddEntity(staffingResource);

@@ -26,11 +26,11 @@ using Test.Model;
 namespace Cocktail.Tests
 {
     [TestClass]
-    public class ShouldRetrieveCustomers : CocktailTestBase
+    public class UnitOfWork : CocktailTestBase
     {
         [TestMethod]
         [Timeout(10000)]
-        public async Task WithPredicateDescription()
+        public async Task ShouldRetrieveCustomersWithPredicateDescription()
         {
             var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
             var unitOfWork = new UnitOfWork<Customer>(provider);
@@ -45,7 +45,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Timeout(10000)]
-        public async Task WithPredicateExpression()
+        public async Task ShouldRetrieveCustomersWithPredicateExpression()
         {
             var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
             var unitOfWork = new UnitOfWork<Customer>(provider);
@@ -59,7 +59,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Timeout(10000)]
-        public async Task WithPredicateExpressionFromCache()
+        public async Task ShouldRetrieveCustomersWithPredicateExpressionFromCache()
         {
             var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
             var unitOfWork = new UnitOfWork<Customer>(provider);
@@ -81,7 +81,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Timeout(10000)]
-        public async Task WithId()
+        public async Task ShouldRetrieveCustomerWithId()
         {
             var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
             var unitOfWork = new UnitOfWork<Customer>(provider);
@@ -96,7 +96,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Timeout(10000)]
-        public async Task WithIdFromCache()
+        public async Task ShouldRetrieveCustomerWithIdFromCache()
         {
             var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
             var unitOfWork = new UnitOfWork<Customer>(provider);
@@ -126,7 +126,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Timeout(10000)]
-        public async Task IfSortedWithSortSelector()
+        public async Task ShouldRetrieveCustomersIfSortedWithSortSelector()
         {
             var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
             var unitOfWork = new UnitOfWork<Customer>(provider);
@@ -140,7 +140,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Timeout(10000)]
-        public async Task IfSortedWithSortFunction()
+        public async Task ShouldRetrieveCustomersIfSortedWithSortFunction()
         {
             var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
             var unitOfWork = new UnitOfWork<Customer>(provider);
@@ -153,7 +153,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Timeout(10000)]
-        public async Task WithSelector()
+        public async Task ShouldRetrieveCustomersWithSelector()
         {
             var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
             var unitOfWork = new UnitOfWork<Customer>(provider);
@@ -168,7 +168,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Timeout(10000)]
-        public async Task WithSelectorFromCache()
+        public async Task ShouldRetrieveCustomersWithSelectorFromCache()
         {
             var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
             var unitOfWork = new UnitOfWork<Customer>(provider);
@@ -191,7 +191,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Timeout(10000)]
-        public async Task WithProjectionSelector()
+        public async Task ShouldRetrieveCustomersWithProjectionSelector()
         {
             var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
             var unitOfWork = new UnitOfWork<Customer>(provider);
@@ -209,6 +209,17 @@ namespace Cocktail.Tests
             var result = await unitOfWork.Entities.FindAsync(selector, pd, sortSelector);
 
             Assert.IsTrue(result.Cast<object>().Any());
+        }
+
+        [TestMethod]
+        public void ShouldCreateCustomer()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+
+            var task = unitOfWork.Factory.CreateAsync();
+            Assert.IsNotNull(task.Result);
+            Assert.IsTrue(task.Result.EntityAspect.EntityState.IsAdded());
         }
     }
 }

@@ -16,7 +16,7 @@ using Cocktail;
 
 namespace DomainServices.Repositories
 {
-    public interface IPreLoader
+    public interface IGlobalCache
     {
         OperationResult LoadAsync(Action onSuccess = null, Action<Exception> onFail = null);
 

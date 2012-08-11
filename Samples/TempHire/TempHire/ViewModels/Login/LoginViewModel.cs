@@ -28,7 +28,7 @@ namespace TempHire.ViewModels.Login
     public class LoginViewModel : Screen, IResult
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IPreLoader _preLoader;
+        private readonly IGlobalCache _globalCache;
         private readonly IWindowManager _windowManager;
         private string _failureMessage;
         private string _password;
@@ -37,12 +37,12 @@ namespace TempHire.ViewModels.Login
 
         [ImportingConstructor]
         public LoginViewModel(IAuthenticationService authenticationService, IWindowManager windowManager,
-                              [Import(AllowDefault = true)] IPreLoader preLoader)
+                              [Import(AllowDefault = true)] IGlobalCache globalCache)
         {
             Busy = new BusyWatcher();
             _authenticationService = authenticationService;
             _windowManager = windowManager;
-            _preLoader = preLoader;
+            _globalCache = globalCache;
 // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DisplayName = "";
 // ReSharper restore DoNotCallOverridableMethodsInConstructor
@@ -127,13 +127,13 @@ namespace TempHire.ViewModels.Login
 
                 if (_authenticationService.IsLoggedIn)
                 {
-                    if (_preLoader != null)
+                    if (_globalCache != null)
                     {
-                        yield return operation = _preLoader.LoadAsync().ContinueOnError();
+                        yield return operation = _globalCache.LoadAsync().ContinueOnError();
 
                         if (operation.HasError)
                         {
-                            FailureMessage = "Failed to preload lookup repository. Try again!";
+                            FailureMessage = "Failed to load global entity cache. Try again!";
                             yield break;
                         }
                     }

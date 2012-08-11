@@ -26,13 +26,13 @@ namespace DomainServices
         public ResourceMgtUnitOfWork(
             [Import(RequiredCreationPolicy = CreationPolicy.NonShared)] IEntityManagerProvider<TempHireEntities>
                 entityManagerProvider,
-            [Import(AllowDefault = true)] IPreLoader preLoader = null)
+            [Import(AllowDefault = true)] IGlobalCache globalCache = null)
             : base(entityManagerProvider)
         {
-            AddressTypes = new PreLoadRepository<AddressType>(entityManagerProvider, preLoader);
-            States = new PreLoadRepository<State>(entityManagerProvider, preLoader);
-            PhoneNumberTypes = new PreLoadRepository<PhoneNumberType>(entityManagerProvider, preLoader);
-            RateTypes = new PreLoadRepository<RateType>(entityManagerProvider, preLoader);
+            AddressTypes = new GlobalCacheRepository<AddressType>(entityManagerProvider, globalCache);
+            States = new GlobalCacheRepository<State>(entityManagerProvider, globalCache);
+            PhoneNumberTypes = new GlobalCacheRepository<PhoneNumberType>(entityManagerProvider, globalCache);
+            RateTypes = new GlobalCacheRepository<RateType>(entityManagerProvider, globalCache);
             StaffingResourceFactory = new StaffingResourceFactory(entityManagerProvider, AddressTypes, PhoneNumberTypes);
             StaffingResources = new StaffingResourceRepository(entityManagerProvider);
             Search = new StaffingResourceSearchService(StaffingResources);

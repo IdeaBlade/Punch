@@ -141,7 +141,7 @@
     <Compile Include="Authentication\TempHireAuthenticationService.cs" />
     <Compile Include="EntityManagerDelegate.cs" />
     <Compile Include="EntityManagerProviderFactory.cs" />
-    <Compile Include="PreLoader.cs" />
+    <Compile Include="GlobalCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyncInterceptor.cs" />
     <Compile Include="ViewModels\ItemSelectorViewModel.cs" />

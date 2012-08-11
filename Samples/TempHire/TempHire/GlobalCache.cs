@@ -20,20 +20,20 @@ using IdeaBlade.EntityModel;
 
 namespace TempHire
 {
-    [Export(typeof(IPreLoader)), PartCreationPolicy(CreationPolicy.Shared)]
-    public class PreLoader : IPreLoader
+    [Export(typeof(IGlobalCache)), PartCreationPolicy(CreationPolicy.Shared)]
+    public class GlobalCache : IGlobalCache
     {
         private readonly IEntityManagerProvider<TempHireEntities> _entityManagerProvider;
 
         [ImportingConstructor]
-        public PreLoader(
+        public GlobalCache(
             [Import(RequiredCreationPolicy = CreationPolicy.NonShared)] IEntityManagerProvider<TempHireEntities>
                 entityManagerProvider)
         {
             _entityManagerProvider = entityManagerProvider;
         }
 
-        #region IPreLoader Members
+        #region IGlobalCache Members
 
         public OperationResult LoadAsync(Action onSuccess = null, Action<Exception> onFail = null)
         {

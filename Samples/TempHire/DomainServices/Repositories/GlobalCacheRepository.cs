@@ -17,24 +17,24 @@ using IdeaBlade.EntityModel;
 
 namespace DomainServices.Repositories
 {
-    public class PreLoadRepository<T> : Repository<T> where T : class
+    public class GlobalCacheRepository<T> : Repository<T> where T : class
     {
-        private readonly IPreLoader _preLoader;
+        private readonly IGlobalCache _globalCache;
 
-        public PreLoadRepository(IEntityManagerProvider entityManagerProvider, IPreLoader preLoader)
+        public GlobalCacheRepository(IEntityManagerProvider entityManagerProvider, IGlobalCache globalCache)
             : base(entityManagerProvider)
         {
-            _preLoader = preLoader;
+            _globalCache = globalCache;
             entityManagerProvider.ManagerCreated += new EventHandler<EntityManagerCreatedEventArgs>(OnManagerCreated)
                 .MakeWeak(eh => entityManagerProvider.ManagerCreated -= eh);
 
-            if (preLoader != null)
+            if (globalCache != null)
                 DefaultQueryStrategy = QueryStrategy.CacheOnly;
         }
 
         internal void OnManagerCreated(object sender, EntityManagerCreatedEventArgs e)
         {
-            if (_preLoader == null) return;
+            if (_globalCache == null) return;
 
             Seed(e.EntityManager);
             e.EntityManager.Cleared += new EventHandler<EntityManagerClearedEventArgs>(OnCleared)
@@ -48,7 +48,7 @@ namespace DomainServices.Repositories
 
         private void Seed(EntityManager entityManager)
         {
-            var entities = _preLoader.Get<T>();
+            var entities = _globalCache.Get<T>();
             entityManager.ImportEntities(entities, MergeStrategy.OverwriteChanges);
         }
     }

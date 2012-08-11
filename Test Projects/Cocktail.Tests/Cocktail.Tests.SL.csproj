@@ -148,7 +148,7 @@
     <Compile Include="Helpers\SyncInterceptor.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ShouldRetrieveCustomers.cs" />
+    <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

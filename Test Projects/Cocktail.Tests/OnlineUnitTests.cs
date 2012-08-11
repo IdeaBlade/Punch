@@ -176,7 +176,7 @@ namespace Cocktail.Tests
                                                        principalChangedFired = false;
                                                        loggedInFired = false;
                                                        managerCreatedFired = false;
-                                                       return AlwaysCompleted.Instance;
+                                                       return OperationResult.FromResult(true);
                                                    },
                                                () => auth.LogoutAsync(),
                                                () =>
@@ -208,7 +208,7 @@ namespace Cocktail.Tests
                                                        Assert.IsNull(manager.AuthenticationContext.Principal,
                                                                      "The principal should be null on the EntitiyManager");
 
-                                                       return AlwaysCompleted.Instance;
+                                                       return OperationResult.FromResult(true);
                                                    }
                                            };
 

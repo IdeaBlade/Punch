@@ -56,7 +56,7 @@ namespace TempHire.Authentication
             if (PrincipalChanged != null)
                 PrincipalChanged(this, EventArgs.Empty);
 
-            return AlwaysCompletedOperationResult.Instance;
+            return OperationResult.FromResult(true);
         }
 
         public OperationResult LogoutAsync(Action callback = null)
@@ -66,7 +66,7 @@ namespace TempHire.Authentication
             if (PrincipalChanged != null)
                 PrincipalChanged(this, EventArgs.Empty);
 
-            return AlwaysCompletedOperationResult.Instance;
+            return OperationResult.FromResult(true);
         }
 
         public void Login(ILoginCredential credential)

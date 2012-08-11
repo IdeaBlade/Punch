@@ -26,11 +26,11 @@ using Test.Model;
 namespace Cocktail.Tests
 {
     [TestClass]
-    public class ShouldRetrieveCustomers : CocktailTestBase
+    public class UnitOfWork : CocktailTestBase
     {
         [TestMethod]
         [Asynchronous, Timeout(10000)]
-        public void WithPredicateDescription()
+        public void ShouldRetrieveCustomerWithPredicateDescription()
         {
             DoItAsync(
                 () =>
@@ -59,7 +59,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Asynchronous, Timeout(10000)]
-        public void WithPredicateExpression()
+        public void ShouldRetrieveCustomerWithPredicateExpression()
         {
             DoItAsync(
                 () =>
@@ -87,7 +87,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Asynchronous, Timeout(10000)]
-        public void WithPredicateExpressionFromCache()
+        public void ShouldRetrieveCustomerWithPredicateExpressionFromCache()
         {
             DoItAsync(
                 () =>
@@ -126,7 +126,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Asynchronous, Timeout(10000)]
-        public void WithId()
+        public void ShouldRetrieveCustomerWithId()
         {
             DoItAsync(
                 () =>
@@ -154,7 +154,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Asynchronous, Timeout(10000)]
-        public void WithIdFromCache()
+        public void ShouldRetrieveCustomerWithIdFromCache()
         {
             DoItAsync(
                 () =>
@@ -198,7 +198,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Asynchronous, Timeout(10000)]
-        public void IfSortedWithSortSelector()
+        public void ShouldRetrieveCustomerIfSortedWithSortSelector()
         {
             DoItAsync(
                 () =>
@@ -225,7 +225,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Asynchronous, Timeout(10000)]
-        public void IfSortedWithSortFunction()
+        public void ShouldRetrieveCustomerIfSortedWithSortFunction()
         {
             DoItAsync(
                 () =>
@@ -251,7 +251,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Asynchronous, Timeout(10000)]
-        public void WithSelector()
+        public void ShouldRetrieveCustomerWithSelector()
         {
             DoItAsync(
                 () =>
@@ -280,7 +280,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Asynchronous, Timeout(10000)]
-        public void WithSelectorFromCache()
+        public void ShouldRetrieveCustomerWithSelectorFromCache()
         {
             DoItAsync(
                 () =>
@@ -319,7 +319,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Asynchronous, Timeout(10000)]
-        public void WithProjectionSelector()
+        public void ShouldRetrieveCustomerWithProjectionSelector()
         {
             DoItAsync(
                 () =>
@@ -350,6 +350,18 @@ namespace Cocktail.Tests
                                    };
                     Coroutine.Start(cmds);
                 });
+        }
+
+        [TestMethod]
+        public void ShouldCreateCustomer()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+
+            var operation = unitOfWork.Factory.CreateAsync();
+            Assert.IsTrue(operation.CompletedSuccessfully);
+            Assert.IsNotNull(operation.Result);
+            Assert.IsTrue(operation.Result.EntityAspect.EntityState.IsAdded());
         }
     }
 }

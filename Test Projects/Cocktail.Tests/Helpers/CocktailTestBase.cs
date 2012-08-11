@@ -55,7 +55,7 @@ namespace Cocktail.Tests.Helpers
             if (provider != null)
                 return provider.ResetFakeBackingStoreAsync();
 
-            return AlwaysCompleted.Instance;
+            return OperationResult.FromResult(true);
         }
 
         public INotifyCompleted TestInit(string compositionContextName)

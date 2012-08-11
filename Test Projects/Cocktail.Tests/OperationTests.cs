@@ -11,11 +11,8 @@
 //====================================================================================================================
 
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Cocktail.Tests.Helpers;
 using IdeaBlade.EntityModel;
-using Microsoft.Silverlight.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cocktail.Tests
@@ -38,7 +35,7 @@ namespace Cocktail.Tests
         [TestMethod]
         public void ShouldMarkErrorAsHandled()
         {
-            var operation = new CompleteWithError().AsOperationResult().ContinueOnError();
+            var operation = OperationResult.FromError<bool>(new Exception("Failed")).ContinueOnError();
 
             Assert.IsFalse(operation.CompletedSuccessfully);
             Assert.IsTrue(operation.HasError);
@@ -77,7 +74,7 @@ namespace Cocktail.Tests
         [TestMethod]
         public void ShouldNotWrapExistingOperationResult()
         {
-            var op1 = new OperationResult(AlwaysCompleted.Instance);
+            var op1 = new OperationResult(new AlwaysCompleted());
             var op2 = op1.AsOperationResult();
             Assert.IsTrue(ReferenceEquals(op1, op2));
         }
@@ -85,7 +82,7 @@ namespace Cocktail.Tests
         [TestMethod]
         public void ShouldWrapINotifyCompleted()
         {
-            var op = AlwaysCompleted.Instance.AsOperationResult();
+            var op = new AlwaysCompleted().AsOperationResult();
             Assert.IsNotNull(op);
         }
 
@@ -101,7 +98,7 @@ namespace Cocktail.Tests
         [TestMethod]
         public void ShouldFailTaskAndMarkErrorAsHandled()
         {
-            var op = new CompleteWithError().AsOperationResult();
+            var op = OperationResult.FromError<bool>(new Exception("Failed")).AsOperationResult();
             var task = op.AsTask();
             task.ContinueWith(t =>
                                   {
@@ -110,6 +107,18 @@ namespace Cocktail.Tests
                                   });
             Assert.IsTrue(op.IsErrorHandled);
             Assert.IsTrue(task.IsFaulted);
+        }
+
+        [TestMethod]
+        public void ShouldStoreResult()
+        {
+            var operation = OperationResult.FromResult(true);
+            Assert.IsTrue(operation.CompletedSuccessfully);
+            Assert.IsTrue(operation.Result);
+
+            operation = OperationResult.FromResult(false);
+            Assert.IsTrue(operation.CompletedSuccessfully);
+            Assert.IsFalse(operation.Result);
         }
 
         //[TestMethod]
@@ -147,29 +156,6 @@ namespace Cocktail.Tests
         //                                        TestComplete();
         //                                    }));
         //}
-
-        private class CompleteWithError : INotifyCompleted
-        {
-            private readonly INotifyCompletedArgs _args = new CompleteWithErrorArgs();
-
-            public void WhenCompleted(Action<INotifyCompletedArgs> completedAction)
-            {
-                completedAction(_args);
-            }
-
-            private class CompleteWithErrorArgs : INotifyCompletedArgs
-            {
-                public CompleteWithErrorArgs()
-                {
-                    Error = new Exception();
-                    Cancelled = false;
-                }
-
-                public Exception Error { get; private set; }
-                public bool Cancelled { get; private set; }
-                public bool IsErrorHandled { get; set; }
-            }
-        }
 
         private class CancelledOperation : INotifyCompleted
         {

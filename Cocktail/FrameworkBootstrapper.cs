@@ -102,7 +102,7 @@ namespace Cocktail
         /// </summary>
         protected virtual IEnumerable<IResult> StartRuntimeAsync()
         {
-            yield return AlwaysCompletedOperationResult.Instance;
+            yield return OperationResult.FromResult(true);
         }
 
         /// <summary>

@@ -68,7 +68,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlwaysCompletedOperationResult.cs" />
     <Compile Include="AuthenticationService.cs" />
     <Compile Include="AuthenticationService.NET.cs">
       <DependentUpon>AuthenticationService.cs</DependentUpon>

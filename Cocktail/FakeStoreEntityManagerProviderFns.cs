@@ -15,7 +15,7 @@ namespace Cocktail
             if (!@this.ConnectionOptions.IsFake)
             {
                 DebugFns.WriteLine(StringResources.NonSuitableEmpForFakeStoreOperation);
-                return AlwaysCompletedOperationResult.Instance;
+                return OperationResult.FromResult(true);
             }
 
             string compositionContext = @this.Manager.CompositionContext.Name;
@@ -35,7 +35,7 @@ namespace Cocktail
             if (!@this.ConnectionOptions.IsFake || !(@this is EntityManagerProvider<T>))
             {
                 DebugFns.WriteLine(StringResources.NonSuitableEmpForFakeStoreOperation);
-                return AlwaysCompletedOperationResult.Instance;
+                return OperationResult.FromResult(true);
             }
 
             return ((EntityManagerProvider<T>)@this).ResetFakeBackingStoreAsync();

@@ -38,6 +38,17 @@ namespace Cocktail
         }
 
         /// <summary>
+        /// Creates an <see cref="OperationResult{T}"/> that is completed successfully with the specified result.
+        /// </summary>
+        /// <param name="result">The result to store into the completed OperationResult.</param>
+        /// <typeparam name="T">The type of the result</typeparam>
+        /// <returns>A successfully completed OperationResult.</returns>
+        public static OperationResult<T> FromResult<T>(T result)
+        {
+            return new ValueOperationResult<T>(result);
+        }
+
+        /// <summary>
         /// Returns whether the operation completed successfully.
         /// </summary>
         public bool CompletedSuccessfully
@@ -327,6 +338,70 @@ namespace Cocktail
         public override T Result
         {
             get { return (T)_invokeServerMethodOperation.Result; }
+        }
+    }
+
+    internal class AlwaysCompleted : INotifyCompleted
+    {
+        private static AlwaysCompleted _instance;
+
+        /// <summary>Returns the singleton instance.</summary>
+        /// <value>The AlwaysCompleted instance.</value>
+        public static AlwaysCompleted Instance
+        {
+            get { return _instance ?? (_instance = new AlwaysCompleted()); }
+        }
+
+        #region INotifyCompleted Members
+
+        /// <summary>Immediately calls the completedAction.</summary>
+        /// <param name="completedAction">Callback to be called.</param>
+        public void WhenCompleted(Action<INotifyCompletedArgs> completedAction)
+        {
+            completedAction(new AlwaysCompletedArgs());
+        }
+
+        #endregion
+
+        #region Nested type: AlwaysCompletedArgs
+
+        private class AlwaysCompletedArgs : INotifyCompletedArgs
+        {
+            #region INotifyCompletedArgs Members
+
+            public Exception Error
+            {
+                get { return null; }
+            }
+
+            public bool Cancelled
+            {
+                get { return false; }
+            }
+
+            public bool IsErrorHandled { get; set; }
+
+            #endregion
+        }
+
+        #endregion
+    }
+
+    internal class ValueOperationResult<T> : OperationResult<T>
+    {
+        private readonly T _resultValue;
+
+        public ValueOperationResult(T resultValue) : base(AlwaysCompleted.Instance)
+        {
+            _resultValue = resultValue;
+        }
+
+        /// <summary>
+        /// The result value of the operation.
+        /// </summary>
+        public override T Result
+        {
+            get { return _resultValue; }
         }
     }
 }

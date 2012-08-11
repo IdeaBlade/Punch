@@ -100,7 +100,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlwaysCompletedOperationResult.cs" />
     <Compile Include="AuthenticationService.cs" />
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />

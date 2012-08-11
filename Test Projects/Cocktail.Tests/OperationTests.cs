@@ -26,7 +26,7 @@ namespace Cocktail.Tests
         [TestMethod]
         public void ShouldAlwaysCompleteSuccessfully()
         {
-            AlwaysCompletedOperationResult operation = AlwaysCompletedOperationResult.Instance;
+            var operation = OperationResult.FromResult(true);
             Assert.IsTrue(operation.CompletedSuccessfully);
             Assert.IsFalse(operation.HasError);
             Assert.IsNull(operation.Error);
@@ -92,7 +92,7 @@ namespace Cocktail.Tests
         [TestMethod]
         public void ShouldCompleteTask()
         {
-            var task = AlwaysCompletedOperationResult.Instance.AsTask();
+            var task = OperationResult.FromResult(true).AsTask();
             
             Assert.IsFalse(task.IsFaulted);
             Assert.IsFalse(task.IsCanceled);

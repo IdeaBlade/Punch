@@ -151,7 +151,7 @@ namespace Cocktail
             if (!IsLoggedIn)
             {
                 if (callback != null) callback();
-                return AlwaysCompletedOperationResult.Instance;
+                return OperationResult.FromResult(true);
             }
 
             BaseOperation op = Authenticator.Instance.LogoutAsync(_authenticationContext);

@@ -11,6 +11,7 @@
 // ====================================================================================================================
 
 using System.Linq;
+using Cocktail;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using IdeaBlade.EntityModel.Server;
@@ -58,6 +59,26 @@ namespace DomainModel
             }
 
             return true;
+        }
+
+        protected override bool ExecuteSave()
+        {
+            // Update Audit columns
+            EntityManager.FindEntities<AuditEntityBase>(EntityState.Added)
+                .ForEach(e =>
+                             {
+                                 e.Created = e.Modified = SystemTime.Now;
+                                 e.CreatedUser = e.ModifyUser = Principal.Identity.Name;
+                             });
+
+            EntityManager.FindEntities<AuditEntityBase>(EntityState.Modified)
+                .ForEach(e =>
+                             {
+                                 e.Modified = SystemTime.Now;
+                                 e.ModifyUser = Principal.Identity.Name;
+                             });
+
+            return base.ExecuteSave();
         }
     }
 }

@@ -129,7 +129,7 @@
     <None Include="DevForce.cf" />
     <None Include="packages.config" />
     <EmbeddedResource Include="TempHireEntities.ibmmx">
-      <HashCode>1150147350</HashCode>
+      <HashCode>-1080338538</HashCode>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -59,19 +59,15 @@ namespace DomainModel
     public abstract class AuditEntityBase : EntityBase
     {
         [DataMember]
-        [Required]
         public DateTime Created { get; set; }
 
         [DataMember]
-        [Required]
         public string CreatedUser { get; set; }
 
         [DataMember]
-        [Required]
         public DateTime Modified { get; set; }
 
         [DataMember]
-        [Required]
         public string ModifyUser { get; set; }
     }
 

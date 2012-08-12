@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityModelMetadata xmlns:i="http://www.w3.org/2001/XMLSchema-instance" z:Id="1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" xmlns="http://ideablade.com/EntityModel">
-  <CreatedOn>2012-08-09T14:59:54.6315337-07:00</CreatedOn>
+  <CreatedOn>2012-08-11T23:11:35.1119715-07:00</CreatedOn>
   <DevForceVersion z:Id="2">6.1.8.0</DevForceVersion>
   <EncodedLicenseKey z:Id="3">j4zuMPY0Al4wKiuyjWvjrjYy4mj2CVX7D7mIJLEuBy0ekuy7fTAr+cAFkGnnGHJZ</EncodedLicenseKey>
   <EntityMetadataSurrogates z:Id="4" z:Size="10">
@@ -147,7 +147,7 @@
           <EntityTypeWrapper z:Ref="10" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>false</IsNullable>
+          <IsNullable>true</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="41">CreatedUser</Name>
           <Ordinal>10</Ordinal>
@@ -171,7 +171,7 @@
           <EntityTypeWrapper z:Ref="10" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>false</IsNullable>
+          <IsNullable>true</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="45">ModifyUser</Name>
           <Ordinal>12</Ordinal>
@@ -403,7 +403,7 @@
           <EntityTypeWrapper z:Ref="84" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>false</IsNullable>
+          <IsNullable>true</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="102">CreatedUser</Name>
           <Ordinal>7</Ordinal>
@@ -427,7 +427,7 @@
           <EntityTypeWrapper z:Ref="84" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>false</IsNullable>
+          <IsNullable>true</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="106">ModifyUser</Name>
           <Ordinal>9</Ordinal>
@@ -607,7 +607,7 @@
           <EntityTypeWrapper z:Ref="134" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>false</IsNullable>
+          <IsNullable>true</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="150">CreatedUser</Name>
           <Ordinal>5</Ordinal>
@@ -631,7 +631,7 @@
           <EntityTypeWrapper z:Ref="134" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>false</IsNullable>
+          <IsNullable>true</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="154">ModifyUser</Name>
           <Ordinal>7</Ordinal>
@@ -811,7 +811,7 @@
           <EntityTypeWrapper z:Ref="186" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>false</IsNullable>
+          <IsNullable>true</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="197">CreatedUser</Name>
           <Ordinal>4</Ordinal>
@@ -835,7 +835,7 @@
           <EntityTypeWrapper z:Ref="186" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>false</IsNullable>
+          <IsNullable>true</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="201">ModifyUser</Name>
           <Ordinal>6</Ordinal>
@@ -951,7 +951,7 @@
           <EntityTypeWrapper z:Ref="55" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>false</IsNullable>
+          <IsNullable>true</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="224">CreatedUser</Name>
           <Ordinal>6</Ordinal>
@@ -975,7 +975,7 @@
           <EntityTypeWrapper z:Ref="55" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>false</IsNullable>
+          <IsNullable>true</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="228">ModifyUser</Name>
           <Ordinal>8</Ordinal>
@@ -1227,7 +1227,7 @@
           <EntityTypeWrapper z:Ref="241" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>false</IsNullable>
+          <IsNullable>true</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="282">CreatedUser</Name>
           <Ordinal>9</Ordinal>
@@ -1251,7 +1251,7 @@
           <EntityTypeWrapper z:Ref="241" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
-          <IsNullable>false</IsNullable>
+          <IsNullable>true</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
           <Name z:Id="286">ModifyUser</Name>
           <Ordinal>11</Ordinal>

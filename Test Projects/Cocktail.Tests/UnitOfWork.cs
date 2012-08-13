@@ -30,6 +30,39 @@ namespace Cocktail.Tests
     {
         [TestMethod]
         [Asynchronous, Timeout(10000)]
+        public void ShouldRetrieveAllCustomers()
+        {
+            DoItAsync(
+                () =>
+                {
+                    var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+                    var unitOfWork = new UnitOfWork<Customer>(provider);
+
+                    var expectedCount = 0;
+                    var cmds = new List<Func<INotifyCompleted>>
+                                   {
+                                       () => TestInit(CompositionContext.Fake.Name),
+                                       () => unitOfWork.Entities.CountAsync()
+                                                 .ContinueWith(op => expectedCount = op.Result),
+                                       () => unitOfWork.Entities.AllAsync()
+                                                 .ContinueWith(op =>
+                                                                   {
+                                                                       Assert.IsTrue(op.CompletedSuccessfully);
+                                                                       Assert.IsTrue(op.Result.Count() == expectedCount);
+
+                                                                       Assert.IsTrue(
+                                                                           unitOfWork.Entities.CountInCache() ==
+                                                                           expectedCount);
+
+                                                                       TestComplete();
+                                                                   })
+                                   };
+                    Coroutine.Start(cmds);
+                });
+        }
+
+        [TestMethod]
+        [Asynchronous, Timeout(10000)]
         public void ShouldRetrieveCustomerWithPredicateDescription()
         {
             DoItAsync(

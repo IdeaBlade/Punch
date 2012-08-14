@@ -67,6 +67,40 @@ namespace Cocktail
         T WithIdFromCache(params object[] keyValues);
 
         /// <summary>
+        ///   Retrieves all entities with the repository's default query strategy.
+        /// </summary>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns> The list of retrieved entities. </returns>
+        Task<IEnumerable<T>> AllAsync(string includeProperties = null);
+
+        /// <summary>
+        ///   Retrieves all entities from the back-end data source.
+        /// </summary>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns> The list of retrieved entities. </returns>
+        Task<IEnumerable<T>> AllInDataSourceAsync(string includeProperties = null);
+
+        /// <summary>
+        ///   Retrieves all entities from the cache.
+        /// </summary>
+        /// <returns> The list of retrieved entities. </returns>
+        IEnumerable<T> AllInCache();
+
+        /// <summary>
+        ///   Returns the number of entities.
+        /// </summary>
+        /// <param name="predicate"> Optional predicate to filter the entities </param>
+        /// <returns> The number of entities matching the optional expression. </returns>
+        Task<int> CountAsync(Expression<Func<T, bool>> predicate = null);
+
+        /// <summary>
+        ///   Returns the number of entities in the cache.
+        /// </summary>
+        /// <param name="predicate"> Optional predicate to filter the entities </param>
+        /// <returns> The number of entities matching the optional expression. </returns>
+        int CountInCache(Expression<Func<T, bool>> predicate = null);
+
+        /// <summary>
         ///   Retrieves one or more entities matching the provided predicateDescription with the repository's default query strategy.
         /// </summary>
         /// <param name="predicateDescription"> Optional predicate description to filter the returned list of entities </param>
@@ -80,7 +114,7 @@ namespace Cocktail
         /// <summary>
         ///   Retrieves one or more entities matching the provided predicateDescription with the repository's default query strategy and projects the results into a different shape using the projectionSelector parameter.
         /// </summary>
-        /// <param name="projectionSelector"> The selector used to shape the result.</param>
+        /// <param name="projectionSelector"> The selector used to shape the result. </param>
         /// <param name="predicateDescription"> Optional predicate description to filter the returned list of objects. </param>
         /// <param name="sortSelector"> Optional sort descriptor to sort the returned list of objects. </param>
         /// <returns> The list of retrieved objects. </returns>
@@ -102,7 +136,7 @@ namespace Cocktail
         /// <summary>
         ///   Retrieves one or more entities matching the provided predicateDescription from the back-end data source and projects the results into a different shape using the projectionSelector parameter.
         /// </summary>
-        /// <param name="projectionSelector"> The selector used to shape the result.</param>
+        /// <param name="projectionSelector"> The selector used to shape the result. </param>
         /// <param name="predicateDescription"> Optional predicate description to filter the returned list of objects. </param>
         /// <param name="sortSelector"> Optional sort descriptor to sort the returned list of objects. </param>
         /// <returns> The list of retrieved objects. </returns>
@@ -122,7 +156,7 @@ namespace Cocktail
         /// <summary>
         ///   Retrieves one or more entities matching the provided predicateDescription from the cache and projects the results into a different shape using the projectionSelector parameter.
         /// </summary>
-        /// <param name="projectionSelector"> The selector used to shape the result.</param>
+        /// <param name="projectionSelector"> The selector used to shape the result. </param>
         /// <param name="predicateDescription"> Optional predicate description to filter the returned list of objects. </param>
         /// <param name="sortSelector"> Optional sort descriptor to sort the returned list of objects. </param>
         /// <returns> The list of retrieved objects. </returns>
@@ -144,7 +178,7 @@ namespace Cocktail
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy and projects the results into a different shape using the selector parameter.
         /// </summary>
-        /// <param name="selector"> The selector used to shape the result.</param>
+        /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
         /// <returns> The list of retrieved objects. </returns>
@@ -166,7 +200,7 @@ namespace Cocktail
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
         /// </summary>
-        /// <param name="selector"> The selector used to shape the result.</param>
+        /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
         /// <returns> The list of retrieved objects. </returns>
@@ -186,7 +220,7 @@ namespace Cocktail
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression from the cache and projects the results into a different shape using the selector parameter.
         /// </summary>
-        /// <param name="selector"> The selector used to shape the result.</param>
+        /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
         /// <returns> The list of retrieved objects. </returns>
@@ -207,9 +241,9 @@ namespace Cocktail
         void Delete(IEnumerable<T> entities);
 
         /// <summary>
-        /// Returns true if the entity matching the provided key is found in the cache.
+        ///   Returns true if the entity matching the provided key is found in the cache.
         /// </summary>
-        /// <param name="keyValues">The primary key values</param>
+        /// <param name="keyValues"> The primary key values </param>
         bool ExistsInCache(params object[] keyValues);
     }
 }

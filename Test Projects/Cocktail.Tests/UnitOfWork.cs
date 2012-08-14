@@ -30,6 +30,21 @@ namespace Cocktail.Tests
     {
         [TestMethod]
         [Timeout(10000)]
+        public async Task ShouldRetrieveAllCustomers()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+            var expectedCount = await unitOfWork.Entities.CountAsync();
+            var customers = await unitOfWork.Entities.AllAsync();
+
+            Assert.IsTrue(customers.Count() == expectedCount);
+            Assert.IsTrue(unitOfWork.Entities.CountInCache() == expectedCount);
+        }
+
+        [TestMethod]
+        [Timeout(10000)]
         public async Task ShouldRetrieveCustomersWithPredicateDescription()
         {
             var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();

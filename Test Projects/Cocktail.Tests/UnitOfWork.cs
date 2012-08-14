@@ -52,7 +52,7 @@ namespace Cocktail.Tests
             var pd = PredicateBuilder.Make("City", FilterOperator.IsEqualTo, "SomeCity");
 
             await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
-            var customers = await unitOfWork.Entities.FindAsync(pd);
+            var customers = await unitOfWork.Entities.FindAsync(pd.ToPredicate<Customer>());
 
             Assert.IsTrue(customers.Any());
             Assert.IsTrue(customers.All(c => c.City == "SomeCity"));
@@ -148,7 +148,7 @@ namespace Cocktail.Tests
 
             var selector = new SortSelector("City");
             await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
-            var customers = await unitOfWork.Entities.FindAsync(sortSelector: selector);
+            var customers = await unitOfWork.Entities.AllAsync(q => q.OrderBySelector(selector));
 
             Assert.IsTrue(customers.Any());
         }
@@ -161,7 +161,7 @@ namespace Cocktail.Tests
             var unitOfWork = new UnitOfWork<Customer>(provider);
 
             await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
-            var customers = await unitOfWork.Entities.FindAsync(orderBy: q => q.OrderBy(c => c.City));
+            var customers = await unitOfWork.Entities.AllAsync(q => q.OrderBy(c => c.City));
 
             Assert.IsTrue(customers.Any());
         }
@@ -221,7 +221,9 @@ namespace Cocktail.Tests
             var sortSelector = new SortSelector("CompanyName");
 
             await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
-            var result = await unitOfWork.Entities.FindAsync(selector, pd, sortSelector);
+            var result = await unitOfWork.Entities.FindAsync(q => q.Select(selector),
+                                                             pd.ToPredicate<Customer>(),
+                                                             q => q.OrderBySelector(sortSelector));
 
             Assert.IsTrue(result.Cast<object>().Any());
         }

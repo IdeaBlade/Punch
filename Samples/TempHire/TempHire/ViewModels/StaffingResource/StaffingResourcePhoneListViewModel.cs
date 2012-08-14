@@ -102,8 +102,8 @@ namespace TempHire.ViewModels.StaffingResource
             var phoneTypes = UnitOfWork.PhoneNumberTypes;
             var phoneTypeSelector = _phoneTypeSelectorFactory.CreatePart()
                 .Start("Select type:", "Name",
-                       () => phoneTypes.FindAsync(orderBy: q => q.OrderBy(t => t.Name),
-                                                  onFail: ErrorHandler.HandleError));
+                       () => phoneTypes.AllAsync(q => q.OrderBy(t => t.Name),
+                                                 onFail: ErrorHandler.HandleError));
 
             yield return _dialogManager.ShowDialogAsync(phoneTypeSelector, DialogButtons.OkCancel);
 

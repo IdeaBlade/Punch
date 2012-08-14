@@ -44,7 +44,7 @@ namespace Cocktail.Tests
                                        () => TestInit(CompositionContext.Fake.Name),
                                        () => unitOfWork.Entities.CountAsync()
                                                  .ContinueWith(op => expectedCount = op.Result),
-                                       () => unitOfWork.Entities.AllAsync()
+                                       () => unitOfWork.Entities.AllAsync(q => q.OrderBy(x => x.CompanyName))
                                                  .ContinueWith(op =>
                                                                    {
                                                                        Assert.IsTrue(op.CompletedSuccessfully);

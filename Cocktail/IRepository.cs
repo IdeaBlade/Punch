@@ -69,22 +69,25 @@ namespace Cocktail
         /// <summary>
         ///   Retrieves all entities with the repository's default query strategy.
         /// </summary>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
         /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
         /// <returns> The list of retrieved entities. </returns>
-        Task<IEnumerable<T>> AllAsync(string includeProperties = null);
+        Task<IEnumerable<T>> AllAsync(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null);
 
         /// <summary>
         ///   Retrieves all entities from the back-end data source.
         /// </summary>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
         /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
         /// <returns> The list of retrieved entities. </returns>
-        Task<IEnumerable<T>> AllInDataSourceAsync(string includeProperties = null);
+        Task<IEnumerable<T>> AllInDataSourceAsync(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null);
 
         /// <summary>
         ///   Retrieves all entities from the cache.
         /// </summary>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
         /// <returns> The list of retrieved entities. </returns>
-        IEnumerable<T> AllInCache();
+        IEnumerable<T> AllInCache(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
 
         /// <summary>
         ///   Returns the number of entities.

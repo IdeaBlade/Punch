@@ -37,7 +37,7 @@ namespace Cocktail.Tests
 
             await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
             var expectedCount = await unitOfWork.Entities.CountAsync();
-            var customers = await unitOfWork.Entities.AllAsync();
+            var customers = await unitOfWork.Entities.AllAsync(q => q.OrderBy(x => x.CompanyName));
 
             Assert.IsTrue(customers.Count() == expectedCount);
             Assert.IsTrue(unitOfWork.Entities.CountInCache() == expectedCount);

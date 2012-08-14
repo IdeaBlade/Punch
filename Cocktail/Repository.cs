@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 
 namespace Cocktail
@@ -67,7 +68,7 @@ namespace Cocktail
         public OperationResult<T> WithIdAsync(object keyValue, Action<T> onSuccess = null,
                                               Action<Exception> onFail = null)
         {
-            return WithIdAsync(new[] {keyValue}, onSuccess, onFail);
+            return WithIdAsync(new[] { keyValue }, onSuccess, onFail);
         }
 
         /// <summary>
@@ -81,7 +82,7 @@ namespace Cocktail
         public OperationResult<T> WithIdFromDataSourceAsync(object keyValue, Action<T> onSuccess = null,
                                                             Action<Exception> onFail = null)
         {
-            return WithIdFromDataSourceAsync(new[] {keyValue}, onSuccess, onFail);
+            return WithIdFromDataSourceAsync(new[] { keyValue }, onSuccess, onFail);
         }
 
         /// <summary>
@@ -125,7 +126,7 @@ namespace Cocktail
         public T WithIdFromCache(params object[] keyValues)
         {
             var key = new EntityKey(typeof(T), keyValues);
-            var entity = (T) EntityManager.FindEntity(key);
+            var entity = (T)EntityManager.FindEntity(key);
             if (entity == null)
                 throw new EntityNotFoundException(ShouldHaveExactlyOneEntityErrorMessage(key.ToQuery(), 0));
             return entity;
@@ -261,7 +262,7 @@ namespace Cocktail
                                                       Action<IEnumerable> onSuccess = null,
                                                       Action<Exception> onFail = null)
         {
-            if (selector == null) 
+            if (selector == null)
                 throw new ArgumentNullException("selector");
 
             var query = GetFindQuery(selector, predicate, orderBy);
@@ -327,7 +328,7 @@ namespace Cocktail
             if (selector == null)
                 throw new ArgumentNullException("selector");
 
-            var query = GetFindQuery(selector, predicate, orderBy).With(QueryStrategy.CacheOnly);
+            var query = GetFindQuery(selector, predicate, orderBy).With(QueryStrategy.DataSourceOnly);
             return query.ExecuteAsync(op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
         }
 
@@ -343,7 +344,7 @@ namespace Cocktail
             if (predicate == null)
                 throw new ArgumentNullException("predicate");
 
-            return GetFindQuery(predicate, orderBy, null).With(QueryStrategy.CacheOnly).ToList();
+            return GetFindQuery(predicate, orderBy, null).With(QueryStrategy.CacheOnly).Execute();
         }
 
         /// <summary>
@@ -360,7 +361,7 @@ namespace Cocktail
             if (selector == null)
                 throw new ArgumentNullException("selector");
 
-            return GetFindQuery(selector, predicate, orderBy).With(QueryStrategy.CacheOnly).ToList();
+            return GetFindQuery(selector, predicate, orderBy).With(QueryStrategy.CacheOnly).Execute();
         }
 
         /// <summary>
@@ -395,7 +396,7 @@ namespace Cocktail
         /// <param name="entities"> Entities to be deleted. </param>
         public void Delete(IEnumerable<T> entities)
         {
-            entities.ToList().ForEach(Delete);
+            entities.ForEach(Delete);
         }
 
         /// <summary>
@@ -439,7 +440,7 @@ namespace Cocktail
             if (predicate != null)
                 query = query.Where(predicate);
             if (orderBy != null)
-                query = (IEntityQuery<T>) orderBy(query);
+                query = (IEntityQuery<T>)orderBy(query);
             if (!string.IsNullOrWhiteSpace(includeProperties))
                 query = ParseIncludeProperties(includeProperties)
                     .Aggregate(query, (q, includeProperty) => q.Include(includeProperty));
@@ -464,9 +465,9 @@ namespace Cocktail
             if (predicate != null)
                 baseQuery = baseQuery.Where(predicate);
 
-            var query = (IEntityQuery<TResult>) selector(baseQuery);
+            var query = (IEntityQuery<TResult>)selector(baseQuery);
             if (orderBy != null)
-                query = (IEntityQuery<TResult>) orderBy(query);
+                query = (IEntityQuery<TResult>)orderBy(query);
 
             return query.With(DefaultQueryStrategy);
         }
@@ -492,7 +493,7 @@ namespace Cocktail
             if (orderBy != null)
                 query = orderBy(query);
 
-            return ((IEntityQuery) query).With(DefaultQueryStrategy);
+            return ((IEntityQuery)query).With(DefaultQueryStrategy);
         }
 
         private IEnumerable<INotifyCompleted> WithIdAsyncCore(IEntityQuery entityQuery)
@@ -510,7 +511,7 @@ namespace Cocktail
 
         private IEnumerable<string> ParseIncludeProperties(string includeProperties)
         {
-            return includeProperties.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            return includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         private string ShouldHaveExactlyOneEntityErrorMessage(IEntityQuery entityQuery, int count)

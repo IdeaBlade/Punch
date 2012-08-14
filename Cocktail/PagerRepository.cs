@@ -19,7 +19,7 @@ using IdeaBlade.EntityModel;
 namespace Cocktail
 {
     /// <summary>
-    ///   A generic implementation of a repository which allowing paging of entity and object results.
+    ///   A generic implementation of a repository which allows paging of entity and object results.
     /// </summary>
     /// <typeparam name="T"> The type of entity this repository retrieves. </typeparam>
     public class PagerRepository<T> : Repository<T>, IPagerRepository<T> where T : class

@@ -230,7 +230,7 @@ namespace Cocktail
 
         public override T Result
         {
-            get { return (T)_coroutineOperation.Result; }
+            get { return (T) _coroutineOperation.Result; }
         }
     }
 
@@ -332,7 +332,7 @@ namespace Cocktail
             get
             {
                 return _entityScalarQueryOperation != null
-                           ? (T)_entityScalarQueryOperation.Result
+                           ? (T) _entityScalarQueryOperation.Result
                            : _entityScalarQueryOperationT.Result;
             }
         }
@@ -350,7 +350,7 @@ namespace Cocktail
 
         public override T Result
         {
-            get { return (T)_invokeServerMethodOperation.Result; }
+            get { return (T) _invokeServerMethodOperation.Result; }
         }
     }
 

@@ -88,6 +88,15 @@ namespace Cocktail {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The current asynchronous operation cannot be cancelled..
+        /// </summary>
+        internal static string CannotCancelCurrentOperation {
+            get {
+                return ResourceManager.GetString("CannotCancelCurrentOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The name of the ConnectionOptions returned by IConnectionOptionsResolver: {0} does not match the value of the name parameter: {1}..
         /// </summary>
         internal static string ConnectionOptionsNameMissmatch {

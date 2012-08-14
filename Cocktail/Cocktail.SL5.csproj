@@ -146,6 +146,7 @@
     <Compile Include="IDialogHost.cs" />
     <Compile Include="IDialogManager.cs" />
     <Compile Include="IFactory.cs" />
+    <Compile Include="IPagerRepository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="LogFns.cs" />
@@ -173,6 +174,8 @@
     <Compile Include="OperationResult.Task.cs">
       <DependentUpon>OperationResult.cs</DependentUpon>
     </Compile>
+    <Compile Include="Pager.cs" />
+    <Compile Include="PagerRepository.cs" />
     <Compile Include="PartLocator.cs" />
     <Compile Include="PathToImageSourceConverter.cs" />
     <Compile Include="PrincipalChangedMessage.cs" />

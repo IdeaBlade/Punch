@@ -398,5 +398,43 @@ namespace Cocktail.Tests
             Assert.IsNotNull(operation.Result);
             Assert.IsTrue(operation.Result.EntityAspect.EntityState.IsAdded());
         }
+
+        [TestMethod]
+        [Asynchronous, Timeout(10000)]
+        public void ShouldPageCustomersWithPredicate()
+        {
+            DoItAsync(
+                () =>
+                {
+                    var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+                    var repository = new PagerRepository<Customer>(provider);
+
+                    var sortSelector = new SortSelector("CompanyName");
+
+                    IPager<Customer> pager = null;
+                    var cmds = new List<Func<INotifyCompleted>>
+                                   {
+                                       () => TestInit(CompositionContext.Fake.Name),
+                                       () =>
+                                           {
+                                               pager = repository.Pager(sortSelector, 2, x => x.City == "SomeCity");
+                                               return OperationResult.FromResult(true);
+                                           },
+                                       () => pager.LastPageAsync()
+                                                 .ContinueWith(op =>
+                                                                   {
+                                                                       Assert.IsTrue(op.CompletedSuccessfully);
+                                                                       Assert.IsTrue(op.Result.PageWasFound);
+                                                                       Assert.IsTrue(op.Result.Results.Any());
+                                                                       Assert.IsTrue(pager.TotalItemCount == 3);
+                                                                       Assert.IsTrue(pager.TotalNumberOfPages == 2);
+                                                                       Assert.IsTrue(op.Result.PageIndex == 1);
+
+                                                                       TestComplete();
+                                                                   })
+                                   };
+                    Coroutine.Start(cmds);
+                });
+        }
     }
 }

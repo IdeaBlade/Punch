@@ -58,6 +58,17 @@ namespace Cocktail.Tests.Helpers
                                     PostalCode = "11111"
                                 };
             manager.AttachEntity(customer2);
+
+            var customer3 = new Customer
+            {
+                CustomerID = CreateGuid(3),
+                CompanyName = "Company3",
+                ContactName = "Jane Doe",
+                Address = "SomeAddress",
+                City = "SomeCity",
+                PostalCode = "11111"
+            };
+            manager.AttachEntity(customer3);
         }
     }
 }

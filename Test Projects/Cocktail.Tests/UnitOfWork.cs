@@ -75,7 +75,7 @@ namespace Cocktail.Tests
                     var cmds = new List<Func<INotifyCompleted>>
                                    {
                                        () => TestInit(CompositionContext.Fake.Name),
-                                       () => unitOfWork.Entities.FindAsync(pd)
+                                       () => unitOfWork.Entities.FindAsync(pd.ToPredicate<Customer>())
                                                  .ContinueWith(op =>
                                                                    {
                                                                        Assert.IsTrue(op.CompletedSuccessfully);
@@ -243,7 +243,7 @@ namespace Cocktail.Tests
                     var cmds = new List<Func<INotifyCompleted>>
                                    {
                                        () => TestInit(CompositionContext.Fake.Name),
-                                       () => unitOfWork.Entities.FindAsync(sortSelector: selector)
+                                       () => unitOfWork.Entities.AllAsync(q => q.OrderBySelector(selector))
                                                  .ContinueWith(op =>
                                                                    {
                                                                        Assert.IsTrue(op.CompletedSuccessfully);
@@ -269,7 +269,7 @@ namespace Cocktail.Tests
                     var cmds = new List<Func<INotifyCompleted>>
                                    {
                                        () => TestInit(CompositionContext.Fake.Name),
-                                       () => unitOfWork.Entities.FindAsync(orderBy: q => q.OrderBy(c => c.City))
+                                       () => unitOfWork.Entities.AllAsync(q => q.OrderBy(c => c.City))
                                                  .ContinueWith(op =>
                                                                    {
                                                                        Assert.IsTrue(op.CompletedSuccessfully);
@@ -372,7 +372,9 @@ namespace Cocktail.Tests
                     var cmds = new List<Func<INotifyCompleted>>
                                    {
                                        () => TestInit(CompositionContext.Fake.Name),
-                                       () => unitOfWork.Entities.FindAsync(selector, pd, sortSelector)
+                                       () => unitOfWork.Entities.FindAsync(x => x.Select(selector),
+                                                                           pd.ToPredicate<Customer>(),
+                                                                           q => q.OrderBySelector(sortSelector))
                                                  .ContinueWith(op =>
                                                                    {
                                                                        Assert.IsTrue(op.CompletedSuccessfully);

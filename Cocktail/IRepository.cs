@@ -17,6 +17,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using IdeaBlade.Core;
+using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {

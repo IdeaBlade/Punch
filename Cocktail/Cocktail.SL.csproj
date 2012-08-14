@@ -135,6 +135,7 @@
     <Compile Include="IDialogHost.cs" />
     <Compile Include="IDialogManager.cs" />
     <Compile Include="IFactory.cs" />
+    <Compile Include="IPagerRepository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="LogFns.cs" />
@@ -156,6 +157,8 @@
     <Compile Include="IValidationErrorNotification.cs" />
     <Compile Include="NavigateResult.cs" />
     <Compile Include="ObjectManager.cs" />
+    <Compile Include="Pager.cs" />
+    <Compile Include="PagerRepository.cs" />
     <Compile Include="PartLocator.cs" />
     <Compile Include="PathToImageSourceConverter.cs" />
     <Compile Include="PrincipalChangedMessage.cs" />

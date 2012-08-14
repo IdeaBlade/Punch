@@ -98,6 +98,7 @@
       <DependentUpon>IAuthenticationService.cs</DependentUpon>
     </Compile>
     <Compile Include="IFactory.cs" />
+    <Compile Include="IPagerRepository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Composition.cs" />
@@ -139,6 +140,8 @@
     <Compile Include="NavigationProcessor.cs" />
     <Compile Include="NavigationService.cs" />
     <Compile Include="ObjectManager.cs" />
+    <Compile Include="Pager.cs" />
+    <Compile Include="PagerRepository.cs" />
     <Compile Include="PartLocator.cs" />
     <Compile Include="PathToImageSourceConverter.cs" />
     <Compile Include="PrincipalChangedMessage.cs" />

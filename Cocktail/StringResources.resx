@@ -249,4 +249,7 @@
   <data name="CannotCancelCurrentOperation" xml:space="preserve">
     <value>The current asynchronous operation cannot be cancelled.</value>
   </data>
+  <data name="PageChangeInProgress" xml:space="preserve">
+    <value>Another page change is in progress. You must wait before attempting another page change.</value>
+  </data>
 </root>

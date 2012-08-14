@@ -322,6 +322,15 @@ namespace Cocktail {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Another page change is in progress. You must wait before attempting another page change..
+        /// </summary>
+        internal static string PageChangeInProgress {
+            get {
+                return ResourceManager.GetString("PageChangeInProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Probed for EntityManagerDelegate and found {0} matchting exports..
         /// </summary>
         internal static string ProbedForEntityManagerDelegateAndFoundMatch {

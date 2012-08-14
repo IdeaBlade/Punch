@@ -107,14 +107,14 @@ namespace Cocktail
     public interface IPager<T>
     {
         /// <summary>
-        ///   Gets the zero-based index of the current page.
-        /// </summary>
-        int CurrentPageIndex { get; }
-
-        /// <summary>
         ///   Returns the number of records requested for each page.
         /// </summary>
         int PageSize { get; }
+
+        /// <summary>
+        /// Returns true if a page change is in progress.
+        /// </summary>
+        bool IsPageChanging { get; }
 
         /// <summary>
         ///   Returns the number of records available to be returned from the back-end data source.
@@ -139,6 +139,11 @@ namespace Cocktail
         ///   This property will return -1 until all pages are fetched or the <see cref="TotalDataSourceItemCount" /> is known. The number will be an approximation when a large number of inserts and deletes have occurred.
         /// </remarks>
         int TotalNumberOfPages { get; }
+
+        /// <summary>
+        /// Returns the current page.
+        /// </summary>
+        Page<T> CurrentPage { get; }
 
         /// <summary>
         ///   Moves to the first page.

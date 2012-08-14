@@ -28,19 +28,19 @@ namespace Cocktail
         #region IPager<T> Members
 
         /// <summary>
-        ///   Gets the zero-based index of the current page.
-        /// </summary>
-        public int CurrentPageIndex
-        {
-            get { return _entityQueryPager.PageIndex; }
-        }
-
-        /// <summary>
         ///   Returns the number of records requested for each page.
         /// </summary>
         public int PageSize
         {
             get { return _entityQueryPager.PageSize; }
+        }
+
+        /// <summary>
+        /// Returns true if a page change is in progress.
+        /// </summary>
+        public bool IsPageChanging
+        {
+            get { return _entityQueryPager.IsPageChanging; }
         }
 
         /// <summary>
@@ -78,9 +78,17 @@ namespace Cocktail
                 if (TotalItemCount == -1)
                     return -1;
 
-                var fraction = (double)TotalItemCount/PageSize;
-                return (int) Math.Ceiling(fraction);
+                var fraction = (double)TotalItemCount / PageSize;
+                return (int)Math.Ceiling(fraction);
             }
+        }
+
+        /// <summary>
+        /// Returns the current page.
+        /// </summary>
+        public Page<T> CurrentPage
+        {
+            get { return new Page<T>(_entityQueryPager.PageIndex, true, _entityQueryPager.CurrentPageResults); }
         }
 
         /// <summary>
@@ -89,8 +97,11 @@ namespace Cocktail
         /// <param name="onSuccess"> An optional callback to be called when the page was successfully retrieved. </param>
         /// <param name="onFail"> An optional callback to be called when the page retrieval failed. </param>
         /// <returns> Asynchronous operation result. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         public PageOperationResult<T> FirstPageAsync(Action<Page<T>> onSuccess = null, Action<Exception> onFail = null)
         {
+            ThrowIfPageChanging();
+            
             return _entityQueryPager.MoveToFirstPageAsync()
                 .OnComplete(onSuccess, onFail)
                 .AsOperationResult();
@@ -102,8 +113,11 @@ namespace Cocktail
         /// <param name="onSuccess"> An optional callback to be called when the page was successfully retrieved. </param>
         /// <param name="onFail"> An optional callback to be called when the page retrieval failed. </param>
         /// <returns> Asynchronous operation result. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         public PageOperationResult<T> LastPageAsync(Action<Page<T>> onSuccess = null, Action<Exception> onFail = null)
         {
+            ThrowIfPageChanging();
+
             return _entityQueryPager.MoveToLastPageAsync()
                 .OnComplete(onSuccess, onFail)
                 .AsOperationResult();
@@ -115,8 +129,11 @@ namespace Cocktail
         /// <param name="onSuccess"> An optional callback to be called when the page was successfully retrieved. </param>
         /// <param name="onFail"> An optional callback to be called when the page retrieval failed. </param>
         /// <returns> Asynchronous operation result. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         public PageOperationResult<T> NextPageAsync(Action<Page<T>> onSuccess = null, Action<Exception> onFail = null)
         {
+            ThrowIfPageChanging();
+
             return _entityQueryPager.MoveToNextPageAsync()
                 .OnComplete(onSuccess, onFail)
                 .AsOperationResult();
@@ -128,9 +145,12 @@ namespace Cocktail
         /// <param name="onSuccess"> An optional callback to be called when the page was successfully retrieved. </param>
         /// <param name="onFail"> An optional callback to be called when the page retrieval failed. </param>
         /// <returns> Asynchronous operation result. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         public PageOperationResult<T> PreviousPageAsync(Action<Page<T>> onSuccess = null,
                                                         Action<Exception> onFail = null)
         {
+            ThrowIfPageChanging();
+
             return _entityQueryPager.MoveToPreviousPageAsync()
                 .OnComplete(onSuccess, onFail)
                 .AsOperationResult();
@@ -143,14 +163,23 @@ namespace Cocktail
         /// <param name="onSuccess"> An optional callback to be called when the page was successfully retrieved. </param>
         /// <param name="onFail"> An optional callback to be called when the page retrieval failed. </param>
         /// <returns> Asynchronous operation result. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         public PageOperationResult<T> GoToPageAsync(int pageIndex, Action<Page<T>> onSuccess = null,
                                                     Action<Exception> onFail = null)
         {
+            ThrowIfPageChanging();
+
             return _entityQueryPager.MoveToPageAsync(pageIndex)
                 .OnComplete(onSuccess, onFail)
                 .AsOperationResult();
         }
 
         #endregion
+
+        private void ThrowIfPageChanging()
+        {
+            if (IsPageChanging)
+                throw new InvalidOperationException(StringResources.PageChangeInProgress);
+        }
     }
 }

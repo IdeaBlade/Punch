@@ -112,8 +112,8 @@ namespace TempHire.ViewModels.StaffingResource
             var rateTypes = UnitOfWork.RateTypes;
             var rateTypeSelector = _rateTypeSelectorFactory.CreatePart()
                 .Start("Select type:", "DisplayName",
-                       () => rateTypes.FindAsync(orderBy: q => q.OrderBy(t => t.DisplayName),
-                                                 onFail: ErrorHandler.HandleError));
+                       () => rateTypes.AllAsync(q => q.OrderBy(t => t.DisplayName),
+                                                onFail: ErrorHandler.HandleError));
 
             yield return _dialogManager.ShowDialogAsync(rateTypeSelector, DialogButtons.OkCancel);
 

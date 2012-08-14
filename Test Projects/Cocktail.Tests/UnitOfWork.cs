@@ -258,5 +258,25 @@ namespace Cocktail.Tests
             Assert.IsTrue(pager.TotalNumberOfPages == 2);
             Assert.IsTrue(page.PageIndex == 1);
         }
+
+        [TestMethod]
+        [Timeout(10000)]
+        public async Task ShouldPageProjection()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var repository = new PagerRepository<Customer>(provider);
+
+            var sortSelector = new SortSelector("CompanyName");
+
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+            var pager = repository.Pager(
+                q => q.Select(x => new PageProjection() { CompanyName = x.CompanyName, City = x.City }),
+                2, sortSelector, x => x.City == "SomeCity");
+            var page = await pager.FirstPageAsync();
+
+            Assert.IsTrue(page.PageWasFound);
+            Assert.IsTrue(page.Results.Count() == 2);
+            Assert.IsTrue(page.PageIndex == 0);
+        }
     }
 }

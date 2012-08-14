@@ -47,7 +47,7 @@ namespace Cocktail
         public IPager<T> Pager(ISortSelector sortSelector, int pageSize, Expression<Func<T, bool>> predicate = null,
                                string includeProperties = null)
         {
-            if (sortSelector == null) 
+            if (sortSelector == null)
                 throw new ArgumentNullException("sortSelector");
 
             var query = GetFindQuery(predicate, null, includeProperties);
@@ -66,12 +66,18 @@ namespace Cocktail
         public IPager<TResult> Pager<TResult>(Func<IQueryable<T>, IQueryable<TResult>> selector, int pageSize,
                                               ISortSelector sortSelector, Expression<Func<T, bool>> predicate = null)
         {
-            if (selector == null) 
+            if (selector == null)
                 throw new ArgumentNullException("selector");
-            if (sortSelector == null) 
+            if (sortSelector == null)
                 throw new ArgumentNullException("sortSelector");
 
             var query = GetFindQuery(selector, predicate, null);
+
+            // If TResult is not an entity type, then the query strategy must be set to DataSourceOnly
+            // otherwise the EntityQueryPager doesn't return any data. This appears to be a bug in DevForce.
+            if (!EntityManager.IsEntityType(typeof(TResult)))
+                query = query.With(QueryStrategy.DataSourceOnly);
+
             return new Pager<TResult>(query, sortSelector, pageSize);
         }
 

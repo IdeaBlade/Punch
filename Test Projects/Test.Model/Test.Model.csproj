@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="NorthwindIBDbContext.cs" />
     <Compile Include="NorthwindIBEntities.cs" />
+    <Compile Include="PageProjection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

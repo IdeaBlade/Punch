@@ -425,10 +425,53 @@ namespace Cocktail.Tests
                                                                    {
                                                                        Assert.IsTrue(op.CompletedSuccessfully);
                                                                        Assert.IsTrue(op.Result.PageWasFound);
-                                                                       Assert.IsTrue(op.Result.Results.Any());
+                                                                       Assert.IsTrue(op.Result.Results.Count() == 1);
                                                                        Assert.IsTrue(pager.TotalItemCount == 3);
                                                                        Assert.IsTrue(pager.TotalNumberOfPages == 2);
                                                                        Assert.IsTrue(op.Result.PageIndex == 1);
+
+                                                                       TestComplete();
+                                                                   })
+                                   };
+                    Coroutine.Start(cmds);
+                });
+        }
+
+        [TestMethod]
+        [Asynchronous, Timeout(10000)]
+        public void ShouldPageProjection()
+        {
+            DoItAsync(
+                () =>
+                {
+                    var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+                    var repository = new PagerRepository<Customer>(provider);
+
+                    var sortSelector = new SortSelector("CompanyName");
+
+                    IPager<PageProjection> pager = null;
+                    var cmds = new List<Func<INotifyCompleted>>
+                                   {
+                                       () => TestInit(CompositionContext.Fake.Name),
+                                       () =>
+                                           {
+                                               pager =
+                                                   repository.Pager(
+                                                       q =>
+                                                       q.Select(
+                                                           x =>
+                                                           new PageProjection()
+                                                               {CompanyName = x.CompanyName, City = x.City}), 2,
+                                                       sortSelector, x => x.City == "SomeCity");
+                                               return OperationResult.FromResult(true);
+                                           },
+                                       () => pager.FirstPageAsync()
+                                                 .ContinueWith(op =>
+                                                                   {
+                                                                       Assert.IsTrue(op.CompletedSuccessfully);
+                                                                       Assert.IsTrue(op.Result.PageWasFound);
+                                                                       Assert.IsTrue(op.Result.Results.Count() == 2);
+                                                                       Assert.IsTrue(op.Result.PageIndex == 0);
 
                                                                        TestComplete();
                                                                    })

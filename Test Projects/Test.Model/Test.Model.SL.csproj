@@ -81,6 +81,7 @@
     <Compile Include="Customer.cs" />
     <Compile Include="NorthwindIB.IB.Designer.cs" />
     <Compile Include="NorthwindIBEntities.cs" />
+    <Compile Include="PageProjection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -103,24 +103,28 @@ namespace Cocktail
         ///   Moves to the first page.
         /// </summary>
         /// <returns> The first page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         Task<Page<T>> FirstPageAsync();
 
         /// <summary>
         ///   Moves to the last page.
         /// </summary>
         /// <returns> The last page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         Task<Page<T>> LastPageAsync();
 
         /// <summary>
         ///   Moves to the page after the current page.
         /// </summary>
         /// <returns> The next page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         Task<Page<T>> NextPageAsync();
 
         /// <summary>
         ///   Moves to the page before the current page.
         /// </summary>
         /// <returns> The previous page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         Task<Page<T>> PreviousPageAsync();
 
         /// <summary>
@@ -128,6 +132,7 @@ namespace Cocktail
         /// </summary>
         /// <param name="pageIndex"> The zero-based index of the requested page. </param>
         /// <returns> The requested page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         Task<Page<T>> GoToPageAsync(int pageIndex);
     }
 

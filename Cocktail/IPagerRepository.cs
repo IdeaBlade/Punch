@@ -151,6 +151,7 @@ namespace Cocktail
         /// <param name="onSuccess"> An optional callback to be called when the page was successfully retrieved. </param>
         /// <param name="onFail"> An optional callback to be called when the page retrieval failed. </param>
         /// <returns> Asynchronous operation result. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         PageOperationResult<T> FirstPageAsync(Action<Page<T>> onSuccess = null, Action<Exception> onFail = null);
 
         /// <summary>
@@ -159,6 +160,7 @@ namespace Cocktail
         /// <param name="onSuccess"> An optional callback to be called when the page was successfully retrieved. </param>
         /// <param name="onFail"> An optional callback to be called when the page retrieval failed. </param>
         /// <returns> Asynchronous operation result. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         PageOperationResult<T> LastPageAsync(Action<Page<T>> onSuccess = null, Action<Exception> onFail = null);
 
         /// <summary>
@@ -167,6 +169,7 @@ namespace Cocktail
         /// <param name="onSuccess"> An optional callback to be called when the page was successfully retrieved. </param>
         /// <param name="onFail"> An optional callback to be called when the page retrieval failed. </param>
         /// <returns> Asynchronous operation result. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         PageOperationResult<T> NextPageAsync(Action<Page<T>> onSuccess = null, Action<Exception> onFail = null);
 
         /// <summary>
@@ -175,6 +178,7 @@ namespace Cocktail
         /// <param name="onSuccess"> An optional callback to be called when the page was successfully retrieved. </param>
         /// <param name="onFail"> An optional callback to be called when the page retrieval failed. </param>
         /// <returns> Asynchronous operation result. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         PageOperationResult<T> PreviousPageAsync(Action<Page<T>> onSuccess = null, Action<Exception> onFail = null);
 
         /// <summary>
@@ -184,6 +188,7 @@ namespace Cocktail
         /// <param name="onSuccess"> An optional callback to be called when the page was successfully retrieved. </param>
         /// <param name="onFail"> An optional callback to be called when the page retrieval failed. </param>
         /// <returns> Asynchronous operation result. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         PageOperationResult<T> GoToPageAsync(int pageIndex, Action<Page<T>> onSuccess = null,
                                              Action<Exception> onFail = null);
     }

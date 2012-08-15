@@ -11,8 +11,6 @@
 // ====================================================================================================================
 
 using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using System.ComponentModel.Composition.Primitives;
 using Caliburn.Micro;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
@@ -21,9 +19,6 @@ namespace Cocktail
 {
     public static partial class Composition
     {
-        private static CompositionContainer _container;
-        private static ComposablePartCatalog _catalog;
-
         static Composition()
         {
             EntityManager.EntityManagerCreated += OnEntityManagerCreated;
@@ -38,23 +33,6 @@ namespace Cocktail
                 CreationPolicy.Shared, () => args.EntityManager.CompositionContext);
             if (locator.IsAvailable)
                 args.EntityManager.AuthenticationContext = locator.GetPart().AuthenticationContext;
-        }
-
-        /// <summary>
-        ///   Configures the CompositionHost.
-        /// </summary>
-        /// <param name="compositionBatch"> Optional changes to the <see cref="CompositionContainer" /> to include during the composition. </param>
-        /// <param name="catalog"> The custom catalog to be used by Cocktail to get access to MEF exports. </param>
-        public static void Configure(CompositionBatch compositionBatch = null, ComposablePartCatalog catalog = null)
-        {
-            Clear();
-            _catalog = catalog;
-
-            var batch = compositionBatch ?? new CompositionBatch();
-            if (!ExportExists<IEventAggregator>())
-                batch.AddExportedValue<IEventAggregator>(new EventAggregator());
-
-            Compose(batch);
         }
 
         /// <summary>Satisfies all the imports on the provided instance.</summary>

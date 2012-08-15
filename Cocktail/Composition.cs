@@ -16,8 +16,6 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
-using IdeaBlade.Core.Composition;
-using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 
 namespace Cocktail
 {
@@ -26,33 +24,6 @@ namespace Cocktail
     /// </summary>
     public static partial class Composition
     {
-        /// <summary>
-        ///   Returns the current catalog in use.
-        /// </summary>
-        /// <returns> Unless a custom catalog is provided through <see cref="Configure" />, this property returns <see cref="DefaultCatalog" /> </returns>
-        public static ComposablePartCatalog Catalog
-        {
-            get { return _catalog ?? DefaultCatalog; }
-        }
-
-        /// <summary>
-        ///   Returns the default catalog in use by DevForce.
-        /// </summary>
-        public static ComposablePartCatalog DefaultCatalog
-        {
-            get { return CompositionHost.Instance.Container.Catalog; }
-        }
-
-        /// <summary>
-        ///   Returns the CompositionContainer in use.
-        /// </summary>
-        public static CompositionContainer Container
-        {
-            get { return _container ?? (_container = new CompositionContainer(Catalog)); }
-        }
-
-        internal static bool IsRecomposing { get; set; }
-
         /// <summary>
         ///   Executes composition on the container, including the changes in the specified <see cref="CompositionBatch" /> .
         /// </summary>
@@ -63,22 +34,6 @@ namespace Cocktail
                 throw new ArgumentNullException("compositionBatch");
 
             Container.Compose(compositionBatch);
-        }
-
-        /// <summary>
-        ///   Resets the CompositionContainer to it's initial state.
-        /// </summary>
-        /// <remarks>
-        ///   After calling <see cref="Clear" /> , <see cref="Configure" /> should be called to configure the new CompositionContainer.
-        /// </remarks>
-        public static void Clear()
-        {
-            if (_container != null)
-                _container.Dispose();
-            _container = null;
-            _catalog = null;
-
-            Cleared(null, EventArgs.Empty);
         }
 
         /// <summary>
@@ -138,15 +93,6 @@ namespace Cocktail
         {
             var exports = GetExportsCore(serviceType, null, requiredCreationPolicy);
             return exports.Select(e => e.Value);
-        }
-
-        /// <summary>
-        ///   Fired when the composition container is modified after initialization.
-        /// </summary>
-        public static event EventHandler<RecomposedEventArgs> Recomposed
-        {
-            add { CompositionHost.Recomposed += value; }
-            remove { CompositionHost.Recomposed -= value; }
         }
 
         /// <summary>

@@ -121,6 +121,9 @@
     <Compile Include="Composition.Client.cs">
       <DependentUpon>Composition.cs</DependentUpon>
     </Compile>
+    <Compile Include="Composition.Desktop.cs">
+      <DependentUpon>Composition.cs</DependentUpon>
+    </Compile>
     <Compile Include="Composition.Silverlight.cs">
       <DependentUpon>Composition.cs</DependentUpon>
     </Compile>

@@ -83,9 +83,6 @@
     </Compile>
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />
-    <Compile Include="Composition.Desktop.cs">
-      <DependentUpon>Composition.cs</DependentUpon>
-    </Compile>
     <Compile Include="EntityManagerProvider.NET.cs">
       <DependentUpon>EntityManagerProvider.cs</DependentUpon>
     </Compile>
@@ -100,14 +97,12 @@
     <Compile Include="IAuthenticationService.NET.cs">
       <DependentUpon>IAuthenticationService.cs</DependentUpon>
     </Compile>
+    <Compile Include="ICompositionProvider.cs" />
     <Compile Include="IFactory.cs" />
     <Compile Include="IPagerRepository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Composition.cs" />
-    <Compile Include="Composition.Client.cs">
-      <DependentUpon>Composition.cs</DependentUpon>
-    </Compile>
     <Compile Include="ConnectionOptions.cs" />
     <Compile Include="DataChangedEventArgs.cs" />
     <Compile Include="DefaultDebugLogger.cs" />
@@ -139,6 +134,13 @@
     <Compile Include="ISampleDataProvider.cs" />
     <Compile Include="IValidationErrorNotification.cs" />
     <Compile Include="LogFns.cs" />
+    <Compile Include="MefCompositionProvider.cs" />
+    <Compile Include="MefCompositionProvider.Desktop.cs">
+      <DependentUpon>MefCompositionProvider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MefCompositionProvider.Client.cs">
+      <DependentUpon>MefCompositionProvider.cs</DependentUpon>
+    </Compile>
     <Compile Include="MessageBoxBase.cs" />
     <Compile Include="NavigationProcessor.cs" />
     <Compile Include="NavigationService.cs" />

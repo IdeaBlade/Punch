@@ -43,11 +43,12 @@ namespace Cocktail.Tests.Helpers
         [TestInitialize]
         public void TestInitialize()
         {
-            Composition.Clear();
+            var compositionProvider = new MefCompositionProvider();
             Authenticator.Instance.DefaultAuthenticationContext = null;
             var batch = new CompositionBatch();
             PrepareCompositionContainer(batch);
-            Composition.Configure(batch);
+            compositionProvider.Configure(batch);
+            Composition.SetProvider(compositionProvider);
 
             Context();
         }

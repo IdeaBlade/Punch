@@ -34,8 +34,8 @@ namespace Cocktail.Tests
                 .WithName("ShouldDiscoverInjectedAuthenticationService");
 
             IAuthenticationService auth1 =
-                new PartLocator<IAuthenticationService>(CreationPolicy.Any, () => ctx).GetPart();
-            IAuthenticationService auth2 = new PartLocator<IAuthenticationService>(CreationPolicy.Any).GetPart();
+                new PartLocator<IAuthenticationService>(InstanceType.NotSpecified, () => ctx).GetPart();
+            IAuthenticationService auth2 = new PartLocator<IAuthenticationService>(InstanceType.NotSpecified).GetPart();
 
             Assert.IsNotNull(auth1, "AuthenticationServer should not be null");
             Assert.IsNull(auth2, "AuthenticationService should be null");
@@ -49,9 +49,9 @@ namespace Cocktail.Tests
                 .WithGenerator(typeof(IEntityManagerSyncInterceptor), () => new SyncInterceptor())
                 .WithName("ShouldDiscoverDefault");
 
-            var partLocator1 = new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.Any, () => context);
+            var partLocator1 = new PartLocator<IEntityManagerSyncInterceptor>(InstanceType.NotSpecified, () => context);
             PartLocator<IEntityManagerSyncInterceptor> partLocator2 = new PartLocator<IEntityManagerSyncInterceptor>(
-                CreationPolicy.Any)
+                InstanceType.NotSpecified)
                 .WithDefaultGenerator(() => new DefaultEntityManagerSyncInterceptor());
 
             IEntityManagerSyncInterceptor obj1 = partLocator1.GetPart();

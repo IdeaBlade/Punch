@@ -1,4 +1,4 @@
-// ====================================================================================================================
+﻿// ====================================================================================================================
 //   Copyright (c) 2012 IdeaBlade
 // ====================================================================================================================
 //   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
@@ -12,116 +12,67 @@
 
 using System;
 using System.Collections.Generic;
-using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
     /// <summary>
-    ///   Sets up a composition container and provides means to interact with the container.
+    /// Specifies if an instance returned by <see cref="ICompositionProvider"/> should
+    /// be shared, not shared or left to the provider to decide.
     /// </summary>
-    public static partial class Composition
+    public enum InstanceType { Shared, NonShared, NotSpecified };
+
+    /// <summary>
+    /// A service providing implementation independent IoC functionality.
+    /// </summary>
+    public partial interface ICompositionProvider
     {
-        private static ICompositionProvider _provider;
-
-        static Composition()
-        {
-            EntityManager.EntityManagerCreated += OnEntityManagerCreated;
-        }
-
-        private static void OnEntityManagerCreated(object sender, EntityManagerCreatedEventArgs args)
-        {
-            if (!args.EntityManager.IsClient)
-                return;
-
-            var locator = new PartLocator<IAuthenticationService>(
-                InstanceType.Shared, () => args.EntityManager.CompositionContext);
-            if (locator.IsAvailable)
-                args.EntityManager.AuthenticationContext = locator.GetPart().AuthenticationContext;
-        }
-
-        /// <summary>
-        /// Sets the current <see cref="ICompositionProvider"/>.
-        /// </summary>
-        public static void SetProvider(ICompositionProvider compositionProvider)
-        {
-            if (compositionProvider == null)
-                throw new ArgumentNullException(StringResources.CompositionProviderCannotBeNull);
-            _provider = compositionProvider;
-            ProviderChanged(null, EventArgs.Empty);
-        }
-
         /// <summary>
         /// Returns true if the provided type has been previously registered.
         /// </summary>
-        public static bool IsTypeRegistered<T>()
-        {
-            return Provider.IsTypeRegistered<T>();
-        }
+        bool IsTypeRegistered<T>();
 
         /// <summary>
         ///   Returns an instance of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instance. </typeparam>
         /// <param name="instanceType"> Optionally specify whether the returned instance should be a shared or not shared. </param>
-        /// <returns> The requested instance. </returns>
-        public static T GetInstance<T>(InstanceType instanceType = InstanceType.NotSpecified)
-        {
-            return Provider.GetInstance<T>(instanceType);
-        }
+        T GetInstance<T>(InstanceType instanceType = InstanceType.NotSpecified);
 
         /// <summary>
         ///   Returns all instances of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instances. </typeparam>
         /// <param name="instanceType"> Optionally specify whether the returned instances should be a shared or not shared. </param>
-        /// <returns> The requested instances. </returns>
-        public static IEnumerable<T> GetInstances<T>(InstanceType instanceType = InstanceType.NotSpecified)
-        {
-            return Provider.GetInstances<T>(instanceType);
-        }
-
+        IEnumerable<T> GetInstances<T>(InstanceType instanceType = InstanceType.NotSpecified);
+    
         /// <summary>
         ///   Returns an instance of the provided type or with the specified contract name or both.
         /// </summary>
         /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
         /// <param name="instanceType"> Optionally specify whether the returned instance should be a shared or not shared. </param>
-        /// <returns> The requested instance. </returns>
-        public static object GetInstance(Type serviceType, string contractName, InstanceType instanceType = InstanceType.NotSpecified)
-        {
-            return Provider.GetInstance(serviceType, contractName, instanceType);
-        }
+        object GetInstance(Type serviceType, string contractName, InstanceType instanceType = InstanceType.NotSpecified);
 
         /// <summary>
         ///   Returns all instances of the provided type.
         /// </summary>
         /// <param name="serviceType"> Type of the requested instances. </param>
-        /// <param name="instanceType"> Optionally specify whether the returned instance should be a shared or not shared. </param>
-        /// <returns> The requested instances. </returns>
-        public static IEnumerable<object> GetInstances(Type serviceType, InstanceType instanceType = InstanceType.NotSpecified)
-        {
-            return Provider.GetInstances(serviceType, instanceType);
-        }
+        /// <param name="instanceType"> Optionally specify whether the returned instances should be a shared or not shared. </param>
+        IEnumerable<object> GetInstances(Type serviceType, InstanceType instanceType = InstanceType.NotSpecified);
 
         /// <summary>
         ///   Returns a lazy instance of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instance. </typeparam>
         /// <param name="instanceType"> Optionally specify whether the returned instance should be a shared or not shared. </param>
-        public static Lazy<T> GetLazyInstance<T>(InstanceType instanceType = InstanceType.NotSpecified)
-        {
-            return Provider.GetLazyInstance<T>(instanceType);
-        }
+        Lazy<T> GetLazyInstance<T>(InstanceType instanceType = InstanceType.NotSpecified);
 
         /// <summary>
         ///   Returns all lazy instances of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instances. </typeparam>
         /// <param name="instanceType"> Optionally specify whether the returned instances should be a shared or not shared. </param>
-        public static IEnumerable<Lazy<T>> GetLazyInstances<T>(InstanceType instanceType = InstanceType.NotSpecified)
-        {
-            return Provider.GetLazyInstances<T>(instanceType);
-        }
+        IEnumerable<Lazy<T>> GetLazyInstances<T>(InstanceType instanceType = InstanceType.NotSpecified);
 
         /// <summary>
         ///   Returns a lazy instance of the provided type or with the specified contract name or both.
@@ -129,41 +80,17 @@ namespace Cocktail
         /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
         /// <param name="instanceType"> Optionally specify whether the returned instance should be a shared or not shared. </param>
-        public static Lazy<object> GetLazyInstance(Type serviceType, string contractName, InstanceType instanceType = InstanceType.NotSpecified)
-        {
-            return Provider.GetLazyInstance(serviceType, contractName, instanceType);
-        }
+        Lazy<object> GetLazyInstance(Type serviceType, string contractName, InstanceType instanceType = InstanceType.NotSpecified);
 
         /// <summary>
         ///   Returns all lazy instances of the provided type.
         /// </summary>
         /// <param name="serviceType"> Type of the requested instances. </param>
         /// <param name="instanceType"> Optionally specify whether the returned instances should be a shared or not shared. </param>
-        public static IEnumerable<Lazy<object>> GetLazyInstances(Type serviceType, InstanceType instanceType = InstanceType.NotSpecified)
-        {
-            return Provider.GetLazyInstances(serviceType, instanceType);
-        }
+        IEnumerable<Lazy<object>> GetLazyInstances(Type serviceType, InstanceType instanceType = InstanceType.NotSpecified);
 
         /// <summary>Manually performs property dependency injection on the provided instance.</summary>
         /// <param name="instance">The instance needing property injection.</param>
-        public static void BuildUp(object instance)
-        {
-            Provider.BuildUp(instance);
-        }
-
-        /// <summary>
-        /// Event triggered after a new CompositionProvider was assigned through <see cref="SetProvider"/>.
-        /// </summary>
-        internal static event EventHandler<EventArgs> ProviderChanged = delegate { };
-
-        internal static ICompositionProvider Provider
-        {
-            get
-            {
-                if (_provider == null)
-                    throw new InvalidOperationException(StringResources.CompositionProviderNotConfigured);
-                return _provider;
-            }
-        }
+        void BuildUp(object instance);
     }
 }

@@ -97,6 +97,24 @@ namespace Cocktail {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Null is not a valid CompositionProvider..
+        /// </summary>
+        internal static string CompositionProviderCannotBeNull {
+            get {
+                return ResourceManager.GetString("CompositionProviderCannotBeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must first set a valid CompositionProvider by using Composition.SetProvider..
+        /// </summary>
+        internal static string CompositionProviderNotConfigured {
+            get {
+                return ResourceManager.GetString("CompositionProviderNotConfigured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The name of the ConnectionOptions returned by IConnectionOptionsResolver: {0} does not match the value of the name parameter: {1}..
         /// </summary>
         internal static string ConnectionOptionsNameMissmatch {

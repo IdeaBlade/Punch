@@ -35,11 +35,11 @@ namespace Cocktail
 
         internal Dialog(object content, IEnumerable<T> dialogButtons, string title = null)
         {
-            _windowManager = Composition.GetInstance<IWindowManager>(CreationPolicy.Shared);
+            _windowManager = Composition.GetInstance<IWindowManager>(InstanceType.Shared);
             _title = title;
             _content = content;
             _dialogButtons = dialogButtons;
-            _dialogHostLocator = new PartLocator<DialogHostBase>(CreationPolicy.NonShared)
+            _dialogHostLocator = new PartLocator<DialogHostBase>(InstanceType.NonShared)
                 .WithDefaultGenerator(() => new DialogHostBase());
         }
 

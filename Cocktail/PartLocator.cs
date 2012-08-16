@@ -22,30 +22,30 @@ namespace Cocktail
     {
         private T _instance;
         private readonly Func<CompositionContext> _compositionContextDelegate;
-        private readonly CreationPolicy _creationPolicy;
+        private readonly InstanceType _instanceType;
 
         private bool _probed;
         private Func<T> _defaultGenerator;
 
-        internal PartLocator(CreationPolicy creationPolicy, Func<CompositionContext> compositionContextDelegate = null)
+        internal PartLocator(InstanceType instanceType, Func<CompositionContext> compositionContextDelegate = null)
         {
             _compositionContextDelegate = compositionContextDelegate ?? (() => CompositionContext.Default);
-            _creationPolicy = creationPolicy;
+            _instanceType = instanceType;
             _defaultGenerator = () => null;
-            Composition.Cleared +=
-                new EventHandler<EventArgs>(OnCompositionCleared).MakeWeak(eh => Composition.Cleared -= eh);
+            Composition.ProviderChanged +=
+                new EventHandler<EventArgs>(OnCompositionProviderChanged).MakeWeak(eh => Composition.ProviderChanged -= eh);
         }
 
         internal PartLocator(PartLocator<T> partLocator)
         {
             _compositionContextDelegate = partLocator._compositionContextDelegate;
-            _creationPolicy = partLocator._creationPolicy;
+            _instanceType = partLocator._instanceType;
             _defaultGenerator = partLocator._defaultGenerator;
-            Composition.Cleared +=
-                new EventHandler<EventArgs>(OnCompositionCleared).MakeWeak(eh => Composition.Cleared -= eh);
+            Composition.ProviderChanged +=
+                new EventHandler<EventArgs>(OnCompositionProviderChanged).MakeWeak(eh => Composition.ProviderChanged -= eh);
         }
 
-        internal void OnCompositionCleared(object sender, EventArgs e)
+        internal void OnCompositionProviderChanged(object sender, EventArgs e)
         {
             _instance = null;
             _probed = false;
@@ -67,14 +67,13 @@ namespace Cocktail
                 return _instance;
             }
 
-            // Look for the part in the MEF container
-            var exports =
-                Composition.GetExportsCore(typeof (T), null, _creationPolicy).ToList();
-            if (exports.Count() > 1)
+            // Look for the part in the IoC container.
+            var parts = Composition.GetLazyInstances<T>(_instanceType).ToList();
+            if (parts.Count() > 1)
                 throw new CompositionException(
                     String.Format(StringResources.ProbedForServiceAndFoundMultipleMatches, typeof (T).Name));
 
-            _instance = exports.Any() ? exports.First().Value as T : DefaultGenerator();
+            _instance = parts.Any() ? parts.First().Value as T : DefaultGenerator();
             _probed = true;
             WriteTrace();
 

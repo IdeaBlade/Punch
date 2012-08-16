@@ -14,14 +14,11 @@ using System.Threading.Tasks;
 
 namespace Cocktail
 {
-    public static partial class Composition
+    public partial interface ICompositionProvider
     {
         /// <summary>Asynchronously downloads a XAP file.</summary>
         /// <param name="relativeUri">The relative URI for the XAP file to be downloaded.</param>
         /// <returns>The asynchronous download <see cref="Task"/>.</returns>
-        public static Task AddXapAsync(string relativeUri)
-        {
-            return Provider.AddXapAsync(relativeUri);
-        }
+        Task AddXapAsync(string relativeUri);
     }
 }

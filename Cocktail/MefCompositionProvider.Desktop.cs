@@ -20,18 +20,21 @@ using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 
 namespace Cocktail
 {
-    public static partial class Composition
+    internal partial class MefCompositionProvider
     {
-        private static CompositionContainer _container;
-        private static ComposablePartCatalog _catalog;
+        private CompositionContainer _container;
+        private ComposablePartCatalog _catalog;
 
-        internal static bool IsRecomposing { get; set; }
+        /// <summary>
+        /// Returns true if the CompositionContainer is currently in the process of recomposing.
+        /// </summary>
+        public bool IsRecomposing { get; internal set; }
 
         /// <summary>
         ///   Returns the current catalog in use.
         /// </summary>
         /// <returns> Unless a custom catalog is provided through <see cref="Configure" />, this property returns <see cref="DefaultCatalog" /> </returns>
-        public static ComposablePartCatalog Catalog
+        public ComposablePartCatalog Catalog
         {
             get { return _catalog ?? DefaultCatalog; }
         }
@@ -39,7 +42,7 @@ namespace Cocktail
         /// <summary>
         ///   Returns the default catalog in use by DevForce.
         /// </summary>
-        public static ComposablePartCatalog DefaultCatalog
+        public ComposablePartCatalog DefaultCatalog
         {
             get { return CompositionHost.Instance.Container.Catalog; }
         }
@@ -47,7 +50,7 @@ namespace Cocktail
         /// <summary>
         ///   Returns the CompositionContainer in use.
         /// </summary>
-        public static CompositionContainer Container
+        public CompositionContainer Container
         {
             get { return _container ?? (_container = new CompositionContainer(Catalog)); }
         }
@@ -57,38 +60,21 @@ namespace Cocktail
         /// </summary>
         /// <param name="compositionBatch"> Optional changes to the <see cref="CompositionContainer" /> to include during the composition. </param>
         /// <param name="catalog"> The custom catalog to be used by Cocktail to get access to MEF exports. </param>
-        public static void Configure(CompositionBatch compositionBatch = null, ComposablePartCatalog catalog = null)
+        public void Configure(CompositionBatch compositionBatch = null, ComposablePartCatalog catalog = null)
         {
-            Clear();
             _catalog = catalog;
 
             var batch = compositionBatch ?? new CompositionBatch();
-            if (!ExportExists<IEventAggregator>())
+            if (!IsTypeRegistered<IEventAggregator>())
                 batch.AddExportedValue<IEventAggregator>(new EventAggregator());
 
             Compose(batch);
         }
 
         /// <summary>
-        ///   Resets the CompositionContainer to it's initial state.
-        /// </summary>
-        /// <remarks>
-        ///   After calling <see cref="Clear" /> , <see cref="Configure" /> should be called to configure the new CompositionContainer.
-        /// </remarks>
-        public static void Clear()
-        {
-            if (_container != null)
-                _container.Dispose();
-            _container = null;
-            _catalog = null;
-
-            Cleared(null, EventArgs.Empty);
-        }
-
-        /// <summary>
         ///   Fired when the composition container is modified after initialization.
         /// </summary>
-        public static event EventHandler<RecomposedEventArgs> Recomposed
+        public event EventHandler<RecomposedEventArgs> Recomposed
         {
             add { CompositionHost.Recomposed += value; }
             remove { CompositionHost.Recomposed -= value; }

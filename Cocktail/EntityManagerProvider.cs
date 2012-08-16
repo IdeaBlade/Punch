@@ -256,7 +256,8 @@ namespace Cocktail
 
         private T CreateEntityManagerCore()
         {
-            if (Composition.IsRecomposing)
+            var compositionProvider = Composition.Provider as MefCompositionProvider;
+            if (compositionProvider != null && compositionProvider.IsRecomposing)
                 throw new InvalidOperationException(StringResources.CreatingEntityManagerDuringRecompositionNotAllowed);
 
             Composition.BuildUp(this);
@@ -321,7 +322,7 @@ namespace Cocktail
                 if (_configuration.SyncInterceptor == null)
                 {
                     var syncInterceptorLocator =
-                        new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.NonShared, () => CompositionContext)
+                        new PartLocator<IEntityManagerSyncInterceptor>(InstanceType.NonShared, () => CompositionContext)
                             .WithDefaultGenerator(() => new DefaultEntityManagerSyncInterceptor());
                     _configuration.WithSyncInterceptor(syncInterceptorLocator.GetPart());
                 }

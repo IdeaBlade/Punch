@@ -73,7 +73,7 @@ namespace Cocktail
 
             return ExportFactory.CreateExport().Value;
 #else
-            return Composition.GetInstance<T>(CreationPolicy.NonShared);
+            return Composition.GetInstance<T>(InstanceType.NonShared);
 #endif
         }
 

@@ -17,27 +17,11 @@ using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
-    public static partial class Composition
+    internal partial class MefCompositionProvider
     {
-        static Composition()
-        {
-            EntityManager.EntityManagerCreated += OnEntityManagerCreated;
-        }
-
-        private static void OnEntityManagerCreated(object sender, EntityManagerCreatedEventArgs args)
-        {
-            if (!args.EntityManager.IsClient)
-                return;
-
-            var locator = new PartLocator<IAuthenticationService>(
-                CreationPolicy.Shared, () => args.EntityManager.CompositionContext);
-            if (locator.IsAvailable)
-                args.EntityManager.AuthenticationContext = locator.GetPart().AuthenticationContext;
-        }
-
-        /// <summary>Satisfies all the imports on the provided instance.</summary>
-        /// <param name="instance">The instance for which to satisfy the MEF imports.</param>
-        public static void BuildUp(object instance)
+        /// <summary>Manually performs property dependency injection on the provided instance.</summary>
+        /// <param name="instance">The instance needing property injection.</param>
+        public void BuildUp(object instance)
         {
             // Skip if in design mode.
             if (Execute.InDesignMode)

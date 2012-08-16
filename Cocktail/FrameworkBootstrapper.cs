@@ -29,6 +29,7 @@ namespace Cocktail
     /// </summary>
     public abstract class FrameworkBootstrapper : Bootstrapper
     {
+        private readonly MefCompositionProvider _compositionProvider;
         private Task _asyncBootstrapTask;
 
         /// <summary>
@@ -37,7 +38,7 @@ namespace Cocktail
         static FrameworkBootstrapper()
         {
             DefaultDebugLogger.SetAsLogger();
-            Composition.EnsureRequiredProbeAssemblies();
+            MefCompositionProvider.EnsureRequiredProbeAssemblies();
         }
 
         /// <summary>
@@ -47,16 +48,17 @@ namespace Cocktail
         protected FrameworkBootstrapper(bool useApplication = true)
             : base(useApplication)
         {
+            _compositionProvider = new MefCompositionProvider();
         }
 
         /// <summary>Override to add additional exports to the CompositionHost during configuration.</summary>
         /// <param name="batch">The composition batch to add to.</param>
         protected virtual void PrepareCompositionContainer(CompositionBatch batch)
         {
-            if (!Composition.ExportExists<IWindowManager>())
+            if (!_compositionProvider.IsTypeRegistered<IWindowManager>())
                 batch.AddExportedValue<IWindowManager>(new WindowManager());
 
-            if (!Composition.ExportExists<IDialogManager>())
+            if (!_compositionProvider.IsTypeRegistered<IDialogManager>())
                 batch.AddExportedValue<IDialogManager>(new DialogManager());
         }
 
@@ -66,7 +68,7 @@ namespace Cocktail
         /// <returns>Return the custom catalog that should be used by Cocktail to get access to MEF exports.</returns>
         protected virtual ComposablePartCatalog PrepareCompositionCatalog()
         {
-            return Composition.DefaultCatalog;
+            return _compositionProvider.DefaultCatalog;
         }
 
         /// <summary>
@@ -78,12 +80,13 @@ namespace Cocktail
 
             EnsureBootstrapperHasNoExports();
 
-            Composition.Configure(catalog: PrepareCompositionCatalog());
+            _compositionProvider.Configure(catalog: PrepareCompositionCatalog());
             var batch = new CompositionBatch();
             PrepareCompositionContainer(batch);
-            Composition.Compose(batch);
+            _compositionProvider.Compose(batch);
             OnCatalogRecomposed();
-            Composition.Recomposed += (s, args) => OnCatalogRecomposed();
+            _compositionProvider.Recomposed += (s, args) => OnCatalogRecomposed();
+            Composition.SetProvider(_compositionProvider);
             AddValueConverterConventions();
         }
 
@@ -171,7 +174,7 @@ namespace Cocktail
 
         private void OnCatalogRecomposed()
         {
-            UpdateAssemblySourceFromCatalog(Composition.DefaultCatalog);
+            UpdateAssemblySourceFromCatalog(_compositionProvider.DefaultCatalog);
 
             // The Bootstrapper is not owned by the container, so it doesn't automatically recompose
             BuildUp(this);

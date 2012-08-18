@@ -13,23 +13,11 @@
 using Caliburn.Micro;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
-using System.ComponentModel.Composition;
 
 namespace Cocktail
 {
     internal partial class MefCompositionProvider
     {
-        /// <summary>Manually performs property dependency injection on the provided instance.</summary>
-        /// <param name="instance">The instance needing property injection.</param>
-        public void BuildUp(object instance)
-        {
-            // Skip if in design mode.
-            if (Execute.InDesignMode)
-                return;
-
-            Container.SatisfyImportsOnce(instance);
-        }
-
 #if !SILVERLIGHT5
 
         /// <summary>
@@ -41,7 +29,7 @@ namespace Cocktail
         {
             if (Execute.InDesignMode)
             {
-                string assemblyName = typeof(T).Assembly.FullName;
+                string assemblyName = typeof(T).GetAssembly().FullName;
                 if (IdeaBladeConfig.Instance.ProbeAssemblyNames.Contains(assemblyName))
                     return;
 
@@ -53,7 +41,7 @@ namespace Cocktail
 
         internal static void EnsureRequiredProbeAssemblies()
         {
-            IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(EntityManagerProvider<>).Assembly.FullName);
+            IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(EntityManagerProvider<>).GetAssembly().FullName);
         }
     }
 }

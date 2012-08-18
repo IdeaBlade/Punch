@@ -10,12 +10,12 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using Caliburn.Micro;
+using IdeaBlade.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Caliburn.Micro;
-using IdeaBlade.Core;
 using Action = System.Action;
 
 namespace Cocktail
@@ -34,7 +34,7 @@ namespace Cocktail
         {
             
             IEnumerable<Type> interfaces = handler.GetType().GetInterfaces()
-                .Where(i => typeof(IHandle).IsAssignableFrom(i) && i.IsGenericType);
+                .Where(i => typeof(IHandle).IsAssignableFrom(i) && i.IsGenericType());
 
             return interfaces.Any(i => i.GetGenericArguments()[0].IsAssignableFrom(messageType));
         }
@@ -46,10 +46,10 @@ namespace Cocktail
         public static void Forward(object handler, object message)
         {
             IEnumerable<Type> interfaces = handler.GetType().GetInterfaces()
-                .Where(i => typeof(IHandle).IsAssignableFrom(i) && i.IsGenericType);
+                .Where(i => typeof(IHandle).IsAssignableFrom(i) && i.IsGenericType());
 
             IEnumerable<Type> handlers =
-                interfaces.Where(i => i.GetGenericArguments()[0].IsInstanceOfType(message));
+                interfaces.Where(i => i.GetGenericArguments()[0].IsAssignableFrom(message.GetType()));
             handlers.ForEach(
                 @interface =>
                 {

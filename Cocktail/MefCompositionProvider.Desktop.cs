@@ -10,12 +10,12 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using Caliburn.Micro;
+using IdeaBlade.Core.Composition;
 using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
-using Caliburn.Micro;
-using IdeaBlade.Core.Composition;
 using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 
 namespace Cocktail

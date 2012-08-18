@@ -10,6 +10,8 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using Caliburn.Micro;
+using IdeaBlade.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -18,8 +20,6 @@ using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using Caliburn.Micro;
-using IdeaBlade.Core;
 using Action = System.Action;
 
 namespace Cocktail

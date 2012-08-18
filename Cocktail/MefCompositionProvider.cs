@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-#if NETFX_CORE
+#if WinRT
 using System.Composition;
 using System.Composition.Hosting;
 #else

@@ -10,11 +10,10 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System;
-using System.ComponentModel.Composition;
-using System.Linq;
 using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
+using System;
+using System.Linq;
 
 namespace Cocktail
 {
@@ -70,7 +69,7 @@ namespace Cocktail
             // Look for the part in the IoC container.
             var parts = Composition.GetLazyInstances<T>(_instanceType).ToList();
             if (parts.Count() > 1)
-                throw new CompositionException(
+                throw new InvalidOperationException(
                     String.Format(StringResources.ProbedForServiceAndFoundMultipleMatches, typeof (T).Name));
 
             _instance = parts.Any() ? parts.First().Value as T : DefaultGenerator();

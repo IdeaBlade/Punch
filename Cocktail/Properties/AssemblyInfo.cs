@@ -15,7 +15,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Resources;
 
-#if !NETFX_CORE
+#if !WinRT
 using System.Windows.Markup;
 #endif
 
@@ -66,7 +66,7 @@ using System.Windows.Markup;
                                                      + "b9f85ffc")]
 #endif
 
-#if !NETFX_CORE
+#if !WinRT
 [assembly: XmlnsDefinition("http://cocktail.ideablade.com", "Cocktail")]
 #endif
 
@@ -79,7 +79,7 @@ using System.Windows.Markup;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 #if SILVERLIGHT
 [assembly: Guid("0EE7DDF4-04AB-4048-B7C9-5B69DAEE5430")]
-#elif !NETFX_CORE
+#elif !WinRT
 [assembly: Guid("869C0A7C-3B83-44C0-8836-360EA78C9D6E")]
 #endif
 

@@ -12,7 +12,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
 using Caliburn.Micro;
@@ -33,6 +32,7 @@ namespace Cocktail
         /// <returns>True if the handler handles the given message type.</returns>
         public static bool IsHandler(object handler, Type messageType)
         {
+            
             IEnumerable<Type> interfaces = handler.GetType().GetInterfaces()
                 .Where(i => typeof(IHandle).IsAssignableFrom(i) && i.IsGenericType);
 

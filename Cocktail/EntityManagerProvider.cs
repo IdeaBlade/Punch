@@ -10,23 +10,16 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using Caliburn.Micro;
+using IdeaBlade.Core;
+using IdeaBlade.EntityModel;
+using IdeaBlade.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Caliburn.Micro;
-using IdeaBlade.Core;
-using IdeaBlade.Core.Composition;
-using IdeaBlade.EntityModel;
-using IdeaBlade.Validation;
 using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
-
-#if NETFX_CORE
-using System.Composition;
-#else
-using System.ComponentModel.Composition;
-#endif
 
 namespace Cocktail
 {

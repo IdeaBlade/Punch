@@ -10,7 +10,11 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+#if !WinRT
 using System.ComponentModel.Composition;
+#else
+using System.Composition;
+#endif
 
 namespace Cocktail
 {
@@ -29,11 +33,9 @@ namespace Cocktail
             _objects = new WeakRefDictionary<TKey, T>();
         }
 
-#if SILVERLIGHT  // ExportFactory is only available in Silverlight
         /// <summary>Used internally to create new instances.</summary>
         [Import]
         public ExportFactory<T> ExportFactory { get; set; }
-#endif
 
         /// <summary>
         /// Retrieves an object instance by key. If the key hasn't been encountered before, a new instance will be created.
@@ -67,14 +69,10 @@ namespace Cocktail
         /// <returns>Returns the new instance. Can later be added with <see cref="Add"/></returns>
         public T Create()
         {
-#if SILVERLIGHT
             if (ExportFactory == null)
                 Composition.BuildUp(this);
 
             return ExportFactory.CreateExport().Value;
-#else
-            return Composition.GetInstance<T>(InstanceType.NonShared);
-#endif
         }
 
         /// <summary>Removes all instances and keys from the manager.</summary>

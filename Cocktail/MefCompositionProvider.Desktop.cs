@@ -22,7 +22,10 @@ using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 
 namespace Cocktail
 {
-    internal partial class MefCompositionProvider : ICompositionProvider
+    /// <summary>
+    /// An implementation of <see cref="ICompositionProvider"/> which uses MEF as the underlying IoC implementation.
+    /// </summary>
+    internal partial class MefCompositionProvider : ISupportsRecomposition
     {
         private CompositionContainer _container;
         private ComposablePartCatalog _catalog;
@@ -50,6 +53,14 @@ namespace Cocktail
         public CompositionContainer Container
         {
             get { return _container ?? (_container = new CompositionContainer(Catalog)); }
+        }
+
+        /// <summary>
+        /// Returns true if the provided type has been previously registered.
+        /// </summary>
+        public bool IsTypeRegistered<T>()
+        {
+            return Container.GetExports<T>().Any();
         }
 
         /// <summary>
@@ -150,6 +161,20 @@ namespace Cocktail
             Container.Compose(compositionBatch);
         }
 
+        /// <summary>
+        /// Returns true if the CompositionProvider is currently in the process of recomposing.
+        /// </summary>
+        public bool IsRecomposing { get; internal set; }
+
+        /// <summary>
+        ///   Fired when the composition container is modified after initialization.
+        /// </summary>
+        public event EventHandler<RecomposedEventArgs> Recomposed
+        {
+            add { CompositionHost.Recomposed += value; }
+            remove { CompositionHost.Recomposed -= value; }
+        }
+
         private IEnumerable<Export> GetExportsCore(Type serviceType, string key, CreationPolicy policy)
         {
             var contractName = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
@@ -181,15 +206,6 @@ namespace Cocktail
         private IEnumerable<Lazy<T>> ConvertToLazy<T>(IEnumerable<Export> exports)
         {
             return exports.Select(e => new Lazy<T>(() => (T)e.Value));
-        }
-
-        /// <summary>
-        ///   Fired when the composition container is modified after initialization.
-        /// </summary>
-        public event EventHandler<RecomposedEventArgs> Recomposed
-        {
-            add { CompositionHost.Recomposed += value; }
-            remove { CompositionHost.Recomposed -= value; }
         }
     }
 }

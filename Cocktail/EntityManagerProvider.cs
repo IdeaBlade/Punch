@@ -255,7 +255,7 @@ namespace Cocktail
 
         private T CreateEntityManagerCore()
         {
-            var compositionProvider = Composition.Provider as MefCompositionProvider;
+            var compositionProvider = Composition.Provider as ISupportsRecomposition;
             if (compositionProvider != null && compositionProvider.IsRecomposing)
                 throw new InvalidOperationException(StringResources.CreatingEntityManagerDuringRecompositionNotAllowed);
 

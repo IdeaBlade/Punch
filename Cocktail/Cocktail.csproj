@@ -134,13 +134,10 @@
     <Compile Include="ISampleDataProvider.cs" />
     <Compile Include="IValidationErrorNotification.cs" />
     <Compile Include="LogFns.cs" />
-    <Compile Include="MefCompositionProvider.cs" />
-    <Compile Include="MefCompositionProvider.Desktop.cs">
-      <DependentUpon>MefCompositionProvider.cs</DependentUpon>
+    <Compile Include="MefCompositionProvider.DevForce.cs">
+      <DependentUpon>MefCompositionProvider.Desktop.cs</DependentUpon>
     </Compile>
-    <Compile Include="MefCompositionProvider.Client.cs">
-      <DependentUpon>MefCompositionProvider.cs</DependentUpon>
-    </Compile>
+    <Compile Include="MefCompositionProvider.Desktop.cs" />
     <Compile Include="MessageBoxBase.cs" />
     <Compile Include="NavigationProcessor.cs" />
     <Compile Include="NavigationService.cs" />

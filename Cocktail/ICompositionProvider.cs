@@ -10,6 +10,7 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using IdeaBlade.Core.Composition;
 using System;
 using System.Collections.Generic;
 
@@ -84,5 +85,21 @@ namespace Cocktail
         /// <summary>Manually performs property dependency injection on the provided instance.</summary>
         /// <param name="instance">The instance needing property injection.</param>
         void BuildUp(object instance);
+    }
+
+    /// <summary>
+    /// A special type of CompositionProvider that supports dynamic recompositon at runtime.
+    /// </summary>
+    public interface ISupportsRecomposition : ICompositionProvider
+    {
+        /// <summary>
+        /// Returns true if the CompositionProvider is currently in the process of recomposing.
+        /// </summary>
+        bool IsRecomposing { get; }
+
+        /// <summary>
+        ///   Fired to indicate that a recomposition has taken place.
+        /// </summary>
+        event EventHandler<RecomposedEventArgs> Recomposed;
     }
 }

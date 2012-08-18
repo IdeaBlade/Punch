@@ -20,6 +20,9 @@ using System.Linq;
 
 namespace Cocktail
 {
+    /// <summary>
+    /// An implementation of <see cref="ICompositionProvider"/> which uses MEF as the underlying IoC implementation.
+    /// </summary>
     internal partial class MefCompositionProvider : ICompositionProvider
     {
         private CompositionHost _container;
@@ -46,6 +49,14 @@ namespace Cocktail
         public CompositionHost Container
         {
             get { return _container ?? (_container = Configuration.CreateContainer()); }
+        }
+
+        /// <summary>
+        /// Returns true if the provided type has been previously registered.
+        /// </summary>
+        public bool IsTypeRegistered<T>()
+        {
+            return Container.GetExports<T>().Any();
         }
 
         public Lazy<T> GetInstance<T>(InstanceType instanceType = InstanceType.NotSpecified)

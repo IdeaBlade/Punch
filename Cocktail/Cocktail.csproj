@@ -120,7 +120,7 @@
     <Compile Include="EventFns.cs" />
     <Compile Include="FakeBackingStore.cs" />
     <Compile Include="FakeStoreEntityManagerProviderFns.cs" />
-    <Compile Include="FrameworkBootstrapper.cs" />
+    <Compile Include="CocktailBootstrapper.cs" />
     <Compile Include="HarnessViewModel.cs" />
     <Compile Include="IAuthenticationService.cs" />
     <Compile Include="IBusyWatcher.cs" />

@@ -25,19 +25,114 @@ using Action = System.Action;
 namespace Cocktail
 {
     /// <summary>
-    /// Abstract base class for the FrameworkBootstrapper
+    /// Abstract base class to configure the framework.
     /// </summary>
-    public abstract class FrameworkBootstrapper : Bootstrapper
+    public abstract class CocktailBootstrapper : Bootstrapper
     {
-        private readonly MefCompositionProvider _compositionProvider;
         private Task _asyncBootstrapTask;
 
         /// <summary>
         /// Static initialization
         /// </summary>
-        static FrameworkBootstrapper()
+        static CocktailBootstrapper()
         {
             DefaultDebugLogger.SetAsLogger();
+        }
+
+        protected CocktailBootstrapper(bool useApplication = true)
+            : base(useApplication)
+        {
+        }
+
+        /// <summary>
+        /// Configures the framework and sets up the IoC container.
+        /// </summary>
+        protected override void Configure()
+        {
+            base.Configure();
+
+            AddValueConverterConventions();
+        }
+
+        /// <summary>
+        /// Adds the stock <see cref="ValueConverterConvention"/>s to the
+        /// <see cref="ValueConverterConventionRegistry"/> and thus to the
+        /// Caliburn <see cref="ConventionManager"/>.
+        /// </summary>
+        protected virtual void AddValueConverterConventions()
+        {
+            ValueConverterConventionRegistry.AddConventionsToConventionManager();
+            new PathToImageSourceConverter().RegisterConvention();
+            new BinaryToImageSourceConverter().RegisterConvention();
+        }
+
+        /// <summary>
+        /// Called by the bootstrapper's constructor at runtime to start the framework.
+        /// </summary>
+        protected override void StartRuntime()
+        {
+            base.StartRuntime();
+
+            _asyncBootstrapTask = StartRuntimeAsync();
+        }
+
+        /// <summary>
+        /// Provides an opportunity to perform asynchronous configuration at runtime.
+        /// </summary>
+        protected virtual Task StartRuntimeAsync()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            tcs.SetResult(true);
+            return tcs.Task;
+        }
+
+        /// <summary>
+        /// Calls action when <see cref="StartRuntimeAsync"/> completes. 
+        /// </summary>
+        /// <param name="completedAction">Action to be performed when configuration completes.</param>
+        protected async void WhenCompleted(Action completedAction)
+        {
+            await _asyncBootstrapTask;
+            completedAction();
+        }
+
+        /// <summary>Locates the supplied service.</summary>
+        /// <param name="serviceType">The service to locate.</param>
+        /// <param name="key">The key to locate.</param>
+        /// <returns>The located service.</returns>
+        protected override object GetInstance(Type serviceType, string key)
+        {
+            return Composition.GetInstance(serviceType, key);
+        }
+
+        /// <summary>Locates all instances of the supplied service.</summary>
+        /// <param name="serviceType">The service to locate.</param>
+        /// <returns>The located services.</returns>
+        protected override IEnumerable<object> GetAllInstances(Type serviceType)
+        {
+            return Composition.GetInstances(serviceType, null);
+        }
+
+        /// <summary>Performs injection on the supplied instance.</summary>
+        /// <param name="instance">The instance to perform injection on.</param>
+        protected override void BuildUp(object instance)
+        {
+            Composition.BuildUp(instance);
+        }
+    }
+    
+    /// <summary>
+    /// Abstract base class to configure the framework to use MEF as the application's IoC container.
+    /// </summary>
+    public abstract class CocktailMefBootstrapper : CocktailBootstrapper
+    {
+        private readonly MefCompositionProvider _compositionProvider;
+
+        /// <summary>
+        /// Static initialization
+        /// </summary>
+        static CocktailMefBootstrapper()
+        {
             MefCompositionProvider.EnsureRequiredProbeAssemblies();
         }
 
@@ -45,7 +140,7 @@ namespace Cocktail
         /// Creates an instance of FrameworkBootstrapper.
         /// </summary>
         /// <param name="useApplication">Optionally specify if the bootstrapper should hook into the application object.</param>
-        protected FrameworkBootstrapper(bool useApplication = true)
+        protected CocktailMefBootstrapper(bool useApplication = true)
             : base(useApplication)
         {
             _compositionProvider = new MefCompositionProvider();
@@ -87,73 +182,6 @@ namespace Cocktail
             OnCatalogRecomposed();
             _compositionProvider.Recomposed += (s, args) => OnCatalogRecomposed();
             Composition.SetProvider(_compositionProvider);
-            AddValueConverterConventions();
-        }
-
-        /// <summary>
-        /// Called by the bootstrapper's constructor at runtime to start the framework.
-        /// </summary>
-        protected override void StartRuntime()
-        {
-            base.StartRuntime();
-
-            _asyncBootstrapTask = StartRuntimeAsync();
-        }
-
-        /// <summary>
-        /// Provides an opportunity to perform asynchronous configuration at runtime.
-        /// </summary>
-        protected virtual Task StartRuntimeAsync()
-        {
-            var tcs = new TaskCompletionSource<bool>();
-            tcs.SetResult(true);
-            return tcs.Task;
-        }
-
-        /// <summary>
-        /// Calls action when <see cref="StartRuntimeAsync"/> completes. 
-        /// </summary>
-        /// <param name="completedAction">Action to be performed when configuration completes.</param>
-        protected async void WhenCompleted(Action completedAction)
-        {
-            await _asyncBootstrapTask;
-            completedAction();
-        }
-
-        /// <summary>
-        /// Adds the stock <see cref="ValueConverterConvention"/>s to the
-        /// <see cref="ValueConverterConventionRegistry"/> and thus to the
-        /// Caliburn <see cref="ConventionManager"/>.
-        /// </summary>
-        protected virtual void AddValueConverterConventions()
-        {
-            ValueConverterConventionRegistry.AddConventionsToConventionManager();
-            new PathToImageSourceConverter().RegisterConvention();
-            new BinaryToImageSourceConverter().RegisterConvention();
-        }
-
-        /// <summary>Locates the supplied service.</summary>
-        /// <param name="serviceType">The service to locate.</param>
-        /// <param name="key">The key to locate.</param>
-        /// <returns>The located service.</returns>
-        protected override object GetInstance(Type serviceType, string key)
-        {
-            return Composition.GetInstance(serviceType, key);
-        }
-
-        /// <summary>Locates all instances of the supplied service.</summary>
-        /// <param name="serviceType">The service to locate.</param>
-        /// <returns>The located services.</returns>
-        protected override IEnumerable<object> GetAllInstances(Type serviceType)
-        {
-            return Composition.GetInstances(serviceType, null);
-        }
-
-        /// <summary>Performs injection on the supplied instance.</summary>
-        /// <param name="instance">The instance to perform injection on.</param>
-        protected override void BuildUp(object instance)
-        {
-            Composition.BuildUp(instance);
         }
 
         /// <summary>
@@ -203,31 +231,17 @@ namespace Cocktail
         }
     }
 
-    /// <summary>Extend from FrameworkBootstrapper&lt;TRootModel&gt; to create your own Application Bootstrapper.</summary>
-    /// <typeparam name="TRootModel">The ViewModel for the main screen.</typeparam>
-    /// <example>
-    /// 	<code title="Development Harness Bootstrapper" description="Demonstrates how to create a Bootstrapper for a Development Harness" lang="CS">
-    /// public class AppBootstrapper : FrameworkBootstrapper&lt;HarnessViewModel&gt;
-    /// {
-    ///     // Add additional logic if required. 
-    /// }</code>
-    /// 	<code title="App.xaml" description="Demonstrates how to add the Bootstrapper as a static resource to trigger the bootstrapping of the application." lang="XAML">
-    /// &lt;Application x:Class="SampleApplication.App" 
-    ///              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    ///              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    ///              xmlns:app="clr-namespace:SampleApplication;assembly=SampleApplication.Harness.SL"&gt;
-    ///     &lt;Application.Resources&gt;
-    ///         &lt;app:AppBootstrapper x:Key="Bootstrapper" /&gt;
-    ///     &lt;/Application.Resources&gt;
-    /// &lt;/Application&gt;</code>
-    /// </example>
-    public class FrameworkBootstrapper<TRootModel> : FrameworkBootstrapper
+    /// <summary>
+    ///   Abstract base class to configure the framework to use MEF as the application's IoC container and launch the root ViewModel.
+    /// </summary>
+    /// <typeparam name="TRootModel">The ViewModel of the main screen.</typeparam>
+    public class CocktailMefBootstrapper<TRootModel> : CocktailMefBootstrapper
     {
         /// <summary>
         /// Creates an instance of the framework bootstrapper.
         /// </summary>
         /// <param name="useApplication">Optionally specify if the bootstrapper should hook into the application object.</param>
-        public FrameworkBootstrapper(bool useApplication = true)
+        public CocktailMefBootstrapper(bool useApplication = true)
             : base(useApplication)
         {
         }

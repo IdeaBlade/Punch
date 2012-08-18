@@ -118,6 +118,7 @@
     <Compile Include="AuthenticationService.cs" />
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />
+    <Compile Include="CocktailBootstrapper.cs" />
     <Compile Include="Composition.Silverlight.cs">
       <DependentUpon>Composition.cs</DependentUpon>
     </Compile>
@@ -170,7 +171,6 @@
     <Compile Include="NavigationProcessor.cs" />
     <Compile Include="NavigationService.cs" />
     <Compile Include="FakeBackingStore.cs" />
-    <Compile Include="FrameworkBootstrapper.cs" />
     <Compile Include="IAuthenticationService.cs" />
     <Compile Include="IDiscoverableViewModel.cs" />
     <Compile Include="IEntityManagerProvider.cs" />

@@ -22,7 +22,7 @@ namespace Cocktail
     /// <summary>Default Caliburn.Micro logger for debug builds.</summary>
     /// <remarks>A logger for diagnostic output from Caliburn.Micro.
     /// Typically activated in the static constructor of the AppBootstrapper as it is
-    /// in Cocktail <see cref="FrameworkBootstrapper"/>.
+    /// in Cocktail <see cref="CocktailMefBootstrapper"/>.
     /// The diagnostics messages are sent to the <see cref="TraceLogger"/>.
     /// For diagnostics messages to be sent to the TraceLogger, the Cocktail debug assemblies must be used.
     /// </remarks>

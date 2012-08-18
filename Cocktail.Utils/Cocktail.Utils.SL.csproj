@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{761B386E-02D2-45DE-B485-1545D50F148F}</ProjectGuid>
+    <ProjectGuid>{39915105-64A5-493F-B91B-838D5CEEE9F2}</ProjectGuid>
     <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cocktail</RootNamespace>
     <AssemblyName>Cocktail.Utils.SL</AssemblyName>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
@@ -36,7 +36,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;SILVERLIGHT4</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;SILVERLIGHT5</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -45,7 +45,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <DefineConstants>TRACE;SILVERLIGHT;SILVERLIGHT4</DefineConstants>
+    <DefineConstants>TRACE;SILVERLIGHT;SILVERLIGHT5</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -90,9 +90,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(SolutionDir)Bin\Silverlight 4\$(ConfigurationName)"
-xcopy "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\Silverlight 4\$(ConfigurationName)" /y
-xcopy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)Bin\Silverlight 4\$(ConfigurationName)" /y
+    <PostBuildEvent>mkdir "$(SolutionDir)Bin\Silverlight 5\$(ConfigurationName)"
+xcopy "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\Silverlight 5\$(ConfigurationName)" /y
+xcopy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)Bin\Silverlight 5\$(ConfigurationName)" /y
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

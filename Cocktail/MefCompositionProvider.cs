@@ -12,10 +12,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
+#if NETFX_CORE
+using System.Composition;
+using System.Composition.Hosting;
+#else
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
-using System.Linq;
+#endif
 
 namespace Cocktail
 {
@@ -24,6 +30,11 @@ namespace Cocktail
     /// </summary>
     internal partial class MefCompositionProvider : ICompositionProvider
     {
+        /// <summary>
+        /// Returns true if the CompositionContainer is currently in the process of recomposing.
+        /// </summary>
+        public bool IsRecomposing { get; internal set; }
+
         /// <summary>
         /// Returns true if the provided type has been previously registered.
         /// </summary>

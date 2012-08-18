@@ -13,8 +13,11 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Windows.Markup;
 using System.Resources;
+
+#if !NETFX_CORE
+using System.Windows.Markup;
+#endif
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -63,7 +66,9 @@ using System.Resources;
                                                      + "b9f85ffc")]
 #endif
 
+#if !NETFX_CORE
 [assembly: XmlnsDefinition("http://cocktail.ideablade.com", "Cocktail")]
+#endif
 
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -74,7 +79,7 @@ using System.Resources;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 #if SILVERLIGHT
 [assembly: Guid("0EE7DDF4-04AB-4048-B7C9-5B69DAEE5430")]
-#else
+#elif !NETFX_CORE
 [assembly: Guid("869C0A7C-3B83-44C0-8836-360EA78C9D6E")]
 #endif
 

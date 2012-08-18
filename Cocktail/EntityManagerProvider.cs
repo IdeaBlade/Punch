@@ -12,7 +12,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +20,13 @@ using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
+using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
+
+#if NETFX_CORE
+using System.Composition;
+#else
+using System.ComponentModel.Composition;
+#endif
 
 namespace Cocktail
 {
@@ -247,9 +253,9 @@ namespace Cocktail
                                                  connectionOptions.IsFake));
                 return manager;
             }
-            catch (MissingMethodException)
+            catch (InvalidOperationException)
             {
-                throw new MissingMethodException(string.Format(StringResources.MissingEntityManagerConstructor,
+                throw new InvalidOperationException(string.Format(StringResources.MissingEntityManagerConstructor,
                                                                typeof(T).Name));
             }
         }

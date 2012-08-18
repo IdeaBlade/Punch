@@ -26,11 +26,6 @@ namespace Cocktail
         private ComposablePartCatalog _catalog;
 
         /// <summary>
-        /// Returns true if the CompositionContainer is currently in the process of recomposing.
-        /// </summary>
-        public bool IsRecomposing { get; internal set; }
-
-        /// <summary>
         ///   Returns the current catalog in use.
         /// </summary>
         /// <returns> Unless a custom catalog is provided through <see cref="Configure" />, this property returns <see cref="DefaultCatalog" /> </returns>

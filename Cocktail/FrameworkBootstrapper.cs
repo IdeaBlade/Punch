@@ -146,7 +146,7 @@ namespace Cocktail
         /// <returns>The located services.</returns>
         protected override IEnumerable<object> GetAllInstances(Type serviceType)
         {
-            return Composition.GetInstances(serviceType);
+            return Composition.GetInstances(serviceType, null);
         }
 
         /// <summary>Performs injection on the supplied instance.</summary>

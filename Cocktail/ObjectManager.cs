@@ -10,12 +10,6 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-#if !WinRT
-using System.ComponentModel.Composition;
-#else
-using System.Composition;
-#endif
-
 namespace Cocktail
 {
     /// <summary>The ObjectManager allows for the creation and sharing of multiple object instances at runtime. It utilizes weak references to automatically free
@@ -26,16 +20,14 @@ namespace Cocktail
     public class ObjectManager<TKey, T> where T : class
     {
         private readonly WeakRefDictionary<TKey, T> _objects;
+        private readonly ICompositionFactory<T> _factory;
 
         /// <summary>Initializes a new ObjectManager</summary>
         public ObjectManager()
         {
             _objects = new WeakRefDictionary<TKey, T>();
+            _factory = Composition.GetInstanceFactory<T>();
         }
-
-        /// <summary>Used internally to create new instances.</summary>
-        [Import]
-        public ExportFactory<T> ExportFactory { get; set; }
 
         /// <summary>
         /// Retrieves an object instance by key. If the key hasn't been encountered before, a new instance will be created.
@@ -69,10 +61,7 @@ namespace Cocktail
         /// <returns>Returns the new instance. Can later be added with <see cref="Add"/></returns>
         public T Create()
         {
-            if (ExportFactory == null)
-                Composition.BuildUp(this);
-
-            return ExportFactory.CreateExport().Value;
+            return _factory.NewInstance();
         }
 
         /// <summary>Removes all instances and keys from the manager.</summary>

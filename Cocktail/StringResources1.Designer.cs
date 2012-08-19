@@ -206,15 +206,6 @@ namespace Cocktail {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The MEF composition provider on the current platform does not support specifying the instanceType. The instanceType must be set to InstanceType.NotSpecified..
-        /// </summary>
-        internal static string InstanceTypeNotSupported {
-            get {
-                return ResourceManager.GetString("InstanceTypeNotSupported", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Binary image data is neither jpeg nor png..
         /// </summary>
         internal static string InvalidBinaryImageData {

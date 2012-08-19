@@ -11,16 +11,9 @@
 //====================================================================================================================
 
 using IdeaBlade.Core;
-using IdeaBlade.Core.Composition;
 using System;
 using System.Linq;
 using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
-
-#if !WinRT
-using System.ComponentModel.Composition;
-#else
-using System.Composition;
-#endif
 
 namespace Cocktail
 {

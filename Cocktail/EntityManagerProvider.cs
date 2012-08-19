@@ -246,10 +246,10 @@ namespace Cocktail
                                                  connectionOptions.IsFake));
                 return manager;
             }
-            catch (InvalidOperationException)
+            catch (Exception inner)
             {
                 throw new InvalidOperationException(string.Format(StringResources.MissingEntityManagerConstructor,
-                                                               typeof(T).Name));
+                                                               typeof(T).Name), inner);
             }
         }
 

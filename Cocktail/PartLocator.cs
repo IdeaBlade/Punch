@@ -14,6 +14,13 @@ using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
 using System;
 using System.Linq;
+using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
+
+#if !WinRT
+using System.ComponentModel.Composition;
+#else
+using System.Composition;
+#endif
 
 namespace Cocktail
 {
@@ -21,15 +28,15 @@ namespace Cocktail
     {
         private T _instance;
         private readonly Func<CompositionContext> _compositionContextDelegate;
-        private readonly InstanceType _instanceType;
+        private readonly bool _useFactory;
 
         private bool _probed;
         private Func<T> _defaultGenerator;
 
-        internal PartLocator(InstanceType instanceType, Func<CompositionContext> compositionContextDelegate = null)
+        internal PartLocator(bool useFactory = false, Func<CompositionContext> compositionContextDelegate = null)
         {
             _compositionContextDelegate = compositionContextDelegate ?? (() => CompositionContext.Default);
-            _instanceType = instanceType;
+            _useFactory = useFactory;
             _defaultGenerator = () => null;
             Composition.ProviderChanged +=
                 new EventHandler<EventArgs>(OnCompositionProviderChanged).MakeWeak(eh => Composition.ProviderChanged -= eh);
@@ -38,7 +45,7 @@ namespace Cocktail
         internal PartLocator(PartLocator<T> partLocator)
         {
             _compositionContextDelegate = partLocator._compositionContextDelegate;
-            _instanceType = partLocator._instanceType;
+            _useFactory = partLocator._useFactory;
             _defaultGenerator = partLocator._defaultGenerator;
             Composition.ProviderChanged +=
                 new EventHandler<EventArgs>(OnCompositionProviderChanged).MakeWeak(eh => Composition.ProviderChanged -= eh);
@@ -67,12 +74,13 @@ namespace Cocktail
             }
 
             // Look for the part in the IoC container.
-            var parts = Composition.GetLazyInstances<T>(_instanceType).ToList();
-            if (parts.Count() > 1)
-                throw new InvalidOperationException(
-                    String.Format(StringResources.ProbedForServiceAndFoundMultipleMatches, typeof (T).Name));
+            if (!Composition.IsTypeRegistered<T>())
+                _instance = DefaultGenerator();
+            else if (_useFactory)
+                _instance = GetPartFromFactory();
+            else
+                _instance = GetPartFromContainer();
 
-            _instance = parts.Any() ? parts.First().Value as T : DefaultGenerator();
             _probed = true;
             WriteTrace();
 
@@ -99,6 +107,22 @@ namespace Cocktail
                                                  _instance.GetType().FullName));
             else
                 TraceFns.WriteLine(String.Format(StringResources.ProbedForServiceFoundNoMatch, typeof(T).Name));
+        }
+
+        private T GetPartFromFactory()
+        {
+            var factory = Composition.GetInstanceFactory<T>();
+            return factory.NewInstance();
+        }
+
+        private T GetPartFromContainer()
+        {
+            var parts = Composition.GetLazyInstances<T>().ToList();
+            if (parts.Count() > 1)
+                throw new InvalidOperationException(
+                    String.Format(StringResources.ProbedForServiceAndFoundMultipleMatches, typeof(T).Name));
+
+            return parts.First().Value;
         }
     }
 }

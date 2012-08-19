@@ -321,7 +321,7 @@ namespace Cocktail
                 if (_configuration.SyncInterceptor == null)
                 {
                     var syncInterceptorLocator =
-                        new PartLocator<IEntityManagerSyncInterceptor>(InstanceType.NonShared, () => CompositionContext)
+                        new PartLocator<IEntityManagerSyncInterceptor>(true, () => CompositionContext)
                             .WithDefaultGenerator(() => new DefaultEntityManagerSyncInterceptor());
                     _configuration.WithSyncInterceptor(syncInterceptorLocator.GetPart());
                 }

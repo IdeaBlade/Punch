@@ -24,7 +24,7 @@ namespace Cocktail
     public static class EventFns
     {
         private static readonly PartLocator<IEventAggregator> EventAggregatorLocator =
-            new PartLocator<IEventAggregator>(InstanceType.Shared);
+            new PartLocator<IEventAggregator>();
 
         /// <summary>Returns true if the provided object implements IHandle for the given messageType.</summary>
         /// <param name="handler">The object to be probed.</param>

@@ -10,6 +10,7 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,18 @@ namespace Cocktail
     /// be shared, not shared or left to the provider to decide.
     /// </summary>
     public enum InstanceType { Shared, NonShared, NotSpecified };
+
+    /// <summary>
+    /// A factory that creates new instances of the specified type.
+    /// </summary>
+    /// <typeparam name="T">Type of instance to be created.</typeparam>
+    public interface ICompositionFactory<T> : IHideObjectMembers
+    {
+        /// <summary>
+        /// Creates new instance.
+        /// </summary>
+        T NewInstance();
+    }
 
     /// <summary>
     /// A service providing implementation independent IoC functionality.
@@ -81,6 +94,12 @@ namespace Cocktail
         ///    other than <see cref="InstanceType.NotSpecified"/>.
         /// </remarks>
         IEnumerable<Lazy<object>> GetInstances(Type serviceType, string contractName, InstanceType instanceType = InstanceType.NotSpecified);
+
+        /// <summary>
+        ///  Returns a factory that creates new instances of the specified type.
+        /// </summary>
+        /// <typeparam name="T">Type of instance the factory creates.</typeparam>
+        ICompositionFactory<T> GetInstanceFactory<T>();
 
         /// <summary>Manually performs property dependency injection on the provided instance.</summary>
         /// <param name="instance">The instance needing property injection.</param>

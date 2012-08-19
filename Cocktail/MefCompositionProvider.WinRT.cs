@@ -87,6 +87,13 @@ namespace Cocktail
             return Container.GetExports(serviceType, contractName).Select(x => new Lazy<object>(() => x));
         }
 
+        public ICompositionFactory<T> GetInstanceFactory<T>()
+        {
+            var factory = new MefCompositionFactory<T>();
+            Container.SatisfyImports(factory);
+            return factory;
+        }
+
         public void BuildUp(object instance)
         {
             // Skip if in design mode.

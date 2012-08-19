@@ -138,6 +138,13 @@ namespace Cocktail
             return ConvertToLazy<object>(exports);
         }
 
+        public ICompositionFactory<T> GetInstanceFactory<T>()
+        {
+            var factory = new MefCompositionFactory<T>();
+            Container.SatisfyImportsOnce(factory);
+            return factory;
+        }
+
         /// <summary>Manually performs property dependency injection on the provided instance.</summary>
         /// <param name="instance">The instance needing property injection.</param>
         public void BuildUp(object instance)

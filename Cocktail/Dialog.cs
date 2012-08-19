@@ -38,7 +38,7 @@ namespace Cocktail
             _title = title;
             _content = content;
             _dialogButtons = dialogButtons;
-            _dialogHostLocator = new PartLocator<DialogHostBase>(InstanceType.NonShared)
+            _dialogHostLocator = new PartLocator<DialogHostBase>(true)
                 .WithDefaultGenerator(() => new DialogHostBase());
         }
 

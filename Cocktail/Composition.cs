@@ -34,8 +34,7 @@ namespace Cocktail
             if (!args.EntityManager.IsClient)
                 return;
 
-            var locator = new PartLocator<IAuthenticationService>(
-                InstanceType.Shared, () => args.EntityManager.CompositionContext);
+            var locator = new PartLocator<IAuthenticationService>(false, () => args.EntityManager.CompositionContext);
             if (locator.IsAvailable)
                 args.EntityManager.AuthenticationContext = locator.GetPart().AuthenticationContext;
         }
@@ -187,6 +186,15 @@ namespace Cocktail
             return Provider.GetInstances(serviceType, contractName, instanceType);
         }
 
+        /// <summary>
+        ///  Returns a factory that creates new instances of the specified type.
+        /// </summary>
+        /// <typeparam name="T">Type of instance the factory creates.</typeparam>
+        public static ICompositionFactory<T> GetInstanceFactory<T>()
+        {
+            return Provider.GetInstanceFactory<T>();
+        }
+        
         /// <summary>Manually performs property dependency injection on the provided instance.</summary>
         /// <param name="instance">The instance needing property injection.</param>
         public static void BuildUp(object instance)

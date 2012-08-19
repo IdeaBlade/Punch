@@ -34,8 +34,8 @@ namespace Cocktail.Tests
                 .WithName("ShouldDiscoverInjectedAuthenticationService");
 
             IAuthenticationService auth1 =
-                new PartLocator<IAuthenticationService>(InstanceType.NotSpecified, () => ctx).GetPart();
-            IAuthenticationService auth2 = new PartLocator<IAuthenticationService>(InstanceType.NotSpecified).GetPart();
+                new PartLocator<IAuthenticationService>(false, () => ctx).GetPart();
+            IAuthenticationService auth2 = new PartLocator<IAuthenticationService>(false).GetPart();
 
             Assert.IsNotNull(auth1, "AuthenticationServer should not be null");
             Assert.IsNull(auth2, "AuthenticationService should be null");
@@ -49,9 +49,8 @@ namespace Cocktail.Tests
                 .WithGenerator(typeof(IEntityManagerSyncInterceptor), () => new SyncInterceptor())
                 .WithName("ShouldDiscoverDefault");
 
-            var partLocator1 = new PartLocator<IEntityManagerSyncInterceptor>(InstanceType.NotSpecified, () => context);
-            PartLocator<IEntityManagerSyncInterceptor> partLocator2 = new PartLocator<IEntityManagerSyncInterceptor>(
-                InstanceType.NotSpecified)
+            var partLocator1 = new PartLocator<IEntityManagerSyncInterceptor>(false, () => context);
+            PartLocator<IEntityManagerSyncInterceptor> partLocator2 = new PartLocator<IEntityManagerSyncInterceptor>(false)
                 .WithDefaultGenerator(() => new DefaultEntityManagerSyncInterceptor());
 
             IEntityManagerSyncInterceptor obj1 = partLocator1.GetPart();
@@ -79,6 +78,15 @@ namespace Cocktail.Tests
             var instance2 = Composition.GetInstance<NonSharedObject>();
 
             Assert.IsFalse(ReferenceEquals(instance1, instance2), "Should have two separate instances");
+        }
+
+        [TestMethod]
+        public void ShouldUseFactory()
+        {
+            var partLocator = new PartLocator<NonSharedObject>(true);
+            var instance = partLocator.GetPart();
+
+            Assert.IsNotNull(instance);
         }
 
         [TestMethod]

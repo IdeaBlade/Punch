@@ -131,7 +131,7 @@ namespace Cocktail
 
         private MessageBoxBase CreateMessageBox(string message)
         {
-            var messageBoxLocator = new PartLocator<MessageBoxBase>(InstanceType.NonShared)
+            var messageBoxLocator = new PartLocator<MessageBoxBase>(true)
                 .WithDefaultGenerator(() => new MessageBoxBase());
             return messageBoxLocator.GetPart().Start(message);
         }

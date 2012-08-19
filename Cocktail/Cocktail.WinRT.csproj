@@ -118,6 +118,7 @@
     <Compile Include="IEntityManagerSyncInterceptor.cs" />
     <Compile Include="ISampleDataProvider.cs" />
     <Compile Include="IValidationErrorNotification.cs" />
+    <Compile Include="MefCompositionFactory.cs" />
     <Compile Include="MefCompositionProvider.DevForce.cs">
       <DependentUpon>MefCompositionProvider.WinRT.cs</DependentUpon>
     </Compile>

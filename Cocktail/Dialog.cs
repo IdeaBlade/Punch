@@ -34,7 +34,7 @@ namespace Cocktail
 
         internal Dialog(object content, IEnumerable<T> dialogButtons, string title = null)
         {
-            _windowManager = Composition.GetInstance<IWindowManager>(InstanceType.Shared);
+            _windowManager = Composition.GetInstance<IWindowManager>();
             _title = title;
             _content = content;
             _dialogButtons = dialogButtons;

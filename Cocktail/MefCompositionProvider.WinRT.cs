@@ -59,31 +59,23 @@ namespace Cocktail
             return Container.GetExports<T>().Any();
         }
 
-        public Lazy<T> GetInstance<T>(InstanceType instanceType = InstanceType.NotSpecified)
+        public Lazy<T> GetInstance<T>()
         {
-            ThrowIfInstanceTypeSpecified(instanceType);
-
             return new Lazy<T>(() => Container.GetExport<T>());
         }
 
-        public IEnumerable<Lazy<T>> GetInstances<T>(InstanceType instanceType = InstanceType.NotSpecified)
+        public IEnumerable<Lazy<T>> GetInstances<T>()
         {
-            ThrowIfInstanceTypeSpecified(instanceType);
-
             return Container.GetExports<T>().Select(x => new Lazy<T>(() => x));
         }
 
-        public Lazy<object> GetInstance(Type serviceType, string contractName, InstanceType instanceType = InstanceType.NotSpecified)
+        public Lazy<object> GetInstance(Type serviceType, string contractName)
         {
-            ThrowIfInstanceTypeSpecified(instanceType);
-
              return new Lazy<object>(() => Container.GetExport(serviceType, contractName));
         }
 
-        public IEnumerable<Lazy<object>> GetInstances(Type serviceType, string contractName, InstanceType instanceType = InstanceType.NotSpecified)
+        public IEnumerable<Lazy<object>> GetInstances(Type serviceType, string contractName)
         {
-            ThrowIfInstanceTypeSpecified(instanceType);
-
             return Container.GetExports(serviceType, contractName).Select(x => new Lazy<object>(() => x));
         }
 
@@ -101,12 +93,6 @@ namespace Cocktail
                 return;
 
             Container.SatisfyImports(instance);
-        }
-
-        private void ThrowIfInstanceTypeSpecified(InstanceType instanceType)
-        {
-            if (instanceType != InstanceType.NotSpecified)
-                throw new NotSupportedException(StringResources.InstanceTypeNotSupported);
         }
     }
 }

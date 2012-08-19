@@ -62,32 +62,18 @@ namespace Cocktail
         ///   Returns an instance of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instance. </typeparam>
-        /// <param name="instanceType"> Optionally specify whether the returned instance should be shared or not shared. </param>
-        /// <returns> The requested instance. </returns>
-        /// <remarks>
-        ///    Not every <see cref=" ICompositionProvider"/> supports specifying an instanceType. 
-        ///    If instanceType is not supported, a <see cref="NotSupportedException"/> is expected if instanceType is anything 
-        ///    other than <see cref="InstanceType.NotSpecified"/>.
-        /// </remarks>
-        public static T GetInstance<T>(InstanceType instanceType = InstanceType.NotSpecified)
+        public static T GetInstance<T>()
         {
-            return GetLazyInstance<T>(instanceType).Value;
+            return GetLazyInstance<T>().Value;
         }
 
         /// <summary>
         ///   Returns all instances of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instances. </typeparam>
-        /// <param name="instanceType"> Optionally specify whether the returned instances should be shared or not shared. </param>
-        /// <returns> The requested instances. </returns>
-        /// <remarks>
-        ///    Not every <see cref=" ICompositionProvider"/> supports specifying an instanceType. 
-        ///    If instanceType is not supported, a <see cref="NotSupportedException"/> is expected if instanceType is anything 
-        ///    other than <see cref="InstanceType.NotSpecified"/>.
-        /// </remarks>
-        public static IEnumerable<T> GetInstances<T>(InstanceType instanceType = InstanceType.NotSpecified)
+        public static IEnumerable<T> GetInstances<T>()
         {
-            return GetLazyInstances<T>(instanceType).Select(x => x.Value);
+            return GetLazyInstances<T>().Select(x => x.Value);
         }
 
         /// <summary>
@@ -95,16 +81,9 @@ namespace Cocktail
         /// </summary>
         /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
-        /// <param name="instanceType"> Optionally specify whether the returned instance should be shared or not shared. </param>
-        /// <returns> The requested instance. </returns>
-        /// <remarks>
-        ///    Not every <see cref=" ICompositionProvider"/> supports specifying an instanceType. 
-        ///    If instanceType is not supported, a <see cref="NotSupportedException"/> is expected if instanceType is anything 
-        ///    other than <see cref="InstanceType.NotSpecified"/>.
-        /// </remarks>
-        public static object GetInstance(Type serviceType, string contractName, InstanceType instanceType = InstanceType.NotSpecified)
+        public static object GetInstance(Type serviceType, string contractName)
         {
-            return GetLazyInstance(serviceType, contractName, instanceType).Value;
+            return GetLazyInstance(serviceType, contractName).Value;
         }
 
         /// <summary>
@@ -112,46 +91,27 @@ namespace Cocktail
         /// </summary>
         /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
-        /// <param name="instanceType"> Optionally specify whether the returned instances should be shared or not shared. </param>
-        /// <returns> The requested instances. </returns>
-        /// <remarks>
-        ///    Not every <see cref=" ICompositionProvider"/> supports specifying an instanceType. 
-        ///    If instanceType is not supported, a <see cref="NotSupportedException"/> is expected if instanceType is anything 
-        ///    other than <see cref="InstanceType.NotSpecified"/>.
-        /// </remarks>
-        public static IEnumerable<object> GetInstances(Type serviceType, string contractName, InstanceType instanceType = InstanceType.NotSpecified)
+        public static IEnumerable<object> GetInstances(Type serviceType, string contractName)
         {
-            return GetLazyInstances(serviceType, contractName, instanceType).Select(x => x.Value);
+            return GetLazyInstances(serviceType, contractName).Select(x => x.Value);
         }
 
         /// <summary>
         ///   Returns a lazy instance of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instance. </typeparam>
-        /// <param name="instanceType"> Optionally specify whether the returned instance should be shared or not shared. </param>
-        /// <remarks>
-        ///    Not every <see cref=" ICompositionProvider"/> supports specifying an instanceType. 
-        ///    If instanceType is not supported, a <see cref="NotSupportedException"/> is expected if instanceType is anything 
-        ///    other than <see cref="InstanceType.NotSpecified"/>.
-        /// </remarks>
-        public static Lazy<T> GetLazyInstance<T>(InstanceType instanceType = InstanceType.NotSpecified)
+        public static Lazy<T> GetLazyInstance<T>()
         {
-            return Provider.GetInstance<T>(instanceType);
+            return Provider.GetInstance<T>();
         }
 
         /// <summary>
         ///   Returns all lazy instances of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instances. </typeparam>
-        /// <param name="instanceType"> Optionally specify whether the returned instances should be shared or not shared. </param>
-        /// <remarks>
-        ///    Not every <see cref=" ICompositionProvider"/> supports specifying an instanceType. 
-        ///    If instanceType is not supported, a <see cref="NotSupportedException"/> is expected if instanceType is anything 
-        ///    other than <see cref="InstanceType.NotSpecified"/>.
-        /// </remarks>
-        public static IEnumerable<Lazy<T>> GetLazyInstances<T>(InstanceType instanceType = InstanceType.NotSpecified)
+        public static IEnumerable<Lazy<T>> GetLazyInstances<T>()
         {
-            return Provider.GetInstances<T>(instanceType);
+            return Provider.GetInstances<T>();
         }
 
         /// <summary>
@@ -159,15 +119,9 @@ namespace Cocktail
         /// </summary>
         /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
-        /// <param name="instanceType"> Optionally specify whether the returned instance should be shared or not shared. </param>
-        /// <remarks>
-        ///    Not every <see cref=" ICompositionProvider"/> supports specifying an instanceType. 
-        ///    If instanceType is not supported, a <see cref="NotSupportedException"/> is expected if instanceType is anything 
-        ///    other than <see cref="InstanceType.NotSpecified"/>.
-        /// </remarks>
-        public static Lazy<object> GetLazyInstance(Type serviceType, string contractName, InstanceType instanceType = InstanceType.NotSpecified)
+        public static Lazy<object> GetLazyInstance(Type serviceType, string contractName)
         {
-            return Provider.GetInstance(serviceType, contractName, instanceType);
+            return Provider.GetInstance(serviceType, contractName);
         }
 
         /// <summary>
@@ -175,15 +129,9 @@ namespace Cocktail
         /// </summary>
         /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
-        /// <param name="instanceType"> Optionally specify whether the returned instances should be shared or not shared. </param>
-        /// <remarks>
-        ///    Not every <see cref=" ICompositionProvider"/> supports specifying an instanceType. 
-        ///    If instanceType is not supported, a <see cref="NotSupportedException"/> is expected if instanceType is anything 
-        ///    other than <see cref="InstanceType.NotSpecified"/>.
-        /// </remarks>
-        public static IEnumerable<Lazy<object>> GetLazyInstances(Type serviceType, string contractName, InstanceType instanceType = InstanceType.NotSpecified)
+        public static IEnumerable<Lazy<object>> GetLazyInstances(Type serviceType, string contractName)
         {
-            return Provider.GetInstances(serviceType, contractName, instanceType);
+            return Provider.GetInstances(serviceType, contractName);
         }
 
         /// <summary>

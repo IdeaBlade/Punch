@@ -84,11 +84,10 @@ namespace Cocktail
         ///   Returns a lazy instance of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instance. </typeparam>
-        /// <param name="instanceType"> Optionally specify whether the returned instance should be shared or not shared. </param>
         /// <returns> The requested instance. </returns>
-        public Lazy<T> GetInstance<T>(InstanceType instanceType = InstanceType.NotSpecified)
+        public Lazy<T> GetInstance<T>()
         {
-            var exports = GetExportsCore(typeof(T), null, ConvertToCreationPolicy(instanceType)).ToList();
+            var exports = GetExportsCore(typeof(T), null).ToList();
             if (!exports.Any())
                 throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
                                                   typeof(T).FullName));
@@ -100,11 +99,10 @@ namespace Cocktail
         ///   Returns all lazy instances of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instances. </typeparam>
-        /// <param name="instanceType"> Optionally specify whether the returned instances should be shared or not shared. </param>
         /// <returns> The requested instances. </returns>
-        public IEnumerable<Lazy<T>> GetInstances<T>(InstanceType instanceType = InstanceType.NotSpecified)
+        public IEnumerable<Lazy<T>> GetInstances<T>()
         {
-            var exports = GetExportsCore(typeof(T), null, ConvertToCreationPolicy(instanceType));
+            var exports = GetExportsCore(typeof(T), null);
             return ConvertToLazy<T>(exports);
         }
 
@@ -113,11 +111,10 @@ namespace Cocktail
         /// </summary>
         /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
-        /// <param name="instanceType"> Optionally specify whether the returned instance should be shared or not shared. </param>
         /// <returns> The requested instance. </returns>
-        public Lazy<object> GetInstance(Type serviceType, string contractName, InstanceType instanceType = InstanceType.NotSpecified)
+        public Lazy<object> GetInstance(Type serviceType, string contractName)
         {
-            var exports = GetExportsCore(serviceType, contractName, ConvertToCreationPolicy(instanceType)).ToList();
+            var exports = GetExportsCore(serviceType, contractName).ToList();
             if (!exports.Any())
                 throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
                                                   serviceType != null ? serviceType.ToString() : contractName));
@@ -130,11 +127,10 @@ namespace Cocktail
         /// </summary>
         /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
-        /// <param name="instanceType"> Optionally specify whether the returned instances should be shared or not shared. </param>
         /// <returns> The requested instances. </returns>
-        public IEnumerable<Lazy<object>> GetInstances(Type serviceType, string contractName, InstanceType instanceType = InstanceType.NotSpecified)
+        public IEnumerable<Lazy<object>> GetInstances(Type serviceType, string contractName)
         {
-            var exports = GetExportsCore(serviceType, contractName, ConvertToCreationPolicy(instanceType));
+            var exports = GetExportsCore(serviceType, contractName);
             return ConvertToLazy<object>(exports);
         }
 
@@ -182,7 +178,7 @@ namespace Cocktail
             remove { CompositionHost.Recomposed -= value; }
         }
 
-        private IEnumerable<Export> GetExportsCore(Type serviceType, string key, CreationPolicy policy)
+        private IEnumerable<Export> GetExportsCore(Type serviceType, string key)
         {
             var contractName = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
             var requiredTypeIdentity = serviceType != null
@@ -195,19 +191,9 @@ namespace Cocktail
                 ImportCardinality.ZeroOrMore,
                 false,
                 true,
-                policy);
+                CreationPolicy.Any);
 
             return Container.GetExports(importDef);
-        }
-
-        private CreationPolicy ConvertToCreationPolicy(InstanceType instanceType)
-        {
-            if (instanceType == InstanceType.Shared)
-                return CreationPolicy.Shared;
-            else if (instanceType == InstanceType.NonShared)
-                return CreationPolicy.NonShared;
-
-            return CreationPolicy.Any;
         }
 
         private IEnumerable<Lazy<T>> ConvertToLazy<T>(IEnumerable<Export> exports)

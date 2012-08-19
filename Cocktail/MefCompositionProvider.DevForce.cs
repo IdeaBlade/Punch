@@ -12,6 +12,7 @@
 
 using Caliburn.Micro;
 using IdeaBlade.Core;
+using IdeaBlade.Core.Reflection;
 using IdeaBlade.EntityModel;
 
 namespace Cocktail

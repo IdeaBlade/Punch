@@ -39,6 +39,10 @@ namespace Cocktail
             DefaultDebugLogger.SetAsLogger();
         }
 
+        /// <summary>
+        /// Creates an instance of CocktailBootstrapper.
+        /// </summary>
+        /// <param name="useApplication">Optionally specify if the bootstrapper should hook into the application object.</param>
         protected CocktailBootstrapper(bool useApplication = true)
             : base(useApplication)
         {
@@ -137,7 +141,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Creates an instance of FrameworkBootstrapper.
+        /// Creates an instance of CocktailMefBootstrapper.
         /// </summary>
         /// <param name="useApplication">Optionally specify if the bootstrapper should hook into the application object.</param>
         protected CocktailMefBootstrapper(bool useApplication = true)

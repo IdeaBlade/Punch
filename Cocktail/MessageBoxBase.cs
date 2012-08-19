@@ -10,14 +10,20 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System.ComponentModel.Composition;
 using Caliburn.Micro;
+using IdeaBlade.Core.Composition;
+
+#if !WinRT
+using System.ComponentModel.Composition;
+#else
+using System.Composition;
+#endif
 
 namespace Cocktail
 {
     /// <summary>The base view model implementing a message box.</summary>
     /// <remarks>To customize the message box, subclass MessageBoxBase and implement a custom view to match the subclassed view model.</remarks>
-    [InheritedExport]
+    [InterfaceExport(typeof(MessageBoxBase))]
     [PartNotDiscoverable]
     public class MessageBoxBase : Screen
     {

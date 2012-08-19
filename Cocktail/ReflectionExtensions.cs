@@ -44,14 +44,5 @@ namespace Cocktail
             return type.IsGenericType;
 #endif
         }
-
-        public static Assembly GetAssembly(this Type type)
-        {
-#if WinRT
-            return type.GetTypeInfo().Assembly;
-#else
-            return type.Assembly;
-#endif
-        }
     }
 }

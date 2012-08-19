@@ -13,8 +13,13 @@
 using Caliburn.Micro;
 using IdeaBlade.Core;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
+
+#if !WinRT
+using System.ComponentModel.Composition;
+#else
+using System.Composition;
+#endif
 
 namespace Cocktail
 {

@@ -75,7 +75,7 @@ namespace Cocktail
         /// <typeparam name="T"> Type of the requested instances. </typeparam>
         public static IEnumerable<T> GetInstances<T>() where T : class
         {
-            return GetLazyInstances<T>().Select(x => x.Value);
+            return Provider.GetInstances<T>();
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Cocktail
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
         public static IEnumerable<object> GetInstances(Type serviceType, string contractName)
         {
-            return GetLazyInstances(serviceType, contractName).Select(x => x.Value);
+            return Provider.GetInstances(serviceType, contractName);
         }
 
         /// <summary>
@@ -119,15 +119,6 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Returns all lazy instances of the specified type.
-        /// </summary>
-        /// <typeparam name="T"> Type of the requested instances. </typeparam>
-        public static IEnumerable<Lazy<T>> GetLazyInstances<T>() where T : class
-        {
-            return Provider.GetInstances<T>();
-        }
-
-        /// <summary>
         ///   Returns a lazy instance of the provided type or with the specified contract name or both.
         /// </summary>
         /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
@@ -135,16 +126,6 @@ namespace Cocktail
         public static Lazy<object> GetLazyInstance(Type serviceType, string contractName)
         {
             return Provider.GetInstance(serviceType, contractName);
-        }
-
-        /// <summary>
-        ///   Returns all lazy instances of the provided type.
-        /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
-        /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
-        public static IEnumerable<Lazy<object>> GetLazyInstances(Type serviceType, string contractName)
-        {
-            return Provider.GetInstances(serviceType, contractName);
         }
 
         /// <summary>

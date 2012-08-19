@@ -92,7 +92,7 @@ namespace Cocktail
                 throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
                                                   typeof(T).FullName));
 
-            return ConvertToLazy<T>(exports).First();
+            return new Lazy<T>(() => (T)exports.First().Value);
         }
 
         public T TryGetInstance<T>() where T : class
@@ -104,14 +104,14 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Returns all lazy instances of the specified type.
+        ///   Returns all instances of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instances. </typeparam>
         /// <returns> The requested instances. </returns>
-        public IEnumerable<Lazy<T>> GetInstances<T>() where T : class
+        public IEnumerable<T> GetInstances<T>() where T : class
         {
             var exports = GetExportsCore(typeof(T), null);
-            return ConvertToLazy<T>(exports);
+            return exports.Select(x => (T)x.Value);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Cocktail
                 throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
                                                   serviceType != null ? serviceType.ToString() : contractName));
 
-            return ConvertToLazy<object>(exports).First();
+            return new Lazy<object>(() => exports.First().Value);
         }
 
         public object TryGetInstance(Type serviceType, string contractName)
@@ -145,10 +145,10 @@ namespace Cocktail
         /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
         /// <returns> The requested instances. </returns>
-        public IEnumerable<Lazy<object>> GetInstances(Type serviceType, string contractName)
+        public IEnumerable<object> GetInstances(Type serviceType, string contractName)
         {
             var exports = GetExportsCore(serviceType, contractName);
-            return ConvertToLazy<object>(exports);
+            return exports.Select(x => x.Value);
         }
 
         public ICompositionFactory<T> GetInstanceFactory<T>() where T : class
@@ -221,11 +221,6 @@ namespace Cocktail
                 CreationPolicy.Any);
 
             return Container.GetExports(importDef);
-        }
-
-        private IEnumerable<Lazy<T>> ConvertToLazy<T>(IEnumerable<Export> exports)
-        {
-            return exports.Select(e => new Lazy<T>(() => (T)e.Value));
         }
     }
 }

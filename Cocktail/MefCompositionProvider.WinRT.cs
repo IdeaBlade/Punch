@@ -56,9 +56,9 @@ namespace Cocktail
             return new Lazy<T>(() => Container.GetExport<T>());
         }
 
-        public IEnumerable<Lazy<T>> GetInstances<T>() where T : class
+        public IEnumerable<T> GetInstances<T>() where T : class
         {
-            return Container.GetExports<T>().Select(x => new Lazy<T>(() => x));
+            return Container.GetExports<T>();
         }
 
         public Lazy<object> GetInstance(Type serviceType, string contractName)
@@ -66,9 +66,9 @@ namespace Cocktail
              return new Lazy<object>(() => Container.GetExport(serviceType, contractName));
         }
 
-        public IEnumerable<Lazy<object>> GetInstances(Type serviceType, string contractName)
+        public IEnumerable<object> GetInstances(Type serviceType, string contractName)
         {
-            return Container.GetExports(serviceType, contractName).Select(x => new Lazy<object>(() => x));
+            return Container.GetExports(serviceType, contractName);
         }
 
         public ICompositionFactory<T> GetInstanceFactory<T>() where T : class

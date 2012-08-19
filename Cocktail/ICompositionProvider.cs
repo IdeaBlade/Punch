@@ -49,10 +49,10 @@ namespace Cocktail
         T TryGetInstance<T>() where T : class;
 
         /// <summary>
-        ///   Returns all lazy instances of the specified type.
+        ///   Returns all instances of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instances. </typeparam>
-        IEnumerable<Lazy<T>> GetInstances<T>() where T : class;
+        IEnumerable<T> GetInstances<T>() where T : class;
 
         /// <summary>
         ///   Returns a lazy instance of the provided type or with the specified contract name or both.
@@ -74,7 +74,7 @@ namespace Cocktail
         /// </summary>
         /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
-        IEnumerable<Lazy<object>> GetInstances(Type serviceType, string contractName);
+        IEnumerable<object> GetInstances(Type serviceType, string contractName);
 
         /// <summary>
         ///  Returns a factory that creates new instances of the specified type.

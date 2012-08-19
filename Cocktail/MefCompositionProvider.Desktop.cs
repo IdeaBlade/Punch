@@ -58,7 +58,7 @@ namespace Cocktail
         /// <summary>
         /// Returns true if the provided type has been previously registered.
         /// </summary>
-        public bool IsTypeRegistered<T>()
+        internal bool IsTypeRegistered<T>() where T : class
         {
             return Container.GetExports<T>().Any();
         }
@@ -85,7 +85,7 @@ namespace Cocktail
         /// </summary>
         /// <typeparam name="T"> Type of the requested instance. </typeparam>
         /// <returns> The requested instance. </returns>
-        public Lazy<T> GetInstance<T>()
+        public Lazy<T> GetInstance<T>() where T : class
         {
             var exports = GetExportsCore(typeof(T), null).ToList();
             if (!exports.Any())
@@ -95,12 +95,20 @@ namespace Cocktail
             return ConvertToLazy<T>(exports).First();
         }
 
+        public T TryGetInstance<T>() where T : class
+        {
+            if (!IsTypeRegistered<T>())
+                return null;
+
+            return GetInstance<T>().Value;
+        }
+
         /// <summary>
         ///   Returns all lazy instances of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instances. </typeparam>
         /// <returns> The requested instances. </returns>
-        public IEnumerable<Lazy<T>> GetInstances<T>()
+        public IEnumerable<Lazy<T>> GetInstances<T>() where T : class
         {
             var exports = GetExportsCore(typeof(T), null);
             return ConvertToLazy<T>(exports);
@@ -122,6 +130,15 @@ namespace Cocktail
             return ConvertToLazy<object>(exports).First();
         }
 
+        public object TryGetInstance(Type serviceType, string contractName)
+        {
+            var exports = GetExportsCore(serviceType, contractName).ToList();
+            if (!exports.Any())
+                return null;
+
+            return exports.First().Value;
+        }
+
         /// <summary>
         ///   Returns all lazy instances of the provided type.
         /// </summary>
@@ -134,10 +151,20 @@ namespace Cocktail
             return ConvertToLazy<object>(exports);
         }
 
-        public ICompositionFactory<T> GetInstanceFactory<T>()
+        public ICompositionFactory<T> GetInstanceFactory<T>() where T : class
         {
             var factory = new MefCompositionFactory<T>();
             Container.SatisfyImportsOnce(factory);
+            return factory;
+        }
+
+        public ICompositionFactory<T> TryGetInstanceFactory<T>() where T : class
+        {
+            var factory = new MefCompositionFactory<T>();
+            Container.SatisfyImportsOnce(factory);
+            if (factory.ExportFactory == null)
+                return null;
+
             return factory;
         }
 

@@ -67,12 +67,10 @@ namespace Cocktail
             }
 
             // Look for the part in the IoC container.
-            if (!Composition.IsTypeRegistered<T>())
-                _instance = DefaultGenerator();
-            else if (_useFactory)
-                _instance = GetPartFromFactory();
+            if (_useFactory)
+                _instance = TryGetPartFromFactory() ?? DefaultGenerator();
             else
-                _instance = GetPartFromContainer();
+                _instance = Composition.TryGetInstance<T>() ?? DefaultGenerator();
 
             _probed = true;
             WriteTrace();
@@ -102,20 +100,13 @@ namespace Cocktail
                 TraceFns.WriteLine(String.Format(StringResources.ProbedForServiceFoundNoMatch, typeof(T).Name));
         }
 
-        private T GetPartFromFactory()
+        private T TryGetPartFromFactory()
         {
-            var factory = Composition.GetInstanceFactory<T>();
+            var factory = Composition.TryGetInstanceFactory<T>();
+            if (factory == null)
+                return null;
+
             return factory.NewInstance();
-        }
-
-        private T GetPartFromContainer()
-        {
-            var parts = Composition.GetLazyInstances<T>().ToList();
-            if (parts.Count() > 1)
-                throw new InvalidOperationException(
-                    String.Format(StringResources.ProbedForServiceAndFoundMultipleMatches, typeof(T).Name));
-
-            return parts.First().Value;
         }
     }
 }

@@ -22,6 +22,7 @@ namespace Cocktail
     /// </summary>
     /// <typeparam name="T">Type of instance to be created.</typeparam>
     public interface ICompositionFactory<T> : IHideObjectMembers
+         where T : class
     {
         /// <summary>
         /// Creates new instance.
@@ -35,21 +36,23 @@ namespace Cocktail
     public partial interface ICompositionProvider
     {
         /// <summary>
-        /// Returns true if the provided type has been previously registered.
-        /// </summary>
-        bool IsTypeRegistered<T>();
-
-        /// <summary>
         ///   Returns a lazy instance of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instance. </typeparam>
-        Lazy<T> GetInstance<T>();
+        Lazy<T> GetInstance<T>() where T : class;
+
+        /// <summary>
+        ///   Returns an instance of the specified type.
+        /// </summary>
+        /// <typeparam name="T"> Type of the requested instance. </typeparam>
+        /// <returns>Null if instance is not present in the container.</returns>
+        T TryGetInstance<T>() where T : class;
 
         /// <summary>
         ///   Returns all lazy instances of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instances. </typeparam>
-        IEnumerable<Lazy<T>> GetInstances<T>();
+        IEnumerable<Lazy<T>> GetInstances<T>() where T : class;
 
         /// <summary>
         ///   Returns a lazy instance of the provided type or with the specified contract name or both.
@@ -57,6 +60,14 @@ namespace Cocktail
         /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
         Lazy<object> GetInstance(Type serviceType, string contractName);
+
+        /// <summary>
+        ///   Returns an instance of the specified type.
+        /// </summary>
+        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
+        /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
+        /// <returns>Null if instance is not present in the container.</returns>
+        object TryGetInstance(Type serviceType, string contractName);
 
         /// <summary>
         ///   Returns all lazy instances of the provided type.
@@ -69,7 +80,14 @@ namespace Cocktail
         ///  Returns a factory that creates new instances of the specified type.
         /// </summary>
         /// <typeparam name="T">Type of instance the factory creates.</typeparam>
-        ICompositionFactory<T> GetInstanceFactory<T>();
+        ICompositionFactory<T> GetInstanceFactory<T>() where T : class;
+
+        /// <summary>
+        ///  Returns a factory that creates new instances of the specified type.
+        /// </summary>
+        /// <typeparam name="T">Type of instance the factory creates.</typeparam>
+        /// <returns>Null if the container cannot provide a factory for the specified type.</returns>
+        ICompositionFactory<T> TryGetInstanceFactory<T>() where T : class;
 
         /// <summary>Manually performs property dependency injection on the provided instance.</summary>
         /// <param name="instance">The instance needing property injection.</param>

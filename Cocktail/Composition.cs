@@ -51,27 +51,29 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Returns true if the provided type has been previously registered.
+        ///   Returns an instance of the specified type.
         /// </summary>
-        public static bool IsTypeRegistered<T>()
+        /// <typeparam name="T"> Type of the requested instance. </typeparam>
+        public static T GetInstance<T>() where T : class
         {
-            return Provider.IsTypeRegistered<T>();
+            return GetLazyInstance<T>().Value;
         }
 
         /// <summary>
         ///   Returns an instance of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instance. </typeparam>
-        public static T GetInstance<T>()
+        /// <returns>Null if instance is not present in the container.</returns>
+        public static T TryGetInstance<T>() where T : class
         {
-            return GetLazyInstance<T>().Value;
+            return Provider.TryGetInstance<T>();
         }
 
         /// <summary>
         ///   Returns all instances of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instances. </typeparam>
-        public static IEnumerable<T> GetInstances<T>()
+        public static IEnumerable<T> GetInstances<T>() where T : class
         {
             return GetLazyInstances<T>().Select(x => x.Value);
         }
@@ -84,6 +86,17 @@ namespace Cocktail
         public static object GetInstance(Type serviceType, string contractName)
         {
             return GetLazyInstance(serviceType, contractName).Value;
+        }
+
+        /// <summary>
+        ///   Returns an instance of the specified type.
+        /// </summary>
+        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
+        /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
+        /// <returns>Null if instance is not present in the container.</returns>
+        public static object TryGetInstance(Type serviceType, string contractName)
+        {
+            return Provider.TryGetInstance(serviceType, contractName);
         }
 
         /// <summary>
@@ -100,7 +113,7 @@ namespace Cocktail
         ///   Returns a lazy instance of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instance. </typeparam>
-        public static Lazy<T> GetLazyInstance<T>()
+        public static Lazy<T> GetLazyInstance<T>() where T : class
         {
             return Provider.GetInstance<T>();
         }
@@ -109,7 +122,7 @@ namespace Cocktail
         ///   Returns all lazy instances of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instances. </typeparam>
-        public static IEnumerable<Lazy<T>> GetLazyInstances<T>()
+        public static IEnumerable<Lazy<T>> GetLazyInstances<T>() where T : class
         {
             return Provider.GetInstances<T>();
         }
@@ -138,11 +151,21 @@ namespace Cocktail
         ///  Returns a factory that creates new instances of the specified type.
         /// </summary>
         /// <typeparam name="T">Type of instance the factory creates.</typeparam>
-        public static ICompositionFactory<T> GetInstanceFactory<T>()
+        public static ICompositionFactory<T> GetInstanceFactory<T>() where T : class
         {
             return Provider.GetInstanceFactory<T>();
         }
-        
+
+        /// <summary>
+        ///  Returns a factory that creates new instances of the specified type.
+        /// </summary>
+        /// <typeparam name="T">Type of instance the factory creates.</typeparam>
+        /// <returns>Null if the container cannot provide a factory for the specified type.</returns>
+        public static ICompositionFactory<T> TryGetInstanceFactory<T>() where T : class
+        {
+            return Provider.TryGetInstanceFactory<T>();
+        }
+
         /// <summary>Manually performs property dependency injection on the provided instance.</summary>
         /// <param name="instance">The instance needing property injection.</param>
         public static void BuildUp(object instance)

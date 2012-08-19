@@ -22,6 +22,7 @@ namespace Cocktail
     /// A factory that creates new instances that provide the specified MEF export.
     /// </summary>
     public class MefCompositionFactory<T> : ICompositionFactory<T>
+         where T : class
     {
         internal MefCompositionFactory()
         {
@@ -30,7 +31,7 @@ namespace Cocktail
         /// <summary>
         /// Internal use.
         /// </summary>
-        [Import]
+        [Import(AllowDefault=true)]
         public ExportFactory<T> ExportFactory { get; set; }
 
         /// <summary>

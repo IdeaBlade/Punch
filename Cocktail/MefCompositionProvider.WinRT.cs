@@ -51,20 +51,12 @@ namespace Cocktail
             get { return _container ?? (_container = Configuration.CreateContainer()); }
         }
 
-        /// <summary>
-        /// Returns true if the provided type has been previously registered.
-        /// </summary>
-        public bool IsTypeRegistered<T>()
-        {
-            return Container.GetExports<T>().Any();
-        }
-
-        public Lazy<T> GetInstance<T>()
+        public Lazy<T> GetInstance<T>() where T : class
         {
             return new Lazy<T>(() => Container.GetExport<T>());
         }
 
-        public IEnumerable<Lazy<T>> GetInstances<T>()
+        public IEnumerable<Lazy<T>> GetInstances<T>() where T : class
         {
             return Container.GetExports<T>().Select(x => new Lazy<T>(() => x));
         }
@@ -79,7 +71,7 @@ namespace Cocktail
             return Container.GetExports(serviceType, contractName).Select(x => new Lazy<object>(() => x));
         }
 
-        public ICompositionFactory<T> GetInstanceFactory<T>()
+        public ICompositionFactory<T> GetInstanceFactory<T>() where T : class
         {
             var factory = new MefCompositionFactory<T>();
             Container.SatisfyImports(factory);
@@ -93,6 +85,34 @@ namespace Cocktail
                 return;
 
             Container.SatisfyImports(instance);
+        }
+
+        public T TryGetInstance<T>() where T : class
+        {
+            T instance;
+            if (!Container.TryGetExport<T>(out instance))
+                return null;
+
+            return instance;
+        }
+
+        public object TryGetInstance(Type serviceType, string contractName)
+        {
+            object instance;
+            if (!Container.TryGetExport(serviceType, contractName, out instance))
+                return null;
+
+            return instance;
+        }
+
+        public ICompositionFactory<T> TryGetInstanceFactory<T>() where T : class
+        {
+            var factory = new MefCompositionFactory<T>();
+            Container.SatisfyImports(factory);
+            if (factory.ExportFactory == null)
+                return null;
+
+            return factory;
         }
     }
 }

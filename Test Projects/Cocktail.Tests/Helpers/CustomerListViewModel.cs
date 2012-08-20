@@ -13,11 +13,16 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using IdeaBlade.Core;
 using Test.Model;
+
+#if !WinRT
+using System.ComponentModel.Composition;
+#else
+using System.Composition;
+#endif
 
 namespace Cocktail.Tests.Helpers
 {

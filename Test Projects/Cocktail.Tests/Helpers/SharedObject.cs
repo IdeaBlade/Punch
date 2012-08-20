@@ -10,11 +10,19 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+#if !WinRT
 using System.ComponentModel.Composition;
+#else
+using System.Composition;
+#endif
 
 namespace Cocktail.Tests.Helpers
 {
+#if !WinRT
     [PartCreationPolicy(CreationPolicy.Shared)]
+#else
+    [Shared]
+#endif
     [Export(typeof(SharedObject))]
     public class SharedObject
     {

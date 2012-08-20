@@ -120,9 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Cocktail.snk" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Cocktail\Cocktail.csproj">

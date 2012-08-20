@@ -82,7 +82,6 @@
     <Compile Include="NorthwindIB.IB.Designer.cs">
       <DependentUpon>NorthwindIB.edmx.tt</DependentUpon>
     </Compile>
-    <Compile Include="NorthwindIBDbContext.cs" />
     <Compile Include="PageProjection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -11,13 +11,21 @@
 //====================================================================================================================
 
 using System;
-using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using Cocktail.Tests.Helpers;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Test.Model;
+using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
+
+#if !WinRT
+using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#else
+using System.Composition;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#endif
+
 
 namespace Cocktail.Tests
 {

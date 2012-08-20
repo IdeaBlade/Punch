@@ -10,8 +10,13 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System.ComponentModel.Composition;
 using Test.Model;
+
+#if !WinRT
+using System.ComponentModel.Composition;
+#else
+using System.Composition;
+#endif
 
 namespace Cocktail.Tests.Helpers
 {

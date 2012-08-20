@@ -10,11 +10,18 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+#if !WinRT
 using System.ComponentModel.Composition;
+#else
+using System.Composition;
+#endif
+
 
 namespace Cocktail.Tests.Helpers
 {
+#if !WinRT
     [PartCreationPolicy(CreationPolicy.NonShared)]
+#endif
     [Export(typeof(NonSharedObject))]
     public class NonSharedObject
     {

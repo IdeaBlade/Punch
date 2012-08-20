@@ -12,11 +12,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Linq;
 using Test.Model;
+
+#if !WinRT
+using System.ComponentModel.Composition;
+#else
+using System.Composition;
+#endif
+
 
 namespace Cocktail.Tests.Helpers
 {

@@ -14,6 +14,7 @@
 using System.ComponentModel.Composition;
 #else
 using System.Composition;
+using System.Composition.Hosting;
 #endif
 
 namespace Cocktail
@@ -39,6 +40,13 @@ namespace Cocktail
         /// </summary>
         public T NewInstance()
         {
+            if (ExportFactory == null)
+#if !WinRT
+                throw new CompositionException(string.Format(StringResources.NoExportFound, typeof(T)));
+#else
+                throw new CompositionFailedException(string.Format(StringResources.NoExportFound, typeof(T)));
+#endif
+
             return ExportFactory.CreateExport().Value;
         }
     }

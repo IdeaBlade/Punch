@@ -314,6 +314,15 @@ namespace Cocktail {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No export found for {0}.
+        /// </summary>
+        internal static string NoExportFound {
+            get {
+                return ResourceManager.GetString("NoExportFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RemoveWatch was called without a matching AddWatch call..
         /// </summary>
         internal static string NoMatchingAddWatch {

@@ -163,16 +163,16 @@
       <HintPath>..\Libs\Caliburn.Micro\WinRT\Debug\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.Metro">
-      <HintPath>..\..\..\..\..\DevForce 2012\Metro Assemblies\IdeaBlade.Core.Metro.dll</HintPath>
+      <HintPath>..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Core.Metro.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.Metro">
-      <HintPath>..\..\..\..\..\DevForce 2012\Metro Assemblies\IdeaBlade.EntityModel.Metro.dll</HintPath>
+      <HintPath>..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.EntityModel.Metro.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq.Metro">
-      <HintPath>..\..\..\..\..\DevForce 2012\Metro Assemblies\IdeaBlade.Linq.Metro.dll</HintPath>
+      <HintPath>..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Linq.Metro.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation.Metro">
-      <HintPath>..\..\..\..\..\DevForce 2012\Metro Assemblies\IdeaBlade.Validation.Metro.dll</HintPath>
+      <HintPath>..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Validation.Metro.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.AttributedModel, Version=1.0.13.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

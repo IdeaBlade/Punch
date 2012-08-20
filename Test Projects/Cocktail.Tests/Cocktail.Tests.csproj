@@ -51,29 +51,29 @@
     </Reference>
     <Reference Include="IdeaBlade.Core">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.Core.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Core.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.Edm">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Edm.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Edm.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.Server">
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Server.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Server.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.Web">
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Web.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Web.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.Linq.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Linq.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.Validation.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Validation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />

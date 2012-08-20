@@ -107,16 +107,16 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="IdeaBlade.Core.Metro">
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Metro Assemblies\IdeaBlade.Core.Metro.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Core.Metro.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.Metro">
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Metro Assemblies\IdeaBlade.EntityModel.Metro.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.EntityModel.Metro.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq.Metro">
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Metro Assemblies\IdeaBlade.Linq.Metro.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Linq.Metro.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation.Metro">
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Metro Assemblies\IdeaBlade.Validation.Metro.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Validation.Metro.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">

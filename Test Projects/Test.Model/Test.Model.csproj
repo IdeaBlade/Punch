@@ -47,19 +47,19 @@
     </Reference>
     <Reference Include="IdeaBlade.Core">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.Core.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Core.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.Linq.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Linq.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.Validation.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Validation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<manifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <assembly>
+    <name>IdeaBlade.Core.SL</name>
+    <version>7.0.0.0</version>
+    <publickeytoken>287b5094865421c0</publickeytoken>
+    <relpath>IdeaBlade.Core.SL.dll</relpath>
+    <extension downloadUri="IdeaBlade.Core.SL.zip" />
+  </assembly>
+</manifest>

@@ -14,6 +14,7 @@ using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
 using System.Composition;
+using System.Composition.Convention;
 using System.Composition.Hosting;
 using System.Composition.Hosting.Core;
 using System.Linq;
@@ -41,8 +42,27 @@ namespace Cocktail
                 if (_defaultConfiguration != null)
                     return _defaultConfiguration;
 
+                var conventions = new ConventionBuilder();
+                conventions
+                    .ForTypesDerivedFrom<IValidationErrorNotification>()
+                    .Export<IValidationErrorNotification>();
+                conventions
+                    .ForTypesDerivedFrom<IDiscoverableViewModel>()
+                    .Export<IDiscoverableViewModel>();
+                conventions
+                    .ForTypesDerivedFrom<IConnectionOptionsResolver>()
+                    .Export<IConnectionOptionsResolver>();
+                conventions
+                    .ForTypesDerivedFrom<IEntityManagerSyncInterceptor>()
+                    .Export<IEntityManagerSyncInterceptor>();
+                conventions
+                    .ForTypesDerivedFrom<EntityManagerDelegate>()
+                    .Export<EntityManagerDelegate>();
+                
+                var assemblies = IdeaBlade.Core.Composition.CompositionHost.Instance.ProbeAssemblies;
+
                 return _defaultConfiguration = new ContainerConfiguration()
-                    .WithAssemblies(IdeaBlade.Core.Composition.CompositionHost.Instance.ProbeAssemblies);
+                    .WithAssemblies(assemblies, conventions);
             }
         }
 

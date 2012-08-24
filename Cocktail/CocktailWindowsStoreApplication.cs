@@ -25,6 +25,7 @@ namespace Cocktail
     public abstract class CocktailWindowsStoreApplication : CaliburnApplication
     {
         private readonly Type _rootViewType;
+        private FrameAdapter _frameAdapter;
 
         static CocktailWindowsStoreApplication()
         {
@@ -39,6 +40,13 @@ namespace Cocktail
         protected override Type GetDefaultView()
         {
             return _rootViewType;
+        }
+
+        protected override void Configure()
+        {
+            base.Configure();
+
+            _frameAdapter = new FrameAdapter(RootFrame);
         }
 
         /// <summary>
@@ -76,10 +84,10 @@ namespace Cocktail
     {
         private readonly MefCompositionProvider _compositionProvider;
 
-        static CocktailMefWindowsStoreApplication()
-        {
-            MefCompositionProvider.EnsureRequiredProbeAssemblies();
-        }
+        //static CocktailMefWindowsStoreApplication()
+        //{
+        //    MefCompositionProvider.EnsureRequiredProbeAssemblies();
+        //}
 
         public CocktailMefWindowsStoreApplication(Type rootViewType) : base(rootViewType)
         {
@@ -103,6 +111,7 @@ namespace Cocktail
             PrepareConventions(conventions);
             _compositionProvider.Configure(conventions);
             Composition.SetProvider(_compositionProvider);
+            BuildUp(this);
         }
 
         protected override IEnumerable<Assembly> SelectAssemblies()

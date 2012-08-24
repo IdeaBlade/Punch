@@ -183,9 +183,9 @@ namespace Cocktail
             var batch = new CompositionBatch();
             PrepareCompositionContainer(batch);
             _compositionProvider.Compose(batch);
+            Composition.SetProvider(_compositionProvider);
             OnCatalogRecomposed();
             _compositionProvider.Recomposed += (s, args) => OnCatalogRecomposed();
-            Composition.SetProvider(_compositionProvider);
         }
 
         /// <summary>

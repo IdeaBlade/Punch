@@ -24,9 +24,12 @@ using System.Windows.Markup;
 // associated with an assembly.
 #if SILVERLIGHT
 [assembly: AssemblyTitle("Cocktail.SL")]
+#elif NETFX_CORE
+[assembly: AssemblyTitle("Cocktail.WinRT")]
 #else
 [assembly: AssemblyTitle("Cocktail")]
 #endif
+
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("IdeaBlade")]

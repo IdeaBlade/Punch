@@ -15,9 +15,9 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <BaseOutputPath>Bin.WinRT</BaseOutputPath>
-    <IntermediateOutputPath>obj.WinRT\$(Configuration)</IntermediateOutputPath>
+    <IntermediateOutputPath>obj.WinRT\$(Platform)\$(Configuration)</IntermediateOutputPath>
     <OutputPath>$(BaseOutputPath)\$(Platform)\$(Configuration)</OutputPath>
-    <DocumentationFile>$(BaseOutputPath)\$(Configuration)\Cocktail.WinRT.xml</DocumentationFile>
+    <DocumentationFile>$(BaseOutputPath)\$(Platform)\$(Configuration)\Cocktail.WinRT.xml</DocumentationFile>
     <SkipPostSharp>True</SkipPostSharp>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>

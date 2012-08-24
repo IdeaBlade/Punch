@@ -13,7 +13,10 @@
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
+
+#if !NETFX_CORE
 using System.Windows.Markup;
+#endif
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -21,6 +24,8 @@ using System.Windows.Markup;
 
 #if SILVERLIGHT
 [assembly: AssemblyTitle("Cocktail.Utils.SL")]
+#elif NETFX_CORE
+[assembly: AssemblyTitle("Cocktail.Utils.WinRT")]
 #else
 [assembly: AssemblyTitle("Cocktail.Utils")]
 #endif
@@ -34,7 +39,9 @@ using System.Windows.Markup;
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
 
+#if !NETFX_CORE
 [assembly: XmlnsDefinition("http://cocktail.ideablade.com", "Cocktail")]
+#endif
 
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -47,7 +54,7 @@ using System.Windows.Markup;
 
 #if SILVERLIGHT
 [assembly: Guid("8317E417-7D94-4519-B745-65A029B7D5B3")]
-#else
+#elif !NETFX_CORE
 [assembly: Guid("DA34E3F7-F87D-47B5-B11E-7CE00E957DB8")]
 #endif
 

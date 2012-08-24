@@ -36,6 +36,7 @@ namespace Cocktail.Tests.Helpers
     /// 
     /// <seealso cref="ICustomerRepository"/>
     /// </summary>
+    [Export(typeof(ICustomerRepository))]
     public class CustomerRepository : ICustomerRepository
     {
         [ImportingConstructor]

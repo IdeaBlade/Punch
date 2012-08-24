@@ -13,12 +13,17 @@
     <RootNamespace>Test.Web</RootNamespace>
     <AssemblyName>Test.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
-    <SilverlightApplicationList>{0D74727E-5C3A-4F77-B769-FD3E976B01F4}|..\Cocktail.Tests.SL\Cocktail.Tests.SL.csproj|ClientBin|False</SilverlightApplicationList>
+    <UseIISExpress>true</UseIISExpress>
+    <SilverlightApplicationList>
+    </SilverlightApplicationList>
     <SkipPostSharp>True</SkipPostSharp>
     <JSLintSkip>\Silverlight.js</JSLintSkip>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,33 +45,30 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IdeaBlade.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.EntityModel, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.dll</HintPath>
+    </Reference>
     <Reference Include="IdeaBlade.EntityModel.Edm">
-      <Private>True</Private>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Edm.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Edm.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.Server">
-      <Private>True</Private>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Server.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.EntityModel">
-      <Private>True</Private>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Server.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.Web">
-      <Private>True</Private>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Web.dll</HintPath>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Web.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq">
-      <Private>True</Private>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.Linq.dll</HintPath>
+    <Reference Include="IdeaBlade.Linq, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core">
-      <Private>True</Private>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.Validation">
-      <Private>True</Private>
-      <HintPath>..\..\..\..\..\..\DevForce 2012\Desktop Assemblies\IdeaBlade.Validation.dll</HintPath>
+    <Reference Include="IdeaBlade.Validation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Validation.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -77,7 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientAccessPolicy.xml" />
-    <Content Include="ClientBin\Cocktail.Tests.SL.xap" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Silverlight.js" />
@@ -91,6 +92,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ClientBin\" />
     <Folder Include="log\" />
   </ItemGroup>
   <ItemGroup>
@@ -117,12 +119,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>9009</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost:9009/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

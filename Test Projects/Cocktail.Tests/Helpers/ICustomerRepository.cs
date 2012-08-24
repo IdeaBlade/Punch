@@ -24,7 +24,6 @@ namespace Cocktail.Tests.Helpers
     /// 
     /// <seealso cref="CustomerRepository"/>
     /// </summary>
-    [InterfaceExport(typeof(ICustomerRepository))]
     public interface ICustomerRepository
     {
         event EventHandler<DataChangedEventArgs> DataChanged;

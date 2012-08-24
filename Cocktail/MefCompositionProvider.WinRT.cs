@@ -58,7 +58,11 @@ namespace Cocktail
                 conventions
                     .ForTypesDerivedFrom<EntityManagerDelegate>()
                     .Export<EntityManagerDelegate>();
-                
+                conventions
+                    .ForType<EventAggregator>()
+                    .Export<IEventAggregator>()
+                    .Shared();
+
                 var assemblies = IdeaBlade.Core.Composition.CompositionHost.Instance.ProbeAssemblies;
 
                 return _defaultConfiguration = new ContainerConfiguration()

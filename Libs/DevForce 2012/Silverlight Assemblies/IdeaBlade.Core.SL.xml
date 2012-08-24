@@ -446,9 +446,9 @@
             Silverlight client applications.
             </summary>
         </member>
-        <member name="F:IdeaBlade.Core.ClientApplicationType.Metro">
+        <member name="F:IdeaBlade.Core.ClientApplicationType.WindowsStore">
             <summary>
-            Metro client applications.
+            Windows Store client applications.
             </summary>
         </member>
         <member name="F:IdeaBlade.Core.ClientApplicationType.All">
@@ -468,7 +468,7 @@
             <param name="type"></param>
             <returns></returns>
         </member>
-        <member name="M:IdeaBlade.Core.ClientApplicationTypeExtensions.SupportsMetro(IdeaBlade.Core.ClientApplicationType)">
+        <member name="M:IdeaBlade.Core.ClientApplicationTypeExtensions.SupportsWindowsStore(IdeaBlade.Core.ClientApplicationType)">
             <summary>
             Returns whether Metro applications are supported.
             </summary>
@@ -1762,7 +1762,7 @@ public class MockEntityServerQueryInterceptor : EntityServerQueryInterceptor {
             If configuration information cannot be found or cannot be loaded, then your application may not run correctly.
             If your configuration cannot be loaded or you think the wrong information has
             been loaded, check the <see cref="!:LoggingElement.LogFile">logFile</see> output
-            (usually named debuglog.xml) for tracing messages.  All probe attempts are written to the log file. 
+            (usually named DevForceDebugLog.xml) for tracing messages.  All probe attempts are written to the log file. 
             </para>
             <para>
             The .config file holding the <b>IdeaBlade</b> configuration information can also contain
@@ -8445,34 +8445,6 @@ void xap_Loaded(object sender, EventArgs e) {
             Gets the parent.
             </summary>
             <value>The parent.</value>
-        </member>
-        <member name="T:IdeaBlade.Core.StringEdge">
-            <summary>
-            StringEdge is an example IEdge implementor
-            </summary>
-        </member>
-        <member name="M:IdeaBlade.Core.StringEdge.#ctor(System.String)">
-            <summary>
-            Test edge based on syntax "A.B"
-            </summary>
-            <param name="pStringEdge">String with single period in it, e.g. "A.B"</param>
-        </member>
-        <member name="M:IdeaBlade.Core.StringEdge.CreateTestEdgeList(System.String)">
-            <summary>
-            Return list of test edges based on string edge spec
-            </summary>
-            <param name="pEdgeListText">StringEdge spec like "A.B, A.C, A.A, B.C"</param>
-            <returns>List of edges</returns>
-        </member>
-        <member name="P:IdeaBlade.Core.StringEdge.Parent">
-            <summary>
-            Get the Parent
-            </summary>
-        </member>
-        <member name="P:IdeaBlade.Core.StringEdge.Child">
-            <summary>
-            Get the Child
-            </summary>
         </member>
         <member name="T:IdeaBlade.Core.DebugFns">
             <summary>

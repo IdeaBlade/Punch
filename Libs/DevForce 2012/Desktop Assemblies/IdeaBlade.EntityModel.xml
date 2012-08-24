@@ -3049,10 +3049,24 @@
             </summary>
             <returns>When the asynchronous operation completes the PageChangedOperation will contain paging results.</returns>
         </member>
+        <member name="M:IdeaBlade.EntityModel.EntityQueryPager`1.MoveToFirstPageAsync(System.Threading.CancellationToken)">
+            <summary>
+            Moves to the first page.
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns>When the asynchronous operation completes the PageChangedOperation will contain paging results.</returns>
+        </member>
         <member name="M:IdeaBlade.EntityModel.EntityQueryPager`1.MoveToLastPageAsync">
             <summary>
             Moves to the last page.
             </summary>
+            <returns>When the asynchronous operation completes the PageChangedOperation will contain paging results.</returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityQueryPager`1.MoveToLastPageAsync(System.Threading.CancellationToken)">
+            <summary>
+            Moves to the last page.
+            </summary>
+            <param name="cancellationToken"></param>
             <returns>When the asynchronous operation completes the PageChangedOperation will contain paging results.</returns>
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityQueryPager`1.MoveToPreviousPageAsync">
@@ -3061,10 +3075,24 @@
             </summary>
             <returns>When the asynchronous operation completes the PageChangedOperation will contain paging results.</returns>
         </member>
+        <member name="M:IdeaBlade.EntityModel.EntityQueryPager`1.MoveToPreviousPageAsync(System.Threading.CancellationToken)">
+            <summary>
+            Moves to the page before the current page.
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns>When the asynchronous operation completes the PageChangedOperation will contain paging results.</returns>
+        </member>
         <member name="M:IdeaBlade.EntityModel.EntityQueryPager`1.MoveToNextPageAsync">
             <summary>
             Moves to the page after the current page.
             </summary>
+            <returns>When the asynchronous operation completes the PageChangedOperation will contain paging results.</returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityQueryPager`1.MoveToNextPageAsync(System.Threading.CancellationToken)">
+            <summary>
+            Moves to the page after the current page.
+            </summary>
+            <param name="cancellationToken"></param>
             <returns>When the asynchronous operation completes the PageChangedOperation will contain paging results.</returns>
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityQueryPager`1.MoveToPageAsync(System.Int32)">
@@ -3072,6 +3100,14 @@
             Moves to the page at the specified index.
             </summary>
             <param name="pageIndex"></param>
+            <returns>When the asynchronous operation completes the PageChangedOperation will contain paging results.</returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityQueryPager`1.MoveToPageAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Moves to the page at the specified index.
+            </summary>
+            <param name="pageIndex"></param>
+            <param name="cancellationToken"></param>
             <returns>When the asynchronous operation completes the PageChangedOperation will contain paging results.</returns>
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityQueryPager`1.Reset">
@@ -3098,9 +3134,9 @@
             </summary>
             <param name="args"></param>
         </member>
-        <member name="M:IdeaBlade.EntityModel.EntityQueryPager`1.GetPageCore(System.Int32)">
+        <member name="M:IdeaBlade.EntityModel.EntityQueryPager`1.GetPageCore(System.Int32,System.Threading.CancellationToken)">
             <summary>
-            This can be sync or async.
+            This can be sync or async.  Yuck indeed.
             </summary>
         </member>
         <member name="E:IdeaBlade.EntityModel.EntityQueryPager`1.PageChanging">
@@ -4527,7 +4563,7 @@
             A disconnected <see cref="P:IdeaBlade.EntityModel.EntityServerFakeBackingStore.Local.EntityManager"/> is used as the local backing store.  The backing store
             can be restored from a previously saved <see cref="T:IdeaBlade.EntityModel.EntityCacheState"/> to pre-load data.  The store
             can also be saved to a file or stream.
-            <para>A local store cannot be used by Silverlight and Metro applications. </para>
+            <para>A local store cannot be used by Silverlight and Windows Store applications. </para>
             </remarks>
         </member>
         <member name="T:IdeaBlade.EntityModel.IEntityServerFakeBackingStore">
@@ -5858,7 +5894,8 @@ foreach (Customer c in query1) {
             <param name="query"></param>
             <returns></returns>
             <remarks>
-            In Silverlight, this query can only execute against the cache because this method is synchronous.
+            If you call this method in a Silverlight or Windows style application the query must use a cache-only query strategy, since
+            synchronous calls to the EntityServer are not supported in these environments.
             </remarks>
             <example>
         <code lang="C#">
@@ -5879,7 +5916,8 @@ var customers = query.Execute();
             <param name="query"></param>
             <returns></returns>
             <remarks>
-            In Silverlight, this query can only execute against the cache because this method is synchronous.
+            If you call this method in a Silverlight or Windows style application the query must use a cache-only query strategy, since
+            synchronous calls to the EntityServer are not supported in these environments.
             </remarks>
             <example>
         <code lang="C#">
@@ -5911,6 +5949,26 @@ query.ExecuteAsync(op => {
         </code>
       </example>
         </member>
+        <member name="M:IdeaBlade.EntityModel.EntityQueryExtensions.ExecuteAsync(IdeaBlade.EntityModel.IEntityQuery,System.Threading.CancellationToken)">
+            <summary>
+            Execute the query asynchronously.
+            </summary>
+            <seealso cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync(IEntityQuery)"/>
+            <param name="query">This query</param>
+            <param name="cancellationToken"></param>
+            <example>
+        <code lang="C#">
+          <![CDATA[
+DomainModelEntityManager mgr = new DomainModelEntityManager();
+
+var query = mgr.Customers.Where(c => c.Country == "UK");
+query.ExecuteAsync(op => {
+  var customers = op.Results;
+});          
+      ]]>
+        </code>
+      </example>
+        </member>
         <member name="M:IdeaBlade.EntityModel.EntityQueryExtensions.ExecuteAsync``1(IdeaBlade.EntityModel.IEntityQuery{``0})">
             <summary>
             Execute the query asynchronously.
@@ -5918,6 +5976,27 @@ query.ExecuteAsync(op => {
             <seealso cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync(IEntityQuery{T})"/>
             <typeparam name="T">Entity type returned</typeparam>
             <param name="query">This query</param>
+            <example>
+        <code lang="C#">
+          <![CDATA[
+DomainModelEntityManager mgr = new DomainModelEntityManager();
+
+var query = mgr.Customers.Where(c => c.Country == "UK");
+query.ExecuteAsync(op => {
+  var customers = op.Results;
+});          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityQueryExtensions.ExecuteAsync``1(IdeaBlade.EntityModel.IEntityQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Execute the query asynchronously.
+            </summary>
+            <seealso cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync(IEntityQuery{T})"/>
+            <typeparam name="T">Entity type returned</typeparam>
+            <param name="query">This query</param>
+            <param name="cancellationToken"></param>
             <example>
         <code lang="C#">
           <![CDATA[
@@ -6614,6 +6693,21 @@ foreach (var group in query) {
               ]]>
         </code>
       </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityQueryExtensions.GroupJoin``4(IdeaBlade.EntityModel.IEntityQuery{``0},System.Collections.Generic.IEnumerable{``1},System.Linq.Expressions.Expression{System.Func{``0,``2}},System.Linq.Expressions.Expression{System.Func{``1,``2}},System.Linq.Expressions.Expression{System.Func{``0,System.Collections.Generic.IEnumerable{``1},``3}})">
+            <summary>
+            Correlates the elements of two sequences based on key equality and groups the results. The default equality comparer is used to compare keys.
+            </summary>
+            <typeparam name="TOuter"></typeparam>
+            <typeparam name="TInner"></typeparam>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="outer"></param>
+            <param name="inner"></param>
+            <param name="outerKeySelector"></param>
+            <param name="innerKeySelector"></param>
+            <param name="resultSelector"></param>
+            <returns></returns>
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityQueryExtensions.Select``2(IdeaBlade.EntityModel.IEntityQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Int32,``1}})">
             <summary>
@@ -12716,6 +12810,11 @@ using IdeaBlade.EntityModel;
         <member name="F:IdeaBlade.EntityModel.EntityReferenceStrategy.NoLoad">
             <summary>
             A strategy that can be used to suppress the loading of Entity references (i.e. related entities).
+            </summary>
+        </member>
+        <member name="F:IdeaBlade.EntityModel.EntityReferenceStrategy.DefaultAsync">
+            <summary>
+            An async version of the <see cref="F:IdeaBlade.EntityModel.EntityReferenceStrategy.Default"/>.
             </summary>
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityReferenceStrategy.#ctor(IdeaBlade.EntityModel.EntityReferenceLoadStrategy,IdeaBlade.EntityModel.MergeStrategy)">

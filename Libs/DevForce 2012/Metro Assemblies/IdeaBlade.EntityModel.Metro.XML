@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>IdeaBlade.EntityModel.SL</name>
+        <name>IdeaBlade.EntityModel.Metro</name>
     </assembly>
     <members>
         <member name="T:IdeaBlade.EntityModel.AllowRpcAttribute">
@@ -229,6 +229,23 @@
             <param name="e"></param>
             <returns></returns>
         </member>
+        <member name="T:IdeaBlade.EntityModel.CacheQueryExpressionVisitor">
+            <summary>
+            For internal use only. Called to convert a query to a cache only in memory query
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.CacheQueryExpressionVisitor.#ctor(IdeaBlade.EntityModel.CacheQueryOptions,System.Linq.Expressions.ParameterExpression)">
+            <summary>
+            For internal use only.
+            </summary>
+            <param name="cacheQueryOptions"></param>
+            <param name="entityManagerParameterExpr"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.CacheQueryExpressionVisitor.VisitConstant(System.Linq.Expressions.ConstantExpression)">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
         <member name="T:IdeaBlade.EntityModel.CacheQueryOptions">
             <summary>
             Options that allow queries that will be run against cache to share the same semantics as the corresponding
@@ -450,178 +467,6 @@
         <member name="F:IdeaBlade.EntityModel.ClientQueryPermissions.All">
             <summary>
             All queries are permitted.
-            </summary>
-        </member>
-        <member name="T:System.ComponentModel.DataAnnotations.ColumnAttribute">
-            <summary>
-            Shim of CodeFirst System.ComponentModel.DataAnnotations.ColumnAttribute.
-            </summary>
-        </member>
-        <member name="M:System.ComponentModel.DataAnnotations.ColumnAttribute.#ctor">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:System.ComponentModel.DataAnnotations.ColumnAttribute.#ctor(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="name"></param>
-        </member>
-        <member name="P:System.ComponentModel.DataAnnotations.ColumnAttribute.Name">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:System.ComponentModel.DataAnnotations.ColumnAttribute.Order">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:System.ComponentModel.DataAnnotations.ColumnAttribute.TypeName">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:System.ComponentModel.DataAnnotations.ComplexTypeAttribute">
-            <summary>
-            Shim of CodeFirst System.ComponentModel.DataAnnotations.ComplexTypeAttribute.
-            </summary>
-        </member>
-        <member name="T:System.ComponentModel.DataAnnotations.DatabaseGeneratedAttribute">
-            <summary>
-            Shim of CodeFirst System.ComponentModel.DataAnnotations.DatabaseGeneratedAttribute.
-            </summary>
-        </member>
-        <member name="M:System.ComponentModel.DataAnnotations.DatabaseGeneratedAttribute.#ctor(System.ComponentModel.DataAnnotations.DatabaseGeneratedOption)">
-            <summary>
-            
-            </summary>
-            <param name="option"></param>
-        </member>
-        <member name="P:System.ComponentModel.DataAnnotations.DatabaseGeneratedAttribute.DatabaseGeneratedOption">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:System.ComponentModel.DataAnnotations.ForeignKeyAttribute">
-            <summary>
-            Shim of CodeFirst System.ComponentModel.DataAnnotations.ForeignKeyAttribute.
-            </summary>
-        </member>
-        <member name="M:System.ComponentModel.DataAnnotations.ForeignKeyAttribute.#ctor(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="name"></param>
-        </member>
-        <member name="P:System.ComponentModel.DataAnnotations.ForeignKeyAttribute.Name">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:System.ComponentModel.DataAnnotations.InversePropertyAttribute">
-            <summary>
-            Shim of CodeFirst System.ComponentModel.DataAnnotations.InversePropertyAttribute.
-            </summary>
-        </member>
-        <member name="M:System.ComponentModel.DataAnnotations.InversePropertyAttribute.#ctor(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="property"></param>
-        </member>
-        <member name="P:System.ComponentModel.DataAnnotations.InversePropertyAttribute.Property">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:System.ComponentModel.DataAnnotations.MinLengthAttribute">
-            <summary>
-            Shim of CodeFirst System.ComponentModel.DataAnnotations.MinLengthAttribute.
-            </summary>
-        </member>
-        <member name="M:System.ComponentModel.DataAnnotations.MinLengthAttribute.#ctor">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:System.ComponentModel.DataAnnotations.MinLengthAttribute.#ctor(System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="length"></param>
-        </member>
-        <member name="P:System.ComponentModel.DataAnnotations.MinLengthAttribute.Length">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:System.ComponentModel.DataAnnotations.MaxLengthAttribute">
-            <summary>
-            Shim of CodeFirst System.ComponentModel.DataAnnotations.MaxLengthAttribute.
-            </summary>
-        </member>
-        <member name="M:System.ComponentModel.DataAnnotations.MaxLengthAttribute.#ctor">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:System.ComponentModel.DataAnnotations.MaxLengthAttribute.#ctor(System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="length"></param>
-        </member>
-        <member name="P:System.ComponentModel.DataAnnotations.MaxLengthAttribute.Length">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:System.ComponentModel.DataAnnotations.NotMappedAttribute">
-            <summary>
-            Shim of CodeFirst System.ComponentModel.DataAnnotations.NotMappedAttribute.
-            </summary>
-        </member>
-        <member name="T:System.ComponentModel.DataAnnotations.TableAttribute">
-            <summary>
-            Shim of CodeFirst System.ComponentModel.DataAnnotations.TableAttribute.
-            </summary>
-        </member>
-        <member name="M:System.ComponentModel.DataAnnotations.TableAttribute.#ctor(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="name"></param>
-        </member>
-        <member name="P:System.ComponentModel.DataAnnotations.TableAttribute.Name">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:System.ComponentModel.DataAnnotations.TableAttribute.Schema">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:System.ComponentModel.DataAnnotations.DatabaseGeneratedOption">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:System.ComponentModel.DataAnnotations.DatabaseGeneratedOption.None">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:System.ComponentModel.DataAnnotations.DatabaseGeneratedOption.Identity">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:System.ComponentModel.DataAnnotations.DatabaseGeneratedOption.Computed">
-            <summary>
-            
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "T:IdeaBlade.EntityModel.CompletedEventArgs" -->
@@ -1380,7 +1225,7 @@ public class DynamicDataSourceKeyResolver : IDataSourceKeyResolver {
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityAspect.ViolationCheck(System.Object)">
             <summary>
-            See <see cref="M:IdeaBlade.Core.TraceFns.Assert(System.Boolean)"/>
+            See <see cref="!:TraceFns.Assert(bool)"/>
             </summary>
         </member>
         <member name="F:IdeaBlade.EntityModel.EntityAspect.AllErrors">
@@ -2559,6 +2404,315 @@ public class DynamicDataSourceKeyResolver : IDataSourceKeyResolver {
             <param name="strategy"></param>
             <returns></returns>
         </member>
+        <member name="T:IdeaBlade.EntityModel.EntityListManager`1">
+            <summary>
+            Manages any list of Entities to ensure the list stays current with specified filtering criteria.
+            </summary>
+            <typeparam name="T">Entity type</typeparam>
+            <remarks>
+            An <b>EntityListManager</b> can turn any concrete<see cref="T:System.Collections.IList"/> implementation into a 
+            "live" or managed list.  By specifying a <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.Filter"/> and <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.FilterProperties"/>
+            the EntityListManager will ensure that any changes, additions or deletions to entities meeting the filtering
+            criteria are automatically reflected in the list.  
+            <para>
+            Use <see cref="M:IdeaBlade.EntityModel.EntityListManager`1.ManageList(System.Collections.IList,System.Boolean)"/> and <see cref="M:IdeaBlade.EntityModel.EntityListManager`1.UnmanageList(System.Collections.IList)"/> to add or remove lists under management.  All lists managed
+            by an <b>EntityListManager</b> must contain the same Entity type.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.#ctor(IdeaBlade.EntityModel.EntityManager,System.Predicate{`0},IdeaBlade.EntityModel.EntityProperty[])">
+            <summary>
+            Initialize a new instance of the EntityListManager.
+            </summary>
+            <param name="entityManager">EntityManager holding the Entities</param>
+            <param name="filter">A predicate returning true if the tested entity belongs in the list</param>
+            <param name="filterProperties">
+            The watched properties. If supplied, changes to values in the watched properties trigger filtering. 
+            If null, any changes to Entities of this type will trigger filtering.
+            </param>
+            <remarks>
+            The <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.Filter"/> uses a .NET <b>Predicate&lt;T&gt;</b>, a delegate that defines a set of 
+            criteria and determines whether the specified object passed to it meets those criteria. 
+            The Filter receives every addition, deletion or modification (based on the <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.FilterProperties"/> specified)
+            of entities of the type watched, and determines whether the entity belongs
+            in the list.  If the Filter returns true the entity is added to or kept in the list; if the Filter returns false
+            the entity is removed from the list.  (Note that entities removed from the managed list are not removed from
+            the EntityManager, nor are they deleted.)
+            <para>
+            Performance will be needlessly poor if the EntityListManager tests an entity every time any of its properties change.
+            To avoid this, specify in the constructor or the <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.FilterProperties"/> property
+            which entity properties are relevant to the filtering.
+            </para>
+            <para>
+            An EntityListManager holds weak references to the Lists it watches. This means that you will need to
+            hold on to a reference to each ELM to insure that it does not go out of scope and get garbage collected.
+            One approach to this is to use Lists that implement the <see cref="T:IdeaBlade.Core.IHasListManager"/> interface. This will insure each list
+            keeps a reference to its ELM and any shared ELM's will not go out of scope until the last of their child lists do.
+            </para>
+            </remarks>
+            <example>
+    <code lang="C#">
+      // Example showing how a List&lt;T&gt; can be managed as a live list.
+      public void EntityListManagerSample() {
+
+      DomainModelEntityManager mgr = new DomainModelEntityManager();
+      
+      // Retrieve a customer and employee.
+      var customer = mgr.Customers.FirstOrDefault(c =&gt; c.Id == 1);
+      var employee = mgr.Employees.FirstOrDefault(e =&gt; e.Id == 1);
+
+      // Load a List with customer's order summaries.
+      var list = new List&lt;OrderSummary&gt;(customer.OrderSummaries);
+      int orderCount = list.Count;
+
+      // We want to watch for any new orders for this customer.
+      // We can't "watch" the NavigationEntityProperty, so watch its FK. 
+      var prop = OrderSummary.Customer_fk_IdEntityProperty;
+
+      // Set up the manager.
+      IListManager manager = new EntityListManager&lt;OrderSummary&gt;(mgr,
+              os =&gt; os.Customer == customer,   // filter 
+              new[] { prop },                  // watch
+              list,                            // list to be managed
+              false);                          // refresh now 
+
+      // Create a new order - the list count should increment.
+      OrderSummary aOrder = mgr.CreateEntity&lt;OrderSummary&gt;();
+      aOrder.Employee = employee;
+      aOrder.Customer = customer;
+      aOrder.AddToManager();
+     
+      Assert.IsTrue(list.Count == orderCount + 1);
+
+      // Now delete this order - the list count should decrement.
+      aOrder.EntityAspect.Delete();
+      Assert.IsTrue(list.Count == orderCount);
+    }
+   </code>
+   <code lang="VB">      
+    </code></example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.#ctor(IdeaBlade.EntityModel.EntityManager,System.Predicate{`0},IdeaBlade.EntityModel.EntityProperty[],System.Collections.IList,System.Boolean)">
+            <summary>
+            Initialize a new instance of the EntityListManager.
+            </summary>
+            <param name="entityManager">EntityManager holding the Entities</param>
+            <param name="filter">A predicate returning true if the tested entity belongs in the list</param>
+            <param name="filterProperties">
+            The watched properties. If supplied, changes to values in the watched properties trigger filtering. 
+            If null, any changes to Entities of this type will trigger filtering.
+            </param>
+            <param name="list">The list to be managed</param>
+            <param name="shouldRefresh">If true, immediately refresh the list for the filtering criteria</param>
+            <remarks>
+            The <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.Filter"/> uses a .NET <b>Predicate&lt;T&gt;</b>, a delegate that defines a set of 
+            criteria and determines whether the specified object passed to it meets those criteria. 
+            The Filter receives every addition, deletion or modification (based on the <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.FilterProperties"/> specified)
+            of entities of the type watched, and determines whether the entity belongs
+            in the list.  If the Filter returns true the entity is added to or kept in the list; if the Filter returns false
+            the entity is removed from the list.  (Note that entities removed from the managed list are not removed from
+            the EntityManager, nor are they deleted.)
+            <para>
+            Performance will be needlessly poor if the EntityListManager tests an entity every time any of its properties change.
+            To avoid this, specify in the constructor or the <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.FilterProperties"/> property
+            which entity properties are relevant to the filtering.
+            </para>
+            <para>
+            You can choose to have the EntityListManager refresh the list immediately after assuming
+            management of the list.  This is unnecessary if the supplied list is known to be complete at the time
+            the manager is initialized.
+            </para>
+            <para>
+            An EntityListManager holds weak references to the Lists it watches. This means that you will need to
+            hold on to a reference to each ELM to insure that it does not go out of scope and get garbage collected.
+            One approach to this is to use Lists that implement the <see cref="T:IdeaBlade.Core.IHasListManager"/> interface. This will insure each list
+            keeps a reference to its ELM and any shared ELM's will not go out of scope until the last of their child lists do.
+            </para>
+            </remarks>
+            <example>
+    <code lang="C#">
+      // Example showing how a List&lt;T&gt; can be managed as a live list.
+      public void EntityListManagerSample() {
+
+      DomainModelEntityManager mgr = new DomainModelEntityManager();
+      
+      // Retrieve a customer and employee.
+      var customer = mgr.Customers.FirstOrDefault(c =&gt; c.Id == 1);
+      var employee = mgr.Employees.FirstOrDefault(e =&gt; e.Id == 1);
+
+      // Load a List with customer's order summaries.
+      var list = new List&lt;OrderSummary&gt;(customer.OrderSummaries);
+      int orderCount = list.Count;
+
+      // We want to watch for any new orders for this customer.
+      // We can't "watch" the NavigationEntityProperty, so watch its FK. 
+      var prop = OrderSummary.Customer_fk_IdEntityProperty;
+
+      // Set up the manager.
+      IListManager manager = new EntityListManager&lt;OrderSummary&gt;(mgr,
+              os =&gt; os.Customer == customer,   // filter 
+              new[] { prop },                  // watch
+              list,                            // list to be managed
+              false);                          // refresh now 
+
+      // Create a new order - the list count should increment.
+      OrderSummary aOrder = mgr.CreateEntity&lt;OrderSummary&gt;();
+      aOrder.Employee = employee;
+      aOrder.Customer = customer;
+      aOrder.AddToManager();
+     
+      Assert.IsTrue(list.Count == orderCount + 1);
+
+      // Now delete this order - the list count should decrement.
+      aOrder.EntityAspect.Delete();
+      Assert.IsTrue(list.Count == orderCount);
+    }
+   </code>
+   <code lang="VB">      
+    </code></example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.ManageList(System.Collections.IList,System.Boolean)">
+            <summary>
+            Adds a list to the set of those managed by this EntityListManager and optionally refreshes the list
+            </summary>
+            <param name="list"></param>
+            <param name="shouldRefresh"></param>
+            <example>
+    <code lang="C#">
+      // Example showing how a List&lt;T&gt; can be managed as a live list.
+      public void EntityListManagerSample() {
+
+      DomainModelEntityManager mgr = new DomainModelEntityManager();
+      
+      // Retrieve a customer and employee.
+      var customer = mgr.Customers.FirstOrDefault(c =&gt; c.Id == 1);
+      var employee = mgr.Employees.FirstOrDefault(e =&gt; e.Id == 1);
+
+      // Load a List with customer's order summaries.
+      var list = new List&lt;OrderSummary&gt;(customer.OrderSummaries);
+      int orderCount = list.Count;
+
+      // We want to watch for any new orders for this customer.
+      // We can't "watch" the NavigationEntityProperty, so watch its FK. 
+      var prop = OrderSummary.Customer_fk_IdEntityProperty;
+
+      // Set up the manager.
+      IListManager manager = new EntityListManager&lt;OrderSummary&gt;(mgr,
+              os =&gt; os.Customer == customer,   // filter 
+              new[] { prop },                  // watch
+              list,                            // list to be managed
+              false);                          // refresh now 
+
+      // Create a new order - the list count should increment.
+      OrderSummary aOrder = mgr.CreateEntity&lt;OrderSummary&gt;();
+      aOrder.Employee = employee;
+      aOrder.Customer = customer;
+      aOrder.AddToManager();
+     
+      Assert.IsTrue(list.Count == orderCount + 1);
+
+      // Now delete this order - the list count should decrement.
+      aOrder.EntityAspect.Delete();
+      Assert.IsTrue(list.Count == orderCount);
+    }
+   </code>
+   <code lang="VB">      
+    </code></example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.UnmanageList(System.Collections.IList)">
+            <summary>
+            Removes a list from the set of those managed by this EntityListManager.
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.ContainsList(System.Collections.IList)">
+            <summary>
+            Returns whether the specified list is managed by this EntityListManager.
+            </summary>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.RefreshList(System.Collections.IList)">
+            <summary>
+            Refresh the specified list using the current filter
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.RefreshAllLists">
+            <summary>
+            Refresh all lists managed by this manager using the current filter
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.EntityChangedHandler(System.Object,IdeaBlade.EntityModel.EntityChangedEventArgs)">
+            <summary>
+            This method is responsible for insuring that any changes to the
+            pm that should add to a given list do so.  Any changes that should
+            delete from the list are the responsibility of PropertyChanged event.  The
+            reason for this division of labor is that we need to test every list for
+            the add of an item but only those lists that contain an item for deletes
+            </summary>
+            <param name="sender"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.EntityPropertyChangedHandler(System.Object,IdeaBlade.EntityModel.EntityPropertyChangedEventArgs)">
+            <summary>
+            The list manager is responsible for insuring that any changes to the
+            em  that should add to a given list do so.  Any changes that should
+            delete from the list are the responsibility of the list itself.  The
+            reason for this division of labor is that we need to test every list for
+            the add of an item but only those lists that contain an item for deletes
+            </summary>
+            <param name="sender"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.Dispose">
+            <summary>
+            Dispose of this instance, releasing all event handlers.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.Dispose(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityListManager`1.IncludedEntityStates">
+            <summary>
+            Entity states to include in the list ( all others will be excluded)
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityListManager`1.EntityManager">
+            <summary>
+            Gets the <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.EntityManager"/> used by the entities in the managed lists. 
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityListManager`1.Filter">
+            <summary>
+            Gets or sets the <see cref="T:System.Predicate"/> used to set filtering criteria for the list(s).
+            </summary>
+            <remarks>
+            The filter should return <c>true</c> if the supplied Entity belongs in the list(s) managed.
+            <para>
+            Setting or resetting the filter does not automatically refresh the list(s).
+            </para>
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityListManager`1.FilterProperties">
+            <summary>
+            Gets or sets the properties which, if their values change, will cause the <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.Filter"/> to be re-applied.
+            </summary>
+            <remarks>
+            If no properties are set then any changes to existing Entities will cause filtering to be re-applied.
+            <para>
+            Filter properties should be of type <see cref="T:IdeaBlade.EntityModel.DataEntityProperty"/>.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityListManager`1.Lists">
+            <summary>
+            Handle all weak ref issues in one place
+            </summary>
+        </member>
         <member name="T:IdeaBlade.EntityModel.EntityManagerContext">
             <summary>
             Allow the construction parameters of an EntityManager to be created independently of the EntityManager.
@@ -3429,39 +3583,27 @@ public class DynamicDataSourceKeyResolver : IDataSourceKeyResolver {
             When configuring endpoints in a .config file, be sure to specify the correct contract name.
             </remarks>
         </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.BeginLogin(IdeaBlade.EntityModel.ILoginCredential,System.AsyncCallback,System.Object)">
+        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.LoginAsync(IdeaBlade.EntityModel.ILoginCredential)">
             <summary>
             Used to validate client credentials and identify the session.
             </summary>
         </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.EndLogin(System.IAsyncResult)">
-            <summary />
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.BeginLogout(IdeaBlade.EntityModel.SessionBundle,System.AsyncCallback,System.Object)">
+        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.LogoutAsync(IdeaBlade.EntityModel.SessionBundle)">
             <summary>
             Used to log off a given client session.
             </summary>
         </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.EndLogout(System.IAsyncResult)">
-            <summary />
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.BeginFetch(IdeaBlade.EntityModel.SessionBundle,IdeaBlade.EntityModel.IEntityQuerySurrogate,System.AsyncCallback,System.Object)">
+        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.FetchAsync(IdeaBlade.EntityModel.SessionBundle,IdeaBlade.EntityModel.IEntityQuerySurrogate)">
             <summary>
             Executes the EntityQuery and returns the results.
             </summary>
         </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.EndFetch(System.IAsyncResult)">
-            <summary />
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.BeginSaveChanges(IdeaBlade.EntityModel.SaveWorkState,System.AsyncCallback,System.Object)">
+        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.SaveChangesAsync(IdeaBlade.EntityModel.SaveWorkState)">
             <summary>
             Saves any changes to a DataSet back to the data source, with the save options specified.
             </summary>
         </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.EndSaveChanges(System.IAsyncResult)">
-            <summary />
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.BeginGetRealIdMap(IdeaBlade.EntityModel.IdFixupWorkState,System.AsyncCallback,System.Object)">
+        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.GetRealIdMapAsync(IdeaBlade.EntityModel.IdFixupWorkState)">
             <summary>
             Returns a mapping of temporary to real IDs.
             </summary>
@@ -3469,37 +3611,10 @@ public class DynamicDataSourceKeyResolver : IDataSourceKeyResolver {
             This is called before data is saved to the data source.
             </remarks>
         </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.EndGetRealIdMap(System.IAsyncResult)">
-            <summary />
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.BeginInvokeServerMethod(IdeaBlade.EntityModel.SessionBundle,IdeaBlade.EntityModel.InvokeServerMethodWorkState,System.AsyncCallback,System.Object)">
+        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.InvokeServerMethodAsync(IdeaBlade.EntityModel.SessionBundle,IdeaBlade.EntityModel.InvokeServerMethodWorkState)">
             <summary>
             Invokes a static method for execution on the server.
             </summary>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.EndInvokeServerMethod(System.IAsyncResult)">
-            <summary />
-        </member>
-        <member name="T:IdeaBlade.EntityModel.IEntityServiceContract">
-            <summary>
-            Client-side service contract for the EntityService proxy. For internal use only.
-            </summary>
-            <remarks>
-            Note that the service itself uses a contract of the same name but in IdeaBlade.EntityModel.Server namespace.
-            When configuring endpoints in a .config file, be sure to specify the correct contract name.
-            </remarks>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServiceContract.BeginGetEntityServerName(System.String,System.String,System.AsyncCallback,System.Object)">
-            <summary />
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServiceContract.EndGetEntityServerName(System.IAsyncResult)">
-            <summary />
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServiceContract.BeginPing(System.AsyncCallback,System.Object)">
-            <summary />
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityServiceContract.EndPing(System.IAsyncResult)">
-            <summary />
         </member>
         <member name="T:IdeaBlade.EntityModel.EntityManagerClearedEventArgs">
             <summary>
@@ -4981,6 +5096,53 @@ public class DynamicDataSourceKeyResolver : IDataSourceKeyResolver {
             </summary>
             <remarks/>
         </member>
+        <member name="T:IdeaBlade.EntityModel.IEntityServiceContract">
+            <summary>
+            Client-side service contract for the EntityService proxy. For internal use only.
+            </summary>
+            <remarks>
+            Note that the service itself uses a contract of the same name but in IdeaBlade.EntityModel.Server namespace.
+            When configuring endpoints in a .config file, be sure to specify the correct contract name.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.IEntityServiceContract.GetEntityServerNameAsync(System.String,System.String)">
+            <summary />
+        </member>
+        <member name="M:IdeaBlade.EntityModel.IEntityServiceContract.PingAsync">
+            <summary />
+        </member>
+        <member name="T:IdeaBlade.EntityModel.INotifyCompleted">
+            <summary>
+            Interface implemented by asynchronous actions within a <see cref="!:Coroutine"/> iterator.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.INotifyCompleted.WhenCompleted(System.Action{IdeaBlade.EntityModel.INotifyCompletedArgs})">
+            <summary>
+            Action to be performed when the asynchronous operation completes.
+            </summary>
+            <param name="completedAction"></param>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.INotifyCompletedArgs">
+            <summary>
+            Arguments to a completion action.
+            <seealso cref="!:Coroutine"/>
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.INotifyCompletedArgs.Error">
+            <summary>
+            The exception if the action failed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.INotifyCompletedArgs.Cancelled">
+            <summary>
+            Whether the action was cancelled.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.INotifyCompletedArgs.IsErrorHandled">
+            <summary>
+            Whether the error was handled.
+            </summary>
+        </member>
         <member name="T:IdeaBlade.EntityModel.IsolationLevel">
             <summary>
             Set the isolation level of transactions.
@@ -5220,7 +5382,7 @@ public class DynamicDataSourceKeyResolver : IDataSourceKeyResolver {
         </member>
         <member name="T:IdeaBlade.EntityModel.RemoteEntityServerProxy">
             <summary>
-            RemoteEntityServerProxy for SL.  Supports async calls to EntityServer in n-tier.
+            RemoteEntityServerProxy for Metro.  Supports async calls to EntityServer in n-tier.
             </summary>
         </member>
         <member name="M:IdeaBlade.EntityModel.RemoteEntityServiceProxyBase.GetInstance(System.String)">
@@ -5231,7 +5393,7 @@ public class DynamicDataSourceKeyResolver : IDataSourceKeyResolver {
         </member>
         <member name="T:IdeaBlade.EntityModel.RemoteEntityServiceProxy">
             <summary>
-            Proxy to the EntityService for SL applications.
+            Proxy to the RemoteEntityService for Metro applications.
             </summary>
         </member>
         <member name="T:IdeaBlade.EntityModel.SaveStatus">
@@ -5765,315 +5927,6 @@ public class DynamicDataSourceKeyResolver : IDataSourceKeyResolver {
             operations. 
             </summary>
         </member>
-        <member name="T:IdeaBlade.EntityModel.EntityListManager`1">
-            <summary>
-            Manages any list of Entities to ensure the list stays current with specified filtering criteria.
-            </summary>
-            <typeparam name="T">Entity type</typeparam>
-            <remarks>
-            An <b>EntityListManager</b> can turn any concrete<see cref="T:System.Collections.IList"/> implementation into a 
-            "live" or managed list.  By specifying a <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.Filter"/> and <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.FilterProperties"/>
-            the EntityListManager will ensure that any changes, additions or deletions to entities meeting the filtering
-            criteria are automatically reflected in the list.  
-            <para>
-            Use <see cref="M:IdeaBlade.EntityModel.EntityListManager`1.ManageList(System.Collections.IList,System.Boolean)"/> and <see cref="M:IdeaBlade.EntityModel.EntityListManager`1.UnmanageList(System.Collections.IList)"/> to add or remove lists under management.  All lists managed
-            by an <b>EntityListManager</b> must contain the same Entity type.
-            </para>
-            </remarks>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.#ctor(IdeaBlade.EntityModel.EntityManager,System.Predicate{`0},IdeaBlade.EntityModel.EntityProperty[])">
-            <summary>
-            Initialize a new instance of the EntityListManager.
-            </summary>
-            <param name="entityManager">EntityManager holding the Entities</param>
-            <param name="filter">A predicate returning true if the tested entity belongs in the list</param>
-            <param name="filterProperties">
-            The watched properties. If supplied, changes to values in the watched properties trigger filtering. 
-            If null, any changes to Entities of this type will trigger filtering.
-            </param>
-            <remarks>
-            The <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.Filter"/> uses a .NET <b>Predicate&lt;T&gt;</b>, a delegate that defines a set of 
-            criteria and determines whether the specified object passed to it meets those criteria. 
-            The Filter receives every addition, deletion or modification (based on the <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.FilterProperties"/> specified)
-            of entities of the type watched, and determines whether the entity belongs
-            in the list.  If the Filter returns true the entity is added to or kept in the list; if the Filter returns false
-            the entity is removed from the list.  (Note that entities removed from the managed list are not removed from
-            the EntityManager, nor are they deleted.)
-            <para>
-            Performance will be needlessly poor if the EntityListManager tests an entity every time any of its properties change.
-            To avoid this, specify in the constructor or the <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.FilterProperties"/> property
-            which entity properties are relevant to the filtering.
-            </para>
-            <para>
-            An EntityListManager holds weak references to the Lists it watches. This means that you will need to
-            hold on to a reference to each ELM to insure that it does not go out of scope and get garbage collected.
-            One approach to this is to use Lists that implement the <see cref="T:IdeaBlade.Core.IHasListManager"/> interface. This will insure each list
-            keeps a reference to its ELM and any shared ELM's will not go out of scope until the last of their child lists do.
-            </para>
-            </remarks>
-            <example>
-    <code lang="C#">
-      // Example showing how a List&lt;T&gt; can be managed as a live list.
-      public void EntityListManagerSample() {
-
-      DomainModelEntityManager mgr = new DomainModelEntityManager();
-      
-      // Retrieve a customer and employee.
-      var customer = mgr.Customers.FirstOrDefault(c =&gt; c.Id == 1);
-      var employee = mgr.Employees.FirstOrDefault(e =&gt; e.Id == 1);
-
-      // Load a List with customer's order summaries.
-      var list = new List&lt;OrderSummary&gt;(customer.OrderSummaries);
-      int orderCount = list.Count;
-
-      // We want to watch for any new orders for this customer.
-      // We can't "watch" the NavigationEntityProperty, so watch its FK. 
-      var prop = OrderSummary.Customer_fk_IdEntityProperty;
-
-      // Set up the manager.
-      IListManager manager = new EntityListManager&lt;OrderSummary&gt;(mgr,
-              os =&gt; os.Customer == customer,   // filter 
-              new[] { prop },                  // watch
-              list,                            // list to be managed
-              false);                          // refresh now 
-
-      // Create a new order - the list count should increment.
-      OrderSummary aOrder = mgr.CreateEntity&lt;OrderSummary&gt;();
-      aOrder.Employee = employee;
-      aOrder.Customer = customer;
-      aOrder.AddToManager();
-     
-      Assert.IsTrue(list.Count == orderCount + 1);
-
-      // Now delete this order - the list count should decrement.
-      aOrder.EntityAspect.Delete();
-      Assert.IsTrue(list.Count == orderCount);
-    }
-   </code>
-   <code lang="VB">      
-    </code></example>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.#ctor(IdeaBlade.EntityModel.EntityManager,System.Predicate{`0},IdeaBlade.EntityModel.EntityProperty[],System.Collections.IList,System.Boolean)">
-            <summary>
-            Initialize a new instance of the EntityListManager.
-            </summary>
-            <param name="entityManager">EntityManager holding the Entities</param>
-            <param name="filter">A predicate returning true if the tested entity belongs in the list</param>
-            <param name="filterProperties">
-            The watched properties. If supplied, changes to values in the watched properties trigger filtering. 
-            If null, any changes to Entities of this type will trigger filtering.
-            </param>
-            <param name="list">The list to be managed</param>
-            <param name="shouldRefresh">If true, immediately refresh the list for the filtering criteria</param>
-            <remarks>
-            The <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.Filter"/> uses a .NET <b>Predicate&lt;T&gt;</b>, a delegate that defines a set of 
-            criteria and determines whether the specified object passed to it meets those criteria. 
-            The Filter receives every addition, deletion or modification (based on the <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.FilterProperties"/> specified)
-            of entities of the type watched, and determines whether the entity belongs
-            in the list.  If the Filter returns true the entity is added to or kept in the list; if the Filter returns false
-            the entity is removed from the list.  (Note that entities removed from the managed list are not removed from
-            the EntityManager, nor are they deleted.)
-            <para>
-            Performance will be needlessly poor if the EntityListManager tests an entity every time any of its properties change.
-            To avoid this, specify in the constructor or the <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.FilterProperties"/> property
-            which entity properties are relevant to the filtering.
-            </para>
-            <para>
-            You can choose to have the EntityListManager refresh the list immediately after assuming
-            management of the list.  This is unnecessary if the supplied list is known to be complete at the time
-            the manager is initialized.
-            </para>
-            <para>
-            An EntityListManager holds weak references to the Lists it watches. This means that you will need to
-            hold on to a reference to each ELM to insure that it does not go out of scope and get garbage collected.
-            One approach to this is to use Lists that implement the <see cref="T:IdeaBlade.Core.IHasListManager"/> interface. This will insure each list
-            keeps a reference to its ELM and any shared ELM's will not go out of scope until the last of their child lists do.
-            </para>
-            </remarks>
-            <example>
-    <code lang="C#">
-      // Example showing how a List&lt;T&gt; can be managed as a live list.
-      public void EntityListManagerSample() {
-
-      DomainModelEntityManager mgr = new DomainModelEntityManager();
-      
-      // Retrieve a customer and employee.
-      var customer = mgr.Customers.FirstOrDefault(c =&gt; c.Id == 1);
-      var employee = mgr.Employees.FirstOrDefault(e =&gt; e.Id == 1);
-
-      // Load a List with customer's order summaries.
-      var list = new List&lt;OrderSummary&gt;(customer.OrderSummaries);
-      int orderCount = list.Count;
-
-      // We want to watch for any new orders for this customer.
-      // We can't "watch" the NavigationEntityProperty, so watch its FK. 
-      var prop = OrderSummary.Customer_fk_IdEntityProperty;
-
-      // Set up the manager.
-      IListManager manager = new EntityListManager&lt;OrderSummary&gt;(mgr,
-              os =&gt; os.Customer == customer,   // filter 
-              new[] { prop },                  // watch
-              list,                            // list to be managed
-              false);                          // refresh now 
-
-      // Create a new order - the list count should increment.
-      OrderSummary aOrder = mgr.CreateEntity&lt;OrderSummary&gt;();
-      aOrder.Employee = employee;
-      aOrder.Customer = customer;
-      aOrder.AddToManager();
-     
-      Assert.IsTrue(list.Count == orderCount + 1);
-
-      // Now delete this order - the list count should decrement.
-      aOrder.EntityAspect.Delete();
-      Assert.IsTrue(list.Count == orderCount);
-    }
-   </code>
-   <code lang="VB">      
-    </code></example>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.ManageList(System.Collections.IList,System.Boolean)">
-            <summary>
-            Adds a list to the set of those managed by this EntityListManager and optionally refreshes the list
-            </summary>
-            <param name="list"></param>
-            <param name="shouldRefresh"></param>
-            <example>
-    <code lang="C#">
-      // Example showing how a List&lt;T&gt; can be managed as a live list.
-      public void EntityListManagerSample() {
-
-      DomainModelEntityManager mgr = new DomainModelEntityManager();
-      
-      // Retrieve a customer and employee.
-      var customer = mgr.Customers.FirstOrDefault(c =&gt; c.Id == 1);
-      var employee = mgr.Employees.FirstOrDefault(e =&gt; e.Id == 1);
-
-      // Load a List with customer's order summaries.
-      var list = new List&lt;OrderSummary&gt;(customer.OrderSummaries);
-      int orderCount = list.Count;
-
-      // We want to watch for any new orders for this customer.
-      // We can't "watch" the NavigationEntityProperty, so watch its FK. 
-      var prop = OrderSummary.Customer_fk_IdEntityProperty;
-
-      // Set up the manager.
-      IListManager manager = new EntityListManager&lt;OrderSummary&gt;(mgr,
-              os =&gt; os.Customer == customer,   // filter 
-              new[] { prop },                  // watch
-              list,                            // list to be managed
-              false);                          // refresh now 
-
-      // Create a new order - the list count should increment.
-      OrderSummary aOrder = mgr.CreateEntity&lt;OrderSummary&gt;();
-      aOrder.Employee = employee;
-      aOrder.Customer = customer;
-      aOrder.AddToManager();
-     
-      Assert.IsTrue(list.Count == orderCount + 1);
-
-      // Now delete this order - the list count should decrement.
-      aOrder.EntityAspect.Delete();
-      Assert.IsTrue(list.Count == orderCount);
-    }
-   </code>
-   <code lang="VB">      
-    </code></example>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.UnmanageList(System.Collections.IList)">
-            <summary>
-            Removes a list from the set of those managed by this EntityListManager.
-            </summary>
-            <param name="list"></param>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.ContainsList(System.Collections.IList)">
-            <summary>
-            Returns whether the specified list is managed by this EntityListManager.
-            </summary>
-            <param name="list"></param>
-            <returns></returns>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.RefreshList(System.Collections.IList)">
-            <summary>
-            Refresh the specified list using the current filter
-            </summary>
-            <param name="list"></param>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.RefreshAllLists">
-            <summary>
-            Refresh all lists managed by this manager using the current filter
-            </summary>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.EntityChangedHandler(System.Object,IdeaBlade.EntityModel.EntityChangedEventArgs)">
-            <summary>
-            This method is responsible for insuring that any changes to the
-            pm that should add to a given list do so.  Any changes that should
-            delete from the list are the responsibility of PropertyChanged event.  The
-            reason for this division of labor is that we need to test every list for
-            the add of an item but only those lists that contain an item for deletes
-            </summary>
-            <param name="sender"></param>
-            <param name="args"></param>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.EntityPropertyChangedHandler(System.Object,IdeaBlade.EntityModel.EntityPropertyChangedEventArgs)">
-            <summary>
-            The list manager is responsible for insuring that any changes to the
-            em  that should add to a given list do so.  Any changes that should
-            delete from the list are the responsibility of the list itself.  The
-            reason for this division of labor is that we need to test every list for
-            the add of an item but only those lists that contain an item for deletes
-            </summary>
-            <param name="sender"></param>
-            <param name="args"></param>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.Dispose">
-            <summary>
-            Dispose of this instance, releasing all event handlers.
-            </summary>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityListManager`1.Dispose(System.Boolean)">
-            <summary>
-            
-            </summary>
-            <param name="disposing"></param>
-        </member>
-        <member name="P:IdeaBlade.EntityModel.EntityListManager`1.IncludedEntityStates">
-            <summary>
-            Entity states to include in the list ( all others will be excluded)
-            </summary>
-        </member>
-        <member name="P:IdeaBlade.EntityModel.EntityListManager`1.EntityManager">
-            <summary>
-            Gets the <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.EntityManager"/> used by the entities in the managed lists. 
-            </summary>
-        </member>
-        <member name="P:IdeaBlade.EntityModel.EntityListManager`1.Filter">
-            <summary>
-            Gets or sets the <see cref="T:System.Predicate"/> used to set filtering criteria for the list(s).
-            </summary>
-            <remarks>
-            The filter should return <c>true</c> if the supplied Entity belongs in the list(s) managed.
-            <para>
-            Setting or resetting the filter does not automatically refresh the list(s).
-            </para>
-            </remarks>
-        </member>
-        <member name="P:IdeaBlade.EntityModel.EntityListManager`1.FilterProperties">
-            <summary>
-            Gets or sets the properties which, if their values change, will cause the <see cref="P:IdeaBlade.EntityModel.EntityListManager`1.Filter"/> to be re-applied.
-            </summary>
-            <remarks>
-            If no properties are set then any changes to existing Entities will cause filtering to be re-applied.
-            <para>
-            Filter properties should be of type <see cref="T:IdeaBlade.EntityModel.DataEntityProperty"/>.
-            </para>
-            </remarks>
-        </member>
-        <member name="P:IdeaBlade.EntityModel.EntityListManager`1.Lists">
-            <summary>
-            Handle all weak ref issues in one place
-            </summary>
-        </member>
         <member name="T:IdeaBlade.EntityModel.PocoSaveMode">
             <summary>
             Determines how to discover any custom server side POCO save methods.
@@ -6218,13 +6071,6 @@ public class DynamicDataSourceKeyResolver : IDataSourceKeyResolver {
             <summary>
             Get all nonentity user types implementing the <see cref="T:IdeaBlade.EntityModel.IKnownType"/> interface or with a Discoverable knowntype attribute.
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.KnownTypeHelper.GetServiceKnownTypes(System.Reflection.ICustomAttributeProvider)">
-            <summary>
-            Defined on service contract - called when service or proxy initialized.  Also called during cloning.
-            </summary>
-            <param name="provider"></param>
             <returns></returns>
         </member>
         <member name="T:IdeaBlade.EntityModel.ServerEntityQuery">
@@ -8623,7 +8469,7 @@ using IdeaBlade.EntityModel;
         </member>
         <member name="T:IdeaBlade.EntityModel.DefaultClientProxy`1">
             <summary>
-            Wcf proxy in SL. Differs from .NET proxy in config file used,
+            Wcf proxy in Metro. Differs from .NET proxy in config file used,
             binding information, and customization.
             </summary>
             <typeparam name="TContract"></typeparam>
@@ -13157,30 +13003,6 @@ public class Order {
             Server only!! Build map of temp to real IDs.  Idmap is changed in place.  
             </summary>
         </member>
-        <member name="T:IdeaBlade.EntityModel.IEntityQueryExecutor">
-            <summary>
-            Interface that must be implemented by any class wishing to be provide server execution of an IEntityQuery.
-            </summary>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityQueryExecutor.Initialize(IdeaBlade.Core.Composition.CompositionContext)">
-            <summary>
-            Called to provide the <see cref="T:IdeaBlade.Core.Composition.CompositionContext"/> to the executor.
-            </summary>
-            <param name="compositionContext"></param>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityQueryExecutor.Execute(IdeaBlade.EntityModel.IEntityQuery,IdeaBlade.EntityModel.IDataSourceKey)">
-            <summary>
-            Execute the query.
-            </summary>
-            <param name="query"></param>
-            <param name="dsKey"></param>
-            <returns></returns>
-        </member>
-        <member name="P:IdeaBlade.EntityModel.IEntityQueryExecutor.IsApplicable">
-            <summary>
-            Determines whether this implementation is applicable to the query passed in.
-            </summary>
-        </member>
         <member name="T:IdeaBlade.EntityModel.ParameterizedEsql">
             <summary>
             Represents an Entity SQL statement with parameters.
@@ -13609,13 +13431,6 @@ private void Sample2() {
             <summary>
             Returns the service name from what may be an absolute path.
             </summary>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.RemoteServiceFns.GetDefaultSilverlightBinding(System.String)">
-            <summary>
-            Return the standard CustomBinding for a Silverlight endpoint.
-            </summary>
-            <param name="scheme"></param>
-            <returns></returns>
         </member>
         <member name="T:IdeaBlade.EntityModel.ServerQueryExpressionVisitor">
             <summary>
@@ -15198,23 +15013,6 @@ op.Completed += (o, args) => {
     ]]>
         </code>
       </example>
-        </member>
-        <member name="T:IdeaBlade.EntityModel.CacheQueryExpressionVisitor">
-            <summary>
-            For internal use only. Called to convert a query to a cache only in memory query
-            </summary>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.CacheQueryExpressionVisitor.#ctor(IdeaBlade.EntityModel.CacheQueryOptions,System.Linq.Expressions.ParameterExpression)">
-            <summary>
-            For internal use only.
-            </summary>
-            <param name="cacheQueryOptions"></param>
-            <param name="entityManagerParameterExpr"></param>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.CacheQueryExpressionVisitor.VisitConstant(System.Linq.Expressions.ConstantExpression)">
-            <summary>
-            For internal use only.
-            </summary>
         </member>
         <member name="T:IdeaBlade.EntityModel.EntityQuery`1">
             <summary>
@@ -17831,7 +17629,7 @@ End Class
             Initializes a new instance of the PersistenceSecurityException class.
             </summary>
             <param name="message">A message added to describe the exception containing 0 or more format specifications. 
-            See <see cref="M:System.String.Format(System.String,System.Object)"/></param>
+            See <see cref="!:String.Format(String, Object)"/></param>
             <param name="messageArgs">An Object array containing zero or more objects to be formatted.</param>
         </member>
         <member name="T:IdeaBlade.EntityModel.EntityServerErrorEventArgs">

@@ -20,8 +20,16 @@ using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Test.Model;
+using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
+
+#if !WinRT
+using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#else
+using System.Composition;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#endif
 
 namespace Cocktail.Tests
 {
@@ -204,6 +212,7 @@ namespace Cocktail.Tests
 
         }
 
+#if !WinRT
         [TestMethod]
         [Timeout(10000)]
         public async Task ShouldRetrieveCustomersWithProjectionSelector()
@@ -227,6 +236,7 @@ namespace Cocktail.Tests
 
             Assert.IsTrue(result.Cast<object>().Any());
         }
+#endif
 
         [TestMethod]
         public void ShouldCreateCustomer()

@@ -26,7 +26,6 @@ using System.Composition;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #endif
 
-
 namespace Cocktail.Tests
 {
     [TestClass]

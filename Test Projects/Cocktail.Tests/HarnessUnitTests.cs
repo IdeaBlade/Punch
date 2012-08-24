@@ -12,8 +12,15 @@
 
 using System.Linq;
 using Cocktail.Tests.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Test.Model;
+
+#if !WinRT
+using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#else
+using System.Composition;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#endif
 
 namespace Cocktail.Tests
 {

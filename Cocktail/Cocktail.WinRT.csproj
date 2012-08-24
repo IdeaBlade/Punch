@@ -15,7 +15,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <BaseOutputPath>Bin.WinRT</BaseOutputPath>
-    <IntermediateOutputPath>obj.SL\$(Configuration)</IntermediateOutputPath>
+    <IntermediateOutputPath>obj.WinRT\$(Configuration)</IntermediateOutputPath>
     <OutputPath>$(BaseOutputPath)\$(Platform)\$(Configuration)</OutputPath>
     <DocumentationFile>$(BaseOutputPath)\$(Configuration)\Cocktail.xml</DocumentationFile>
     <SkipPostSharp>True</SkipPostSharp>
@@ -130,6 +130,7 @@
     <Compile Include="ISampleDataProvider.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="IValidationErrorNotification.cs" />
+    <Compile Include="LogFns.cs" />
     <Compile Include="MefCompositionFactory.cs" />
     <Compile Include="MefCompositionProvider.DevForce.cs">
       <DependentUpon>MefCompositionProvider.WinRT.cs</DependentUpon>

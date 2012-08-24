@@ -12,7 +12,14 @@
 
 using System;
 using Cocktail.Tests.Helpers;
+
+#if !WinRT
+using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#else
+using System.Composition;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#endif
 
 namespace Cocktail.Tests
 {

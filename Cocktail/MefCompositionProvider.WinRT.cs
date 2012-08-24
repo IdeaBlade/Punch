@@ -26,53 +26,57 @@ namespace Cocktail
     /// </summary>
     internal partial class MefCompositionProvider : ICompositionProvider
     {
+        private ConventionBuilder _conventions;
         private CompositionHost _container;
         private ContainerConfiguration _configuration;
-        private ContainerConfiguration _defaultConfiguration;
 
-        public ContainerConfiguration Configuration
+        public ConventionBuilder Conventions
         {
-            get { return _configuration ?? DefaultConfiguration; }
+            get { return _conventions ?? (_conventions = new ConventionBuilder()); }
         }
-
-        public ContainerConfiguration DefaultConfiguration
+        
+        public ContainerConfiguration Configuration
         {
             get
             {
-                if (_defaultConfiguration != null)
-                    return _defaultConfiguration;
+                if (_configuration != null)
+                    return _configuration;
 
-                var conventions = new ConventionBuilder();
-                conventions
+                Conventions
                     .ForTypesDerivedFrom<IValidationErrorNotification>()
                     .Export<IValidationErrorNotification>();
-                conventions
+                Conventions
                     .ForTypesDerivedFrom<IDiscoverableViewModel>()
                     .Export<IDiscoverableViewModel>();
-                conventions
+                Conventions
                     .ForTypesDerivedFrom<IConnectionOptionsResolver>()
                     .Export<IConnectionOptionsResolver>();
-                conventions
+                Conventions
                     .ForTypesDerivedFrom<IEntityManagerSyncInterceptor>()
                     .Export<IEntityManagerSyncInterceptor>();
-                conventions
+                Conventions
                     .ForTypesDerivedFrom<EntityManagerDelegate>()
                     .Export<EntityManagerDelegate>();
-                conventions
+                Conventions
                     .ForType<EventAggregator>()
                     .Export<IEventAggregator>()
                     .Shared();
 
                 var assemblies = IdeaBlade.Core.Composition.CompositionHost.Instance.ProbeAssemblies;
 
-                return _defaultConfiguration = new ContainerConfiguration()
-                    .WithAssemblies(assemblies, conventions);
+                return _configuration = new ContainerConfiguration()
+                    .WithAssemblies(assemblies, Conventions);
             }
         }
 
         public CompositionHost Container
         {
             get { return _container ?? (_container = Configuration.CreateContainer()); }
+        }
+
+        public void Configure(ConventionBuilder conventions)
+        {
+            _conventions = conventions;
         }
 
         public Lazy<T> GetInstance<T>() where T : class

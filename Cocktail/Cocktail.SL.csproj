@@ -123,6 +123,7 @@
       <DependentUpon>Composition.cs</DependentUpon>
     </Compile>
     <Compile Include="ConnectionOptions.cs" />
+    <Compile Include="DesignTimeViewModelLocatorBase.cs" />
     <Compile Include="Dialog.cs" />
     <Compile Include="DialogButton.cs" />
     <Compile Include="DialogHostFns.cs" />

@@ -26,12 +26,6 @@ using System.Composition;
 
 namespace Cocktail.Tests.Helpers
 {
-    /// <summary>
-    /// An example of a ViewModel.
-    /// 
-    /// Notice: The ViewModel must be exported in order to be found by Caliburn Micro.
-    /// </summary>
-    [Export(typeof(CustomerListViewModel))]
     public class CustomerListViewModel : Screen, IDiscoverableViewModel
     {
         private readonly ICustomerRepository _repository;

@@ -113,6 +113,7 @@
     <Compile Include="BusyWatcherUnitTests.cs" />
     <Compile Include="CompositionUnitTests.cs" />
     <Compile Include="EventHandlerUnitTests.cs" />
+    <Compile Include="HarnessUnitTests.cs" />
     <Compile Include="Helpers\CocktailTestBase.WinRT.cs" />
     <Compile Include="Helpers\CompositionContextResolver.cs" />
     <Compile Include="Helpers\ConnectionOptionsResolver.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Helpers\SyncInterceptor.cs" />
     <Compile Include="Helpers\TestEntityManagerDelegate.cs" />
     <Compile Include="Helpers\TestEventHandler.cs" />
+    <Compile Include="Helpers\ViewModelLocator.cs" />
     <Compile Include="LogFnsTests.cs" />
     <Compile Include="OnlineUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

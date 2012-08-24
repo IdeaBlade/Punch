@@ -1,16 +1,15 @@
-﻿//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+﻿// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
-using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
 using System.Composition;
@@ -18,6 +17,8 @@ using System.Composition.Convention;
 using System.Composition.Hosting;
 using System.Linq;
 using System.Reflection;
+using Caliburn.Micro;
+using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 
 namespace Cocktail
 {
@@ -40,25 +41,31 @@ namespace Cocktail
             return _rootViewType;
         }
 
-        /// <summary>Locates the supplied service.</summary>
-        /// <param name="serviceType">The service to locate.</param>
-        /// <param name="key">The key to locate.</param>
-        /// <returns>The located service.</returns>
+        /// <summary>
+        ///   Locates the supplied service.
+        /// </summary>
+        /// <param name="serviceType"> The service to locate. </param>
+        /// <param name="key"> The key to locate. </param>
+        /// <returns> The located service. </returns>
         protected override object GetInstance(Type serviceType, string key)
         {
             return Composition.GetInstance(serviceType, key);
         }
 
-        /// <summary>Locates all instances of the supplied service.</summary>
-        /// <param name="serviceType">The service to locate.</param>
-        /// <returns>The located services.</returns>
+        /// <summary>
+        ///   Locates all instances of the supplied service.
+        /// </summary>
+        /// <param name="serviceType"> The service to locate. </param>
+        /// <returns> The located services. </returns>
         protected override IEnumerable<object> GetAllInstances(Type serviceType)
         {
             return Composition.GetInstances(serviceType, null);
         }
 
-        /// <summary>Performs injection on the supplied instance.</summary>
-        /// <param name="instance">The instance to perform injection on.</param>
+        /// <summary>
+        ///   Performs injection on the supplied instance.
+        /// </summary>
+        /// <param name="instance"> The instance to perform injection on. </param>
         protected override void BuildUp(object instance)
         {
             Composition.BuildUp(instance);
@@ -100,11 +107,11 @@ namespace Cocktail
 
         protected override IEnumerable<Assembly> SelectAssemblies()
         {
-            return IdeaBlade.Core.Composition.CompositionHost.Instance.ProbeAssemblies;
+            return CompositionHost.Instance.ProbeAssemblies;
         }
 
         /// <summary>
-        /// Ensures that no MEF ExportAttributes are used in the Bootstrapper
+        ///   Ensures that no MEF ExportAttributes are used in the Bootstrapper
         /// </summary>
         private void EnsureBootstrapperHasNoExports()
         {

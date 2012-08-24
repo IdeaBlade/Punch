@@ -10,30 +10,31 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using Caliburn.Micro;
-using IdeaBlade.Core.Composition;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
+using Caliburn.Micro;
+using IdeaBlade.Core.Composition;
 using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 
 namespace Cocktail
 {
     /// <summary>
-    /// An implementation of <see cref="ICompositionProvider"/> which uses MEF as the underlying IoC implementation.
+    ///   An implementation of <see cref="ICompositionProvider" /> which uses MEF as the underlying IoC implementation.
     /// </summary>
     internal partial class MefCompositionProvider : ISupportsRecomposition
     {
-        private CompositionContainer _container;
         private ComposablePartCatalog _catalog;
+        private CompositionContainer _container;
 
         /// <summary>
         ///   Returns the current catalog in use.
         /// </summary>
-        /// <returns> Unless a custom catalog is provided through <see cref="Configure" />, this property returns <see cref="DefaultCatalog" /> </returns>
+        /// <returns> Unless a custom catalog is provided through <see cref="Configure" /> , this property returns <see
+        ///    cref="DefaultCatalog" /> </returns>
         public ComposablePartCatalog Catalog
         {
             get { return _catalog ?? DefaultCatalog; }
@@ -55,30 +56,7 @@ namespace Cocktail
             get { return _container ?? (_container = new CompositionContainer(Catalog)); }
         }
 
-        /// <summary>
-        /// Returns true if the provided type has been previously registered.
-        /// </summary>
-        internal bool IsTypeRegistered<T>() where T : class
-        {
-            return Container.GetExports<T>().Any();
-        }
-
-        /// <summary>
-        ///   Configures the CompositionHost.
-        /// </summary>
-        /// <param name="compositionBatch"> Optional changes to the <see cref="CompositionContainer" /> to include during the composition. </param>
-        /// <param name="catalog"> The custom catalog to be used by Cocktail to get access to MEF exports. </param>
-        public void Configure(CompositionBatch compositionBatch = null, ComposablePartCatalog catalog = null)
-        {
-            _catalog = catalog;
-
-            var batch = compositionBatch ?? new CompositionBatch();
-            if (!IsTypeRegistered<IEventAggregator>())
-                batch.AddExportedValue<IEventAggregator>(new EventAggregator());
-
-            Compose(batch);
-        }
-
+        #region ISupportsRecomposition Members
 
         /// <summary>
         ///   Returns a lazy instance of the specified type.
@@ -92,7 +70,7 @@ namespace Cocktail
                 throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
                                                   typeof(T).FullName));
 
-            return new Lazy<T>(() => (T)exports.First().Value);
+            return new Lazy<T>(() => (T) exports.First().Value);
         }
 
         public T TryGetInstance<T>() where T : class
@@ -111,13 +89,13 @@ namespace Cocktail
         public IEnumerable<T> GetInstances<T>() where T : class
         {
             var exports = GetExportsCore(typeof(T), null);
-            return exports.Select(x => (T)x.Value);
+            return exports.Select(x => (T) x.Value);
         }
 
         /// <summary>
         ///   Returns a lazy instance of the provided type or with the specified contract name or both.
         /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
+        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
         /// <returns> The requested instance. </returns>
         public Lazy<object> GetInstance(Type serviceType, string contractName)
@@ -142,7 +120,7 @@ namespace Cocktail
         /// <summary>
         ///   Returns all lazy instances of the provided type.
         /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
+        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
         /// <returns> The requested instances. </returns>
         public IEnumerable<object> GetInstances(Type serviceType, string contractName)
@@ -168,8 +146,10 @@ namespace Cocktail
             return factory;
         }
 
-        /// <summary>Manually performs property dependency injection on the provided instance.</summary>
-        /// <param name="instance">The instance needing property injection.</param>
+        /// <summary>
+        ///   Manually performs property dependency injection on the provided instance.
+        /// </summary>
+        /// <param name="instance"> The instance needing property injection. </param>
         public void BuildUp(object instance)
         {
             // Skip if in design mode.
@@ -177,6 +157,46 @@ namespace Cocktail
                 return;
 
             Container.SatisfyImportsOnce(instance);
+        }
+
+        /// <summary>
+        ///   Returns true if the CompositionProvider is currently in the process of recomposing.
+        /// </summary>
+        public bool IsRecomposing { get; internal set; }
+
+        /// <summary>
+        ///   Fired when the composition container is modified after initialization.
+        /// </summary>
+        public event EventHandler<RecomposedEventArgs> Recomposed
+        {
+            add { CompositionHost.Recomposed += value; }
+            remove { CompositionHost.Recomposed -= value; }
+        }
+
+        #endregion
+
+        /// <summary>
+        ///   Returns true if the provided type has been previously registered.
+        /// </summary>
+        internal bool IsTypeRegistered<T>() where T : class
+        {
+            return Container.GetExports<T>().Any();
+        }
+
+        /// <summary>
+        ///   Configures the CompositionHost.
+        /// </summary>
+        /// <param name="compositionBatch"> Optional changes to the <see cref="CompositionContainer" /> to include during the composition. </param>
+        /// <param name="catalog"> The custom catalog to be used by Cocktail to get access to MEF exports. </param>
+        public void Configure(CompositionBatch compositionBatch = null, ComposablePartCatalog catalog = null)
+        {
+            _catalog = catalog;
+
+            var batch = compositionBatch ?? new CompositionBatch();
+            if (!IsTypeRegistered<IEventAggregator>())
+                batch.AddExportedValue<IEventAggregator>(new EventAggregator());
+
+            Compose(batch);
         }
 
         /// <summary>
@@ -189,20 +209,6 @@ namespace Cocktail
                 throw new ArgumentNullException("compositionBatch");
 
             Container.Compose(compositionBatch);
-        }
-
-        /// <summary>
-        /// Returns true if the CompositionProvider is currently in the process of recomposing.
-        /// </summary>
-        public bool IsRecomposing { get; internal set; }
-
-        /// <summary>
-        ///   Fired when the composition container is modified after initialization.
-        /// </summary>
-        public event EventHandler<RecomposedEventArgs> Recomposed
-        {
-            add { CompositionHost.Recomposed += value; }
-            remove { CompositionHost.Recomposed -= value; }
         }
 
         private IEnumerable<Export> GetExportsCore(Type serviceType, string key)

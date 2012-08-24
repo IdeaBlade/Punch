@@ -10,31 +10,29 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
 using System.Composition;
 using System.Composition.Convention;
 using System.Composition.Hosting;
-using System.Composition.Hosting.Core;
-using System.Linq;
+using Caliburn.Micro;
 
 namespace Cocktail
 {
     /// <summary>
-    /// An implementation of <see cref="ICompositionProvider"/> which uses MEF as the underlying IoC implementation.
+    ///   An implementation of <see cref="ICompositionProvider" /> which uses MEF as the underlying IoC implementation.
     /// </summary>
     internal partial class MefCompositionProvider : ICompositionProvider
     {
-        private ConventionBuilder _conventions;
-        private CompositionHost _container;
         private ContainerConfiguration _configuration;
+        private CompositionHost _container;
+        private ConventionBuilder _conventions;
 
         public ConventionBuilder Conventions
         {
             get { return _conventions ?? (_conventions = new ConventionBuilder()); }
         }
-        
+
         public ContainerConfiguration Configuration
         {
             get
@@ -65,7 +63,7 @@ namespace Cocktail
                 var assemblies = IdeaBlade.Core.Composition.CompositionHost.Instance.ProbeAssemblies;
 
                 return _configuration = new ContainerConfiguration()
-                    .WithAssemblies(assemblies, Conventions);
+                                            .WithAssemblies(assemblies, Conventions);
             }
         }
 
@@ -74,10 +72,7 @@ namespace Cocktail
             get { return _container ?? (_container = Configuration.CreateContainer()); }
         }
 
-        public void Configure(ConventionBuilder conventions)
-        {
-            _conventions = conventions;
-        }
+        #region ICompositionProvider Members
 
         public Lazy<T> GetInstance<T>() where T : class
         {
@@ -91,7 +86,7 @@ namespace Cocktail
 
         public Lazy<object> GetInstance(Type serviceType, string contractName)
         {
-             return new Lazy<object>(() => Container.GetExport(serviceType, contractName));
+            return new Lazy<object>(() => Container.GetExport(serviceType, contractName));
         }
 
         public IEnumerable<object> GetInstances(Type serviceType, string contractName)
@@ -118,7 +113,7 @@ namespace Cocktail
         public T TryGetInstance<T>() where T : class
         {
             T instance;
-            if (!Container.TryGetExport<T>(out instance))
+            if (!Container.TryGetExport(out instance))
                 return null;
 
             return instance;
@@ -141,6 +136,13 @@ namespace Cocktail
                 return null;
 
             return factory;
+        }
+
+        #endregion
+
+        public void Configure(ConventionBuilder conventions)
+        {
+            _conventions = conventions;
         }
     }
 }

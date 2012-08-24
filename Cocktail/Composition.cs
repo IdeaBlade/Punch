@@ -10,10 +10,9 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using IdeaBlade.EntityModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
@@ -29,6 +28,16 @@ namespace Cocktail
             EntityManager.EntityManagerCreated += OnEntityManagerCreated;
         }
 
+        internal static ICompositionProvider Provider
+        {
+            get
+            {
+                if (_provider == null)
+                    throw new InvalidOperationException(StringResources.CompositionProviderNotConfigured);
+                return _provider;
+            }
+        }
+
         private static void OnEntityManagerCreated(object sender, EntityManagerCreatedEventArgs args)
         {
             if (!args.EntityManager.IsClient)
@@ -40,7 +49,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Sets the current <see cref="ICompositionProvider"/>.
+        ///   Sets the current <see cref="ICompositionProvider" />.
         /// </summary>
         public static void SetProvider(ICompositionProvider compositionProvider)
         {
@@ -63,7 +72,7 @@ namespace Cocktail
         ///   Returns an instance of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instance. </typeparam>
-        /// <returns>Null if instance is not present in the container.</returns>
+        /// <returns> Null if instance is not present in the container. </returns>
         public static T TryGetInstance<T>() where T : class
         {
             return Provider.TryGetInstance<T>();
@@ -81,7 +90,7 @@ namespace Cocktail
         /// <summary>
         ///   Returns an instance of the provided type or with the specified contract name or both.
         /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
+        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
         public static object GetInstance(Type serviceType, string contractName)
         {
@@ -91,9 +100,9 @@ namespace Cocktail
         /// <summary>
         ///   Returns an instance of the specified type.
         /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
+        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
-        /// <returns>Null if instance is not present in the container.</returns>
+        /// <returns> Null if instance is not present in the container. </returns>
         public static object TryGetInstance(Type serviceType, string contractName)
         {
             return Provider.TryGetInstance(serviceType, contractName);
@@ -102,7 +111,7 @@ namespace Cocktail
         /// <summary>
         ///   Returns all instances of the provided type.
         /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
+        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
         public static IEnumerable<object> GetInstances(Type serviceType, string contractName)
         {
@@ -121,7 +130,7 @@ namespace Cocktail
         /// <summary>
         ///   Returns a lazy instance of the provided type or with the specified contract name or both.
         /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used.</param>
+        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
         /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
         public static Lazy<object> GetLazyInstance(Type serviceType, string contractName)
         {
@@ -129,44 +138,36 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///  Returns a factory that creates new instances of the specified type.
+        ///   Returns a factory that creates new instances of the specified type.
         /// </summary>
-        /// <typeparam name="T">Type of instance the factory creates.</typeparam>
+        /// <typeparam name="T"> Type of instance the factory creates. </typeparam>
         public static ICompositionFactory<T> GetInstanceFactory<T>() where T : class
         {
             return Provider.GetInstanceFactory<T>();
         }
 
         /// <summary>
-        ///  Returns a factory that creates new instances of the specified type.
+        ///   Returns a factory that creates new instances of the specified type.
         /// </summary>
-        /// <typeparam name="T">Type of instance the factory creates.</typeparam>
-        /// <returns>Null if the container cannot provide a factory for the specified type.</returns>
+        /// <typeparam name="T"> Type of instance the factory creates. </typeparam>
+        /// <returns> Null if the container cannot provide a factory for the specified type. </returns>
         public static ICompositionFactory<T> TryGetInstanceFactory<T>() where T : class
         {
             return Provider.TryGetInstanceFactory<T>();
         }
 
-        /// <summary>Manually performs property dependency injection on the provided instance.</summary>
-        /// <param name="instance">The instance needing property injection.</param>
+        /// <summary>
+        ///   Manually performs property dependency injection on the provided instance.
+        /// </summary>
+        /// <param name="instance"> The instance needing property injection. </param>
         public static void BuildUp(object instance)
         {
             Provider.BuildUp(instance);
         }
 
         /// <summary>
-        /// Event triggered after a new CompositionProvider was assigned through <see cref="SetProvider"/>.
+        ///   Event triggered after a new CompositionProvider was assigned through <see cref="SetProvider" />.
         /// </summary>
         internal static event EventHandler<EventArgs> ProviderChanged = delegate { };
-
-        internal static ICompositionProvider Provider
-        {
-            get
-            {
-                if (_provider == null)
-                    throw new InvalidOperationException(StringResources.CompositionProviderNotConfigured);
-                return _provider;
-            }
-        }
     }
 }

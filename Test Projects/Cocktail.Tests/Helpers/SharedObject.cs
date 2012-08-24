@@ -10,7 +10,7 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-#if !WinRT
+#if !NETFX_CORE
 using System.ComponentModel.Composition;
 #else
 using System.Composition;
@@ -18,7 +18,7 @@ using System.Composition;
 
 namespace Cocktail.Tests.Helpers
 {
-#if !WinRT
+#if !NETFX_CORE
     [PartCreationPolicy(CreationPolicy.Shared)]
 #else
     [Shared]

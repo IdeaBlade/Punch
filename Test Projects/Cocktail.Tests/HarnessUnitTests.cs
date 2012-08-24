@@ -14,7 +14,7 @@ using System.Linq;
 using Cocktail.Tests.Helpers;
 using Test.Model;
 
-#if !WinRT
+#if !NETFX_CORE
 using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #else

@@ -15,7 +15,7 @@ using IdeaBlade.Core;
 using System.Collections.Generic;
 using System.Linq;
 
-#if !WinRT
+#if !NETFX_CORE
 using System.ComponentModel.Composition;
 #else
 using System.Composition;

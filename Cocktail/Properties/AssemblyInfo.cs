@@ -15,7 +15,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Resources;
 
-#if !WinRT
+#if !NETFX_CORE
 using System.Windows.Markup;
 #endif
 
@@ -53,7 +53,7 @@ using System.Windows.Markup;
                                                      + "0fb13f01fb5d856e99c1e61777cf4772d29bad7e66ffb93fc5cbd63b395046c06ff57db6ecbeee"
                                                      + "4bdd6effc405878d65cfc4911708ed650da935d733fc5dc707f74910e025ac080543e01a6cc863"
                                                      + "b9f85ffc")]
-#elif WinRT
+#elif NETFX_CORE
 [assembly: InternalsVisibleTo("Cocktail.Tests.WinRT")]
 [assembly: InternalsVisibleTo("IdeaBlade.Core.Metro, PublicKey=0024000004800000940000000602000000240000525341310004000001000100b3f302890eb528"
                                                      + "1a7ab39b936ad9e0eded7c4a41abb440bead71ff5a31d51e865606b2a7e6d0b9dd0d92b113b9d1"
@@ -73,7 +73,7 @@ using System.Windows.Markup;
                                                      + "b9f85ffc")]
 #endif
 
-#if !WinRT
+#if !NETFX_CORE
 [assembly: XmlnsDefinition("http://cocktail.ideablade.com", "Cocktail")]
 #endif
 
@@ -86,7 +86,7 @@ using System.Windows.Markup;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 #if SILVERLIGHT
 [assembly: Guid("0EE7DDF4-04AB-4048-B7C9-5B69DAEE5430")]
-#elif !WinRT
+#elif !NETFX_CORE
 [assembly: Guid("869C0A7C-3B83-44C0-8836-360EA78C9D6E")]
 #endif
 

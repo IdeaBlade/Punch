@@ -13,7 +13,7 @@
 using Caliburn.Micro;
 using IdeaBlade.Core.Composition;
 
-#if !WinRT
+#if !NETFX_CORE
 using System.ComponentModel.Composition;
 #else
 using System.Composition;

@@ -17,7 +17,7 @@ using System.ComponentModel.Composition.Hosting;
 using Caliburn.Micro;
 using Cocktail.Tests.Helpers;
 
-#if !WinRT
+#if !NETFX_CORE
 using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #else

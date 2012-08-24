@@ -19,7 +19,7 @@ using IdeaBlade.EntityModel;
 using IdeaBlade.EntityModel.Security;
 using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
 
-#if WinRT
+#if NETFX_CORE
 using System.Composition;
 #else
 using System.ComponentModel.Composition;

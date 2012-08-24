@@ -23,7 +23,7 @@ using IdeaBlade.Linq;
 using Test.Model;
 using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
 
-#if !WinRT
+#if !NETFX_CORE
 using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #else
@@ -212,7 +212,7 @@ namespace Cocktail.Tests
 
         }
 
-#if !WinRT
+#if !NETFX_CORE
         [TestMethod]
         [Timeout(10000)]
         public async Task ShouldRetrieveCustomersWithProjectionSelector()

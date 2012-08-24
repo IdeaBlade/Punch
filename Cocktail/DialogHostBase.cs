@@ -20,7 +20,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
-#if !WinRT
+#if !NETFX_CORE
 using System.ComponentModel.Composition;
 #else
 using System.Composition;

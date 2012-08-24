@@ -65,7 +65,7 @@ namespace Cocktail
             TraceFns.WriteLineIf(condition, FormatLogMessage(aObject));
         }
 
-#if !WinRT
+#if !NETFX_CORE
         private static string FormatLogMessage(object aObject)
         {
             var stackFrame = new StackFrame(2);

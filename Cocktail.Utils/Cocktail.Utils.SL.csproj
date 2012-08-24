@@ -90,9 +90,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(SolutionDir)Bin\Silverlight 5\$(ConfigurationName)"
-xcopy "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\Silverlight 5\$(ConfigurationName)" /y
-xcopy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)Bin\Silverlight 5\$(ConfigurationName)" /y
+    <PostBuildEvent>mkdir "$(SolutionDir)Bin\sl50\$(ConfigurationName)"
+xcopy "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\sl50\$(ConfigurationName)" /y
+xcopy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)Bin\sl50\$(ConfigurationName)" /y
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

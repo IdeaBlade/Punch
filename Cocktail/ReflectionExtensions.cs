@@ -19,7 +19,7 @@ namespace Cocktail
 {
     internal static class ReflectionExtensions
     {
-#if WinRT
+#if NETFX_CORE
         public static IEnumerable<Type> GetInterfaces(this Type type)
         {
             return type.GetTypeInfo().ImplementedInterfaces;
@@ -38,7 +38,7 @@ namespace Cocktail
 
         public static bool IsGenericType(this Type type)
         {
-#if WinRT
+#if NETFX_CORE
             return type.GetTypeInfo().IsGenericType;
 #else
             return type.IsGenericType;

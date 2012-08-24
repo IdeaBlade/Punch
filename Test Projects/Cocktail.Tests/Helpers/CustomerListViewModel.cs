@@ -18,7 +18,7 @@ using Caliburn.Micro;
 using IdeaBlade.Core;
 using Test.Model;
 
-#if !WinRT
+#if !NETFX_CORE
 using System.ComponentModel.Composition;
 #else
 using System.Composition;

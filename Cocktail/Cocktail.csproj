@@ -194,9 +194,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(SolutionDir)Bin\.NET 4\$(ConfigurationName)"
-xcopy "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\.NET 4\$(ConfigurationName)" /y
-xcopy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)Bin\.NET 4\$(ConfigurationName)" /y</PostBuildEvent>
+    <PostBuildEvent>mkdir "$(SolutionDir)Bin\net45\$(ConfigurationName)"
+xcopy "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\net45\$(ConfigurationName)" /y
+xcopy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)Bin\net45\$(ConfigurationName)" /y</PostBuildEvent>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

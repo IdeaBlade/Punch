@@ -10,7 +10,7 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-#if !WinRT
+#if !NETFX_CORE
 using System.ComponentModel.Composition;
 #else
 using System.Composition;
@@ -41,7 +41,7 @@ namespace Cocktail
         public T NewInstance()
         {
             if (ExportFactory == null)
-#if !WinRT
+#if !NETFX_CORE
                 throw new CompositionException(string.Format(StringResources.NoExportFound, typeof(T)));
 #else
                 throw new CompositionFailedException(string.Format(StringResources.NoExportFound, typeof(T)));

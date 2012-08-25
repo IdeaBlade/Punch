@@ -1,17 +1,15 @@
-﻿//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+﻿// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
-using Caliburn.Micro;
-using IdeaBlade.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -20,19 +18,21 @@ using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Caliburn.Micro;
+using IdeaBlade.Core;
 using Action = System.Action;
 
 namespace Cocktail
 {
     /// <summary>
-    /// Abstract base class to configure the framework.
+    ///   Abstract base class to configure the framework.
     /// </summary>
     public abstract class CocktailBootstrapper : Bootstrapper
     {
-        private Task _asyncBootstrapTask;
+        private Task _task;
 
         /// <summary>
-        /// Static initialization
+        ///   Static initialization
         /// </summary>
         static CocktailBootstrapper()
         {
@@ -40,16 +40,16 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Creates an instance of CocktailBootstrapper.
+        ///   Creates an instance of CocktailBootstrapper.
         /// </summary>
-        /// <param name="useApplication">Optionally specify if the bootstrapper should hook into the application object.</param>
+        /// <param name="useApplication"> Optionally specify if the bootstrapper should hook into the application object. </param>
         protected CocktailBootstrapper(bool useApplication = true)
             : base(useApplication)
         {
         }
 
         /// <summary>
-        /// Configures the framework and sets up the IoC container.
+        ///   Configures the framework and sets up the IoC container.
         /// </summary>
         protected override void Configure()
         {
@@ -59,9 +59,9 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Adds the stock <see cref="ValueConverterConvention"/>s to the
-        /// <see cref="ValueConverterConventionRegistry"/> and thus to the
-        /// Caliburn <see cref="ConventionManager"/>.
+        ///   Adds the stock <see cref="ValueConverterConvention" />s to the
+        ///   <see cref="ValueConverterConventionRegistry" /> and thus to the
+        ///   Caliburn <see cref="ConventionManager" />.
         /// </summary>
         protected virtual void AddValueConverterConventions()
         {
@@ -71,17 +71,17 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Called by the bootstrapper's constructor at runtime to start the framework.
+        ///   Called by the bootstrapper's constructor at runtime to start the framework.
         /// </summary>
         protected override void StartRuntime()
         {
             base.StartRuntime();
 
-            _asyncBootstrapTask = StartRuntimeAsync();
+            _task = StartRuntimeAsync();
         }
 
         /// <summary>
-        /// Provides an opportunity to perform asynchronous configuration at runtime.
+        ///   Provides an opportunity to perform asynchronous configuration at runtime.
         /// </summary>
         protected virtual Task StartRuntimeAsync()
         {
@@ -91,49 +91,55 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Calls action when <see cref="StartRuntimeAsync"/> completes. 
+        ///   Calls action when <see cref="StartRuntimeAsync" /> completes.
         /// </summary>
-        /// <param name="completedAction">Action to be performed when configuration completes.</param>
+        /// <param name="completedAction"> Action to be performed when configuration completes. </param>
         protected async void WhenCompleted(Action completedAction)
         {
-            await _asyncBootstrapTask;
+            await _task;
             completedAction();
         }
 
-        /// <summary>Locates the supplied service.</summary>
-        /// <param name="serviceType">The service to locate.</param>
-        /// <param name="key">The key to locate.</param>
-        /// <returns>The located service.</returns>
+        /// <summary>
+        ///   Locates the supplied service.
+        /// </summary>
+        /// <param name="serviceType"> The service to locate. </param>
+        /// <param name="key"> The key to locate. </param>
+        /// <returns> The located service. </returns>
         protected override object GetInstance(Type serviceType, string key)
         {
             return Composition.GetInstance(serviceType, key);
         }
 
-        /// <summary>Locates all instances of the supplied service.</summary>
-        /// <param name="serviceType">The service to locate.</param>
-        /// <returns>The located services.</returns>
+        /// <summary>
+        ///   Locates all instances of the supplied service.
+        /// </summary>
+        /// <param name="serviceType"> The service to locate. </param>
+        /// <returns> The located services. </returns>
         protected override IEnumerable<object> GetAllInstances(Type serviceType)
         {
             return Composition.GetInstances(serviceType, null);
         }
 
-        /// <summary>Performs injection on the supplied instance.</summary>
-        /// <param name="instance">The instance to perform injection on.</param>
+        /// <summary>
+        ///   Performs injection on the supplied instance.
+        /// </summary>
+        /// <param name="instance"> The instance to perform injection on. </param>
         protected override void BuildUp(object instance)
         {
             Composition.BuildUp(instance);
         }
     }
-    
+
     /// <summary>
-    /// Abstract base class to configure the framework to use MEF as the application's IoC container.
+    ///   Abstract base class to configure the framework to use MEF as the application's IoC container.
     /// </summary>
     public abstract class CocktailMefBootstrapper : CocktailBootstrapper
     {
         private readonly MefCompositionProvider _compositionProvider;
 
         /// <summary>
-        /// Static initialization
+        ///   Static initialization
         /// </summary>
         static CocktailMefBootstrapper()
         {
@@ -141,17 +147,19 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Creates an instance of CocktailMefBootstrapper.
+        ///   Creates an instance of CocktailMefBootstrapper.
         /// </summary>
-        /// <param name="useApplication">Optionally specify if the bootstrapper should hook into the application object.</param>
+        /// <param name="useApplication"> Optionally specify if the bootstrapper should hook into the application object. </param>
         protected CocktailMefBootstrapper(bool useApplication = true)
             : base(useApplication)
         {
             _compositionProvider = new MefCompositionProvider();
         }
 
-        /// <summary>Override to add additional exports to the CompositionHost during configuration.</summary>
-        /// <param name="batch">The composition batch to add to.</param>
+        /// <summary>
+        ///   Override to add additional exports to the CompositionHost during configuration.
+        /// </summary>
+        /// <param name="batch"> The composition batch to add to. </param>
         protected virtual void PrepareCompositionContainer(CompositionBatch batch)
         {
             if (!_compositionProvider.IsTypeRegistered<IWindowManager>())
@@ -162,16 +170,16 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Override to substitute the default composition catalog with a custom catalog.
+        ///   Override to substitute the default composition catalog with a custom catalog.
         /// </summary>
-        /// <returns>Return the custom catalog that should be used by Cocktail to get access to MEF exports.</returns>
+        /// <returns> Return the custom catalog that should be used by Cocktail to get access to MEF exports. </returns>
         protected virtual ComposablePartCatalog PrepareCompositionCatalog()
         {
             return _compositionProvider.DefaultCatalog;
         }
 
         /// <summary>
-        /// Configures the framework and sets up the IoC container.
+        ///   Configures the framework and sets up the IoC container.
         /// </summary>
         protected override void Configure()
         {
@@ -189,11 +197,11 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Ensures that no MEF ExportAttributes are used in the Bootstrapper
+        ///   Ensures that no MEF ExportAttributes are used in the Bootstrapper
         /// </summary>
         private void EnsureBootstrapperHasNoExports()
         {
-            Type type = GetType();
+            var type = GetType();
 
             // Throw exception if class is decorated with ExportAttribute
             if (type.GetCustomAttributes(typeof(ExportAttribute), true).Any())
@@ -228,7 +236,7 @@ namespace Cocktail
 
         private void UpdateAssemblySourceFromCatalog(AssemblyCatalog catalog)
         {
-            if (AssemblySource.Instance.Contains(catalog.Assembly)) 
+            if (AssemblySource.Instance.Contains(catalog.Assembly))
                 return;
 
             AssemblySource.Instance.Add(catalog.Assembly);
@@ -238,19 +246,21 @@ namespace Cocktail
     /// <summary>
     ///   Abstract base class to configure the framework to use MEF as the application's IoC container and launch the root ViewModel.
     /// </summary>
-    /// <typeparam name="TRootModel">The ViewModel of the main screen.</typeparam>
+    /// <typeparam name="TRootModel"> The ViewModel of the main screen. </typeparam>
     public class CocktailMefBootstrapper<TRootModel> : CocktailMefBootstrapper
     {
         /// <summary>
-        /// Creates an instance of the framework bootstrapper.
+        ///   Creates an instance of the framework bootstrapper.
         /// </summary>
-        /// <param name="useApplication">Optionally specify if the bootstrapper should hook into the application object.</param>
+        /// <param name="useApplication"> Optionally specify if the bootstrapper should hook into the application object. </param>
         public CocktailMefBootstrapper(bool useApplication = true)
             : base(useApplication)
         {
         }
 
-        /// <summary>Performs the framework startup sequence.</summary>
+        /// <summary>
+        ///   Performs the framework startup sequence.
+        /// </summary>
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
             base.OnStartup(sender, e);
@@ -261,7 +271,7 @@ namespace Cocktail
 #else
                 () => DisplayRootViewFor(typeof(TRootModel))
 #endif
-            );
+                );
         }
     }
 }

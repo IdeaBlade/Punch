@@ -10,9 +10,12 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using System.Composition;
+using System.Threading.Tasks;
 using Cocktail;
 using IdeaBlade.Core;
 using Todo.Views;
+using TodoServer;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -32,6 +35,9 @@ namespace Todo
             InitializeComponent();
         }
 
+        [Import]
+        public IEntityManagerProvider<TodoEntities> EntityManagerProvider { get; set; }
+
         protected override void StartRuntime()
         {
             base.StartRuntime();
@@ -39,6 +45,11 @@ namespace Todo
             IdeaBladeConfig.Instance.ObjectServer.RemoteBaseUrl = "http://localhost";
             IdeaBladeConfig.Instance.ObjectServer.ServerPort = 55123;
             IdeaBladeConfig.Instance.ObjectServer.ServiceName = "EntityService.svc";
+        }
+
+        protected override Task StartRuntimeAsync()
+        {
+            return EntityManagerProvider.InitializeFakeBackingStoreAsync();
         }
     }
 }

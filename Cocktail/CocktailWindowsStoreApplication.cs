@@ -17,7 +17,10 @@ using System.Composition.Convention;
 using System.Composition.Hosting;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Caliburn.Micro;
+using Windows.ApplicationModel.Activation;
+using Windows.UI.Xaml;
 using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 
 namespace Cocktail
@@ -47,6 +50,43 @@ namespace Cocktail
             base.Configure();
 
             _frameAdapter = new FrameAdapter(RootFrame);
+        }
+
+        /// <summary>
+        ///   Provides an opportunity to perform asynchronous configuration at runtime.
+        /// </summary>
+        protected virtual Task StartRuntimeAsync()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            tcs.SetResult(true);
+            return tcs.Task;
+        }
+
+        /// <summary>
+        /// Initializes application and displays the root view
+        /// </summary>
+        protected override async void EnsurePage(IActivatedEventArgs args)
+        {
+            // This logic is copied from the base class and modified to support async bootstrapping
+            Initialise();
+            await StartRuntimeAsync();
+
+            switch (args.Kind)
+            {
+                default:
+
+                    var defaultView = GetDefaultView();
+
+                    RootFrame.Navigate(defaultView);
+
+                    break;
+            }
+
+            // Seems stupid but observed weird behaviour when resetting the Content
+            if (Window.Current.Content != RootFrame)
+                Window.Current.Content = RootFrame;
+
+            Window.Current.Activate();
         }
 
         /// <summary>

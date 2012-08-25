@@ -14,13 +14,18 @@ using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
+using IdeaBlade.Core;
 using TodoServer;
+using Windows.UI.Xaml.Controls;
 
 namespace Todo.ViewModels
 {
     public class MainPageViewModel : Screen
     {
+        private readonly List<TodoItem> _selectedItems = new List<TodoItem>();
         private readonly IUnitOfWork<TodoItem> _unitOfWork;
+        private string _description;
+        private bool _showArchived;
         private BindableCollection<TodoItem> _todos;
 
         public MainPageViewModel(IUnitOfWork<TodoItem> unitOfWork)
@@ -39,10 +44,94 @@ namespace Todo.ViewModels
             }
         }
 
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                if (value == _description) return;
+                _description = value;
+                NotifyOfPropertyChange(() => Description);
+            }
+        }
+
+        public bool ShowArchived
+        {
+            get { return _showArchived; }
+            set
+            {
+                if (value == _showArchived) return;
+                _showArchived = value;
+                NotifyOfPropertyChange(() => ShowArchived);
+
+                GetTodoItems();
+            }
+        }
+
+        public bool CanDelete
+        {
+            get { return _selectedItems.Any(); }
+        }
+
+        public bool CanComplete
+        {
+            get { return _selectedItems.Any() && _selectedItems.All(x => !x.Completed); }
+        }
+
+        public bool CanArchive
+        {
+            get { return Todos != null && Todos.Any(x => x.Completed && !x.Archived); }
+        }
+
         public MainPageViewModel Start()
         {
+            UpdateCommands();
             GetTodoItems();
             return this;
+        }
+
+        public async void Add()
+        {
+            var description = Description;
+            Description = "";
+
+            var todoItem = await _unitOfWork.Factory.CreateAsync();
+            todoItem.Description = description;
+            await _unitOfWork.CommitAsync();
+
+            GetTodoItems();
+        }
+
+        public async void Delete()
+        {
+            _unitOfWork.Entities.Delete(_selectedItems);
+            await _unitOfWork.CommitAsync();
+
+            GetTodoItems();
+        }
+
+        public async void Archive()
+        {
+            Todos.Where(x => x.Completed).ForEach(x => x.Archived = true);
+            await _unitOfWork.CommitAsync();
+
+            GetTodoItems();
+        }
+
+        public async void Complete()
+        {
+            _selectedItems.ForEach(x => x.Completed = true);
+            await _unitOfWork.CommitAsync();
+
+            GetTodoItems();
+        }
+
+        public void SelectionChanged(SelectionChangedEventArgs args)
+        {
+            args.AddedItems.ForEach(item => _selectedItems.Add((TodoItem) item));
+            args.RemovedItems.ForEach(item => _selectedItems.Remove((TodoItem) item));
+
+            UpdateCommands();
         }
 
         protected override void OnInitialize()
@@ -52,15 +141,26 @@ namespace Todo.ViewModels
             Start();
         }
 
-        private async void GetTodoItems(bool showArchived = false)
+        private async void GetTodoItems()
         {
+            _selectedItems.Clear();
+
             IEnumerable<TodoItem> todos;
-            if (showArchived)
+            if (_showArchived)
                 todos = await _unitOfWork.Entities.AllAsync(q => q.OrderBy(x => x.Description));
             else
                 todos = await _unitOfWork.Entities.FindAsync(x => !x.Archived, q => q.OrderBy(x => x.Description));
 
             Todos = new BindableCollection<TodoItem>(todos);
+
+            UpdateCommands();
+        }
+
+        private void UpdateCommands()
+        {
+            NotifyOfPropertyChange(() => CanComplete);
+            NotifyOfPropertyChange(() => CanDelete);
+            NotifyOfPropertyChange(() => CanArchive);
         }
     }
 }

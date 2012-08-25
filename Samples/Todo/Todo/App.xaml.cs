@@ -46,10 +46,5 @@ namespace Todo
             IdeaBladeConfig.Instance.ObjectServer.ServerPort = 55123;
             IdeaBladeConfig.Instance.ObjectServer.ServiceName = "EntityService.svc";
         }
-
-        protected override Task StartRuntimeAsync()
-        {
-            return EntityManagerProvider.InitializeFakeBackingStoreAsync();
-        }
     }
 }

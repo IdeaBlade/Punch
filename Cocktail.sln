@@ -266,9 +266,9 @@ Global
 		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Debug|ARM.ActiveCfg = Debug|ARM
 		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Debug|ARM.Build.0 = Debug|ARM
 		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Debug|ARM.Deploy.0 = Debug|ARM
-		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Debug|Mixed Platforms.Deploy.0 = Debug|x86
+		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Debug|Mixed Platforms.Deploy.0 = Debug|Any CPU
 		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Debug|x64.ActiveCfg = Debug|x64
 		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Debug|x64.Build.0 = Debug|x64
 		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Debug|x64.Deploy.0 = Debug|x64
@@ -281,9 +281,9 @@ Global
 		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Release|ARM.ActiveCfg = Release|ARM
 		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Release|ARM.Build.0 = Release|ARM
 		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Release|ARM.Deploy.0 = Release|ARM
-		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Release|Mixed Platforms.Build.0 = Release|x86
-		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Release|Mixed Platforms.Deploy.0 = Release|x86
+		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
 		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Release|x64.ActiveCfg = Release|x64
 		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Release|x64.Build.0 = Release|x64
 		{A6E88B44-2280-4C7F-88BB-B5890576899A}.Release|x64.Deploy.0 = Release|x64

@@ -24,7 +24,7 @@
         <Button x:Name="Add" Content="Add" HorizontalAlignment="Left" Margin="740,168,0,0" VerticalAlignment="Top" />
         <Button x:Name="Complete" Content="Mark as complete" HorizontalAlignment="Left" Margin="120,220,0,0"
                 VerticalAlignment="Top" />
-        <Button x:Name="Delete" Content="Deleted selected items" HorizontalAlignment="Left" Margin="290,220,0,0"
+        <Button x:Name="Delete" Content="Delete selected items" HorizontalAlignment="Left" Margin="290,220,0,0"
                 VerticalAlignment="Top" />
         <Button x:Name="Archive" Content="Archive completed items" HorizontalAlignment="Left" Margin="490,220,0,0"
                 VerticalAlignment="Top" />

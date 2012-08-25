@@ -35,9 +35,6 @@ namespace Todo
             InitializeComponent();
         }
 
-        [Import]
-        public IEntityManagerProvider<TodoEntities> EntityManagerProvider { get; set; }
-
         protected override void StartRuntime()
         {
             base.StartRuntime();

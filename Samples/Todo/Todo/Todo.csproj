@@ -152,37 +152,37 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\..\Libs\Caliburn.Micro\WinRT\Debug\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\..\..\Libs\Caliburn.Micro\WinRT\Debug\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.Metro">
-      <HintPath>..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Core.Metro.dll</HintPath>
+      <HintPath>..\..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Core.Metro.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.Metro">
-      <HintPath>..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.EntityModel.Metro.dll</HintPath>
+      <HintPath>..\..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.EntityModel.Metro.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq.Metro">
-      <HintPath>..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Linq.Metro.dll</HintPath>
+      <HintPath>..\..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Linq.Metro.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation.Metro">
-      <HintPath>..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Validation.Metro.dll</HintPath>
+      <HintPath>..\..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Validation.Metro.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.AttributedModel">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.13-rc\lib\netcore45\System.Composition.AttributedModel.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.13-rc\lib\netcore45\System.Composition.AttributedModel.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.Convention">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.13-rc\lib\netcore45\System.Composition.Convention.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.13-rc\lib\netcore45\System.Composition.Convention.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.Hosting">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.13-rc\lib\netcore45\System.Composition.Hosting.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.13-rc\lib\netcore45\System.Composition.Hosting.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.Runtime">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.13-rc\lib\netcore45\System.Composition.Runtime.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.13-rc\lib\netcore45\System.Composition.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.TypedParts">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.13-rc\lib\netcore45\System.Composition.TypedParts.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.13-rc\lib\netcore45\System.Composition.TypedParts.dll</HintPath>
     </Reference>
     <Reference Include="Windows.UI.Interactivity">
-      <HintPath>..\..\Libs\Caliburn.Micro\WinRT\Debug\Windows.UI.Interactivity.dll</HintPath>
+      <HintPath>..\..\..\Libs\Caliburn.Micro\WinRT\Debug\Windows.UI.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup />

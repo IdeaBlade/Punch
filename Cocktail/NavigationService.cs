@@ -18,115 +18,285 @@ using IdeaBlade.Core;
 namespace Cocktail
 {
     /// <summary>
-    /// Interface used to configure a NavigationService.
+    ///   Interface used to configure a NavigationService.
     /// </summary>
-    /// <typeparam name="T">The navigation target type.</typeparam>
-    public interface INavigationServiceConfigurator<T> : IHideObjectMembers where T : class
+    public interface INavigationServiceConfigurator : IHideObjectMembers
     {
         /// <summary>
-        /// Configures the activator action for the current NavigationService. The activator is responsible for activating the target in the current conductor.
+        ///   Configures the close guard for the ActiveViewModel.
         /// </summary>
-        /// <param name="activator">The activator action to be called upon to activate a new navigation target.</param>
-        /// <remarks>If no activator is configured <see cref="IConductor.ActivateItem"/> is called automatically.</remarks>
-        INavigationServiceConfigurator<T> WithActivator(Action<NavigationProcessor<T>> activator);
+        /// <param name="guard"> The close guard. </param>
+        /// <remarks>
+        ///   if no guard is configured, <see cref="IGuardClose.CanClose" /> is automatically being called.
+        /// </remarks>
+        INavigationServiceConfigurator WithActiveItemGuard(Func<object, Task<bool>> guard);
 
         /// <summary>
-        /// Configures the strategy to determine whether navigating away from the current target is permissible.
+        ///   Configures the guard for the target type.
         /// </summary>
-        /// <param name="strategy">The new navigation strategy.</param>
-        /// <remarks>If no navigation strategy is configured, <see cref="IGuardClose.CanClose"/> of the current target is used to determine if navigating away is currently permissible.</remarks>
-        INavigationServiceConfigurator<T> WithNavigateAwayStrategy(Action<NavigationProcessor<T>, Action<bool>> strategy);
-
-        /// <summary>
-        /// Configures the strategy to determine whether navigating to the new target is permissible.
-        /// </summary>
-        /// <param name="strategy">The new navigation strategy.</param>
-        INavigationServiceConfigurator<T> WithNavigateToStrategy(Action<NavigationProcessor<T>, Action<bool>> strategy);
+        /// <param name="guard"> The target guard. </param>
+        /// <remarks>
+        ///   The target guard controls whether the target type is an authorized navigation target.
+        /// </remarks>
+        INavigationServiceConfigurator WithTargetGuard(Func<Type, Task<bool>> guard);
     }
 
     /// <summary>
-    /// A configurable service to handle navigation.
+    ///   A service that implements UI navigation logic.
     /// </summary>
-    /// <typeparam name="T">The type of the ViewModel.</typeparam>
-    public class NavigationService<T> where T : class
+    public interface INavigationService
     {
-        private readonly IConductActiveItem _conductor;
-        private readonly NavigationServiceConfiguration<T> _configuration;
+        /// <summary>
+        ///   Returns the current active ViewModel or null.
+        /// </summary>
+        object ActiveViewModel { get; }
 
         /// <summary>
-        /// Initializes a new NavigationService.
+        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
+        ///   the current active ViewModel cannot be closed or the target type is not authorized.
         /// </summary>
-        /// <param name="conductor">The underlying screen conductor used to activate navigation targets.</param>
+        /// <param name="viewModelType"> The target ViewModel type. </param>
+        /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        Task NavigateToAsync(Type viewModelType, Func<object, Task> prepare);
+
+        /// <summary>
+        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
+        ///   the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="viewModelType"> The target ViewModel type. </param>
+        /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        Task NavigateToAsync(Type viewModelType, Action<object> prepare);
+
+        /// <summary>
+        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
+        ///   the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="viewModelType"> The target ViewModel type. </param>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        Task NavigateToAsync(Type viewModelType);
+
+        /// <summary>
+        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
+        ///   the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
+        /// <typeparam name="T"> The target ViewModel type. </typeparam>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        Task NavigateToAsync<T>(Func<T, Task> prepare);
+
+        /// <summary>
+        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
+        ///   the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
+        /// <typeparam name="T"> The target ViewModel type. </typeparam>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        Task NavigateToAsync<T>(Action<T> prepare);
+
+        /// <summary>
+        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
+        ///   the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <typeparam name="T"> The target ViewModel type. </typeparam>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        Task NavigateToAsync<T>();
+    }
+
+    /// <summary>
+    ///   A configurable service that implements UI navigation logic.
+    /// </summary>
+    public class NavigationService : INavigationService
+    {
+        private readonly IConductActiveItem _conductor;
+        private readonly NavigationServiceConfiguration _configuration = new NavigationServiceConfiguration();
+
+        /// <summary>
+        ///   Initializes a new NavigationService.
+        /// </summary>
+        /// <param name="conductor"> The underlying screen conductor used to activate navigation targets. </param>
         public NavigationService(IConductActiveItem conductor)
         {
             _conductor = conductor;
-            _configuration = new NavigationServiceConfiguration<T>();
+        }
+
+        #region INavigationService Members
+
+        /// <summary>
+        ///   Returns the current active ViewModel or null.
+        /// </summary>
+        public object ActiveViewModel
+        {
+            get { return _conductor.ActiveItem; }
         }
 
         /// <summary>
-        /// Configures the current NavigationService.
+        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
+        ///   the current active ViewModel cannot be closed or the target type is not authorized.
         /// </summary>
-        /// <param name="configure">A delegate action to perform the configuration.</param>
-        public NavigationService<T> Configure(Action<INavigationServiceConfigurator<T>> configure)
+        /// <param name="viewModelType"> The target ViewModel type. </param>
+        /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        public async Task NavigateToAsync(Type viewModelType, Func<object, Task> prepare)
+        {
+            if (viewModelType == null) throw new ArgumentNullException("viewModelType");
+            if (prepare == null) throw new ArgumentNullException("prepare");
+
+            var canClose = await CanCloseAsync();
+            if (!canClose)
+                throw new TaskCanceledException("The ActiveViewModel cannot be closed in the current state.");
+
+            var targetAuthorized = await AuthorizeTargetAsync(viewModelType);
+            if (!targetAuthorized)
+                throw new TaskCanceledException("The target type is not authorized");
+
+            var target = Composition.GetInstance(viewModelType, null);
+            await prepare(target);
+
+            if (!ReferenceEquals(ActiveViewModel, target))
+                _conductor.ActivateItem(target);
+        }
+
+        /// <summary>
+        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
+        ///   the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="viewModelType"> The target ViewModel type. </param>
+        /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        public Task NavigateToAsync(Type viewModelType, Action<object> prepare)
+        {
+            if (viewModelType == null) throw new ArgumentNullException("viewModelType");
+            if (prepare == null) throw new ArgumentNullException("prepare");
+
+            return NavigateToAsync(viewModelType, viewModel =>
+                                                      {
+                                                          prepare(viewModel);
+                                                          return TaskFns.FromResult(true);
+                                                      });
+        }
+
+        /// <summary>
+        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
+        ///   the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="viewModelType"> The target ViewModel type. </param>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        public Task NavigateToAsync(Type viewModelType)
+        {
+            if (viewModelType == null) throw new ArgumentNullException("viewModelType");
+
+            return NavigateToAsync(viewModelType, viewModel => TaskFns.FromResult(true));
+        }
+
+        /// <summary>
+        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
+        ///   the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
+        /// <typeparam name="T"> The target ViewModel type. </typeparam>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        public Task NavigateToAsync<T>(Func<T, Task> prepare)
+        {
+            if (prepare == null) throw new ArgumentNullException("prepare");
+
+            return NavigateToAsync(typeof(T), viewModel => prepare((T) viewModel));
+        }
+
+        /// <summary>
+        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
+        ///   the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
+        /// <typeparam name="T"> The target ViewModel type. </typeparam>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        public Task NavigateToAsync<T>(Action<T> prepare)
+        {
+            if (prepare == null) throw new ArgumentNullException("prepare");
+
+            return NavigateToAsync<T>(viewModel =>
+                                          {
+                                              prepare(viewModel);
+                                              return TaskFns.FromResult(true);
+                                          });
+        }
+
+        /// <summary>
+        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
+        ///   the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <typeparam name="T"> The target ViewModel type. </typeparam>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        public Task NavigateToAsync<T>()
+        {
+            return NavigateToAsync<T>(viewModel => TaskFns.FromResult(true));
+        }
+
+        #endregion
+
+        /// <summary>
+        ///   Configures the current NavigationService.
+        /// </summary>
+        /// <param name="configure"> A delegate action to perform the configuration. </param>
+        public NavigationService Configure(Action<INavigationServiceConfigurator> configure)
         {
             configure(_configuration);
             return this;
         }
 
         /// <summary>
-        /// Asynchronously navigates to the specified target view model.
+        ///   Determines if the active ViewModel can be closed.
         /// </summary>
-        /// <param name="target">A function to determine the navigation target.</param>
-        /// <param name="prepareTarget">An optional function to prepare the navigation target before it gets activated.</param>
-        /// <param name="prepareTargetAsync">An optional function to asynchronously prepare the navigation target before it gets activated.</param>
-        /// <returns>The asynchronous navigation <see cref="Task"/>.</returns>
-        public Task NavigateToAsync(Func<T> target, Action<T> prepareTarget = null, 
-                                    Func<T, Task> prepareTargetAsync = null)
+        /// <returns> Returns true if the active ViewModel can be closed. </returns>
+        private Task<bool> CanCloseAsync()
         {
-            var processor = new NavigationProcessor<T>(_conductor, target);
-            if (_configuration.Activator != null)
-                processor.Activate = _configuration.Activator;
-            if (_configuration.NavigateAwayStrategy != null)
-                processor.CanNavigateAway = _configuration.NavigateAwayStrategy;
-            if (_configuration.NavigateToStrategy != null)
-                processor.CanNavigateTo = _configuration.NavigateToStrategy;
+            if (ActiveViewModel == null)
+                return TaskFns.FromResult(true);
 
-            if (prepareTarget != null)
-                processor.Prepare = nav => prepareTarget(nav.Target);
-            if (prepareTargetAsync != null)
-                processor.PrepareAsync = nav => prepareTargetAsync(nav.Target);
+            if (_configuration.ActiveItemGuard != null)
+                return _configuration.ActiveItemGuard(ActiveViewModel);
 
-            return processor.NavigateAsync();
+            var closeGuard = ActiveViewModel as IGuardClose;
+            if (closeGuard != null)
+                return TaskFns.FromCallbackAction<bool>(closeGuard.CanClose);
+
+            return TaskFns.FromResult(true);
+        }
+
+        /// <summary>
+        ///   Determines if the target ViewModel type is authorized.
+        /// </summary>
+        /// <param name="viewModelType"> The target ViewModel type. </param>
+        /// <returns> Return true if the target type is authorized. </returns>
+        private Task<bool> AuthorizeTargetAsync(Type viewModelType)
+        {
+            if (viewModelType == null) throw new ArgumentNullException("viewModelType");
+
+            if (_configuration.TargetGuard != null)
+                return _configuration.TargetGuard(viewModelType);
+
+            return TaskFns.FromResult(true);
         }
     }
 
-    internal class NavigationServiceConfiguration<T> : INavigationServiceConfigurator<T>
-        where T : class
+    internal class NavigationServiceConfiguration : INavigationServiceConfigurator
     {
-        public Action<NavigationProcessor<T>> Activator { get; private set; }
+        public Func<object, Task<bool>> ActiveItemGuard { get; private set; }
 
-        public Action<NavigationProcessor<T>, Action<bool>> NavigateAwayStrategy { get; private set; }
+        public Func<Type, Task<bool>> TargetGuard { get; private set; }
 
-        public Action<NavigationProcessor<T>, Action<bool>> NavigateToStrategy { get; private set; }
+        #region INavigationServiceConfigurator Members
 
-        #region INavigationServiceConfigurator<T> Members
-
-        public INavigationServiceConfigurator<T> WithActivator(Action<NavigationProcessor<T>> activator)
+        public INavigationServiceConfigurator WithActiveItemGuard(Func<object, Task<bool>> guard)
         {
-            Activator = activator;
+            ActiveItemGuard = guard;
             return this;
         }
 
-        public INavigationServiceConfigurator<T> WithNavigateAwayStrategy(
-            Action<NavigationProcessor<T>, Action<bool>> strategy)
+        public INavigationServiceConfigurator WithTargetGuard(Func<Type, Task<bool>> guard)
         {
-            NavigateAwayStrategy = strategy;
-            return this;
-        }
-
-        public INavigationServiceConfigurator<T> WithNavigateToStrategy(Action<NavigationProcessor<T>, Action<bool>> strategy)
-        {
-            NavigateToStrategy = strategy;
+            TargetGuard = guard;
             return this;
         }
 

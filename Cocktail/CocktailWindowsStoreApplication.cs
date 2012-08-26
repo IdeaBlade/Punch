@@ -57,9 +57,7 @@ namespace Cocktail
         /// </summary>
         protected virtual Task StartRuntimeAsync()
         {
-            var tcs = new TaskCompletionSource<bool>();
-            tcs.SetResult(true);
-            return tcs.Task;
+            return Task.FromResult(true);
         }
 
         /// <summary>

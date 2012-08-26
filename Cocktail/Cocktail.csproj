@@ -140,7 +140,6 @@
     </Compile>
     <Compile Include="MefCompositionProvider.Desktop.cs" />
     <Compile Include="MessageBoxBase.cs" />
-    <Compile Include="NavigationProcessor.cs" />
     <Compile Include="NavigationService.cs" />
     <Compile Include="ObjectManager.cs" />
     <Compile Include="Pager.cs" />

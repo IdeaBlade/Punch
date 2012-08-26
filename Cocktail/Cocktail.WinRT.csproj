@@ -138,7 +138,6 @@
       <DependentUpon>MefCompositionProvider.WinRT.cs</DependentUpon>
     </Compile>
     <Compile Include="MefCompositionProvider.WinRT.cs" />
-    <Compile Include="NavigationProcessor.cs" />
     <Compile Include="NavigationService.cs" />
     <Compile Include="ObjectManager.cs" />
     <Compile Include="Pager.cs" />

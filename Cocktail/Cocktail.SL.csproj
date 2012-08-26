@@ -167,7 +167,6 @@
     <Compile Include="MessageBoxView.xaml.cs">
       <DependentUpon>MessageBoxView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NavigationProcessor.cs" />
     <Compile Include="NavigationService.cs" />
     <Compile Include="FakeBackingStore.cs" />
     <Compile Include="IAuthenticationService.cs" />

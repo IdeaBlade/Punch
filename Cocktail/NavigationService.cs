@@ -107,56 +107,11 @@ namespace Cocktail
     /// <summary>
     ///   A configurable service that implements UI navigation logic.
     /// </summary>
-    public class NavigationService : INavigationService
+    public partial class NavigationService : INavigationService
     {
-        private readonly IConductActiveItem _conductor;
         private readonly NavigationServiceConfiguration _configuration = new NavigationServiceConfiguration();
 
-        /// <summary>
-        ///   Initializes a new NavigationService.
-        /// </summary>
-        /// <param name="conductor"> The underlying screen conductor used to activate navigation targets. </param>
-        public NavigationService(IConductActiveItem conductor)
-        {
-            _conductor = conductor;
-        }
-
         #region INavigationService Members
-
-        /// <summary>
-        ///   Returns the current active ViewModel or null.
-        /// </summary>
-        public object ActiveViewModel
-        {
-            get { return _conductor.ActiveItem; }
-        }
-
-        /// <summary>
-        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
-        ///   the current active ViewModel cannot be closed or the target type is not authorized.
-        /// </summary>
-        /// <param name="viewModelType"> The target ViewModel type. </param>
-        /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
-        /// <returns> A <see cref="Task" /> to await completion. </returns>
-        public async Task NavigateToAsync(Type viewModelType, Func<object, Task> prepare)
-        {
-            if (viewModelType == null) throw new ArgumentNullException("viewModelType");
-            if (prepare == null) throw new ArgumentNullException("prepare");
-
-            var canClose = await CanCloseAsync();
-            if (!canClose)
-                throw new TaskCanceledException("The ActiveViewModel cannot be closed in the current state.");
-
-            var targetAuthorized = await AuthorizeTargetAsync(viewModelType);
-            if (!targetAuthorized)
-                throw new TaskCanceledException("The target type is not authorized");
-
-            var target = Composition.GetInstance(viewModelType, null);
-            await prepare(target);
-
-            if (!ReferenceEquals(ActiveViewModel, target))
-                _conductor.ActivateItem(target);
-        }
 
         /// <summary>
         ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 

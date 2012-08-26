@@ -176,6 +176,9 @@
     <Compile Include="IHarnessAware.cs" />
     <Compile Include="ISampleDataProvider.cs" />
     <Compile Include="IValidationErrorNotification.cs" />
+    <Compile Include="NavigationService.Desktop.cs">
+      <DependentUpon>NavigationService.cs</DependentUpon>
+    </Compile>
     <Compile Include="ObjectManager.cs" />
     <Compile Include="Pager.cs" />
     <Compile Include="PagerRepository.cs" />

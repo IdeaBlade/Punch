@@ -141,6 +141,9 @@
     <Compile Include="MefCompositionProvider.Desktop.cs" />
     <Compile Include="MessageBoxBase.cs" />
     <Compile Include="NavigationService.cs" />
+    <Compile Include="NavigationService.Desktop.cs">
+      <DependentUpon>NavigationService.cs</DependentUpon>
+    </Compile>
     <Compile Include="ObjectManager.cs" />
     <Compile Include="Pager.cs" />
     <Compile Include="PagerRepository.cs" />

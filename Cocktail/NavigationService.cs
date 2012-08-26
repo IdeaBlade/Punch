@@ -58,7 +58,7 @@ namespace Cocktail
         /// <param name="viewModelType"> The target ViewModel type. </param>
         /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        Task NavigateToAsync(Type viewModelType, Func<object, Task> prepare);
+        Task<bool> NavigateToAsync(Type viewModelType, Func<object, Task> prepare);
 
         /// <summary>
         ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
@@ -67,7 +67,7 @@ namespace Cocktail
         /// <param name="viewModelType"> The target ViewModel type. </param>
         /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        Task NavigateToAsync(Type viewModelType, Action<object> prepare);
+        Task<bool> NavigateToAsync(Type viewModelType, Action<object> prepare);
 
         /// <summary>
         ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
@@ -75,7 +75,7 @@ namespace Cocktail
         /// </summary>
         /// <param name="viewModelType"> The target ViewModel type. </param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        Task NavigateToAsync(Type viewModelType);
+        Task<bool> NavigateToAsync(Type viewModelType);
 
         /// <summary>
         ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
@@ -84,7 +84,7 @@ namespace Cocktail
         /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
         /// <typeparam name="T"> The target ViewModel type. </typeparam>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        Task NavigateToAsync<T>(Func<T, Task> prepare);
+        Task<bool> NavigateToAsync<T>(Func<T, Task> prepare);
 
         /// <summary>
         ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
@@ -93,7 +93,7 @@ namespace Cocktail
         /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
         /// <typeparam name="T"> The target ViewModel type. </typeparam>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        Task NavigateToAsync<T>(Action<T> prepare);
+        Task<bool> NavigateToAsync<T>(Action<T> prepare);
 
         /// <summary>
         ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
@@ -101,7 +101,7 @@ namespace Cocktail
         /// </summary>
         /// <typeparam name="T"> The target ViewModel type. </typeparam>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        Task NavigateToAsync<T>();
+        Task<bool> NavigateToAsync<T>();
     }
 
     /// <summary>
@@ -120,7 +120,7 @@ namespace Cocktail
         /// <param name="viewModelType"> The target ViewModel type. </param>
         /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        public Task NavigateToAsync(Type viewModelType, Action<object> prepare)
+        public Task<bool> NavigateToAsync(Type viewModelType, Action<object> prepare)
         {
             if (viewModelType == null) throw new ArgumentNullException("viewModelType");
             if (prepare == null) throw new ArgumentNullException("prepare");
@@ -138,7 +138,7 @@ namespace Cocktail
         /// </summary>
         /// <param name="viewModelType"> The target ViewModel type. </param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        public Task NavigateToAsync(Type viewModelType)
+        public Task<bool> NavigateToAsync(Type viewModelType)
         {
             if (viewModelType == null) throw new ArgumentNullException("viewModelType");
 
@@ -152,7 +152,7 @@ namespace Cocktail
         /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
         /// <typeparam name="T"> The target ViewModel type. </typeparam>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        public Task NavigateToAsync<T>(Func<T, Task> prepare)
+        public Task<bool> NavigateToAsync<T>(Func<T, Task> prepare)
         {
             if (prepare == null) throw new ArgumentNullException("prepare");
 
@@ -166,7 +166,7 @@ namespace Cocktail
         /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
         /// <typeparam name="T"> The target ViewModel type. </typeparam>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        public Task NavigateToAsync<T>(Action<T> prepare)
+        public Task<bool> NavigateToAsync<T>(Action<T> prepare)
         {
             if (prepare == null) throw new ArgumentNullException("prepare");
 
@@ -183,7 +183,7 @@ namespace Cocktail
         /// </summary>
         /// <typeparam name="T"> The target ViewModel type. </typeparam>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        public Task NavigateToAsync<T>()
+        public Task<bool> NavigateToAsync<T>()
         {
             return NavigateToAsync<T>(viewModel => TaskFns.FromResult(true));
         }

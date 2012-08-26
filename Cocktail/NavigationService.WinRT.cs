@@ -13,20 +13,44 @@
 using System;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Cocktail
 {
     public partial class NavigationService
     {
         private readonly IConductActiveItem _conductor;
+        private readonly Frame _frame;
+        private readonly FrameAdapter _frameAdapter;
+        private TaskCompletionSource<bool> _tcs;
 
         /// <summary>
-        ///   Initializes a new NavigationService.
+        ///   Initializes a new NavigationService for ViewModel-based navigation.
         /// </summary>
         /// <param name="conductor"> The underlying screen conductor used to activate navigation targets. </param>
         public NavigationService(IConductActiveItem conductor)
         {
+            if (conductor == null) throw new ArgumentNullException("conductor");
+
             _conductor = conductor;
+        }
+
+        /// <summary>
+        ///   Initializes a new NavigationService for view-based navigation.
+        /// </summary>
+        /// <param name="frame"> The content control that supports navigation. </param>
+        /// <param name="treatViewAsLoaded"> Treats the view as loaded if set to true. </param>
+        public NavigationService(Frame frame, bool treatViewAsLoaded = false)
+        {
+            if (frame == null) throw new ArgumentNullException("frame");
+
+            _frame = frame;
+            _frameAdapter = new FrameAdapter(_frame, treatViewAsLoaded);
+            _frameAdapter.Navigated += OnNavigated;
+            _frameAdapter.NavigationFailed += OnNavigationFailed;
+            _frameAdapter.NavigationStopped += OnNavigationStopped;
         }
 
         #region INavigationService Members
@@ -36,7 +60,17 @@ namespace Cocktail
         /// </summary>
         public object ActiveViewModel
         {
-            get { return _conductor.ActiveItem; }
+            get
+            {
+                if (_conductor != null)
+                    return _conductor.ActiveItem;
+
+                var view = _frame.Content as FrameworkElement;
+                if (view == null)
+                    return null;
+
+                return view.DataContext;
+            }
         }
 
         /// <summary>
@@ -46,26 +80,84 @@ namespace Cocktail
         /// <param name="viewModelType"> The target ViewModel type. </param>
         /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        public async Task NavigateToAsync(Type viewModelType, Func<object, Task> prepare)
+        public Task<bool> NavigateToAsync(Type viewModelType, Func<object, Task> prepare)
         {
             if (viewModelType == null) throw new ArgumentNullException("viewModelType");
             if (prepare == null) throw new ArgumentNullException("prepare");
 
-            var canClose = await CanCloseAsync();
-            if (!canClose)
-                throw new TaskCanceledException("The ActiveViewModel cannot be closed in the current state.");
+            if (_conductor != null)
+                return NavigateWithConductor(viewModelType, prepare);
 
-            var targetAuthorized = await AuthorizeTargetAsync(viewModelType);
-            if (!targetAuthorized)
-                throw new TaskCanceledException("The target type is not authorized");
+            return NavigateWithFrame(viewModelType, prepare)
+                .ContinueWith(task =>
+                                  {
+                                      _tcs = null;
+                                      return task.Result;
+                                  });
+        }
+
+        #endregion
+
+        private async Task<bool> GuardAsync(Type viewModelType)
+        {
+            if (!await CanCloseAsync())
+                return false;
+
+            if (!await AuthorizeTargetAsync(viewModelType))
+                return false;
+
+            return true;
+        }
+
+        private async Task<bool> NavigateWithConductor(Type viewModelType, Func<object, Task> prepare)
+        {
+            if (!await GuardAsync(viewModelType))
+                return false;
 
             var target = Composition.GetInstance(viewModelType, null);
             await prepare(target);
 
             if (!ReferenceEquals(ActiveViewModel, target))
                 _conductor.ActivateItem(target);
+
+            return true;
         }
 
-        #endregion
+        private async Task<bool> NavigateWithFrame(Type viewModelType, Func<object, Task> prepare)
+        {
+            if (_tcs != null)
+                throw new InvalidOperationException("Another navigation is pending.");
+
+            var viewType = ViewLocator.LocateTypeForModelType(viewModelType, null, null);
+            if (viewType == null)
+                throw new Exception(string.Format("No view was found for {0}. See the log for searched views.",
+                                                  viewModelType.FullName));
+
+            await GuardAsync(viewModelType);
+
+            _tcs = new TaskCompletionSource<bool>();
+            _frameAdapter.Navigate(viewType, prepare);
+
+            return await _tcs.Task;
+        }
+
+        private void OnNavigated(object sender, NavigationEventArgs args)
+        {
+            var prepareAsync = args.Parameter as Func<object, Task>;
+            if (prepareAsync != null)
+                prepareAsync(ActiveViewModel);
+        }
+
+        private void OnNavigationStopped(object sender, NavigationEventArgs args)
+        {
+            if (_tcs != null)
+                _tcs.TrySetCanceled();
+        }
+
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs args)
+        {
+            if (_tcs != null)
+                _tcs.TrySetException(args.Exception);
+        }
     }
 }

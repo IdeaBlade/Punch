@@ -46,24 +46,24 @@ namespace Cocktail
         /// <param name="viewModelType"> The target ViewModel type. </param>
         /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        public async Task NavigateToAsync(Type viewModelType, Func<object, Task> prepare)
+        public async Task<bool> NavigateToAsync(Type viewModelType, Func<object, Task> prepare)
         {
             if (viewModelType == null) throw new ArgumentNullException("viewModelType");
             if (prepare == null) throw new ArgumentNullException("prepare");
 
-            var canClose = await CanCloseAsync();
-            if (!canClose)
-                throw new TaskCanceledException("The ActiveViewModel cannot be closed in the current state.");
+            if (!await CanCloseAsync())
+                return false;
 
-            var targetAuthorized = await AuthorizeTargetAsync(viewModelType);
-            if (!targetAuthorized)
-                throw new TaskCanceledException("The target type is not authorized");
+            if (!await AuthorizeTargetAsync(viewModelType))
+                return false;
 
             var target = Composition.GetInstance(viewModelType, null);
             await prepare(target);
 
             if (!ReferenceEquals(ActiveViewModel, target))
                 _conductor.ActivateItem(target);
+
+            return true;
         }
 
         #endregion

@@ -296,6 +296,15 @@ namespace Cocktail {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The current NavigationService doesn&apos;t manage its own navigation history..
+        /// </summary>
+        internal static string NavigationServiceDoesNotManageHistory {
+            get {
+                return ResourceManager.GetString("NavigationServiceDoesNotManageHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         internal static string No {
@@ -355,6 +364,15 @@ namespace Cocktail {
         internal static string PageChangeInProgress {
             get {
                 return ResourceManager.GetString("PageChangeInProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Another navigation is pending..
+        /// </summary>
+        internal static string PendingNavigation {
+            get {
+                return ResourceManager.GetString("PendingNavigation", resourceCulture);
             }
         }
         
@@ -481,6 +499,15 @@ namespace Cocktail {
         internal static string ThisEntityManagerIsCurrentlyBusyWithAPreviousSaveChangeAsync {
             get {
                 return ResourceManager.GetString("ThisEntityManagerIsCurrentlyBusyWithAPreviousSaveChangeAsync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No view was found for {0}. See the log for searched views..
+        /// </summary>
+        internal static string ViewNotFound {
+            get {
+                return ResourceManager.GetString("ViewNotFound", resourceCulture);
             }
         }
         

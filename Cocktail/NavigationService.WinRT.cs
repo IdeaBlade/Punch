@@ -100,8 +100,7 @@ namespace Cocktail
         public Task<bool> GoForward()
         {
             if (_frameAdapter == null)
-                throw new NotSupportedException(
-                    "The current NavigationService doesn't manage its own navigation history");
+                throw new NotSupportedException(StringResources.NavigationServiceDoesNotManageHistory);
 
             return GoForwardWithFrame()
                 .ContinueWith(task =>
@@ -117,8 +116,7 @@ namespace Cocktail
         public Task<bool> GoBack()
         {
             if (_frameAdapter == null)
-                throw new NotSupportedException(
-                    "The current NavigationService doesn't manage its own navigation history");
+                throw new NotSupportedException(StringResources.NavigationServiceDoesNotManageHistory);
 
             return GoBackWithFrame()
                 .ContinueWith(task =>
@@ -199,12 +197,11 @@ namespace Cocktail
         private async Task<bool> NavigateWithFrame(Type viewModelType, Func<object, Task> prepare)
         {
             if (_tcs != null)
-                throw new InvalidOperationException("Another navigation is pending.");
+                throw new InvalidOperationException(StringResources.PendingNavigation);
 
             var viewType = ViewLocator.LocateTypeForModelType(viewModelType, null, null);
             if (viewType == null)
-                throw new Exception(string.Format("No view was found for {0}. See the log for searched views.",
-                                                  viewModelType.FullName));
+                throw new Exception(string.Format(StringResources.ViewNotFound, viewModelType.FullName));
 
             await GuardAsync(viewModelType);
 
@@ -217,7 +214,7 @@ namespace Cocktail
         private async Task<bool> GoForwardWithFrame()
         {
             if (_tcs != null)
-                throw new InvalidOperationException("Another navigation is pending.");
+                throw new InvalidOperationException(StringResources.PendingNavigation);
 
             if (!await CanCloseAsync())
                 return false;
@@ -231,7 +228,7 @@ namespace Cocktail
         private async Task<bool> GoBackWithFrame()
         {
             if (_tcs != null)
-                throw new InvalidOperationException("Another navigation is pending.");
+                throw new InvalidOperationException(StringResources.PendingNavigation);
 
             if (!await CanCloseAsync())
                 return false;

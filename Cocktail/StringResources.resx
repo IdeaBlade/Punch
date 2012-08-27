@@ -261,4 +261,13 @@
   <data name="NoExportFound" xml:space="preserve">
     <value>No export found for {0}</value>
   </data>
+  <data name="NavigationServiceDoesNotManageHistory" xml:space="preserve">
+    <value>The current NavigationService doesn't manage its own navigation history.</value>
+  </data>
+  <data name="PendingNavigation" xml:space="preserve">
+    <value>Another navigation is pending.</value>
+  </data>
+  <data name="ViewNotFound" xml:space="preserve">
+    <value>No view was found for {0}. See the log for searched views.</value>
+  </data>
 </root>

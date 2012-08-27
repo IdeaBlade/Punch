@@ -25,6 +25,9 @@ using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 
 namespace Cocktail
 {
+    /// <summary>
+    /// Application base class for a Windows 8 Store app.
+    /// </summary>
     public abstract class CocktailWindowsStoreApplication : CaliburnApplication
     {
         private readonly Type _rootViewType;
@@ -34,11 +37,18 @@ namespace Cocktail
             DefaultDebugLogger.SetAsLogger();
         }
 
-        public CocktailWindowsStoreApplication(Type rootViewType)
+        /// <summary>
+        /// Initializes the application object.
+        /// </summary>
+        /// <param name="rootViewType">The type of the root view.</param>
+        protected CocktailWindowsStoreApplication(Type rootViewType)
         {
             _rootViewType = rootViewType;
         }
 
+        /// <summary>
+        /// Returns the root view type.
+        /// </summary>
         protected override Type GetDefaultView()
         {
             return _rootViewType;
@@ -110,6 +120,9 @@ namespace Cocktail
         }
     }
 
+    /// <summary>
+    /// Application base class for a Windows 8 Store app that uses MEF as the IoC implementation.
+    /// </summary>
     public abstract class CocktailMefWindowsStoreApplication : CocktailWindowsStoreApplication
     {
         private readonly MefCompositionProvider _compositionProvider;
@@ -119,11 +132,19 @@ namespace Cocktail
         //    MefCompositionProvider.EnsureRequiredProbeAssemblies();
         //}
 
-        public CocktailMefWindowsStoreApplication(Type rootViewType) : base(rootViewType)
+        /// <summary>
+        /// Initializes the application object.
+        /// </summary>
+        /// <param name="rootViewType">The type of the root view.</param>
+        protected CocktailMefWindowsStoreApplication(Type rootViewType) : base(rootViewType)
         {
             _compositionProvider = new MefCompositionProvider();
         }
 
+        /// <summary>
+        /// Override to setup up MEF export conventions.
+        /// </summary>
+        /// <param name="conventions"></param>
         protected virtual void PrepareConventions(ConventionBuilder conventions)
         {
             // Automatic export of ViewModels.
@@ -132,6 +153,9 @@ namespace Cocktail
                 .Export();
         }
 
+        /// <summary>
+        /// Override to configure the framework and setup your IoC container.
+        /// </summary>
         protected override void Configure()
         {
             base.Configure();
@@ -158,6 +182,12 @@ namespace Cocktail
             _compositionProvider.AddExportedValue(value);
         }
 
+        /// <summary>
+        /// Override to tell the framework where to find assemblies to inspect for views, etc.
+        /// </summary>
+        /// <returns>
+        /// A list of assemblies to inspect.
+        /// </returns>
         protected override IEnumerable<Assembly> SelectAssemblies()
         {
             return CompositionHost.Instance.ProbeAssemblies;

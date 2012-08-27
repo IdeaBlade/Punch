@@ -19,6 +19,29 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Cocktail
 {
+    public partial interface INavigationService
+    {
+        /// <summary>
+        ///   Gets a value that indicates whether there is at least one entry in forward navigation history.
+        /// </summary>
+        bool CanGoForward { get; }
+
+        /// <summary>
+        ///   Gets a value that indicates whether there is at least one entry in back navigation history.
+        /// </summary>
+        bool CanGoBack { get; }
+
+        /// <summary>
+        ///   Navigates to the most recent item in forward navigation history, if a NavigationService manages its own navigation history.
+        /// </summary>
+        Task<bool> GoForward();
+
+        /// <summary>
+        ///   Navigates to the most recent item in back navigation history, if a NavigationService manages its own navigation history.
+        /// </summary>
+        Task<bool> GoBack();
+    }
+
     public partial class NavigationService
     {
         private readonly IConductActiveItem _conductor;
@@ -54,6 +77,56 @@ namespace Cocktail
         }
 
         #region INavigationService Members
+
+        /// <summary>
+        ///   Gets a value that indicates whether there is at least one entry in forward navigation history.
+        /// </summary>
+        public bool CanGoForward
+        {
+            get { return _frameAdapter != null && _frameAdapter.CanGoForward; }
+        }
+
+        /// <summary>
+        ///   Gets a value that indicates whether there is at least one entry in back navigation history.
+        /// </summary>
+        public bool CanGoBack
+        {
+            get { return _frameAdapter != null && _frameAdapter.CanGoBack; }
+        }
+
+        /// <summary>
+        ///   Navigates to the most recent item in forward navigation history, if a NavigationService manages its own navigation history.
+        /// </summary>
+        public Task<bool> GoForward()
+        {
+            if (_frameAdapter == null)
+                throw new NotSupportedException(
+                    "The current NavigationService doesn't manage its own navigation history");
+
+            return GoForwardWithFrame()
+                .ContinueWith(task =>
+                                  {
+                                      _tcs = null;
+                                      return task.Result;
+                                  });
+        }
+
+        /// <summary>
+        ///   Navigates to the most recent item in back navigation history, if a NavigationService manages its own navigation history.
+        /// </summary>
+        public Task<bool> GoBack()
+        {
+            if (_frameAdapter == null)
+                throw new NotSupportedException(
+                    "The current NavigationService doesn't manage its own navigation history");
+
+            return GoBackWithFrame()
+                .ContinueWith(task =>
+                                  {
+                                      _tcs = null;
+                                      return task.Result;
+                                  });
+        }
 
         /// <summary>
         ///   Returns the current active ViewModel or null.
@@ -137,6 +210,34 @@ namespace Cocktail
 
             _tcs = new TaskCompletionSource<bool>();
             _frameAdapter.Navigate(viewType, prepare);
+
+            return await _tcs.Task;
+        }
+
+        private async Task<bool> GoForwardWithFrame()
+        {
+            if (_tcs != null)
+                throw new InvalidOperationException("Another navigation is pending.");
+
+            if (!await CanCloseAsync())
+                return false;
+
+            _tcs = new TaskCompletionSource<bool>();
+            _frameAdapter.GoForward();
+
+            return await _tcs.Task;
+        }
+
+        private async Task<bool> GoBackWithFrame()
+        {
+            if (_tcs != null)
+                throw new InvalidOperationException("Another navigation is pending.");
+
+            if (!await CanCloseAsync())
+                return false;
+
+            _tcs = new TaskCompletionSource<bool>();
+            _frameAdapter.GoBack();
 
             return await _tcs.Task;
         }

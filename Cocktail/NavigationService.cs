@@ -44,7 +44,7 @@ namespace Cocktail
     /// <summary>
     ///   A service that implements UI navigation logic.
     /// </summary>
-    public interface INavigationService
+    public partial interface INavigationService
     {
         /// <summary>
         ///   Returns the current active ViewModel or null.

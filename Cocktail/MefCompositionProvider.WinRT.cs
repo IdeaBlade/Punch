@@ -16,6 +16,7 @@ using System.Composition;
 using System.Composition.Convention;
 using System.Composition.Hosting;
 using System.Composition.Hosting.Core;
+using System.Reflection;
 using Caliburn.Micro;
 
 namespace Cocktail
@@ -42,6 +43,7 @@ namespace Cocktail
                 if (_configuration != null)
                     return _configuration;
 
+                // Add conventions for Cocktail extensions.
                 Conventions
                     .ForTypesDerivedFrom<IValidationErrorNotification>()
                     .Export<IValidationErrorNotification>();
@@ -62,11 +64,16 @@ namespace Cocktail
                     .Export<IEventAggregator>()
                     .Shared();
 
+                // Build ContainerConfiguration with the list of assemblies discovered by DevForce
                 var assemblies = IdeaBlade.Core.Composition.CompositionHost.Instance.ProbeAssemblies;
+                _configuration = new ContainerConfiguration()
+                    .WithProvider(_valueExports) // Provider for manually injected singletons
+                    .WithAssemblies(assemblies, Conventions);
 
-                return _configuration = new ContainerConfiguration()
-                                            .WithProvider(_valueExports)
-                                            .WithAssemblies(assemblies, Conventions);
+                // Ensure Cocktail assembly is part of the ContainerConfiguration.
+                if (!assemblies.Contains(GetType().GetTypeInfo().Assembly))
+                    _configuration = _configuration.WithAssembly(GetType().GetTypeInfo().Assembly, Conventions);
+                return _configuration;
             }
         }
 

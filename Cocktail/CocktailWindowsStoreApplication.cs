@@ -127,11 +127,6 @@ namespace Cocktail
     {
         private readonly MefCompositionProvider _compositionProvider;
 
-        //static CocktailMefWindowsStoreApplication()
-        //{
-        //    MefCompositionProvider.EnsureRequiredProbeAssemblies();
-        //}
-
         /// <summary>
         /// Initializes the application object.
         /// </summary>

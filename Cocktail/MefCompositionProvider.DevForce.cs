@@ -40,9 +40,11 @@ namespace Cocktail
 
 #endif
 
+#if !NETFX_CORE
         internal static void EnsureRequiredProbeAssemblies()
         {
             IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(EntityManagerProvider<>).GetAssembly().FullName);
         }
+#endif
     }
 }

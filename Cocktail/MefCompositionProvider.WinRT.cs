@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Composition;
 using System.Composition.Convention;
 using System.Composition.Hosting;
+using System.Composition.Hosting.Core;
 using Caliburn.Micro;
 
 namespace Cocktail
@@ -24,11 +25,12 @@ namespace Cocktail
     /// </summary>
     internal partial class MefCompositionProvider : ICompositionProvider
     {
+        private readonly ValueExportDescriptorProvider _valueExports = new ValueExportDescriptorProvider();
         private ContainerConfiguration _configuration;
         private CompositionHost _container;
         private ConventionBuilder _conventions;
 
-        public ConventionBuilder Conventions
+        private ConventionBuilder Conventions
         {
             get { return _conventions ?? (_conventions = new ConventionBuilder()); }
         }
@@ -63,6 +65,7 @@ namespace Cocktail
                 var assemblies = IdeaBlade.Core.Composition.CompositionHost.Instance.ProbeAssemblies;
 
                 return _configuration = new ContainerConfiguration()
+                                            .WithProvider(_valueExports)
                                             .WithAssemblies(assemblies, Conventions);
             }
         }
@@ -143,6 +146,44 @@ namespace Cocktail
         public void Configure(ConventionBuilder conventions)
         {
             _conventions = conventions;
+        }
+
+        public void AddExportedValue<T>(T value)
+        {
+            _valueExports.AddExportedValue(value);
+        }
+    }
+
+    internal class ValueExportDescriptorProvider : ExportDescriptorProvider
+    {
+        private readonly Dictionary<Type, object> _exportedValues;
+
+        public ValueExportDescriptorProvider()
+        {
+            _exportedValues = new Dictionary<Type, object>();
+        }
+
+        public override IEnumerable<ExportDescriptorPromise> GetExportDescriptors(
+            CompositionContract contract, DependencyAccessor descriptorAccessor)
+        {
+            if (!contract.Equals(new CompositionContract(contract.ContractType)))
+                return NoExportDescriptors;
+
+            if (!_exportedValues.ContainsKey(contract.ContractType))
+                return NoExportDescriptors;
+
+            return new[]
+                       {
+                           new ExportDescriptorPromise(
+                               contract, "CompositionProvider", true, NoDependencies,
+                               _ => ExportDescriptor.Create(
+                                   (c, o) => _exportedValues[contract.ContractType], NoMetadata))
+                       };
+        }
+
+        public void AddExportedValue<T>(T value)
+        {
+            _exportedValues.Add(typeof(T), value);
         }
     }
 }

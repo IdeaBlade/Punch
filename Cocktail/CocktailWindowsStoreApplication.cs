@@ -28,7 +28,6 @@ namespace Cocktail
     public abstract class CocktailWindowsStoreApplication : CaliburnApplication
     {
         private readonly Type _rootViewType;
-        private FrameAdapter _frameAdapter;
 
         static CocktailWindowsStoreApplication()
         {
@@ -45,13 +44,6 @@ namespace Cocktail
             return _rootViewType;
         }
 
-        protected override void Configure()
-        {
-            base.Configure();
-
-            _frameAdapter = new FrameAdapter(RootFrame);
-        }
-
         /// <summary>
         ///   Provides an opportunity to perform asynchronous configuration at runtime.
         /// </summary>
@@ -61,7 +53,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Initializes application and displays the root view
+        ///   Initializes application and displays the root view
         /// </summary>
         protected override async void EnsurePage(IActivatedEventArgs args)
         {
@@ -134,6 +126,7 @@ namespace Cocktail
 
         protected virtual void PrepareConventions(ConventionBuilder conventions)
         {
+            // Automatic export of ViewModels.
             conventions
                 .ForTypesMatching(type => type.Name.EndsWith("ViewModel"))
                 .Export();
@@ -147,9 +140,22 @@ namespace Cocktail
 
             var conventions = new ConventionBuilder();
             PrepareConventions(conventions);
+
             _compositionProvider.Configure(conventions);
             Composition.SetProvider(_compositionProvider);
+
+            AddExportedValue<INavigationService>(new NavigationService(RootFrame));
             BuildUp(this);
+        }
+
+        /// <summary>
+        ///   Adds a singleton instance to the composition container.
+        /// </summary>
+        /// <typeparam name="T"> </typeparam>
+        /// <param name="value"> </param>
+        protected void AddExportedValue<T>(T value)
+        {
+            _compositionProvider.AddExportedValue(value);
         }
 
         protected override IEnumerable<Assembly> SelectAssemblies()

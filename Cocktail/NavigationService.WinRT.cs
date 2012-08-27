@@ -145,7 +145,9 @@ namespace Cocktail
         {
             var prepareAsync = args.Parameter as Func<object, Task>;
             if (prepareAsync != null)
-                prepareAsync(ActiveViewModel);
+                prepareAsync(ActiveViewModel).ContinueWith(task => _tcs.TrySetResult(true));
+            else if (_tcs != null)
+                _tcs.TrySetResult(true);
         }
 
         private void OnNavigationStopped(object sender, NavigationEventArgs args)

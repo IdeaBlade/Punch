@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
@@ -34,7 +35,7 @@ namespace Cocktail
         ///   Creates a new repository.
         /// </summary>
         /// <param name="entityManagerProvider"> The EntityMangerProvider to be used to obtain an EntityManager. </param>
-        /// <param name="defaultQueryStrategy">The optional default query strategy.</param>
+        /// <param name="defaultQueryStrategy"> The optional default query strategy. </param>
         public Repository(IEntityManagerProvider entityManagerProvider, QueryStrategy defaultQueryStrategy = null)
         {
             _entityManagerProvider = entityManagerProvider;
@@ -68,7 +69,19 @@ namespace Cocktail
         /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         public Task<T> WithIdAsync(object keyValue)
         {
-            return WithIdAsync(new[] { keyValue });
+            return WithIdAsync(new[] {keyValue});
+        }
+
+        /// <summary>
+        ///   Retrieves the entity matching the provided key with the repository's default query strategy.
+        /// </summary>
+        /// <param name="keyValue"> The single primary key value. </param>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <returns> The retrieved entity. </returns>
+        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
+        public Task<T> WithIdAsync(object keyValue, CancellationToken cancellationToken)
+        {
+            return WithIdAsync(new[] {keyValue}, cancellationToken);
         }
 
         /// <summary>
@@ -79,7 +92,19 @@ namespace Cocktail
         /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         public Task<T> WithIdFromDataSourceAsync(object keyValue)
         {
-            return WithIdFromDataSourceAsync(new[] { keyValue });
+            return WithIdFromDataSourceAsync(new[] {keyValue});
+        }
+
+        /// <summary>
+        ///   Retrieves the entity matching the provided key from the back-end data source.
+        /// </summary>
+        /// <param name="keyValue"> The single primary key value. </param>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <returns> The retrieved entity. </returns>
+        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
+        public Task<T> WithIdFromDataSourceAsync(object keyValue, CancellationToken cancellationToken)
+        {
+            return WithIdFromDataSourceAsync(new[] {keyValue}, cancellationToken);
         }
 
         /// <summary>
@@ -90,8 +115,20 @@ namespace Cocktail
         /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         public Task<T> WithIdAsync(object[] keyValues)
         {
+            return WithIdAsync(keyValues, CancellationToken.None);
+        }
+
+        /// <summary>
+        ///   Retrieves the entity matching the provided key with the repository's default query strategy.
+        /// </summary>
+        /// <param name="keyValues"> The composite primary key values. </param>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <returns> The retrieved entity. </returns>
+        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
+        public Task<T> WithIdAsync(object[] keyValues, CancellationToken cancellationToken)
+        {
             var query = GetKeyQuery(keyValues);
-            return WithIdAsyncCore(query);
+            return WithIdAsyncCore(query, cancellationToken);
         }
 
         /// <summary>
@@ -102,8 +139,20 @@ namespace Cocktail
         /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         public Task<T> WithIdFromDataSourceAsync(object[] keyValues)
         {
+            return WithIdFromDataSourceAsync(keyValues, CancellationToken.None);
+        }
+
+        /// <summary>
+        ///   Retrieves the entity matching the provided key from the back-end data source.
+        /// </summary>
+        /// <param name="keyValues"> The composite primary key values. </param>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <returns> The retrieved entity. </returns>
+        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
+        public Task<T> WithIdFromDataSourceAsync(object[] keyValues, CancellationToken cancellationToken)
+        {
             var query = GetKeyQuery(keyValues).With(QueryStrategy.DataSourceOnly);
-            return WithIdAsyncCore(query);
+            return WithIdAsyncCore(query, cancellationToken);
         }
 
         /// <summary>
@@ -127,9 +176,24 @@ namespace Cocktail
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
         /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
         /// <returns> The list of retrieved entities. </returns>
-        public Task<IEnumerable<T>> AllAsync(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
+        public Task<IEnumerable<T>> AllAsync(
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
         {
             return FindAsync(x => x, null, orderBy);
+        }
+
+        /// <summary>
+        ///   Retrieves all entities with the repository's default query strategy.
+        /// </summary>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns> The list of retrieved entities. </returns>
+        public Task<IEnumerable<T>> AllAsync(
+            CancellationToken cancellationToken, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string includeProperties = null)
+        {
+            return FindAsync(x => x, cancellationToken, null, orderBy);
         }
 
         /// <summary>
@@ -138,9 +202,24 @@ namespace Cocktail
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
         /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
         /// <returns> The list of retrieved entities. </returns>
-        public Task<IEnumerable<T>> AllInDataSourceAsync(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
+        public Task<IEnumerable<T>> AllInDataSourceAsync(
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
         {
             return FindInDataSourceAsync(x => x, null, orderBy);
+        }
+
+        /// <summary>
+        ///   Retrieves all entities from the back-end data source.
+        /// </summary>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns> The list of retrieved entities. </returns>
+        public Task<IEnumerable<T>> AllInDataSourceAsync(
+            CancellationToken cancellationToken, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string includeProperties = null)
+        {
+            return FindInDataSourceAsync(x => x, cancellationToken, null, orderBy);
         }
 
         /// <summary>
@@ -184,15 +263,30 @@ namespace Cocktail
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
         /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
         /// <returns> The list of retrieved entities. </returns>
-        public Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate,
-                                              Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-                                              string includeProperties = null)
+        public Task<IEnumerable<T>> FindAsync(
+            Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string includeProperties = null)
+        {
+            return FindAsync(predicate, CancellationToken.None, orderBy, includeProperties);
+        }
+
+        /// <summary>
+        ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy.
+        /// </summary>
+        /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns> The list of retrieved entities. </returns>
+        public Task<IEnumerable<T>> FindAsync(
+            Expression<Func<T, bool>> predicate, CancellationToken cancellationToken,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
         {
             if (predicate == null)
                 throw new ArgumentNullException("predicate");
 
             var query = GetFindQuery(predicate, orderBy, includeProperties);
-            return query.ExecuteAsync();
+            return query.ExecuteAsync(cancellationToken);
         }
 
         /// <summary>
@@ -206,11 +300,27 @@ namespace Cocktail
             Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null)
         {
+            return FindAsync(selector, CancellationToken.None, predicate, orderBy);
+        }
+
+        /// <summary>
+        ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy and projects the results into a different shape using the selector parameter.
+        /// </summary>
+        /// <param name="selector"> The selector used to shape the result. </param>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <returns> The list of retrieved objects. </returns>
+        public Task<IEnumerable<TResult>> FindAsync<TResult>(
+            Func<IQueryable<T>, IQueryable<TResult>> selector, CancellationToken cancellationToken,
+            Expression<Func<T, bool>> predicate = null,
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null)
+        {
             if (selector == null)
                 throw new ArgumentNullException("selector");
 
             var query = GetFindQuery(selector, predicate, orderBy);
-            return query.ExecuteAsync();
+            return query.ExecuteAsync(cancellationToken);
         }
 
         /// <summary>
@@ -220,13 +330,30 @@ namespace Cocktail
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
         /// <returns> The list of retrieved objects. </returns>
-        public Task<IEnumerable> FindAsync(Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null)
+        public Task<IEnumerable> FindAsync(
+            Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate = null,
+            Func<IQueryable, IOrderedQueryable> orderBy = null)
+        {
+            return FindAsync(selector, CancellationToken.None, predicate, orderBy);
+        }
+
+        /// <summary>
+        ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy and projects the results into a different shape using the selector parameter.
+        /// </summary>
+        /// <param name="selector"> The selector used to shape the result. </param>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <returns> The list of retrieved objects. </returns>
+        public Task<IEnumerable> FindAsync(
+            Func<IQueryable<T>, IQueryable> selector, CancellationToken cancellationToken,
+            Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null)
         {
             if (selector == null)
                 throw new ArgumentNullException("selector");
 
             var query = GetFindQuery(selector, predicate, orderBy);
-            return query.ExecuteAsync();
+            return query.ExecuteAsync(cancellationToken);
         }
 
         /// <summary>
@@ -240,11 +367,26 @@ namespace Cocktail
             Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string includeProperties = null)
         {
+            return FindInDataSourceAsync(predicate, CancellationToken.None, orderBy, includeProperties);
+        }
+
+        /// <summary>
+        ///   Retrieves one or more entities matching the provided expression from the back-end data source.
+        /// </summary>
+        /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns> The list of retrieved entities. </returns>
+        public Task<IEnumerable<T>> FindInDataSourceAsync(
+            Expression<Func<T, bool>> predicate, CancellationToken cancellationToken,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
+        {
             if (predicate == null)
                 throw new ArgumentNullException("predicate");
 
             var query = GetFindQuery(predicate, orderBy, includeProperties).With(QueryStrategy.DataSourceOnly);
-            return query.ExecuteAsync();
+            return query.ExecuteAsync(cancellationToken);
         }
 
         /// <summary>
@@ -258,11 +400,27 @@ namespace Cocktail
             Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null)
         {
+            return FindInDataSourceAsync(selector, CancellationToken.None, predicate, orderBy);
+        }
+
+        /// <summary>
+        ///   Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
+        /// </summary>
+        /// <param name="selector"> The selector used to shape the result. </param>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <returns> The list of retrieved objects. </returns>
+        public Task<IEnumerable<TResult>> FindInDataSourceAsync<TResult>(
+            Func<IQueryable<T>, IQueryable<TResult>> selector, CancellationToken cancellationToken,
+            Expression<Func<T, bool>> predicate = null,
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null)
+        {
             if (selector == null)
                 throw new ArgumentNullException("selector");
 
             var query = GetFindQuery(selector, predicate, orderBy).With(QueryStrategy.DataSourceOnly);
-            return query.ExecuteAsync();
+            return query.ExecuteAsync(cancellationToken);
         }
 
         /// <summary>
@@ -272,13 +430,30 @@ namespace Cocktail
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
         /// <returns> The list of retrieved objects. </returns>
-        public Task<IEnumerable> FindInDataSourceAsync(Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null)
+        public Task<IEnumerable> FindInDataSourceAsync(
+            Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate = null,
+            Func<IQueryable, IOrderedQueryable> orderBy = null)
+        {
+            return FindInDataSourceAsync(selector, CancellationToken.None, predicate, orderBy);
+        }
+
+        /// <summary>
+        ///   Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
+        /// </summary>
+        /// <param name="selector"> The selector used to shape the result. </param>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <returns> The list of retrieved objects. </returns>
+        public Task<IEnumerable> FindInDataSourceAsync(
+            Func<IQueryable<T>, IQueryable> selector, CancellationToken cancellationToken,
+            Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null)
         {
             if (selector == null)
                 throw new ArgumentNullException("selector");
 
             var query = GetFindQuery(selector, predicate, orderBy).With(QueryStrategy.DataSourceOnly);
-            return query.ExecuteAsync();
+            return query.ExecuteAsync(cancellationToken);
         }
 
         /// <summary>
@@ -445,14 +620,17 @@ namespace Cocktail
             return ((IEntityQuery) query).With(DefaultQueryStrategy);
         }
 
-        private async Task<T> WithIdAsyncCore(IEntityQuery entityQuery)
+        private async Task<T> WithIdAsyncCore(IEntityQuery entityQuery, CancellationToken cancellationToken)
         {
-            var entities = (await EntityManager.ExecuteQueryAsync(entityQuery)).Cast<object>().ToList();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var entities =
+                (await EntityManager.ExecuteQueryAsync(entityQuery, cancellationToken)).Cast<object>().ToList();
 
             if (entities.Count != 1)
                 throw new EntityNotFoundException(ShouldHaveExactlyOneEntityErrorMessage(entityQuery, entities.Count));
 
-            return (T)entities.First();
+            return (T) entities.First();
         }
 
         private IEnumerable<string> ParseIncludeProperties(string includeProperties)

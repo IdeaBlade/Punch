@@ -45,14 +45,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IdeaBlade.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.EntityModel, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.dll</HintPath>
-    </Reference>
     <Reference Include="IdeaBlade.EntityModel.Edm">
       <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Edm.dll</HintPath>
     </Reference>
@@ -62,15 +54,9 @@
     <Reference Include="IdeaBlade.EntityModel.Web">
       <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Web.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.Validation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Validation.dll</HintPath>
-    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />

@@ -54,27 +54,12 @@
       <Private>True</Private>
       <HintPath>..\..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Server.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel">
-      <Private>True</Private>
-      <HintPath>..\..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.dll</HintPath>
-    </Reference>
     <Reference Include="IdeaBlade.EntityModel.Web">
       <Private>True</Private>
       <HintPath>..\..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Web.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq">
-      <Private>True</Private>
-      <HintPath>..\..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.Core">
-      <Private>True</Private>
-      <HintPath>..\..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.Validation">
-      <Private>True</Private>
-      <HintPath>..\..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.Validation.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />

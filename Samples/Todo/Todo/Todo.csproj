@@ -127,7 +127,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="packages.config" />
+    <None Include="app.config" />
     <None Include="Todo_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -153,38 +153,6 @@
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
       <HintPath>..\..\..\Libs\Caliburn.Micro\WinRT\Debug\Caliburn.Micro.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.Core.WinRT">
-      <HintPath>..\..\..\Libs\DevForce 2012\WinRTAssemblies\IdeaBlade.Core.WinRT.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.EntityModel.WinRT">
-      <HintPath>..\..\..\Libs\DevForce 2012\WinRTAssemblies\IdeaBlade.EntityModel.WinRT.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.Linq.WinRT">
-      <HintPath>..\..\..\Libs\DevForce 2012\WinRTAssemblies\IdeaBlade.Linq.WinRT.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.Validation.WinRT">
-      <HintPath>..\..\..\Libs\DevForce 2012\WinRTAssemblies\IdeaBlade.Validation.WinRT.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.AttributedModel, Version=1.0.15.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.15\lib\netcore45\System.Composition.AttributedModel.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Convention, Version=1.0.15.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.15\lib\netcore45\System.Composition.Convention.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Hosting, Version=1.0.15.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.15\lib\netcore45\System.Composition.Hosting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Runtime, Version=1.0.15.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.15\lib\netcore45\System.Composition.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.TypedParts, Version=1.0.15.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.15\lib\netcore45\System.Composition.TypedParts.dll</HintPath>
     </Reference>
     <Reference Include="Windows.UI.Interactivity">
       <HintPath>..\..\..\Libs\Caliburn.Micro\WinRT\Debug\Windows.UI.Interactivity.dll</HintPath>

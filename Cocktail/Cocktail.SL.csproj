@@ -64,22 +64,6 @@
     <Reference Include="Caliburn.Micro">
       <HintPath>..\packages\Caliburn.Micro.1.3.1\lib\sl5\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core.SL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\DevForce 2012\Silverlight Assemblies\IdeaBlade.Core.SL.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.EntityModel.SL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\DevForce 2012\Silverlight Assemblies\IdeaBlade.EntityModel.SL.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.Linq.SL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\DevForce 2012\Silverlight Assemblies\IdeaBlade.Linq.SL.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.Validation.SL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\DevForce 2012\Silverlight Assemblies\IdeaBlade.Validation.SL.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Silverlight5">
       <HintPath>..\packages\Microsoft.CompilerServices.AsyncTargetingPack.1.0.0\lib\sl50\Microsoft.CompilerServices.AsyncTargetingPack.Silverlight5.dll</HintPath>
     </Reference>

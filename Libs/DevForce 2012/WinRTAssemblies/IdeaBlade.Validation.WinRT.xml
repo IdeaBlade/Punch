@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>IdeaBlade.Validation.Metro</name>
+        <name>IdeaBlade.Validation.WinRT</name>
     </assembly>
     <members>
         <member name="T:IdeaBlade.Validation.INotifyVerifierResults">

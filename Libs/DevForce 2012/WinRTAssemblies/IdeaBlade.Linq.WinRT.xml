@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>IdeaBlade.Linq.Metro</name>
+        <name>IdeaBlade.Linq.WinRT</name>
     </assembly>
     <members>
         <member name="T:IdeaBlade.Linq.AbstractBlock">

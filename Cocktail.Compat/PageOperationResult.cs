@@ -15,12 +15,16 @@ using System.Threading;
 
 namespace Cocktail
 {
+    /// <summary>
+    ///   Encapsulates and abstracts an asynchronous paging operation.
+    /// </summary>
+    /// <typeparam name="T"> The type of objects being paged. </typeparam>
     public class PageOperationResult<T> : OperationResult<Page<T>>
     {
         private readonly CancellationTokenSource _cancellationTokenSource;
         private readonly OperationResult<Page<T>> _operation;
 
-        public PageOperationResult(OperationResult<Page<T>> operation, CancellationTokenSource cancellationTokenSource)
+        internal PageOperationResult(OperationResult<Page<T>> operation, CancellationTokenSource cancellationTokenSource)
             : base(operation)
         {
             _operation = operation;

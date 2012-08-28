@@ -29,12 +29,18 @@ namespace Cocktail
     {
         // Legacy support for IAuthenticationService
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult LoginAsync(
             this IAuthenticationService source, ILoginCredential credential, Action onSuccess, Action<Exception> onFail)
         {
             return source.LoginAsync(credential).OnComplete(onSuccess, onFail);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult LogoutAsync(this IAuthenticationService source, Action callback)
         {
             return source.LogoutAsync().OnComplete(callback, null);
@@ -42,12 +48,18 @@ namespace Cocktail
 
         // Legacy support for IDialogManager
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<T> ShowDialogAsync<T>(
             this IDialogManager source, object content, IEnumerable<T> dialogButtons, string title)
         {
             return source.ShowDialogAsync(content, dialogButtons, title);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<T> ShowDialogAsync<T>(
             this IDialogManager source, object content, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons,
             string title)
@@ -55,18 +67,27 @@ namespace Cocktail
             return source.ShowDialogAsync(content, defaultButton, cancelButton, dialogButtons, title);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<DialogResult> ShowDialogAsync(
             this IDialogManager source, object content, IEnumerable<DialogResult> dialogButtons, string title)
         {
             return source.ShowDialogAsync(content, dialogButtons, title);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<T> ShowMessageAsync<T>(
             this IDialogManager source, string message, IEnumerable<T> dialogButtons, string title)
         {
             return source.ShowMessageAsync(message, dialogButtons, title);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<T> ShowMessageAsync<T>(
             this IDialogManager source, string message, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons,
             string title)
@@ -74,6 +95,9 @@ namespace Cocktail
             return source.ShowMessageAsync(message, defaultButton, cancelButton, dialogButtons, title);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<DialogResult> ShowMessageAsync(
             this DialogManager source, string message, IEnumerable<DialogResult> dialogButtons, string title)
         {
@@ -82,6 +106,9 @@ namespace Cocktail
 
         // Legacy support for IFactory<T>
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<T> CreateAsync<T>(
             this IFactory<T> source, Action<T> onSuccess, Action<Exception> onFail)
             where T : class
@@ -91,6 +118,9 @@ namespace Cocktail
 
         // Legacy support for Fake Backing Store
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult InitializeFakeBackingStoreAsync<T>(
             this IEntityManagerProvider<T> source, Action onSuccess, Action<Exception> onFail)
             where T : EntityManager
@@ -98,6 +128,9 @@ namespace Cocktail
             return source.InitializeFakeBackingStoreAsync().OnComplete(onSuccess, onFail);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult ResetFakeBackingStoreAsync<T>(
             this IEntityManagerProvider<T> source, Action onSuccess, Action<Exception> onFail)
             where T : EntityManager
@@ -107,6 +140,9 @@ namespace Cocktail
 
         // Legacy support for IPager
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static PageOperationResult<T> FirstPageAsync<T>(
             this IPager<T> source, Action<Page<T>> onSuccess, Action<Exception> onFail)
         {
@@ -115,6 +151,9 @@ namespace Cocktail
             return new PageOperationResult<T>(op, cts);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static PageOperationResult<T> LastPageAsync<T>(
             this IPager<T> source, Action<Page<T>> onSuccess, Action<Exception> onFail)
         {
@@ -123,6 +162,9 @@ namespace Cocktail
             return new PageOperationResult<T>(op, cts);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static PageOperationResult<T> NextPageAsync<T>(
             this IPager<T> source, Action<Page<T>> onSuccess, Action<Exception> onFail)
         {
@@ -131,6 +173,9 @@ namespace Cocktail
             return new PageOperationResult<T>(op, cts);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static PageOperationResult<T> PreviousPageAsync<T>(
             this IPager<T> source, Action<Page<T>> onSuccess, Action<Exception> onFail)
         {
@@ -139,6 +184,9 @@ namespace Cocktail
             return new PageOperationResult<T>(op, cts);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static PageOperationResult<T> GoToPageAsync<T>(
             this IPager<T> source, int pageIndex, Action<Page<T>> onSuccess, Action<Exception> onFail)
         {
@@ -149,6 +197,9 @@ namespace Cocktail
 
         // Legacy support for IRepository<T>
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<T> WithIdAsync<T>(
             this IRepository<T> source, object keyValue, Action<T> onSuccess, Action<Exception> onFail)
             where T : class
@@ -156,6 +207,9 @@ namespace Cocktail
             return source.WithIdAsync(keyValue).OnComplete(onSuccess, onFail);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<T> WithIdFromDataSourceAsync<T>(
             this IRepository<T> source, object keyValue, Action<T> onSuccess, Action<Exception> onFail)
             where T : class
@@ -163,6 +217,9 @@ namespace Cocktail
             return source.WithIdFromDataSourceAsync(keyValue).OnComplete(onSuccess, onFail);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<T> WithIdAsync<T>(
             this IRepository<T> source, object[] keyValues, Action<T> onSuccess, Action<Exception> onFail)
             where T : class
@@ -170,6 +227,9 @@ namespace Cocktail
             return source.WithIdAsync(keyValues).OnComplete(onSuccess, onFail);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<T> WithIdFromDataSourceAsync<T>(
             this IRepository<T> source, object[] keyValues, Action<T> onSuccess, Action<Exception> onFail)
             where T : class
@@ -177,6 +237,9 @@ namespace Cocktail
             return source.WithIdFromDataSourceAsync(keyValues).OnComplete(onSuccess, onFail);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<IEnumerable<T>> AllAsync<T>(
             this IRepository<T> source, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, string includeProperties,
             Action<IEnumerable<T>> onSuccess, Action<Exception> onFail)
@@ -185,6 +248,9 @@ namespace Cocktail
             return source.AllAsync(orderBy, includeProperties).OnComplete(onSuccess, onFail);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<IEnumerable<T>> AllInDataSourceAsync<T>(
             this IRepository<T> source, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, string includeProperties,
             Action<IEnumerable<T>> onSuccess, Action<Exception> onFail)
@@ -193,6 +259,9 @@ namespace Cocktail
             return source.AllInDataSourceAsync(orderBy, includeProperties).OnComplete(onSuccess, onFail);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<IEnumerable<T>> FindAsync<T>(
             this IRepository<T> source, Expression<Func<T, bool>> predicate,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, string includeProperties,
@@ -202,6 +271,9 @@ namespace Cocktail
             return source.FindAsync(predicate, orderBy, includeProperties).OnComplete(onSuccess, onFail);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<IEnumerable<TResult>> FindAsync<T, TResult>(
             this IRepository<T> source, Func<IQueryable<T>, IQueryable<TResult>> selector,
             Expression<Func<T, bool>> predicate, Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy,
@@ -211,6 +283,9 @@ namespace Cocktail
             return source.FindAsync(selector, predicate, orderBy).OnComplete(onSuccess, onFail);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<IEnumerable> FindAsync<T>(
             this IRepository<T> source, Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate,
             Func<IQueryable, IOrderedQueryable> orderBy, Action<IEnumerable> onSuccess, Action<Exception> onFail)
@@ -219,6 +294,9 @@ namespace Cocktail
             return source.FindAsync(selector, predicate, orderBy).OnComplete(onSuccess, onFail);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<IEnumerable<T>> FindInDataSourceAsync<T>(
             this IRepository<T> source, Expression<Func<T, bool>> predicate,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, string includeProperties,
@@ -228,6 +306,9 @@ namespace Cocktail
             return source.FindInDataSourceAsync(predicate, orderBy, includeProperties).OnComplete(onSuccess, onFail);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<IEnumerable<TResult>> FindInDataSourceAsync<T, TResult>(
             this IRepository<T> source, Func<IQueryable<T>, IQueryable<TResult>> selector,
             Expression<Func<T, bool>> predicate, Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy,
@@ -237,6 +318,9 @@ namespace Cocktail
             return source.FindInDataSourceAsync(selector, predicate, orderBy).OnComplete(onSuccess, onFail);
         }
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<IEnumerable> FindInDataSourceAsync<T>(
             this IRepository<T> source, Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate,
             Func<IQueryable, IOrderedQueryable> orderBy, Action<IEnumerable> onSuccess, Action<Exception> onFail)
@@ -247,6 +331,9 @@ namespace Cocktail
 
         // Legacy support for INavigationService
 
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
         public static OperationResult<bool> NavigateToAsync<T>(
             this INavigationService source, Action<T> prepare, Func<T, IResult> prepareTargetAsync)
         {

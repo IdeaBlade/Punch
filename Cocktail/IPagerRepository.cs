@@ -14,9 +14,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using IdeaBlade.Core;
-using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
@@ -74,7 +74,7 @@ namespace Cocktail
         ///   Returns the number of records available to be returned from the back-end data source.
         /// </summary>
         /// <remarks>
-        ///   This property will return -1 until the last page is fetched via a call to <see cref="LastPageAsync" /> .
+        ///   This property will return -1 until the last page is fetched via a call to LastPageAsync() /> .
         /// </remarks>
         int TotalDataSourceItemCount { get; }
 
@@ -107,11 +107,27 @@ namespace Cocktail
         Task<Page<T>> FirstPageAsync();
 
         /// <summary>
+        ///   Moves to the first page.
+        /// </summary>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        /// <returns> The first page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
+        Task<Page<T>> FirstPageAsync(CancellationToken cancellationToken);
+
+        /// <summary>
         ///   Moves to the last page.
         /// </summary>
         /// <returns> The last page. </returns>
         /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         Task<Page<T>> LastPageAsync();
+
+        /// <summary>
+        ///   Moves to the last page.
+        /// </summary>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        /// <returns> The last page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
+        Task<Page<T>> LastPageAsync(CancellationToken cancellationToken);
 
         /// <summary>
         ///   Moves to the page after the current page.
@@ -121,11 +137,27 @@ namespace Cocktail
         Task<Page<T>> NextPageAsync();
 
         /// <summary>
+        ///   Moves to the page after the current page.
+        /// </summary>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        /// <returns> The next page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
+        Task<Page<T>> NextPageAsync(CancellationToken cancellationToken);
+
+        /// <summary>
         ///   Moves to the page before the current page.
         /// </summary>
         /// <returns> The previous page. </returns>
         /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         Task<Page<T>> PreviousPageAsync();
+
+        /// <summary>
+        ///   Moves to the page before the current page.
+        /// </summary>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        /// <returns> The previous page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
+        Task<Page<T>> PreviousPageAsync(CancellationToken cancellationToken);
 
         /// <summary>
         ///   Moves to the specified page.
@@ -134,6 +166,15 @@ namespace Cocktail
         /// <returns> The requested page. </returns>
         /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
         Task<Page<T>> GoToPageAsync(int pageIndex);
+
+        /// <summary>
+        ///   Moves to the specified page.
+        /// </summary>
+        /// <param name="pageIndex"> The zero-based index of the requested page. </param>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        /// <returns> The requested page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
+        Task<Page<T>> GoToPageAsync(int pageIndex, CancellationToken cancellationToken);
     }
 
     /// <summary>

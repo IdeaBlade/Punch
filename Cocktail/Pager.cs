@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
@@ -49,7 +50,7 @@ namespace Cocktail
         ///   Returns the number of records available to be returned from the back-end data source.
         /// </summary>
         /// <remarks>
-        ///   This property will return -1 until the last page is fetched via a call to <see cref="IPager{T}.LastPageAsync" /> .
+        ///   This property will return -1 until the last page is fetched via a call to LastPageAsync() /> .
         /// </remarks>
         public int TotalDataSourceItemCount
         {
@@ -98,11 +99,23 @@ namespace Cocktail
         /// </summary>
         /// <returns> The first page. </returns>
         /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
-        public async Task<Page<T>> FirstPageAsync()
+        public Task<Page<T>> FirstPageAsync()
         {
+            return FirstPageAsync(CancellationToken.None);
+        }
+
+        /// <summary>
+        ///   Moves to the first page.
+        /// </summary>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        /// <returns> The first page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
+        public async Task<Page<T>> FirstPageAsync(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
             ThrowIfPageChanging();
 
-            var pageFound = await _entityQueryPager.MoveToFirstPageAsync();
+            var pageFound = await _entityQueryPager.MoveToFirstPageAsync(cancellationToken);
             if (pageFound)
                 return CurrentPage;
 
@@ -114,11 +127,23 @@ namespace Cocktail
         /// </summary>
         /// <returns> The last page. </returns>
         /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
-        public async Task<Page<T>> LastPageAsync()
+        public Task<Page<T>> LastPageAsync()
         {
+            return LastPageAsync(CancellationToken.None);
+        }
+
+        /// <summary>
+        ///   Moves to the last page.
+        /// </summary>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        /// <returns> The last page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
+        public async Task<Page<T>> LastPageAsync(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
             ThrowIfPageChanging();
 
-            var pageFound = await _entityQueryPager.MoveToLastPageAsync();
+            var pageFound = await _entityQueryPager.MoveToLastPageAsync(cancellationToken);
             if (pageFound)
                 return CurrentPage;
 
@@ -130,11 +155,23 @@ namespace Cocktail
         /// </summary>
         /// <returns> The next page. </returns>
         /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
-        public async Task<Page<T>> NextPageAsync()
+        public Task<Page<T>> NextPageAsync()
         {
+            return NextPageAsync(CancellationToken.None);
+        }
+
+        /// <summary>
+        ///   Moves to the page after the current page.
+        /// </summary>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        /// <returns> The next page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
+        public async Task<Page<T>> NextPageAsync(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
             ThrowIfPageChanging();
 
-            var pageFound = await _entityQueryPager.MoveToNextPageAsync();
+            var pageFound = await _entityQueryPager.MoveToNextPageAsync(cancellationToken);
             if (pageFound)
                 return CurrentPage;
 
@@ -146,11 +183,23 @@ namespace Cocktail
         /// </summary>
         /// <returns> The previous page. </returns>
         /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
-        public async Task<Page<T>> PreviousPageAsync()
+        public Task<Page<T>> PreviousPageAsync()
         {
+            return PreviousPageAsync(CancellationToken.None);
+        }
+
+        /// <summary>
+        ///   Moves to the page before the current page.
+        /// </summary>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        /// <returns> The previous page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
+        public async Task<Page<T>> PreviousPageAsync(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
             ThrowIfPageChanging();
 
-            var pageFound = await _entityQueryPager.MoveToPreviousPageAsync();
+            var pageFound = await _entityQueryPager.MoveToPreviousPageAsync(cancellationToken);
             if (pageFound)
                 return CurrentPage;
 
@@ -163,11 +212,24 @@ namespace Cocktail
         /// <param name="pageIndex"> The zero-based index of the requested page. </param>
         /// <returns> The requested page. </returns>
         /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
-        public async Task<Page<T>> GoToPageAsync(int pageIndex)
+        public Task<Page<T>> GoToPageAsync(int pageIndex)
         {
+            return GoToPageAsync(pageIndex, CancellationToken.None);
+        }
+
+        /// <summary>
+        ///   Moves to the specified page.
+        /// </summary>
+        /// <param name="pageIndex"> The zero-based index of the requested page. </param>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        /// <returns> The requested page. </returns>
+        /// <exception cref="InvalidOperationException">A page change is in progress.</exception>
+        public async Task<Page<T>> GoToPageAsync(int pageIndex, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
             ThrowIfPageChanging();
 
-            var pageFound = await _entityQueryPager.MoveToPageAsync(pageIndex);
+            var pageFound = await _entityQueryPager.MoveToPageAsync(pageIndex, cancellationToken);
             if (pageFound)
                 return CurrentPage;
 

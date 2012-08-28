@@ -101,17 +101,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="IdeaBlade.Core.Metro">
-      <HintPath>..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Core.Metro.dll</HintPath>
+    <Reference Include="IdeaBlade.Core.WinRT">
+      <HintPath>..\..\Libs\DevForce 2012\WinRTAssemblies\IdeaBlade.Core.WinRT.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Metro">
-      <HintPath>..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.EntityModel.Metro.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel.WinRT">
+      <HintPath>..\..\Libs\DevForce 2012\WinRTAssemblies\IdeaBlade.EntityModel.WinRT.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq.Metro">
-      <HintPath>..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Linq.Metro.dll</HintPath>
+    <Reference Include="IdeaBlade.Linq.WinRT">
+      <HintPath>..\..\Libs\DevForce 2012\WinRTAssemblies\IdeaBlade.Linq.WinRT.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Validation.Metro">
-      <HintPath>..\..\Libs\DevForce 2012\Metro Assemblies\IdeaBlade.Validation.Metro.dll</HintPath>
+    <Reference Include="IdeaBlade.Validation.WinRT">
+      <HintPath>..\..\Libs\DevForce 2012\WinRTAssemblies\IdeaBlade.Validation.WinRT.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">

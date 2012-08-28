@@ -10,7 +10,7 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using IdeaBlade.Core.Reflection;
+using System.Threading;
 using IdeaBlade.EntityModel;
 using System;
 using System.Linq;
@@ -51,15 +51,25 @@ namespace Cocktail
         /// Creates a new entity instance of type T.
         /// </summary>
         /// <returns>The newly created entity attached to the underlying EntityManager.</returns>
-        public virtual Task<T> CreateAsync()
+        public Task<T> CreateAsync()
         {
+            return CreateAsync(CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Creates a new entity instance of type T.
+        /// </summary>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        /// <returns>The newly created entity attached to the underlying EntityManager.</returns>
+        public async virtual Task<T> CreateAsync(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var methodInfo = FindFactoryMethod(typeof(T));
             var instance = methodInfo != null ? methodInfo.Invoke(null, new object[0]) : Activator.CreateInstance<T>();
             EntityManager.AddEntity(instance);
 
-            var tcs = new TaskCompletionSource<T>();
-            tcs.SetResult((T)instance);
-            return tcs.Task;
+            return await TaskFns.FromResult((T) instance);
         }
 
         #endregion

@@ -11,6 +11,7 @@
 // ====================================================================================================================
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using IdeaBlade.Core;
 
@@ -27,5 +28,12 @@ namespace Cocktail
         /// </summary>
         /// <returns>The newly created entity attached to the underlying EntityManager.</returns>
         Task<T> CreateAsync();
+
+        /// <summary>
+        /// Creates a new entity instance of type T.
+        /// </summary>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        /// <returns>The newly created entity attached to the underlying EntityManager.</returns>
+        Task<T> CreateAsync(CancellationToken cancellationToken);
     }
 }

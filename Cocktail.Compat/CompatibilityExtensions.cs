@@ -329,6 +329,17 @@ namespace Cocktail
             return source.FindInDataSourceAsync(selector, predicate, orderBy).OnComplete(onSuccess, onFail);
         }
 
+        // Legacy support for IUnitOfWork
+
+        /// <summary>
+        /// Provides compatibility for legacy code.
+        /// </summary>
+        public static OperationResult<SaveResult> CommitAsync(
+            this IUnitOfWork source, Action<SaveResult> onSuccess, Action<Exception> onFail)
+        {
+            return source.CommitAsync().OnComplete(onSuccess, onFail);
+        }
+
         // Legacy support for INavigationService
 
         /// <summary>

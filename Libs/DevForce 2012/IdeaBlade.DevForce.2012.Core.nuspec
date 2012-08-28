@@ -25,9 +25,13 @@
     <frameworkAssemblies>
 	<frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="net45" />
 	<frameworkAssembly assemblyName="System.ComponentModel.Composition" targetFramework="net45" />
+	<frameworkAssembly assemblyName="System.Configuration" targetFramework="net45" />
+	<frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="net45" />
         
 	<frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="sl50" />
 	<frameworkAssembly assemblyName="System.ComponentModel.Composition" targetFramework="sl50" />
+	<frameworkAssembly assemblyName="System.ComponentModel.Composition.Initialization" targetFramework="sl50" />
+	<frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="sl50" />
     </frameworkAssemblies>
   </metadata>
   <files>

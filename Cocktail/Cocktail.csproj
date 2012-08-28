@@ -51,20 +51,17 @@
     <Reference Include="Caliburn.Micro">
       <HintPath>..\packages\Caliburn.Micro.1.3.1\lib\net40\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="IdeaBlade.Core">
       <HintPath>..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\net45\IdeaBlade.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="IdeaBlade.EntityModel">
       <HintPath>..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="IdeaBlade.Linq">
       <HintPath>..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\net45\IdeaBlade.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Validation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="IdeaBlade.Validation">
       <HintPath>..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />

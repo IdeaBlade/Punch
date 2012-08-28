@@ -102,16 +102,16 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="IdeaBlade.Core.WinRT">
-      <HintPath>..\..\Libs\DevForce 2012\WinRTAssemblies\IdeaBlade.Core.WinRT.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\winrt45\IdeaBlade.Core.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.WinRT">
-      <HintPath>..\..\Libs\DevForce 2012\WinRTAssemblies\IdeaBlade.EntityModel.WinRT.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\winrt45\IdeaBlade.EntityModel.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq.WinRT">
-      <HintPath>..\..\Libs\DevForce 2012\WinRTAssemblies\IdeaBlade.Linq.WinRT.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\winrt45\IdeaBlade.Linq.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation.WinRT">
-      <HintPath>..\..\Libs\DevForce 2012\WinRTAssemblies\IdeaBlade.Validation.WinRT.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\winrt45\IdeaBlade.Validation.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.AttributedModel">
       <HintPath>..\..\packages\Microsoft.Composition.1.0.15\lib\netcore45\System.Composition.AttributedModel.dll</HintPath>
@@ -128,6 +128,9 @@
     <Reference Include="System.Composition.TypedParts">
       <HintPath>..\..\packages\Microsoft.Composition.1.0.15\lib\netcore45\System.Composition.TypedParts.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

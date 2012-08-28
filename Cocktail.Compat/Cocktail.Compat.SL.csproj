@@ -56,6 +56,9 @@
     <Reference Include="IdeaBlade.Core.SL">
       <HintPath>..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>
     </Reference>
+    <Reference Include="IdeaBlade.EntityModel.Compat.SL">
+      <HintPath>..\packages\IdeaBlade.DevForce.2012.Compat.7.0.0-beta1\lib\sl50\IdeaBlade.EntityModel.Compat.SL.dll</HintPath>
+    </Reference>
     <Reference Include="IdeaBlade.EntityModel.SL">
       <HintPath>..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\sl50\IdeaBlade.EntityModel.SL.dll</HintPath>
     </Reference>

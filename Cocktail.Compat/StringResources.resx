@@ -120,4 +120,7 @@
   <data name="CannotCancelCurrentOperation" xml:space="preserve">
     <value>The current asynchronous operation cannot be cancelled.</value>
   </data>
+  <data name="CannotPrepareSyncAndAsync" xml:space="preserve">
+    <value>Either prepare and/or prepareAsync argument must be null.</value>
+  </data>
 </root>

@@ -68,5 +68,14 @@ namespace Cocktail {
                 return ResourceManager.GetString("CannotCancelCurrentOperation", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Either prepare and/or prepareAsync argument must be null..
+        /// </summary>
+        internal static string CannotPrepareSyncAndAsync {
+            get {
+                return ResourceManager.GetString("CannotPrepareSyncAndAsync", resourceCulture);
+            }
+        }
     }
 }

@@ -16,7 +16,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
+using Caliburn.Micro;
 using IdeaBlade.EntityModel;
+using Action = System.Action;
 
 namespace Cocktail
 {
@@ -241,6 +243,21 @@ namespace Cocktail
             where T : class
         {
             return source.FindInDataSourceAsync(selector, predicate, orderBy).OnComplete(onSuccess, onFail);
+        }
+
+        // Legacy support for INavigationService
+
+        public static OperationResult<bool> NavigateToAsync<T>(
+            this INavigationService source, Action<T> prepare, Func<T, IResult> prepareTargetAsync)
+        {
+            if (prepare != null && prepareTargetAsync != null)
+                throw new ArgumentException(StringResources.CannotPrepareSyncAndAsync);
+            if (prepare != null)
+                return source.NavigateToAsync(prepare);
+            if (prepareTargetAsync != null)
+                return source.NavigateToAsync<T>(target => prepareTargetAsync(target).AsTask());
+
+            return source.NavigateToAsync<T>();
         }
     }
 }

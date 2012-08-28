@@ -11,7 +11,10 @@
 // ====================================================================================================================
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using IdeaBlade.EntityModel;
 
@@ -140,6 +143,104 @@ namespace Cocktail
             var cts = new CancellationTokenSource();
             var op = source.GoToPageAsync(pageIndex, cts.Token).OnComplete(onSuccess, onFail);
             return new PageOperationResult<T>(op, cts);
+        }
+
+        // Legacy support for IRepository<T>
+
+        public static OperationResult<T> WithIdAsync<T>(
+            this IRepository<T> source, object keyValue, Action<T> onSuccess, Action<Exception> onFail)
+            where T : class
+        {
+            return source.WithIdAsync(keyValue).OnComplete(onSuccess, onFail);
+        }
+
+        public static OperationResult<T> WithIdFromDataSourceAsync<T>(
+            this IRepository<T> source, object keyValue, Action<T> onSuccess, Action<Exception> onFail)
+            where T : class
+        {
+            return source.WithIdFromDataSourceAsync(keyValue).OnComplete(onSuccess, onFail);
+        }
+
+        public static OperationResult<T> WithIdAsync<T>(
+            this IRepository<T> source, object[] keyValues, Action<T> onSuccess, Action<Exception> onFail)
+            where T : class
+        {
+            return source.WithIdAsync(keyValues).OnComplete(onSuccess, onFail);
+        }
+
+        public static OperationResult<T> WithIdFromDataSourceAsync<T>(
+            this IRepository<T> source, object[] keyValues, Action<T> onSuccess, Action<Exception> onFail)
+            where T : class
+        {
+            return source.WithIdFromDataSourceAsync(keyValues).OnComplete(onSuccess, onFail);
+        }
+
+        public static OperationResult<IEnumerable<T>> AllAsync<T>(
+            this IRepository<T> source, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, string includeProperties,
+            Action<IEnumerable<T>> onSuccess, Action<Exception> onFail)
+            where T : class
+        {
+            return source.AllAsync(orderBy, includeProperties).OnComplete(onSuccess, onFail);
+        }
+
+        public static OperationResult<IEnumerable<T>> AllInDataSourceAsync<T>(
+            this IRepository<T> source, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, string includeProperties,
+            Action<IEnumerable<T>> onSuccess, Action<Exception> onFail)
+            where T : class
+        {
+            return source.AllInDataSourceAsync(orderBy, includeProperties).OnComplete(onSuccess, onFail);
+        }
+
+        public static OperationResult<IEnumerable<T>> FindAsync<T>(
+            this IRepository<T> source, Expression<Func<T, bool>> predicate,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, string includeProperties,
+            Action<IEnumerable<T>> onSuccess, Action<Exception> onFail)
+            where T : class
+        {
+            return source.FindAsync(predicate, orderBy, includeProperties).OnComplete(onSuccess, onFail);
+        }
+
+        public static OperationResult<IEnumerable<TResult>> FindAsync<T, TResult>(
+            this IRepository<T> source, Func<IQueryable<T>, IQueryable<TResult>> selector,
+            Expression<Func<T, bool>> predicate, Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy,
+            Action<IEnumerable<TResult>> onSuccess, Action<Exception> onFail)
+            where T : class
+        {
+            return source.FindAsync(selector, predicate, orderBy).OnComplete(onSuccess, onFail);
+        }
+
+        public static OperationResult<IEnumerable> FindAsync<T>(
+            this IRepository<T> source, Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate,
+            Func<IQueryable, IOrderedQueryable> orderBy, Action<IEnumerable> onSuccess, Action<Exception> onFail)
+            where T : class
+        {
+            return source.FindAsync(selector, predicate, orderBy).OnComplete(onSuccess, onFail);
+        }
+
+        public static OperationResult<IEnumerable<T>> FindInDataSourceAsync<T>(
+            this IRepository<T> source, Expression<Func<T, bool>> predicate,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, string includeProperties,
+            Action<IEnumerable<T>> onSuccess, Action<Exception> onFail)
+            where T : class
+        {
+            return source.FindInDataSourceAsync(predicate, orderBy, includeProperties).OnComplete(onSuccess, onFail);
+        }
+
+        public static OperationResult<IEnumerable<TResult>> FindInDataSourceAsync<T, TResult>(
+            this IRepository<T> source, Func<IQueryable<T>, IQueryable<TResult>> selector,
+            Expression<Func<T, bool>> predicate, Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy,
+            Action<IEnumerable<TResult>> onSuccess, Action<Exception> onFail)
+            where T : class
+        {
+            return source.FindInDataSourceAsync(selector, predicate, orderBy).OnComplete(onSuccess, onFail);
+        }
+
+        public static OperationResult<IEnumerable> FindInDataSourceAsync<T>(
+            this IRepository<T> source, Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate,
+            Func<IQueryable, IOrderedQueryable> orderBy, Action<IEnumerable> onSuccess, Action<Exception> onFail)
+            where T : class
+        {
+            return source.FindInDataSourceAsync(selector, predicate, orderBy).OnComplete(onSuccess, onFail);
         }
     }
 }

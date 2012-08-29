@@ -34,7 +34,7 @@ namespace TempHire.ViewModels.StaffingResource
         private readonly IDialogManager _dialogManager;
         private readonly IErrorHandler _errorHandler;
         private readonly ExportFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
-        private readonly INavigationService _navigationService;
+        private readonly INavigator _navigator;
         private readonly DispatcherTimer _selectionChangeTimer;
         private readonly IToolbarManager _toolbar;
         private IScreen _retainedActiveItem;
@@ -51,7 +51,7 @@ namespace TempHire.ViewModels.StaffingResource
             _errorHandler = errorHandler;
             _dialogManager = dialogManager;
             _toolbar = toolbar;
-            _navigationService = new NavigationService(this);
+            _navigator = new Navigator(this);
 
             PropertyChanged += OnPropertyChanged;
 
@@ -135,7 +135,7 @@ namespace TempHire.ViewModels.StaffingResource
 
             SearchPane.CurrentStaffingResource = null;
 
-            _navigationService.NavigateToAsync<StaffingResourceDetailViewModel>(
+            _navigator.NavigateToAsync<StaffingResourceDetailViewModel>(
                 target => target.Start(nameEditor.FirstName, nameEditor.MiddleName, nameEditor.LastName), null)
                 .ContinueWith(navigation => { if (navigation.Cancelled) UpdateCommands(); });
         }
@@ -235,7 +235,7 @@ namespace TempHire.ViewModels.StaffingResource
             _selectionChangeTimer.Stop();
             if (SearchPane.CurrentStaffingResource == null) return;
 
-            _navigationService.NavigateToAsync<StaffingResourceDetailViewModel>(
+            _navigator.NavigateToAsync<StaffingResourceDetailViewModel>(
                 target => target.Start(SearchPane.CurrentStaffingResource.Id, EditMode.View), null)
                 .ContinueWith(navigation => { if (navigation.Cancelled) UpdateCommands(); });
         }

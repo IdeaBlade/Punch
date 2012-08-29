@@ -30,7 +30,7 @@ namespace TempHire.ViewModels
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly ExportFactory<LoginViewModel> _loginFactory;
-        private readonly INavigationService _navigationService;
+        private readonly INavigator _navigator;
         private readonly IEnumerable<IWorkspace> _workspaces;
 
         [ImportingConstructor]
@@ -41,7 +41,7 @@ namespace TempHire.ViewModels
             _workspaces = workspaces;
             _authenticationService = authenticationService;
             _loginFactory = loginFactory;
-            _navigationService = new NavigationService(this);
+            _navigator = new Navigator(this);
         }
 
         public IToolbarManager Toolbar { get; private set; }
@@ -156,7 +156,7 @@ namespace TempHire.ViewModels
             if (ActiveItem != null && ActiveItem.GetType() == workspace.ViewModelType)
                 yield break;
 
-            yield return _navigationService.NavigateToAsync(workspace.ViewModelType).AsOperationResult();
+            yield return _navigator.NavigateToAsync(workspace.ViewModelType).AsOperationResult();
         }
     }
 }

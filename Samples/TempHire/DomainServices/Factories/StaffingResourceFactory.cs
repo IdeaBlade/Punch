@@ -10,9 +10,10 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Cocktail;
 using DomainModel;
 using IdeaBlade.EntityModel;
@@ -33,11 +34,12 @@ namespace DomainServices.Factories
             _phoneNumberTypes = phoneNumberTypes;
         }
 
-        public override OperationResult<StaffingResource> CreateAsync(Action<StaffingResource> onSuccess = null,
-                                                                      Action<Exception> onFail = null)
+        public override Task<StaffingResource> CreateAsync(CancellationToken cancellationToken)
         {
-            return Coroutine.Start(CreateAsyncCore, op => op.OnComplete(onSuccess, onFail))
-                .AsOperationResult<StaffingResource>();
+            var coroutine = Coroutine.Start(CreateAsyncCore);
+            var registration = cancellationToken.Register(coroutine.Cancel);
+            return coroutine.AsOperationResult<StaffingResource>()
+                .ContinueWith(op => registration.Dispose());
         }
 
         protected IEnumerable<INotifyCompleted> CreateAsyncCore()

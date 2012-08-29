@@ -16,12 +16,13 @@
     <tags>Silverlight WPF Silverlight SL5 SL Coroutine Asynchronous Caliburn.Micro DevForce</tags>
     <dependencies>
       <dependency id="IdeaBlade.DevForce.Compat" version="[7.0.0-beta1]" />
+      <dependency id="IdeaBlade.Cocktail" version="[2.0.0-beta1]" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\Cocktail.Compat\Bin\Release\Cocktail*.*" target="lib\net45" />
+    <file src="..\Cocktail.Compat\Bin\Release\Cocktail.Compat.*" target="lib\net45" />
 
-    <file src="..\Cocktail.Compat\Bin.SL\Release\Cocktail*.*" target="lib\sl50" />
+    <file src="..\Cocktail.Compat\Bin.SL\Release\Cocktail.Compat.SL.*" target="lib\sl50" />
 
     <file src="..\Cocktail.Compat\**\*.cs" target="src\Cocktail.Compat" />
     <file src="..\Cocktail.Compat\**\*.xaml" target="src\Cocktail.Compat" />

@@ -44,9 +44,17 @@ namespace Cocktail
 
         public async Task ResetAsync(EntityCacheState storeEcs)
         {
+
+#if !SILVERLIGHT && !NETFX_CORE
+            // If the local fake backing store is used, do it synchronously
+            if (Store is EntityServerFakeBackingStore.Local)
+            {
+                Reset(storeEcs);
+                return;
+            }
+#endif
             // Clear all data from the backing store
             await Store.ClearAsync();
-
             await Store.RestoreAsync(storeEcs);
 
             IsInitialized = true;

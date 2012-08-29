@@ -66,14 +66,7 @@ namespace Cocktail.Tests.Helpers
             var provider = EntityManagerProviderFactory
                 .CreateTestEntityManagerProvider(compositionContextName);
             if (provider != null)
-            {
-#if SILVERLIGHT
                 await provider.ResetFakeBackingStoreAsync();
-#else
-                provider.ResetFakeBackingStore();
-                await Task.FromResult(true);
-#endif
-            }
         }
 
         public async Task InitFakeBackingStoreAsync(string compositionContextName)
@@ -81,14 +74,7 @@ namespace Cocktail.Tests.Helpers
             var provider = EntityManagerProviderFactory
                 .CreateTestEntityManagerProvider(compositionContextName);
             if (provider != null)
-            {
-#if SILVERLIGHT
                 await provider.InitializeFakeBackingStoreAsync();
-#else
-                provider.InitializeFakeBackingStore();
-                await Task.FromResult(true);
-#endif
-            }
             await ResetFakeBackingStoreAsync(compositionContextName);
         }
     }

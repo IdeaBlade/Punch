@@ -1,3 +1,3 @@
-nuget pack Cocktail.NET.nuspec -Symbols
-nuget pack Cocktail.Silverlight.nuspec -Symbols
+nuget pack IdeaBlade.Cocktail.nuspec -Symbols
+nuget pack IdeaBlade.Cocktail.Compat.nuspec -Symbols
 pause

@@ -20,7 +20,6 @@ namespace Cocktail
         {
             // Clear all data from the backing store
             Store.Clear();
-
             Store.Restore(storeEcs);
 
             IsInitialized = true;

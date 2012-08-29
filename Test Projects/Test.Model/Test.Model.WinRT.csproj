@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -102,16 +102,16 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="IdeaBlade.Core.WinRT">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\winrt45\IdeaBlade.Core.WinRT.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\winrt45\IdeaBlade.Core.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.WinRT">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\winrt45\IdeaBlade.EntityModel.WinRT.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\winrt45\IdeaBlade.EntityModel.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq.WinRT">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\winrt45\IdeaBlade.Linq.WinRT.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\winrt45\IdeaBlade.Linq.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation.WinRT">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\winrt45\IdeaBlade.Validation.WinRT.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\winrt45\IdeaBlade.Validation.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.AttributedModel">
       <HintPath>..\..\packages\Microsoft.Composition.1.0.15\lib\netcore45\System.Composition.AttributedModel.dll</HintPath>

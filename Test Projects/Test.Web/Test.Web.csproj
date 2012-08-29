@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -49,10 +49,10 @@
       <HintPath>..\..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\net45\IdeaBlade.Core.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Core.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.Edm">
       <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Edm.dll</HintPath>
@@ -64,10 +64,10 @@
       <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Web.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\net45\IdeaBlade.Linq.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Linq.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.2012.Core.7.0.0-beta1\lib\net45\IdeaBlade.Validation.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

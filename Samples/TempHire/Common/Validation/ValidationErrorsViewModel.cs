@@ -12,7 +12,6 @@
 
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using Common.Factories;
 using IdeaBlade.Validation;
 
 namespace Common.Validation
@@ -37,10 +36,5 @@ namespace Common.Validation
             VerifierResults = verifierResults;
             return this;
         }
-    }
-
-    [Export(typeof(IPartFactory<ValidationErrorsViewModel>))]
-    public class ValidationErrorsViewModelFactory : PartFactoryBase<ValidationErrorsViewModel>
-    {
     }
 }

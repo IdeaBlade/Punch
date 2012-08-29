@@ -17,7 +17,6 @@ using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Messages;
-using IdeaBlade.EntityModel;
 using MefContrib.Hosting.Interception;
 using MefContrib.Hosting.Interception.Configuration;
 
@@ -29,7 +28,7 @@ using System.Windows.Threading;
 
 namespace Common
 {
-    public class BootstrapperBase<T> : FrameworkBootstrapper<T>, IExportedValueInterceptor
+    public class BootstrapperBase<T> : CocktailMefBootstrapper<T>, IExportedValueInterceptor
     {
         // Automatically instantiate and hold all discovered MessageProcessors
         [ImportMany(RequiredCreationPolicy = CreationPolicy.Shared)]
@@ -87,7 +86,7 @@ namespace Common
         protected override ComposablePartCatalog PrepareCompositionCatalog()
         {
             var cfg = new InterceptionConfiguration().AddInterceptor(this);
-            return new InterceptingCatalog(Composition.Catalog, cfg);
+            return new InterceptingCatalog(base.PrepareCompositionCatalog(), cfg);
         }
 
         private void SubscribeToEventAggregator(object instance)

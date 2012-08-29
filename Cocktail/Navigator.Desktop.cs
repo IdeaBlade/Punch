@@ -16,7 +16,7 @@ using Caliburn.Micro;
 
 namespace Cocktail
 {
-    public partial class NavigationService
+    public partial class Navigator
     {
         private readonly IConductActiveItem _conductor;
 
@@ -24,7 +24,7 @@ namespace Cocktail
         ///   Initializes a new NavigationService.
         /// </summary>
         /// <param name="conductor"> The underlying screen conductor used to activate navigation targets. </param>
-        public NavigationService(IConductActiveItem conductor)
+        public Navigator(IConductActiveItem conductor)
         {
             _conductor = conductor;
         }

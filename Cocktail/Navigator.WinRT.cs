@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Cocktail
 {
-    public partial interface INavigationService
+    public partial interface INavigator
     {
         /// <summary>
         ///   Gets a value that indicates whether there is at least one entry in forward navigation history.
@@ -42,7 +42,7 @@ namespace Cocktail
         Task<bool> GoBack();
     }
 
-    public partial class NavigationService
+    public partial class Navigator
     {
         private readonly IConductActiveItem _conductor;
         private readonly Frame _frame;
@@ -53,7 +53,7 @@ namespace Cocktail
         ///   Initializes a new NavigationService for ViewModel-based navigation.
         /// </summary>
         /// <param name="conductor"> The underlying screen conductor used to activate navigation targets. </param>
-        public NavigationService(IConductActiveItem conductor)
+        public Navigator(IConductActiveItem conductor)
         {
             if (conductor == null) throw new ArgumentNullException("conductor");
 
@@ -65,7 +65,7 @@ namespace Cocktail
         /// </summary>
         /// <param name="frame"> The content control that supports navigation. </param>
         /// <param name="treatViewAsLoaded"> Treats the view as loaded if set to true. </param>
-        public NavigationService(Frame frame, bool treatViewAsLoaded = false)
+        public Navigator(Frame frame, bool treatViewAsLoaded = false)
         {
             if (frame == null) throw new ArgumentNullException("frame");
 

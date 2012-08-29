@@ -163,7 +163,7 @@ namespace Cocktail
             _compositionProvider.Configure(conventions);
             Composition.SetProvider(_compositionProvider);
 
-            AddExportedValue<INavigationService>(new NavigationService(RootFrame));
+            AddExportedValue<INavigator>(new Navigator(RootFrame));
             BuildUp(this);
         }
 

@@ -346,7 +346,7 @@ namespace Cocktail
         /// Provides compatibility for legacy code.
         /// </summary>
         public static OperationResult<bool> NavigateToAsync<T>(
-            this INavigationService source, Action<T> prepare, Func<T, IResult> prepareTargetAsync)
+            this INavigator source, Action<T> prepare, Func<T, IResult> prepareTargetAsync)
         {
             if (prepare != null && prepareTargetAsync != null)
                 throw new ArgumentException(StringResources.CannotPrepareSyncAndAsync);

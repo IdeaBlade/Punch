@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -138,10 +138,10 @@
     </Compile>
     <Compile Include="MefCompositionProvider.Desktop.cs" />
     <Compile Include="MessageBoxBase.cs" />
-    <Compile Include="NavigationService.cs" />
-    <Compile Include="NavigationService.Desktop.cs">
-      <DependentUpon>NavigationService.cs</DependentUpon>
+    <Compile Include="Navigator.Desktop.cs">
+      <DependentUpon>Navigator.cs</DependentUpon>
     </Compile>
+    <Compile Include="Navigator.cs" />
     <Compile Include="ObjectManager.cs" />
     <Compile Include="Pager.cs" />
     <Compile Include="PagerRepository.cs" />

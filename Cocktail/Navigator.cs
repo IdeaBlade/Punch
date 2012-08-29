@@ -20,7 +20,7 @@ namespace Cocktail
     /// <summary>
     ///   Interface used to configure a NavigationService.
     /// </summary>
-    public interface INavigationServiceConfigurator : IHideObjectMembers
+    public interface INavigatorConfigurator : IHideObjectMembers
     {
         /// <summary>
         ///   Configures the close guard for the ActiveViewModel.
@@ -29,7 +29,7 @@ namespace Cocktail
         /// <remarks>
         ///   if no guard is configured, <see cref="IGuardClose.CanClose" /> is automatically being called.
         /// </remarks>
-        INavigationServiceConfigurator WithActiveItemGuard(Func<object, Task<bool>> guard);
+        INavigatorConfigurator WithActiveItemGuard(Func<object, Task<bool>> guard);
 
         /// <summary>
         ///   Configures the guard for the target type.
@@ -38,13 +38,13 @@ namespace Cocktail
         /// <remarks>
         ///   The target guard controls whether the target type is an authorized navigation target.
         /// </remarks>
-        INavigationServiceConfigurator WithTargetGuard(Func<Type, Task<bool>> guard);
+        INavigatorConfigurator WithTargetGuard(Func<Type, Task<bool>> guard);
     }
 
     /// <summary>
-    ///   A service that implements UI navigation logic.
+    ///   A service that performs UI navigation logic.
     /// </summary>
-    public partial interface INavigationService : IHideObjectMembers
+    public partial interface INavigator : IHideObjectMembers
     {
         /// <summary>
         ///   Returns the current active ViewModel or null.
@@ -105,11 +105,11 @@ namespace Cocktail
     }
 
     /// <summary>
-    ///   A configurable service that implements UI navigation logic.
+    ///   A configurable service that performs UI navigation logic.
     /// </summary>
-    public partial class NavigationService : INavigationService
+    public partial class Navigator : INavigator
     {
-        private readonly NavigationServiceConfiguration _configuration = new NavigationServiceConfiguration();
+        private readonly NavigatorConfiguration _configuration = new NavigatorConfiguration();
 
         #region INavigationService Members
 
@@ -194,7 +194,7 @@ namespace Cocktail
         ///   Configures the current NavigationService.
         /// </summary>
         /// <param name="configure"> A delegate action to perform the configuration. </param>
-        public NavigationService Configure(Action<INavigationServiceConfigurator> configure)
+        public Navigator Configure(Action<INavigatorConfigurator> configure)
         {
             configure(_configuration);
             return this;
@@ -235,7 +235,7 @@ namespace Cocktail
         }
     }
 
-    internal class NavigationServiceConfiguration : INavigationServiceConfigurator
+    internal class NavigatorConfiguration : INavigatorConfigurator
     {
         public Func<object, Task<bool>> ActiveItemGuard { get; private set; }
 
@@ -243,13 +243,13 @@ namespace Cocktail
 
         #region INavigationServiceConfigurator Members
 
-        public INavigationServiceConfigurator WithActiveItemGuard(Func<object, Task<bool>> guard)
+        public INavigatorConfigurator WithActiveItemGuard(Func<object, Task<bool>> guard)
         {
             ActiveItemGuard = guard;
             return this;
         }
 
-        public INavigationServiceConfigurator WithTargetGuard(Func<Type, Task<bool>> guard)
+        public INavigatorConfigurator WithTargetGuard(Func<Type, Task<bool>> guard)
         {
             TargetGuard = guard;
             return this;

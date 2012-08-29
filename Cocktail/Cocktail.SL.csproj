@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -163,7 +163,6 @@
     <Compile Include="MessageBoxView.xaml.cs">
       <DependentUpon>MessageBoxView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NavigationService.cs" />
     <Compile Include="FakeBackingStore.cs" />
     <Compile Include="IAuthenticationService.cs" />
     <Compile Include="IDiscoverableViewModel.cs" />
@@ -172,8 +171,9 @@
     <Compile Include="IHarnessAware.cs" />
     <Compile Include="ISampleDataProvider.cs" />
     <Compile Include="IValidationErrorNotification.cs" />
-    <Compile Include="NavigationService.Desktop.cs">
-      <DependentUpon>NavigationService.cs</DependentUpon>
+    <Compile Include="Navigator.cs" />
+    <Compile Include="Navigator.Desktop.cs">
+      <DependentUpon>Navigator.cs</DependentUpon>
     </Compile>
     <Compile Include="ObjectManager.cs" />
     <Compile Include="Pager.cs" />

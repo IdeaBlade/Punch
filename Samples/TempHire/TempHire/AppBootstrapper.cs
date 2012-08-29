@@ -40,13 +40,7 @@ namespace TempHire
 
         protected override Task StartRuntimeAsync()
         {
-            //TODO: There's currently a bug in DevForce 2012 that prevents asynchronous initialization with the local fake backing store.
-#if SILVERLIGHT
             return EntityManagerProvider.InitializeFakeBackingStoreAsync();
-#else
-            EntityManagerProvider.InitializeFakeBackingStore();
-            return Task.FromResult(true);
-#endif
         }
 #endif
     }

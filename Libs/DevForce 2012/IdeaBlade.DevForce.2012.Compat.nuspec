@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>IdeaBlade.DevForce.2012.Compat</id>
-    <title>IdeaBlade DevForce 2012 Compatibility</title>
+    <title>IdeaBlade DevForce 2012 Compatibility Pack</title>
     <version>7.0.0-beta1</version>
     <authors>IdeaBlade</authors>
     <licenseUrl>http://www.ideablade.com/</licenseUrl>
     <projectUrl>http://www.ideablade.com/</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <summary>Provides Coroutine and legacy async backwards compatibility</summary>
-    <description>DevForce 2012 Core Assemblies</description>
+    <summary>Provides Coroutine and legacy async backwards compatibility.</summary>
+    <description>Provides Coroutine and legacy async backwards compatibility.</description>
     <releaseNotes>???</releaseNotes>
     <copyright>Copyright 2012</copyright>
     <tags>??</tags>

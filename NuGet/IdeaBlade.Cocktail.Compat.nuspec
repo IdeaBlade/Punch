@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>IdeaBlade.Cocktail.Compat</id>
+    <version>1.0.0-beta1</version>
+    <title>Cocktail 2012 Compatibility Pack</title>
+    <authors>Marcel Good,Ward Bell,Rob Eisenberg</authors>
+    <owners>IdeaBlade</owners>
+    <licenseUrl>http://cocktail.ideablade.com/licensing</licenseUrl>
+    <projectUrl>http://cocktail.ideablade.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <summary>Provides Coroutine and legacy async backwards compatibility.</summary>
+    <description>Provides Coroutine and legacy async backwards compatibility.</description>
+    <releaseNotes>http://drc.ideablade.com/xwiki/bin/view/Documentation/cocktail-100-release-notes</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>Silverlight WPF Silverlight SL5 SL Coroutine Asynchronous Caliburn.Micro DevForce</tags>
+    <dependencies>
+      <dependency id="IdeaBlade.DevForce.2012.Compat" version="[7.0.0-beta1]" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\Cocktail.Compat\Bin\Release\Cocktail*.*" target="lib\net45" />
+
+    <file src="..\Cocktail.Compat\Bin.SL\Release\Cocktail*.*" target="lib\sl50" />
+
+    <file src="..\Cocktail.Compat\**\*.cs" target="src\Cocktail.Compat" />
+    <file src="..\Cocktail.Compat\**\*.xaml" target="src\Cocktail.Compat" />
+  </files>
+</package>

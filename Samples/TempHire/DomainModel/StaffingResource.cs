@@ -13,7 +13,9 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+#if !SILVERLIGHT
 using System.ComponentModel.DataAnnotations.Schema;
+#endif
 using System.Linq;
 using System.Runtime.Serialization;
 using Cocktail;

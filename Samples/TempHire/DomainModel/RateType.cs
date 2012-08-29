@@ -12,7 +12,9 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+#if !SILVERLIGHT
 using System.ComponentModel.DataAnnotations.Schema;
+#endif
 using System.Runtime.Serialization;
 
 namespace DomainModel

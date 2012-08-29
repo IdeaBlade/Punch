@@ -134,7 +134,7 @@ namespace Cocktail
     /// </summary>
     public abstract class CocktailMefBootstrapper : CocktailBootstrapper
     {
-        private readonly MefCompositionProvider _compositionProvider;
+        private MefCompositionProvider _compositionProvider;
 
         /// <summary>
         ///   Static initialization
@@ -151,7 +151,6 @@ namespace Cocktail
         protected CocktailMefBootstrapper(bool useApplication = true)
             : base(useApplication)
         {
-            _compositionProvider = new MefCompositionProvider();
         }
 
         /// <summary>
@@ -185,6 +184,7 @@ namespace Cocktail
 
             EnsureBootstrapperHasNoExports();
 
+            _compositionProvider = new MefCompositionProvider();
             _compositionProvider.Configure(catalog: PrepareCompositionCatalog());
             var batch = new CompositionBatch();
             PrepareCompositionContainer(batch);

@@ -122,6 +122,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusyWatcherUnitTests.cs" />
     <Compile Include="UnitOfWork.cs" />
+    <Compile Include="DesktopTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Cocktail.snk" />

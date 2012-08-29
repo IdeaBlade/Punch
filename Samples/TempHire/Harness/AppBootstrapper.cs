@@ -10,10 +10,9 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using Caliburn.Micro;
+using System.Threading.Tasks;
 using Cocktail;
 using Common;
 using DomainModel;
@@ -25,16 +24,17 @@ namespace TempHire
     {
         static AppBootstrapper()
         {
-            Composition.EnableDesignTimeSupport<TempHireEntities>();            
-            Composition.EnableDesignTimeSupport<SecurityEntities>();
+            //TODO: How to enable design time.
+            //Composition.EnableDesignTimeSupport<TempHireEntities>();            
+            //Composition.EnableDesignTimeSupport<SecurityEntities>();
         }
 
         [Import]
         public IEntityManagerProvider<TempHireEntities> EntityManagerProvider;
 
-        protected override IEnumerable<IResult> StartRuntimeAsync()
+        protected override Task StartRuntimeAsync()
         {
-            yield return EntityManagerProvider.InitializeFakeBackingStoreAsync();
+            return EntityManagerProvider.InitializeFakeBackingStoreAsync();
         }
 
         protected override void PrepareCompositionContainer(CompositionBatch batch)

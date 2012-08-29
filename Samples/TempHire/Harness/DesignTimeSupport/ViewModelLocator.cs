@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cocktail;
 using Common;
 using Common.Errors;
@@ -157,7 +158,7 @@ namespace TempHire.DesignTimeSupport
                 return
                     new ResourceMgtViewModel(
                         new StaffingResourceSearchViewModel(rm, 
-                                                            DesignTimeErrorHandler.Instance), null, null,
+                                                            DesignTimeErrorHandler.Instance), null,
                         DesignTimeErrorHandler.Instance, DesignTimeDialogManager.Instance, null);
             }
         }
@@ -202,47 +203,35 @@ namespace TempHire.DesignTimeSupport
                 get { return _instance ?? (_instance = new DesignTimeDialogManager()); }
             }
 
-            #region IDialogManager Members
-
-            public DialogOperationResult<T> ShowDialogAsync<T>(object content, IEnumerable<T> dialogButtons,
-                                                               string title = null)
+            public Task<T> ShowDialogAsync<T>(object content, IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<T> ShowDialogAsync<T>(object content, T defaultButton, T cancelButton,
-                                                               IEnumerable<T> dialogButtons, string title = null)
+            public Task<T> ShowDialogAsync<T>(object content, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<DialogResult> ShowDialogAsync(object content,
-                                                                       IEnumerable<DialogResult> dialogButtons,
-                                                                       string title = null)
+            public Task<DialogResult> ShowDialogAsync(object content, IEnumerable<DialogResult> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<T> ShowMessageAsync<T>(string message, IEnumerable<T> dialogButtons,
-                                                                string title = null)
+            public Task<T> ShowMessageAsync<T>(string message, IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<T> ShowMessageAsync<T>(string message, T defaultButton, T cancelButton,
-                                                                IEnumerable<T> dialogButtons, string title = null)
+            public Task<T> ShowMessageAsync<T>(string message, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
 
-            public DialogOperationResult<DialogResult> ShowMessageAsync(string message,
-                                                                        IEnumerable<DialogResult> dialogButtons,
-                                                                        string title = null)
+            public Task<DialogResult> ShowMessageAsync(string message, IEnumerable<DialogResult> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
             }
-
-            #endregion
         }
 
         #endregion

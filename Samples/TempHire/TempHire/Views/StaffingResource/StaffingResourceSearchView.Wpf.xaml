@@ -4,9 +4,9 @@
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:common="http://temphire.ideablade.com/common"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              d:DataContext="{Binding Source={StaticResource ViewModelLocator},
                                      Path=StaffingResourceSearchViewModel}"
              d:DesignHeight="410"
@@ -58,10 +58,10 @@
                     VerticalAlignment="Top"
                     Content="Clear" />
         </StackPanel>
-        <extToolkit:BusyIndicator Grid.Row="1" IsBusy="{Binding Busy.IsBusy}">
-            <extToolkit:BusyIndicator.BusyContent>
+        <xctk:BusyIndicator Grid.Row="1" IsBusy="{Binding Busy.IsBusy}">
+            <xctk:BusyIndicator.BusyContent>
                 <TextBlock Text="Please wait" />
-            </extToolkit:BusyIndicator.BusyContent>
+            </xctk:BusyIndicator.BusyContent>
 
             <DataGrid Margin="5"
                       AutoGenerateColumns="False"
@@ -86,6 +86,6 @@
                     <common:ScrollIntoViewBehavior />
                 </i:Interaction.Behaviors>
             </DataGrid>
-        </extToolkit:BusyIndicator>
+        </xctk:BusyIndicator>
     </Grid>
 </UserControl>

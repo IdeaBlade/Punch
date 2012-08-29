@@ -12,8 +12,8 @@
     <AssemblyName>Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SkipPostSharp>True</SkipPostSharp>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
+    <SkipPostSharp>true</SkipPostSharp>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
     <DontImportPostSharp>True</DontImportPostSharp>
@@ -121,7 +121,6 @@
     <Compile Include="Messages\MessageProcessor.cs" />
     <Compile Include="Messages\SavedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequiresPostSharp.cs" />
     <Compile Include="Security\IUserService.cs" />
     <Compile Include="Toolbar\IToolbarManager.cs" />
     <Compile Include="Toolbar\ToolbarAction.cs" />

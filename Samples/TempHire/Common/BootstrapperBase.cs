@@ -17,6 +17,7 @@ using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Messages;
+using IdeaBlade.EntityModel;
 using MefContrib.Hosting.Interception;
 using MefContrib.Hosting.Interception.Configuration;
 

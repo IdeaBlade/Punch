@@ -4,10 +4,9 @@
         xmlns:behaviors="clr-namespace:Common.Behaviors;assembly=Common"
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        d:DesignHeight="277"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" d:DesignHeight="277"
         d:DesignWidth="465"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
@@ -24,10 +23,10 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <extToolkit:BusyIndicator BorderBrush="#FF1D5380" IsBusy="{Binding Busy.IsBusy}">
-        <extToolkit:BusyIndicator.BusyContent>
+    <xctk:BusyIndicator BorderBrush="#FF1D5380" IsBusy="{Binding Busy.IsBusy}">
+        <xctk:BusyIndicator.BusyContent>
             <TextBlock Text="Please wait" />
-        </extToolkit:BusyIndicator.BusyContent>
+        </xctk:BusyIndicator.BusyContent>
 
         <Grid x:Name="LayoutRoot" Margin="2">
             <Grid.ColumnDefinitions>
@@ -88,5 +87,5 @@
                 </i:Interaction.Behaviors>
             </PasswordBox>
         </Grid>
-    </extToolkit:BusyIndicator>
+    </xctk:BusyIndicator>
 </Window>

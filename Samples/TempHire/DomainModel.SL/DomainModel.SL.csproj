@@ -87,12 +87,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\sl50\Caliburn.Micro.dll</HintPath>
-    </Reference>
-    <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\sl50\Cocktail.SL.dll</HintPath>
-    </Reference>
     <Reference Include="Cocktail.Utils.SL">
       <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
@@ -128,9 +122,6 @@
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Interactivity">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\sl50\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\DomainModel\Address.cs">

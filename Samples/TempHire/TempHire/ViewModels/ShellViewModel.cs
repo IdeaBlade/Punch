@@ -152,7 +152,8 @@ namespace TempHire.ViewModels
 
         private IEnumerable<IResult> NavigateToWorkspace(IWorkspace workspace)
         {
-            if (ActiveItem.GetType() == workspace.ViewModelType)
+            // Break if the workspace is already active.
+            if (ActiveItem != null && ActiveItem.GetType() == workspace.ViewModelType)
                 yield break;
 
             yield return _navigationService.NavigateToAsync(workspace.ViewModelType).AsOperationResult();

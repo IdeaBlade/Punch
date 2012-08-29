@@ -16,7 +16,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
-using Common.Factories;
 
 namespace TempHire.ViewModels
 {
@@ -83,10 +82,5 @@ namespace TempHire.ViewModels
 
             return this;
         }
-    }
-
-    [Export(typeof(IPartFactory<ItemSelectorViewModel>))]
-    public class ItemSelectorViewModelFactory : PartFactoryBase<ItemSelectorViewModel>
-    {
     }
 }

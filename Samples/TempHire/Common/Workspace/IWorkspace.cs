@@ -10,6 +10,7 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using System;
 using Caliburn.Micro;
 using IdeaBlade.Core.Composition;
 
@@ -22,6 +23,6 @@ namespace Common.Workspace
 
         int Sequence { get; }
 
-        IScreen Content { get; }
+        Type ViewModelType { get; }
     }
 }

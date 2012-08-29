@@ -11,29 +11,26 @@
 // ====================================================================================================================
 
 using System;
-using System.ComponentModel.Composition;
-using Caliburn.Micro;
 
 namespace Common.Workspace
 {
-    public abstract class LazyWorkspace<T> : IWorkspace where T : IScreen
+    public class Workspace : IWorkspace
     {
         private readonly bool _default;
         private readonly int _sequence;
 
-        protected LazyWorkspace(string displayName, bool @default, int sequence)
+        public Workspace(string displayName, bool @default, int sequence, Type viewModelType)
         {
             DisplayName = displayName;
+            ViewModelType = viewModelType;
             _default = @default;
             _sequence = sequence;
         }
 
-        [Import]
-        public Lazy<T> LazyContent { get; set; }
-
         #region IWorkspace Members
 
         public string DisplayName { get; set; }
+        public Type ViewModelType { get; private set; }
 
         public bool IsDefault
         {
@@ -43,11 +40,6 @@ namespace Common.Workspace
         public int Sequence
         {
             get { return _sequence; }
-        }
-
-        public IScreen Content
-        {
-            get { return LazyContent.Value; }
         }
 
         #endregion

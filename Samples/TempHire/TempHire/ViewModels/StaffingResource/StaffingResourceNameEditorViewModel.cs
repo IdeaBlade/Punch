@@ -15,7 +15,6 @@ using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
-using Common.Factories;
 using DomainServices;
 
 namespace TempHire.ViewModels.StaffingResource
@@ -127,10 +126,5 @@ namespace TempHire.ViewModels.StaffingResource
             _okButton = this.DialogHost().GetButton(DialogResult.Ok);
             _okButton.Enabled = IsComplete;
         }
-    }
-
-    [Export(typeof (IPartFactory<StaffingResourceNameEditorViewModel>))]
-    public class StaffingResourceNameEditorViewModelFactory : PartFactoryBase<StaffingResourceNameEditorViewModel>
-    {
     }
 }

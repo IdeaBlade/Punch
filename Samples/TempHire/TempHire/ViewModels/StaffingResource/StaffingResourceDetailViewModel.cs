@@ -19,7 +19,6 @@ using Caliburn.Micro;
 using Cocktail;
 using Common;
 using Common.Errors;
-using Common.Factories;
 using DomainServices;
 using IdeaBlade.Core;
 
@@ -151,7 +150,7 @@ namespace TempHire.ViewModels.StaffingResource
             _sections.ForEach(s => s.Start(staffingResource.Id, EditMode));
             if (Items.Count == 0)
             {
-                Items.AddRange(_sections.OrderBy(s => s.Index).Cast<IScreen>());
+                Items.AddRange(_sections.OrderBy(s => s.Index));
                 NotifyOfPropertyChange(() => Items);
                 ActivateItem(Items.First());
             }
@@ -162,7 +161,7 @@ namespace TempHire.ViewModels.StaffingResource
             Busy.AddWatch();
 
             _unitOfWork = _unitOfWorkManager.Create();
-            _unitOfWork.StaffingResourceFactory.CreateAsync()
+            _unitOfWork.StaffingResourceFactory.CreateAsync(null, null)
                 .ContinueWith(op =>
                                   {
                                       if (op.CompletedSuccessfully)
@@ -205,11 +204,12 @@ namespace TempHire.ViewModels.StaffingResource
         {
             if (UnitOfWork.HasChanges())
             {
-                _dialogManager.ShowMessageAsync("There are unsaved changes. Would you like to save your changes?",
-                                                DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel)
+                Compatibility.ShowMessageAsync(
+                    _dialogManager, "There are unsaved changes. Would you like to save your changes?",
+                    DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel, null)
                     .ContinueWith(op =>
                                       {
-                                          if (op.DialogResult == DialogResult.Yes)
+                                          if (op.Result == DialogResult.Yes)
                                           {
                                               Busy.AddWatch();
                                               UnitOfWork.CommitAsync(saveResult => callback(true),
@@ -217,13 +217,13 @@ namespace TempHire.ViewModels.StaffingResource
                                                   .ContinueWith(commit => Busy.RemoveWatch());
                                           }
 
-                                          if (op.DialogResult == DialogResult.No)
+                                          if (op.Result == DialogResult.No)
                                           {
                                               UnitOfWork.Rollback();
                                               callback(true);
                                           }
 
-                                          if (op.DialogResult == DialogResult.Cancel)
+                                          if (op.Result == DialogResult.Cancel)
                                               callback(false);
                                       });
             }
@@ -234,17 +234,13 @@ namespace TempHire.ViewModels.StaffingResource
         public IEnumerable<IResult> RefreshData()
         {
             if (UnitOfWork.HasChanges())
-                yield return _dialogManager.ShowMessageAsync(
+                yield return Compatibility.ShowMessageAsync(
+                    _dialogManager,
                     "There are unsaved changes. Refreshing the data will discard all unsaved changes.",
-                    DialogButtons.OkCancel);
+                    DialogButtons.OkCancel, null);
 
             UnitOfWork.Clear();
             Start(StaffingResource.Id, EditMode);
         }
-    }
-
-    [Export(typeof(IPartFactory<StaffingResourceDetailViewModel>))]
-    public class StaffingResourceDetailViewModelFactory : PartFactoryBase<StaffingResourceDetailViewModel>
-    {
     }
 }

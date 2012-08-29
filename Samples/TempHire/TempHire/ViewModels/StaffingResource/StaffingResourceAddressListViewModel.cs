@@ -19,7 +19,6 @@ using Caliburn.Micro;
 using Cocktail;
 using Common;
 using Common.Errors;
-using Common.Factories;
 using DomainModel;
 using DomainServices;
 using IdeaBlade.Core;
@@ -29,7 +28,7 @@ namespace TempHire.ViewModels.StaffingResource
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceAddressListViewModel : StaffingResourceScreenBase
     {
-        private readonly IPartFactory<ItemSelectorViewModel> _addressTypeSelectorFactory;
+        private readonly ExportFactory<ItemSelectorViewModel> _addressTypeSelectorFactory;
         private readonly IDialogManager _dialogManager;
         private readonly IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
         private BindableCollection<StaffingResourceAddressItemViewModel> _addresses;
@@ -37,7 +36,7 @@ namespace TempHire.ViewModels.StaffingResource
 
         [ImportingConstructor]
         public StaffingResourceAddressListViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
-                                                    IPartFactory<ItemSelectorViewModel> addressTypeSelectorFactory,
+                                                    ExportFactory<ItemSelectorViewModel> addressTypeSelectorFactory,
                                                     IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(unitOfWorkManager, errorHandler)
         {
@@ -138,12 +137,12 @@ namespace TempHire.ViewModels.StaffingResource
         public IEnumerable<IResult> Add()
         {
             var addressTypes = UnitOfWork.AddressTypes;
-            var addressTypeSelector = _addressTypeSelectorFactory.CreatePart()
+            var addressTypeSelector = _addressTypeSelectorFactory.CreateExport().Value
                 .Start("Select type:", "DisplayName",
-                       () => addressTypes.AllAsync(q => q.OrderBy(t => t.DisplayName),
-                                                   onFail: ErrorHandler.HandleError));
+                       () =>
+                       addressTypes.AllAsync(q => q.OrderBy(t => t.DisplayName), null, null, ErrorHandler.HandleError));
 
-            yield return _dialogManager.ShowDialogAsync(addressTypeSelector, DialogButtons.OkCancel);
+            yield return Compatibility.ShowDialogAsync(_dialogManager, addressTypeSelector, DialogButtons.OkCancel, null);
 
             StaffingResource.AddAddress((AddressType) addressTypeSelector.SelectedItem);
 

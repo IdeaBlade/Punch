@@ -19,7 +19,6 @@ using Caliburn.Micro;
 using Cocktail;
 using Common;
 using Common.Errors;
-using Common.Factories;
 using DomainModel;
 using DomainServices;
 using IdeaBlade.EntityModel;
@@ -30,11 +29,11 @@ namespace TempHire.ViewModels.StaffingResource
     public class StaffingResourceRatesViewModel : StaffingResourceScreenBase, IStaffingResourceDetailSection
     {
         private readonly IDialogManager _dialogManager;
-        private readonly IPartFactory<ItemSelectorViewModel> _rateTypeSelectorFactory;
+        private readonly ExportFactory<ItemSelectorViewModel> _rateTypeSelectorFactory;
 
         [ImportingConstructor]
         public StaffingResourceRatesViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
-                                              IPartFactory<ItemSelectorViewModel> rateTypeSelectorFactory,
+                                              ExportFactory<ItemSelectorViewModel> rateTypeSelectorFactory,
                                               IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(unitOfWorkManager, errorHandler)
         {
@@ -110,12 +109,12 @@ namespace TempHire.ViewModels.StaffingResource
         public IEnumerable<IResult> Add()
         {
             var rateTypes = UnitOfWork.RateTypes;
-            var rateTypeSelector = _rateTypeSelectorFactory.CreatePart()
+            var rateTypeSelector = _rateTypeSelectorFactory.CreateExport().Value
                 .Start("Select type:", "DisplayName",
-                       () => rateTypes.AllAsync(q => q.OrderBy(t => t.DisplayName),
-                                                onFail: ErrorHandler.HandleError));
+                       () =>
+                       rateTypes.AllAsync(q => q.OrderBy(t => t.DisplayName), null, null, ErrorHandler.HandleError));
 
-            yield return _dialogManager.ShowDialogAsync(rateTypeSelector, DialogButtons.OkCancel);
+            yield return Compatibility.ShowDialogAsync(_dialogManager, rateTypeSelector, DialogButtons.OkCancel, null);
 
             StaffingResource.AddRate((RateType) rateTypeSelector.SelectedItem);
         }

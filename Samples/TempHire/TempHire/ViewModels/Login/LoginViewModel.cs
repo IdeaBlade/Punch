@@ -17,7 +17,6 @@ using System.Text;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;
-using Common.Factories;
 using DomainServices.Repositories;
 using IdeaBlade.EntityModel;
 using Security;
@@ -123,7 +122,7 @@ namespace TempHire.ViewModels.Login
                 Password = null;
 
                 OperationResult operation;
-                yield return operation = _authenticationService.LoginAsync(credential).ContinueOnError();
+                yield return operation = _authenticationService.LoginAsync(credential, null, null).ContinueOnError();
 
                 if (_authenticationService.IsLoggedIn)
                 {
@@ -169,10 +168,5 @@ namespace TempHire.ViewModels.Login
             if (close)
                 OnComplete();
         }
-    }
-
-    [Export(typeof (IPartFactory<LoginViewModel>))]
-    public class LoginViewModelFactory : PartFactoryBase<LoginViewModel>
-    {
     }
 }

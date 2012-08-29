@@ -17,6 +17,7 @@ using Cocktail;
 using DomainModel;
 using DomainServices.Repositories;
 using IdeaBlade.EntityModel;
+using IdeaBlade.EntityModel.Compat;
 
 namespace TempHire
 {
@@ -55,10 +56,10 @@ namespace TempHire
         private IEnumerable<INotifyCompleted> InitializeCore()
         {
             // Cache all lookup tables
-            yield return EntityManager.PhoneNumberTypes.ExecuteAsync();
-            yield return EntityManager.AddressTypes.ExecuteAsync();
-            yield return EntityManager.RateTypes.ExecuteAsync();
-            yield return EntityManager.States.ExecuteAsync();
+            yield return EntityManager.PhoneNumberTypes.ExecuteAsync(null);
+            yield return EntityManager.AddressTypes.ExecuteAsync(null);
+            yield return EntityManager.RateTypes.ExecuteAsync(null);
+            yield return EntityManager.States.ExecuteAsync(null);
         }
     }
 }

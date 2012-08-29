@@ -16,7 +16,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
-using Common.Factories;
 using Common.Toolbar;
 using Common.Workspace;
 using IdeaBlade.Core;
@@ -26,24 +25,23 @@ using TempHire.ViewModels.Login;
 namespace TempHire.ViewModels
 {
     [Export]
-    public class ShellViewModel : Conductor<IScreen>, IDiscoverableViewModel, IHarnessAware,
+    public class ShellViewModel : Conductor<object>, IDiscoverableViewModel, IHarnessAware,
                                   IHandle<LoggedInMessage>, IHandle<LoggedOutMessage>
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IPartFactory<LoginViewModel> _loginFactory;
-        private readonly NavigationService<IWorkspace> _navigationService;
+        private readonly ExportFactory<LoginViewModel> _loginFactory;
+        private readonly INavigationService _navigationService;
         private readonly IEnumerable<IWorkspace> _workspaces;
 
         [ImportingConstructor]
         public ShellViewModel([ImportMany] IEnumerable<IWorkspace> workspaces, IToolbarManager toolbar,
-                              IAuthenticationService authenticationService, IPartFactory<LoginViewModel> loginFactory)
+                              IAuthenticationService authenticationService, ExportFactory<LoginViewModel> loginFactory)
         {
             Toolbar = toolbar;
             _workspaces = workspaces;
             _authenticationService = authenticationService;
             _loginFactory = loginFactory;
-            _navigationService = new NavigationService<IWorkspace>(this)
-                .Configure(config => config.WithActivator(navigation => ActivateItem(navigation.Target.Content)));
+            _navigationService = new NavigationService(this);
         }
 
         public IToolbarManager Toolbar { get; private set; }
@@ -71,6 +69,20 @@ namespace TempHire.ViewModels
 
         #endregion
 
+        #region IHarnessAware Members
+
+        /// <summary>
+        ///   Provides the setup logic to be run before the ViewModel is activated inside of the development harness.
+        /// </summary>
+        public void Setup()
+        {
+#if HARNESS
+            Start();
+#endif
+        }
+
+        #endregion
+
         public ShellViewModel Start()
         {
             var mainGroup = new ToolbarGroup(0);
@@ -93,7 +105,7 @@ namespace TempHire.ViewModels
 
         public IEnumerable<IResult> Login()
         {
-            yield return _loginFactory.CreatePart();
+            yield return _loginFactory.CreateExport().Value;
 
 #if !SILVERLIGHT
             if (!_authenticationService.IsLoggedIn)
@@ -110,7 +122,7 @@ namespace TempHire.ViewModels
 
             yield return NavigateToWorkspace(home).ToSequentialResult();
 
-            yield return _authenticationService.LogoutAsync();
+            yield return _authenticationService.LogoutAsync(null);
 
             yield return Login().ToSequentialResult();
         }
@@ -140,20 +152,10 @@ namespace TempHire.ViewModels
 
         private IEnumerable<IResult> NavigateToWorkspace(IWorkspace workspace)
         {
-            if (ActiveItem == workspace.Content)
+            if (ActiveItem.GetType() == workspace.ViewModelType)
                 yield break;
 
-            yield return _navigationService.NavigateToAsync(() => workspace);
-        }
-
-        /// <summary>
-        /// Provides the setup logic to be run before the ViewModel is activated inside of the development harness.
-        /// </summary>
-        public void Setup()
-        {
-#if HARNESS
-            Start();
-#endif
+            yield return _navigationService.NavigateToAsync(workspace.ViewModelType).AsOperationResult();
         }
     }
 }

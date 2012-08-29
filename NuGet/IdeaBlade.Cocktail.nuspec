@@ -15,7 +15,7 @@
     <copyright>Copyright 2012</copyright>
     <tags>MVVM Silverlight WPF Silverlight SL5 SL Windows8Store Convention Screen Asynchronous Model-View-ViewModel Presentation UI ViewModel Caliburn.Micro DevForce ORM Entity Data LOB Enterprise</tags>
     <dependencies>
-      <dependency id="IdeaBlade.DevForce.2012.Core" version="[7.0.0-beta1]" />
+      <dependency id="IdeaBlade.DevForce.Core" version="[7.0.0-beta1]" />
     </dependencies>
   </metadata>
   <files>

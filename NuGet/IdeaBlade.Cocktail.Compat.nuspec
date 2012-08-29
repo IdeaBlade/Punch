@@ -15,7 +15,7 @@
     <copyright>Copyright 2012</copyright>
     <tags>Silverlight WPF Silverlight SL5 SL Coroutine Asynchronous Caliburn.Micro DevForce</tags>
     <dependencies>
-      <dependency id="IdeaBlade.DevForce.2012.Compat" version="[7.0.0-beta1]" />
+      <dependency id="IdeaBlade.DevForce.Compat" version="[7.0.0-beta1]" />
     </dependencies>
   </metadata>
   <files>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>IdeaBlade.DevForce.Server.Web</id>
+    <title>DevForce 2012 Server Web</title>
+    <version>7.0.0-beta1</version>
+    <authors>IdeaBlade</authors>
+    <licenseUrl>http://www.ideablade.com/</licenseUrl>
+    <projectUrl>http://www.ideablade.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <summary>DevForce 2012 EntityServer Web Assemblies</summary>
+    <description>DevForce 2012 EntityServer Web Assemblies</description>
+    <releaseNotes>???</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>??</tags>
+    <dependencies>
+      <dependency id="IdeaBlade.DevForce.Core" version="[7.0.0-beta1]" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Desktop Assemblies\IdeaBlade.EntityModel.Web.dll" target="lib\net45" />
+    <file src="Desktop Assemblies\IdeaBlade.EntityModel.Web.xml" target="lib\net45" />
+  </files>
+</package>

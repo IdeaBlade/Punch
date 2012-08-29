@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>IdeaBlade.DevForce.2012.Compat</id>
+    <id>IdeaBlade.DevForce.Compat</id>
     <title>DevForce 2012 Compatibility Pack</title>
     <version>7.0.0-beta1</version>
     <authors>IdeaBlade</authors>
@@ -14,7 +14,7 @@
     <copyright>Copyright 2012</copyright>
     <tags>??</tags>
     <dependencies>
-      <dependency id="IdeaBlade.DevForce.2012.Core" version="[7.0.0-beta1]" />
+      <dependency id="IdeaBlade.DevForce.Core" version="[7.0.0-beta1]" />
     </dependencies>
   </metadata>
   <files>

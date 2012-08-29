@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>IdeaBlade.DevForce.2012.Core</id>
+    <id>IdeaBlade.DevForce.Core</id>
     <title>DevForce 2012 Core</title>
     <version>7.0.0-beta1</version>
     <authors>IdeaBlade</authors>

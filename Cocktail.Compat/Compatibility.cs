@@ -25,7 +25,7 @@ namespace Cocktail
     /// <summary>
     ///   Extension methods to provide support for the legacy asynchronous API.
     /// </summary>
-    public static class CompatibilityExtensions
+    public static class Compatibility
     {
         // Legacy support for IAuthenticationService
 

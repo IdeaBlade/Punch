@@ -15,6 +15,7 @@
     <tags>??</tags>
     <dependencies>
       <dependency id="IdeaBlade.DevForce.Core" version="[7.0.0-beta1]" />
+      <dependency id="IdeaBlade.DevForce.Server.Core" version="[7.0.0-beta1]" />
     </dependencies>
   </metadata>
   <files>

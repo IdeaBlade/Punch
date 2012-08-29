@@ -49,6 +49,33 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Timeout(10000)]
+        public async Task ShouldCancelQueryTask()
+        {
+            var em = new NorthwindIBEntities(compositionContextName:CompositionContext.Fake.Name);
+            em.Querying += (sender, args) => args.Cancel = true;
+
+            await em.Customers.ExecuteAsync()
+                .ContinueWith(task => Assert.IsTrue(task.IsCanceled, "Should be cancelled"));
+        }
+
+        [TestMethod]
+        [Timeout(10000)]
+        public async Task ShouldCancelSaveTask()
+        {
+            var em = new NorthwindIBEntities(compositionContextName: CompositionContext.Fake.Name);
+
+            var customer = new Customer {CustomerID = Guid.NewGuid(), CompanyName = "Foo"};
+            em.AddEntity(customer);
+            em.Saving += (sender, args) => 
+                args.Cancel = true;
+
+            Assert.IsTrue(em.HasChanges());
+            await em.SaveChangesAsync()
+                .ContinueWith(task => Assert.IsTrue(task.IsCanceled, "Should be cancelled"));
+        }
+
+        [TestMethod]
+        [Timeout(10000)]
         public async Task ShouldSynchronizeDeletesBetweenEntityManagers()
         {
             CompositionContext compositionContextWithSyncInterceptor = CompositionContext.Fake

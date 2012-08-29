@@ -34,32 +34,24 @@ namespace DomainServices.Factories
             _phoneNumberTypes = phoneNumberTypes;
         }
 
-        public override Task<StaffingResource> CreateAsync(CancellationToken cancellationToken)
+        public override async Task<StaffingResource> CreateAsync(CancellationToken cancellationToken)
         {
-            var coroutine = Coroutine.Start(CreateAsyncCore);
-            var registration = cancellationToken.Register(coroutine.Cancel);
-            return coroutine.AsOperationResult<StaffingResource>()
-                .ContinueWith(op => registration.Dispose());
-        }
+            cancellationToken.ThrowIfCancellationRequested();
 
-        protected IEnumerable<INotifyCompleted> CreateAsyncCore()
-        {
             var staffingResource = StaffingResource.Create();
             EntityManager.AddEntity(staffingResource);
 
-            OperationResult<IEnumerable<AddressType>> op1;
-            yield return op1 = _addressTypes.FindAsync(t => t.Default);
-            var addressType = op1.Result.First();
+            var addressType = (await _addressTypes.FindAsync(t => t.Default, cancellationToken)).First();
             var address = staffingResource.AddAddress(addressType);
             staffingResource.PrimaryAddress = address;
 
-            OperationResult<IEnumerable<PhoneNumberType>> op2;
-            yield return op2 = _phoneNumberTypes.FindAsync(t => t.Default);
-            var phoneType = op2.Result.First();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var phoneType = (await _phoneNumberTypes.FindAsync(t => t.Default, cancellationToken)).First();
             var phoneNumber = staffingResource.AddPhoneNumber(phoneType);
             staffingResource.PrimaryPhoneNumber = phoneNumber;
 
-            yield return Coroutine.Return(staffingResource);
+            return staffingResource;
         }
     }
 }

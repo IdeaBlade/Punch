@@ -11,14 +11,12 @@
 // ====================================================================================================================
 
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
 using Common;
-using Common.Errors;
 using DomainModel;
 using DomainServices;
 using IdeaBlade.Core;
@@ -35,10 +33,10 @@ namespace TempHire.ViewModels.StaffingResource
         private BindableCollection<State> _states;
 
         [ImportingConstructor]
-        public StaffingResourceAddressListViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
-                                                    ExportFactory<ItemSelectorViewModel> addressTypeSelectorFactory,
-                                                    IErrorHandler errorHandler, IDialogManager dialogManager)
-            : base(unitOfWorkManager, errorHandler)
+        public StaffingResourceAddressListViewModel(
+            IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
+            ExportFactory<ItemSelectorViewModel> addressTypeSelectorFactory, IDialogManager dialogManager)
+            : base(unitOfWorkManager)
         {
             _unitOfWorkManager = unitOfWorkManager;
             _addressTypeSelectorFactory = addressTypeSelectorFactory;
@@ -89,12 +87,11 @@ namespace TempHire.ViewModels.StaffingResource
 
         public override StaffingResourceScreenBase Start(Guid staffingResourceId, EditMode editMode)
         {
-            StartCore(staffingResourceId, editMode).ToSequentialResult().Execute();
-
+            LoadDataAsync(staffingResourceId, editMode);
             return this;
         }
 
-        private IEnumerable<IResult> StartCore(Guid staffingResourceId, EditMode editMode)
+        private async void LoadDataAsync(Guid staffingResourceId, EditMode editMode)
         {
             // Load the list of states once first, before we continue with starting the ViewModel
             // This is to ensure that the ComboBox binding doesn't goof up if the ItemSource is empty
@@ -102,9 +99,8 @@ namespace TempHire.ViewModels.StaffingResource
             if (States == null)
             {
                 var unitOfWork = _unitOfWorkManager.Get(Guid.Empty);
-                yield return unitOfWork.States.AllAsync(
-                    q => q.OrderBy(s => s.Name), null, result => States = new BindableCollection<State>(result),
-                    ErrorHandler.HandleError);
+                var states = await unitOfWork.States.AllAsync(q => q.OrderBy(s => s.Name));
+                States = new BindableCollection<State>(states);
             }
 
             base.Start(staffingResourceId, editMode);
@@ -134,15 +130,13 @@ namespace TempHire.ViewModels.StaffingResource
             Addresses.ForEach(i => i.NotifyOfPropertyChange(() => i.CanDelete));
         }
 
-        public IEnumerable<IResult> Add()
+        public async void Add()
         {
             var addressTypes = UnitOfWork.AddressTypes;
             var addressTypeSelector = _addressTypeSelectorFactory.CreateExport().Value
-                .Start("Select type:", "DisplayName",
-                       () =>
-                       addressTypes.AllAsync(q => q.OrderBy(t => t.DisplayName), null, null, ErrorHandler.HandleError));
+                .Start("Select type:", "DisplayName", () => addressTypes.AllAsync(q => q.OrderBy(t => t.DisplayName)));
 
-            yield return Compatibility.ShowDialogAsync(_dialogManager, addressTypeSelector, DialogButtons.OkCancel, null);
+            await _dialogManager.ShowDialogAsync(addressTypeSelector, DialogButtons.OkCancel);
 
             StaffingResource.AddAddress((AddressType) addressTypeSelector.SelectedItem);
 

@@ -20,7 +20,7 @@ namespace Cocktail
     /// <summary>
     /// A collection of <see cref="Task"/> and <see cref="Task{T}"/> extension methods.
     /// </summary>
-    public static class TaskFns
+    public static class TaskExtensions
     {
         /// <summary>
         ///   Returns an implementation of <see cref="OperationResult" /> that wraps <see cref="Task" /> .

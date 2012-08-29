@@ -95,7 +95,7 @@
     <Compile Include="StringResources.Designer.cs">
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TaskFns.cs" />
+    <Compile Include="TaskExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

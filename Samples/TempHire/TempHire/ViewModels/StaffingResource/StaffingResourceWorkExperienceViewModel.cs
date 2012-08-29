@@ -17,7 +17,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Common;
-using Common.Errors;
 using Common.Messages;
 using DomainModel;
 using DomainServices;
@@ -25,15 +24,14 @@ using IdeaBlade.EntityModel;
 
 namespace TempHire.ViewModels.StaffingResource
 {
-    [Export(typeof(IStaffingResourceDetailSection)), PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export(typeof (IStaffingResourceDetailSection)), PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceWorkExperienceViewModel : StaffingResourceScreenBase, IStaffingResourceDetailSection,
                                                            IHandle<SavedMessage>
     {
         [ImportingConstructor]
         public StaffingResourceWorkExperienceViewModel(
-            IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
-            IErrorHandler errorHandler)
-            : base(unitOfWorkManager, errorHandler)
+            IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager)
+            : base(unitOfWorkManager)
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DisplayName = "Work Experience";

@@ -16,7 +16,6 @@ using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;
-using Common.Errors;
 using Common.Messages;
 using DomainModel.Projections;
 using DomainServices;
@@ -27,7 +26,6 @@ namespace TempHire.ViewModels.StaffingResource
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceSearchViewModel : Screen, IDiscoverableViewModel, IHarnessAware, IHandle<SavedMessage>
     {
-        private readonly IErrorHandler _errorHandler;
         private readonly IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
         private StaffingResourceListItem _currentStaffingResource;
         private BindableCollection<StaffingResourceListItem> _items;
@@ -36,11 +34,9 @@ namespace TempHire.ViewModels.StaffingResource
         private IResourceMgtUnitOfWork _unitOfWork;
 
         [ImportingConstructor]
-        public StaffingResourceSearchViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
-                                               IErrorHandler errorHandler)
+        public StaffingResourceSearchViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager)
         {
             _unitOfWorkManager = unitOfWorkManager;
-            _errorHandler = errorHandler;
             Busy = new BusyWatcher();
         }
 
@@ -147,25 +143,15 @@ namespace TempHire.ViewModels.StaffingResource
             Search(Guid.Empty);
         }
 
-        public void Search(Guid selection)
+        public async void Search(Guid selection)
         {
-            Busy.AddWatch();
+            using (Busy.GetTicket())
+            {
+                var items = await UnitOfWork.Search.Simple(SearchText);
 
-            UnitOfWork.Search.Simple(SearchText)
-                .ContinueWith(op =>
-                                  {
-                                      if (op.CompletedSuccessfully)
-                                      {
-                                          Items = new BindableCollection<StaffingResourceListItem>(op.Result);
-                                          CurrentStaffingResource = Items.FirstOrDefault(r => r.Id == selection) ??
-                                                                    Items.FirstOrDefault();
-                                      }
-
-                                      if (op.HasError)
-                                          _errorHandler.HandleError(op.Error);
-
-                                      Busy.RemoveWatch();
-                                  });
+                Items = new BindableCollection<StaffingResourceListItem>(items);
+                CurrentStaffingResource = Items.FirstOrDefault(r => r.Id == selection) ?? Items.FirstOrDefault();
+            }
         }
 
         public void Clear()

@@ -1,20 +1,19 @@
-//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
 using System;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using Cocktail;
-using Common.Errors;
 using DomainServices;
 
 namespace TempHire.ViewModels.StaffingResource
@@ -22,21 +21,19 @@ namespace TempHire.ViewModels.StaffingResource
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceNameEditorViewModel : Screen
     {
-        private readonly IErrorHandler _errorHandler;
         private readonly IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
         private string _firstName;
         private string _lastName;
         private string _middleName;
         private DialogButton _okButton;
-        private IResourceMgtUnitOfWork _unitOfWork;
         private Guid _staffingResourceId;
+        private IResourceMgtUnitOfWork _unitOfWork;
 
         [ImportingConstructor]
-        public StaffingResourceNameEditorViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
-                                                   IErrorHandler errorHandler)
+        public StaffingResourceNameEditorViewModel(
+            IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager)
         {
             _unitOfWorkManager = unitOfWorkManager;
-            _errorHandler = errorHandler;
         }
 
         private IResourceMgtUnitOfWork UnitOfWork
@@ -84,16 +81,18 @@ namespace TempHire.ViewModels.StaffingResource
 
         public StaffingResourceNameEditorViewModel Start(Guid staffingResourceId)
         {
-            _staffingResourceId = staffingResourceId;
-            UnitOfWork.StaffingResources.WithIdAsync(_staffingResourceId,
-                                                     result =>
-                                                         {
-                                                             FirstName = result.FirstName;
-                                                             MiddleName = result.MiddleName;
-                                                             LastName = result.LastName;
-                                                         },
-                                                     _errorHandler.HandleError);
+            LoadDataAsync(staffingResourceId);
             return this;
+        }
+
+        private async void LoadDataAsync(Guid staffingResourceId)
+        {
+            _staffingResourceId = staffingResourceId;
+            var staffingResource = await UnitOfWork.StaffingResources.WithIdAsync(_staffingResourceId);
+
+            FirstName = staffingResource.FirstName;
+            MiddleName = staffingResource.MiddleName;
+            LastName = staffingResource.LastName;
         }
 
         public override void CanClose(Action<bool> callback)

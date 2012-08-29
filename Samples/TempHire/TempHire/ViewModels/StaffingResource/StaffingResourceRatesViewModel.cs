@@ -15,17 +15,15 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
-using Caliburn.Micro;
 using Cocktail;
 using Common;
-using Common.Errors;
 using DomainModel;
 using DomainServices;
 using IdeaBlade.EntityModel;
 
 namespace TempHire.ViewModels.StaffingResource
 {
-    [Export(typeof(IStaffingResourceDetailSection)), PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export(typeof (IStaffingResourceDetailSection)), PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceRatesViewModel : StaffingResourceScreenBase, IStaffingResourceDetailSection
     {
         private readonly IDialogManager _dialogManager;
@@ -34,8 +32,8 @@ namespace TempHire.ViewModels.StaffingResource
         [ImportingConstructor]
         public StaffingResourceRatesViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                               ExportFactory<ItemSelectorViewModel> rateTypeSelectorFactory,
-                                              IErrorHandler errorHandler, IDialogManager dialogManager)
-            : base(unitOfWorkManager, errorHandler)
+                                              IDialogManager dialogManager)
+            : base(unitOfWorkManager)
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DisplayName = "Rates";
@@ -106,15 +104,13 @@ namespace TempHire.ViewModels.StaffingResource
 
         #endregion
 
-        public IEnumerable<IResult> Add()
+        public async void Add()
         {
             var rateTypes = UnitOfWork.RateTypes;
             var rateTypeSelector = _rateTypeSelectorFactory.CreateExport().Value
-                .Start("Select type:", "DisplayName",
-                       () =>
-                       rateTypes.AllAsync(q => q.OrderBy(t => t.DisplayName), null, null, ErrorHandler.HandleError));
+                .Start("Select type:", "DisplayName", () => rateTypes.AllAsync(q => q.OrderBy(t => t.DisplayName)));
 
-            yield return Compatibility.ShowDialogAsync(_dialogManager, rateTypeSelector, DialogButtons.OkCancel, null);
+            await _dialogManager.ShowDialogAsync(rateTypeSelector, DialogButtons.OkCancel);
 
             StaffingResource.AddRate((RateType) rateTypeSelector.SelectedItem);
         }

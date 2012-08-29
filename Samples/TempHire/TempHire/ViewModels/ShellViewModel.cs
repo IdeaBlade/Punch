@@ -10,10 +10,10 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Toolbar;
@@ -85,12 +85,17 @@ namespace TempHire.ViewModels
 
         public ShellViewModel Start()
         {
+            StartAsync();
+            return this;
+        }
+
+        private async void StartAsync()
+        {
             var mainGroup = new ToolbarGroup(0);
             _workspaces.OrderBy(w => w.Sequence).ForEach(
-                w => mainGroup.Add(new ToolbarAction(this, w.DisplayName, () => NavigateToWorkspace(w))));
+                w => mainGroup.Add(new ToolbarAction(this, w.DisplayName, async () => await NavigateToWorkspace(w))));
 
-            var logoutGroup = new ToolbarGroup(100)
-                                  {new ToolbarAction(this, "Logout", (Func<IEnumerable<IResult>>) Logout)};
+            var logoutGroup = new ToolbarGroup(100) { new ToolbarAction(this, "Logout", Logout) };
 
             Toolbar.Clear();
             Toolbar.AddGroup(mainGroup);
@@ -98,14 +103,12 @@ namespace TempHire.ViewModels
 
             var home = GetHomeScreen();
             if (home != null)
-                NavigateToWorkspace(home).ToSequentialResult().Execute();
-
-            return this;
+                await NavigateToWorkspace(home);
         }
 
-        public IEnumerable<IResult> Login()
+        public async Task Login()
         {
-            yield return _loginFactory.CreateExport().Value;
+            await _loginFactory.CreateExport().Value.ShowAsync();
 
 #if !SILVERLIGHT
             if (!_authenticationService.IsLoggedIn)
@@ -113,18 +116,18 @@ namespace TempHire.ViewModels
 #endif
         }
 
-        public IEnumerable<IResult> Logout()
+        public async void Logout()
         {
             var home = GetHomeScreen();
             LogFns.DebugWriteLineIf(home == null, "No workspace marked as default.");
             if (home == null)
-                yield break;
+                return;
 
-            yield return NavigateToWorkspace(home).ToSequentialResult();
+            await NavigateToWorkspace(home);
 
-            yield return _authenticationService.LogoutAsync(null);
+            await _authenticationService.LogoutAsync();
 
-            yield return Login().ToSequentialResult();
+            await Login();
         }
 
         protected override void OnInitialize()
@@ -137,12 +140,12 @@ namespace TempHire.ViewModels
 #endif
         }
 
-        protected override void OnViewLoaded(object view)
+        protected async override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
 
             // Launch login dialog
-            Login().ToSequentialResult().Execute();
+            await Login();
         }
 
         private IWorkspace GetHomeScreen()
@@ -150,13 +153,13 @@ namespace TempHire.ViewModels
             return _workspaces.FirstOrDefault(w => w.IsDefault);
         }
 
-        private IEnumerable<IResult> NavigateToWorkspace(IWorkspace workspace)
+        private async Task NavigateToWorkspace(IWorkspace workspace)
         {
             // Break if the workspace is already active.
             if (ActiveItem != null && ActiveItem.GetType() == workspace.ViewModelType)
-                yield break;
+                return;
 
-            yield return _navigator.NavigateToAsync(workspace.ViewModelType).AsOperationResult();
+            await _navigator.NavigateToAsync(workspace.ViewModelType);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace TempHire.Authentication
             if (PrincipalChanged != null)
                 PrincipalChanged(this, EventArgs.Empty);
 
-            return OperationResult.FromResult(true);
+            return TaskFns.FromResult(true);
         }
 
         public Task LogoutAsync()
@@ -57,7 +57,7 @@ namespace TempHire.Authentication
             if (PrincipalChanged != null)
                 PrincipalChanged(this, EventArgs.Empty);
 
-            return OperationResult.FromResult(true);
+            return TaskFns.FromResult(true);
         }
 
         public IPrincipal Principal

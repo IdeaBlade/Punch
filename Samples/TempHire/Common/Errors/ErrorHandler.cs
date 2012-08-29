@@ -12,6 +12,7 @@
 
 using System;
 using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using Cocktail;
 using IdeaBlade.EntityModel;
 
@@ -36,6 +37,13 @@ namespace Common.Errors
             if (ex is EntityManagerSaveException &&
                 ((EntityManagerSaveException) ex).FailureType == PersistenceFailure.Concurrency)
                 customMessage = "Another user has previously saved the current record.";
+
+            if (ex is TaskCanceledException)
+            {
+                // Log and ignore
+                LogFns.DebugWriteLine(ex.Message);
+                return;
+            }
 
             _dialogManager.ShowMessageAsync(customMessage ?? ex.Message, DialogButtons.Ok);
         }

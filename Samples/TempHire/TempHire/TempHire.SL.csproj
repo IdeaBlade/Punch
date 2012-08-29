@@ -97,9 +97,6 @@
     <Reference Include="Caliburn.Micro">
       <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\sl50\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail.Compat.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Compat.1.0.0-beta1\lib\sl50\Cocktail.Compat.SL.dll</HintPath>
-    </Reference>
     <Reference Include="Cocktail.SL">
       <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\sl50\Cocktail.SL.dll</HintPath>
     </Reference>
@@ -108,9 +105,6 @@
     </Reference>
     <Reference Include="IdeaBlade.Core.SL">
       <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Compat.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Compat.7.0.0-beta1\lib\sl50\IdeaBlade.EntityModel.Compat.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.SL">
       <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\sl50\IdeaBlade.EntityModel.SL.dll</HintPath>
@@ -193,6 +187,9 @@
     <Compile Include="ViewModels\StaffingResource\StaffingResourceWorkExperienceViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\DomainModel\TempHireEntities.ibmmx">
+      <Link>TempHireEntities.ibmmx</Link>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>

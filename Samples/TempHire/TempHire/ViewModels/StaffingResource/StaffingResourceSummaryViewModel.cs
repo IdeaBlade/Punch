@@ -10,11 +10,8 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using Caliburn.Micro;
 using Cocktail;
-using Common.Errors;
 using DomainServices;
 
 namespace TempHire.ViewModels.StaffingResource
@@ -28,18 +25,17 @@ namespace TempHire.ViewModels.StaffingResource
         [ImportingConstructor]
         public StaffingResourceSummaryViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                                 ExportFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
-                                                IErrorHandler errorHandler, IDialogManager dialogManager)
-            : base(unitOfWorkManager, errorHandler)
+                                                IDialogManager dialogManager)
+            : base(unitOfWorkManager)
         {
             _nameEditorFactory = nameEditorFactory;
             _dialogManager = dialogManager;
         }
 
-        public IEnumerable<IResult> EditName()
+        public async void EditName()
         {
             var nameEditor = _nameEditorFactory.CreateExport().Value;
-            yield return Compatibility.ShowDialogAsync(_dialogManager, nameEditor.Start(StaffingResource.Id),
-                                                       DialogButtons.OkCancel, null);
+            await _dialogManager.ShowDialogAsync(nameEditor.Start(StaffingResource.Id), DialogButtons.OkCancel);
 
             StaffingResource.FirstName = nameEditor.FirstName;
             StaffingResource.MiddleName = nameEditor.MiddleName;

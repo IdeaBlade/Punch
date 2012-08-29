@@ -11,6 +11,7 @@
 // ====================================================================================================================
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cocktail
@@ -53,6 +54,27 @@ namespace Cocktail
             }
 
             return tcs.Task;
+        }
+
+        /// <summary>
+        /// Creates a task that will complete when all of the supplied tasks have completed
+        /// </summary>
+        /// <param name="tasks">The tasks to wait on for completion.</param>
+        public static Task WhenAll(params Task[] tasks)
+        {
+#if SILVERLIGHT
+            return Task.Factory.ContinueWhenAll(
+                tasks,
+                completedTasks =>
+                    {
+                        if (completedTasks.Any(x => x.IsFaulted))
+                            throw new AggregateException(completedTasks.Where(x => x.IsFaulted).Select(x => x.Exception));
+                        if (completedTasks.Any(x => x.IsCanceled))
+                            throw new TaskCanceledException();
+                    });
+#else
+            return Task.WhenAll(tasks);
+#endif
         }
     }
 }

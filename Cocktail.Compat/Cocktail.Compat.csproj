@@ -77,7 +77,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TaskFns.cs" />
+    <Compile Include="TaskExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cocktail\Cocktail.csproj">

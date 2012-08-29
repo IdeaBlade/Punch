@@ -3127,6 +3127,16 @@ public class MockEntityServerQueryInterceptor : EntityServerQueryInterceptor {
             <param name="throwOnError"></param>
             <returns></returns>
         </member>
+        <member name="M:IdeaBlade.Core.Reflection.ReflectionExtensions.GetType(System.Reflection.Assembly,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="assembly"></param>
+            <param name="typeName">Full type name</param>
+            <param name="throwOnError"></param>
+            <param name="ignoreCase">Not currently used</param>
+            <returns></returns>
+        </member>
         <member name="T:IdeaBlade.Core.Reflection.ReflectionFns">
             <summary>
             A collection of static utility methods to assist in using the .NET reflection API.

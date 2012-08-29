@@ -488,22 +488,6 @@
             Shim of CodeFirst System.ComponentModel.DataAnnotations.ComplexTypeAttribute.
             </summary>
         </member>
-        <member name="T:System.ComponentModel.DataAnnotations.DatabaseGeneratedAttribute">
-            <summary>
-            Shim of CodeFirst System.ComponentModel.DataAnnotations.DatabaseGeneratedAttribute.
-            </summary>
-        </member>
-        <member name="M:System.ComponentModel.DataAnnotations.DatabaseGeneratedAttribute.#ctor(System.ComponentModel.DataAnnotations.DatabaseGeneratedOption)">
-            <summary>
-            
-            </summary>
-            <param name="option"></param>
-        </member>
-        <member name="P:System.ComponentModel.DataAnnotations.DatabaseGeneratedAttribute.DatabaseGeneratedOption">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="T:System.ComponentModel.DataAnnotations.ForeignKeyAttribute">
             <summary>
             Shim of CodeFirst System.ComponentModel.DataAnnotations.ForeignKeyAttribute.
@@ -600,26 +584,6 @@
             </summary>
         </member>
         <member name="P:System.ComponentModel.DataAnnotations.TableAttribute.Schema">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:System.ComponentModel.DataAnnotations.DatabaseGeneratedOption">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:System.ComponentModel.DataAnnotations.DatabaseGeneratedOption.None">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:System.ComponentModel.DataAnnotations.DatabaseGeneratedOption.Identity">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:System.ComponentModel.DataAnnotations.DatabaseGeneratedOption.Computed">
             <summary>
             
             </summary>
@@ -3290,7 +3254,7 @@ public class DynamicDataSourceKeyResolver : IDataSourceKeyResolver {
              <para>
              Use <see cref="!:Login(ILoginCredential)">Login</see> and <see cref="!:Logout"/> to validate a user's credentials and
              provide session-level security to the <see cref="T:IdeaBlade.EntityModel.Server.EntityServer"/>.  
-             You'll need to implement <see cref="T:IdeaBlade.EntityModel.IEntityLoginManager"/> to perform
+             You'll need to implement <see cref="!:IEntityLoginManager"/> to perform
              this validation.  If login security is required, be sure to call <b>Login</b> prior to performing any other
              EntityManager actions.
              </para>
@@ -5285,6 +5249,56 @@ public class Order {
             Not used internally.
             </summary>
         </member>
+        <member name="T:IdeaBlade.EntityModel.IConcurrencyStrategy">
+            <summary>
+            Interface to be implemented when a concurrency strategy of <b>ServerCallback</b>
+            is specified for a property of an entity.
+            </summary>
+            <remarks>
+            The <b>IConcurrencyStrategy</b> is needed on the server only.  
+            </remarks>
+            <seealso cref="!:DefaultConcurrencyValueSetter"/>
+            <example>
+		   <code lang="C#">
+     
+  // Sample IConcurrencyStrategy implementation.
+  public class ProduceConcurrencyValueSetter : IConcurrencyStrategy {
+
+    // Return true if this strategy can be used with the data source.
+    public bool IsApplicable(IdeaBlade.Core.IDataSourceKey dataSourceKey) {
+      return dataSourceKey.Name.StartsWith("Produce");
+    }
+
+    // Called during SaveChanges processing when a new value is needed prior to insert/update.
+    // In this example, we just increment a RowVersion property by 1. 
+    public void SetNewConcurrencyValue(ConcurrencyProperty property, Entity entity) {
+      ItemOfProduce item = entity as ItemOfProduce;
+      int nextval = 0;
+      
+      if (item.RowState == DataRowState.Modified) {
+        nextval = item.RowVersion.HasValue ? item.RowVersion.Value + 1 : 1;
+      }
+
+      item.RowVersion = nextval;
+    }
+  }         
+		   </code>
+	   </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.IConcurrencyStrategy.IsApplicable(IdeaBlade.EntityModel.IDataSourceKey)">
+            <summary>
+            Returns whether this <b>IConcurrencyStrategy</b> can be used with the specified data source key.
+            </summary>
+            <param name="dataSourceKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.IConcurrencyStrategy.SetNewConcurrencyValue(IdeaBlade.EntityModel.DataEntityProperty,System.Object)">
+            <summary>
+            Called when the new value for a concurrency field is needed.
+            </summary>
+            <param name="property">Property information</param>
+            <param name="entity">Entity on which to set the new value </param>
+        </member>
         <member name="T:IdeaBlade.EntityModel.IEntityServerContract">
             <summary>
             Client-side service contract for the EntityServer proxy. For internal use only.
@@ -6766,56 +6780,6 @@ public class Order {
             <param name="pMessage">A message added to describe the exception</param>
             <param name="pInnerException">Wrapped Exception</param>
         </member>
-        <member name="T:IdeaBlade.EntityModel.IConcurrencyStrategy">
-            <summary>
-            Interface to be implemented when a concurrency strategy of <b>ServerCallback</b>
-            is specified for a property of an entity.
-            </summary>
-            <remarks>
-            The <b>IConcurrencyStrategy</b> is needed on the server only.  
-            </remarks>
-            <seealso cref="!:DefaultConcurrencyValueSetter"/>
-            <example>
-		   <code lang="C#">
-     
-  // Sample IConcurrencyStrategy implementation.
-  public class ProduceConcurrencyValueSetter : IConcurrencyStrategy {
-
-    // Return true if this strategy can be used with the data source.
-    public bool IsApplicable(IdeaBlade.Core.IDataSourceKey dataSourceKey) {
-      return dataSourceKey.Name.StartsWith("Produce");
-    }
-
-    // Called during SaveChanges processing when a new value is needed prior to insert/update.
-    // In this example, we just increment a RowVersion property by 1. 
-    public void SetNewConcurrencyValue(ConcurrencyProperty property, Entity entity) {
-      ItemOfProduce item = entity as ItemOfProduce;
-      int nextval = 0;
-      
-      if (item.RowState == DataRowState.Modified) {
-        nextval = item.RowVersion.HasValue ? item.RowVersion.Value + 1 : 1;
-      }
-
-      item.RowVersion = nextval;
-    }
-  }         
-		   </code>
-	   </example>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IConcurrencyStrategy.IsApplicable(IdeaBlade.EntityModel.IDataSourceKey)">
-            <summary>
-            Returns whether this <b>IConcurrencyStrategy</b> can be used with the specified data source key.
-            </summary>
-            <param name="dataSourceKey"></param>
-            <returns></returns>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IConcurrencyStrategy.SetNewConcurrencyValue(IdeaBlade.EntityModel.DataEntityProperty,System.Object)">
-            <summary>
-            Called when the new value for a concurrency field is needed.
-            </summary>
-            <param name="property">Property information</param>
-            <param name="entity">Entity on which to set the new value </param>
-        </member>
         <member name="T:IdeaBlade.EntityModel.IDataSourceKey">
             <summary>
             Interface implemented by all data source key types.
@@ -7237,7 +7201,7 @@ public class Order {
             is logging in as a guest or anonymous user, or when using the <b>AspAuthenticatingLoginManager</b> that the current authenticated user
             should be loaded.  When using ASP.NET the current authenticated user is one authenticated via Windows authentication, or is the user already logged
             in because of either a persistent cookie or a login performed elsewhere in the ASP.NET application.  If you are not using the
-            AspAuthenticationLoginManager then your implementation of <see cref="T:IdeaBlade.EntityModel.IEntityLoginManager"/> should handle a null credential
+            AspAuthenticationLoginManager then your implementation of <see cref="!:IEntityLoginManager"/> should handle a null credential
             if your client application can provide one.  
             </para>
             <para>
@@ -10336,7 +10300,7 @@ using IdeaBlade.EntityModel;
             The default <see cref="T:System.Security.Principal.IPrincipal"/> implementation within DevForce.
             </summary>
             <remarks>
-            Represents the current user in DevForce application.  When a custom <see cref="T:IdeaBlade.EntityModel.IEntityLoginManager"/> is used you may return either a <b>UserBase</b>
+            Represents the current user in DevForce application.  When a custom <see cref="!:IEntityLoginManager"/> is used you may return either a <b>UserBase</b>
             or any standard or custom <see cref="T:System.Security.Principal.IPrincipal"/> implementation.
             <para>
             When a <b>UserBase</b> is returned by a Login call, it will be available in the client application through the 
@@ -10371,7 +10335,7 @@ using IdeaBlade.EntityModel;
             <param name="roles"></param>
             <remarks>
             A <b>UserBase</b> is returned by DevForce when you are using the <see cref="T:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager">AspAuthenticatingLoginManager</see>,
-            and if you allow anonymous logins but have not implemented a custom <see cref="T:IdeaBlade.EntityModel.IEntityLoginManager"/>. 
+            and if you allow anonymous logins but have not implemented a custom <see cref="!:IEntityLoginManager"/>. 
             <para>
             If you have extended the <b>UserBase</b> base type, you must include a public constructor with the signature below.
             </para>
@@ -13168,30 +13132,6 @@ using IdeaBlade.EntityModel;
         <member name="M:IdeaBlade.EntityModel.IdFixupHelper.BuildRealIdMap(IdeaBlade.EntityModel.UniqueIdCollection,IdeaBlade.EntityModel.DataSourceResolver)">
             <summary>
             Server only!! Build map of temp to real IDs.  Idmap is changed in place.  
-            </summary>
-        </member>
-        <member name="T:IdeaBlade.EntityModel.IEntityQueryExecutor">
-            <summary>
-            Interface that must be implemented by any class wishing to be provide server execution of an IEntityQuery.
-            </summary>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityQueryExecutor.Initialize(IdeaBlade.Core.Composition.CompositionContext)">
-            <summary>
-            Called to provide the <see cref="T:IdeaBlade.Core.Composition.CompositionContext"/> to the executor.
-            </summary>
-            <param name="compositionContext"></param>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityQueryExecutor.Execute(IdeaBlade.EntityModel.IEntityQuery,IdeaBlade.EntityModel.IDataSourceKey)">
-            <summary>
-            Execute the query.
-            </summary>
-            <param name="query"></param>
-            <param name="dsKey"></param>
-            <returns></returns>
-        </member>
-        <member name="P:IdeaBlade.EntityModel.IEntityQueryExecutor.IsApplicable">
-            <summary>
-            Determines whether this implementation is applicable to the query passed in.
             </summary>
         </member>
         <member name="T:IdeaBlade.EntityModel.ParameterizedEsql">
@@ -17369,190 +17309,12 @@ EntityMetadata.DefaultValueFunction = (t) =&gt; {
             Gets or sets the domain associated with the credentials.
             </summary>
         </member>
-        <member name="T:IdeaBlade.EntityModel.IEntityLoginManager">
-            <summary>
-            Interface for server-side user authentication.
-            <seealso cref="!:IdeaBlade.EntityModel.EntityManager.Login(ILoginCredential)"/>
-            <seealso cref="T:IdeaBlade.EntityModel.LoginCredential"/>
-            </summary>
-            <remarks>Implement the <b>IEntityLoginManager</b> interface in order to use 
-            <see cref="!:IdeaBlade.EntityModel.EntityManager.Login(ILoginCredential)">EntityManager.Login</see> to
-            validate user credentials and supply user identity and role information.
-            <para>
-            If <b>IEntityLoginManager</b> has been implemented, a <see cref="!:EntityManager.Login(ILoginCredential)">Login</see>
-            call must be made to validate the user before any other EntityManager actions may be performed.
-            You may use the <see cref="P:IdeaBlade.Core.IdeaBladeConfig.LoginManagerRequired">LoginManagerRequired</see> setting in the IdeaBlade Configuration
-            file to ensure that an exception is raised if an <b>IEntityLoginManager</b> is not found.
-            </para>
-            <para>
-            If your application supports guest access, by setting the <see cref="P:IdeaBlade.Core.IdeaBladeConfig.AllowAnonymousLogin">AllowAnonymousLogin</see> flag
-            to true, then null credentials may be passed from the client.  In this case, be sure that your custom implementation supports this.
-            </para>
-            </remarks>
-            <example><code lang="C#">
-// Sample showing Login, and implementation of IEntityLoginManager
-
-// Create an EntityManager - this will also do an implicit Connect().
-EntityManager mgr = new DomainModelEntityManager();
-
-// create a LoginCredential
-string userName = "demo";
-string password = "demo";
-string domain = "Earth";
-LoginCredential credential = new LoginCredential(userName, password, domain);
-
-MessageBox.Show("Current user: " + System.Threading.Thread.CurrentPrincipal.Identity.Name);
-
-try {
-   // "Login" to EntityServer 
-   mgr.Login(credential);
-
-   // note change in current principal
-   MessageBox.Show("Current user: " + System.Threading.Thread.CurrentPrincipal.Identity.Name);
-} catch (LoginException le) {
-   MessageBox.Show(le.Message);
-} catch (EntityServerException ese) {
-   MessageBox.Show("Login failed: " + ese.Message);
-} catch (Exception ex) {
-   MessageBox.Show(ex.Message);
-}
-
-//..... Retrieve data, etc.
-
-// Now logout
-mgr.Logout();
-
-
-// Sample LoginManager class
-public class LoginManager : IEntityLoginManager {
-   public LoginManager() {}
-
-   public IPrincipal Login(ILoginCredential pCredential, EntityManager pManager) {
-      // note that Login runs on server-side -- this will return false
-      bool isClient = pManager.IsClient;
-
-      // You would normally validate the credentials, eg against a database, AD, etc, and then
-      // build and return an object implementing IPrincipal.
-      if (pCredential.Domain != "Earth") {
-        throw new LoginException(LoginExceptionType.InvalidUserName, pCredential.Domain, pCredential.UserName);
-      }
-
-      // We'll just return a GenericPrincipal
-      GenericIdentity identity  = new GenericIdentity(pCredential.UserName);
-      return new GenericPrincipal(identity, new String[] { "user" });
-   }
-   
-   public void Logout(IPrincipal principal, EntityManager entityManager) {
-      // Use if logout processing is needed - eg, release resources, audit user logout
-   }
-}
-</code></example><example><code lang="VB">
-' Sample showing Login, and implementation of IEntityLoginManager
-
-' Create an EntityManager - this will also do an implicit Connect().
-Dim mgr As EntityManager = new DomainModelEntityManager();
-
-' create a LoginCredential
-Dim userName As String = "demo"
-Dim password As String = "demo"
-Dim domain As String = "Earth"
-Dim credential As New LoginCredential(userName, password, domain)
-
-MessageBox.Show(("Current user: " + System.Threading.Thread.CurrentPrincipal.Identity.Name))
-
-Try
-   ' "Login" to EntityServer 
-   mgr.Login(credential)
-   
-   ' note change in current principal
-   MessageBox.Show(("Current user: " + System.Threading.Thread.CurrentPrincipal.Identity.Name))
-Catch le As LoginException
-   MessageBox.Show(le.Message)
-Catch pse As EntityServerException
-   MessageBox.Show("Login failed: " + pse.Message)
-Catch ex As Exception 
-   MessageBox.Show(ex.Message)
-End Try
-
-'..... Retrieve data, etc.
-
-' Now logout
-mgr.Logout()
-
-Public Class LoginManager : Implements IEntityLoginManager 
-
-    Public Sub New()
-    End Sub 
-
-    Public Function Login(ByVal pCredential As ILoginCredential, ByVal pManager As EntityManager) As IPrincipal _
-    Implements IEntityLoginManager.Login
-        ' note that Login runs on server-side -- this will return false
-        Dim isClient As Boolean = pManager.IsClient
-
-        ' You would normally validate the credentials, eg against a database, and then
-        ' build and return an object implementing IPrincipal.
-        If pCredential.Domain &lt;&gt; "Earth" Then
-            Throw New LoginException(LoginExceptionType.InvalidUserName, pCredential.Domain, pCredential.UserName)
-        End If
-
-        ' We'll just return a GenericPrincipal
-        Dim identity As New GenericIdentity(pCredential.UserName)
-        Return New GenericPrincipal(identity, New [String]() {"user"})
-    End Function 
-    
-    Public Sub Logout(ByVal principal As IPrincipal, ByVal entityManager As EntityManager) 
-      '' Use if logout processing is needed - eg, release resources, audit user logout
-    End Sub
-
-End Class 
-	</code></example>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityLoginManager.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.EntityManager)">
-            <summary>
-            Validate user credentials and return an IPrinicipal.
-            </summary>
-            <param name="credential">Credentials to validate</param>
-            <param name="entityManager">A server-side EntityManager</param>
-            <remarks>
-            <para>The <see cref="T:System.Security.Principal.IPrincipal"/> returned here is wrapped into a <see cref="T:IdeaBlade.EntityModel.SessionBundle"/>
-            before returning to the client-side code which called <see cref="!:IdeaBlade.EntityModel.EntityManager.Login(ILoginCredential)">EntityManager.Login</see>.
-            The <see cref="T:IdeaBlade.EntityModel.EntityManager"/> uses the SessionBundle in all further communications with the Entity Server.
-            The <b>IPrincipal</b> returned is also used to set the <see cref="!:System.Threading.Thread.CurrentPrincipal"/>
-            on the client and on the Entity Server during query and save processing.
-            </para>
-            <para>
-            <see cref="!:System.Security.Principal.GenericPrincipal"/> and <see cref="!:System.Security.Principal.WindowsPrincipal"/>
-            are two standard implementations of the <b>IPrincipal</b> interface, but you may also use custom implementations.
-            The <b>UserBase</b> type is also provided for Silverlight and ASP.NET applications.
-            </para>
-            <para>The <paramref name="entityManager"/> passed to this method is a special server-side EntityManager which is
-            "connected" to the EntityServer and which does not require login credentials.  You can use this EntityManager to query
-            your domain model; if necessary, you can create a domain-specific EntityManager from this EntityManager using
-            the <see cref="M:IdeaBlade.EntityModel.EntityManager.#ctor(IdeaBlade.EntityModel.EntityManager)"/>
-            constructor overload of your domain manager.
-            </para>
-            <para>Implementors should throw a <see cref="T:IdeaBlade.EntityModel.LoginException"/> if the credentials passed fail validation.</para>
-            </remarks>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IEntityLoginManager.Logout(System.Security.Principal.IPrincipal,IdeaBlade.EntityModel.EntityManager)">
-            <summary>
-            Called when a user logs out.
-            </summary>
-            <param name="principal">IPrincipal identifying the user</param>
-            <param name="entityManager">A server-side EntityManager</param>
-            <remarks>
-            Use <b>Logout</b> to perform any processing you require when a user logs out, such
-            as resource cleanup or auditing.
-            Note that you must implement this interface method even if you have no special logout
-            processing.
-            </remarks>
-        </member>
         <member name="T:IdeaBlade.EntityModel.LoginCredential">
             <summary>
             A credential for password-based authentication schemes.
             <seealso cref="T:IdeaBlade.EntityModel.EntityManager"/> 
             <seealso cref="T:IdeaBlade.EntityModel.Server.EntityServer"/>
-            <seealso cref="T:IdeaBlade.EntityModel.IEntityLoginManager"/>
+            <seealso cref="!:IEntityLoginManager"/>
             </summary>
             <remarks>An <b>ILoginCredential</b> is passed to the <see cref="!:EntityManager.Login(ILoginCredential)">Login</see>
             method to validate a user.
@@ -17562,7 +17324,7 @@ End Class
             </para>
             <para>
             Create a custom <see cref="T:IdeaBlade.EntityModel.ILoginCredential"/> if you have specific requirements
-            for the credentials provided to your <see cref="T:IdeaBlade.EntityModel.IEntityLoginManager"/>.
+            for the credentials provided to your <see cref="!:IEntityLoginManager"/>.
             </para>
             <para>
             Note that the credential is passed in clear text to the Entity Server.  You should
@@ -17578,7 +17340,7 @@ End Class
             <param name="password">Password</param>
             <param name="domain">Domain</param>
             <remarks>
-            Your implementation of <see cref="T:IdeaBlade.EntityModel.IEntityLoginManager"/> will determine the
+            Your implementation of <see cref="!:IEntityLoginManager"/> will determine the
             credential data to be supplied, and whether any field is optional.
             </remarks>
         </member>
@@ -17644,7 +17406,7 @@ End Class
         </member>
         <member name="T:IdeaBlade.EntityModel.LoginException">
             <summary>
-            Exception that should be thrown within the implementation of an <see cref="T:IdeaBlade.EntityModel.IEntityLoginManager"/> whenever a login attempt fails.
+            Exception that should be thrown within the implementation of an <see cref="!:IEntityLoginManager"/> whenever a login attempt fails.
             </summary>
             <remarks>
             The <see cref="P:IdeaBlade.EntityModel.LoginException.ExceptionType"/> indicates the cause of the login failure.

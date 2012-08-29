@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -43,32 +43,33 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\..\..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="IdeaBlade.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Core.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core">
-      <HintPath>..\..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Core.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel">
-      <HintPath>..\..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel.Edm, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IdeaBlade.DevForce.Server.Core.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.Edm.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Edm">
-      <Private>True</Private>
-      <HintPath>..\..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Edm.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel.Server, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IdeaBlade.DevForce.Server.Core.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Server">
-      <Private>True</Private>
-      <HintPath>..\..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Server.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IdeaBlade.DevForce.Server.Web.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.Web.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Web">
-      <Private>True</Private>
-      <HintPath>..\..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Web.dll</HintPath>
+    <Reference Include="IdeaBlade.Linq, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq">
-      <HintPath>..\..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.Validation">
-      <HintPath>..\..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Validation.dll</HintPath>
+    <Reference Include="IdeaBlade.Validation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -105,7 +106,6 @@
       <EntityManagerName>.TodoEntities</EntityManagerName>
       <CodeGenNamespace>__default__</CodeGenNamespace>
     </EntityDeploy>
-    <Content Include="packages.config" />
     <Content Include="TodoModel.edmx.diagram">
       <DependentUpon>TodoModel.edmx</DependentUpon>
     </Content>
@@ -114,6 +114,7 @@
       <TemplateName>DomainModelTemplate</TemplateName>
       <LastGenOutput>TodoModel.edmx.ReadMe</LastGenOutput>
     </Content>
+    <Content Include="packages.config" />
     <None Include="TodoModel.edmx.ReadMe">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

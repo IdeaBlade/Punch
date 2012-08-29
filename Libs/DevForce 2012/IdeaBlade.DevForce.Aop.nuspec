@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>IdeaBlade.DevForce.Aop</id>
+    <title>DevForce 2012 Code-First</title>
+    <version>7.0.0-beta1</version>
+    <authors>IdeaBlade</authors>
+    <licenseUrl>http://www.ideablade.com/</licenseUrl>
+    <projectUrl>http://www.ideablade.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <summary>Enables DevForce Code-First domain models.</summary>
+    <description>Enables DevForce Code-First domain models.</description>
+    <releaseNotes>???</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>??</tags>
+    <dependencies>
+      <dependency id="IdeaBlade.DevForce.Core" version="[7.0.0-beta1]" />
+      <dependency id="PostSharp" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Desktop Assemblies\IdeaBlade.Aop.dll" target="lib\net45" />
+    <file src="Desktop Assemblies\IdeaBlade.Aop.xml" target="lib\net45" />
+
+    <file src="Silverlight Assemblies\IdeaBlade.Aop.SL.dll" target="lib\sl50" />
+    <file src="Silverlight Assemblies\IdeaBlade.Aop.SL.xml" target="lib\sl50" />
+  </files>
+</package>

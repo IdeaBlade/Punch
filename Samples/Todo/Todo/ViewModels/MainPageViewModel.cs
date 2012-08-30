@@ -92,6 +92,9 @@ namespace Todo.ViewModels
 
         public async void Add()
         {
+            if (string.IsNullOrWhiteSpace(Description))
+                return;
+
             var description = Description;
             Description = "";
 

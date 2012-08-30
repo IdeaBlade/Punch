@@ -19,10 +19,10 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Desktop Assemblies\IdeaBlade.Aop.dll" target="lib\net45" />
-    <file src="Desktop Assemblies\IdeaBlade.Aop.xml" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.Aop.dll" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.Aop.xml" target="lib\net45" />
 
-    <file src="Silverlight Assemblies\IdeaBlade.Aop.SL.dll" target="lib\sl50" />
-    <file src="Silverlight Assemblies\IdeaBlade.Aop.SL.xml" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.Aop.SL.dll" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.Aop.SL.xml" target="lib\sl50" />
   </files>
 </package>

@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>IdeaBlade.DevForce.Core</id>
+    <title>DevForce 2012 Core</title>
+    <version>7.0.0-beta1</version>
+    <authors>IdeaBlade</authors>
+    <licenseUrl>http://www.ideablade.com/</licenseUrl>
+    <projectUrl>http://www.ideablade.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <summary>DevForce 2012 Core Assemblies.</summary>
+    <description>DevForce 2012 Core Assemblies.</description>
+    <releaseNotes>???</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>??</tags>
+    <dependencies>
+      <group targetFramework="sl50">
+         <dependency id="Microsoft.CompilerServices.AsyncTargetingPack" />
+      </group>
+
+      <group targetFramework="winrt45">
+         <dependency id="Microsoft.Composition" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+	<frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="net45" />
+	<frameworkAssembly assemblyName="System.ComponentModel.Composition" targetFramework="net45" />
+	<frameworkAssembly assemblyName="System.Configuration" targetFramework="net45" />
+	<frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="net45" />
+        
+	<frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="sl50" />
+	<frameworkAssembly assemblyName="System.ComponentModel.Composition" targetFramework="sl50" />
+	<frameworkAssembly assemblyName="System.ComponentModel.Composition.Initialization" targetFramework="sl50" />
+	<frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="sl50" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="..\Desktop Assemblies\IdeaBlade.Core.dll" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.Core.xml" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.EntityModel.dll" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.EntityModel.xml" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.Linq.dll" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.Linq.xml" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.Validation.dll" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.Validation.xml" target="lib\net45" />
+
+    <file src="..\Silverlight Assemblies\IdeaBlade.Core.SL.dll" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.Core.SL.xml" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.EntityModel.SL.dll" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.EntityModel.SL.xml" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.Linq.SL.dll" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.Linq.SL.xml" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.Validation.SL.dll" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.Validation.SL.xml" target="lib\sl50" />
+
+    <file src="..\WinRTAssemblies\IdeaBlade.Core.WinRT.dll" target="lib\winrt45" />
+    <file src="..\WinRTAssemblies\IdeaBlade.Core.WinRT.xml" target="lib\winrt45" />
+    <file src="..\WinRTAssemblies\IdeaBlade.EntityModel.WinRT.dll" target="lib\winrt45" />
+    <file src="..\WinRTAssemblies\IdeaBlade.EntityModel.WinRT.xml" target="lib\winrt45" />
+    <file src="..\WinRTAssemblies\IdeaBlade.Linq.WinRT.dll" target="lib\winrt45" />
+    <file src="..\WinRTAssemblies\IdeaBlade.Linq.WinRT.xml" target="lib\winrt45" />
+    <file src="..\WinRTAssemblies\IdeaBlade.Validation.WinRT.dll" target="lib\winrt45" />
+    <file src="..\WinRTAssemblies\IdeaBlade.Validation.WinRT.xml" target="lib\winrt45" />
+
+    <file src="install.ps1" target="tools" />
+    <file src="..\IdeaBlade.VisualStudio.OM.Designer.11.0.vsix" target="tools" />
+    <file src="..\IdeaBlade.VisualStudio.TemplateInstaller.vsix" target="tools" />
+  </files>
+</package>

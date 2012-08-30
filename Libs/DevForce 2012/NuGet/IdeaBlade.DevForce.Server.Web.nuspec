@@ -19,7 +19,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Desktop Assemblies\IdeaBlade.EntityModel.Web.dll" target="lib\net45" />
-    <file src="Desktop Assemblies\IdeaBlade.EntityModel.Web.xml" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.EntityModel.Web.dll" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.EntityModel.Web.xml" target="lib\net45" />
   </files>
 </package>

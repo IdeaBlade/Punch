@@ -340,12 +340,12 @@ namespace Cocktail
             return source.CommitAsync().OnComplete(onSuccess, onFail);
         }
 
-        // Legacy support for INavigationService
+        // Legacy support for INavigator
 
         /// <summary>
         /// Provides compatibility for legacy code.
         /// </summary>
-        public static OperationResult<bool> NavigateToAsync<T>(
+        public static OperationResult NavigateToAsync<T>(
             this INavigator source, Action<T> prepare, Func<T, IResult> prepareTargetAsync)
         {
             if (prepare != null && prepareTargetAsync != null)

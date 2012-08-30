@@ -34,12 +34,12 @@ namespace Cocktail
         /// <summary>
         ///   Navigates to the most recent item in forward navigation history, if a NavigationService manages its own navigation history.
         /// </summary>
-        Task<bool> GoForward();
+        Task GoForward();
 
         /// <summary>
         ///   Navigates to the most recent item in back navigation history, if a NavigationService manages its own navigation history.
         /// </summary>
-        Task<bool> GoBack();
+        Task GoBack();
     }
 
     public partial class Navigator
@@ -76,7 +76,7 @@ namespace Cocktail
             _frameAdapter.NavigationStopped += OnNavigationStopped;
         }
 
-        #region INavigationService Members
+        #region INavigator Members
 
         /// <summary>
         ///   Gets a value that indicates whether there is at least one entry in forward navigation history.
@@ -97,33 +97,25 @@ namespace Cocktail
         /// <summary>
         ///   Navigates to the most recent item in forward navigation history, if a NavigationService manages its own navigation history.
         /// </summary>
-        public Task<bool> GoForward()
+        public Task GoForward()
         {
             if (_frameAdapter == null)
                 throw new NotSupportedException(StringResources.NavigationServiceDoesNotManageHistory);
 
             return GoForwardWithFrame()
-                .ContinueWith(task =>
-                                  {
-                                      _tcs = null;
-                                      return task.Result;
-                                  });
+                .ContinueWith(task => _tcs = null);
         }
 
         /// <summary>
         ///   Navigates to the most recent item in back navigation history, if a NavigationService manages its own navigation history.
         /// </summary>
-        public Task<bool> GoBack()
+        public Task GoBack()
         {
             if (_frameAdapter == null)
                 throw new NotSupportedException(StringResources.NavigationServiceDoesNotManageHistory);
 
             return GoBackWithFrame()
-                .ContinueWith(task =>
-                                  {
-                                      _tcs = null;
-                                      return task.Result;
-                                  });
+                .ContinueWith(task => _tcs = null);
         }
 
         /// <summary>
@@ -151,7 +143,7 @@ namespace Cocktail
         /// <param name="viewModelType"> The target ViewModel type. </param>
         /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        public Task<bool> NavigateToAsync(Type viewModelType, Func<object, Task> prepare)
+        public Task NavigateToAsync(Type viewModelType, Func<object, Task> prepare)
         {
             if (viewModelType == null) throw new ArgumentNullException("viewModelType");
             if (prepare == null) throw new ArgumentNullException("prepare");
@@ -160,11 +152,7 @@ namespace Cocktail
                 return NavigateWithConductor(viewModelType, prepare);
 
             return NavigateWithFrame(viewModelType, prepare)
-                .ContinueWith(task =>
-                                  {
-                                      _tcs = null;
-                                      return task.Result;
-                                  });
+                .ContinueWith(task => _tcs = null);
         }
 
         #endregion
@@ -180,21 +168,19 @@ namespace Cocktail
             return true;
         }
 
-        private async Task<bool> NavigateWithConductor(Type viewModelType, Func<object, Task> prepare)
+        private async Task NavigateWithConductor(Type viewModelType, Func<object, Task> prepare)
         {
             if (!await GuardAsync(viewModelType))
-                return false;
+                throw new TaskCanceledException();
 
             var target = Composition.GetInstance(viewModelType, null);
             await prepare(target);
 
             if (!ReferenceEquals(ActiveViewModel, target))
                 _conductor.ActivateItem(target);
-
-            return true;
         }
 
-        private async Task<bool> NavigateWithFrame(Type viewModelType, Func<object, Task> prepare)
+        private async Task NavigateWithFrame(Type viewModelType, Func<object, Task> prepare)
         {
             if (_tcs != null)
                 throw new InvalidOperationException(StringResources.PendingNavigation);
@@ -203,40 +189,42 @@ namespace Cocktail
             if (viewType == null)
                 throw new Exception(string.Format(StringResources.ViewNotFound, viewModelType.FullName));
 
-            await GuardAsync(viewModelType);
+            if (!await GuardAsync(viewModelType))
+                throw new TaskCanceledException();
 
             _tcs = new TaskCompletionSource<bool>();
-            _frameAdapter.Navigate(viewType, prepare);
+            if (!_frameAdapter.Navigate(viewType, prepare))
+                _tcs.TrySetCanceled();
 
-            return await _tcs.Task;
+            await _tcs.Task;
         }
 
-        private async Task<bool> GoForwardWithFrame()
+        private async Task GoForwardWithFrame()
         {
             if (_tcs != null)
                 throw new InvalidOperationException(StringResources.PendingNavigation);
 
             if (!await CanCloseAsync())
-                return false;
+                throw new TaskCanceledException();
 
             _tcs = new TaskCompletionSource<bool>();
             _frameAdapter.GoForward();
 
-            return await _tcs.Task;
+            await _tcs.Task;
         }
 
-        private async Task<bool> GoBackWithFrame()
+        private async Task GoBackWithFrame()
         {
             if (_tcs != null)
                 throw new InvalidOperationException(StringResources.PendingNavigation);
 
             if (!await CanCloseAsync())
-                return false;
+                throw new TaskCanceledException();
 
             _tcs = new TaskCompletionSource<bool>();
             _frameAdapter.GoBack();
 
-            return await _tcs.Task;
+            await _tcs.Task;
         }
 
         private void OnNavigated(object sender, NavigationEventArgs args)

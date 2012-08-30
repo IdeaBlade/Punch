@@ -29,7 +29,7 @@ namespace Cocktail
             _conductor = conductor;
         }
 
-        #region INavigationService Members
+        #region INavigator Members
 
         /// <summary>
         ///   Returns the current active ViewModel or null.
@@ -46,24 +46,22 @@ namespace Cocktail
         /// <param name="viewModelType"> The target ViewModel type. </param>
         /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        public async Task<bool> NavigateToAsync(Type viewModelType, Func<object, Task> prepare)
+        public async Task NavigateToAsync(Type viewModelType, Func<object, Task> prepare)
         {
             if (viewModelType == null) throw new ArgumentNullException("viewModelType");
             if (prepare == null) throw new ArgumentNullException("prepare");
 
             if (!await CanCloseAsync())
-                return false;
+                throw new TaskCanceledException();
 
             if (!await AuthorizeTargetAsync(viewModelType))
-                return false;
+                throw new TaskCanceledException();
 
             var target = Composition.GetInstance(viewModelType, null);
             await prepare(target);
 
             if (!ReferenceEquals(ActiveViewModel, target))
                 _conductor.ActivateItem(target);
-
-            return true;
         }
 
         #endregion

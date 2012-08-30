@@ -236,11 +236,15 @@ namespace TempHire.ViewModels.StaffingResource
 
             try
             {
+                if (ActiveStaffingResource != null && ActiveStaffingResource.Id == SearchPane.CurrentStaffingResource.Id)
+                    return;
+
                 await _navigator.NavigateToAsync<StaffingResourceDetailViewModel>(
                     target => target.Start(SearchPane.CurrentStaffingResource.Id, EditMode.View));
             }
             catch (TaskCanceledException)
             {
+                SearchPane.CurrentStaffingResource = null;
                 UpdateCommands();
             }
         }

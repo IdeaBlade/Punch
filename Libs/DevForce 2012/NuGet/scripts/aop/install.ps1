@@ -3,4 +3,10 @@
 #$project = Get-Project   # for testing
 
 # Add DevForce Code-First build tasks
-Add-Import "$toolsPath\IdeaBlade.DevForce.Common.targets" $project.ProjectName
+$solutionDir = Get-SolutionDir
+$projectRelative = $project.FullName.SubString($solutionDir.Length)
+for ($i = 0; $i -lt ($projectRelative.Split("\").Count - 2); $i++) { $prefix = $prefix + "..\" }
+
+$toolsRelative = $toolsPath.Replace($solutionDir + "\", $prefix)
+
+Add-Import "$toolsRelative\IdeaBlade.DevForce.Common.targets" $project.ProjectName

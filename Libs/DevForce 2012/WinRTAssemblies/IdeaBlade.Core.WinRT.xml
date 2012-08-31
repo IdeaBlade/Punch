@@ -3351,6 +3351,16 @@ public class MockEntityServerQueryInterceptor : EntityServerQueryInterceptor {
             A collection of static methods used to provide additional <see cref="T:System.Type"/> related services.
             </summary>
         </member>
+        <member name="F:IdeaBlade.Core.Reflection.TypeFns.SignedIntegerTypes">
+            <summary>
+            Returns an array of signed integer types.
+            </summary>
+        </member>
+        <member name="F:IdeaBlade.Core.Reflection.TypeFns.UnsignedIntegerTypes">
+            <summary>
+            Returns an array of unsigned integer types.
+            </summary>
+        </member>
         <member name="F:IdeaBlade.Core.Reflection.TypeFns.DecimalTypes">
             <summary>
             Returns an array of decimal types.

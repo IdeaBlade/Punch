@@ -588,7 +588,11 @@
             
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:IdeaBlade.EntityModel.CompletedEventArgs" -->
+        <member name="T:IdeaBlade.EntityModel.CompletedEventArgs">
+            <summary>
+             Provides data for a completed event.
+            </summary>
+        </member>
         <member name="P:IdeaBlade.EntityModel.CompletedEventArgs.Cancelled">
             <summary>
             Returns whether the operation was cancelled.
@@ -3101,43 +3105,6 @@ public class DynamicDataSourceKeyResolver : IDataSourceKeyResolver {
             For internal use only.
             </summary>
         </member>
-        <member name="M:IdeaBlade.EntityModel.EntityServerFakeBackingStore.AsyncBackingStore.ClearAsync">
-            <summary>
-            Clears all data from the backing store.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityServerFakeBackingStore.AsyncBackingStore.GetEntityCacheStateAsync">
-            <summary>
-            Returns the backing store as an EntityCacheState.
-            </summary>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityServerFakeBackingStore.AsyncBackingStore.SaveAsync(System.IO.Stream,System.Boolean)">
-            <summary>
-            Saves the backing store (in <see cref="T:IdeaBlade.EntityModel.EntityCacheState"/> format) to the specified stream.
-            </summary>
-            <param name="stream"></param>
-            <param name="useBinaryFormat"></param>
-            <returns></returns>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityServerFakeBackingStore.AsyncBackingStore.RestoreAsync(System.IO.Stream,System.Boolean,IdeaBlade.EntityModel.MergeStrategy,System.Boolean)">
-            <summary>
-            Restores the backing store's cache from the stream specified.
-            </summary>
-            <param name="stream"></param>
-            <param name="shouldReplace"></param>
-            <param name="mergeStrategy"></param>
-            <param name="useBinaryFormat"></param>
-            <returns></returns>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityServerFakeBackingStore.AsyncBackingStore.RestoreAsync(IdeaBlade.EntityModel.EntityCacheState,System.Boolean,IdeaBlade.EntityModel.MergeStrategy)">
-            <summary>
-            Restores the backing store's cache from the <see cref="T:IdeaBlade.EntityModel.EntityCacheState"/> specified.
-            </summary>
-            <param name="entityCacheState"></param>
-            <param name="shouldReplace"></param>
-            <param name="mergeStrategy"></param>
-        </member>
         <member name="P:IdeaBlade.EntityModel.EntityServerFakeBackingStore.AsyncBackingStore.CompositionContextName">
             <summary>
             The <see cref="T:IdeaBlade.Core.Composition.CompositionContext"/> associated with this backing store.
@@ -3224,12 +3191,49 @@ public class DynamicDataSourceKeyResolver : IDataSourceKeyResolver {
             Removes this instance from internal storage.
             </summary>
         </member>
+        <member name="M:IdeaBlade.EntityModel.EntityServerFakeBackingStore.Remote.ClearAsync">
+            <summary>
+            Clears all data from the backing store.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityServerFakeBackingStore.Remote.GetEntityCacheStateAsync">
+            <summary>
+            Returns the backing store as an EntityCacheState.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityServerFakeBackingStore.Remote.SaveAsync(System.IO.Stream,System.Boolean)">
+            <summary>
+            Saves the backing store (in <see cref="T:IdeaBlade.EntityModel.EntityCacheState"/> format) to the specified stream.
+            </summary>
+            <param name="stream"></param>
+            <param name="useBinaryFormat"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityServerFakeBackingStore.Remote.RestoreAsync(System.IO.Stream,System.Boolean,IdeaBlade.EntityModel.MergeStrategy,System.Boolean)">
+            <summary>
+            Restores the backing store's cache from the stream specified.
+            </summary>
+            <param name="stream"></param>
+            <param name="shouldReplace"></param>
+            <param name="mergeStrategy"></param>
+            <param name="useBinaryFormat"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityServerFakeBackingStore.Remote.RestoreAsync(IdeaBlade.EntityModel.EntityCacheState,System.Boolean,IdeaBlade.EntityModel.MergeStrategy)">
+            <summary>
+            Restores the backing store's cache from the <see cref="T:IdeaBlade.EntityModel.EntityCacheState"/> specified.
+            </summary>
+            <param name="entityCacheState"></param>
+            <param name="shouldReplace"></param>
+            <param name="mergeStrategy"></param>
+        </member>
         <member name="T:IdeaBlade.EntityModel.EntityServerFakeBackingStore.FakeStoreEntityManager">
             <summary>
             A sub-typed EntityManager used by the EntityServerFakeBakingStore.  
             For the local store the EM is disconnected.
             The remote store must be connected and "logged in" in order to use InvokeServerMethod calls
-            to communication with the EntityServer.
+            to communicate with the EntityServer.
             </summary>
         </member>
         <member name="T:IdeaBlade.EntityModel.EntityManager">
@@ -10523,7 +10527,10 @@ using IdeaBlade.EntityModel;
             <summary>
             
             </summary>
-            <param name="returnObject"></param>
+            <param name="entityManagerType"></param>
+            <param name="typeName"></param>
+            <param name="methodName"></param>
+            <param name="args"></param>
         </member>
         <member name="T:IdeaBlade.EntityModel.InvokeServerMethodResult">
             <summary>
@@ -17290,7 +17297,7 @@ EntityMetadata.DefaultValueFunction = (t) =&gt; {
             <summary>
             Provides a credential interface for password-based authentication schemes.
             <seealso cref="T:IdeaBlade.EntityModel.LoginCredential"/>
-            <seealso cref="!:EntityManager.Login(ILoginCredential)"/>
+            <seealso cref="!:IdeaBlade.EntityModel.Security.Authenticator.Login(ILoginCredential, LoginOptions)"/>
             </summary>
             <remarks><see cref="T:IdeaBlade.EntityModel.LoginCredential"/> is the base implementation of this interface.</remarks>
         </member>

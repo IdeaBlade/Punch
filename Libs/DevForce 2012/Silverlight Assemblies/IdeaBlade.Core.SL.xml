@@ -1172,7 +1172,29 @@ public class MockEntityServerQueryInterceptor : EntityServerQueryInterceptor {
         </code>
       </example>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:IdeaBlade.Core.Composition.CompositionHost.Add(IdeaBlade.Core.DynamicXap)" -->
+        <member name="M:IdeaBlade.Core.Composition.CompositionHost.Add(IdeaBlade.Core.DynamicXap)">
+            <summary>
+            Add dynamic content to the container.
+            </summary>
+            <param name="xap"></param>
+            <remarks>
+            Content from the <see cref="T:IdeaBlade.Core.DynamicXap"/> is used to recompose the internal "parts" catalog.  The <see cref="E:IdeaBlade.Core.Composition.CompositionHost.Recomposed"/>
+            event is fired to indicate that dynamic content has been loaded.
+            </remarks>
+            <example>
+        <code lang="C#">
+          <![CDATA[
+        <code lang="C#">
+          // If not using MEF or Prism, DevForce can download the XAP.
+          public void DoDownload(string xapName) {
+            var xap = new IdeaBlade.Core.DynamicXap(new Uri(xapName, UriKind.Relative));
+            IdeaBlade.Core.Composition.CompositionHost.Add(xap);
+          }
+                ]]>
+
+        </code>
+      </example>
+        </member>
         <member name="M:IdeaBlade.Core.Composition.CompositionHost.Refresh">
             <summary>
             Refreshes main catalog after changes to search or ignore patterns.
@@ -1474,6 +1496,7 @@ public class MockEntityServerQueryInterceptor : EntityServerQueryInterceptor {
             <param name="xap"></param>
             <param name="assembly"></param>
             <param name="error"></param>
+            <param name="shouldRecompose"></param>
         </member>
         <member name="P:IdeaBlade.Core.Composition.RecomposedEventArgs.XapLoaded">
             <summary>
@@ -1505,7 +1528,16 @@ public class MockEntityServerQueryInterceptor : EntityServerQueryInterceptor {
             The XAP download error.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "P:IdeaBlade.Core.Composition.RecomposedEventArgs.ShouldRecompose" -->
+        <member name="P:IdeaBlade.Core.Composition.RecomposedEventArgs.ShouldRecompose">
+            <summary>
+            True if the <see cref="!:XAP"/> included new assemblies not previously probed, or if the <see cref="P:IdeaBlade.Core.Composition.RecomposedEventArgs.Assembly"/> had not been
+            previously loaded.
+            </summary>
+            <remarks>
+            DevForce uses this flag to determine whether it should reinitialize and "recompose" metadata and other internal structures after content
+             has been added.  
+            </remarks>
+        </member>
         <member name="P:IdeaBlade.Core.AppEnv.IsSilverlightApplication">
             <summary>
             Returns true if running under Silverlight.
@@ -3266,6 +3298,16 @@ void xap_Loaded(object sender, EventArgs e) {
         <member name="T:IdeaBlade.Core.Reflection.TypeFns">
             <summary>
             A collection of static methods used to provide additional <see cref="T:System.Type"/> related services.
+            </summary>
+        </member>
+        <member name="F:IdeaBlade.Core.Reflection.TypeFns.SignedIntegerTypes">
+            <summary>
+            Returns an array of signed integer types.
+            </summary>
+        </member>
+        <member name="F:IdeaBlade.Core.Reflection.TypeFns.UnsignedIntegerTypes">
+            <summary>
+            Returns an array of unsigned integer types.
             </summary>
         </member>
         <member name="F:IdeaBlade.Core.Reflection.TypeFns.DecimalTypes">

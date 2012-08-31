@@ -773,10 +773,7 @@ public class EntityServerSaveManager : EntityServerSaveInterceptor  {
             Invokes a static method for execution on the server.
             </summary>
             <param name="sessionBundle">Encrypted session bundle identifying the client</param>
-            <param name="entityManagerType">Sub-type of EntityManager from which the client-side call was made.  The EntityManager passed to the called method will be of this type.</param>
-            <param name="typeName">Assembly-qualified type name</param>
-            <param name="methodName">Method to be called</param>
-            <param name="args">Arguments to the method</param>
+            <param name="workState"></param>
             <returns>Any serializable object may be returned</returns>
             <exception cref="T:System.Security.SecurityException">The method must be marked with the <see cref="T:IdeaBlade.EntityModel.AllowRpcAttribute"/></exception>
             <remarks>
@@ -913,6 +910,7 @@ using IdeaBlade.EntityModel.Server;
             Returns the Principal for a session.  Internal use only.
             </summary>
             <param name="sessionBundle"></param>
+            <param name="loginIfNotInMap"></param>
             <returns></returns>
         </member>
         <member name="M:IdeaBlade.EntityModel.Server.SessionManager.GetPrincipalFromSessionKey(IdeaBlade.EntityModel.SessionBundle)">

@@ -80,7 +80,7 @@
             <remarks>
             If the <paramref name="credential"/> parameter is null then a non-credential
             authentication will be attempted.  If you are using Windows authentication you
-            should pass a null credential to the <see cref="!:EntityManager.Login(ILoginCredential)"/>.  
+            should pass a null credential to the <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)"/>.
             The <b>HttpContext.Current.User</b> information
             will be used to build a <see cref="T:IdeaBlade.EntityModel.UserBase"/> representing the current user.
             <para>

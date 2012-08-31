@@ -1207,7 +1207,16 @@ public class MockEntityServerQueryInterceptor : EntityServerQueryInterceptor {
             Returns true if the recomposition was not performed due to a failure.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "P:IdeaBlade.Core.Composition.RecomposedEventArgs.ShouldRecompose" -->
+        <member name="P:IdeaBlade.Core.Composition.RecomposedEventArgs.ShouldRecompose">
+            <summary>
+            True if the <see cref="!:XAP"/> included new assemblies not previously probed, or if the <see cref="P:IdeaBlade.Core.Composition.RecomposedEventArgs.Assembly"/> had not been
+            previously loaded.
+            </summary>
+            <remarks>
+            DevForce uses this flag to determine whether it should reinitialize and "recompose" metadata and other internal structures after content
+             has been added.  
+            </remarks>
+        </member>
         <member name="P:IdeaBlade.Core.AppEnv.IsSilverlightApplication">
             <summary>
             Returns true if running in Silverlight.
@@ -2005,6 +2014,47 @@ public class MockEntityServerQueryInterceptor : EntityServerQueryInterceptor {
             For internal use only.
             </summary>
         </member>
+        <member name="T:IdeaBlade.Core.Reflection.ReflectionExtensions">
+            <summary>
+            A collection of static methods used to provide various <see cref="N:System.Reflection"/> extension methods.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.Core.Reflection.ReflectionExtensions.LoadAssembly(System.String)">
+            <summary>
+            Load and return Assembly given an assembly name.
+            </summary>
+            <param name="assemblyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.Core.Reflection.ReflectionExtensions.GetAssembly(System.Type)">
+            <summary>
+            <see cref="T:System.Type"/> extension method to return assembly.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.Core.Reflection.ReflectionExtensions.GetType(System.Reflection.Assembly,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            <see cref="T:System.Reflection.Assembly"/> extension method to return a type.
+            </summary>
+            <param name="typeName"></param>
+            <param name="throwOnError"></param>
+            <param name="ignoreCase"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.Core.Reflection.ReflectionExtensions.GetAllTypes(System.Reflection.Assembly)">
+            <summary>
+            <see cref="T:System.Reflection.Assembly"/> extension method to return all types.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.Core.Reflection.ReflectionExtensions.ConvertType(System.Object,System.Type,System.Boolean)">
+            <summary>
+            Convert a value to the specified conversion type.
+            </summary>
+            <param name="value"></param>
+            <param name="conversionType"></param>
+            <param name="throwIfError"></param>
+            <returns></returns>
+        </member>
         <member name="T:IdeaBlade.Core.Reflection.ReflectionFns">
             <summary>
             A collection of static utility methods to assist in using the .NET reflection API.
@@ -2232,6 +2282,16 @@ public class MockEntityServerQueryInterceptor : EntityServerQueryInterceptor {
         <member name="T:IdeaBlade.Core.Reflection.TypeFns">
             <summary>
             A collection of static methods used to provide additional <see cref="T:System.Type"/> related services.
+            </summary>
+        </member>
+        <member name="F:IdeaBlade.Core.Reflection.TypeFns.SignedIntegerTypes">
+            <summary>
+            Returns an array of signed integer types.
+            </summary>
+        </member>
+        <member name="F:IdeaBlade.Core.Reflection.TypeFns.UnsignedIntegerTypes">
+            <summary>
+            Returns an array of unsigned integer types.
             </summary>
         </member>
         <member name="F:IdeaBlade.Core.Reflection.TypeFns.DecimalTypes">
@@ -3349,7 +3409,6 @@ namespace Samples {
             Called by <see cref="T:IdeaBlade.Core.ITraceSubscriberCallback"/> implementations in order to receive <see cref="M:IdeaBlade.Core.ITraceSubscriberCallback.OnPublish(IdeaBlade.Core.TraceMessage)"/> notifications.
             </summary>
             <param name="pKey">Id of the subscriber</param>
-            <param name="pSubscriber"></param>
         </member>
         <member name="M:IdeaBlade.Core.ITracePublisher.Unsubscribe(System.Guid)">
             <summary>
@@ -4889,9 +4948,9 @@ namespace Samples {
             Silverlight client applications.
             </summary>
         </member>
-        <member name="F:IdeaBlade.Core.ClientApplicationType.Metro">
+        <member name="F:IdeaBlade.Core.ClientApplicationType.WindowsStore">
             <summary>
-            Metro client applications.
+            Windows Store client applications.
             </summary>
         </member>
         <member name="F:IdeaBlade.Core.ClientApplicationType.All">
@@ -4911,7 +4970,7 @@ namespace Samples {
             <param name="type"></param>
             <returns></returns>
         </member>
-        <member name="M:IdeaBlade.Core.ClientApplicationTypeExtensions.SupportsMetro(IdeaBlade.Core.ClientApplicationType)">
+        <member name="M:IdeaBlade.Core.ClientApplicationTypeExtensions.SupportsWindowsStore(IdeaBlade.Core.ClientApplicationType)">
             <summary>
             Returns whether Metro applications are supported.
             </summary>
@@ -5108,7 +5167,7 @@ namespace Samples {
             If configuration information cannot be found or cannot be loaded, then your application may not run correctly.
             If your configuration cannot be loaded or you think the wrong information has
             been loaded, check the <see cref="P:IdeaBlade.Core.Configuration.LoggingElement.LogFile">logFile</see> output
-            (usually named debuglog.xml) for tracing messages.  All probe attempts are written to the log file. 
+            (usually named DevForceDebugLog.xml) for tracing messages.  All probe attempts are written to the log file. 
             </para>
             <para>
             The .config file holding the <b>IdeaBlade</b> configuration information can also contain
@@ -7850,10 +7909,8 @@ namespace Samples {
             Called by <see cref="T:IdeaBlade.Core.ITraceSubscriberCallback"/> implementations in order to receive <see cref="M:IdeaBlade.Core.ITraceSubscriberCallback.OnPublish(IdeaBlade.Core.TraceMessage)"/> notifications.
             </summary>
             <param name="key">Subscriber Id</param>
-            <param name="pSubscriber"></param>
             <remarks>
-            If subscribing to a remote TracePublisher the <paramref name="pSubscriber"/> parameter should be null since
-            a callback channel is used instead.
+            This method is used to subscribe to a remote publisher.
             </remarks>
         </member>
         <member name="M:IdeaBlade.Core.TracePublisher.Subscribe(System.Guid,IdeaBlade.Core.ITraceSubscriberCallback)">

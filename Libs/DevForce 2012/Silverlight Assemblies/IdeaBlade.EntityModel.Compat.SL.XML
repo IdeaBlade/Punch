@@ -8,7 +8,7 @@
             <summary>
             <see cref="T:IdeaBlade.EntityModel.AsyncEventArgs"/> providing a strongly-typed <b>Result</b> for an asynchronous operation.
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="TResult"></typeparam>
         </member>
         <member name="T:IdeaBlade.EntityModel.AsyncEventArgs">
             <summary>
@@ -98,6 +98,12 @@
             Whether the Error was handled ( if one exists).
             </summary>
         </member>
+        <member name="M:IdeaBlade.EntityModel.AsyncEventArgs`1.#ctor(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="userState"></param>
+        </member>
         <member name="P:IdeaBlade.EntityModel.AsyncEventArgs`1.Task">
             <summary>
             Represents the operation.
@@ -110,6 +116,60 @@
             <summary>
             Extension methods for the <see cref="T:IdeaBlade.EntityModel.Security.Authenticator"/> to support asynchronous methods compatible with DevForce 2010.
             </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.AuthenticatorAsyncExtensions.LoginAsync(IdeaBlade.EntityModel.Security.Authenticator,IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions,System.Action{IdeaBlade.EntityModel.LoginOperation},System.Object)">
+            <summary>
+             Perform an asynchronous login operation to validate user credentials against an Entity Server.
+            </summary>
+            <param name="credential"></param>
+            <param name="options"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <remarks>
+             The <see cref="T:IdeaBlade.EntityModel.Security.LoginOptions"/> can be used to specify the EntityServer.  If options are not provided,
+            the "default" EntityServer is assumed.
+             <para>
+            You can pass a null (Nothing in Visual Basic) in place of an <see cref="T:IdeaBlade.EntityModel.ILoginCredential"/> object.  Null credentials can indicate either that the user
+            is logging in as a guest or anonymous user, or when using the <b>AspAuthenticatingLoginManager</b> that the current authenticated user
+            should be loaded.  When using ASP.NET the current authenticated user is one authenticated via Windows authentication, or is the user already logged
+            in because of either a persistent cookie or a login performed elsewhere in the ASP.NET application.  If you are not using the
+            AspAuthenticationLoginManager then your implementation of <see cref="!:IEntityLoginManager"/> should handle a null credential
+            if your client application can provide one.  
+            </para>
+            <para>
+            The <see cref="!:IdeaBlade.Core.Configuration.ServerSettingsElement.AllowAnonymousLogin">AllowAnonymousLogin</see> flag in the 
+            IdeaBlade configuration determines whether "anonymous" users can login to your application.  Anonymous users are ones who have
+            not supplied credentials and who also cannot be authenticated by other means, such as ASP.NET authentication.   
+            </para>
+            <para>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            Use the <paramref name="userState"/> to uniquely identify this call.  
+            </para>
+            <para>
+            The <see cref="T:IdeaBlade.EntityModel.Security.AuthenticationContext"/> returned from a successful login in the <see cref="T:IdeaBlade.EntityModel.LoginOperation"/> or <see cref="T:IdeaBlade.EntityModel.LoginEventArgs"/>
+            can be used in two ways:  1) you can set the
+            <see cref="P:IdeaBlade.EntityModel.Security.Authenticator.DefaultAuthenticationContext"/> so that any <see cref="T:IdeaBlade.EntityModel.EntityManager"/> in your application will share the credentials
+            and not require a separate login, or 2) you can set the <see cref="P:IdeaBlade.EntityModel.EntityManager.AuthenticationContext"/> on one or more EntityManager
+            instances.  Note that without performing one of these actions the returned AuthenticationContext will not be used by DevForce.
+            </para>
+            <para>
+            Credentials are passed in clear text.  Use a secure channel (such as SSL) or provide your own encryption if secure
+            communications are necessary.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.AuthenticatorAsyncExtensions.LogoutAsync(IdeaBlade.EntityModel.Security.Authenticator,IdeaBlade.EntityModel.Security.IAuthenticationContext,System.Action{IdeaBlade.EntityModel.BasicOperation},System.Object)">
+            <summary>
+            Perform an asynchronous operation to log the specified <see cref="T:IdeaBlade.EntityModel.Security.AuthenticationContext"/> out of the Entity Server.
+            </summary>
+            <param name="context"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <remarks>
+            Any <see cref="T:IdeaBlade.EntityModel.EntityManager"/> using this AuthenticationContext will be logged out.
+            </remarks>
         </member>
         <member name="M:IdeaBlade.EntityModel.IBaseOperation.Cancel">
             <summary>
@@ -190,8 +250,9 @@
             <summary>
             Created by DevForce for an asynchronous operation.
             </summary>
-            <param name="userState"></param>
+            <param name="args"></param>
             <param name="callback"></param>
+            <param name="taskFunc"></param>
         </member>
         <member name="M:IdeaBlade.EntityModel.BaseOperation`2.Cancel">
             <summary>
@@ -283,6 +344,7 @@
             </summary>
             <param name="userState"></param>
             <param name="callback"></param>
+            <param name="taskFunc"></param>
         </member>
         <member name="T:IdeaBlade.EntityModel.Coroutine">
             <summary>
@@ -501,7 +563,7 @@
             </summary>
             <remarks>
             Use the <b>CoroutineOperation</b> to track the status of the coroutine iterator.  You can
-            add a <see cref="!:BasicOperation.Completed">Completed</see> event handler to process results.
+            add a <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">Completed</see> event handler to process results.
             </remarks>
         </member>
         <member name="M:IdeaBlade.EntityModel.CoroutineOperation.#ctor(System.Object,System.Exception,System.Boolean,System.Boolean)">
@@ -579,6 +641,247 @@
             <summary>
             Provide backwards-compatibility for EntityManager asynchronous operations.
             </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.ConnectAsync(IdeaBlade.EntityModel.EntityManager,System.Action{IdeaBlade.EntityModel.BasicOperation},System.Object)">
+            <summary>
+            Connect to the <see cref="T:IdeaBlade.EntityModel.Server.EntityServer"/> asynchronously.
+            <seealso cref="M:IdeaBlade.EntityModel.EntityManager.Disconnect"/>
+            <seealso cref="T:IdeaBlade.EntityModel.Server.EntityServer"/>
+            </summary>
+            <param name="userCallback">Optional callback called when the operation completes</param>
+            <param name="userState">Optional user token identifying the operation</param>
+            <remarks>
+            Use <b>ConnectAsync</b> and <see cref="M:IdeaBlade.EntityModel.EntityManager.Disconnect"/> to manage the connection to the 
+            EntityServer.  You should have an <see cref="E:IdeaBlade.EntityModel.EntityManager.EntityServerError"/> handler in place
+            to catch connection failures.
+            <para>
+            In Silverlight applications, <b>ConnectAsync</b> is called implicitly when you construct an
+            EntityManager with either the default constructor or a constructor with a true "shouldConnect" argument.
+            In these cases, you may want to check the <see cref="P:IdeaBlade.EntityModel.EntityManager.IsConnected"/> property before issuing other
+            requests.
+            </para>
+            <para>
+            <b>Connect</b> does not connect to any backend data sources.  
+            </para>
+            </remarks>
+            <exception cref="T:IdeaBlade.EntityModel.EntityServerException"/>
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/constructor[@name=&quot;#ctor&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.ForceIdFixupAsync(IdeaBlade.EntityModel.EntityManager,System.Action{IdeaBlade.EntityModel.BasicOperation},System.Object)">
+            <summary>
+            Perform an asynchronous <see cref="!:EntityManager.ForceIdFixup"/> operation.
+            </summary>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="M:IdeaBlade.EntityModel.BaseOperation`2.Cancel"/>.
+            Auto-generated temporary IDs are automatically "fixed up" during save processing.  You
+            can force that fixup to be done prior to a save by calling this method.
+            An exception will be thrown if any entity properties whose schema definition
+            has a <b>StoreGeneratedPattern="identity"</b> attribute are pending fixup,
+            since these IDs can only be assigned during a save operation.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.InvokeServerMethodAsync(IdeaBlade.EntityModel.EntityManager,IdeaBlade.EntityModel.ServerMethodDelegate,System.Action{IdeaBlade.EntityModel.InvokeServerMethodOperation},System.Object,System.Object[])">
+            <summary>
+            Asynchronously invokes the specified <c>static</c> (<c>Shared</c> in Visual Basic) method for execution on the server.
+            </summary>
+            <param name="serverMethod">Method to be invoked</param>
+            <param name="userCallback">Handler called when operation completes</param>
+            <param name="userState">Token identifying the asynchronous request</param>
+            <param name="args">Arguments to be passed to method</param>
+            <remarks>The method called must be marked with the <see cref="T:IdeaBlade.EntityModel.AllowRpcAttribute"/>
+            and correspond to the <see cref="T:IdeaBlade.EntityModel.ServerMethodDelegate">ServerMethodDelegate</see> signature.
+            <para>
+            <b>InvokeServerMethodAsync</b> enables a client-side caller to invoke an arbitrary static method 
+            on the server using an asynchronous call.  The data returned from the server method 
+            will be available in the <see cref="T:IdeaBlade.EntityModel.InvokeServerMethodEventArgs"/> passed to
+            the supplied callback.  The server method is called once only.
+            An outstanding request can be canceled using the <see cref="!:CancelAsync"/> method.
+            </para>
+            <para>
+            Note that this request is run on a separate client thread.  That thread will block until the server
+            request completes or is canceled.
+            </para>
+            This feature is only available in certain editions of DevForce.
+            </remarks>
+            <exception cref="T:System.InvalidOperationException">Invalid ServerMethodDelegate provided</exception>
+            <exception cref="T:System.ArgumentException">UserState token must be unique for the client</exception>
+            <exception cref="T:System.Security.SecurityException">Thrown if the method is not marked with the
+            <see cref="T:IdeaBlade.EntityModel.AllowRpcAttribute"/></exception>
+            <exception cref="T:IdeaBlade.EntityModel.PersistenceSecurityException">Thrown if the server method is decorated with a <see cref="T:IdeaBlade.Core.DomainServices.AuthorizationAttribute">AuthorizationAttribute</see> and fails authorization</exception>
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;InvokeServerMethodAsync&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.InvokeServerMethodAsync(IdeaBlade.EntityModel.EntityManager,System.String,System.String,System.Action{IdeaBlade.EntityModel.InvokeServerMethodOperation},System.Object,System.Object[])">
+            <summary>
+            Asynchronously invokes the specified <c>static</c> (<c>Shared</c> in Visual Basic) method for execution on the server.
+            </summary>
+            <param name="fullTypeName">Assembly-qualified type name such as 'MyNamespace.Services, MyAssembly'</param>
+            <param name="methodName">Name of method to be invoked</param>
+            <param name="userCallback">Callback called when the operation completes</param>
+            <param name="userState">Token identifying the asynchronous request</param>
+            <param name="userArguments">Arguments to be passed to method</param>
+            <remarks>The method called must be marked with the <see cref="T:IdeaBlade.EntityModel.AllowRpcAttribute"/>
+            and correspond to the <see cref="T:IdeaBlade.EntityModel.ServerMethodDelegate"/> signature.
+            <para>
+            <b>InvokeServerMethodAsync</b> enables a client-side caller to invoke an arbitrary static method 
+            on the server using an asynchronous call.  The data returned from the server method 
+            will be available in the <see cref="T:IdeaBlade.EntityModel.InvokeServerMethodEventArgs"/> passed to the
+            callback provided.  The server method is called once only.
+            An outstanding request can be canceled using the <see cref="!:CancelAsync"/> method.
+            </para>
+            <para>
+            Note that this request is run on a separate client thread.  That thread will block until the server
+            request completes or is canceled.
+            </para>
+            This feature is only available in certain editions of DevForce.
+            </remarks>
+            <exception cref="T:System.ArgumentException">Type name must be fully qualified</exception>
+            <exception cref="T:System.ArgumentException">UserState token must be unique for the client</exception>
+            <exception cref="T:System.Security.SecurityException"></exception>
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;InvokeServerMethodAsync&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.ExecuteQueryAsync``1(IdeaBlade.EntityModel.EntityManager,IdeaBlade.EntityModel.IEntityQuery{``0},System.Action{IdeaBlade.EntityModel.EntityQueryOperation{``0}},System.Object)">
+            <summary>
+            Execute a query asynchronously.
+            </summary>
+            <typeparam name="T">Entity type queried</typeparam>
+            <param name="query">The <see cref="T:IdeaBlade.EntityModel.IEntityQuery"/> to execute</param>
+            <param name="userCallback">Callback invoked when the query completes</param>
+            <param name="userState">Token to identify the query upon completion</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            The query results will be returned in the <see cref="T:IdeaBlade.EntityModel.EntityQueriedEventArgs"/> 
+            passed to the <paramref name="userCallback"/>.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:CancelAsync"/>.
+            <para>This feature is only available in certain editions of DevForce.</para>
+            </remarks>  
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;ExecuteQueryAsync&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.ExecuteQueryAsync(IdeaBlade.EntityModel.EntityManager,IdeaBlade.EntityModel.IEntityQuery,System.Action{IdeaBlade.EntityModel.EntityQueryOperation},System.Object)">
+            <summary>
+            Execute a query asynchronously.
+            </summary>
+            <param name="query">The <see cref="T:IdeaBlade.EntityModel.IEntityQuery"/> to execute</param>
+            <param name="userCallback">Callback invoked when the query completes</param>
+            <param name="userState">Token to identify the query upon completion</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            The query results will be returned in the <see cref="T:IdeaBlade.EntityModel.EntityQueriedEventArgs"/> 
+            passed to the <paramref name="userCallback"/>.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:CancelAsync"/>.
+            <para>This feature is only available in certain editions of DevForce.</para>
+            </remarks>  
+            <exception cref="T:System.InvalidOperationException">DataSource fetch strategies are not allowed when disconnected</exception>
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;ExecuteQueryAsync&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.RefetchEntityAsync(IdeaBlade.EntityModel.EntityManager,System.Object,IdeaBlade.EntityModel.MergeStrategy,System.Action{IdeaBlade.EntityModel.EntityRefetchOperation},System.Object)">
+            <summary>
+            Perform an asynchronous <see cref="!:RefetchEntities(EntityKeyList, MergeStrategy)"/> operation.
+            </summary>
+            <param name="entity">Entity to be refetched</param>
+            <param name="mergeStrategy">Merge strategy</param>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:CancelAsync"/>.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.RefetchEntitiesAsync(IdeaBlade.EntityModel.EntityManager,IdeaBlade.EntityModel.EntityState,IdeaBlade.EntityModel.MergeStrategy,System.Action{IdeaBlade.EntityModel.EntityRefetchOperation},System.Object)">
+            <summary>
+            Performs an asynchronous refetch of all entities with the specified EntityState(s) from the backend data source.
+            </summary>
+            <param name="entityState">EntityState(s) of entities to be refetched</param>
+            <param name="mergeStrategy">Merge strategy</param>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:CancelAsync"/>. 
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.RefetchEntitiesAsync(IdeaBlade.EntityModel.EntityManager,System.Collections.IEnumerable,IdeaBlade.EntityModel.MergeStrategy,System.Action{IdeaBlade.EntityModel.EntityRefetchOperation},System.Object)">
+            <summary>
+            Forces a collection of entities to be refetched from the backend data source.
+            </summary>
+            <param name="entities">A collection of Entities to refetch</param>
+            <param name="mergeStrategy">Merge strategy</param>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:CancelAsync"/>. 
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.RefetchEntitiesAsync(IdeaBlade.EntityModel.EntityManager,IdeaBlade.EntityModel.EntityKeyList,IdeaBlade.EntityModel.MergeStrategy,System.Action{IdeaBlade.EntityModel.EntityRefetchOperation},System.Object)">
+            <summary>
+            Perform an asynchronous <see cref="!:RefetchEntities(EntityKeyList, MergeStrategy)"/> operation.
+            </summary>
+            <param name="entityKeys">List of entity keys</param>
+            <param name="mergeStrategy">Merge strategy</param>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:CancelAsync"/>.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.SaveChangesAsync(IdeaBlade.EntityModel.EntityManager,System.Action{IdeaBlade.EntityModel.EntitySaveOperation},System.Object)">
+            <summary>
+            Perform an asynchronous <see cref="!:SaveChanges()"/> operation.
+            </summary>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            The <see cref="T:IdeaBlade.EntityModel.EntitySaveOperation"/> passed to the <paramref name="userCallback"/> will contain
+            the results of the save operation.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:BaseOperation.Cancel()">EntitySaveOperation.Cancel()</see>.
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;SaveChangesAsync&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.SaveChangesAsync(IdeaBlade.EntityModel.EntityManager,IdeaBlade.EntityModel.SaveOptions,System.Action{IdeaBlade.EntityModel.EntitySaveOperation},System.Object)">
+            <summary>
+            Perform an asynchronous <see cref="!:SaveChanges(SaveOptions)"/> operation.
+            </summary>
+            <param name="saveOptions">Options controlling save processing</param>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            The <see cref="T:IdeaBlade.EntityModel.EntitySaveOperation"/> passed to the <paramref name="userCallback"/> will contain
+            the results of the save operation.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:BaseOperation.Cancel()">EntitySaveOperation.Cancel()</see>.
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;SaveChangesAsync&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.SaveChangesAsync(IdeaBlade.EntityModel.EntityManager,System.Collections.IEnumerable,IdeaBlade.EntityModel.SaveOptions,System.Action{IdeaBlade.EntityModel.EntitySaveOperation},System.Object)">
+            <summary>
+            Perform an asynchronous <see cref="!:SaveChanges(IEnumerable, SaveOptions)"/> operation.
+            </summary>
+            <param name="entities">List of <see cref="T:IdeaBlade.EntityModel.IEntity"/> objects to be persisted</param>
+            <param name="saveOptions">Options controlling save processing</param>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            The <see cref="T:IdeaBlade.EntityModel.EntitySaveOperation"/> passed to the <paramref name="userCallback"/> will contain
+            the results of the save operation.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:BaseOperation.Cancel()">EntitySaveOperation.Cancel()</see>.
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;SaveChangesAsync&quot;]/*"/>
         </member>
         <member name="T:IdeaBlade.EntityModel.BaseEntityQueriedEventArgs`1">
             <summary>
@@ -676,7 +979,7 @@
             receive an instance of <b>EntityQueriedEventArgs</b> for both synchronous and asynchronous
             query operations.  
             <para>
-            If you have called EntityManager.ExecuteQueryAsync, the <see cref="!:BasicOperation.Completed">Completed</see> event handler
+            If you have called EntityManager.ExecuteQueryAsync, the <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">Completed</see> event handler
             will be called with an instance of <b>EntityQueriedEventArgs</b> representing the results of the
             query operation.  
             </para>
@@ -711,7 +1014,7 @@
             <typeparam name="T"></typeparam>
             <remarks>
             See <see cref="T:IdeaBlade.EntityModel.EntityScalarAsyncExtensions"/> for the scalar methods which may be executed asynchronously.
-            The <see cref="!:BasicOperation.Completed">Completed</see> event handler on the <see cref="T:IdeaBlade.EntityModel.EntityScalarQueryOperation`1"/>
+            The <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">Completed</see> event handler on the <see cref="T:IdeaBlade.EntityModel.EntityScalarQueryOperation`1"/>
             returned from these methods will be called with an instance of <b>EntityScalarQueriedEventArgs</b> representing the results of the
             query operation.  
             </remarks>
@@ -743,7 +1046,7 @@
             </summary>
             <remarks>
             See <see cref="T:IdeaBlade.EntityModel.EntityScalarAsyncExtensions"/> for the scalar methods which may be executed asynchronously.
-            The <see cref="!:BasicOperation.Completed">Completed</see> event handler on the <see cref="T:IdeaBlade.EntityModel.EntityScalarQueryOperation`1"/>
+            The <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">Completed</see> event handler on the <see cref="T:IdeaBlade.EntityModel.EntityScalarQueryOperation`1"/>
             returned from these methods will be called with an instance of <b>EntityScalarQueriedEventArgs</b> representing the results of the
             query operation.  
             </remarks>
@@ -769,6 +1072,54 @@
             the result is undefined.
             </remarks>
         </member>
+        <member name="T:IdeaBlade.EntityModel.Compat.EntityQueryAsyncExtensions">
+            <summary>
+            Provides a set of static methods extending <see cref="T:IdeaBlade.EntityModel.EntityQuery"/> and <see cref="T:IdeaBlade.EntityModel.EntityQuery`1"/>.
+            <seealso cref="N:System.Linq"/>
+            <seealso cref="T:IdeaBlade.EntityModel.EntityQuery`1"/> 
+            </summary>
+            <remarks>
+            To use these extensions, add a using statement (Imports in Visual Basic) for this namespace
+            to your class.  
+            <para>
+            For more information on extension methods, see <b>Extension Methods (C# Programming Guide)</b>
+            or <b>Extension Methods (Visual Basic)</b> in the Visual Studio 2008 documentation.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityQueryAsyncExtensions.ExecuteAsync``1(IdeaBlade.EntityModel.IEntityQuery{``0},System.Action{IdeaBlade.EntityModel.EntityQueryOperation{``0}},System.Object)">
+            <summary>
+            Execute the query asynchronously.
+            </summary>
+            <seealso cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync(IEntityQuery{T})"/>
+            <typeparam name="T">Entity type returned</typeparam>
+            <param name="query">This query</param>
+            <param name="userCallback">Callback invoked when the query completes</param>
+            <param name="userState">Token to identify the query upon completion</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            The query results will be returned in the <see cref="T:IdeaBlade.EntityModel.EntityQueriedEventArgs"/> 
+            passed to the <paramref name="userCallback"/>.
+            Use the <paramref name="userState"/> to uniquely identify this call.
+            </remarks>  
+            <!-- Failed to insert some or all of included XML --><include file="EntityQueryExtensions.Examples.xml" path="//Class[@name=&quot;EntityQueryExtensions&quot;]/method[@name=&quot;ExecuteAsync&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityQueryAsyncExtensions.ExecuteAsync(IdeaBlade.EntityModel.IEntityQuery,System.Action{IdeaBlade.EntityModel.EntityQueryOperation},System.Object)">
+            <summary>
+            Execute the query asynchronously.
+            </summary>
+            <seealso cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync(IEntityQuery)"/>
+            <param name="query">This query</param>
+            <param name="userCallback">Callback invoked when the query completes</param>
+            <param name="userState">Token to identify the query upon completion</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            The query results will be returned in the <see cref="T:IdeaBlade.EntityModel.EntityQueriedEventArgs"/> 
+            passed to the <paramref name="userCallback"/>.
+            Use the <paramref name="userState"/> to uniquely identify this call.
+            </remarks>  
+            <!-- Failed to insert some or all of included XML --><include file="EntityQueryExtensions.Examples.xml" path="//Class[@name=&quot;EntityQueryExtensions&quot;]/method[@name=&quot;ExecuteAsync&quot;]/*"/>
+        </member>
         <member name="T:IdeaBlade.EntityModel.EntityQueryOperation">
             <summary>
             Information about an asynchronous query operation.
@@ -786,6 +1137,7 @@
             <param name="query"></param>
             <param name="userState"></param>
             <param name="callback"></param>
+            <param name="taskFunc"></param>
         </member>
         <member name="P:IdeaBlade.EntityModel.EntityQueryOperation.EntityQuery">
             <summary>
@@ -840,6 +1192,7 @@
             <param name="query"></param>
             <param name="userState"></param>
             <param name="callback"></param>
+            <param name="taskFunc"></param>
         </member>
         <member name="P:IdeaBlade.EntityModel.EntityQueryOperation`1.EntityQuery">
             <summary>
@@ -878,11 +1231,11 @@
         </member>
         <member name="T:IdeaBlade.EntityModel.EntityRefetchedEventArgs">
             <summary>
-            Arguments to the completion handler specified for an <see cref="!:EntityManager.RefetchEntitiesAsync(EntityKeyList, MergeStrategy, Action&lt;EntityRefetchOperation&gt;, object)"/> call.
+            Arguments to the completion handler specified for an <see cref="M:IdeaBlade.EntityModel.EntityManager.RefetchEntitiesAsync(IdeaBlade.EntityModel.EntityKeyList,IdeaBlade.EntityModel.MergeStrategy,System.Threading.CancellationToken)"/> call.
             </summary>
             <remarks>
             <para>
-            If you have called EntityManager.RefetchEntitiesAsync, the <see cref="!:BasicOperation.Completed">Completed</see> event handler
+            If you have called EntityManager.RefetchEntitiesAsync, the <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">Completed</see> event handler
             will be called with an instance of <b>EntityRefetchedEventArgs</b> representing the results of the
             query operation.  
             </para>
@@ -927,6 +1280,7 @@
              <param name="entityKeyGroups"></param>
              <param name="userState"></param>
              <param name="callback"></param>
+             <param name="taskFunc"></param>
         </member>
         <member name="P:IdeaBlade.EntityModel.EntityRefetchOperation.EntityKeys">
             <summary>
@@ -965,9 +1319,11 @@
             <summary>
             Returned by an <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChangesAsync">EntityManager.SaveChangesAsync</see> call.
             </summary>
-            <param name="saveWorkState"></param>
+            <param name="entities"></param>
+            <param name="saveOptions"></param>
             <param name="userState"></param>
             <param name="callback"></param>
+            <param name="taskFunc"></param>
         </member>
         <member name="P:IdeaBlade.EntityModel.EntitySaveOperation.CanCancel">
             <summary>
@@ -994,7 +1350,7 @@
             Arguments to the completion handler specified for an <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChangesAsync"/> call.
             </summary>
             <remarks>
-            If you have called EntityManager.SaveChangesAsync, the <see cref="!:BasicOperation.Completed">EntitySaveOperation.Completed"&gt;</see> event handler
+            If you have called EntityManager.SaveChangesAsync, the <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">EntitySaveOperation.Completed"&gt;</see> event handler
             will be called with an instance of <b>EntitySavedAsyncEventArgs</b> representing the status of the
             save operation.  
             </remarks>
@@ -1634,6 +1990,7 @@
             <param name="query"></param>
             <param name="userState"></param>
             <param name="callback"></param>
+            <param name="taskFunc"></param>
         </member>
         <member name="P:IdeaBlade.EntityModel.EntityScalarQueryOperation.EntityQuery">
             <summary>
@@ -1674,6 +2031,7 @@
             <param name="query"></param>
             <param name="userState"></param>
             <param name="callback"></param>
+            <param name="taskFunc"></param>
         </member>
         <member name="P:IdeaBlade.EntityModel.EntityScalarQueryOperation`1.EntityQuery">
             <summary>
@@ -1697,7 +2055,7 @@
         </member>
         <member name="T:IdeaBlade.EntityModel.InvokeServerMethodEventArgs">
             <summary>
-            Arguments to a <see cref="!:BasicOperation.Completed">InvokeServerMethodOperation.Completed"</see> event handler.
+            Arguments to a <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">InvokeServerMethodOperation.Completed"</see> event handler.
             </summary>
             <remarks>
             The Completed handler will be called with an instance
@@ -1743,14 +2101,51 @@
             Information about an asynchronous InvokeServerMethod operation.
             </summary>
             <remarks>
-            Returned by an <see cref="!:EntityManager.InvokeServerMethodAsync(ServerMethodDelegate, Action&lt;InvokeServerMethodOperation&gt;, object, object[])">EntityManager.InvokeServerMethodAsync</see> call.
+            Returned by an <see cref="M:IdeaBlade.EntityModel.EntityManager.InvokeServerMethodAsync(IdeaBlade.EntityModel.ServerMethodDelegate,System.Threading.CancellationToken,System.Object[])">EntityManager.InvokeServerMethodAsync</see> call.
             You can use the <b>InvokeServerMethodOperation</b> to track or cancel the request.  The <b>InvokeServerMethodOperation</b> is also passed
             to the callback method supplied to the async call.
             </remarks>
         </member>
+        <member name="M:IdeaBlade.EntityModel.InvokeServerMethodOperation.#ctor(System.String,System.String,System.Object,System.Action{IdeaBlade.EntityModel.InvokeServerMethodOperation},System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{System.Object}},System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="typeName"></param>
+            <param name="methodName"></param>
+            <param name="userState"></param>
+            <param name="callback"></param>
+            <param name="taskFunc"></param>
+            <param name="args"></param>
+        </member>
         <member name="P:IdeaBlade.EntityModel.InvokeServerMethodOperation.Result">
             <summary>
             Returns the result of the asynchronous InvokeServerMethod operation.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.TaskAsyncState">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.TaskAsyncState.#ctor(System.Threading.Tasks.Task)">
+            <summary>
+            
+            </summary>
+            <param name="task"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.TaskAsyncState.Cancelled">
+            <summary>
+            Returns whether the operation was cancelled.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.TaskAsyncState.Completed">
+            <summary>
+            Returns whether the operation completed. 
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.TaskAsyncState.Error">
+            <summary>
+            The exception, if any, thrown by the underlying operation.
             </summary>
         </member>
         <member name="M:IdeaBlade.EntityModel.AsyncState.#ctor(System.Boolean,System.Boolean,System.Exception)">
@@ -1761,9 +2156,24 @@
             <param name="completed"></param>
             <param name="error"></param>
         </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncState.Cancelled">
+            <summary>
+            Returns whether the operation was cancelled.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncState.Completed">
+            <summary>
+            Returns whether the operation completed. 
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncState.Error">
+            <summary>
+            The exception, if any, thrown by the underlying operation.
+            </summary>
+        </member>
         <member name="T:IdeaBlade.EntityModel.LoginEventArgs">
             <summary>
-            Arguments to a <see cref="!:BasicOperation.Completed">LoginOperation.Completed</see> event handler.
+            Arguments to a <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">LoginOperation.Completed</see> event handler.
             </summary>
             <remarks>
             The Completed handler will be called with an instance
@@ -1802,10 +2212,20 @@
             Information about an asynchronous login operation.
             </summary>
             <remarks>
-            Returned by an <see cref="!:EntityManager.LoginAsync(ILoginCredential, Action&lt;LoginOperation&gt;, object)">EntityManager.LoginAsync</see> call.
+            Returned by an <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.LoginAsync(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)">Authenticator.LoginAsync</see> call.
             You can use the <b>LoginOperation</b> to track or cancel the request.  The <b>LoginOperation</b> is also passed
             to the callback method supplied to the async call.
             </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.LoginOperation.#ctor(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions,System.Action{IdeaBlade.EntityModel.LoginOperation},System.Object,System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{IdeaBlade.EntityModel.Security.IAuthenticationContext}})">
+            <summary>
+            
+            </summary>
+            <param name="credential"></param>
+            <param name="options"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <param name="taskFunc"></param>
         </member>
         <member name="P:IdeaBlade.EntityModel.LoginOperation.AuthenticationContext">
             <summary>

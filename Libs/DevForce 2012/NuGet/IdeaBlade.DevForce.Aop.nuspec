@@ -17,10 +17,14 @@
       <group>
          <dependency id="IdeaBlade.DevForce.Core" version="[7.0.0-beta1]" />
          <dependency id="PostSharp" />
+         <dependency id="NuGetPowerTools" />
       </group>
 
       <group targetFramework="net45">
+         <dependency id="IdeaBlade.DevForce.Core" version="[7.0.0-beta1]" />
+         <dependency id="PostSharp" />
       	 <dependency id="EntityFramework" />
+         <dependency id="NuGetPowerTools" />
       </group>
     </dependencies>
   </metadata>
@@ -30,5 +34,12 @@
 
     <file src="..\Silverlight Assemblies\IdeaBlade.Aop.SL.dll" target="lib\sl50" />
     <file src="..\Silverlight Assemblies\IdeaBlade.Aop.SL.xml" target="lib\sl50" />
+
+    <file src="..\MSBuild\IdeaBlade.DevForce.Common.targets" target="tools" />
+    <file src="..\MSBuild\IdeaBlade\DevForce2012\*.dll" target="tools" />
+
+    <file src="content\aop\DevForce.cf" target="content" />    
+
+    <file src="scripts\aop\install.ps1" target="tools" />
   </files>
 </package>

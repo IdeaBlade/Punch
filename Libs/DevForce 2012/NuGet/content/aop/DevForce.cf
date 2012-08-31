@@ -1,0 +1,10 @@
+﻿This file is used by DevForce to indicate the presence of a Code First model in this project.
+
+During project build, the presence of this file in the project indicates that DevForce
+should (re)generate the model metadata file (*.ibmmx) for the Code First model.
+
+If you delete this file, the model metadata file (*.ibmmx) will not be (re)generated.
+To ensure that the model metadata file and your Code First entities stay in synch, 
+keep this file in your project.
+
+The file is not used at runtime, and does not need to be deployed.    

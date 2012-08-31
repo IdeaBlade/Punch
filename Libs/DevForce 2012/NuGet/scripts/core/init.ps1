@@ -38,5 +38,5 @@ if (!$extensionTypes -or !$extensionTypes.GetValue($extensionId))
 }
 else
 {
-    Write-Output "DevForce 2012 EDMX Extension is already installed."
+    { "DevForce 2012 EDMX Extension is already installed." }
 }

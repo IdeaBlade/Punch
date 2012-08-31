@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>IdeaBlade.DevForce.Core</id>
-    <title>DevForce 2012 Core</title>
+    <title>DevForce 2012</title>
     <version>7.0.0-beta1</version>
     <authors>IdeaBlade</authors>
     <licenseUrl>http://www.ideablade.com/</licenseUrl>
@@ -62,7 +62,7 @@
     <file src="..\WinRTAssemblies\IdeaBlade.Validation.WinRT.dll" target="lib\winrt45" />
     <file src="..\WinRTAssemblies\IdeaBlade.Validation.WinRT.xml" target="lib\winrt45" />
 
-    <file src="install.ps1" target="tools" />
+    <file src="scripts\core\install.ps1" target="tools" />
     <file src="..\IdeaBlade.VisualStudio.OM.Designer.11.0.vsix" target="tools" />
     <file src="..\IdeaBlade.VisualStudio.TemplateInstaller.vsix" target="tools" />
   </files>

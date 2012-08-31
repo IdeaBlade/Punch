@@ -14,8 +14,14 @@
     <copyright>Copyright 2012</copyright>
     <tags>??</tags>
     <dependencies>
-      <dependency id="IdeaBlade.DevForce.Core" version="[7.0.0-beta1]" />
-      <dependency id="PostSharp" />
+      <group>
+         <dependency id="IdeaBlade.DevForce.Core" version="[7.0.0-beta1]" />
+         <dependency id="PostSharp" />
+      </group>
+
+      <group targetFramework="net45">
+      	 <dependency id="EntityFramework" />
+      </group>
     </dependencies>
   </metadata>
   <files>

@@ -1,6 +1,7 @@
 ﻿param($installPath, $toolsPath, $package, $project)
 
-#$project = Get-Project   # for testing
+#Get the first project
+$project = ([Array] (Get-Project -All))[0]
 
 #The following three constants must be updated to reflect the correct versions
 $extensionId = "DF2012_IdeaBladeDesigner,7.0.0.0"
@@ -10,8 +11,12 @@ $templatesVsix = "IdeaBlade.VisualStudio.TemplateInstaller.vsix"
 $registryRoot = $project.DTE.RegistryRoot
 $extensionsTypesPath = "hkcu:\$registryRoot\ExtensionManager\ExtensionTypes"
 
-$extensionTypes = Get-Item -Path $extensionsTypesPath
-if (!$extensionTypes.GetValue($extensionId))
+if ((Test-Path $extensionsTypesPath))
+{
+    $extensionTypes = Get-Item -Path $extensionsTypesPath
+}
+
+if (!$extensionTypes -or !$extensionTypes.GetValue($extensionId))
 {
     $parts = $project.DTE.FileName.split("\")
     $parts[$parts.Count - 1] = "VSIXInstaller.exe"

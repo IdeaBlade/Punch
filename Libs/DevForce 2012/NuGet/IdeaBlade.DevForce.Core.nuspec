@@ -62,7 +62,7 @@
     <file src="..\WinRTAssemblies\IdeaBlade.Validation.WinRT.dll" target="lib\winrt45" />
     <file src="..\WinRTAssemblies\IdeaBlade.Validation.WinRT.xml" target="lib\winrt45" />
 
-    <file src="scripts\core\install.ps1" target="tools" />
+    <file src="scripts\core\init.ps1" target="tools" />
     <file src="..\IdeaBlade.VisualStudio.OM.Designer.11.0.vsix" target="tools" />
     <file src="..\IdeaBlade.VisualStudio.TemplateInstaller.vsix" target="tools" />
   </files>

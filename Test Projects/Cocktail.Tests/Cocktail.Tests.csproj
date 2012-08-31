@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -59,14 +59,10 @@
       <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.Edm">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Edm.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.Edm.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.Server">
-      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Server.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Web">
-      <HintPath>..\..\Libs\DevForce 2012\Desktop Assemblies\IdeaBlade.EntityModel.Web.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

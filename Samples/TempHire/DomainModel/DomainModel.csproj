@@ -87,8 +87,11 @@
     <Reference Include="IdeaBlade.EntityModel">
       <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
+    <Reference Include="IdeaBlade.EntityModel.Edm">
+      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.Edm.dll</HintPath>
+    </Reference>
     <Reference Include="IdeaBlade.EntityModel.Server">
-      <HintPath>..\packages\IdeaBlade.DevForce.Server.Core.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -5,6 +5,7 @@
 # Add DevForce Code-First build tasks
 $solutionDir = Get-SolutionDir
 $projectRelative = $project.FullName.SubString($solutionDir.Length)
+$prefix = ""
 for ($i = 0; $i -lt ($projectRelative.Split("\").Count - 2); $i++) { $prefix = $prefix + "..\" }
 
 $toolsRelative = $toolsPath.Replace($solutionDir + "\", $prefix)

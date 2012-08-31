@@ -51,5 +51,6 @@ Learn more at www.ideablade.com.
     <file src="content\aop\DevForce.cf" target="content" />    
 
     <file src="scripts\aop\install.ps1" target="tools" />
+    <file src="scripts\aop\uninstall.ps1" target="tools" />
   </files>
 </package>

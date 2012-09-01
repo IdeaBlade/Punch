@@ -10,4 +10,6 @@ for ($i = 0; $i -lt ($projectRelative.Split("\").Count - 2); $i++) { $prefix = $
 
 $toolsRelative = $toolsPath.Replace($solutionDir + "\", $prefix)
 
-Add-Import "$toolsRelative\IdeaBlade.DevForce.Common.targets" $project.ProjectName
+$targets = "$toolsRelative\IdeaBlade.DevForce.Common.targets"
+$import = Add-Import $targets $project.ProjectName
+$import.Condition = "Exists('$targets')"

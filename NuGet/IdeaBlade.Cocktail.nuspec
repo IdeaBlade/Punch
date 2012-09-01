@@ -11,7 +11,10 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <summary>Cocktail is an application development platform that takes the pain out of the development of data-driven rich XAML applications.</summary>
     <iconUrl>http://www.ideablade.com/images/icons/cocktail-icon-32.png</iconUrl>
-    <description>Cocktail is an application development platform that takes the pain out of the development of data-driven rich XAML applications.</description>
+    <description>Cocktail is a blend of three popular frameworks: Caliburn.Micro + DevForce + Entity Framework.
+
+Line of business applications need to query and save database data, model those data as objects with business logic, and present those objects to the end user. Cocktail takes care of these fundamental responsibilities with loosely coupled, open source, and industry-leading components that are designed for change.
+    </description>
     <releaseNotes>http://drc.ideablade.com/xwiki/bin/view/Documentation/cocktail-200-release-notes</releaseNotes>
     <copyright>Copyright 2012</copyright>
     <tags>MVVM Silverlight WPF SL5 SL Windows8 WinRT Metro Convention Screen Asynchronous Model-View-ViewModel Presentation UI ViewModel Caliburn.Micro DevForce ORM Entity Data LOB Enterprise</tags>

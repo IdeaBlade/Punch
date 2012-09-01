@@ -1,6 +1,6 @@
 ﻿param($installPath, $toolsPath, $package, $project)
 
-$project = Get-Project   # for testing
+#$project = Get-Project   # for testing
 
 # Remove DevForce build tasks
 $buildProject = $project | Get-MSBuildProject

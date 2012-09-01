@@ -245,7 +245,10 @@ namespace Cocktail
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs args)
         {
             if (_tcs != null)
+            {
+                args.Handled = true;
                 _tcs.TrySetException(args.Exception);
+            }
         }
     }
 }

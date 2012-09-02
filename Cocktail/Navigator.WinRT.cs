@@ -46,7 +46,7 @@ namespace Cocktail
     {
         private readonly IConductActiveItem _conductor;
         private readonly Frame _frame;
-        private readonly FrameAdapter _frameAdapter;
+        private readonly FrameAdapterFix _frameAdapter;
         private TaskCompletionSource<bool> _tcs;
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Cocktail
             if (frame == null) throw new ArgumentNullException("frame");
 
             _frame = frame;
-            _frameAdapter = new FrameAdapter(_frame, treatViewAsLoaded);
+            _frameAdapter = new FrameAdapterFix(_frame, treatViewAsLoaded);
             _frameAdapter.Navigated += OnNavigated;
             _frameAdapter.NavigationFailed += OnNavigationFailed;
             _frameAdapter.NavigationStopped += OnNavigationStopped;
@@ -235,6 +235,12 @@ namespace Cocktail
 
         private void OnNavigated(object sender, NavigationEventArgs args)
         {
+            if (_frameAdapter.HasError)
+            {
+                if (_tcs != null) _tcs.TrySetException(_frameAdapter.Error);
+                return;
+            }
+
             var prepareAsync = args.Parameter as Func<object, Task>;
             if (prepareAsync != null)
                 prepareAsync(ActiveViewModel).ContinueWith(task => _tcs.TrySetResult(true));
@@ -254,6 +260,45 @@ namespace Cocktail
             {
                 args.Handled = true;
                 _tcs.TrySetException(args.Exception);
+            }
+        }
+    }
+
+    internal class FrameAdapterFix : FrameAdapter
+    {
+        private Exception _error;
+
+        public FrameAdapterFix(Frame frame, bool treatViewAsLoaded = false) : base(frame, treatViewAsLoaded)
+        {
+        }
+
+        public bool HasError
+        {
+            get { return _error != null; }
+        }
+
+        public Exception Error
+        {
+            get { return _error; }
+        }
+
+        protected override void OnNavigating(object sender, NavigatingCancelEventArgs args)
+        {
+            _error = null;
+            base.OnNavigating(sender, args);
+        }
+
+        protected override void OnNavigated(object sender, NavigationEventArgs args)
+        {
+            // The Frame control doesn't properly pass the actual exception through to NavigationFailed. 
+            // Let's capture it here and deal with it in the Navigator.
+            try
+            {
+                base.OnNavigated(sender, args);
+            }
+            catch (Exception ex)
+            {
+                _error = ex;
             }
         }
     }

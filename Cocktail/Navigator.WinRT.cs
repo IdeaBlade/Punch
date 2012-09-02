@@ -243,7 +243,16 @@ namespace Cocktail
 
             var prepareAsync = args.Parameter as Func<object, Task>;
             if (prepareAsync != null)
-                prepareAsync(ActiveViewModel).ContinueWith(task => _tcs.TrySetResult(true));
+                prepareAsync(ActiveViewModel)
+                    .ContinueWith(task =>
+                                      {
+                                          if (task.IsFaulted)
+                                              _tcs.TrySetException(task.Exception);
+                                          else if (task.IsCanceled)
+                                              _tcs.TrySetCanceled();
+                                          else
+                                              _tcs.TrySetResult(true);
+                                      });
             else if (_tcs != null)
                 _tcs.TrySetResult(true);
         }

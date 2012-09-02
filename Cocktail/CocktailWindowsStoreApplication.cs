@@ -281,7 +281,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Override to configure the Framework and setup your IoC container.
+        ///   Configures the MEF container.
         /// </summary>
         protected override void Configure()
         {
@@ -308,7 +308,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Override to tell the Framework where to find assemblies to inspect for views, etc.
+        ///   Returns the list of Assemblies for View discovery.
         /// </summary>
         /// <returns> A list of assemblies to inspect. </returns>
         protected override IEnumerable<Assembly> SelectAssemblies()
@@ -317,7 +317,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Implement to instantiate the root navigator to handle top level application navigation.
+        ///   Creates the root Navigator and registers it with the MEF container.
         /// </summary>
         protected override INavigator CreateRootNavigator(Frame rootFrame)
         {

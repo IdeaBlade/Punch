@@ -53,17 +53,12 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Returns the app's root <see cref="Frame" /> control.
+        ///   Gets or sets the app's current root navigator to handle top level UI navigation.
         /// </summary>
-        public Frame RootFrame { get; private set; }
+        public INavigator RootNavigator { get; protected set; }
 
         /// <summary>
-        ///   Retuns the app's root navigator which handles top level UI navigation.
-        /// </summary>
-        public INavigator RootNavigator { get; private set; }
-
-        /// <summary>
-        ///   Called at design time to start the framework.
+        ///   Called at design time to start the Framework.
         /// </summary>
         protected virtual void StartDesignTime()
         {
@@ -76,7 +71,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Called at runtime to start the framework.
+        ///   Called at runtime to start the Framework.
         /// </summary>
         protected virtual void StartRuntime()
         {
@@ -94,6 +89,28 @@ namespace Cocktail
         }
 
         /// <summary>
+        ///   Override to perform asynchronous configuration steps at runtime.
+        /// </summary>
+        protected virtual Task StartRuntimeAsync()
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        ///   Initializes the Framework Runtime.
+        /// </summary>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        protected async Task InitializeRuntimeAsync()
+        {
+            if (_isInitialized)
+                return;
+            _isInitialized = true;
+
+            StartRuntime();
+            await StartRuntimeAsync();
+        }
+
+        /// <summary>
         ///   Provides an opportunity to hook into the application object.
         /// </summary>
         protected virtual void PrepareApplication()
@@ -101,20 +118,17 @@ namespace Cocktail
             Resuming += (sender, args) => OnResuming();
             Suspending += (sender, args) => OnSuspending(args);
             UnhandledException += (sender, args) => OnUnhandledException(args);
-
-            RootFrame = CreateApplicationFrame();
-            RootNavigator = CreateRootNavigator();
         }
 
         /// <summary>
-        ///   Override to configure the framework and setup your IoC container.
+        ///   Override to configure the Framework and setup your IoC container.
         /// </summary>
         protected virtual void Configure()
         {
         }
 
         /// <summary>
-        ///   Override to tell the framework where to find assemblies to inspect for views, etc.
+        ///   Override to tell the Framework where to find assemblies to inspect for views, etc.
         /// </summary>
         /// <returns> A list of assemblies to inspect. </returns>
         protected virtual IEnumerable<Assembly> SelectAssemblies()
@@ -123,23 +137,30 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Configures the framework when the user launched the app normally.
+        ///   Configures the Framework and displays initial content when the user launched the application normally.
         /// </summary>
-        /// <param name="args"> Details about the launch request and process. </param>
-        protected override void OnLaunched(LaunchActivatedEventArgs args)
+        /// <param name="args"> Details about the launch request. </param>
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
-            var shouldRestoreApplicationState = args.PreviousExecutionState == ApplicationExecutionState.Terminated;
-            ConfigureFrameworkAndActivate(() => OnActivationKindLaunchAsync(args), shouldRestoreApplicationState);
-        }
+            var rootFrame = Window.Current.Content as Frame;
 
-        /// <summary>
-        ///   Displays initial content when the user launched the app normally.
-        /// </summary>
-        /// <param name="args"> Details about the launch request and process. </param>
-        /// <returns> A <see cref="Task" /> to await completion of the activation </returns>
-        protected async Task OnActivationKindLaunchAsync(LaunchActivatedEventArgs args)
-        {
-            if (RootFrame.Content == null)
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active.
+            if (rootFrame == null)
+            {
+                await InitializeRuntimeAsync();
+
+                rootFrame = CreateApplicationFrame();
+                RootNavigator = CreateRootNavigator(rootFrame);
+
+                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                    await RestoreApplicationStateAsync();
+
+                // Place the root frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
+
+            if (rootFrame.Content == null)
             {
                 // When the navigation stack isn't restored, navigate to the first page,
                 // configuring the new page by passing the arguments that were pass to the app
@@ -147,6 +168,9 @@ namespace Cocktail
                 await RootNavigator.NavigateToAsync(
                     _rootViewModelType, target => Navigator.TryInjectParameter(target, args.Arguments, "Arguments"));
             }
+
+            // Ensure the current window is active
+            Window.Current.Activate();
         }
 
         /// <summary>
@@ -192,26 +216,8 @@ namespace Cocktail
         /// <summary>
         ///   Implement to instantiate the root navigator to handle top level application navigation.
         /// </summary>
-        /// <returns> </returns>
-        protected abstract INavigator CreateRootNavigator();
-
-        /// <summary>
-        ///   Provides an opportunity to perform asynchronous configuration at runtime.
-        /// </summary>
-        protected virtual Task StartRuntimeAsync()
-        {
-            return Task.FromResult(true);
-        }
-
-        private async Task InitializeRuntimeAsync()
-        {
-            if (_isInitialized)
-                return;
-            _isInitialized = true;
-
-            StartRuntime();
-            await StartRuntimeAsync();
-        }
+        /// <param name="rootFrame"> The frame control to use for navigation. </param>
+        protected abstract INavigator CreateRootNavigator(Frame rootFrame);
 
         private void InitializeDesignTime()
         {
@@ -228,32 +234,6 @@ namespace Cocktail
                 //if something fails at design-time, there's really nothing we can do...
                 _isInitialized = false;
             }
-        }
-
-        private async void ConfigureFrameworkAndActivate(Func<Task> activatorAction,
-                                                         bool shouldRestoreApplicationState = false)
-        {
-            var rootFrame = Window.Current.Content as Frame;
-
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active.
-            if (rootFrame == null)
-            {
-                // Initialization creates the root frame and root navigator
-                await InitializeRuntimeAsync();
-
-                if (shouldRestoreApplicationState)
-                    await RestoreApplicationStateAsync();
-
-                // Place the root frame in the current Window
-                Window.Current.Content = RootFrame;
-            }
-
-            // Perform activation
-            await activatorAction();
-
-            // Ensure the current window is active
-            Window.Current.Activate();
         }
 
         private object GetInstance(Type serviceType, string key)
@@ -301,7 +281,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Override to configure the framework and setup your IoC container.
+        ///   Override to configure the Framework and setup your IoC container.
         /// </summary>
         protected override void Configure()
         {
@@ -314,9 +294,6 @@ namespace Cocktail
 
             _compositionProvider.Configure(conventions);
             Composition.SetProvider(_compositionProvider);
-
-            if (RootNavigator != null)
-                AddExportedValue(RootNavigator);
             Composition.BuildUp(this);
         }
 
@@ -331,7 +308,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Override to tell the framework where to find assemblies to inspect for views, etc.
+        ///   Override to tell the Framework where to find assemblies to inspect for views, etc.
         /// </summary>
         /// <returns> A list of assemblies to inspect. </returns>
         protected override IEnumerable<Assembly> SelectAssemblies()
@@ -342,10 +319,11 @@ namespace Cocktail
         /// <summary>
         ///   Implement to instantiate the root navigator to handle top level application navigation.
         /// </summary>
-        /// <returns> </returns>
-        protected override INavigator CreateRootNavigator()
+        protected override INavigator CreateRootNavigator(Frame rootFrame)
         {
-            return new Navigator(RootFrame);
+            var navigator = new Navigator(rootFrame);
+            AddExportedValue(navigator);
+            return navigator;
         }
 
         /// <summary>

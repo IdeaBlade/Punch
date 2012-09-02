@@ -32,6 +32,7 @@ namespace Cocktail
     /// </summary>
     public abstract class CocktailWindowsStoreApplication : Application
     {
+        private readonly Type _rootViewModelType;
         private bool _isInitialized;
 
         static CocktailWindowsStoreApplication()
@@ -42,16 +43,14 @@ namespace Cocktail
         /// <summary>
         ///   Initializes the application object.
         /// </summary>
-        /// <param name="defaultViewModelType"> The application's default view model type. An instance of this type is active if the user launched the app or tapped a content tile. </param>
-        protected CocktailWindowsStoreApplication(Type defaultViewModelType)
+        /// <param name="rootViewModelType"> The application's default view model type. An instance of this type is active if the user launched the app or tapped a content tile. </param>
+        protected CocktailWindowsStoreApplication(Type rootViewModelType)
         {
-            DefaultViewModelType = defaultViewModelType;
-        }
+            _rootViewModelType = rootViewModelType;
 
-        /// <summary>
-        ///   Returns the app's default view model type.
-        /// </summary>
-        public Type DefaultViewModelType { get; private set; }
+            if (Execute.InDesignMode)
+                InitializeDesignTime();
+        }
 
         /// <summary>
         ///   Returns the app's root <see cref="Frame" /> control.
@@ -64,7 +63,7 @@ namespace Cocktail
         public INavigator RootNavigator { get; private set; }
 
         /// <summary>
-        ///   Called by the constructor at design time to start the framework.
+        ///   Called at design time to start the framework.
         /// </summary>
         protected virtual void StartDesignTime()
         {
@@ -77,7 +76,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Called by the constructor at runtime to start the framework.
+        ///   Called at runtime to start the framework.
         /// </summary>
         protected virtual void StartRuntime()
         {
@@ -102,6 +101,9 @@ namespace Cocktail
             Resuming += (sender, args) => OnResuming();
             Suspending += (sender, args) => OnSuspending(args);
             UnhandledException += (sender, args) => OnUnhandledException(args);
+
+            RootFrame = CreateApplicationFrame();
+            RootNavigator = CreateRootNavigator();
         }
 
         /// <summary>
@@ -109,8 +111,6 @@ namespace Cocktail
         /// </summary>
         protected virtual void Configure()
         {
-            RootFrame = CreateApplicationFrame();
-            RootNavigator = CreateRootNavigator();
         }
 
         /// <summary>
@@ -123,38 +123,30 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Invoked when the user launched the app or tapped a content tile
+        ///   Configures the framework when the user launched the app normally.
         /// </summary>
         /// <param name="args"> Details about the launch request and process. </param>
-        protected override async void OnLaunched(LaunchActivatedEventArgs args)
+        protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            var rootFrame = Window.Current.Content as Frame;
+            var shouldRestoreApplicationState = args.PreviousExecutionState == ApplicationExecutionState.Terminated;
+            ConfigureFrameworkAndActivate(() => OnActivationKindLaunchAsync(args), shouldRestoreApplicationState);
+        }
 
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active.
-            if (rootFrame == null)
-            {
-                // Initialization creates the root frame and root navigator
-                await InitializeAsync();
-
-                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                    await RestoreApplicationStateAsync();
-
-                // Place the root frame in the current Window
-                Window.Current.Content = rootFrame = RootFrame;
-            }
-
-            if (rootFrame.Content == null)
+        /// <summary>
+        ///   Displays initial content when the user launched the app normally.
+        /// </summary>
+        /// <param name="args"> Details about the launch request and process. </param>
+        /// <returns> A <see cref="Task" /> to await completion of the activation </returns>
+        protected async Task OnActivationKindLaunchAsync(LaunchActivatedEventArgs args)
+        {
+            if (RootFrame.Content == null)
             {
                 // When the navigation stack isn't restored, navigate to the first page,
                 // configuring the new page by passing the arguments that were pass to the app
                 // as a navigation parameter.
                 await RootNavigator.NavigateToAsync(
-                    DefaultViewModelType, target => Navigator.TryInjectParameter(target, args.Arguments, "Arguments"));
+                    _rootViewModelType, target => Navigator.TryInjectParameter(target, args.Arguments, "Arguments"));
             }
-
-            // Ensure the current window is active
-            Window.Current.Activate();
         }
 
         /// <summary>
@@ -211,29 +203,57 @@ namespace Cocktail
             return Task.FromResult(true);
         }
 
-        private async Task InitializeAsync()
+        private async Task InitializeRuntimeAsync()
         {
             if (_isInitialized)
                 return;
             _isInitialized = true;
 
-            if (Execute.InDesignMode)
+            StartRuntime();
+            await StartRuntimeAsync();
+        }
+
+        private void InitializeDesignTime()
+        {
+            if (_isInitialized)
+                return;
+            _isInitialized = true;
+
+            try
             {
-                try
-                {
-                    StartDesignTime();
-                }
-                catch
-                {
-                    //if something fails at design-time, there's really nothing we can do...
-                    _isInitialized = false;
-                }
+                StartDesignTime();
             }
-            else
+            catch
             {
-                StartRuntime();
-                await StartRuntimeAsync();
+                //if something fails at design-time, there's really nothing we can do...
+                _isInitialized = false;
             }
+        }
+
+        private async void ConfigureFrameworkAndActivate(Func<Task> activatorAction,
+                                                         bool shouldRestoreApplicationState = false)
+        {
+            var rootFrame = Window.Current.Content as Frame;
+
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active.
+            if (rootFrame == null)
+            {
+                // Initialization creates the root frame and root navigator
+                await InitializeRuntimeAsync();
+
+                if (shouldRestoreApplicationState)
+                    await RestoreApplicationStateAsync();
+
+                // Place the root frame in the current Window
+                Window.Current.Content = RootFrame;
+            }
+
+            // Perform activation
+            await activatorAction();
+
+            // Ensure the current window is active
+            Window.Current.Activate();
         }
 
         private object GetInstance(Type serviceType, string key)
@@ -262,8 +282,8 @@ namespace Cocktail
         /// <summary>
         ///   Initializes the application object.
         /// </summary>
-        /// <param name="defaultViewModelType"> The type of the root view. </param>
-        protected CocktailMefWindowsStoreApplication(Type defaultViewModelType) : base(defaultViewModelType)
+        /// <param name="rootViewModelType"> The type of the root view. </param>
+        protected CocktailMefWindowsStoreApplication(Type rootViewModelType) : base(rootViewModelType)
         {
             _compositionProvider = new MefCompositionProvider();
         }
@@ -295,7 +315,8 @@ namespace Cocktail
             _compositionProvider.Configure(conventions);
             Composition.SetProvider(_compositionProvider);
 
-            AddExportedValue(RootNavigator);
+            if (RootNavigator != null)
+                AddExportedValue(RootNavigator);
             Composition.BuildUp(this);
         }
 

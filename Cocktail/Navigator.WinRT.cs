@@ -151,8 +151,7 @@ namespace Cocktail
             if (_conductor != null)
                 return NavigateWithConductor(viewModelType, prepare);
 
-            return NavigateWithFrame(viewModelType, prepare)
-                .ContinueWith(task => _tcs = null);
+            return NavigateWithFrame(viewModelType, prepare);
         }
 
         #endregion
@@ -182,21 +181,28 @@ namespace Cocktail
 
         private async Task NavigateWithFrame(Type viewModelType, Func<object, Task> prepare)
         {
-            if (_tcs != null)
-                throw new InvalidOperationException(StringResources.PendingNavigation);
+            try
+            {
+                if (_tcs != null)
+                    throw new InvalidOperationException(StringResources.PendingNavigation);
 
-            var viewType = ViewLocator.LocateTypeForModelType(viewModelType, null, null);
-            if (viewType == null)
-                throw new Exception(string.Format(StringResources.ViewNotFound, viewModelType.FullName));
+                var viewType = ViewLocator.LocateTypeForModelType(viewModelType, null, null);
+                if (viewType == null)
+                    throw new Exception(string.Format(StringResources.ViewNotFound, viewModelType.FullName));
 
-            if (!await GuardAsync(viewModelType))
-                throw new TaskCanceledException();
+                if (!await GuardAsync(viewModelType))
+                    throw new TaskCanceledException();
 
-            _tcs = new TaskCompletionSource<bool>();
-            if (!_frameAdapter.Navigate(viewType, prepare))
-                _tcs.TrySetCanceled();
+                _tcs = new TaskCompletionSource<bool>();
+                if (!_frameAdapter.Navigate(viewType, prepare))
+                    _tcs.TrySetCanceled();
 
-            await _tcs.Task;
+                await _tcs.Task;
+            }
+            finally
+            {
+                _tcs = null;
+            }
         }
 
         private async Task GoForwardWithFrame()

@@ -191,6 +191,27 @@ namespace Cocktail
         #endregion
 
         /// <summary>
+        /// A static helper that can be used as prepare action in order to inject a parameter into the target view model
+        /// </summary>
+        /// <param name="target">The target view model</param>
+        /// <param name="parameter">The parameter value to be injected.</param>
+        /// <param name="propertyName">The name of the property to inject to.</param>
+        public static void TryInjectParameter(object target, object parameter, string propertyName = "Parameter")
+        {
+            var viewModelType = target.GetType();
+            var property = viewModelType.GetPropertyCaseInsensitive(propertyName);
+
+            if (property == null)
+                return;
+
+#if SILVERLIGHT
+            property.SetValue(target, MessageBinder.CoerceValue(property.PropertyType, parameter, null), null);
+#else
+            property.SetValue(target, MessageBinder.CoerceValue(property.PropertyType, parameter, null));
+#endif
+        }
+
+        /// <summary>
         ///   Configures the current NavigationService.
         /// </summary>
         /// <param name="configure"> A delegate action to perform the configuration. </param>

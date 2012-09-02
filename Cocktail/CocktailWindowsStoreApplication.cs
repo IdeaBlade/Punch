@@ -19,18 +19,20 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 
 namespace Cocktail
 {
     /// <summary>
-    /// Application base class for a Windows 8 Store app.
+    ///   Application base class for a Windows 8 Store app.
     /// </summary>
-    public abstract class CocktailWindowsStoreApplication : CaliburnApplication
+    public abstract class CocktailWindowsStoreApplication : Application
     {
-        private readonly Type _rootViewType;
+        private bool _isInitialized;
 
         static CocktailWindowsStoreApplication()
         {
@@ -38,21 +40,168 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Initializes the application object.
+        ///   Initializes the application object.
         /// </summary>
-        /// <param name="rootViewType">The type of the root view.</param>
-        protected CocktailWindowsStoreApplication(Type rootViewType)
+        /// <param name="defaultViewModelType"> The application's default view model type. An instance of this type is active if the user launched the app or tapped a content tile. </param>
+        protected CocktailWindowsStoreApplication(Type defaultViewModelType)
         {
-            _rootViewType = rootViewType;
+            DefaultViewModelType = defaultViewModelType;
         }
 
         /// <summary>
-        /// Returns the root view type.
+        ///   Returns the app's default view model type.
         /// </summary>
-        protected override Type GetDefaultView()
+        public Type DefaultViewModelType { get; private set; }
+
+        /// <summary>
+        ///   Returns the app's root <see cref="Frame" /> control.
+        /// </summary>
+        public Frame RootFrame { get; private set; }
+
+        /// <summary>
+        ///   Retuns the app's root navigator which handles top level UI navigation.
+        /// </summary>
+        public INavigator RootNavigator { get; private set; }
+
+        /// <summary>
+        ///   Called by the constructor at design time to start the framework.
+        /// </summary>
+        protected virtual void StartDesignTime()
         {
-            return _rootViewType;
+            AssemblySource.Instance.AddRange(SelectAssemblies());
+
+            Configure();
+            IoC.GetInstance = GetInstance;
+            IoC.GetAllInstances = GetAllInstances;
+            IoC.BuildUp = BuildUp;
         }
+
+        /// <summary>
+        ///   Called by the constructor at runtime to start the framework.
+        /// </summary>
+        protected virtual void StartRuntime()
+        {
+            Execute.InitializeWithDispatcher();
+
+            EventAggregator.DefaultPublicationThreadMarshaller = Execute.OnUIThread;
+            AssemblySource.Instance.AddRange(SelectAssemblies());
+
+            PrepareApplication();
+            Configure();
+
+            IoC.GetInstance = GetInstance;
+            IoC.GetAllInstances = GetAllInstances;
+            IoC.BuildUp = BuildUp;
+        }
+
+        /// <summary>
+        ///   Provides an opportunity to hook into the application object.
+        /// </summary>
+        protected virtual void PrepareApplication()
+        {
+            Resuming += (sender, args) => OnResuming();
+            Suspending += (sender, args) => OnSuspending(args);
+            UnhandledException += (sender, args) => OnUnhandledException(args);
+        }
+
+        /// <summary>
+        ///   Override to configure the framework and setup your IoC container.
+        /// </summary>
+        protected virtual void Configure()
+        {
+            RootFrame = CreateApplicationFrame();
+            RootNavigator = CreateRootNavigator();
+        }
+
+        /// <summary>
+        ///   Override to tell the framework where to find assemblies to inspect for views, etc.
+        /// </summary>
+        /// <returns> A list of assemblies to inspect. </returns>
+        protected virtual IEnumerable<Assembly> SelectAssemblies()
+        {
+            return new[] {GetType().GetTypeInfo().Assembly};
+        }
+
+        /// <summary>
+        ///   Invoked when the user launched the app or tapped a content tile
+        /// </summary>
+        /// <param name="args"> Details about the launch request and process. </param>
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
+        {
+            var rootFrame = Window.Current.Content as Frame;
+
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active.
+            if (rootFrame == null)
+            {
+                // Initialization creates the root frame and root navigator
+                await InitializeAsync();
+
+                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                    await RestoreApplicationStateAsync();
+
+                // Place the root frame in the current Window
+                Window.Current.Content = rootFrame = RootFrame;
+            }
+
+            if (rootFrame.Content == null)
+            {
+                // When the navigation stack isn't restored, navigate to the first page,
+                // configuring the new page by passing the arguments that were pass to the app
+                // as a navigation parameter.
+                await RootNavigator.NavigateToAsync(
+                    DefaultViewModelType, target => Navigator.TryInjectParameter(target, args.Arguments, "Arguments"));
+            }
+
+            // Ensure the current window is active
+            Window.Current.Activate();
+        }
+
+        /// <summary>
+        ///   Invoked if app is launched after it had previously been terminated. Override to restore saved application state.
+        /// </summary>
+        /// <returns> </returns>
+        protected virtual Task RestoreApplicationStateAsync()
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        ///   Override to perform operations when the app transitions from Suspended state to Running state.
+        /// </summary>
+        protected virtual void OnResuming()
+        {
+        }
+
+        /// <summary>
+        ///   Override to perform operations when the app transitions from Running state to Suspended state.
+        /// </summary>
+        /// <param name="e"> </param>
+        protected virtual void OnSuspending(SuspendingEventArgs e)
+        {
+        }
+
+        /// <summary>
+        ///   Override to perform operations if an app exception goes unhandled.
+        /// </summary>
+        /// <param name="args"> The unhandled exception details </param>
+        protected virtual void OnUnhandledException(UnhandledExceptionEventArgs args)
+        {
+        }
+
+        /// <summary>
+        ///   Creates the app's root <see cref="Frame" /> control.
+        /// </summary>
+        protected virtual Frame CreateApplicationFrame()
+        {
+            return new Frame();
+        }
+
+        /// <summary>
+        ///   Implement to instantiate the root navigator to handle top level application navigation.
+        /// </summary>
+        /// <returns> </returns>
+        protected abstract INavigator CreateRootNavigator();
 
         /// <summary>
         ///   Provides an opportunity to perform asynchronous configuration at runtime.
@@ -62,84 +211,67 @@ namespace Cocktail
             return Task.FromResult(true);
         }
 
-        /// <summary>
-        ///   Initializes application and displays the root view
-        /// </summary>
-        protected override async void EnsurePage(IActivatedEventArgs args)
+        private async Task InitializeAsync()
         {
-            // This logic is copied from the base class and modified to support async bootstrapping
-            Initialise();
-            await StartRuntimeAsync();
+            if (_isInitialized)
+                return;
+            _isInitialized = true;
 
-            switch (args.Kind)
+            if (Execute.InDesignMode)
             {
-                default:
-
-                    var defaultView = GetDefaultView();
-
-                    RootFrame.Navigate(defaultView);
-
-                    break;
+                try
+                {
+                    StartDesignTime();
+                }
+                catch
+                {
+                    //if something fails at design-time, there's really nothing we can do...
+                    _isInitialized = false;
+                }
             }
-
-            // Seems stupid but observed weird behaviour when resetting the Content
-            if (Window.Current.Content != RootFrame)
-                Window.Current.Content = RootFrame;
-
-            Window.Current.Activate();
+            else
+            {
+                StartRuntime();
+                await StartRuntimeAsync();
+            }
         }
 
-        /// <summary>
-        ///   Locates the supplied service.
-        /// </summary>
-        /// <param name="serviceType"> The service to locate. </param>
-        /// <param name="key"> The key to locate. </param>
-        /// <returns> The located service. </returns>
-        protected override object GetInstance(Type serviceType, string key)
+        private object GetInstance(Type serviceType, string key)
         {
             return Composition.GetInstance(serviceType, key);
         }
 
-        /// <summary>
-        ///   Locates all instances of the supplied service.
-        /// </summary>
-        /// <param name="serviceType"> The service to locate. </param>
-        /// <returns> The located services. </returns>
-        protected override IEnumerable<object> GetAllInstances(Type serviceType)
+        private IEnumerable<object> GetAllInstances(Type serviceType)
         {
             return Composition.GetInstances(serviceType, null);
         }
 
-        /// <summary>
-        ///   Performs injection on the supplied instance.
-        /// </summary>
-        /// <param name="instance"> The instance to perform injection on. </param>
-        protected override void BuildUp(object instance)
+        private void BuildUp(object instance)
         {
             Composition.BuildUp(instance);
         }
     }
 
     /// <summary>
-    /// Application base class for a Windows 8 Store app that uses MEF as the IoC implementation.
+    ///   Application base class for a Windows 8 Store app that uses MEF as the IoC implementation.
     /// </summary>
-    public abstract class CocktailMefWindowsStoreApplication : CocktailWindowsStoreApplication
+    public class CocktailMefWindowsStoreApplication : CocktailWindowsStoreApplication
     {
         private readonly MefCompositionProvider _compositionProvider;
 
         /// <summary>
-        /// Initializes the application object.
+        ///   Initializes the application object.
         /// </summary>
-        /// <param name="rootViewType">The type of the root view.</param>
-        protected CocktailMefWindowsStoreApplication(Type rootViewType) : base(rootViewType)
+        /// <param name="defaultViewModelType"> The type of the root view. </param>
+        protected CocktailMefWindowsStoreApplication(Type defaultViewModelType) : base(defaultViewModelType)
         {
             _compositionProvider = new MefCompositionProvider();
         }
 
         /// <summary>
-        /// Override to setup up MEF export conventions.
+        ///   Override to setup up MEF export conventions.
         /// </summary>
-        /// <param name="conventions"></param>
+        /// <param name="conventions"> </param>
         protected virtual void PrepareConventions(ConventionBuilder conventions)
         {
             // Automatic export of ViewModels.
@@ -149,7 +281,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Override to configure the framework and setup your IoC container.
+        ///   Override to configure the framework and setup your IoC container.
         /// </summary>
         protected override void Configure()
         {
@@ -163,8 +295,8 @@ namespace Cocktail
             _compositionProvider.Configure(conventions);
             Composition.SetProvider(_compositionProvider);
 
-            AddExportedValue<INavigator>(new Navigator(RootFrame));
-            BuildUp(this);
+            AddExportedValue(RootNavigator);
+            Composition.BuildUp(this);
         }
 
         /// <summary>
@@ -178,14 +310,21 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Override to tell the framework where to find assemblies to inspect for views, etc.
+        ///   Override to tell the framework where to find assemblies to inspect for views, etc.
         /// </summary>
-        /// <returns>
-        /// A list of assemblies to inspect.
-        /// </returns>
+        /// <returns> A list of assemblies to inspect. </returns>
         protected override IEnumerable<Assembly> SelectAssemblies()
         {
             return CompositionHost.Instance.ProbeAssemblies;
+        }
+
+        /// <summary>
+        ///   Implement to instantiate the root navigator to handle top level application navigation.
+        /// </summary>
+        /// <returns> </returns>
+        protected override INavigator CreateRootNavigator()
+        {
+            return new Navigator(RootFrame);
         }
 
         /// <summary>

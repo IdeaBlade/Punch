@@ -322,7 +322,7 @@ namespace Cocktail
         protected override INavigator CreateRootNavigator(Frame rootFrame)
         {
             var navigator = new Navigator(rootFrame);
-            AddExportedValue(navigator);
+            AddExportedValue<INavigator>(navigator);
             return navigator;
         }
 

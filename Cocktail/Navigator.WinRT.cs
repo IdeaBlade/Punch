@@ -34,12 +34,12 @@ namespace Cocktail
         /// <summary>
         ///   Navigates to the most recent item in forward navigation history, if a NavigationService manages its own navigation history.
         /// </summary>
-        Task GoForward();
+        Task GoForwardAsync();
 
         /// <summary>
         ///   Navigates to the most recent item in back navigation history, if a NavigationService manages its own navigation history.
         /// </summary>
-        Task GoBack();
+        Task GoBackAsync();
     }
 
     public partial class Navigator
@@ -97,25 +97,23 @@ namespace Cocktail
         /// <summary>
         ///   Navigates to the most recent item in forward navigation history, if a NavigationService manages its own navigation history.
         /// </summary>
-        public Task GoForward()
+        public Task GoForwardAsync()
         {
             if (_frameAdapter == null)
                 throw new NotSupportedException(StringResources.NavigationServiceDoesNotManageHistory);
 
-            return GoForwardWithFrame()
-                .ContinueWith(task => _tcs = null);
+            return GoForwardWithFrame();
         }
 
         /// <summary>
         ///   Navigates to the most recent item in back navigation history, if a NavigationService manages its own navigation history.
         /// </summary>
-        public Task GoBack()
+        public Task GoBackAsync()
         {
             if (_frameAdapter == null)
                 throw new NotSupportedException(StringResources.NavigationServiceDoesNotManageHistory);
 
-            return GoBackWithFrame()
-                .ContinueWith(task => _tcs = null);
+            return GoBackWithFrame();
         }
 
         /// <summary>
@@ -181,11 +179,11 @@ namespace Cocktail
 
         private async Task NavigateWithFrame(Type viewModelType, Func<object, Task> prepare)
         {
+            if (_tcs != null)
+                throw new InvalidOperationException(StringResources.PendingNavigation);
+
             try
             {
-                if (_tcs != null)
-                    throw new InvalidOperationException(StringResources.PendingNavigation);
-
                 var viewType = ViewLocator.LocateTypeForModelType(viewModelType, null, null);
                 if (viewType == null)
                     throw new Exception(string.Format(StringResources.ViewNotFound, viewModelType.FullName));
@@ -210,13 +208,20 @@ namespace Cocktail
             if (_tcs != null)
                 throw new InvalidOperationException(StringResources.PendingNavigation);
 
-            if (!await CanCloseAsync())
-                throw new TaskCanceledException();
+            try
+            {
+                if (!await CanCloseAsync())
+                    throw new TaskCanceledException();
 
-            _tcs = new TaskCompletionSource<bool>();
-            _frameAdapter.GoForward();
+                _tcs = new TaskCompletionSource<bool>();
+                _frameAdapter.GoForward();
 
-            await _tcs.Task;
+                await _tcs.Task;
+            }
+            finally
+            {
+                _tcs = null;
+            }
         }
 
         private async Task GoBackWithFrame()
@@ -224,13 +229,20 @@ namespace Cocktail
             if (_tcs != null)
                 throw new InvalidOperationException(StringResources.PendingNavigation);
 
-            if (!await CanCloseAsync())
-                throw new TaskCanceledException();
+            try
+            {
+                if (!await CanCloseAsync())
+                    throw new TaskCanceledException();
 
-            _tcs = new TaskCompletionSource<bool>();
-            _frameAdapter.GoBack();
+                _tcs = new TaskCompletionSource<bool>();
+                _frameAdapter.GoBack();
 
-            await _tcs.Task;
+                await _tcs.Task;
+            }
+            finally
+            {
+                _tcs = null;
+            }
         }
 
         private void OnNavigated(object sender, NavigationEventArgs args)

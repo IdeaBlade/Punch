@@ -7,10 +7,11 @@ namespace NavSample
 {
     public class ListPageViewModel : Screen
     {
+        private readonly ErrorHandler _errorHandler;
         private readonly INavigator _navigator;
         private readonly IUnitOfWork<Customer> _unitOfWork;
-        private readonly ErrorHandler _errorHandler;
         private BindableCollection<Customer> _customers;
+        private string _searchText;
         private Customer _selectedCustomer;
 
         // Inject Cocktail root navigation service
@@ -50,6 +51,17 @@ namespace NavSample
             get { return _navigator.CanGoBack; }
         }
 
+        public string SearchText
+        {
+            get { return _searchText; }
+            set
+            {
+                if (value == _searchText) return;
+                _searchText = value;
+                NotifyOfPropertyChange(() => SearchText);
+            }
+        }
+
         protected override void OnInitialize()
         {
             base.OnInitialize();
@@ -74,6 +86,26 @@ namespace NavSample
             try
             {
                 await _navigator.GoBackAsync();
+            }
+            catch (Exception e)
+            {
+                _errorHandler.Handle(e);
+            }
+        }
+
+        public async void Search()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(SearchText))
+                {
+                    Start();
+                    return;
+                }
+
+                var customers = await _unitOfWork.Entities.FindAsync(
+                    x => x.CompanyName.Contains(SearchText), q => q.OrderBy(x => x.CompanyName));
+                Customers = new BindableCollection<Customer>(customers);
             }
             catch (Exception e)
             {

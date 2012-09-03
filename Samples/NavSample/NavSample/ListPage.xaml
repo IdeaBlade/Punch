@@ -2,13 +2,27 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
 
+    <Page.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Page.Resources>
+
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Style="{StaticResource LayoutRootStyle}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="140" />
+            <RowDefinition Height="140" />   <!-- Header -->
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ListView x:Name="Customers" Grid.Row="2" Margin="116,0,40,46">
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="116,0,40,10">
+            <TextBox x:Name="SearchText" Width="400" />
+            <Button x:Name="Search" Content="Search" VerticalAlignment="Center" Width="100" />
+        </StackPanel>
+
+        <ListView x:Name="Customers" Grid.Row="3" Margin="116,0,40,46">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock VerticalAlignment="Center" Text="{Binding CompanyName}"
@@ -23,7 +37,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Button x:Name="GoBack" Style="{StaticResource BackButtonStyle}" IsEnabled="False" />
-            <TextBlock Text="Customer List" Style="{StaticResource PageHeaderTextStyle}" Grid.Column="1"
+            <TextBlock Text="Customer Management" Style="{StaticResource PageHeaderTextStyle}" Grid.Column="1"
                        IsHitTestVisible="false" />
         </Grid>
     </Grid>

@@ -117,6 +117,7 @@ namespace NavSample
         {
             try
             {
+                // Navigate to detail page and initialize page with the selected customer.
                 await _navigator.NavigateToAsync<DetailPageViewModel>(
                     target => target.Start(_selectedCustomer.CustomerID));
             }

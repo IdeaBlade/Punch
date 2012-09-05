@@ -20,7 +20,10 @@ namespace NavSample
             _navigator = navigator;
             _unitOfWork = unitOfWork;
             _errorHandler = errorHandler;
+            Busy = new BusyWatcher();
         }
+
+        public BusyWatcher Busy { get; private set; }
 
         public BindableCollection<Customer> Customers
         {
@@ -72,8 +75,12 @@ namespace NavSample
         {
             try
             {
-                var customers = await _unitOfWork.Entities.AllAsync(q => q.OrderBy(x => x.CompanyName));
-                Customers = new BindableCollection<Customer>(customers);
+                using (Busy.GetTicket())
+                {
+                    var customers =
+                        await _unitOfWork.Entities.AllAsync(q => q.OrderBy(x => x.CompanyName));
+                    Customers = new BindableCollection<Customer>(customers);
+                }
             }
             catch (Exception e)
             {
@@ -97,15 +104,18 @@ namespace NavSample
         {
             try
             {
-                if (string.IsNullOrEmpty(SearchText))
+                using (Busy.GetTicket())
                 {
-                    Start();
-                    return;
-                }
+                    if (string.IsNullOrEmpty(SearchText))
+                    {
+                        Start();
+                        return;
+                    }
 
-                var customers = await _unitOfWork.Entities.FindAsync(
-                    x => x.CompanyName.Contains(SearchText), q => q.OrderBy(x => x.CompanyName));
-                Customers = new BindableCollection<Customer>(customers);
+                    var customers = await _unitOfWork.Entities.FindAsync(
+                        x => x.CompanyName.Contains(SearchText), q => q.OrderBy(x => x.CompanyName));
+                    Customers = new BindableCollection<Customer>(customers);
+                }
             }
             catch (Exception e)
             {

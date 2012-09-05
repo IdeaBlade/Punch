@@ -117,7 +117,6 @@
     <Compile Include="Factory.cs" />
     <Compile Include="FakeBackingStore.cs" />
     <Compile Include="FakeStoreEntityManagerProviderFns.cs" />
-    <Compile Include="HarnessViewModel.cs" />
     <Compile Include="IAuthenticationService.cs" />
     <Compile Include="IBusyWatcher.cs" />
     <Compile Include="ICompositionProvider.cs" />
@@ -212,7 +211,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Cocktail.snk" />
     <None Include="packages.config" />
   </ItemGroup>

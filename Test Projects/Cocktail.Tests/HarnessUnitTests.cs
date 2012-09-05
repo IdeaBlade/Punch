@@ -52,7 +52,11 @@ namespace Cocktail.Tests
         [TestMethod]
         public void ShouldGetViewModelList()
         {
+#if NETFX_CORE
+            var shell = new HarnessViewModel(null, Composition.GetInstances<IDiscoverableViewModel>());
+#else
             var shell = new HarnessViewModel(Composition.GetInstances<IDiscoverableViewModel>());
+#endif
             Composition.BuildUp(shell);
 
             Assert.IsTrue(shell.Names.Any(), "We should have at least one ViewModel name");

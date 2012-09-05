@@ -10,39 +10,38 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using System.Collections.Generic;
-using System.Linq;
 using Caliburn.Micro;
+using Windows.UI.Xaml.Controls;
 
 namespace Cocktail
 {
     /// <summary>
-    ///   ViewModel implementing the Development Harness. Specify this ViewModel as the root in the Application constructor to create a Development Harness
+    ///   UserControl implementing the development harness for Windows Store apps.
     /// </summary>
-    public partial class HarnessViewModel
+    public sealed partial class Harness : UserControl
     {
-        private readonly Dictionary<string, object> _viewModels;
-        private string _activeName;
-
         /// <summary>
-        ///   Bindable collection exposing the names of all discovered ViewModels.
+        ///   Initializes the development harness
         /// </summary>
-        public BindableCollection<string> Names
+        public Harness()
         {
-            get { return new BindableCollection<string>(_viewModels.Keys.OrderBy(k => k)); }
+            InitializeComponent();
+
+            if (Execute.InDesignMode) 
+                return;
+
+            // Create and attach ViewModel
+            var navigator = Composition.GetInstance<INavigator>();
+            var viewModels = Composition.GetInstances<IDiscoverableViewModel>();
+            DataContext = new HarnessViewModel(navigator, viewModels);
         }
 
-        /// <summary>
-        ///   Returns the name of the current active view model.
-        /// </summary>
-        public string ActiveName
+        private void Button_Activate(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            get { return _activeName; }
-            set
-            {
-                _activeName = value;
-                NotifyOfPropertyChange(() => ActiveName);
-            }
+            var vm = (HarnessViewModel) DataContext;
+            var name = (string) ((Button) sender).DataContext;
+
+            vm.ActivateViewModel(name);
         }
     }
 }

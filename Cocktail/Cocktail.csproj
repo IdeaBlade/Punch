@@ -92,6 +92,9 @@
     <Compile Include="FakeStoreEntityManagerProviderFns.NET.cs">
       <DependentUpon>FakeStoreEntityManagerProviderFns.cs</DependentUpon>
     </Compile>
+    <Compile Include="HarnessViewModel.Desktop.cs">
+      <DependentUpon>HarnessViewModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="IAuthenticationService.NET.cs">
       <DependentUpon>IAuthenticationService.cs</DependentUpon>
     </Compile>

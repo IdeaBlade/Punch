@@ -11,38 +11,42 @@
 // ====================================================================================================================
 
 using System.Collections.Generic;
-using System.Linq;
+using System.Composition;
 using Caliburn.Micro;
+using IdeaBlade.Core;
 
 namespace Cocktail
 {
-    /// <summary>
-    ///   ViewModel implementing the Development Harness. Specify this ViewModel as the root in the Application constructor to create a Development Harness
-    /// </summary>
-    public partial class HarnessViewModel
+    [Export]
+    public partial class HarnessViewModel : Screen
     {
-        private readonly Dictionary<string, object> _viewModels;
-        private string _activeName;
+        private readonly INavigator _navigator;
 
         /// <summary>
-        ///   Bindable collection exposing the names of all discovered ViewModels.
+        ///   Initializes a new instance.
         /// </summary>
-        public BindableCollection<string> Names
+        public HarnessViewModel(INavigator navigator, IEnumerable<IDiscoverableViewModel> viewModels)
         {
-            get { return new BindableCollection<string>(_viewModels.Keys.OrderBy(k => k)); }
+            _navigator = navigator;
+            _viewModels = new Dictionary<string, object>();
+            viewModels.ForEach(vm => _viewModels.Add(vm.GetType().Name, vm));
         }
 
         /// <summary>
-        ///   Returns the name of the current active view model.
+        ///   Activates the ViewModel with the given name.
         /// </summary>
-        public string ActiveName
+        public async void ActivateViewModel(string name)
         {
-            get { return _activeName; }
-            set
-            {
-                _activeName = value;
-                NotifyOfPropertyChange(() => ActiveName);
-            }
+            object viewModel;
+            if (!_viewModels.TryGetValue(name, out viewModel)) 
+                return;
+
+            ActiveName = name;
+
+            if (viewModel is IHarnessAware)
+                await _navigator.NavigateToAsync(viewModel.GetType(), target => ((IHarnessAware) target).Setup());
+            else
+                await _navigator.NavigateToAsync(viewModel.GetType());
         }
     }
 }

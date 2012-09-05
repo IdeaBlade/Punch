@@ -138,6 +138,9 @@
     <Compile Include="EventFns.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="FakeStoreEntityManagerProviderFns.cs" />
+    <Compile Include="HarnessViewModel.Desktop.cs">
+      <DependentUpon>HarnessViewModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="IBusyWatcher.cs" />
     <Compile Include="ICompositionProvider.cs" />
     <Compile Include="ICompositionProvider.Silverlight.cs">

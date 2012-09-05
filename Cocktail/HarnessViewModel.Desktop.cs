@@ -11,38 +11,41 @@
 // ====================================================================================================================
 
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.Composition;
 using Caliburn.Micro;
+using IdeaBlade.Core;
 
 namespace Cocktail
 {
-    /// <summary>
-    ///   ViewModel implementing the Development Harness. Specify this ViewModel as the root in the Application constructor to create a Development Harness
-    /// </summary>
-    public partial class HarnessViewModel
+    [Export]
+    public partial class HarnessViewModel : Conductor<object>
     {
-        private readonly Dictionary<string, object> _viewModels;
-        private string _activeName;
-
         /// <summary>
-        ///   Bindable collection exposing the names of all discovered ViewModels.
+        ///   Initializes a new instance.
         /// </summary>
-        public BindableCollection<string> Names
+        /// <param name="viewModels"> The list of discovered ViewModels injected through MEF. </param>
+        [ImportingConstructor]
+        public HarnessViewModel([ImportMany] IEnumerable<IDiscoverableViewModel> viewModels)
         {
-            get { return new BindableCollection<string>(_viewModels.Keys.OrderBy(k => k)); }
+            _viewModels = new Dictionary<string, object>();
+            viewModels.ForEach(vm => _viewModels.Add(vm.GetType().Name, vm));
         }
 
         /// <summary>
-        ///   Returns the name of the current active view model.
+        ///   Activates the ViewModel with the given name.
         /// </summary>
-        public string ActiveName
+        public void ActivateViewModel(string name)
         {
-            get { return _activeName; }
-            set
-            {
-                _activeName = value;
-                NotifyOfPropertyChange(() => ActiveName);
-            }
+            object viewModel;
+            if (!_viewModels.TryGetValue(name, out viewModel)) 
+                return;
+
+            var harnessAware = viewModel as IHarnessAware;
+            if (harnessAware != null)
+                harnessAware.Setup();
+
+            ActivateItem(viewModel);
+            ActiveName = name;
         }
     }
 }

@@ -74,9 +74,14 @@ namespace Cocktail
         /// <summary>
         ///   Commits all pending changes to the underlying data source.
         /// </summary>
-        public virtual Task<SaveResult> CommitAsync()
+        public async virtual Task<SaveResult> CommitAsync()
         {
-            return EntityManager.SaveChangesAsync();
+            var saveResult = await EntityManager.SaveChangesAsync();
+
+            if (saveResult.WasCancelled)
+                throw new TaskCanceledException();
+
+            return saveResult;
         }
 
         /// <summary>

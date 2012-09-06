@@ -288,5 +288,36 @@ namespace Cocktail.Tests
             Assert.IsTrue(page.Results.Count() == 2);
             Assert.IsTrue(page.PageIndex == 0);
         }
+
+        [TestMethod]
+        [Timeout(10000)]
+        public async Task ShouldCancelQueryTask()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+            var em = provider.Manager;
+            em.Querying += (sender, args) => args.Cancel = true;
+
+            await unitOfWork.Entities.AllAsync()
+                .ContinueWith(task => Assert.IsTrue(task.IsCanceled, "Should be cancelled"));
+        }
+
+        [TestMethod]
+        [Timeout(10000)]
+        public async Task ShouldCancelSaveTask()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+            var em = provider.Manager;
+
+            var customer = new Customer { CustomerID = Guid.NewGuid(), CompanyName = "Foo" };
+            em.AddEntity(customer);
+            em.Saving += (sender, args) =>
+                args.Cancel = true;
+
+            Assert.IsTrue(em.HasChanges());
+            await unitOfWork.CommitAsync()
+                .ContinueWith(task => Assert.IsTrue(task.IsCanceled, "Should be cancelled"));
+        }
     }
 }

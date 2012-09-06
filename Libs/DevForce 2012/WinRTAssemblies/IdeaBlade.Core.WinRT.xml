@@ -3665,6 +3665,24 @@ public class MockEntityServerQueryInterceptor : EntityServerQueryInterceptor {
             <param name="constructorParams"></param>
             <returns></returns>
         </member>
+        <member name="M:IdeaBlade.Core.Reflection.TypeFns.GetPropertyValue(System.Type,System.String,System.Object)">
+            <summary>
+            System.Type extension method to get a property value given a source object.
+            </summary>
+            <param name="type"></param>
+            <param name="propertyName"></param>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.Core.Reflection.TypeFns.ConvertType(System.Object,System.Type,System.Boolean)">
+            <summary>
+            Try and convert a value to the specified conversion type.
+            </summary>
+            <param name="value"></param>
+            <param name="conversionType"></param>
+            <param name="throwIfError"></param>
+            <returns></returns>
+        </member>
         <member name="M:IdeaBlade.Core.Reflection.TypeFns.InitializeType(System.Type)">
             <summary>
             Will initialize a type by calling its static ( class) ctor and insures that it is only called once.

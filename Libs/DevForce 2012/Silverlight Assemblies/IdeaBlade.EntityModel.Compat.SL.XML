@@ -675,13 +675,15 @@
             <param name="userState">Token identifying the asynchronous operation</param>
             <remarks>
             Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
-            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
-            asynchronous call using <see cref="M:IdeaBlade.EntityModel.BaseOperation`2.Cancel"/>.
+            Use the <paramref name="userState"/> to uniquely identify this call.  
+            <para>An asynchronous ID fixup may not be cancelled.</para>
+            <para>
             Auto-generated temporary IDs are automatically "fixed up" during save processing.  You
             can force that fixup to be done prior to a save by calling this method.
             An exception will be thrown if any entity properties whose schema definition
             has a <b>StoreGeneratedPattern="identity"</b> attribute are pending fixup,
             since these IDs can only be assigned during a save operation.
+            </para>
             </remarks>
         </member>
         <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.InvokeServerMethodAsync(IdeaBlade.EntityModel.EntityManager,IdeaBlade.EntityModel.ServerMethodDelegate,System.Action{IdeaBlade.EntityModel.InvokeServerMethodOperation},System.Object,System.Object[])">
@@ -747,6 +749,7 @@
             <summary>
             Execute a query asynchronously.
             </summary>
+            <param name="em">EntityManager</param>
             <typeparam name="T">Entity type queried</typeparam>
             <param name="query">The <see cref="T:IdeaBlade.EntityModel.IEntityQuery"/> to execute</param>
             <param name="userCallback">Callback invoked when the query completes</param>
@@ -756,8 +759,7 @@
             The query results will be returned in the <see cref="T:IdeaBlade.EntityModel.EntityQueriedEventArgs"/> 
             passed to the <paramref name="userCallback"/>.
             Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
-            asynchronous call using <see cref="!:CancelAsync"/>.
-            <para>This feature is only available in certain editions of DevForce.</para>
+            asynchronous call using <see cref="!:BaseOperation.Cancel"/> method.
             </remarks>  
             <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;ExecuteQueryAsync&quot;]/*"/>
         </member>
@@ -765,6 +767,7 @@
             <summary>
             Execute a query asynchronously.
             </summary>
+            <param name="em">EntityManager</param>
             <param name="query">The <see cref="T:IdeaBlade.EntityModel.IEntityQuery"/> to execute</param>
             <param name="userCallback">Callback invoked when the query completes</param>
             <param name="userState">Token to identify the query upon completion</param>
@@ -773,8 +776,7 @@
             The query results will be returned in the <see cref="T:IdeaBlade.EntityModel.EntityQueriedEventArgs"/> 
             passed to the <paramref name="userCallback"/>.
             Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
-            asynchronous call using <see cref="!:CancelAsync"/>.
-            <para>This feature is only available in certain editions of DevForce.</para>
+            asynchronous call using <see cref="!:BaseOperation.Cancel"/> method.
             </remarks>  
             <exception cref="T:System.InvalidOperationException">DataSource fetch strategies are not allowed when disconnected</exception>
             <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;ExecuteQueryAsync&quot;]/*"/>
@@ -878,8 +880,14 @@
             Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
             The <see cref="T:IdeaBlade.EntityModel.EntitySaveOperation"/> passed to the <paramref name="userCallback"/> will contain
             the results of the save operation.
-            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
-            asynchronous call using <see cref="!:BaseOperation.Cancel()">EntitySaveOperation.Cancel()</see>.
+            Use the <paramref name="userState"/> to uniquely identify this call.
+            <para>
+            The asynchronous save operation cannot itself be cancelled.  However, you can cancel the save process on the client
+            before the save starts in a <see cref="!:Saving"/> event handler.  You can also cancel the save process on
+            the server in an <b>EntityQuerySaveInterceptor</b> prior to executing the save to the data source.
+            If you do cancel the save, the async task will complete successfully and the returned <see cref="T:IdeaBlade.EntityModel.SaveResult"/>
+            will indicate that the save processing was cancelled.
+            </para>
             </remarks>
             <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;SaveChangesAsync&quot;]/*"/>
         </member>

@@ -536,7 +536,6 @@ public void DynamicGroupAndSum() {
             Provides the means to dynamically construct a "Select", 'SelectMany" or "GroupBy" projection.
             </summary>
             <remarks>
-            Replaces the <see cref="!:PropertyProjectionSelector"/>.
             </remarks>
         </member>
         <member name="M:IdeaBlade.Linq.ProjectionSelector.#ctor(System.Type,System.String,System.String)">
@@ -1194,9 +1193,9 @@ var results = query.Execute();
         </member>
         <member name="M:IdeaBlade.Linq.QueryableExtensions.OrderBySingleSelector``1(System.Linq.IQueryable{``0},IdeaBlade.Linq.SortSelector)">
             <summary>
-            Sorts the elements of a sequence according to an <see cref="!:PropertySortSelector"/>.
+            Sorts the elements of a sequence according to an <see cref="T:IdeaBlade.Linq.SortSelector"/>.
             </summary>
-            <remarks>Ascending or descending order is handled by the propertySortSelector </remarks>
+            <remarks>Ascending or descending order is handled by the sortSelector </remarks>
         </member>
         <member name="M:IdeaBlade.Linq.QueryableExtensions.BuildIQueryableFunc``4(System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Type,``2,``3)">
             <summary>
@@ -1474,7 +1473,7 @@ var results = query.Execute();
         </member>
         <member name="M:IdeaBlade.Linq.PropertySelector.ToSortSelector(System.ComponentModel.ListSortDirection)">
             <summary>
-            Returns a <see cref="!:PropertySortSelector"/> from a PropertySelector.
+            Returns a <see cref="T:IdeaBlade.Linq.SortSelector"/> from a PropertySelector.
             </summary>
             <param name="sortDirection"></param>
             <returns></returns>

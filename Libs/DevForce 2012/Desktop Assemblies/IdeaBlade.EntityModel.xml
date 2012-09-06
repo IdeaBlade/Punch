@@ -33,6 +33,11 @@
             For internal use only. 
             </summary>
         </member>
+        <member name="M:IdeaBlade.EntityModel.IEntityFinder.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            For internal use only. 
+            </summary>
+        </member>
         <member name="M:IdeaBlade.EntityModel.IEntityFinder.ExecuteFind(System.Guid)">
             <summary>
             For internal use only. 
@@ -40,6 +45,16 @@
             <param name="queryId"></param>
         </member>
         <member name="M:IdeaBlade.EntityModel.IEntityFinder.Reset">
+            <summary>
+            For internal use only. 
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.IEntityFinder.CastResults``1">
+            <summary>
+            For internal use only. 
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.IEntityFinder.GetEnumerableResults">
             <summary>
             For internal use only. 
             </summary>
@@ -96,12 +111,12 @@
         </member>
         <member name="P:IdeaBlade.EntityModel.IEntityFinder.WasFetched">
             <summary>
-            
+            For internal use only. 
             </summary>
         </member>
         <member name="P:IdeaBlade.EntityModel.IEntityFinder.ResolvedFetchStrategy">
             <summary>
-            
+            For internal use only. 
             </summary>
         </member>
         <member name="M:IdeaBlade.EntityModel.AbstractEntityFinder.Initialize(IdeaBlade.EntityModel.EntityManager,IdeaBlade.EntityModel.IEntityQuery)">
@@ -302,6 +317,16 @@
             <summary>
              Provides data for a completed event.
             </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.CompletedEventArgs.#ctor(System.Exception,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="error"></param>
+            <param name="cancelled"></param>
+            <param name="completed"></param>
+            <param name="completedSync"></param>
+            <param name="isErrorHandled"></param>
         </member>
         <member name="P:IdeaBlade.EntityModel.CompletedEventArgs.Cancelled">
             <summary>
@@ -1566,6 +1591,119 @@
             <param name="helper"></param>
             <returns></returns>
         </member>
+        <member name="T:IdeaBlade.EntityModel.DesignTimeEntityServerProxy">
+            <summary>
+            A design-time EntityServerProxy which disallows all calls to an EntityServer.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.EntityServerProxy">
+            <summary>
+            In practice we have a singleton xEntityServiceProxy, and then one xEntityServerProxy
+            per ds extension.  The EntityManager interacts with this class, which "proxies" the EntityServer.  
+            Variants of this are the LocalEntityServerProxy for 2-tier and RemoteEntityServerProxy for n-tier.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityServerProxy.#ctor(System.String,System.String,System.String,System.Boolean)">
+             <summary>
+             Create an instance of this class.
+             </summary>
+            <param name="dataSourceExtension"></param>
+             <param name="composistionContextName"></param>
+             <param name="serviceKey"></param>
+            <param name="usesRemoteEntityService"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityServerProxy.Disconnect">
+            <summary>
+            Disconnect from a EntityServer.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityServerProxy.IsConnected">
+            <summary>
+            Indicates the service name is known.  Used when login performed through Authenticator.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.DesignTimeIdGenerator">
+            <summary>
+            Provide design-time id generator.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.IIdGenerator">
+            <summary>
+            Interface for generation of unique IDs for new <see cref="T:IdeaBlade.EntityModel.IEntity"/> objects.
+            </summary>
+            <remarks>
+            The <b>IIdGenerator</b> interface defines methods to generate both temporary and real IDs for 
+            <see cref="T:IdeaBlade.EntityModel.IEntity"/> objects, and to map the temporary IDs to real IDs when objects 
+            are persisted to a backend data source.  Temporary IDs are created via a call to
+            <see cref="M:IdeaBlade.EntityModel.EntityManager.GenerateId(System.Object,IdeaBlade.EntityModel.DataEntityProperty)"/>, and allow
+            entities to be created and uniquely identified while the EntityManager is disconnected from a backend database.
+            Temporary IDs are mapped to real IDs during <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChanges"/>
+            processing.
+            <para>
+            Sample code in both VB.NET and C# showing an implementation for ID values of the long datatype is provided 
+            with the DevForce installation.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.IIdGenerator.IsApplicable(IdeaBlade.EntityModel.IDataSourceKey)">
+            <summary>
+            Returns whether the IdGenerator can be used with the specified data source key.
+            </summary>
+            <param name="dataSourceKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.IIdGenerator.GetNextTempId(IdeaBlade.EntityModel.DataEntityProperty)">
+            <summary>
+            Generates a new temporary ID for a specified EntityProperty.  
+            </summary>
+            <param name="property">Property for which a new ID should be generated</param>
+            <returns>A new temporary ID</returns>
+            <remarks>The definition of a "temporary" ID is user-defined.  In the sample code for a "LongIdGenerator"
+            negative integers are used as temporary IDs. 
+            <para>This method should also store the temporary IDs generated in a <see cref="T:IdeaBlade.EntityModel.UniqueIdCollection"/>.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.IIdGenerator.IsTempId(IdeaBlade.EntityModel.UniqueId)">
+            <summary>
+            Determines whether a given ID is temporary.
+            </summary>
+            <param name="uniqueId">ID to be analyzed</param>
+            <returns>true if the ID is temporary; otherwise false</returns>
+            <remarks>The <see cref="P:IdeaBlade.EntityModel.UniqueId.Value"/> contains the ID to be tested.
+            You can use the <see cref="P:IdeaBlade.EntityModel.EntityProperty.EntityType"/> property of the <see cref="P:IdeaBlade.EntityModel.UniqueId.Property"/>
+            to determine the <see cref="T:IdeaBlade.EntityModel.IEntity"/> type.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.IIdGenerator.Reset">
+            <summary>
+            Reset temporary ID generation back to its initial state. 
+            </summary>
+            <remarks>Called by the <see cref="T:IdeaBlade.EntityModel.EntityManager"/> after Id fixup
+            during <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChanges"/> processing.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.IIdGenerator.GetRealIdMap(IdeaBlade.EntityModel.UniqueIdCollection,IdeaBlade.EntityModel.IDataSourceKey)">
+            <summary>
+            Returns a dictionary that maps temporary IDs to real IDs.
+            </summary>
+            <remarks>
+            In the <see cref="T:IdeaBlade.EntityModel.UniqueIdMap"/> returned, the <see cref="T:IdeaBlade.EntityModel.UniqueId"/> key contains the 
+            temporary ID, while the value holds the real ID.
+            <para>
+            <b>GetRealIdMap</b> is called by the <see cref="T:IdeaBlade.EntityModel.EntityManager"/> during <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChanges"/> processing.
+            The collection of temporary IDs passed in may contain entries for multiple entity types.
+            You can use the <see cref="T:IdeaBlade.EntityModel.IDataSourceKey"/> passed to manage access to the backend data source to determine real IDs.
+            </para>
+            <para>In an n-tier deployment, this method is called only on the "server" instance of this class.</para>
+            <para>The definition of a "real" ID is user-defined.</para>
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.IIdGenerator.TempIds">
+            <summary>
+            Returns the temporary IDs generated since instantiation of this class or the last <see cref="M:IdeaBlade.EntityModel.IIdGenerator.Reset"/>.
+            </summary>
+        </member>
         <member name="T:IdeaBlade.EntityModel.IEntity">
             <summary>
             Marker interface for an EF enabled entity. may be CodeFirst, ModelFirst or DatabaseFirst.
@@ -1779,8 +1917,14 @@
             Returns the first element in the sequence.
             </summary>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.First(IdeaBlade.EntityModel.IEntityScalarQuery,System.Threading.CancellationToken)">
+            <summary>
+            Returns the first element in the sequence. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.First``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0})">
@@ -1789,8 +1933,6 @@
             </summary>
             <typeparam name="TResult"></typeparam>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -1805,14 +1947,21 @@
 </code>
       </example>
         </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.First``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns the first element in the sequence. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.First(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription)">
             <summary>
             Returns the first element in the sequence that satisfies the specified condition.
             </summary>
             <param name="source"></param>
             <param name="predicateDescription"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
             <returns></returns>
             <example><code lang="C#">
         <![CDATA[   
@@ -1824,6 +1973,15 @@
     }
       
       ]]></code></example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.First(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Threading.CancellationToken)">
+            <summary>
+            Returns the first element in the sequence that satisfies the specified condition. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.First``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
             <summary>
@@ -1832,8 +1990,6 @@
             <typeparam name="TResult"></typeparam>
             <param name="source"></param>
             <param name="predicate"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
             <returns></returns>
             <example><code lang="C#">
         <![CDATA[   
@@ -1846,13 +2002,21 @@
       
       ]]></code></example>
         </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.First``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Threading.CancellationToken)">
+            <summary>
+            Returns the first element in the sequence that satisfies the specified condition. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            /// <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.FirstOrDefault(IdeaBlade.EntityModel.IEntityScalarQuery)">
             <summary>
             Returns the first element in the sequence or a default value if the sequence contains no elements.
             </summary>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -1866,6 +2030,14 @@
       ]]>
         </code>
       </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.FirstOrDefault(IdeaBlade.EntityModel.IEntityScalarQuery,System.Threading.CancellationToken)">
+            <summary>
+            Returns the first element in the sequence or a default value if the sequence contains no elements. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.FirstOrDefault``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0})">
             <summary>
@@ -1873,8 +2045,6 @@
             </summary>
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -1889,14 +2059,21 @@
         </code>
       </example>
         </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.FirstOrDefault``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns the first element in the sequence or a default value if the sequence contains no elements. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.FirstOrDefault(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription)">
             <summary>
             Returns the first element of a sequence that satisfies a specified condition or a default value if no such element is found.
             </summary>
             <param name="source"></param>
             <param name="predicateDescription"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -1910,6 +2087,15 @@
       ]]>
         </code>
       </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.FirstOrDefault(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Threading.CancellationToken)">
+            <summary>
+            Returns the first element of a sequence that satisfies a specified condition or a default value if no such element is found. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.FirstOrDefault``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
             <summary>
@@ -1918,8 +2104,6 @@
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
             <param name="predicate"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -1934,13 +2118,41 @@
         </code>
       </example>
         </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.FirstOrDefault``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Threading.CancellationToken)">
+            <summary>
+            Returns the first element of a sequence that satisfies a specified condition or a default value if no such element is found. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.FirstOrNullEntity(IdeaBlade.EntityModel.IEntityScalarQuery)">
             <summary>
             Returns the first element in the sequence, or the appropriate NullEntity if the sequence contains no elements.
             </summary>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncFirstOrNullEntity() {
+      var op = _entityManager.Employees.AsScalarAsync().FirstOrNullEntity();
+      op.Completed += (o, e) => {
+        var emp = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.FirstOrNullEntity(IdeaBlade.EntityModel.IEntityScalarQuery,System.Threading.CancellationToken)">
+            <summary>
+            Returns the first element in the sequence, or the appropriate NullEntity if the sequence contains no elements. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -1961,8 +2173,27 @@
             </summary>
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncFirstOrNullEntity() {
+      var op = _entityManager.Employees.AsScalarAsync().FirstOrNullEntity();
+      op.Completed += (o, e) => {
+        var emp = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.FirstOrNullEntity``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns the first element in the sequence, or the appropriate NullEntity if the sequence contains no elements. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -1983,8 +2214,27 @@
             </summary>
             <param name="source"></param>
             <param name="predicateDescription"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncFirstOrNullEntityWithPredicate() {
+      var op = _entityManager.Employees.AsScalarAsync().FirstOrNullEntity(e => e.LastName.StartsWith("D"));
+      op.Completed += (o, e) => {
+        var emp = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.FirstOrNullEntity(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Threading.CancellationToken)">
+            <summary>
+            Returns the first element of a sequence that satisfies a specified condition, or the appropriate NullEntity if no such element is found. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2006,8 +2256,28 @@
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
             <param name="predicate"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncFirstOrNullEntityWithPredicate() {
+      var op = _entityManager.Employees.AsScalarAsync().FirstOrNullEntity(e => e.LastName.StartsWith("D"));
+      op.Completed += (o, e) => {
+        var emp = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.FirstOrNullEntity``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Threading.CancellationToken)">
+            <summary>
+            Returns the first element of a sequence that satisfies a specified condition, or the appropriate NullEntity if no such element is found. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2027,8 +2297,26 @@
             Returns the only element of a sequence, and throws an exception if there is not exactly one element in the sequence.
             </summary>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncSingle() {
+      var op = _entityManager.Employees.Where(e => e.Id == 1).AsScalarAsync().Single();
+      op.Completed += (o, e) => {
+        var emp = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Single(IdeaBlade.EntityModel.IEntityScalarQuery,System.Threading.CancellationToken)">
+            <summary>
+            Returns the only element of a sequence, and throws an exception if there is not exactly one element in the sequence. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2049,8 +2337,27 @@
             </summary>
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncSingle() {
+      var op = _entityManager.Employees.Where(e => e.Id == 1).AsScalarAsync().Single();
+      op.Completed += (o, e) => {
+        var emp = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Single``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns the only element of a sequence, and throws an exception if there is not exactly one element in the sequence. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2071,8 +2378,27 @@
             </summary>
             <param name="source"></param>
             <param name="predicateDescription"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncSingleWithPredicate() {
+      var op = _entityManager.Employees.AsScalarAsync().Single(e => e.Id == 1);
+      op.Completed += (o, e) => {
+        var emp = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Single(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Threading.CancellationToken)">
+            <summary>
+            Returns the only element of a sequence that satisfies a specified condition, and throws an exception if more than one such element exists. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2094,8 +2420,28 @@
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
             <param name="predicate"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncSingleWithPredicate() {
+      var op = _entityManager.Employees.AsScalarAsync().Single(e => e.Id == 1);
+      op.Completed += (o, e) => {
+        var emp = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Single``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Threading.CancellationToken)">
+            <summary>
+            Returns the only element of a sequence that satisfies a specified condition, and throws an exception if more than one such element exists. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2115,8 +2461,26 @@
             Returns the only element of a sequence, or a default value if the sequence is empty; this method throws an exception if there is more than one element in the sequence.
             </summary>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncSingleOrDefault() {
+      var op = _entityManager.Employees.Where(e => e.Id == 1).AsScalarAsync().SingleOrDefault();
+      op.Completed += (o, e) => {
+        var emp = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.SingleOrDefault(IdeaBlade.EntityModel.IEntityScalarQuery,System.Threading.CancellationToken)">
+            <summary>
+            Returns the only element of a sequence, or a default value if the sequence is empty; this method throws an exception if there is more than one element in the sequence. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2137,8 +2501,28 @@
             </summary>
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncSingleOrDefault() {
+      var op = _entityManager.Employees.Where(e => e.Id == 1).AsScalarAsync().SingleOrDefault();
+      op.Completed += (o, e) => {
+        var emp = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.SingleOrDefault``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns the only element of a sequence, or a default value if the sequence is empty; this method throws an exception if there is more than one element in the sequence.
+            Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2159,8 +2543,28 @@
             </summary>
             <param name="source"></param>
             <param name="predicateDescription"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+   public void AsyncSingleOrDefaultWithPredicate() {
+      var op = _entityManager.Employees.AsScalarAsync().SingleOrDefault(e => e.Id == 1);
+      op.Completed += (o, e) => {
+        var emp = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.SingleOrDefault(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Threading.CancellationToken)">
+            <summary>
+            Returns the only element of a sequence that satisfies a specified condition or a default value if no such element exists; this method throws an exception if more than one element satisfies the condition.
+            Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2182,8 +2586,29 @@
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
             <param name="predicate"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+   public void AsyncSingleOrDefaultWithPredicate() {
+      var op = _entityManager.Employees.AsScalarAsync().SingleOrDefault(e => e.Id == 1);
+      op.Completed += (o, e) => {
+        var emp = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.SingleOrDefault``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Threading.CancellationToken)">
+            <summary>
+            Returns the only element of a sequence that satisfies a specified condition or a default value if no such element exists; this method throws an exception if more than one element satisfies the condition.
+            Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2204,8 +2629,28 @@
             </summary>
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncSingleOrNullEntity() {
+      var op = _entityManager.Employees.Where(e => e.Id == 1).AsScalarAsync().SingleOrNullEntity();
+      op.Completed += (o, e) => {
+        var emp = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.SingleOrNullEntity``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns the only element of a sequence, or the appropriate NullEntity if the sequence is empty; this method throws an exception if there is more than one element in the sequence.
+            Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2227,8 +2672,29 @@
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
             <param name="predicate"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+   public void AsyncSingleOrNullEntityWithPredicate() {
+      var op = _entityManager.Employees.AsScalarAsync().SingleOrNullEntity(e => e.Id == 1);
+      op.Completed += (o, e) => {
+        var emp = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.SingleOrNullEntity``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Threading.CancellationToken)">
+            <summary>
+            Returns the only element of a sequence that satisfies a specified condition, or the appropriate NullEntity if no such element exists; this method throws an exception if more than one element satisfies the condition.
+            Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2248,8 +2714,26 @@
             Returns the number of elements in a sequence.
             </summary>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncCount() {
+      var op = _entityManager.Employees.AsScalarAsync().Count();
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Count(IdeaBlade.EntityModel.IEntityScalarQuery,System.Threading.CancellationToken)">
+            <summary>
+            Returns the number of elements in a sequence. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2270,8 +2754,27 @@
             </summary>
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncCount() {
+      var op = _entityManager.Employees.AsScalarAsync().Count();
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Count``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns the number of elements in a sequence. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2292,8 +2795,27 @@
             </summary>
             <param name="source"></param>
             <param name="predicateDescription"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncCountWithPredicate() {
+      var op = _entityManager.Employees.AsScalarAsync().Count(e => e.BirthDate > DateTime.Parse("1/1/1955"));
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Count(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Threading.CancellationToken)">
+            <summary>
+            Returns the number of elements in the specified sequence that satisfies a condition. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2315,8 +2837,28 @@
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
             <param name="predicate"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncCountWithPredicate() {
+      var op = _entityManager.Employees.AsScalarAsync().Count(e => e.BirthDate > DateTime.Parse("1/1/1955"));
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Count``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Threading.CancellationToken)">
+            <summary>
+            Returns the number of elements in the specified sequence that satisfies a condition. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2337,8 +2879,27 @@
             </summary>
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncLongCount() {
+      var op = _entityManager.OrderSummaries.AsScalarAsync().LongCount();
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.LongCount``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns an Int64 that represents the total number of elements in a sequence. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2360,8 +2921,28 @@
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
             <param name="predicate"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncLongCountWithPredicate() {
+      var op = _entityManager.OrderSummaries.AsScalarAsync().LongCount(o=> o.Freight > 25);
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.LongCount``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Threading.CancellationToken)">
+            <summary>
+            Returns an Int64 that represents the number of elements in a sequence that satisfy a condition. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2381,8 +2962,26 @@
             Returns the minimum value of items in the sequence.
             </summary>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncMin() {
+      var op = _entityManager.OrderSummaries.Select(o => o.Freight).AsScalarAsync().Min();
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Min(IdeaBlade.EntityModel.IEntityScalarQuery,System.Threading.CancellationToken)">
+            <summary>
+            Returns the minimum value of items in the sequence. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2403,8 +3002,27 @@
             </summary>
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncMin() {
+      var op = _entityManager.OrderSummaries.Select(o => o.Freight).AsScalarAsync().Min();
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Min``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns the minimum value of items in the sequence. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2425,8 +3043,27 @@
             </summary>
             <param name="source"></param>
             <param name="projectionSelector"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncMinWithPredicate() {
+      var op = _entityManager.OrderSummaries.AsScalarAsync().Min(o => o.Freight);
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Min(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IProjectionSelector,System.Threading.CancellationToken)">
+            <summary>
+            Invokes a projection function on each element of the sequence and returns the minimum resulting value. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="projectionSelector"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2449,8 +3086,29 @@
             <typeparam name="TResult"></typeparam>
             <param name="source"></param>
             <param name="projection"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncMinWithPredicate() {
+      var op = _entityManager.OrderSummaries.AsScalarAsync().Min(o => o.Freight);
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Min``2(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Threading.CancellationToken)">
+            <summary>
+            Invokes a projection function on each element of the sequence and returns the minimum resulting value. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="projection"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2470,8 +3128,26 @@
             Returns the maximum value of items in the sequence.
             </summary>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncMax() {
+      var op = _entityManager.OrderSummaries.Select(o => o.Freight).AsScalarAsync().Max();
+      op.Completed += (o,e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Max(IdeaBlade.EntityModel.IEntityScalarQuery,System.Threading.CancellationToken)">
+            <summary>
+            Returns the maximum value of items in the sequence. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2492,8 +3168,27 @@
             </summary>
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncMax() {
+      var op = _entityManager.OrderSummaries.Select(o => o.Freight).AsScalarAsync().Max();
+      op.Completed += (o,e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Max``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns the maximum value of items in the sequence. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2514,8 +3209,26 @@
             </summary>
             <param name="source"></param>
             <param name="projectionSelector"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncMaxWithPredicate() {
+      var op = _entityManager.OrderSummaries.AsScalarAsync().Max(o => o.Freight, (args) => {
+        var ct = args.Result;
+      });
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Max(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IProjectionSelector,System.Threading.CancellationToken)">
+            <summary>
+            Invokes a projection function on each element of the sequence and returns the maximum resulting value. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="projectionSelector"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2537,8 +3250,28 @@
             <typeparam name="TResult"></typeparam>
             <param name="source"></param>
             <param name="projection"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncMaxWithPredicate() {
+      var op = _entityManager.OrderSummaries.AsScalarAsync().Max(o => o.Freight, (args) => {
+        var ct = args.Result;
+      });
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Max``2(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Threading.CancellationToken)">
+            <summary>
+            Invokes a projection function on each element of the sequence and returns the maximum resulting value. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="projection"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2557,8 +3290,26 @@
             Computes the sum of a sequence of numeric values.
             </summary>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+   public void AsyncSum() {
+      var op = _entityManager.OrderSummaries.Select(o => o.Freight).AsScalarAsync().Sum();
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Sum(IdeaBlade.EntityModel.IEntityScalarQuery,System.Threading.CancellationToken)">
+            <summary>
+            Computes the sum of a sequence of numeric values. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2579,8 +3330,27 @@
             </summary>
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+   public void AsyncSum() {
+      var op = _entityManager.OrderSummaries.Select(o => o.Freight).AsScalarAsync().Sum();
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Sum``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Computes the sum of a sequence of numeric values. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2601,8 +3371,28 @@
             </summary>
             <param name="source"></param>
             <param name="projectionSelector"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncSumWithPredicate() {
+      var op = _entityManager.OrderSummaries.AsScalarAsync().Sum<OrderSummary, Nullable<Decimal>>(o => o.Freight);
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Sum(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IProjectionSelector,System.Threading.CancellationToken)">
+            <summary>
+            Computes the sum of the sequence of numeric values that is obtained by invoking a projection function on each element of the input sequence.
+            Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="projectionSelector"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2625,8 +3415,30 @@
             <typeparam name="TResult"></typeparam>
             <param name="source"></param>
             <param name="projection"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncSumWithPredicate() {
+      var op = _entityManager.OrderSummaries.AsScalarAsync().Sum<OrderSummary, Nullable<Decimal>>(o => o.Freight);
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Sum``2(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Threading.CancellationToken)">
+            <summary>
+            Computes the sum of the sequence of numeric values that is obtained by invoking a projection function on each element of the input sequence.
+            Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="projection"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2646,8 +3458,26 @@
             Computes the average of a sequence of numeric values.
             </summary>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncAverage() {
+      var op = _entityManager.OrderSummaries.Select(o => o.Freight).AsScalarAsync().Average();
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Average(IdeaBlade.EntityModel.IEntityScalarQuery,System.Threading.CancellationToken)">
+            <summary>
+            Computes the average of a sequence of numeric values. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2668,8 +3498,27 @@
             </summary>
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+    public void AsyncAverage() {
+      var op = _entityManager.OrderSummaries.Select(o => o.Freight).AsScalarAsync().Average();
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Average``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Computes the average of a sequence of numeric values. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2690,8 +3539,28 @@
             </summary>
             <param name="source"></param>
             <param name="projectionSelector"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+   public void AsyncAverageWithPredicate() {
+      var op = _entityManager.OrderSummaries.AsScalarAsync().Average<OrderSummary, Nullable<Decimal>>(o => o.Freight);
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Average(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IProjectionSelector,System.Threading.CancellationToken)">
+            <summary>
+            Computes the average of a sequence of numeric values that is obtained by invoking a projection function on each element of the input sequence.
+            Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="projectionSelector"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2714,8 +3583,30 @@
             <typeparam name="TResult"></typeparam>
             <param name="source"></param>
             <param name="projection"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[   
+   public void AsyncAverageWithPredicate() {
+      var op = _entityManager.OrderSummaries.AsScalarAsync().Average<OrderSummary, Nullable<Decimal>>(o => o.Freight);
+      op.Completed += (o, e) => {
+        var ct = e.Result;
+      };
+    }          
+      ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Average``2(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Threading.CancellationToken)">
+            <summary>
+            Computes the average of a sequence of numeric values that is obtained by invoking a projection function on each element of the input sequence.
+            Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="projection"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2735,8 +3626,26 @@
             Determines whether a sequence contains any elements.
             </summary>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[
+    public void AsyncAny() {
+      var op = _entityManager.Employees.AsScalarAsync().Any();
+      op.Completed += (o, e) => {
+        bool result = e.Result;
+      }
+    }
+       ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Any(IdeaBlade.EntityModel.IEntityScalarQuery,System.Threading.CancellationToken)">
+            <summary>
+            Determines whether a sequence contains any elements. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2757,8 +3666,27 @@
             </summary>
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[
+    public void AsyncAny() {
+      var op = _entityManager.Employees.AsScalarAsync().Any();
+      op.Completed += (o, e) => {
+        bool result = e.Result;
+      }
+    }
+       ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Any``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Determines whether a sequence contains any elements. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2779,8 +3707,27 @@
             </summary>
             <param name="source"></param>
             <param name="predicateDescription"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[
+    public void AsyncAnyWithPredicate() {
+      var op = _entityManager.Employees.AsScalarAsync().Any(e=> e.Country == "UK");
+      op.Completed += (o, e) => {
+        bool result = e.Result;
+      };
+    }
+       ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Any(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Threading.CancellationToken)">
+            <summary>
+            Determines whether any element of a sequence satisfies a condition. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2802,8 +3749,28 @@
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
             <param name="predicate"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[
+    public void AsyncAnyWithPredicate() {
+      var op = _entityManager.Employees.AsScalarAsync().Any(e=> e.Country == "UK");
+      op.Completed += (o, e) => {
+        bool result = e.Result;
+      };
+    }
+       ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Any``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Threading.CancellationToken)">
+            <summary>
+            Determines whether any element of a sequence satisfies a condition. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2824,8 +3791,27 @@
             </summary>
             <param name="source"></param>
             <param name="predicateDescription"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[
+    public void AsyncAllWithPredicate() {
+      var op = _entityManager.Employees.AsScalarAsync().All(e => e.Country == "Brazil");
+      op.Completed += (o, e) => {
+        bool result = e.Result;
+      };
+    }       
+    ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.All(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Threading.CancellationToken)">
+            <summary>
+            Determines whether all the elements of a sequence satisfy a condition. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2847,8 +3833,28 @@
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
             <param name="predicate"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[
+    public void AsyncAllWithPredicate() {
+      var op = _entityManager.Employees.AsScalarAsync().All(e => e.Country == "Brazil");
+      op.Completed += (o, e) => {
+        bool result = e.Result;
+      };
+    }       
+    ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.All``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Threading.CancellationToken)">
+            <summary>
+            Determines whether all the elements of a sequence satisfy a condition. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2869,8 +3875,27 @@
             </summary>
             <param name="source"></param>
             <param name="item"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[
+    public void AsyncAny() {
+      var op = _entityManager.Employees.AsScalarAsync().Any();
+      op.Completed += (o, e) => {
+        bool result = e.Result;
+      }
+    }
+       ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Contains(IdeaBlade.EntityModel.IEntityScalarQuery,System.Object,System.Threading.CancellationToken)">
+            <summary>
+            Determines whether a sequence contains any elements that match the specified element. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <param name="source"></param>
+            <param name="item"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -2892,8 +3917,28 @@
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
             <param name="item"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <returns></returns>
+            <example>
+        <code lang="C#">
+          <![CDATA[
+    public void AsyncAny() {
+      var op = _entityManager.Employees.AsScalarAsync().Any();
+      op.Completed += (o, e) => {
+        bool result = e.Result;
+      }
+    }
+       ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarAsyncExtensions.Contains``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},``0,System.Threading.CancellationToken)">
+            <summary>
+            Determines whether a sequence contains any elements that match the specified element. Pass in a <see cref="T:System.Threading.CancellationToken"/> to cancel operation.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="item"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <example>
         <code lang="C#">
@@ -3291,6 +4336,8 @@
             </summary>
             <param name="pageIndex"></param>
             <param name="results"></param>
+            <param name="error"></param>
+            <param name="isCompletedSync"></param>
         </member>
         <member name="P:IdeaBlade.EntityModel.EntityQueryPageChangedEventArgs`1.PageIndex">
             <summary>
@@ -3332,7 +4379,7 @@
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityModelMetadata.#ctor(System.Collections.Generic.IEnumerable{IdeaBlade.EntityModel.EntityMetadata},System.Collections.Generic.IEnumerable{IdeaBlade.EntityModel.EntityRelation})">
             <summary>
-            Internal use only.
+            Internal use only.  Created at build time from a MetadataWorkspace.
             </summary>
             <param name="entityMetadataCollection"></param>
             <param name="entityRelationCollection"></param>
@@ -3582,7 +4629,17 @@
             </remarks>
             <param name="entityManager"></param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:IdeaBlade.EntityModel.EntityAspect.RemoveFromManager" -->
+        <member name="M:IdeaBlade.EntityModel.EntityAspect.RemoveFromManager">
+             <summary>
+             Removes the entity from the EntityManager cache.
+             </summary>
+             <remarks>The Entity will be in a "detached" state after the remove. 
+             <b>RemoveFromManager</b> and <see cref="M:IdeaBlade.EntityModel.EntityManager.RemoveEntity(IdeaBlade.EntityModel.Entity)"/>
+              can be used interchangeably. Calling <b>RemoveFromManager</b> also clears the EntityManager's <see cref="P:IdeaBlade.EntityModel.EntityManager.QueryCache"/>.
+            <para>This does not delete the object from the backend server.  To delete an entity,
+            use the <see cref="M:IdeaBlade.EntityModel.Entity.Delete"/> method.</para>
+             </remarks>
+        </member>
         <member name="M:IdeaBlade.EntityModel.EntityAspect.RemoveFromManager(System.Boolean)">
              <summary>
              Removes the entity from the EntityManager cache.
@@ -4590,21 +5647,18 @@
             <summary>
             Clears all data from the backing store.
             </summary>
-            <param name="onCompletedAction"></param>
             <returns></returns>
         </member>
         <member name="M:IdeaBlade.EntityModel.IEntityServerFakeBackingStore.GetEntityCacheStateAsync">
             <summary>
             Returns the backing store as an EntityCacheState.
             </summary>
-            <param name="onCompletedAction"></param>
         </member>
         <member name="M:IdeaBlade.EntityModel.IEntityServerFakeBackingStore.SaveAsync(System.String)">
             <summary>
             Saves the backing store (in <see cref="T:IdeaBlade.EntityModel.EntityCacheState"/> format) to the specified file.
             </summary>
             <param name="fileName"></param>
-            <param name="onCompletedAction"></param>
         </member>
         <member name="M:IdeaBlade.EntityModel.IEntityServerFakeBackingStore.SaveAsync(System.IO.Stream,System.Boolean)">
             <summary>
@@ -4612,7 +5666,6 @@
             </summary>
             <param name="stream"></param>
             <param name="useBinaryFormat"></param>
-            <param name="onCompletedAction"></param>
             <returns></returns>
         </member>
         <member name="M:IdeaBlade.EntityModel.IEntityServerFakeBackingStore.RestoreAsync(System.String,System.Boolean,IdeaBlade.EntityModel.MergeStrategy)">
@@ -4622,7 +5675,6 @@
             <param name="fileName"></param>
             <param name="shouldReplace"></param>
             <param name="mergeStrategy"></param>
-            <param name="onCompletedAction"></param>
         </member>
         <member name="M:IdeaBlade.EntityModel.IEntityServerFakeBackingStore.RestoreAsync(System.IO.Stream,System.Boolean,IdeaBlade.EntityModel.MergeStrategy,System.Boolean)">
             <summary>
@@ -4632,7 +5684,6 @@
             <param name="shouldReplace"></param>
             <param name="mergeStrategy"></param>
             <param name="useBinaryFormat"></param>
-            <param name="onCompletedAction"></param>
             <returns></returns>
         </member>
         <member name="M:IdeaBlade.EntityModel.IEntityServerFakeBackingStore.RestoreAsync(IdeaBlade.EntityModel.EntityCacheState,System.Boolean,IdeaBlade.EntityModel.MergeStrategy)">
@@ -4642,7 +5693,6 @@
             <param name="entityCacheState"></param>
             <param name="shouldReplace"></param>
             <param name="mergeStrategy"></param>
-            <param name="onCompletedAction"></param>
         </member>
         <member name="P:IdeaBlade.EntityModel.IEntityServerFakeBackingStore.CompositionContextName">
             <summary>
@@ -4948,7 +5998,7 @@
              until the application terminates or they are explicitly removed.  
              </para>
              <para>
-             Use <see cref="!:Login(ILoginCredential)">Login</see> and <see cref="!:Logout"/> to validate a user's credentials and
+             Use <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)">Login</see> and <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.Logout(IdeaBlade.EntityModel.Security.IAuthenticationContext)"/> to validate a user's credentials and
              provide session-level security to the <see cref="T:IdeaBlade.EntityModel.Server.EntityServer"/>.  
              You'll need to implement <see cref="T:IdeaBlade.EntityModel.IEntityLoginManager"/> to perform
              this validation.  If login security is required, be sure to call <b>Login</b> prior to performing any other
@@ -4978,7 +6028,7 @@
              </para>
              <para>
              Corresponding asynchronous methods are available for any operation which may access the EntityServer.  See
-             <see cref="M:IdeaBlade.EntityModel.EntityManager.ConnectAsync"/>, <see cref="!:LoginAsync"/>, <see cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync(IdeaBlade.EntityModel.IEntityQuery)"/>, <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChangesAsync"/> and
+             <see cref="M:IdeaBlade.EntityModel.EntityManager.ConnectAsync"/>, <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.LoginAsync(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)"/>, <see cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync(IdeaBlade.EntityModel.IEntityQuery)"/>, <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChangesAsync"/> and
              <see cref="M:IdeaBlade.EntityModel.EntityManager.InvokeServerMethodAsync(IdeaBlade.EntityModel.ServerMethodDelegate,System.Object[])"/>.
              </para>
              <para><b>Note:</b> The EntityManager is not thread-safe.</para>
@@ -5249,6 +6299,12 @@
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityManager.ConnectAsync">
             <summary>
+            <see cref="M:IdeaBlade.EntityModel.EntityManager.ConnectAsync(System.Threading.CancellationToken)"/> with <see cref="P:System.Threading.CancellationToken.None"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityManager.ConnectAsync(System.Threading.CancellationToken)">
+            <summary>
             Connect to the <see cref="T:IdeaBlade.EntityModel.Server.EntityServer"/> asynchronously.
             <seealso cref="M:IdeaBlade.EntityModel.EntityManager.Disconnect"/>
             <seealso cref="T:IdeaBlade.EntityModel.Server.EntityServer"/>
@@ -5398,7 +6454,6 @@
             <seealso cref="M:IdeaBlade.EntityModel.EntityManager.AddEntity(System.Object)"/>
             </summary>
             <param name="entityType">Entity type</param>
-            <param name="entitySetName">Name of the entity set for the new entity</param>
             <returns>A new instance of the specified entity type</returns>
             <remarks>
             You may either "new" a business object (unless it's Abstract (or MustInherit in Visual Basic), or
@@ -5649,28 +6704,6 @@
             <param name="query"></param>
             <returns>Primitive data type</returns>
         </member>
-        <member name="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryForObjectAsync(IdeaBlade.EntityModel.IEntityScalarQuery)">
-            <summary>
-            Executes the specified scalar query asynchronously.
-            </summary>
-            <param name="query"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
-            <returns></returns>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryForObjectAsync``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0})">
-            <summary>
-            Executes the specified scalar query asynchronously.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="query"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
-            <returns></returns>
-            <remarks>
-            See <see cref="T:IdeaBlade.EntityModel.EntityScalarAsyncExtensions"/> for asynchronous scalar queries.
-            </remarks>
-        </member>
         <member name="M:IdeaBlade.EntityModel.EntityManager.ExecuteQuery``1(IdeaBlade.EntityModel.IEntityQuery{``0})">
             <summary>
             Executes the specified query.
@@ -5768,6 +6801,46 @@
     </example>
             <remarks>
             In Silverlight, this query can only execute against the cache because this method is synchronous.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryForObjectAsync(IdeaBlade.EntityModel.IEntityScalarQuery)">
+            <summary>
+            Executes the specified scalar query asynchronously.
+            </summary>
+            <param name="query"></param>
+            <remarks>
+            See <see cref="T:IdeaBlade.EntityModel.EntityScalarAsyncExtensions"/> for asynchronous scalar queries.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryForObjectAsync(IdeaBlade.EntityModel.IEntityScalarQuery,System.Threading.CancellationToken)">
+            <summary>
+            Executes the specified scalar query asynchronously.
+            </summary>
+            <param name="query"></param>
+            <param name="cancellationToken"></param>
+            <remarks>
+            See <see cref="T:IdeaBlade.EntityModel.EntityScalarAsyncExtensions"/> for asynchronous scalar queries.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryForObjectAsync``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0})">
+            <summary>
+            Executes the specified scalar query asynchronously.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="query"></param>
+            <remarks>
+            See <see cref="T:IdeaBlade.EntityModel.EntityScalarAsyncExtensions"/> for asynchronous scalar queries.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryForObjectAsync``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Threading.CancellationToken)">
+            <summary>
+            Executes the specified scalar query asynchronously.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="query"></param>
+            <param name="cancellationToken"></param>
+            <remarks>
+            See <see cref="T:IdeaBlade.EntityModel.EntityScalarAsyncExtensions"/> for asynchronous scalar queries.
             </remarks>
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryForScalarResultAsync(IdeaBlade.EntityModel.IEntityScalarQuery,System.Threading.CancellationToken)">
@@ -5929,6 +7002,12 @@ private void SaveSample() {
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityManager.SaveChangesAsync">
             <summary>
+            Calls <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChangesAsync(IdeaBlade.EntityModel.SaveOptions)"/> with null <see cref="T:IdeaBlade.EntityModel.SaveOptions"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityManager.SaveChangesAsync(IdeaBlade.EntityModel.SaveOptions)">
+            <summary>
             Perform an asynchronous <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChanges"/> operation.
             </summary>
             <example>
@@ -5961,6 +7040,11 @@ private void SaveSample() {
             <param name="entities">List of <see cref="T:IdeaBlade.EntityModel.IEntity"/> objects to be persisted</param>
             <param name="saveOptions">Options controlling save processing</param>
             <remarks>
+            The async save task itself cannot be cancelled.  However, you can cancel the save process on the client
+            before the save starts in a <see cref="E:IdeaBlade.EntityModel.EntityManager.Saving"/> event handler.  You can also cancel the save process on
+            the server in an <b>EntityQuerySaveInterceptor</b> prior to executing the save to the data source.
+            If you do cancel the save, the async task will complete successfully and the returned <see cref="T:IdeaBlade.EntityModel.SaveResult"/>
+            will indicate that the save processing was cancelled.
             </remarks>
             <example>
       <code lang="C#">
@@ -6087,18 +7171,23 @@ private void SaveSample() {
             <param name="entityState">The <see cref="T:IdeaBlade.EntityModel.EntityState"/></param>
             <param name="mergeStrategy">Merge strategy</param>
         </member>
-        <member name="M:IdeaBlade.EntityModel.EntityManager.RefetchEntityAsync(System.Object,IdeaBlade.EntityModel.MergeStrategy,System.Threading.CancellationToken)">
+        <member name="M:IdeaBlade.EntityModel.EntityManager.RefetchEntityAsync(System.Object,IdeaBlade.EntityModel.MergeStrategy)">
             <summary>
-            Perform an asynchronous <see cref="M:IdeaBlade.EntityModel.EntityManager.RefetchEntities(IdeaBlade.EntityModel.EntityKeyList,IdeaBlade.EntityModel.MergeStrategy)"/> operation.
+            Calls <see cref="M:IdeaBlade.EntityModel.EntityManager.RefetchEntityAsync(System.Object,IdeaBlade.EntityModel.MergeStrategy,System.Threading.CancellationToken)"/> with <see cref="P:System.Threading.CancellationToken.None"/>
             </summary>
             <param name="entity">Entity to be refetched</param>
             <param name="mergeStrategy">Merge strategy</param>
-            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
-            <param name="userState">Token identifying the asynchronous operation</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityManager.RefetchEntityAsync(System.Object,IdeaBlade.EntityModel.MergeStrategy,System.Threading.CancellationToken)">
+            <summary>
+            Perform an asynchronous <see cref="M:IdeaBlade.EntityModel.EntityManager.RefetchEntity(System.Object,IdeaBlade.EntityModel.MergeStrategy)"/> operation.
+            </summary>
+            <param name="entity">Entity to be refetched</param>
+            <param name="mergeStrategy">Merge strategy</param>
+            <param name="cancellationToken">CancellationToken</param>
             <remarks>
-            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
-            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
-            asynchronous call using <see cref="!:CancelAsync"/>.
+            You can cancel a pending asynchronous call using <see cref="T:System.Threading.CancellationToken"/>.
             </remarks>
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityManager.RefetchEntitiesAsync(System.Collections.IEnumerable,IdeaBlade.EntityModel.MergeStrategy)">
@@ -6108,32 +7197,50 @@ private void SaveSample() {
             <param name="entities">A collection of Entities to refetch</param>
             <param name="mergeStrategy">Merge strategy</param>
         </member>
+        <member name="M:IdeaBlade.EntityModel.EntityManager.RefetchEntitiesAsync(System.Collections.IEnumerable,IdeaBlade.EntityModel.MergeStrategy,System.Threading.CancellationToken)">
+            <summary>
+            Forces a collection of entities to be refetched from the backend data source.
+            </summary>
+            <param name="entities">A collection of Entities to refetch</param>
+            <param name="mergeStrategy">Merge strategy</param>
+            <param name="cancellationToken">CancellationToken</param>
+        </member>
         <member name="M:IdeaBlade.EntityModel.EntityManager.RefetchEntitiesAsync(IdeaBlade.EntityModel.EntityKeyList,IdeaBlade.EntityModel.MergeStrategy)">
+            <summary>
+            Calls <see cref="M:IdeaBlade.EntityModel.EntityManager.RefetchEntitiesAsync(IdeaBlade.EntityModel.EntityKeyList,IdeaBlade.EntityModel.MergeStrategy,System.Threading.CancellationToken)"/> with <see cref="P:System.Threading.CancellationToken.None"/>
+            </summary>
+            <param name="entityKeys">List of entity keys</param>
+            <param name="mergeStrategy">Merge strategy</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityManager.RefetchEntitiesAsync(IdeaBlade.EntityModel.EntityKeyList,IdeaBlade.EntityModel.MergeStrategy,System.Threading.CancellationToken)">
             <summary>
             Perform an asynchronous <see cref="M:IdeaBlade.EntityModel.EntityManager.RefetchEntities(IdeaBlade.EntityModel.EntityKeyList,IdeaBlade.EntityModel.MergeStrategy)"/> operation.
             </summary>
             <param name="entityKeys">List of entity keys</param>
             <param name="mergeStrategy">Merge strategy</param>
-            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
-            <param name="userState">Token identifying the asynchronous operation</param>
+            <param name="cancellationToken">CancellationToken</param>
             <remarks>
-            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
-            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
-            asynchronous call using <see cref="!:CancelAsync"/>.
+            You can cancel a pending asynchronous call using <see cref="T:System.Threading.CancellationToken"/>.
             </remarks>
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityManager.RefetchEntitiesAsync(IdeaBlade.EntityModel.EntityState,IdeaBlade.EntityModel.MergeStrategy)">
+            <summary>
+            Calls <see cref="M:IdeaBlade.EntityModel.EntityManager.RefetchEntitiesAsync(IdeaBlade.EntityModel.EntityState,IdeaBlade.EntityModel.MergeStrategy,System.Threading.CancellationToken)"/> with <see cref="P:System.Threading.CancellationToken.None"/>
+            </summary>
+            <param name="entityState"></param>
+            <param name="mergeStrategy"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityManager.RefetchEntitiesAsync(IdeaBlade.EntityModel.EntityState,IdeaBlade.EntityModel.MergeStrategy,System.Threading.CancellationToken)">
             <summary>
             Performs an asynchronous refetch of all entities with the specified EntityState(s) from the backend data source.
             </summary>
             <param name="entityState">EntityState(s) of entities to be refetched</param>
             <param name="mergeStrategy">Merge strategy</param>
-            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
-            <param name="userState">Token identifying the asynchronous operation</param>
+            <param name="cancellationToken">CancellationToken</param>
             <remarks>
-            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
-            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
-            asynchronous call using <see cref="!:CancelAsync"/>. 
+            You can cancel a pending asynchronous call using <see cref="T:System.Threading.CancellationToken"/>. 
             </remarks>
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityManager.GetEntityGroups">
@@ -6512,18 +7619,25 @@ End Class
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityManager.InvokeServerMethodAsync(IdeaBlade.EntityModel.ServerMethodDelegate,System.Object[])">
             <summary>
+            Calls <see cref="M:IdeaBlade.EntityModel.EntityManager.InvokeServerMethodAsync(IdeaBlade.EntityModel.ServerMethodDelegate,System.Threading.CancellationToken,System.Object[])"/> with <see cref="P:System.Threading.CancellationToken.None"/>
+            </summary>
+            <param name="serverMethod"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityManager.InvokeServerMethodAsync(IdeaBlade.EntityModel.ServerMethodDelegate,System.Threading.CancellationToken,System.Object[])">
+            <summary>
             Asynchronously invokes the specified <c>static</c> (<c>Shared</c> in Visual Basic) method for execution on the server.
             </summary>
             <param name="serverMethod">Method to be invoked</param>
             <param name="args">Arguments to be passed to method</param>
+            <param name="cancellationToken">CancellationToken</param>
             <remarks>The method called must be marked with the <see cref="T:IdeaBlade.EntityModel.AllowRpcAttribute"/>
             and correspond to the <see cref="T:IdeaBlade.EntityModel.ServerMethodDelegate">ServerMethodDelegate</see> signature.
             <para>
             <b>InvokeServerMethodAsync</b> enables a client-side caller to invoke an arbitrary static method 
-            on the server using an asynchronous call.  The data returned from the server method 
-            will be available in the <see cref="!:InvokeServerMethodEventArgs"/> passed to
-            the supplied callback.  The server method is called once only.
-            An outstanding request can be canceled using the <see cref="!:CancelAsync"/> method.
+            on the server using an asynchronous call. The server method is called once only.
+            An outstanding request can be canceled using the <see cref="T:System.Threading.CancellationToken"/>.
             </para>
             <para>
             </para>
@@ -6571,7 +7685,72 @@ public class Order {
 ]]>
     </code></example>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:IdeaBlade.EntityModel.EntityManager.InvokeServerMethodAsync(System.String,System.String,System.Object[])" -->
+        <member name="M:IdeaBlade.EntityModel.EntityManager.InvokeServerMethodAsync(System.String,System.String,System.Object[])">
+            <summary>
+            Calls <see cref="M:IdeaBlade.EntityModel.EntityManager.InvokeServerMethodAsync(System.String,System.String,System.Threading.CancellationToken,System.Object[])"/> with <see cref="P:System.Threading.CancellationToken.None"/>
+            </summary>
+            <param name="assemblyQualifiedTypeName"></param>
+            <param name="methodName"></param>
+            <param name="userArguments"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityManager.InvokeServerMethodAsync(System.String,System.String,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            Asynchronously invokes the specified <c>static</c> (<c>Shared</c> in Visual Basic) method for execution on the server.
+            </summary>
+            <param name="assemblyQualifiedTypeName">Assembly-qualified type name such as 'MyNamespace.Services, MyAssembly'</param>
+            <param name="methodName">Name of method to be invoked</param>
+            <param name="userArguments">Arguments to be passed to method</param>
+            <param name="cancellationToken">CancellationToken to be passed to method</param>
+            <remarks>The method called must be marked with the <see cref="T:IdeaBlade.EntityModel.AllowRpcAttribute"/>
+            and correspond to the <see cref="T:IdeaBlade.EntityModel.ServerMethodDelegate"/> signature.
+            <b>InvokeServerMethodAsync</b> enables a client-side caller to invoke an arbitrary static method 
+            on the server using an asynchronous call. The server method is called once only.
+            An outstanding request can be cancelled using the <see cref="T:System.Threading.CancellationToken"/>.
+            </remarks>
+            <remarks>
+            This feature is only available in certain editions of DevForce.
+            </remarks>
+            <exception cref="T:System.ArgumentException">Type name must be fully qualified</exception>
+            <exception cref="T:System.ArgumentException">UserState token must be unique for the client</exception>
+            <exception cref="T:System.Security.SecurityException"></exception>
+            <example><code lang="C#">
+	<![CDATA[
+// Sample showing asynchronous invocation of server method
+
+// In client class:
+private void MakeAsyncCall() {
+  EntityManager mgr = new DomainModelEntityManager();
+  // Make async call
+  Guid myToken = Guid.NewGuid();
+  mgr.InvokeServerMethodAsync(new ServerMethodDelegate(Order.GetNumberOfOrdersSlow), 
+      InvokeServerMethodAsyncCompleted, myToken, 
+ 	    new DateTime(1995, 1, 1), new DateTime(1999, 1, 1));
+}
+private void InvokeServerMethodAsyncCompleted(InvokeServerMethodOperation e) {
+  Guid token = (Guid)e.UserState;
+  if (!e.Cancelled) {
+     MessageBox.Show("my async result = " + Convert.ToInt32(e.Result).ToString());
+  }
+}
+
+// Sample method defined in Order entity class:
+public class Order {
+//...
+
+  // ServerMethodDelegate method, called from client
+  [AllowRpc]
+  public static Object GetNumberOfOrdersSlow(IPrincipal pPrincipal, EntityManager pMgr, params Object[] pArgs) {
+     // Sleep to make this slower to show async
+     System.Threading.Thread.Sleep(2000);
+     DateTime dt1 = pArgs[0] as DateTime;
+     DateTime dt2 = pArgs[1] as DateTime;
+     return pMgr.Order.Where(o => o.OrderDate >= dt1 && o.OrderDate <= dt2).Count();
+  }
+}
+]]>
+    </code></example>
+        </member>
         <member name="M:IdeaBlade.EntityModel.EntityManager.OnEntityManagerCreated(IdeaBlade.EntityModel.EntityManagerCreatedEventArgs)">
             <summary>
             Raises the <see cref="E:IdeaBlade.EntityModel.EntityManager.EntityManagerCreated"/> event.
@@ -7006,7 +8185,7 @@ public class Order {
             to true to indicate that the exception should not be re-thrown.  
             <para>
             The <b>EntityServerError</b> event is raised for any type of exception condition which occurs while accessing the
-            EntityServer, including during <see cref="M:IdeaBlade.EntityModel.EntityManager.Connect"/> and <see cref="!:Login(ILoginCredential)">Login</see> processing, fetching data, 
+            EntityServer, including during <see cref="M:IdeaBlade.EntityModel.EntityManager.Connect"/> and <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)">Login</see> processing, fetching data, 
             or saving data via <b>SaveChanges</b>.
             </para>
             </remarks>
@@ -7085,6 +8264,21 @@ public class Order {
             <summary>
             Gets the name of the serviceKey which defines the EntityServer address.
             </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityManager.IsLoggedIn">
+            <summary>
+            Returns whether this EntityManager is logged in to the EntityServer.
+            </summary>
+            <remarks>
+            If <see cref="P:IdeaBlade.EntityModel.EntityManagerOptions.UseDefaultAuthenticationContext"/> is on, then this EntityManager
+            will use the <see cref="P:IdeaBlade.EntityModel.Security.Authenticator.DefaultAuthenticationContext"/>.  
+            <para>
+            A login can occur explicitly with a call to the <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)"/> method; 
+            credentials from another logged in EntityManager can be used if the EntityManager was created via
+            one of the copy constructors or a login can be performed implicitly by the EntityManager if credentials have not been supplied
+            and guest user access is allowed.
+            </para>
+            </remarks>
         </member>
         <member name="P:IdeaBlade.EntityModel.EntityManager.AuthenticationContext">
             <summary>
@@ -7235,83 +8429,6 @@ public class Order {
             implement custom classes if necessary.
             </remarks>
         </member>
-        <member name="T:IdeaBlade.EntityModel.IIdGenerator">
-            <summary>
-            Interface for generation of unique IDs for new <see cref="T:IdeaBlade.EntityModel.IEntity"/> objects.
-            </summary>
-            <remarks>
-            The <b>IIdGenerator</b> interface defines methods to generate both temporary and real IDs for 
-            <see cref="T:IdeaBlade.EntityModel.IEntity"/> objects, and to map the temporary IDs to real IDs when objects 
-            are persisted to a backend data source.  Temporary IDs are created via a call to
-            <see cref="M:IdeaBlade.EntityModel.EntityManager.GenerateId(System.Object,IdeaBlade.EntityModel.DataEntityProperty)"/>, and allow
-            entities to be created and uniquely identified while the EntityManager is disconnected from a backend database.
-            Temporary IDs are mapped to real IDs during <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChanges"/>
-            processing.
-            <para>
-            Sample code in both VB.NET and C# showing an implementation for ID values of the long datatype is provided 
-            with the DevForce installation.
-            </para>
-            </remarks>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IIdGenerator.IsApplicable(IdeaBlade.EntityModel.IDataSourceKey)">
-            <summary>
-            Returns whether the IdGenerator can be used with the specified data source key.
-            </summary>
-            <param name="dataSourceKey"></param>
-            <returns></returns>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IIdGenerator.GetNextTempId(IdeaBlade.EntityModel.DataEntityProperty)">
-            <summary>
-            Generates a new temporary ID for a specified EntityProperty.  
-            </summary>
-            <param name="property">Property for which a new ID should be generated</param>
-            <returns>A new temporary ID</returns>
-            <remarks>The definition of a "temporary" ID is user-defined.  In the sample code for a "LongIdGenerator"
-            negative integers are used as temporary IDs. 
-            <para>This method should also store the temporary IDs generated in a <see cref="T:IdeaBlade.EntityModel.UniqueIdCollection"/>.
-            </para>
-            </remarks>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IIdGenerator.IsTempId(IdeaBlade.EntityModel.UniqueId)">
-            <summary>
-            Determines whether a given ID is temporary.
-            </summary>
-            <param name="uniqueId">ID to be analyzed</param>
-            <returns>true if the ID is temporary; otherwise false</returns>
-            <remarks>The <see cref="P:IdeaBlade.EntityModel.UniqueId.Value"/> contains the ID to be tested.
-            You can use the <see cref="P:IdeaBlade.EntityModel.EntityProperty.EntityType"/> property of the <see cref="P:IdeaBlade.EntityModel.UniqueId.Property"/>
-            to determine the <see cref="T:IdeaBlade.EntityModel.IEntity"/> type.
-            </remarks>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IIdGenerator.Reset">
-            <summary>
-            Reset temporary ID generation back to its initial state. 
-            </summary>
-            <remarks>Called by the <see cref="T:IdeaBlade.EntityModel.EntityManager"/> after Id fixup
-            during <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChanges"/> processing.
-            </remarks>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.IIdGenerator.GetRealIdMap(IdeaBlade.EntityModel.UniqueIdCollection,IdeaBlade.EntityModel.IDataSourceKey)">
-            <summary>
-            Returns a dictionary that maps temporary IDs to real IDs.
-            </summary>
-            <remarks>
-            In the <see cref="T:IdeaBlade.EntityModel.UniqueIdMap"/> returned, the <see cref="T:IdeaBlade.EntityModel.UniqueId"/> key contains the 
-            temporary ID, while the value holds the real ID.
-            <para>
-            <b>GetRealIdMap</b> is called by the <see cref="T:IdeaBlade.EntityModel.EntityManager"/> during <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChanges"/> processing.
-            The collection of temporary IDs passed in may contain entries for multiple entity types.
-            You can use the <see cref="T:IdeaBlade.EntityModel.IDataSourceKey"/> passed to manage access to the backend data source to determine real IDs.
-            </para>
-            <para>In an n-tier deployment, this method is called only on the "server" instance of this class.</para>
-            <para>The definition of a "real" ID is user-defined.</para>
-            </remarks>
-        </member>
-        <member name="P:IdeaBlade.EntityModel.IIdGenerator.TempIds">
-            <summary>
-            Returns the temporary IDs generated since instantiation of this class or the last <see cref="M:IdeaBlade.EntityModel.IIdGenerator.Reset"/>.
-            </summary>
-        </member>
         <member name="P:IdeaBlade.EntityModel.IIdentityIdGenerator.NextIdGenerator">
             <summary>
             Gets or sets the fallback <see cref="T:IdeaBlade.EntityModel.IIdGenerator"/> to be used.
@@ -7378,32 +8495,6 @@ public class Order {
         <member name="P:IdeaBlade.EntityModel.FakeIdGenerator.NextIdGenerator">
             <summary>
             Not used internally.
-            </summary>
-        </member>
-        <member name="T:IdeaBlade.EntityModel.EntityServerProxy">
-            <summary>
-            In practice we have a singleton xEntityServiceProxy, and then one xEntityServerProxy
-            per ds extension.  The EntityManager interacts with this class, which "proxies" the EntityServer.  
-            Variants of this are the LocalEntityServerProxy for 2-tier and RemoteEntityServerProxy for n-tier.
-            </summary>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityServerProxy.#ctor(System.String,System.String,System.String,System.Boolean)">
-             <summary>
-             Create an instance of this class.
-             </summary>
-            <param name="dataSourceExtension"></param>
-             <param name="composistionContextName"></param>
-             <param name="serviceKey"></param>
-            <param name="usesRemoteEntityService"></param>
-        </member>
-        <member name="M:IdeaBlade.EntityModel.EntityServerProxy.Disconnect">
-            <summary>
-            Disconnect from a EntityServer.
-            </summary>
-        </member>
-        <member name="P:IdeaBlade.EntityModel.EntityServerProxy.IsConnected">
-            <summary>
-            Indicates the service name is known.  Used when login performed through Authenticator.
             </summary>
         </member>
         <member name="T:IdeaBlade.EntityModel.EntityService">
@@ -7477,6 +8568,13 @@ public class Order {
             Note that the service itself uses a contract of the same name but in IdeaBlade.EntityModel.Server namespace.
             When configuring endpoints in a .config file, be sure to specify the correct contract name.
             </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.IEntityServerContract.Login(IdeaBlade.EntityModel.ILoginCredential)">
+            <summary>
+            Login with an existing credential.
+            </summary>
+            <param name="credential"></param>
+            <returns></returns>
         </member>
         <member name="M:IdeaBlade.EntityModel.IEntityServerContract.LoginSession(System.Guid)">
             <summary>
@@ -7682,6 +8780,12 @@ public class Order {
             </summary>
             <returns></returns>
         </member>
+        <member name="M:IdeaBlade.EntityModel.KnownTypeHelper.GetServiceKnownTypes">
+            <summary>
+            Defined on service contract - called when service or proxy initialized.  Also called during cloning.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:IdeaBlade.EntityModel.KnownTypeHelper.GetServiceKnownTypes(System.Reflection.ICustomAttributeProvider)">
             <summary>
             Defined on service contract - called when service or proxy initialized.  Also called during cloning.
@@ -7720,14 +8824,175 @@ public class Order {
             the query execution than just the results.
             </remarks>
         </member>
+        <member name="P:IdeaBlade.EntityModel.IQueryResult.ChangedEntities">
+            <summary>
+            For internal use only
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.IQueryResult.WasFetched">
+            <summary>
+            For internal use only
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.IQueryResult.ResolvedFetchStrategy">
+            <summary>
+            For internal use only
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.IQueryResult.UntypedQuery">
+            <summary>
+            For internal use only
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.IQueryResult.Cancelled">
+            <summary>
+            For internal use only
+            </summary>
+        </member>
         <member name="T:IdeaBlade.EntityModel.QueryScalarResult">
             <summary>
             Internal use only right now ... returned for backwards compat scalar ops
             </summary>
         </member>
+        <member name="F:IdeaBlade.EntityModel.QueryScalarResult._finder">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryScalarResult.ChangedEntities">
+             <summary>
+             The list of every entity that was either added or modified in the EntityManager's cache
+             as a result of this query.
+             </summary>
+             <remarks>
+             The <b>ChangedEntities</b> list may differ from the <see cref="P:IdeaBlade.EntityModel.QueryScalarResult.Result"/> 
+             list since the <b>Entities</b> will include only those entities directly queried, and not entities
+             fetched due to query inversion or use of an "Include".
+             <para>
+             Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
+             the result is undefined.
+             </para>
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryScalarResult.Query">
+            <summary>
+            The requested query as IEntityScalarQuery
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryScalarResult.Result">
+            <summary>
+            The result of the query.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryScalarResult.WasFetched">
+            <summary>
+            True if the data was fetched from the EntityServer.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryScalarResult.ResolvedFetchStrategy">
+            <summary>
+            The actual <see cref="T:IdeaBlade.EntityModel.FetchStrategy"/> used.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryScalarResult.UntypedQuery">
+            <summary>
+            The requested untyped query.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryScalarResult.Cancelled">
+            <summary>
+            Whether the query was cancelled.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.QueryScalarResult`1">
+            <summary>
+            Internal use only right now ... returned for backwards compat scalar ops
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.QueryScalarResult`1.#ctor(IdeaBlade.EntityModel.IEntityFinder)">
+            <summary>
+            
+            </summary>
+            <param name="finder"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryScalarResult`1.Query">
+            <summary>
+            The requested typed query as IEntityScalarQuery
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryScalarResult`1.Result">
+            <summary>
+            The typed result of the query
+            </summary>
+        </member>
         <member name="T:IdeaBlade.EntityModel.QueryResult">
             <summary>
             Returned from an ExecuteQueryForResult or ExecuteQueryForResultAsync call.
+            </summary>
+        </member>
+        <member name="F:IdeaBlade.EntityModel.QueryResult._finder">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryResult.ChangedEntities">
+             <summary>
+             The list of every entity that was either added or modified in the EntityManager's cache
+             as a result of this query.
+             </summary>
+             <remarks>
+             The <b>ChangedEntities</b> list may differ from the <see cref="P:IdeaBlade.EntityModel.QueryResult.Results"/> 
+             list since the <b>Entities</b> will include only those entities directly queried, and not entities
+             fetched due to query inversion or use of an "Include".
+             <para>
+             Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
+             the result is undefined.
+             </para>
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryResult.Query">
+            <summary>
+            The requested query.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryResult.Results">
+            <summary>
+            The results of the query.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryResult.WasFetched">
+            <summary>
+            True if the data was fetched from the EntityServer.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryResult.ResolvedFetchStrategy">
+            <summary>
+            The actual <see cref="T:IdeaBlade.EntityModel.FetchStrategy"/> used.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryResult.UntypedQuery">
+            <summary>
+            The requested untyped query.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryResult.Cancelled">
+            <summary>
+            Whether the query was cancelled.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.QueryResult`1">
+            <summary>
+            Returned from an ExecuteQueryForResult{T} or ExecuteQueryForResultAsync{T} call.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryResult`1.Query">
+            <summary>
+            The requested typed query as IEntityQuery.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.QueryResult`1.Results">
+            <summary>
+            The typed results of the query.
             </summary>
         </member>
         <member name="M:IdeaBlade.EntityModel.RemoteEntityServiceProxyBase.GetInstance(System.String)">
@@ -7913,12 +9178,19 @@ public class Order {
         </member>
         <member name="M:IdeaBlade.EntityModel.Security.Authenticator.LoginAsync(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)">
             <summary>
+            Calls <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.LoginAsync(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions,System.Threading.CancellationToken)"/> with default null <see cref="T:IdeaBlade.EntityModel.ILoginCredential"/>, <see cref="T:IdeaBlade.EntityModel.Security.LoginOptions"/> and <see cref="P:System.Threading.CancellationToken.None"/>
+            </summary>
+            <param name="credential"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Security.Authenticator.LoginAsync(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions,System.Threading.CancellationToken)">
+            <summary>
              Perform an asynchronous login operation to validate user credentials against an Entity Server.
             </summary>
             <param name="credential"></param>
             <param name="options"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <remarks>
              The <see cref="T:IdeaBlade.EntityModel.Security.LoginOptions"/> can be used to specify the EntityServer.  If options are not provided,
@@ -7937,12 +9209,7 @@ public class Order {
             not supplied credentials and who also cannot be authenticated by other means, such as ASP.NET authentication.   
             </para>
             <para>
-            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
-            Use the <paramref name="userState"/> to uniquely identify this call.  
-            </para>
-            <para>
-            The <see cref="T:IdeaBlade.EntityModel.Security.AuthenticationContext"/> returned from a successful login in the <see cref="!:LoginOperation"/> or <see cref="!:LoginEventArgs"/>
-            can be used in two ways:  1) you can set the
+            The <see cref="T:IdeaBlade.EntityModel.Security.AuthenticationContext"/> returned from a successful login can be used in two ways:  1) you can set the
             <see cref="P:IdeaBlade.EntityModel.Security.Authenticator.DefaultAuthenticationContext"/> so that any <see cref="T:IdeaBlade.EntityModel.EntityManager"/> in your application will share the credentials
             and not require a separate login, or 2) you can set the <see cref="P:IdeaBlade.EntityModel.EntityManager.AuthenticationContext"/> on one or more EntityManager
             instances.  Note that without performing one of these actions the returned AuthenticationContext will not be used by DevForce.
@@ -7967,12 +9234,19 @@ public class Order {
             Perform an asynchronous operation to log the specified <see cref="T:IdeaBlade.EntityModel.Security.AuthenticationContext"/> out of the Entity Server.
             </summary>
             <param name="context"></param>
-            <param name="userCallback"></param>
-            <param name="userState"></param>
             <returns></returns>
             <remarks>
             Any <see cref="T:IdeaBlade.EntityModel.EntityManager"/> using this AuthenticationContext will be logged out.
             </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Security.Authenticator.LogoutAsync(IdeaBlade.EntityModel.Security.IAuthenticationContext,System.Threading.CancellationToken)">
+            <summary>
+            Perform an asynchronous operation to log the specified <see cref="T:IdeaBlade.EntityModel.Security.AuthenticationContext"/> out of the Entity Server.
+            You can cancel pending async logout with <see cref="T:System.Threading.CancellationToken"/>.
+            </summary>
+            <param name="context"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="M:IdeaBlade.EntityModel.Security.Authenticator.LoginCore(System.Func{IdeaBlade.EntityModel.EntityServerProxy,IdeaBlade.EntityModel.SessionBundle},IdeaBlade.EntityModel.Security.LoginOptions)">
             <summary>
@@ -8785,7 +10059,7 @@ var orderedCustomerList = mgr1.Customers.OrderByDescending(c => c.Id).ToList();
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityQueryExtensions.OrderBySelector(IdeaBlade.EntityModel.ITypedEntityQuery,IdeaBlade.Core.ISortSelector)">
             <summary>
-            Sorts the elements of a sequence according to a <see cref="!:PropertySortSelector"/> containing one or more sort criteria.
+            Sorts the elements of a sequence according to a <see cref="T:IdeaBlade.Linq.SortSelector"/> containing one or more sort criteria.
             </summary>
             <param name="source"></param>
             <param name="selector"></param>
@@ -8807,7 +10081,7 @@ public void OrderBySample1() {
         </member>
         <member name="M:IdeaBlade.EntityModel.EntityQueryExtensions.OrderBySelector``1(IdeaBlade.EntityModel.IEntityQuery{``0},IdeaBlade.Core.ISortSelector)">
             <summary>
-            Sorts the elements of a sequence according to a <see cref="!:PropertySortSelector"/> containing one or more sort criteria.
+            Sorts the elements of a sequence according to a <see cref="T:IdeaBlade.Linq.SortSelector"/> containing one or more sort criteria.
             </summary>
             <typeparam name="TSource"></typeparam>
             <param name="source"></param>
@@ -9840,7 +11114,7 @@ op.Completed += (o, args) => {
             <remarks>
             A <b>EntityServerException</b>, or one of its sub-types, can be thrown for a number of error conditions
             detected while the <see cref="T:IdeaBlade.EntityModel.EntityManager"/> communicates with the <see cref="T:IdeaBlade.EntityModel.Server.EntityServer"/>.
-            It can be raised during <see cref="M:IdeaBlade.EntityModel.EntityManager.Connect"/> and <see cref="!:EntityManager.Login(ILoginCredential)">Login</see> processing, 
+            It can be raised during <see cref="M:IdeaBlade.EntityModel.EntityManager.Connect"/> and <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)">Login</see> processing, 
             while fetching data, or saving data via <b>SaveChanges</b>.
             <para>
             The <b>EntityServerException</b> is first raised via the <see cref="E:EntityManager.EntityServerError"/> event.
@@ -10768,12 +12042,19 @@ op.Completed += (o, args) => {
             </para>
             </remarks>
         </member>
-        <member name="M:IdeaBlade.EntityModel.EntityQueriedEventArgs.#ctor(IdeaBlade.EntityModel.QueryResult,System.Boolean,System.Boolean)">
+        <member name="M:IdeaBlade.EntityModel.EntityQueriedEventArgs.#ctor(IdeaBlade.EntityModel.QueryResult,System.Exception,System.Boolean,System.Boolean)">
             <summary>
-             Internal use only. Only used for async Queries.
+             Internal use only. 
              </summary>
-             <param name="query"></param>
-             <param name="userState"></param>
+             <param name="queryResult"></param>
+             <param name="error"></param>
+             <param name="cancelled"></param>
+             <param name="completedSynchronously"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueriedEventArgs.QueryResult">
+            <summary>
+            The <see cref="P:IdeaBlade.EntityModel.EntityQueriedEventArgs.QueryResult"/> of ExecuteQueryForResult or ExecuteQueryForResultAsync call.
+            </summary>
         </member>
         <member name="P:IdeaBlade.EntityModel.EntityQueriedEventArgs.Query">
             <summary>
@@ -10788,6 +12069,31 @@ op.Completed += (o, args) => {
             Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
             the result is undefined.
             </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueriedEventArgs.ChangedEntities">
+             <summary>
+             The list of every entity that was either added or modified in the EntityManager's cache
+             as a result of this query.
+             </summary>
+             <remarks>
+             The <b>ChangedEntities</b> list may differ from the <see cref="P:IdeaBlade.EntityModel.EntityQueriedEventArgs.Results"/> 
+             list since the <b>Entities</b> will include only those entities directly queried, and not entities
+             fetched due to query inversion or use of an "Include".
+             <para>
+             Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
+             the result is undefined.
+             </para>
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueriedEventArgs.WasFetched">
+            <summary>
+            True if the data was fetched from the EntityServer.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueriedEventArgs.ResolvedFetchStrategy">
+            <summary>
+            The actual <see cref="T:IdeaBlade.EntityModel.FetchStrategy"/> used.
+            </summary>
         </member>
         <member name="T:IdeaBlade.EntityModel.EntityQueryParameter">
             <summary>
@@ -13296,6 +14602,26 @@ using IdeaBlade.EntityModel;
             <param name="typeName"></param>
             <param name="methodName"></param>
             <param name="args"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.InvokeServerMethodWorkState.EntityManagerType">
+            <summary>
+            Internal use only.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.InvokeServerMethodWorkState.TypeName">
+            <summary>
+            Internal use only.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.InvokeServerMethodWorkState.MethodName">
+            <summary>
+            Internal use only.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.InvokeServerMethodWorkState.Args">
+            <summary>
+            Internal use only.
+            </summary>
         </member>
         <member name="T:IdeaBlade.EntityModel.InvokeServerMethodResult">
             <summary>
@@ -17280,6 +18606,7 @@ public class DynamicDataSourceKeyResolver : IDataSourceKeyResolver {
             Called by EntityManager when creating EntitySavedEventArgs for the Saved event.
             </summary>
             <param name="saveResult"></param>
+            <param name="completedSynchronously"></param>
         </member>
         <member name="P:IdeaBlade.EntityModel.EntitySavedEventArgs.Entities">
             <summary>
@@ -18188,7 +19515,7 @@ EntityMetadata.DefaultValueFunction = (t) =&gt; {
             <summary>
             Provides a credential interface for password-based authentication schemes.
             <seealso cref="T:IdeaBlade.EntityModel.LoginCredential"/>
-            <seealso cref="!:IdeaBlade.EntityModel.Security.Authenticator.Login(ILoginCredential, LoginOptions)"/>
+            <seealso cref="M:IdeaBlade.EntityModel.Security.Authenticator.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)"/>
             </summary>
             <remarks><see cref="T:IdeaBlade.EntityModel.LoginCredential"/> is the base implementation of this interface.</remarks>
         </member>
@@ -18210,14 +19537,14 @@ EntityMetadata.DefaultValueFunction = (t) =&gt; {
         <member name="T:IdeaBlade.EntityModel.IEntityLoginManager">
             <summary>
             Interface for server-side user authentication.
-            <seealso cref="!:IdeaBlade.EntityModel.EntityManager.Login(ILoginCredential)"/>
+            <seealso cref="M:IdeaBlade.EntityModel.Security.Authenticator.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)"/>
             <seealso cref="T:IdeaBlade.EntityModel.LoginCredential"/>
             </summary>
             <remarks>Implement the <b>IEntityLoginManager</b> interface in order to use 
-            <see cref="!:IdeaBlade.EntityModel.EntityManager.Login(ILoginCredential)">EntityManager.Login</see> to
+            <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)">EntityManager.Login</see> to
             validate user credentials and supply user identity and role information.
             <para>
-            If <b>IEntityLoginManager</b> has been implemented, a <see cref="!:EntityManager.Login(ILoginCredential)">Login</see>
+            If <b>IEntityLoginManager</b> has been implemented, a <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)">Login</see>
             call must be made to validate the user before any other EntityManager actions may be performed.
             You may use the <see cref="P:IdeaBlade.Core.IdeaBladeConfig.LoginManagerRequired">LoginManagerRequired</see> setting in the IdeaBlade Configuration
             file to ensure that an exception is raised if an <b>IEntityLoginManager</b> is not found.
@@ -18353,7 +19680,7 @@ End Class
             <param name="entityManager">A server-side EntityManager</param>
             <remarks>
             <para>The <see cref="T:System.Security.Principal.IPrincipal"/> returned here is wrapped into a <see cref="T:IdeaBlade.EntityModel.SessionBundle"/>
-            before returning to the client-side code which called <see cref="!:IdeaBlade.EntityModel.EntityManager.Login(ILoginCredential)">EntityManager.Login</see>.
+            before returning to the client-side code which called <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)">Authenticator.Login</see>.
             The <see cref="T:IdeaBlade.EntityModel.EntityManager"/> uses the SessionBundle in all further communications with the Entity Server.
             The <b>IPrincipal</b> returned is also used to set the <see cref="P:System.Threading.Thread.CurrentPrincipal"/>
             on the client and on the Entity Server during query and save processing.
@@ -18392,7 +19719,7 @@ End Class
             <seealso cref="T:IdeaBlade.EntityModel.Server.EntityServer"/>
             <seealso cref="T:IdeaBlade.EntityModel.IEntityLoginManager"/>
             </summary>
-            <remarks>An <b>ILoginCredential</b> is passed to the <see cref="!:EntityManager.Login(ILoginCredential)">Login</see>
+            <remarks>An <b>ILoginCredential</b> is passed to the <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)">Login</see>
             method to validate a user.
             <para>
             In Silverlight and ASP.NET applications, the <b>FormsAuthenticationLoginCredential</b> can
@@ -18437,7 +19764,7 @@ End Class
         </member>
         <member name="T:IdeaBlade.EntityModel.LoginExceptionType">
             <summary>
-            Enumeration of standard <see cref="!:EntityManager.Login(ILoginCredential)">Login</see> failures.
+            Enumeration of standard <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)">Login</see> failures.
             </summary>
         </member>
         <member name="F:IdeaBlade.EntityModel.LoginExceptionType.None">
@@ -20161,7 +21488,7 @@ private void Sample2() {
             or any standard or custom <see cref="T:System.Security.Principal.IPrincipal"/> implementation.
             <para>
             When a <b>UserBase</b> is returned by a Login call, it will be available in the client application through the 
-            <see cref="!:EntityManager.Principal">Principal</see> property on the <see cref="T:IdeaBlade.EntityModel.EntityManager"/>.
+            <see cref="P:IdeaBlade.EntityModel.Security.AuthenticationContext.Principal">Principal</see> property on the <see cref="T:IdeaBlade.EntityModel.Security.AuthenticationContext"/>.
             For methods invoked on the server, the <see cref="P:System.Threading.Thread.CurrentPrincipal">Thread.CurrentPrincipal</see>
             will return a <b>UserBase</b> instance, as will the method's IPrincipal argument if specified.
             </para> 

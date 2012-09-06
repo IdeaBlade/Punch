@@ -851,7 +851,7 @@
             </summary>
             <remarks>
             A verification error can cause an exception to be thrown, or it can be exposed via the
-            <see cref="!:IdeaBlade.Core.ComponentModel.INotifyDataErrorInfo"/> interface.
+            <see cref="T:System.ComponentModel.INotifyDataErrorInfo"/> interface.
             <para>
             The DevForce <b>EntityWrapper</b> used for entities and POCO types implements <b>INotifyDataErrorInfo</b>.  
             </para>
@@ -3237,7 +3237,7 @@
         <member name="P:IdeaBlade.Validation.VerifierOptions.ErrorNotificationMode">
             <summary>
             Gets or sets whether a verification error should be thrown as an exception or raised via
-            the <see cref="!:IdeaBlade.Core.ComponentModel.INotifyDataErrorInfo"/> mechanism.
+            the <see cref="T:System.ComponentModel.INotifyDataErrorInfo"/> mechanism.
             </summary>
             <remarks>
             The default is <see cref="F:IdeaBlade.Validation.VerifierErrorNotificationMode.Notify"/>.

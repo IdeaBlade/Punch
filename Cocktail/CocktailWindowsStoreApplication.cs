@@ -48,7 +48,7 @@ namespace Cocktail
         {
             _rootViewModelType = rootViewModelType;
 
-            if (Execute.InDesignMode)
+            if (DesignTime.InDesignMode())
                 InitializeDesignTime();
         }
 

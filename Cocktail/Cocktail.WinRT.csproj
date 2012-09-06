@@ -106,6 +106,7 @@
     <Compile Include="DataChangedEventArgs.cs" />
     <Compile Include="DefaultDebugLogger.cs" />
     <Compile Include="DefaultEntityManagerSyncInterceptor.cs" />
+    <Compile Include="DesignTime.cs" />
     <Compile Include="DesignTimeViewModelLocatorBase.cs" />
     <Compile Include="EntityManagerDelegate.cs" />
     <Compile Include="EntityManagerEventMessage.cs" />

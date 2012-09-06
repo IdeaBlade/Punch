@@ -114,7 +114,7 @@ namespace Cocktail
         public void BuildUp(object instance)
         {
             // Skip if in design mode.
-            if (Execute.InDesignMode)
+            if (DesignTime.InDesignMode())
                 return;
 
             Container.SatisfyImports(instance);

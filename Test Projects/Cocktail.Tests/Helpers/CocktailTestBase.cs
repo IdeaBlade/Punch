@@ -43,6 +43,7 @@ namespace Cocktail.Tests.Helpers
         [TestInitialize]
         public void TestInitialize()
         {
+            DesignTime.ResetInDesignModeToDefault();
             var compositionProvider = new MefCompositionProvider();
             Authenticator.Instance.DefaultAuthenticationContext = null;
             var batch = new CompositionBatch();

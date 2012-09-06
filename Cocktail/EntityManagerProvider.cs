@@ -338,7 +338,7 @@ namespace Cocktail
         private void OnQuerying(object sender, EntityQueryingEventArgs args)
         {
             // In design mode all queries must be forced to execute against the cache.
-            if (Execute.InDesignMode)
+            if (DesignTime.InDesignMode())
                 args.Query = args.Query.With(QueryStrategy.CacheOnly);
         }
 

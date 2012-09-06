@@ -81,6 +81,7 @@
     </Compile>
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />
+    <Compile Include="DesignTime.cs" />
     <Compile Include="EntityManagerProvider.NET.cs">
       <DependentUpon>EntityManagerProvider.cs</DependentUpon>
     </Compile>

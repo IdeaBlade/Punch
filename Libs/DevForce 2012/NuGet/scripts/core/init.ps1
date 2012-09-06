@@ -32,6 +32,8 @@ if (!$extensionTypes -or !$extensionTypes.GetValue($extensionId))
         "Extensions and Updates", [Windows.Forms.MessageBoxButtons]::OK, 
         [System.Windows.Forms.MessageBoxIcon]::Information) | Out-Null
 
+    $toolsSetup = $toolsPath + "\setup.exe"
+    [diagnostics.process]::Start($toolsSetup)
 }
 else
 {

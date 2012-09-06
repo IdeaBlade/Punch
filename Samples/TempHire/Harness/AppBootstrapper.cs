@@ -25,8 +25,8 @@ namespace TempHire
         static AppBootstrapper()
         {
             //TODO: How to enable design time.
-            //Composition.EnableDesignTimeSupport<TempHireEntities>();            
-            //Composition.EnableDesignTimeSupport<SecurityEntities>();
+            DesignTime.EnableDesignTimeSupport<TempHireEntities>();
+            DesignTime.EnableDesignTimeSupport<SecurityEntities>();
         }
 
         [Import]

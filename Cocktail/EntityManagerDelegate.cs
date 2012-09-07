@@ -10,15 +10,15 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
+using IdeaBlade.Core.Composition;
 
 namespace Cocktail
 {
     /// <summary>Internal use.</summary>
-    [InheritedExport]
+    [InterfaceExport(typeof(EntityManagerDelegate))]
     public abstract class EntityManagerDelegate
     {
     }

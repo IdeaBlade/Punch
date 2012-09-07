@@ -10,11 +10,10 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System;
-using System.ComponentModel.Composition;
-using System.Linq;
 using IdeaBlade.Core;
-using IdeaBlade.Core.Composition;
+using System;
+using System.Linq;
+using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
 
 namespace Cocktail
 {
@@ -22,30 +21,30 @@ namespace Cocktail
     {
         private T _instance;
         private readonly Func<CompositionContext> _compositionContextDelegate;
-        private readonly CreationPolicy _creationPolicy;
+        private readonly bool _useFactory;
 
         private bool _probed;
         private Func<T> _defaultGenerator;
 
-        internal PartLocator(CreationPolicy creationPolicy, Func<CompositionContext> compositionContextDelegate = null)
+        internal PartLocator(bool useFactory = false, Func<CompositionContext> compositionContextDelegate = null)
         {
             _compositionContextDelegate = compositionContextDelegate ?? (() => CompositionContext.Default);
-            _creationPolicy = creationPolicy;
+            _useFactory = useFactory;
             _defaultGenerator = () => null;
-            Composition.Cleared +=
-                new EventHandler<EventArgs>(OnCompositionCleared).MakeWeak(eh => Composition.Cleared -= eh);
+            Composition.ProviderChanged +=
+                new EventHandler<EventArgs>(OnCompositionProviderChanged).MakeWeak(eh => Composition.ProviderChanged -= eh);
         }
 
         internal PartLocator(PartLocator<T> partLocator)
         {
             _compositionContextDelegate = partLocator._compositionContextDelegate;
-            _creationPolicy = partLocator._creationPolicy;
+            _useFactory = partLocator._useFactory;
             _defaultGenerator = partLocator._defaultGenerator;
-            Composition.Cleared +=
-                new EventHandler<EventArgs>(OnCompositionCleared).MakeWeak(eh => Composition.Cleared -= eh);
+            Composition.ProviderChanged +=
+                new EventHandler<EventArgs>(OnCompositionProviderChanged).MakeWeak(eh => Composition.ProviderChanged -= eh);
         }
 
-        internal void OnCompositionCleared(object sender, EventArgs e)
+        internal void OnCompositionProviderChanged(object sender, EventArgs e)
         {
             _instance = null;
             _probed = false;
@@ -67,14 +66,12 @@ namespace Cocktail
                 return _instance;
             }
 
-            // Look for the part in the MEF container
-            var exports =
-                Composition.GetExportsCore(typeof (T), null, _creationPolicy).ToList();
-            if (exports.Count() > 1)
-                throw new CompositionException(
-                    String.Format(StringResources.ProbedForServiceAndFoundMultipleMatches, typeof (T).Name));
+            // Look for the part in the IoC container.
+            if (_useFactory)
+                _instance = TryGetPartFromFactory() ?? DefaultGenerator();
+            else
+                _instance = Composition.TryGetInstance<T>() ?? DefaultGenerator();
 
-            _instance = exports.Any() ? exports.First().Value as T : DefaultGenerator();
             _probed = true;
             WriteTrace();
 
@@ -101,6 +98,15 @@ namespace Cocktail
                                                  _instance.GetType().FullName));
             else
                 TraceFns.WriteLine(String.Format(StringResources.ProbedForServiceFoundNoMatch, typeof(T).Name));
+        }
+
+        private T TryGetPartFromFactory()
+        {
+            var factory = Composition.TryGetInstanceFactory<T>();
+            if (factory == null)
+                return null;
+
+            return factory.NewInstance();
         }
     }
 }

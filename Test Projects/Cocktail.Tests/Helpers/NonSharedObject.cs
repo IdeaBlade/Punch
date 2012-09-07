@@ -10,11 +10,18 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+#if !NETFX_CORE
 using System.ComponentModel.Composition;
+#else
+using System.Composition;
+#endif
+
 
 namespace Cocktail.Tests.Helpers
 {
+#if !NETFX_CORE
     [PartCreationPolicy(CreationPolicy.NonShared)]
+#endif
     [Export(typeof(NonSharedObject))]
     public class NonSharedObject
     {

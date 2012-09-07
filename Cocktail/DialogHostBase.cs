@@ -10,15 +10,21 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using Caliburn.Micro;
+using IdeaBlade.Core.Composition;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using Caliburn.Micro;
+
+#if !NETFX_CORE
+using System.ComponentModel.Composition;
+#else
+using System.Composition;
+#endif
 
 namespace Cocktail
 {
@@ -28,7 +34,7 @@ namespace Cocktail
     /// <remarks>
     ///   To customize the dialog host, subclass DialogHostBase and implement a custom view to match the subclassed view model.
     /// </remarks>
-    [InheritedExport]
+    [InterfaceExport(typeof(DialogHostBase))]
     [PartNotDiscoverable]
     public class DialogHostBase : Conductor<object>, IDialogHost
     {

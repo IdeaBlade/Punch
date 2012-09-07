@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 using Test.Model;
@@ -23,18 +24,16 @@ namespace Cocktail.Tests.Helpers
     /// 
     /// <seealso cref="CustomerRepository"/>
     /// </summary>
-    [InterfaceExport(typeof(ICustomerRepository))]
     public interface ICustomerRepository
     {
         event EventHandler<DataChangedEventArgs> DataChanged;
 
-        INotifyCompleted GetCustomers(string orderByPropertyName, Action<IEnumerable<Customer>> onSuccess = null,
-                                      Action<Exception> onFail = null);
+        Task<IEnumerable<Customer>> GetCustomersAsync(string orderByPropertyName);
 
         void AddCustomer(Customer customer);
 
         void DeleteCustomer(Customer customer);
 
-        INotifyCompleted Save(Action onSuccess = null, Action<Exception> onFail = null);
+        Task<SaveResult> SaveAsync();
     }
 }

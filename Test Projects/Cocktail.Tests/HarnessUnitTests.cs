@@ -12,8 +12,15 @@
 
 using System.Linq;
 using Cocktail.Tests.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Test.Model;
+
+#if !NETFX_CORE
+using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#else
+using System.Composition;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#endif
 
 namespace Cocktail.Tests
 {
@@ -31,7 +38,7 @@ namespace Cocktail.Tests
         [TestMethod]
         public void ShouldGetCustomersInDesignMode()
         {
-            DesignTimeViewModelLocatorBase<NorthwindIBEntities>.IsInDesignMode = () => true;
+            DesignTime.InDesignMode = () => true;
 
             var vm = _locator.CustomerListViewModel;
             Assert.IsNotNull(vm, "The ViewModel should be set");
@@ -45,7 +52,11 @@ namespace Cocktail.Tests
         [TestMethod]
         public void ShouldGetViewModelList()
         {
+#if NETFX_CORE
+            var shell = new HarnessViewModel(null, Composition.GetInstances<IDiscoverableViewModel>());
+#else
             var shell = new HarnessViewModel(Composition.GetInstances<IDiscoverableViewModel>());
+#endif
             Composition.BuildUp(shell);
 
             Assert.IsTrue(shell.Names.Any(), "We should have at least one ViewModel name");

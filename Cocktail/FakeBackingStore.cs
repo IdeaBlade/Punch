@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using IdeaBlade.Core.Composition;
+using System.Threading.Tasks;
 using IdeaBlade.EntityModel;
 
 namespace Cocktail
@@ -23,7 +24,6 @@ namespace Cocktail
 
         private readonly string _compositionContextName;
         private IEntityServerFakeBackingStore _store;
-        private CoroutineOperation _resetOp;
 
         public FakeBackingStore(string compositionContextName)
         {
@@ -42,20 +42,22 @@ namespace Cocktail
 
         public bool IsInitialized { get; private set; }
 
-        public CoroutineOperation InitializeOperation { get; private set; }
-
-        public OperationResult ResetAsync(EntityCacheState storeEcs)
+        public async Task ResetAsync(EntityCacheState storeEcs)
         {
-            _resetOp = Coroutine.Start(() => ResetCore(storeEcs));
-            if (InitializeOperation == null)
-                InitializeOperation = _resetOp;
 
-            return _resetOp.OnComplete(
-                () =>
-                    {
-                        IsInitialized = true;
-                        _resetOp = null;
-                    }, null).AsOperationResult();
+#if !SILVERLIGHT && !NETFX_CORE
+            // If the local fake backing store is used, do it synchronously
+            if (Store is EntityServerFakeBackingStore.Local)
+            {
+                Reset(storeEcs);
+                return;
+            }
+#endif
+            // Clear all data from the backing store
+            await Store.ClearAsync();
+            await Store.RestoreAsync(storeEcs);
+
+            IsInitialized = true;
         }
 
         public static bool Exists(string compositionContextName)
@@ -74,14 +76,6 @@ namespace Cocktail
             FakeBackingStores.Add(compositionContextName, fakeBackingStore);
 
             return fakeBackingStore;
-        }
-
-        private IEnumerable<INotifyCompleted> ResetCore(EntityCacheState storeEcs)
-        {
-            // Clear all data from the backing store
-            yield return Store.ClearAsync();
-
-            yield return Store.RestoreAsync(storeEcs);
         }
     }
 }

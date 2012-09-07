@@ -12,7 +12,8 @@
 
 using System;
 using System.Collections.Generic;
-using Cocktail;
+using System.Threading;
+using System.Threading.Tasks;
 using DomainModel.Projections;
 using IdeaBlade.Core;
 
@@ -20,7 +21,8 @@ namespace DomainServices.Services
 {
     public interface IStaffingResourceSearchService : IHideObjectMembers
     {
-        OperationResult<IEnumerable<StaffingResourceListItem>> Simple(
-            string text, Action<IEnumerable<StaffingResourceListItem>> onSuccess = null, Action<Exception> onFail = null);
+        Task<IEnumerable<StaffingResourceListItem>> Simple(string text);
+
+        Task<IEnumerable<StaffingResourceListItem>> Simple(string text, CancellationToken cancellationToken);
     }
 }

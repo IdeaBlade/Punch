@@ -28,12 +28,12 @@ namespace Cocktail
     ///  
     ///     public IBusyWatcher Busy { get; private set; }
     ///  
-    ///     public IEnumerable&lt;IResult&gt; Login()
+    ///     public async void Login()
     ///     {
     ///         using (Busy.GetTicket())
     ///         {
     ///             // Snip .. removed for clarity
-    ///             yield return _authenticationService.LoginAsync(credential);
+    ///             await _authenticationService.LoginAsync(credential);
     ///  
     ///             if (_authenticationService.IsLoggedIn)
     ///                 TryClose();

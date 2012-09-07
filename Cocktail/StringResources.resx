@@ -252,4 +252,22 @@
   <data name="PageChangeInProgress" xml:space="preserve">
     <value>Another page change is in progress. You must wait before attempting another page change.</value>
   </data>
+  <data name="CompositionProviderCannotBeNull" xml:space="preserve">
+    <value>Null is not a valid CompositionProvider.</value>
+  </data>
+  <data name="CompositionProviderNotConfigured" xml:space="preserve">
+    <value>You must first set a valid CompositionProvider by using Composition.SetProvider.</value>
+  </data>
+  <data name="NoExportFound" xml:space="preserve">
+    <value>No export found for {0}</value>
+  </data>
+  <data name="NavigationServiceDoesNotManageHistory" xml:space="preserve">
+    <value>The current NavigationService doesn't manage its own navigation history.</value>
+  </data>
+  <data name="PendingNavigation" xml:space="preserve">
+    <value>Another navigation is pending.</value>
+  </data>
+  <data name="ViewNotFound" xml:space="preserve">
+    <value>No view was found for {0}. See the log for searched views.</value>
+  </data>
 </root>

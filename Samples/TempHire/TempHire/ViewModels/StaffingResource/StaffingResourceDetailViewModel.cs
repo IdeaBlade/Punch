@@ -15,11 +15,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Cocktail;
 using Common;
-using Common.Errors;
-using Common.Factories;
 using DomainServices;
 using IdeaBlade.Core;
 
@@ -34,7 +33,6 @@ namespace TempHire.ViewModels.StaffingResource
                                                    IHarnessAware
     {
         private readonly IDialogManager _dialogManager;
-        private readonly IErrorHandler _errorHandler;
         private readonly IEnumerable<IStaffingResourceDetailSection> _sections;
         private readonly IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
         private EditMode _editMode;
@@ -46,12 +44,11 @@ namespace TempHire.ViewModels.StaffingResource
         public StaffingResourceDetailViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                                StaffingResourceSummaryViewModel staffingResourceSummary,
                                                [ImportMany] IEnumerable<IStaffingResourceDetailSection> sections,
-                                               IErrorHandler errorHandler, IDialogManager dialogManager)
+                                               IDialogManager dialogManager)
         {
             StaffingResourceSummary = staffingResourceSummary;
             _unitOfWorkManager = unitOfWorkManager;
             _sections = sections.ToList();
-            _errorHandler = errorHandler;
             _dialogManager = dialogManager;
             Busy = new BusyWatcher();
 
@@ -131,56 +128,49 @@ namespace TempHire.ViewModels.StaffingResource
 
         public StaffingResourceDetailViewModel Start(Guid staffingResourceId, EditMode editMode)
         {
-            Busy.AddWatch();
-
-            _unitOfWork = null;
-            _staffingResourceId = staffingResourceId;
-            EditMode = editMode;
-            // Bring resource into cache and defer starting of nested VMs until completed.
-            UnitOfWork.StaffingResources.WithIdAsync(staffingResourceId, OnStartCompleted, _errorHandler.HandleError)
-                .ContinueWith(op => Busy.RemoveWatch());
-
+            LoadDataAsync(staffingResourceId, editMode);
             return this;
         }
 
-        private void OnStartCompleted(DomainModel.StaffingResource staffingResource)
+        private async void LoadDataAsync(Guid staffingResourceId, EditMode editMode)
         {
-            StaffingResource = staffingResource;
-            StaffingResourceSummary.Start(staffingResource.Id, EditMode);
-
-            _sections.ForEach(s => s.Start(staffingResource.Id, EditMode));
-            if (Items.Count == 0)
+            using (Busy.GetTicket())
             {
-                Items.AddRange(_sections.OrderBy(s => s.Index).Cast<IScreen>());
-                NotifyOfPropertyChange(() => Items);
-                ActivateItem(Items.First());
+                _unitOfWork = null;
+                _staffingResourceId = staffingResourceId;
+                EditMode = editMode;
+
+                StaffingResource = await UnitOfWork.StaffingResources.WithIdAsync(staffingResourceId);
+                StaffingResourceSummary.Start(StaffingResource.Id, EditMode);
+                _sections.ForEach(s => s.Start(StaffingResource.Id, EditMode));
+                if (Items.Count == 0)
+                {
+                    Items.AddRange(_sections.OrderBy(s => s.Index));
+                    NotifyOfPropertyChange(() => Items);
+                    ActivateItem(Items.First());
+                }
             }
         }
 
         public StaffingResourceDetailViewModel Start(string firstName, string middleName, string lastName)
         {
-            Busy.AddWatch();
-
-            _unitOfWork = _unitOfWorkManager.Create();
-            _unitOfWork.StaffingResourceFactory.CreateAsync()
-                .ContinueWith(op =>
-                                  {
-                                      if (op.CompletedSuccessfully)
-                                      {
-                                          _unitOfWorkManager.Add(op.Result.Id, _unitOfWork);
-                                          op.Result.FirstName = firstName;
-                                          op.Result.MiddleName = middleName;
-                                          op.Result.LastName = lastName;
-                                          Start(op.Result.Id, EditMode.Edit);
-                                      }
-
-                                      if (op.HasError)
-                                          _errorHandler.HandleError(op.Error);
-
-                                      Busy.RemoveWatch();
-                                  });
-
+            LoadDataAsync(firstName, middleName, lastName);
             return this;
+        }
+
+        private async void LoadDataAsync(string firstName, string middleName, string lastName)
+        {
+            using (Busy.GetTicket())
+            {
+                _unitOfWork = _unitOfWorkManager.Create();
+                var staffingResource = await _unitOfWork.StaffingResourceFactory.CreateAsync();
+
+                _unitOfWorkManager.Add(staffingResource.Id, _unitOfWork);
+                staffingResource.FirstName = firstName;
+                staffingResource.MiddleName = middleName;
+                staffingResource.LastName = lastName;
+                Start(staffingResource.Id, EditMode.Edit);
+            }
         }
 
         protected override void OnActivate()
@@ -201,50 +191,51 @@ namespace TempHire.ViewModels.StaffingResource
             }
         }
 
-        public override void CanClose(Action<bool> callback)
+        public override async void CanClose(Action<bool> callback)
         {
-            if (UnitOfWork.HasChanges())
+            try
             {
-                _dialogManager.ShowMessageAsync("There are unsaved changes. Would you like to save your changes?",
-                                                DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel)
-                    .ContinueWith(op =>
-                                      {
-                                          if (op.DialogResult == DialogResult.Yes)
-                                          {
-                                              Busy.AddWatch();
-                                              UnitOfWork.CommitAsync(saveResult => callback(true),
-                                                                     _errorHandler.HandleError)
-                                                  .ContinueWith(commit => Busy.RemoveWatch());
-                                          }
+                if (UnitOfWork.HasChanges())
+                {
+                    var dialogResult = await _dialogManager.ShowMessageAsync(
+                        "There are unsaved changes. Would you like to save your changes?",
+                        DialogResult.Yes, DialogResult.Cancel, DialogButtons.YesNoCancel);
 
-                                          if (op.DialogResult == DialogResult.No)
-                                          {
-                                              UnitOfWork.Rollback();
-                                              callback(true);
-                                          }
 
-                                          if (op.DialogResult == DialogResult.Cancel)
-                                              callback(false);
-                                      });
+                    using (Busy.GetTicket())
+                    {
+                        if (dialogResult == DialogResult.Yes)
+                            await UnitOfWork.CommitAsync();
+
+                        if (dialogResult == DialogResult.No)
+                            UnitOfWork.Rollback();
+
+                        callback(true);
+                    }
+                }
+                else
+                    base.CanClose(callback);
             }
-            else
-                base.CanClose(callback);
+            catch (TaskCanceledException)
+            {
+                callback(false);
+            }
+            catch (Exception)
+            {
+                callback(false);
+                throw;
+            }
         }
 
-        public IEnumerable<IResult> RefreshData()
+        public async void RefreshData()
         {
             if (UnitOfWork.HasChanges())
-                yield return _dialogManager.ShowMessageAsync(
+                await _dialogManager.ShowMessageAsync(
                     "There are unsaved changes. Refreshing the data will discard all unsaved changes.",
                     DialogButtons.OkCancel);
 
             UnitOfWork.Clear();
             Start(StaffingResource.Id, EditMode);
         }
-    }
-
-    [Export(typeof(IPartFactory<StaffingResourceDetailViewModel>))]
-    public class StaffingResourceDetailViewModelFactory : PartFactoryBase<StaffingResourceDetailViewModel>
-    {
     }
 }

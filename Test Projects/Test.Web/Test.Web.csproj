@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -11,13 +12,18 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Test.Web</RootNamespace>
     <AssemblyName>Test.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
-    <SilverlightApplicationList>{0D74727E-5C3A-4F77-B769-FD3E976B01F4}|..\Cocktail.Tests.SL\Cocktail.Tests.SL.csproj|ClientBin|False</SilverlightApplicationList>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <SilverlightApplicationList>
+    </SilverlightApplicationList>
     <SkipPostSharp>True</SkipPostSharp>
     <JSLintSkip>\Silverlight.js</JSLintSkip>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,6 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,38 +42,55 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IdeaBlade.EntityModel.Edm">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Server">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IdeaBlade.EntityModel">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Web">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IdeaBlade.Linq">
-      <Private>True</Private>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core">
-      <Private>True</Private>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.EntityModel">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.EntityModel.Edm, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.EntityModel.Server, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.EntityModel.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.Linq">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Linq.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation">
-      <Private>True</Private>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
-    <Reference Include="System.Core" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientAccessPolicy.xml" />
-    <Content Include="ClientBin\Cocktail.Tests.SL.xap" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Silverlight.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ServerCompositionContextResolver.cs" />
@@ -74,6 +98,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ClientBin\" />
     <Folder Include="log\" />
   </ItemGroup>
   <ItemGroup>
@@ -82,8 +107,16 @@
       <Name>Test.Model</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -95,12 +128,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>9009</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost:9009/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

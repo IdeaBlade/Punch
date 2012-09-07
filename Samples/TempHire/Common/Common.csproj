@@ -10,11 +10,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Common</RootNamespace>
     <AssemblyName>Common</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SkipPostSharp>True</SkipPostSharp>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
+    <SkipPostSharp>true</SkipPostSharp>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <DontImportPostSharp>True</DontImportPostSharp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Fakestore|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -48,34 +52,49 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\Cocktail.NET.1.0.0\lib\net40\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail">
-      <HintPath>..\packages\Cocktail.NET.1.0.0\lib\net40\Cocktail.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\net45\Cocktail.dll</HintPath>
+    </Reference>
+    <Reference Include="Cocktail.Utils">
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\net45\Cocktail.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.Aop">
+      <HintPath>..\packages\IdeaBlade.DevForce.Aop.7.0.0-beta1\lib\net45\IdeaBlade.Aop.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core">
-      <Private>True</Private>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Core.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel">
-      <Private>True</Private>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.Linq">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Linq.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation">
-      <Private>True</Private>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
     <Reference Include="MefContrib">
       <HintPath>..\Libs\MefContrib\MefContrib.dll</HintPath>
     </Reference>
-    <Reference Include="PostSharp" />
+    <Reference Include="PostSharp">
+      <HintPath>..\packages\PostSharp.2.1.7.11\lib\net20\PostSharp.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cocktail.NET.1.0.0\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
@@ -91,8 +110,6 @@
     <Compile Include="EditMode.cs" />
     <Compile Include="Errors\ErrorHandler.cs" />
     <Compile Include="Errors\IErrorHandler.cs" />
-    <Compile Include="Factories\PartFactoryBase.cs" />
-    <Compile Include="Factories\IPartFactory.cs" />
     <Compile Include="Messages\EntityChangedMessage.cs" />
     <Compile Include="Messages\IMessageProcessor.cs" />
     <Compile Include="Messages\MessageProcessor.cs" />
@@ -107,7 +124,7 @@
     <Compile Include="Validation\ValidationErrorMessageProcessor.cs" />
     <Compile Include="Validation\ValidationErrorsViewModel.cs" />
     <Compile Include="Workspace\IWorkspace.cs" />
-    <Compile Include="Workspace\LazyWorkspace.cs" />
+    <Compile Include="Workspace\Workspace.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Security\Security.csproj">
@@ -129,6 +146,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="..\packages\PostSharp.2.1.7.11\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.2.1.7.11\tools\PostSharp.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

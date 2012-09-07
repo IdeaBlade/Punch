@@ -10,9 +10,10 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Cocktail;
 using DomainModel;
 using IdeaBlade.EntityModel;
@@ -33,31 +34,24 @@ namespace DomainServices.Factories
             _phoneNumberTypes = phoneNumberTypes;
         }
 
-        public override OperationResult<StaffingResource> CreateAsync(Action<StaffingResource> onSuccess = null,
-                                                                      Action<Exception> onFail = null)
+        public override async Task<StaffingResource> CreateAsync(CancellationToken cancellationToken)
         {
-            return Coroutine.Start(CreateAsyncCore, op => op.OnComplete(onSuccess, onFail))
-                .AsOperationResult<StaffingResource>();
-        }
+            cancellationToken.ThrowIfCancellationRequested();
 
-        protected IEnumerable<INotifyCompleted> CreateAsyncCore()
-        {
             var staffingResource = StaffingResource.Create();
             EntityManager.AddEntity(staffingResource);
 
-            OperationResult<IEnumerable<AddressType>> op1;
-            yield return op1 = _addressTypes.FindAsync(t => t.Default);
-            var addressType = op1.Result.First();
+            var addressType = (await _addressTypes.FindAsync(t => t.Default, cancellationToken)).First();
             var address = staffingResource.AddAddress(addressType);
             staffingResource.PrimaryAddress = address;
 
-            OperationResult<IEnumerable<PhoneNumberType>> op2;
-            yield return op2 = _phoneNumberTypes.FindAsync(t => t.Default);
-            var phoneType = op2.Result.First();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var phoneType = (await _phoneNumberTypes.FindAsync(t => t.Default, cancellationToken)).First();
             var phoneNumber = staffingResource.AddPhoneNumber(phoneType);
             staffingResource.PrimaryPhoneNumber = phoneNumber;
 
-            yield return Coroutine.Return(staffingResource);
+            return staffingResource;
         }
     }
 }

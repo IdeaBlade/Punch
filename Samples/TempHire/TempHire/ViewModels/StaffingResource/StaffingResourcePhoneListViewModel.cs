@@ -10,14 +10,11 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
-using Common.Errors;
-using Common.Factories;
 using DomainModel;
 using DomainServices;
 using IdeaBlade.Core;
@@ -28,14 +25,15 @@ namespace TempHire.ViewModels.StaffingResource
     public class StaffingResourcePhoneListViewModel : StaffingResourceScreenBase
     {
         private readonly IDialogManager _dialogManager;
-        private readonly IPartFactory<ItemSelectorViewModel> _phoneTypeSelectorFactory;
+        private readonly ExportFactory<ItemSelectorViewModel> _phoneTypeSelectorFactory;
         private BindableCollection<StaffingResourcePhoneItemViewModel> _phoneNumbers;
 
         [ImportingConstructor]
-        public StaffingResourcePhoneListViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
-                                                  IPartFactory<ItemSelectorViewModel> phoneTypeSelectorFactory,
-                                                  IErrorHandler errorHandler, IDialogManager dialogManager)
-            : base(unitOfWorkManager, errorHandler)
+        public StaffingResourcePhoneListViewModel(
+            IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
+            ExportFactory<ItemSelectorViewModel> phoneTypeSelectorFactory,
+            IDialogManager dialogManager)
+            : base(unitOfWorkManager)
         {
             _phoneTypeSelectorFactory = phoneTypeSelectorFactory;
             _dialogManager = dialogManager;
@@ -97,15 +95,13 @@ namespace TempHire.ViewModels.StaffingResource
             PhoneNumbers.ForEach(i => i.NotifyOfPropertyChange(() => i.CanDelete));
         }
 
-        public IEnumerable<IResult> Add()
+        public async void Add()
         {
             var phoneTypes = UnitOfWork.PhoneNumberTypes;
-            var phoneTypeSelector = _phoneTypeSelectorFactory.CreatePart()
-                .Start("Select type:", "Name",
-                       () => phoneTypes.AllAsync(q => q.OrderBy(t => t.Name),
-                                                 onFail: ErrorHandler.HandleError));
+            var phoneTypeSelector = _phoneTypeSelectorFactory.CreateExport().Value
+                .Start("Select type:", "Name", () => phoneTypes.AllAsync(q => q.OrderBy(t => t.Name)));
 
-            yield return _dialogManager.ShowDialogAsync(phoneTypeSelector, DialogButtons.OkCancel);
+            await _dialogManager.ShowDialogAsync(phoneTypeSelector, DialogButtons.OkCancel);
 
             StaffingResource.AddPhoneNumber((PhoneNumberType) phoneTypeSelector.SelectedItem);
 

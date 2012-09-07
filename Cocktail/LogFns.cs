@@ -65,6 +65,7 @@ namespace Cocktail
             TraceFns.WriteLineIf(condition, FormatLogMessage(aObject));
         }
 
+#if !NETFX_CORE
         private static string FormatLogMessage(object aObject)
         {
             var stackFrame = new StackFrame(2);
@@ -73,6 +74,12 @@ namespace Cocktail
             var source = method == null ? "(Unknown)" : GetFullyQualifiedMethodName(method);
             return string.Format("{0}: {1}", source, aObject);
         }
+#else
+        private static string FormatLogMessage(object aObject)
+        {
+            return string.Format("{0}", aObject);
+        }
+#endif
 
         private static String GetFullyQualifiedMethodName(MemberInfo pMemberInfo)
         {

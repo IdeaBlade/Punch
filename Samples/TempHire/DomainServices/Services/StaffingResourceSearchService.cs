@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using Cocktail;
 using DomainModel;
 using DomainModel.Projections;
@@ -31,8 +33,12 @@ namespace DomainServices.Services
 
         #region IStaffingResourceSearchService Members
 
-        public OperationResult<IEnumerable<StaffingResourceListItem>> Simple(
-            string text, Action<IEnumerable<StaffingResourceListItem>> onSuccess = null, Action<Exception> onFail = null)
+        public Task<IEnumerable<StaffingResourceListItem>> Simple(string text)
+        {
+            return Simple(text, CancellationToken.None);
+        }
+
+        public Task<IEnumerable<StaffingResourceListItem>> Simple(string text, CancellationToken cancellationToken)
         {
             Expression<Func<StaffingResource, bool>> filter = null;
             if (!string.IsNullOrWhiteSpace(text))
@@ -63,7 +69,7 @@ namespace DomainServices.Services
                                            AreaCode = x.PhoneNumbers.FirstOrDefault(p => p.Primary).AreaCode,
                                            Number = x.PhoneNumbers.FirstOrDefault(p => p.Primary).Number
                                        }),
-                filter, q => q.OrderBy(i => i.LastName), onSuccess, onFail);
+                cancellationToken, filter, q => q.OrderBy(i => i.LastName));
         }
 
         #endregion

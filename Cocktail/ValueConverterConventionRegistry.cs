@@ -26,7 +26,7 @@ namespace Cocktail
     /// <remarks>
     /// Registered conventions become part of the Caliburn.Micro conventions when 
     /// <see cref="AddConventionsToConventionManager"/> is called
-    /// as it is in the <see cref="FrameworkBootstrapper"/>.
+    /// as it is in the <see cref="CocktailMefBootstrapper"/>.
     /// <para>
     /// You can continue adding conventions after adding the ConventionRegistry 
     /// to the Caliburn conventions.

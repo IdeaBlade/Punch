@@ -1,0 +1,34 @@
+﻿<configuration>
+  <configSections>
+    <section name="ideablade.configuration" type="IdeaBlade.Core.Configuration.IdeaBladeSection, IdeaBlade.Core"/>
+  </configSections>
+
+  <connectionStrings>
+    <!-- Remember to add your connection string(s) here -->
+  </connectionStrings>
+
+
+  <ideablade.configuration version="6.00" xmlns="http://schemas.ideablade.com/2010/IdeaBladeConfig" >
+
+    <logging logFile="log\DebugLog.xml"/>
+
+    <!-- Additional configuration can be added to override defaults. 
+         See the sample config files in the Learning Resources for more information.
+    -->
+
+  </ideablade.configuration>
+
+  <system.serviceModel>
+
+    <!-- Set aspNetCompatibilityEnabled to true to allow use of ASP.NET security features. 
+         Set multipleSiteBindingsEnabled to true for Azure or if your web site has multiple http bindings.
+    -->
+    <serviceHostingEnvironment aspNetCompatibilityEnabled="false"
+                               multipleSiteBindingsEnabled="true" />
+
+    <!-- You can add Service definitions to override the default configuration. 
+         See the sample config files in the Learning Resources for more information.
+    -->
+  </system.serviceModel>
+
+</configuration>

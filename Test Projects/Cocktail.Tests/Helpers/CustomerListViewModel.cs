@@ -13,20 +13,19 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using IdeaBlade.Core;
 using Test.Model;
 
+#if !NETFX_CORE
+using System.ComponentModel.Composition;
+#else
+using System.Composition;
+#endif
+
 namespace Cocktail.Tests.Helpers
 {
-    /// <summary>
-    /// An example of a ViewModel.
-    /// 
-    /// Notice: The ViewModel must be exported in order to be found by Caliburn Micro.
-    /// </summary>
-    [Export(typeof(CustomerListViewModel))]
     public class CustomerListViewModel : Screen, IDiscoverableViewModel
     {
         private readonly ICustomerRepository _repository;
@@ -75,16 +74,12 @@ namespace Cocktail.Tests.Helpers
             return this;
         }
 
-        public void GetCustomers()
+        public async void GetCustomers()
         {
-            _repository.GetCustomers("ContactName",
-                                     customers =>
-                                         {
-                                             var c = customers.ToList();
-                                             var b = new ObservableCollection<Customer>(c);
-                                             Customers = new ObservableCollection<Customer>(customers);
-                                         Customers.CollectionChanged += CustomersCollectionChanged;
-                                     });
+            var customers = await _repository.GetCustomersAsync("ContactName");
+
+            Customers = new ObservableCollection<Customer>(customers);
+            Customers.CollectionChanged += CustomersCollectionChanged;
         }
 
         private void CustomersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -113,7 +108,7 @@ namespace Cocktail.Tests.Helpers
 
         public void Save()
         {
-            _repository.Save();
+            _repository.SaveAsync();
         }
     }
 }

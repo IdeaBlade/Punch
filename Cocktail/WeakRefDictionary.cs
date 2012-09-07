@@ -14,6 +14,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+#if NETFX_CORE
+using IdeaBlade.Core;
+#endif
+
 namespace Cocktail
 {
 
@@ -204,7 +208,6 @@ namespace Cocktail
              .Select(kvp => kvp.Key)
              .ToList()
              .ForEach(k => _inner.Remove(k));
-
         }
 
         private readonly Dictionary<TKey, WeakReference> _inner = new Dictionary<TKey, WeakReference>();

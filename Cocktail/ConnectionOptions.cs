@@ -12,12 +12,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 using IdeaBlade.EntityModel.Security;
+using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
+
+#if NETFX_CORE
+using System.Composition;
+#else
+using System.ComponentModel.Composition;
+#endif
 
 namespace Cocktail
 {

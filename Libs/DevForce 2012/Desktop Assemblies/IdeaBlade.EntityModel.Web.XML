@@ -1,0 +1,492 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IdeaBlade.EntityModel.Web</name>
+    </assembly>
+    <members>
+        <member name="T:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager">
+            <summary>
+            <see cref="T:IdeaBlade.EntityModel.IEntityLoginManager"/> implementation integrating with ASP.NET Membership, Role and Profile services.
+            </summary>
+            <remarks>
+            The <b>AspAuthenticatingLoginManager</b> will be used by DevForce if a custom <see cref="T:IdeaBlade.EntityModel.IEntityLoginManager"/> is not found
+            and ASP.NET compatibility is enabled.  Two configuration settings must be set to enable this:  1) the aspNetCompatibilityEnabled flag (see below) and
+            2) the <see cref="P:IdeaBlade.Core.Configuration.ServerSettingsElement.UseAspNetSecurityServices">ServerSettings.UseAspNetSecurityServices</see> flag.  
+            <para>
+            The <b>AspAuthenticatingLoginManager</b> supports both Windows and Forms authentication.  If an <see cref="T:IdeaBlade.EntityModel.ILoginCredential"/> is provided with the
+            login, then Forms authentication is performed (if set correctly in the config).  The credential is validated with ASP.NET Membership,
+            if Roles are enabled they will be retrieved, and if Profile is enabled Profile properties will be retrieved.  
+            </para>
+            <para>
+            If an <see cref="T:IdeaBlade.EntityModel.ILoginCredential"/> is not provided with the login, then DevForce attempts to load the current user from <b>HttpContext.Current.User</b>.
+            This user is available if the user has already logged in (as part of an ASP.NET application), if Windows authentication is used, or if a persistent token
+            was used with a prior login.  A <see cref="T:IdeaBlade.EntityModel.UserBase"/> is built from the current user information; if a RolePrincipal the roles will be copied to the UserBase; 
+            if Profile is enabled then Profile properties will be retrieved.
+            </para>
+            <para>
+            To use Profile properties, sub-type the <see cref="T:IdeaBlade.EntityModel.UserBase"/> class and include public properties with the same names as your Profile properties:  DevForce will automatically find
+            and populate your custom type, and you will not need to implement a custom login manager.
+            </para>
+            <para>
+            If guest logins are allowed (see the <see cref="P:IdeaBlade.Core.Configuration.ServerSettingsElement.AllowAnonymousLogin">ServerSettings.AllowAnonymousLogin</see>)
+            then an "anonymous" user will be returned in some situations: 1) if the current user is not authenticated or there is no current user, 
+            or 2) a credential is passed but Forms authentication is not enabled.  The first situation will occur when a "load user" style login is attempted: if there is no current user
+            to load, then an anonymous user is returned.
+            </para>
+            <para>
+            To use ASP.NET security features with the BOS be sure to also set the following in the system.serviceModel section of your configuration file:
+            <code>
+                &lt;serviceHostingEnvironment aspNetCompatibilityEnabled="true" /&gt;
+            </code>
+            </para>
+            <para>
+            Set either Windows or Forms authentication using the system.web section of your configuration file:
+            <code>
+                &lt;authentication mode="Forms" /&gt;
+                // or 
+                &lt;authentication mode="Windows" /&gt;
+            </code>
+            </para>
+            <para>
+            To enable the ASP.NET Role Manager set the following in the system.web section of your configuration file:
+            <code>
+                &lt;roleManager enabled="true" /&gt;
+            </code>
+            </para>
+            <para>
+            To enable the ASP.NET Profile feature set the following in the system.web section of your configuration file:
+            <code>
+              &lt;profile enabled="true"&gt;
+                 &lt;properties&gt;
+                    &lt;add ... == add properties == 
+                 &lt;/properties&gt;
+              &lt;/profile&gt;
+            </code>
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.#ctor">
+            <summary>
+            Create an instance of this class.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.EntityManager)">
+            <summary>
+            Authenticate the user.
+            </summary>
+            <param name="credential"></param>
+            <param name="entityManager"></param>
+            <returns></returns>
+            <remarks>
+            If the <paramref name="credential"/> parameter is null then a non-credential
+            authentication will be attempted.  If you are using Windows authentication you
+            should pass a null credential to the <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)"/>.
+            The <b>HttpContext.Current.User</b> information
+            will be used to build a <see cref="T:IdeaBlade.EntityModel.UserBase"/> representing the current user.
+            <para>
+            To perform Forms authentication pass a credential, such as the <see cref="T:IdeaBlade.EntityModel.FormsAuthenticationLoginCredential"/>,
+            to your login method on the EntityManager.
+            </para>
+            <para>
+            If the user fails authentication and anonymous logins are not supported a <see cref="T:IdeaBlade.EntityModel.LoginException"/> is thrown.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.Logout(System.Security.Principal.IPrincipal,IdeaBlade.EntityModel.EntityManager)">
+            <summary>
+            Logout the current user.
+            </summary>
+            <param name="principal"></param>
+            <param name="entityManager"></param>
+            <remarks>
+            If you are using Forms authentication, the authentication ticket will
+            be removed.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.NonCredentialAuthentication">
+            <summary>
+            Authenticate w/o credentials - either a) anon access ok, b) forms user is already logged in (or has persistent cookie) or
+            c) Windows auth.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.ValidateUserCore(IdeaBlade.EntityModel.ILoginCredential)">
+            <summary>
+            Validate the credentials.
+            </summary>
+            <param name="credential"></param>
+            <returns></returns>
+            <remarks>
+            The default implementation calls <b>Membership.ValidateUser</b>.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.GetRolesCore(IdeaBlade.EntityModel.ILoginCredential)">
+            <summary>
+            Get roles for the authenticated user.
+            </summary>
+            <param name="credential"></param>
+            <returns></returns>
+            <remarks>
+            Called only if the user has been authenticated.  The default implementation
+            calls <b>Roles.Provider.GetRolesForUser</b> if the Role Manager is enabled.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.SetCookieCore(IdeaBlade.EntityModel.ILoginCredential)">
+            <summary>
+            Set the authentication ticket for the authenticated user. 
+            </summary>
+            <param name="credential"></param>
+            <remarks>
+            Called only if the user has been authenticated.  The default implementation
+            calls <b>FormsAuthentication.SetAuthCookie</b>.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.SetUserProfile(IdeaBlade.EntityModel.UserBase)">
+            <summary>
+            Sets profile properties into the UserBase instance.
+            </summary>
+            <param name="user"></param>
+            <remarks>
+            Called for authenticated and unauthenticated users.
+            The default implementation will use reflection to set values for matching
+            Profile properties in the UserBase custom class if the ASP.NET Profile Manager
+            is enabled.
+            <para>
+            Note that the base <see cref="T:IdeaBlade.EntityModel.UserBase"/> class has no custom properties defined.
+            To use the ASP.NET Profile feature and have these properties available in your
+            client application you must extend UserBase.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.CreateUserCore(System.String,System.Boolean,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Create an <see cref="T:System.Security.Principal.IPrincipal"/> representing the current user.  Called when the login was passed an ILoginCredential.
+            </summary>
+            <param name="name"></param>
+            <param name="isAuthenticated"></param>
+            <param name="roles"></param>
+            <returns></returns>
+            <remarks>
+            The default implementation creates a <see cref="T:IdeaBlade.EntityModel.UserBase"/>, or a type derived from
+            <b>UserBase</b>.  The authentication type is "Forms" if ASP.NET compatibility
+            was enabled for the service.
+            <para>
+            This method has been deprecated.  Override <see cref="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.CreateIdentityCore(System.String,System.String,System.Boolean)"/> and or <see cref="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.CreatePrincipalCore(System.Security.Principal.IIdentity,System.Collections.Generic.IEnumerable{System.String})"/> to customize
+            default processing, which returns a <see cref="T:IdeaBlade.EntityModel.UserBase"/> containing a <see cref="T:IdeaBlade.EntityModel.UserIdentity"/>.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.CreateUserCore(System.Security.Principal.IPrincipal)">
+            <summary>
+            Create an <see cref="T:System.Security.Principal.IPrincipal"/> representing the current user.  Called when the login was performed without an ILoginCredential to load 
+            the current user authenticated via Windows authentication or a persistent token.
+            </summary>
+            <param name="currentUser"></param>
+            <returns></returns>
+            <remarks>
+            The default implementation creates a <see cref="T:IdeaBlade.EntityModel.UserBase"/>, or a type derived from
+            <b>UserBase</b>.  The authentication type and roles are obtained from the IPrincipal passed.
+            This method is called when a login is performed without an <see cref="T:IdeaBlade.EntityModel.ILoginCredential"/>.
+            <para>
+            This method has been deprecated.  Override <see cref="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.CreateIdentityCore(System.String,System.String,System.Boolean)"/> and or <see cref="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.CreatePrincipalCore(System.Security.Principal.IIdentity,System.Collections.Generic.IEnumerable{System.String})"/> to customize
+            default processing, which returns a <see cref="T:IdeaBlade.EntityModel.UserBase"/> containing a <see cref="T:IdeaBlade.EntityModel.UserIdentity"/>.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.CreateUserCore(System.String,System.Boolean,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Create an <see cref="T:System.Security.Principal.IPrincipal"/> representing the current user.
+            </summary>
+            <param name="name"></param>
+            <param name="isAuthenticated"></param>
+            <param name="authenticationType"></param>
+            <param name="roles"></param>
+            <returns></returns>
+            <remarks>
+            This overload replaces the obsolete versions of CreateUserCore which differed depending on whether a credentialed or non-credentialed login
+            is performed.  This method is always called, regardless of the type of login - whether with an ILoginCredential, or loading an existing user
+            authenticated via Windows authentication or a persistent token.
+            <para>
+            The default implementation calls <see cref="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.CreateIdentityCore(System.String,System.String,System.Boolean)"/> and <see cref="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.CreatePrincipalCore(System.Security.Principal.IIdentity,System.Collections.Generic.IEnumerable{System.String})"/> to construct the concrete
+            IIdentity and IPrincipal for the logged in user.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.CreateIdentityCore(System.String,System.String,System.Boolean)">
+            <summary>
+            Creates an IIdentity from the information passed.
+            </summary>
+            <param name="name"></param>
+            <param name="authenticationType"></param>
+            <param name="isAuthenticated"></param>
+            <returns></returns>
+            <remarks>
+            The default implementation returns a <see cref="T:IdeaBlade.EntityModel.UserIdentity"/>.  If you return a custom IIdentity be sure that it can be serialized, and is
+            defined on both client and server in n-tier deployments.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.CreatePrincipalCore(System.Security.Principal.IIdentity,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates an IPrincipal from the information passed.
+            </summary>
+            <param name="identity"></param>
+            <param name="roles"></param>
+            <returns></returns>
+            <remarks>
+            The default implementation returns a <see cref="T:IdeaBlade.EntityModel.UserBase"/>, or a sub-type if found.  If you return a custom IPrincipal be sure that it can be serialized, and is
+            defined on both client ands server in n-tier deployments.  If the only customization in your sub-typed UserBase is for <b>Profile</b> properties you do not need to override
+            this method, as DevForce will automatically find UserBase sub-types and auto-fill Profile properties.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.LogoutCore(System.Security.Principal.IPrincipal)">
+            <summary>
+            Perform any logout processing needed.
+            </summary>
+            <remarks>
+            The default implementation calls <b>FormsAuthentication.SignOut</b> if Forms authentication is enabled.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.GetAuthenticationMode">
+            <summary>
+            Returns the setting from the <b>authentication</b> element in the configuration file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.EntityManager">
+            <summary>
+            The EntityManager passed to the <see cref="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.EntityManager)"/> or <see cref="M:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.Logout(System.Security.Principal.IPrincipal,IdeaBlade.EntityModel.EntityManager)"/> method.
+            </summary>
+            <remarks>
+            The EntityManager is not used by the default implementation, but is available to custom implementations.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.GetAnonymousUser">
+            <summary>
+            Returns a <see cref="T:IdeaBlade.EntityModel.UserBase"/> for a guest user.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.AllowAnonymousLogin">
+            <summary>
+            Returns the value of the <see cref="P:IdeaBlade.Core.Configuration.ServerSettingsElement.AllowAnonymousLogin">ServerSettings.AllowAnonymousLogin</see>) flag.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Web.AspAuthenticatingLoginManager.AspNetCompatibilityEnabled">
+            <summary>
+            Returns the setting from the <b>ServiceHostingEnvironment</b> element in the configuration file.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.FormsAuthenticationLoginCredential">
+            <summary>
+            For use in applications using ASP.NET authentication services.
+            </summary>
+            <remarks>
+            Extends the <see cref="T:IdeaBlade.EntityModel.LoginCredential"/> to allow for specification
+            of whether a FormsAuthentication ticket should be persistent.
+            <para>
+            It is not necessary to use the <b>FormsAuthenticationLoginCredential</b> in your 
+            Silverlight or ASP.NET application.  If you use a <see cref="T:IdeaBlade.EntityModel.LoginCredential"/>
+            with Forms authentication the authentication ticket will not persist after the 
+            session completes.  You can also extend the <see cref="T:IdeaBlade.EntityModel.ILoginCredential"/>
+            interface for custom implementations.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.FormsAuthenticationLoginCredential.#ctor">
+            <summary>
+            Create an instance of this class.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.FormsAuthenticationLoginCredential.#ctor(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Create an instance of this class.
+            </summary>
+            <param name="userName"></param>
+            <param name="password"></param>
+            <param name="domain"></param>
+            <param name="isPersistent"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.FormsAuthenticationLoginCredential.IsPersistent">
+            <summary>
+            Whether the authentication ticket should be persistent.
+            </summary>
+            <remarks>
+            Only used when using Forms authentication, enabled in the system.web configuration section:
+            <code>
+             &lt;authentication mode="Forms" />
+            </code>
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntityServerHostFactory">
+            <summary>
+            Custom ServiceHostFactory for EntityServers in a hosted environment.
+            </summary>
+            <remarks>
+            When running the Business Object Server in a hosted environment (IIS or WAS)
+            you must specify this class on the ServiceHost directive in the 
+            *.svc file for each EntityServer: 
+            <code>Factory="IdeaBlade.EntityModel.Server.EntityServerHostFactory"</code>.
+            <para>
+            This custom factory is used so that the appropriate data source
+            extension will be passed to the EntityServer constructor in a hosted environement.
+            This factory is not used in self-hosted environments (when using the 
+            console or Windows Service versions of the BOS).
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerHostFactory.CreateServiceHost(System.String,System.Uri[])">
+            <summary>
+            Create an EntityServerHost for the EntityServer.
+            </summary>
+            <param name="constructorString"></param>
+            <param name="baseAddresses"></param>
+            <returns></returns>
+            <remarks>
+            The <paramref name="constructorString"/> should contain the type name and data
+            source extension, separated by a comma: for example, "IdeaBlade.EntityModel.Server.EntityServer, A".
+            You'll specify this on the ServiceHost directive in the *.svc file for the specific EntityServer:
+            <code>Service="IdeaBlade.EntityModel.Server.EntityServer, A"</code>. 
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerHostFactory.CreateHostCore(System.Object,System.Uri[])">
+            <summary>
+            
+            </summary>
+            <param name="instance"></param>
+            <param name="baseAddresses"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntityServiceHostFactory">
+            <summary>
+            ServiceHostFactory for the EntityService in a hosted environment.
+            </summary>
+            <remarks>
+            When running the Business Object Server in a hosted environment (IIS or WAS)
+            you must specify this class on the ServiceHost directive in the 
+            *.svc file for the EntityService:
+            <code>Factory="IdeaBlade.EntityModel.Server.EntityServiceHostFactory"</code>.
+            <para>
+            This factory is used to initialize the <see cref="T:IdeaBlade.EntityModel.Server.EntityServiceHost"/>, which
+            controls configuration of the EntityService.
+            This factory is not used in self-hosted environments (when using the 
+            console or Windows Service versions of the BOS).
+            </para>
+            <para>
+            If you implement a custom <see cref="T:IdeaBlade.EntityModel.Server.EntityServiceHost"/> for the EntityService
+            you will also need to provide a custom <b>EntityServiceHostFactory</b>.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServiceHostFactory.CreateServiceHost(System.Type,System.Uri[])">
+            <summary>
+            Create a custom EntityServiceHost for the EntityService.
+            </summary>
+            <param name="serviceType"></param>
+            <param name="baseAddresses"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServiceHostFactory.CreateHostCore(System.Type,System.Uri[])">
+            <summary>
+            Creates the host.
+            </summary>
+            <param name="serviceType"></param>
+            <param name="baseAddresses"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.IHandlePolicy">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.IHandlePolicy.ReturnPolicy">
+            <summary>
+            For internal use only.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.PolicyHandlerService">
+            <summary>
+            Service providing support for policy file retrieval for Silverlight clients when not using an IIS-hosted EntityServer.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.PolicyHandlerService.Start(System.Collections.Generic.IList{System.Uri},System.String)">
+            <summary>
+            Start the policy service.
+            </summary>
+            <param name="baseAddresses"></param>
+            <param name="hostName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.PolicyHandlerService.ReturnPolicy">
+            <summary>
+            Returns the clientaccesspolicy.xml file.
+            </summary>
+            <returns></returns>
+            <remarks>
+            A file named "policy.xml" must be located in the current working directory (the same folder holding the ServerConsole.exe or ServerService.exe).
+            You can, and should, customize this file for your needs.  The file will be served to the Silverlight client as "clientaccesspolicy.xml".
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Web.ServiceVirtualPathProvider">
+            <summary>
+            A <see cref="T:System.Web.Hosting.VirtualPathProvider"/> which resolves DevForce .svc file requests.
+            </summary>
+            <remarks>
+            When this provider is registered you do not need to provide either a physical .svc file
+            or an entry for the svc in the serviceActivations section of the web.config.  Only the EntityService
+            and EntityServer services are supported.  If either the requested file is present, or the
+            entry is included in the serviceActivations, the provider will not supply the file contents.
+            <para>
+            To register the provider add the following to the Application_Start logic within your global.asax:
+            <code>
+            System.Web.Hosting.HostingEnvironment.RegisterVirtualPathProvider(new IdeaBlade.EntityModel.Web.ServiceVirtualPathProvider());
+            </code>
+            You also need to ensure that the IdeaBlade.EntityModel.Web assemby is in bin or the GAC.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.ServiceVirtualPathProvider.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.ServiceVirtualPathProvider.FileExists(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="virtualPath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.ServiceVirtualPathProvider.GetFile(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="virtualPath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.ServiceVirtualPathProvider.GetCacheDependency(System.String,System.Collections.IEnumerable,System.DateTime)">
+            <summary>
+            
+            </summary>
+            <param name="virtualPath"></param>
+            <param name="virtualPathDependencies"></param>
+            <param name="utcStart"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Web.ServiceVirtualFile">
+            <summary>
+            A virtual representation of a DevForce .svc file. 
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.ServiceVirtualFile.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="virtualPath"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Web.ServiceVirtualFile.Open">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

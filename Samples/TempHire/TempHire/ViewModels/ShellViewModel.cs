@@ -10,13 +10,12 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Cocktail;
-using Common.Factories;
 using Common.Toolbar;
 using Common.Workspace;
 using IdeaBlade.Core;
@@ -26,24 +25,23 @@ using TempHire.ViewModels.Login;
 namespace TempHire.ViewModels
 {
     [Export]
-    public class ShellViewModel : Conductor<IScreen>, IDiscoverableViewModel, IHarnessAware,
+    public class ShellViewModel : Conductor<object>, IDiscoverableViewModel, IHarnessAware,
                                   IHandle<LoggedInMessage>, IHandle<LoggedOutMessage>
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IPartFactory<LoginViewModel> _loginFactory;
-        private readonly NavigationService<IWorkspace> _navigationService;
+        private readonly ExportFactory<LoginViewModel> _loginFactory;
+        private readonly INavigator _navigator;
         private readonly IEnumerable<IWorkspace> _workspaces;
 
         [ImportingConstructor]
         public ShellViewModel([ImportMany] IEnumerable<IWorkspace> workspaces, IToolbarManager toolbar,
-                              IAuthenticationService authenticationService, IPartFactory<LoginViewModel> loginFactory)
+                              IAuthenticationService authenticationService, ExportFactory<LoginViewModel> loginFactory)
         {
             Toolbar = toolbar;
             _workspaces = workspaces;
             _authenticationService = authenticationService;
             _loginFactory = loginFactory;
-            _navigationService = new NavigationService<IWorkspace>(this)
-                .Configure(config => config.WithActivator(navigation => ActivateItem(navigation.Target.Content)));
+            _navigator = new Navigator(this);
         }
 
         public IToolbarManager Toolbar { get; private set; }
@@ -71,14 +69,33 @@ namespace TempHire.ViewModels
 
         #endregion
 
+        #region IHarnessAware Members
+
+        /// <summary>
+        ///   Provides the setup logic to be run before the ViewModel is activated inside of the development harness.
+        /// </summary>
+        public void Setup()
+        {
+#if HARNESS
+            Start();
+#endif
+        }
+
+        #endregion
+
         public ShellViewModel Start()
+        {
+            StartAsync();
+            return this;
+        }
+
+        private async void StartAsync()
         {
             var mainGroup = new ToolbarGroup(0);
             _workspaces.OrderBy(w => w.Sequence).ForEach(
-                w => mainGroup.Add(new ToolbarAction(this, w.DisplayName, () => NavigateToWorkspace(w))));
+                w => mainGroup.Add(new ToolbarAction(this, w.DisplayName, async () => await NavigateToWorkspace(w))));
 
-            var logoutGroup = new ToolbarGroup(100)
-                                  {new ToolbarAction(this, "Logout", (Func<IEnumerable<IResult>>) Logout)};
+            var logoutGroup = new ToolbarGroup(100) { new ToolbarAction(this, "Logout", Logout) };
 
             Toolbar.Clear();
             Toolbar.AddGroup(mainGroup);
@@ -86,14 +103,12 @@ namespace TempHire.ViewModels
 
             var home = GetHomeScreen();
             if (home != null)
-                NavigateToWorkspace(home).ToSequentialResult().Execute();
-
-            return this;
+                await NavigateToWorkspace(home);
         }
 
-        public IEnumerable<IResult> Login()
+        public async Task Login()
         {
-            yield return _loginFactory.CreatePart();
+            await _loginFactory.CreateExport().Value.ShowAsync();
 
 #if !SILVERLIGHT
             if (!_authenticationService.IsLoggedIn)
@@ -101,18 +116,18 @@ namespace TempHire.ViewModels
 #endif
         }
 
-        public IEnumerable<IResult> Logout()
+        public async void Logout()
         {
             var home = GetHomeScreen();
             LogFns.DebugWriteLineIf(home == null, "No workspace marked as default.");
             if (home == null)
-                yield break;
+                return;
 
-            yield return NavigateToWorkspace(home).ToSequentialResult();
+            await NavigateToWorkspace(home);
 
-            yield return _authenticationService.LogoutAsync();
+            await _authenticationService.LogoutAsync();
 
-            yield return Login().ToSequentialResult();
+            await Login();
         }
 
         protected override void OnInitialize()
@@ -125,12 +140,12 @@ namespace TempHire.ViewModels
 #endif
         }
 
-        protected override void OnViewLoaded(object view)
+        protected async override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
 
             // Launch login dialog
-            Login().ToSequentialResult().Execute();
+            await Login();
         }
 
         private IWorkspace GetHomeScreen()
@@ -138,22 +153,13 @@ namespace TempHire.ViewModels
             return _workspaces.FirstOrDefault(w => w.IsDefault);
         }
 
-        private IEnumerable<IResult> NavigateToWorkspace(IWorkspace workspace)
+        private async Task NavigateToWorkspace(IWorkspace workspace)
         {
-            if (ActiveItem == workspace.Content)
-                yield break;
+            // Break if the workspace is already active.
+            if (ActiveItem != null && ActiveItem.GetType() == workspace.ViewModelType)
+                return;
 
-            yield return _navigationService.NavigateToAsync(() => workspace);
-        }
-
-        /// <summary>
-        /// Provides the setup logic to be run before the ViewModel is activated inside of the development harness.
-        /// </summary>
-        public void Setup()
-        {
-#if HARNESS
-            Start();
-#endif
+            await _navigator.NavigateToAsync(workspace.ViewModelType);
         }
     }
 }

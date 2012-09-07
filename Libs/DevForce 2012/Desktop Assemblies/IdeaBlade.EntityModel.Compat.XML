@@ -1,0 +1,2244 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IdeaBlade.EntityModel.Compat</name>
+    </assembly>
+    <members>
+        <member name="T:IdeaBlade.EntityModel.AsyncEventArgs`1">
+            <summary>
+            <see cref="T:IdeaBlade.EntityModel.AsyncEventArgs"/> providing a strongly-typed <b>Result</b> for an asynchronous operation.
+            </summary>
+            <typeparam name="TResult"></typeparam>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.AsyncEventArgs">
+            <summary>
+            Base class for arguments to the completed event handler for an asynchronous operation.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.INotifyCompletedArgs">
+            <summary>
+            Arguments to a completion action.
+            <seealso cref="T:IdeaBlade.EntityModel.Coroutine"/>
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.INotifyCompletedArgs.Error">
+            <summary>
+            The exception if the action failed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.INotifyCompletedArgs.Cancelled">
+            <summary>
+            Whether the action was cancelled.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.INotifyCompletedArgs.IsErrorHandled">
+            <summary>
+            Whether the error was handled.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.AsyncEventArgs.#ctor(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="userState"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.AsyncEventArgs.SetTask(System.Threading.Tasks.Task)">
+            <summary>
+            The task will be passed by the corresponding *Operation.  The task is live.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.AsyncEventArgs.SetAsyncWorkState(IdeaBlade.EntityModel.AsyncState)">
+            <summary>
+            For square pegs, like the CoroutineOperation/args, which don't have a Task.
+            </summary>
+            <param name="result"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.AsyncEventArgs.MarkErrorAsHandled">
+            <summary>
+            Mark the error as handled;
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncEventArgs.UserState">
+            <summary>
+            Uniquely identifies the asynchronous operation.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncEventArgs.Cancelled">
+            <summary>
+            Returns whether the operation was cancelled.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncEventArgs.IsCompleted">
+            <summary>
+            Returns whether the operation completed. 
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncEventArgs.CompletedSuccessfully">
+            <summary>
+            Returns whether the operation completed successfully. 
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncEventArgs.CompletedSynchronously">
+            <summary>
+            Returns whether the operation was completed synchronously.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncEventArgs.HasError">
+            <summary>
+            Returns whether the operation failed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncEventArgs.Error">
+            <summary>
+            The exception, if any, thrown by the underlying operation.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncEventArgs.IsErrorHandled">
+            <summary>
+            Whether the Error was handled ( if one exists).
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.AsyncEventArgs`1.#ctor(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="userState"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncEventArgs`1.Task">
+            <summary>
+            Represents the operation.
+            </summary>
+            <remarks>
+            Returns null for non-task based operations.
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Compat.AuthenticatorAsyncExtensions">
+            <summary>
+            Extension methods for the <see cref="T:IdeaBlade.EntityModel.Security.Authenticator"/> to support asynchronous methods compatible with DevForce 2010.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.AuthenticatorAsyncExtensions.LoginAsync(IdeaBlade.EntityModel.Security.Authenticator,IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions,System.Action{IdeaBlade.EntityModel.LoginOperation},System.Object)">
+            <summary>
+             Perform an asynchronous login operation to validate user credentials against an Entity Server.
+            </summary>
+            <param name="credential"></param>
+            <param name="options"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <remarks>
+             The <see cref="T:IdeaBlade.EntityModel.Security.LoginOptions"/> can be used to specify the EntityServer.  If options are not provided,
+            the "default" EntityServer is assumed.
+             <para>
+            You can pass a null (Nothing in Visual Basic) in place of an <see cref="T:IdeaBlade.EntityModel.ILoginCredential"/> object.  Null credentials can indicate either that the user
+            is logging in as a guest or anonymous user, or when using the <b>AspAuthenticatingLoginManager</b> that the current authenticated user
+            should be loaded.  When using ASP.NET the current authenticated user is one authenticated via Windows authentication, or is the user already logged
+            in because of either a persistent cookie or a login performed elsewhere in the ASP.NET application.  If you are not using the
+            AspAuthenticationLoginManager then your implementation of <see cref="T:IdeaBlade.EntityModel.IEntityLoginManager"/> should handle a null credential
+            if your client application can provide one.  
+            </para>
+            <para>
+            The <see cref="P:IdeaBlade.Core.Configuration.ServerSettingsElement.AllowAnonymousLogin">AllowAnonymousLogin</see> flag in the 
+            IdeaBlade configuration determines whether "anonymous" users can login to your application.  Anonymous users are ones who have
+            not supplied credentials and who also cannot be authenticated by other means, such as ASP.NET authentication.   
+            </para>
+            <para>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            Use the <paramref name="userState"/> to uniquely identify this call.  
+            </para>
+            <para>
+            The <see cref="T:IdeaBlade.EntityModel.Security.AuthenticationContext"/> returned from a successful login in the <see cref="T:IdeaBlade.EntityModel.LoginOperation"/> or <see cref="T:IdeaBlade.EntityModel.LoginEventArgs"/>
+            can be used in two ways:  1) you can set the
+            <see cref="P:IdeaBlade.EntityModel.Security.Authenticator.DefaultAuthenticationContext"/> so that any <see cref="T:IdeaBlade.EntityModel.EntityManager"/> in your application will share the credentials
+            and not require a separate login, or 2) you can set the <see cref="P:IdeaBlade.EntityModel.EntityManager.AuthenticationContext"/> on one or more EntityManager
+            instances.  Note that without performing one of these actions the returned AuthenticationContext will not be used by DevForce.
+            </para>
+            <para>
+            Credentials are passed in clear text.  Use a secure channel (such as SSL) or provide your own encryption if secure
+            communications are necessary.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.AuthenticatorAsyncExtensions.LogoutAsync(IdeaBlade.EntityModel.Security.Authenticator,IdeaBlade.EntityModel.Security.IAuthenticationContext,System.Action{IdeaBlade.EntityModel.BasicOperation},System.Object)">
+            <summary>
+            Perform an asynchronous operation to log the specified <see cref="T:IdeaBlade.EntityModel.Security.AuthenticationContext"/> out of the Entity Server.
+            </summary>
+            <param name="context"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <remarks>
+            Any <see cref="T:IdeaBlade.EntityModel.EntityManager"/> using this AuthenticationContext will be logged out.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.IBaseOperation.Cancel">
+            <summary>
+            Cancel the asynchronous operation.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.IBaseOperation.MarkErrorAsHandled">
+            <summary>
+            Mark any error as handled.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.IBaseOperation.CanCancel">
+            <summary>
+            Returns whether the operation can be cancelled.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.IBaseOperation.Error">
+            <summary>
+            Returns the exception if the operation failed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.IBaseOperation.HasError">
+            <summary>
+            Returns whether the operation failed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.IBaseOperation.IsErrorHandled">
+            <summary>
+            Was any error that occured handled?
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.IBaseOperation.Cancelled">
+            <summary>
+            Returns whether the operation was cancelled.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.IBaseOperation.IsCompleted">
+            <summary>
+            Returns whether the operation is completed regardless of whether it was cancelled or failed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.IBaseOperation.CompletedSuccessfully">
+            <summary>
+            Returns whether the operation completed success
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.IBaseOperation.CompletedSynchronously">
+            <summary>
+            Returns whether the operation completed synchronously.
+            </summary>
+            <remarks>
+            Fetch operations may complete synchronously if the query can be
+            satisfied from cache.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.IBaseOperation.UserState">
+            <summary>
+            Returns the user state which identifies the operation.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.BaseOperation`2">
+            <summary>
+            Information about an asynchronous operation.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.INotifyCompleted">
+            <summary>
+            Interface implemented by asynchronous actions within a <see cref="T:IdeaBlade.EntityModel.Coroutine"/> iterator.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.INotifyCompleted.WhenCompleted(System.Action{IdeaBlade.EntityModel.INotifyCompletedArgs})">
+            <summary>
+            Action to be performed when the asynchronous operation completes.
+            </summary>
+            <param name="completedAction"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.BaseOperation`2.#ctor(`0,System.Action{`1},System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task})">
+            <summary>
+            Created by DevForce for an asynchronous operation.
+            </summary>
+            <param name="args"></param>
+            <param name="callback"></param>
+            <param name="taskFunc"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.BaseOperation`2.Cancel">
+            <summary>
+            Cancel the asynchronous operation.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.BaseOperation`2.CancelCore">
+            <summary>
+            Performs cancel processing.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.BaseOperation`2.MarkErrorAsHandled">
+            <summary>
+            Mark any error as handled.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.BaseOperation`2.ForcePropertyChanged">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:IdeaBlade.EntityModel.BaseOperation`2.PropertyChanged">
+            <summary>
+            Raised when a property changes.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.BaseOperation`2.CanCancel">
+            <summary>
+            Returns whether the operation can be cancelled.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.BaseOperation`2.Error">
+            <summary>
+            Returns the exception if the operation failed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.BaseOperation`2.HasError">
+            <summary>
+            Returns whether the operation failed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.BaseOperation`2.IsErrorHandled">
+            <summary>
+            Was any error that occured handled?
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.BaseOperation`2.Cancelled">
+            <summary>
+            Returns whether the operation was cancelled.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.BaseOperation`2.IsCompleted">
+            <summary>
+            Returns whether the operation is completed regardless of whether it was cancelled or failed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.BaseOperation`2.CompletedSuccessfully">
+            <summary>
+            Returns whether the operation completed success
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.BaseOperation`2.CompletedSynchronously">
+            <summary>
+            Returns whether the operation completed synchronously.
+            </summary>
+            <remarks>
+            Fetch operations may complete synchronously if the query can be
+            satisfied from cache.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.BaseOperation`2.UserState">
+            <summary>
+            Returns the user state which identifies the operation.
+            </summary>
+        </member>
+        <member name="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">
+            <summary>
+            Raised when the operation finishes.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.BasicOperation">
+            <summary>
+            Information about an asynchronous operation.  Used for operations returning void (like Connect, Logout, ...)
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.BasicOperation.#ctor(System.Action{IdeaBlade.EntityModel.BasicOperation},System.Object,System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task})">
+            <summary>
+            Created by DevForce for an asynchronous operation.
+            </summary>
+            <param name="userState"></param>
+            <param name="callback"></param>
+            <param name="taskFunc"></param>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Coroutine">
+            <summary>
+            Provides for serial and parallel execution of multiple asynchronous actions.
+            </summary>
+            <remarks>
+            Replaces the <b>AsyncSerialTask</b> and <b>AsyncParallelTask</b> classes, which are obsolete
+            and will be removed from the product in early 2011.
+            <para>
+            Use <see cref="M:IdeaBlade.EntityModel.Coroutine.Start(System.Func{System.Collections.Generic.IEnumerable{IdeaBlade.EntityModel.INotifyCompleted}},System.Action{IdeaBlade.EntityModel.CoroutineOperation})"/> to start serial execution of the asynchronous, and synchronous, actions within
+            an "iterator".  The iterator is a function which returns an <see cref="T:System.Collections.IEnumerable"/> of objects implementing
+            the <see cref="T:IdeaBlade.EntityModel.INotifyCompleted"/> interface.  All asynchronous operations within DevForce return a sub-typed <see cref="T:IdeaBlade.EntityModel.BasicOperation"/>, which
+            implements this interface. The <b>Coroutine</b> waits for each operation to complete, either sucessfully or not, and then moves 
+            to the next action within the iterator.  
+            </para>
+            <para>
+            Use <see cref="M:IdeaBlade.EntityModel.Coroutine.StartParallel(System.Func{System.Collections.Generic.IEnumerable{IdeaBlade.EntityModel.INotifyCompleted}},System.Action{IdeaBlade.EntityModel.CoroutineOperation})"/> to start parallel execution of the asynchronous actions within an iterator.  When run in parallel,
+            the <b>Coroutine</b> starts each asynchronous action, and then waits for all actions to complete.
+            </para>
+            <para>
+            For a detailed discussion of the <b>Coroutine</b> and its flow, see the DevForce Resource Center.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Coroutine.Start(System.Func{System.Collections.Generic.IEnumerable{IdeaBlade.EntityModel.INotifyCompleted}},System.Action{IdeaBlade.EntityModel.CoroutineOperation})">
+            <summary>
+            Start serial execution of multiple asynchronous actions.
+            </summary>
+            <param name="coroutine">An iterator block containing asynchronous actions</param>
+            <param name="completedHandler">Optional completion handler</param>
+            <returns>A CoroutineOperation representing this operation</returns>
+            <remarks>
+            Used to start serial execution of the asynchronous, and synchronous, actions within
+            the specified iterator block.  Asychronous actions within the block will cause subsequent
+            actions to "wait" until each asynchronous operation yields when complete.
+            <para>
+            See the second example below for how to pass arguments into the iterator.
+            </para>
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="Coroutine.Examples.xml" path="//Class[@name=&quot;Coroutine&quot;]/method[@name=&quot;Start&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Coroutine.Start(System.Func{IdeaBlade.EntityModel.CoroutineOperation,System.Collections.Generic.IEnumerable{IdeaBlade.EntityModel.INotifyCompleted}},System.Action{IdeaBlade.EntityModel.CoroutineOperation})">
+            <summary>
+            Start serial execution of multiple asynchronous actions.
+            </summary>
+            <param name="coroutine">An iterator block containing asynchronous actions</param>
+            <param name="completedHandler">Optional completion handler</param>
+            <returns>A CoroutineOperation representing this operation</returns>
+            <remarks>
+            Used to start serial execution of the asynchronous, and synchronous, actions within
+            the specified iterator block.  Asychronous actions within the block will cause subsequent
+            actions to "wait" until each asynchronous operation yields when complete.
+            <para>
+            Use this overload of the <b>Start</b> method when your iterator accepts a <see cref="T:IdeaBlade.EntityModel.CoroutineOperation"/>
+            as an argument.  You can use the <b>CoroutineOperation</b> to track the prior operations
+            within the iterator.
+            </para>
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="Coroutine.Examples.xml" path="//Class[@name=&quot;Coroutine&quot;]/method[@name=&quot;Start2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Coroutine.Start(System.Collections.Generic.IEnumerable{System.Func{IdeaBlade.EntityModel.INotifyCompleted}},System.Action{IdeaBlade.EntityModel.CoroutineOperation})">
+            <summary>
+            Start serial execution of multiple asynchronous actions.
+            </summary>
+            <param name="asyncFns">List of asynchronous functions</param>
+            <param name="completedHandler">Optional completion handle</param>
+            <returns>A CoroutineOperation representing this operation</returns>
+            <remarks>
+            Used to start serial execution of a list of asynchronous actions.  Instead of passing an iterator block,
+            pass an IEnumerable of the asynchronous functions to be executed.  Asynchronous functions in the list
+            will be executed serially.
+            <para>
+            This overload of the <b>Start</b> method is useful in Visual Basic, where iterators are not supported.
+            </para>
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="Coroutine.Examples.xml" path="//Class[@name=&quot;Coroutine&quot;]/method[@name=&quot;Start3&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Coroutine.Start(System.Func{IdeaBlade.EntityModel.CoroutineOperation,System.Collections.Generic.IEnumerable{System.Func{IdeaBlade.EntityModel.INotifyCompleted}}},System.Action{IdeaBlade.EntityModel.CoroutineOperation})">
+            <summary>
+            Start serial execution of multiple asynchronous actions.
+            </summary>
+            <param name="asyncFns">List of asynchronous functions</param>
+            <param name="completedHandler">Optional completion handle</param>
+            <returns>A CoroutineOperation representing this operation</returns>
+            <remarks>
+            Used to start serial execution of a list of asynchronous actions.  Instead of passing an iterator block,
+            pass an IEnumerable of the asynchronous functions to be executed.  Asynchronous functions in the list
+            will be executed serially.
+            <para>
+            Use this overload of the <b>Start</b> method when your iterator accepts a <see cref="T:IdeaBlade.EntityModel.CoroutineOperation"/>
+            as an argument.  You can use the <b>CoroutineOperation</b> to track the prior operations
+            within the function list.
+            </para>
+            <para>
+            This overload of the <b>Start</b> method is useful in Visual Basic, where iterators are not supported.
+            </para>
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="Coroutine.Examples.xml" path="//Class[@name=&quot;Coroutine&quot;]/method[@name=&quot;Start4&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Coroutine.StartParallel(System.Func{System.Collections.Generic.IEnumerable{IdeaBlade.EntityModel.INotifyCompleted}},System.Action{IdeaBlade.EntityModel.CoroutineOperation})">
+            <summary>
+            Start parallel exeuction of multiple asynchronous actions.
+            </summary>
+            <param name="coroutine">An iterator block containing asynchronous actions</param>
+            <param name="completedHandler">Optional completion handler</param>
+            <returns>A CoroutineOperation representing this operation</returns>
+            <remarks>
+            Used to start parallel execution of the asynchronous actions within
+            the specified iterator block.  Each asychronous action is started on its own thread.
+            Once all actions have completed, the completion handler is called.  The <see cref="P:IdeaBlade.EntityModel.CoroutineOperation.Notifications"/>
+            can be used to check the results of each action.
+            <para>
+            See the second example below for how to pass arguments into the iterator.
+            </para>
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="Coroutine.Examples.xml" path="//Class[@name=&quot;Coroutine&quot;]/method[@name=&quot;StartParallel&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Coroutine.StartParallel(System.Func{IdeaBlade.EntityModel.CoroutineOperation,System.Collections.Generic.IEnumerable{IdeaBlade.EntityModel.INotifyCompleted}},System.Action{IdeaBlade.EntityModel.CoroutineOperation})">
+            <summary>
+            Start parallel exeuction of multiple asynchronous actions.
+            </summary>
+            <param name="coroutine">An iterator block containing asynchronous actions</param>
+            <param name="completedHandler">Optional completion handler</param>
+            <returns>A CoroutineOperation representing this operation</returns>
+            <remarks>
+            Used to start parallel execution of the asynchronous actions within
+            the specified iterator block.  Each asychronous action is started on its own thread.
+            Once all actions have completed, the completion handler is called.  The <see cref="P:IdeaBlade.EntityModel.CoroutineOperation.Notifications"/>
+            can be used to check the results of each action.
+            <para>
+            Use this overload of the <b>StartParallel</b> method when your iterator accepts a <see cref="T:IdeaBlade.EntityModel.CoroutineOperation"/>
+            as an argument. 
+            </para>
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="Coroutine.Examples.xml" path="//Class[@name=&quot;Coroutine&quot;]/method[@name=&quot;StartParallel&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Coroutine.StartParallel(System.Collections.Generic.IEnumerable{System.Func{IdeaBlade.EntityModel.INotifyCompleted}},System.Action{IdeaBlade.EntityModel.CoroutineOperation})">
+            <summary>
+            Start parallel exeuction of multiple asynchronous actions.
+            </summary>
+            <param name="asyncFns">List of asynchronous functions</param>
+            <param name="completedHandler">Optional completion handler</param>
+            <returns>A CoroutineOperation representing this operation</returns>
+            <remarks>
+            Used to start parallel execution of the asynchronous actions within a list of asynchronous functions.
+            Each asychronous action is started on its own thread.
+            Once all actions have completed, the completion handler is called.  The <see cref="P:IdeaBlade.EntityModel.CoroutineOperation.Notifications"/>
+            can be used to check the results of each action.
+            <para>
+            This overload of the <b>StartParallel</b> method is useful in Visual Basic, where iterators are not supported.
+            </para>
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="Coroutine.Examples.xml" path="//Class[@name=&quot;Coroutine&quot;]/method[@name=&quot;StartParallel&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Coroutine.StartParallel(System.Func{IdeaBlade.EntityModel.CoroutineOperation,System.Collections.Generic.IEnumerable{System.Func{IdeaBlade.EntityModel.INotifyCompleted}}},System.Action{IdeaBlade.EntityModel.CoroutineOperation})">
+            <summary>
+            Start parallel exeuction of multiple asynchronous actions.
+            </summary>
+            <param name="asyncFns">List of asynchronous functions</param>
+            <param name="completedHandler">Optional completion handler</param>
+            <returns>A CoroutineOperation representing this operation</returns>
+            <remarks>
+            Used to start parallel execution of the asynchronous actions within a list of asynchronous functions.
+            Each asychronous action is started on its own thread.
+            Once all actions have completed, the completion handler is called.  The <see cref="P:IdeaBlade.EntityModel.CoroutineOperation.Notifications"/>
+            can be used to check the results of each action.
+            <para>
+            Use this overload of the <b>StartParallel</b> method when your iterator accepts a <see cref="T:IdeaBlade.EntityModel.CoroutineOperation"/>
+            as an argument. 
+            </para>
+            <para>
+            This overload of the <b>StartParallel</b> method is useful in Visual Basic, where iterators are not supported.
+            </para>
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="Coroutine.Examples.xml" path="//Class[@name=&quot;Coroutine&quot;]/method[@name=&quot;StartParallel&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Coroutine.Cancel(IdeaBlade.EntityModel.CoroutineOperation)">
+            <summary>
+            Cancel a currently running coroutine.
+            </summary>
+            <param name="coroutineOperation"></param>
+            <returns></returns>
+            <remarks>
+            If the iterator is still running, cancels all operations which haven't yet completed.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Coroutine.Return(System.Object)">
+            <summary>
+            Used to return a result from within a Coroutine iterator. 
+            </summary>
+            <param name="result">Result to be returned to completion handler</param>
+            <returns></returns>
+            <remarks>
+            Any actions within the iterator following the <b>Return</b> are not executed.
+            Note that this method is of limited use where used within a coroutine running 'parallel'
+            because the return will likely 'return' before any async results and will thus effectively cancel all other pending operations.</remarks>
+            <!-- Failed to insert some or all of included XML --><include file="Coroutine.Examples.xml" path="//Class[@name=&quot;Coroutine&quot;]/method[@name=&quot;Return&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Coroutine.Fail(System.Exception,System.Boolean,System.Boolean)">
+            <summary>
+            Used to force a failed or cancelled return from within a Coroutine iterator.
+            </summary>
+            <param name="error">The exception to return to caller</param>
+            <param name="isErrorHandled">If true you will not need to call MarkErrorAsHandled in a completion handler</param>
+            <param name="cancelled">Indicates a cancelled operation </param>
+            <returns></returns>
+            <remarks>
+            Use <b>Fail</b> within an iterator to force an exit from further processing within the iterator.  The completion
+            handler will receive indication of the error or cancellation.  
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="Coroutine.Examples.xml" path="//Class[@name=&quot;Coroutine&quot;]/method[@name=&quot;Fail&quot;]/*"/>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.CoroutineOperation">
+            <summary>
+            Returned by a <see cref="M:IdeaBlade.EntityModel.Coroutine.Start(System.Func{System.Collections.Generic.IEnumerable{IdeaBlade.EntityModel.INotifyCompleted}},System.Action{IdeaBlade.EntityModel.CoroutineOperation})"/> or <see cref="M:IdeaBlade.EntityModel.Coroutine.StartParallel(System.Func{System.Collections.Generic.IEnumerable{IdeaBlade.EntityModel.INotifyCompleted}},System.Action{IdeaBlade.EntityModel.CoroutineOperation})"/> call.
+            </summary>
+            <remarks>
+            Use the <b>CoroutineOperation</b> to track the status of the coroutine iterator.  You can
+            add a <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">Completed</see> event handler to process results.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.CoroutineOperation.#ctor(System.Object,System.Exception,System.Boolean,System.Boolean)">
+            <summary>
+            May be used to return results of the coroutine back to 
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.CoroutineOperation.CancelCore">
+            <summary>
+            Cancel processing.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.CoroutineOperation.SetAsyncArgs(IdeaBlade.EntityModel.INotifyCompletedArgs)">
+            <summary>
+            This is used for something like Coroutine.Return or 
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.CoroutineOperation.Result">
+            <summary>
+            The result returned by an iterator.
+            </summary>
+            <remarks>
+            If you do not call <see cref="M:IdeaBlade.EntityModel.Coroutine.Return(System.Object)"/> within your iterator to return a result, then the result here will be null.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.CoroutineOperation.Notifications">
+            <summary>
+            The asynchronous actions performed by the iterator block.
+            </summary>
+            <remarks>
+            Use the <b>Notifications</b> to track the results of each asynchronous operation within the iterator.
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.CoroutineCompletedEventArgs">
+            <summary>
+            Arguments to a <see cref="T:IdeaBlade.EntityModel.Coroutine"/> completion handler.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.CoroutineCompletedEventArgs.#ctor">
+            <summary>
+            Used during normal construction.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.CoroutineCompletedEventArgs.#ctor(System.Object,System.Exception,System.Boolean,System.Boolean)">
+            <summary>
+            Used by Coroutine.Return and Coroutine.Fail methods
+            </summary>
+            <param name="result"></param>
+            <param name="error"></param>
+            <param name="isErrorHandled"></param>
+            <param name="cancelled"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.CoroutineCompletedEventArgs.Result">
+            <summary>
+            The result returned by an iterator.
+            </summary>
+            <remarks>
+            If you do not call <see cref="M:IdeaBlade.EntityModel.Coroutine.Return(System.Object)"/> within your iterator to return a result, then the result here will be null.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.CoroutineCompletedEventArgs.Notifications">
+            <summary>
+            The asynchronous actions performed by the iterator block.
+            </summary>
+            <remarks>
+            Use the <b>Notifications</b> to track the results of each asynchronous operation within the iterator.
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.CoroutineParallelProcessor.CompletionItem">
+            <summary>
+            Needed in order to provide state to the HandleCompleted method.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions">
+            <summary>
+            Provide backwards-compatibility for EntityManager asynchronous operations.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.ConnectAsync(IdeaBlade.EntityModel.EntityManager,System.Action{IdeaBlade.EntityModel.BasicOperation},System.Object)">
+            <summary>
+            Connect to the <see cref="T:IdeaBlade.EntityModel.Server.EntityServer"/> asynchronously.
+            <seealso cref="M:IdeaBlade.EntityModel.EntityManager.Disconnect"/>
+            <seealso cref="T:IdeaBlade.EntityModel.Server.EntityServer"/>
+            </summary>
+            <param name="userCallback">Optional callback called when the operation completes</param>
+            <param name="userState">Optional user token identifying the operation</param>
+            <remarks>
+            Use <b>ConnectAsync</b> and <see cref="M:IdeaBlade.EntityModel.EntityManager.Disconnect"/> to manage the connection to the 
+            EntityServer.  You should have an <see cref="E:IdeaBlade.EntityModel.EntityManager.EntityServerError"/> handler in place
+            to catch connection failures.
+            <para>
+            In Silverlight applications, <b>ConnectAsync</b> is called implicitly when you construct an
+            EntityManager with either the default constructor or a constructor with a true "shouldConnect" argument.
+            In these cases, you may want to check the <see cref="P:IdeaBlade.EntityModel.EntityManager.IsConnected"/> property before issuing other
+            requests.
+            </para>
+            <para>
+            <b>Connect</b> does not connect to any backend data sources.  
+            </para>
+            </remarks>
+            <exception cref="T:IdeaBlade.EntityModel.EntityServerException"/>
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/constructor[@name=&quot;#ctor&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.ForceIdFixupAsync(IdeaBlade.EntityModel.EntityManager,System.Action{IdeaBlade.EntityModel.BasicOperation},System.Object)">
+            <summary>
+            Perform an asynchronous <see cref="M:IdeaBlade.EntityModel.EntityManager.ForceIdFixup"/> operation.
+            </summary>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            Use the <paramref name="userState"/> to uniquely identify this call.  
+            <para>An asynchronous ID fixup may not be cancelled.</para>
+            <para>
+            Auto-generated temporary IDs are automatically "fixed up" during save processing.  You
+            can force that fixup to be done prior to a save by calling this method.
+            An exception will be thrown if any entity properties whose schema definition
+            has a <b>StoreGeneratedPattern="identity"</b> attribute are pending fixup,
+            since these IDs can only be assigned during a save operation.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.InvokeServerMethodAsync(IdeaBlade.EntityModel.EntityManager,IdeaBlade.EntityModel.ServerMethodDelegate,System.Action{IdeaBlade.EntityModel.InvokeServerMethodOperation},System.Object,System.Object[])">
+            <summary>
+            Asynchronously invokes the specified <c>static</c> (<c>Shared</c> in Visual Basic) method for execution on the server.
+            </summary>
+            <param name="serverMethod">Method to be invoked</param>
+            <param name="userCallback">Handler called when operation completes</param>
+            <param name="userState">Token identifying the asynchronous request</param>
+            <param name="args">Arguments to be passed to method</param>
+            <remarks>The method called must be marked with the <see cref="T:IdeaBlade.EntityModel.AllowRpcAttribute"/>
+            and correspond to the <see cref="T:IdeaBlade.EntityModel.ServerMethodDelegate">ServerMethodDelegate</see> signature.
+            <para>
+            <b>InvokeServerMethodAsync</b> enables a client-side caller to invoke an arbitrary static method 
+            on the server using an asynchronous call.  The data returned from the server method 
+            will be available in the <see cref="T:IdeaBlade.EntityModel.InvokeServerMethodEventArgs"/> passed to
+            the supplied callback.  The server method is called once only.
+            An outstanding request can be canceled using the <see cref="!:CancelAsync"/> method.
+            </para>
+            <para>
+            Note that this request is run on a separate client thread.  That thread will block until the server
+            request completes or is canceled.
+            </para>
+            This feature is only available in certain editions of DevForce.
+            </remarks>
+            <exception cref="T:System.InvalidOperationException">Invalid ServerMethodDelegate provided</exception>
+            <exception cref="T:System.ArgumentException">UserState token must be unique for the client</exception>
+            <exception cref="T:System.Security.SecurityException">Thrown if the method is not marked with the
+            <see cref="T:IdeaBlade.EntityModel.AllowRpcAttribute"/></exception>
+            <exception cref="T:IdeaBlade.EntityModel.PersistenceSecurityException">Thrown if the server method is decorated with a <see cref="T:IdeaBlade.Core.DomainServices.AuthorizationAttribute">AuthorizationAttribute</see> and fails authorization</exception>
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;InvokeServerMethodAsync&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.InvokeServerMethodAsync(IdeaBlade.EntityModel.EntityManager,System.String,System.String,System.Action{IdeaBlade.EntityModel.InvokeServerMethodOperation},System.Object,System.Object[])">
+            <summary>
+            Asynchronously invokes the specified <c>static</c> (<c>Shared</c> in Visual Basic) method for execution on the server.
+            </summary>
+            <param name="fullTypeName">Assembly-qualified type name such as 'MyNamespace.Services, MyAssembly'</param>
+            <param name="methodName">Name of method to be invoked</param>
+            <param name="userCallback">Callback called when the operation completes</param>
+            <param name="userState">Token identifying the asynchronous request</param>
+            <param name="userArguments">Arguments to be passed to method</param>
+            <remarks>The method called must be marked with the <see cref="T:IdeaBlade.EntityModel.AllowRpcAttribute"/>
+            and correspond to the <see cref="T:IdeaBlade.EntityModel.ServerMethodDelegate"/> signature.
+            <para>
+            <b>InvokeServerMethodAsync</b> enables a client-side caller to invoke an arbitrary static method 
+            on the server using an asynchronous call.  The data returned from the server method 
+            will be available in the <see cref="T:IdeaBlade.EntityModel.InvokeServerMethodEventArgs"/> passed to the
+            callback provided.  The server method is called once only.
+            An outstanding request can be canceled using the <see cref="!:CancelAsync"/> method.
+            </para>
+            <para>
+            Note that this request is run on a separate client thread.  That thread will block until the server
+            request completes or is canceled.
+            </para>
+            This feature is only available in certain editions of DevForce.
+            </remarks>
+            <exception cref="T:System.ArgumentException">Type name must be fully qualified</exception>
+            <exception cref="T:System.ArgumentException">UserState token must be unique for the client</exception>
+            <exception cref="T:System.Security.SecurityException"></exception>
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;InvokeServerMethodAsync&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.ExecuteQueryAsync``1(IdeaBlade.EntityModel.EntityManager,IdeaBlade.EntityModel.IEntityQuery{``0},System.Action{IdeaBlade.EntityModel.EntityQueryOperation{``0}},System.Object)">
+            <summary>
+            Execute a query asynchronously.
+            </summary>
+            <param name="em">EntityManager</param>
+            <typeparam name="T">Entity type queried</typeparam>
+            <param name="query">The <see cref="T:IdeaBlade.EntityModel.IEntityQuery"/> to execute</param>
+            <param name="userCallback">Callback invoked when the query completes</param>
+            <param name="userState">Token to identify the query upon completion</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            The query results will be returned in the <see cref="T:IdeaBlade.EntityModel.EntityQueriedEventArgs"/> 
+            passed to the <paramref name="userCallback"/>.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:BaseOperation.Cancel"/> method.
+            </remarks>  
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;ExecuteQueryAsync&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.ExecuteQueryAsync(IdeaBlade.EntityModel.EntityManager,IdeaBlade.EntityModel.IEntityQuery,System.Action{IdeaBlade.EntityModel.EntityQueryOperation},System.Object)">
+            <summary>
+            Execute a query asynchronously.
+            </summary>
+            <param name="em">EntityManager</param>
+            <param name="query">The <see cref="T:IdeaBlade.EntityModel.IEntityQuery"/> to execute</param>
+            <param name="userCallback">Callback invoked when the query completes</param>
+            <param name="userState">Token to identify the query upon completion</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            The query results will be returned in the <see cref="T:IdeaBlade.EntityModel.EntityQueriedEventArgs"/> 
+            passed to the <paramref name="userCallback"/>.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:BaseOperation.Cancel"/> method.
+            </remarks>  
+            <exception cref="T:System.InvalidOperationException">DataSource fetch strategies are not allowed when disconnected</exception>
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;ExecuteQueryAsync&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.RefetchEntityAsync(IdeaBlade.EntityModel.EntityManager,System.Object,IdeaBlade.EntityModel.MergeStrategy,System.Action{IdeaBlade.EntityModel.EntityRefetchOperation},System.Object)">
+            <summary>
+            Perform an asynchronous <see cref="!:RefetchEntities(EntityKeyList, MergeStrategy)"/> operation.
+            </summary>
+            <param name="entity">Entity to be refetched</param>
+            <param name="mergeStrategy">Merge strategy</param>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:CancelAsync"/>.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.RefetchEntitiesAsync(IdeaBlade.EntityModel.EntityManager,IdeaBlade.EntityModel.EntityState,IdeaBlade.EntityModel.MergeStrategy,System.Action{IdeaBlade.EntityModel.EntityRefetchOperation},System.Object)">
+            <summary>
+            Performs an asynchronous refetch of all entities with the specified EntityState(s) from the backend data source.
+            </summary>
+            <param name="entityState">EntityState(s) of entities to be refetched</param>
+            <param name="mergeStrategy">Merge strategy</param>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:CancelAsync"/>. 
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.RefetchEntitiesAsync(IdeaBlade.EntityModel.EntityManager,System.Collections.IEnumerable,IdeaBlade.EntityModel.MergeStrategy,System.Action{IdeaBlade.EntityModel.EntityRefetchOperation},System.Object)">
+            <summary>
+            Forces a collection of entities to be refetched from the backend data source.
+            </summary>
+            <param name="entities">A collection of Entities to refetch</param>
+            <param name="mergeStrategy">Merge strategy</param>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:CancelAsync"/>. 
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.RefetchEntitiesAsync(IdeaBlade.EntityModel.EntityManager,IdeaBlade.EntityModel.EntityKeyList,IdeaBlade.EntityModel.MergeStrategy,System.Action{IdeaBlade.EntityModel.EntityRefetchOperation},System.Object)">
+            <summary>
+            Perform an asynchronous <see cref="!:RefetchEntities(EntityKeyList, MergeStrategy)"/> operation.
+            </summary>
+            <param name="entityKeys">List of entity keys</param>
+            <param name="mergeStrategy">Merge strategy</param>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:CancelAsync"/>.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.SaveChangesAsync(IdeaBlade.EntityModel.EntityManager,System.Action{IdeaBlade.EntityModel.EntitySaveOperation},System.Object)">
+            <summary>
+            Perform an asynchronous <see cref="!:SaveChanges()"/> operation.
+            </summary>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            The <see cref="T:IdeaBlade.EntityModel.EntitySaveOperation"/> passed to the <paramref name="userCallback"/> will contain
+            the results of the save operation.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:BaseOperation.Cancel()">EntitySaveOperation.Cancel()</see>.
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;SaveChangesAsync&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.SaveChangesAsync(IdeaBlade.EntityModel.EntityManager,IdeaBlade.EntityModel.SaveOptions,System.Action{IdeaBlade.EntityModel.EntitySaveOperation},System.Object)">
+            <summary>
+            Perform an asynchronous <see cref="!:SaveChanges(SaveOptions)"/> operation.
+            </summary>
+            <param name="saveOptions">Options controlling save processing</param>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            The <see cref="T:IdeaBlade.EntityModel.EntitySaveOperation"/> passed to the <paramref name="userCallback"/> will contain
+            the results of the save operation.
+            Use the <paramref name="userState"/> to uniquely identify this call.  You can cancel a pending
+            asynchronous call using <see cref="!:BaseOperation.Cancel()">EntitySaveOperation.Cancel()</see>.
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;SaveChangesAsync&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityManagerAsyncExtensions.SaveChangesAsync(IdeaBlade.EntityModel.EntityManager,System.Collections.IEnumerable,IdeaBlade.EntityModel.SaveOptions,System.Action{IdeaBlade.EntityModel.EntitySaveOperation},System.Object)">
+            <summary>
+            Perform an asynchronous <see cref="!:SaveChanges(IEnumerable, SaveOptions)"/> operation.
+            </summary>
+            <param name="entities">List of <see cref="T:IdeaBlade.EntityModel.IEntity"/> objects to be persisted</param>
+            <param name="saveOptions">Options controlling save processing</param>
+            <param name="userCallback">Callback invoked when asynchronous operation completes</param>
+            <param name="userState">Token identifying the asynchronous operation</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            The <see cref="T:IdeaBlade.EntityModel.EntitySaveOperation"/> passed to the <paramref name="userCallback"/> will contain
+            the results of the save operation.
+            Use the <paramref name="userState"/> to uniquely identify this call.
+            <para>
+            The asynchronous save operation cannot itself be cancelled.  However, you can cancel the save process on the client
+            before the save starts in a <see cref="!:Saving"/> event handler.  You can also cancel the save process on
+            the server in an <b>EntityQuerySaveInterceptor</b> prior to executing the save to the data source.
+            If you do cancel the save, the async task will complete successfully and the returned <see cref="T:IdeaBlade.EntityModel.SaveResult"/>
+            will indicate that the save processing was cancelled.
+            </para>
+            </remarks>
+            <!-- Failed to insert some or all of included XML --><include file="EntityManager.Examples.xml" path="//Class[@name=&quot;EntityManager&quot;]/method[@name=&quot;SaveChangesAsync&quot;]/*"/>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.BaseEntityQueriedEventArgs`1">
+            <summary>
+            Base class for generic and non-generic EntityQueriedEventArgs classes.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.BaseEntityQueriedEventArgs`1.#ctor(IdeaBlade.EntityModel.IEntityQuery,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="query"></param>
+            <param name="userState"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.BaseEntityQueriedEventArgs`1.ChangedEntities">
+             <summary>
+             The list of every entity that was either added or modified in the EntityManager's cache
+             as a result of this query.
+             </summary>
+             <remarks>
+             The <b>ChangedEntities</b> list may differ from the <see cref="P:IdeaBlade.EntityModel.EntityQueriedEventArgs.Results"/> 
+             list since the <b>Entities</b> will include only those entities directly queried, and not entities
+             fetched due to query inversion or use of an "Include".
+             <para>
+             Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
+             the result is undefined.
+             </para>
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.BaseEntityQueriedEventArgs`1.WasFetched">
+            <summary>
+            True if the data was fetched from the EntityServer.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.BaseEntityQueriedEventArgs`1.ResolvedFetchStrategy">
+            <summary>
+            The actual <see cref="T:IdeaBlade.EntityModel.FetchStrategy"/> used.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.BaseEntityQueriedEventArgs`1.UntypedQuery">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.EntityQueriedAsyncEventArgs">
+            <summary>
+            Arguments to both the callback specified for an <see cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync(IdeaBlade.EntityModel.IEntityQuery)"/> call
+            and to an <see cref="E:IdeaBlade.EntityModel.EntityManager.Queried"/> event handler.
+            </summary>
+            <remarks>
+            If you have subscribed to the <see cref="E:IdeaBlade.EntityModel.EntityManager.Queried"/> event, your handler will
+            receive an instance of <b>EntityQueriedEventArgs</b> for both synchronous and asynchronous
+            fetch operations.  The event is fired after the EntityManager has fetched data from an EntityServer.
+            <para>
+            If you have called <see cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync(IdeaBlade.EntityModel.IEntityQuery)"/> with a callback specified, that callback
+            will be called with an instance of <b>EntityQueriedEventArgs</b> representing the status of the
+            fetch operation.  
+            </para>
+            <para>
+            The <see cref="P:IdeaBlade.EntityModel.EntityQueriedEventArgs.Results">Result</see> contains an IEnumerable holding the data fetched.
+            The list might be empty if the query was satisfied from cache only.
+            If a span query was used, multiple entity types may be found in the list.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityQueriedAsyncEventArgs.#ctor(IdeaBlade.EntityModel.IEntityQuery,System.Object)">
+            <summary>
+             Internal use only. Only used for async Queries.
+             </summary>
+             <param name="query"></param>
+             <param name="userState"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueriedAsyncEventArgs.Query">
+            <summary>
+            The query executed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueriedAsyncEventArgs.Results">
+            <summary>
+            The list of entities fetched.
+            </summary>
+            <remarks>
+            Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
+            the result is undefined.
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.EntityQueriedAsyncEventArgs`1">
+            <summary>
+            Arguments to the completion handler specified for an <see cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync``1(IdeaBlade.EntityModel.IEntityQuery{``0})"/> call
+            and to an <see cref="E:IdeaBlade.EntityModel.EntityManager.Queried"/> event handler.
+            </summary>
+            <typeparam name="T">Entity type</typeparam>
+            <remarks>
+            If you have subscribed to the <see cref="E:IdeaBlade.EntityModel.EntityManager.Queried"/> event, your handler will
+            receive an instance of <b>EntityQueriedEventArgs</b> for both synchronous and asynchronous
+            query operations.  
+            <para>
+            If you have called EntityManager.ExecuteQueryAsync, the <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">Completed</see> event handler
+            will be called with an instance of <b>EntityQueriedEventArgs</b> representing the results of the
+            query operation.  
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityQueriedAsyncEventArgs`1.#ctor(IdeaBlade.EntityModel.IEntityQuery{`0},System.Object)">
+            <summary>
+             Internal use only.
+             </summary>
+             <param name="query"></param>
+             <param name="userState"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueriedAsyncEventArgs`1.Query">
+            <summary>
+            The query executed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueriedAsyncEventArgs`1.Results">
+            <summary>
+            The results of this query. Not necessarily a list of entities because a query can return complex or anonymous shapes as well as 
+            simple projections.
+            </summary>
+            <remarks>
+            Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
+            the result is undefined.
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.EntityScalarQueriedEventArgs`1">
+            <summary>
+            Arguments to the completion handler specified for a scalar query executed asynchronously.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <remarks>
+            See <see cref="T:IdeaBlade.EntityModel.EntityScalarAsyncExtensions"/> for the scalar methods which may be executed asynchronously.
+            The <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">Completed</see> event handler on the <see cref="T:IdeaBlade.EntityModel.EntityScalarQueryOperation`1"/>
+            returned from these methods will be called with an instance of <b>EntityScalarQueriedEventArgs</b> representing the results of the
+            query operation.  
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarQueriedEventArgs`1.#ctor(IdeaBlade.EntityModel.IEntityScalarQuery{`0},System.Object)">
+            <summary>
+             Internal use only.
+             </summary>
+             <param name="query"></param>
+             <param name="userState"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityScalarQueriedEventArgs`1.Query">
+            <summary>
+            The query executed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityScalarQueriedEventArgs`1.Result">
+            <summary>
+            The scalar result of this query.
+            </summary>
+            <remarks>
+            Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
+            the result is undefined.
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.EntityScalarQueriedEventArgs">
+            <summary>
+            Arguments to the completion handler specified for a scalar query executed asynchronously.
+            </summary>
+            <remarks>
+            See <see cref="T:IdeaBlade.EntityModel.EntityScalarAsyncExtensions"/> for the scalar methods which may be executed asynchronously.
+            The <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">Completed</see> event handler on the <see cref="T:IdeaBlade.EntityModel.EntityScalarQueryOperation`1"/>
+            returned from these methods will be called with an instance of <b>EntityScalarQueriedEventArgs</b> representing the results of the
+            query operation.  
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarQueriedEventArgs.#ctor(IdeaBlade.EntityModel.IEntityScalarQuery,System.Object)">
+            <summary>
+             Internal use only.
+             </summary>
+             <param name="query"></param>
+             <param name="userState"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityScalarQueriedEventArgs.Query">
+            <summary>
+            The query executed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityScalarQueriedEventArgs.Result">
+            <summary>
+            The scalar result of this query.
+            </summary>
+            <remarks>
+            Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
+            the result is undefined.
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Compat.EntityQueryAsyncExtensions">
+            <summary>
+            Provides a set of static methods extending <see cref="T:IdeaBlade.EntityModel.EntityQuery"/> and <see cref="T:IdeaBlade.EntityModel.EntityQuery`1"/>.
+            <seealso cref="N:System.Linq"/>
+            <seealso cref="T:IdeaBlade.EntityModel.EntityQuery`1"/> 
+            </summary>
+            <remarks>
+            To use these extensions, add a using statement (Imports in Visual Basic) for this namespace
+            to your class.  
+            <para>
+            For more information on extension methods, see <b>Extension Methods (C# Programming Guide)</b>
+            or <b>Extension Methods (Visual Basic)</b> in the Visual Studio 2008 documentation.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityQueryAsyncExtensions.ExecuteAsync``1(IdeaBlade.EntityModel.IEntityQuery{``0},System.Action{IdeaBlade.EntityModel.EntityQueryOperation{``0}},System.Object)">
+            <summary>
+            Execute the query asynchronously.
+            </summary>
+            <seealso cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync(IEntityQuery{T})"/>
+            <typeparam name="T">Entity type returned</typeparam>
+            <param name="query">This query</param>
+            <param name="userCallback">Callback invoked when the query completes</param>
+            <param name="userState">Token to identify the query upon completion</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            The query results will be returned in the <see cref="T:IdeaBlade.EntityModel.EntityQueriedEventArgs"/> 
+            passed to the <paramref name="userCallback"/>.
+            Use the <paramref name="userState"/> to uniquely identify this call.
+            </remarks>  
+            <!-- Failed to insert some or all of included XML --><include file="EntityQueryExtensions.Examples.xml" path="//Class[@name=&quot;EntityQueryExtensions&quot;]/method[@name=&quot;ExecuteAsync&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityQueryAsyncExtensions.ExecuteAsync(IdeaBlade.EntityModel.IEntityQuery,System.Action{IdeaBlade.EntityModel.EntityQueryOperation},System.Object)">
+            <summary>
+            Execute the query asynchronously.
+            </summary>
+            <seealso cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync(IEntityQuery)"/>
+            <param name="query">This query</param>
+            <param name="userCallback">Callback invoked when the query completes</param>
+            <param name="userState">Token to identify the query upon completion</param>
+            <remarks>
+            Provide a <paramref name="userCallback"/> if you want to be notified when the operation completes.
+            The query results will be returned in the <see cref="T:IdeaBlade.EntityModel.EntityQueriedEventArgs"/> 
+            passed to the <paramref name="userCallback"/>.
+            Use the <paramref name="userState"/> to uniquely identify this call.
+            </remarks>  
+            <!-- Failed to insert some or all of included XML --><include file="EntityQueryExtensions.Examples.xml" path="//Class[@name=&quot;EntityQueryExtensions&quot;]/method[@name=&quot;ExecuteAsync&quot;]/*"/>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.EntityQueryOperation">
+            <summary>
+            Information about an asynchronous query operation.
+            </summary>
+            <remarks>
+            Returned by an <see cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync(IdeaBlade.EntityModel.IEntityQuery)">EntityManager.ExecuteQueryAsync</see> call.
+            You can use the <b>EntityQueryOperation</b> to track or cancel the request.  The <b>EntityQueryOperation</b> is also passed
+            to the callback method supplied to the async call.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityQueryOperation.#ctor(IdeaBlade.EntityModel.IEntityQuery,System.Action{IdeaBlade.EntityModel.EntityQueryOperation},System.Object,System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{IdeaBlade.EntityModel.QueryResult}})">
+            <summary>
+            Created by DevForce when <see cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync(IdeaBlade.EntityModel.IEntityQuery)">EntityManager.ExecuteQueryAsync</see> is called.
+            </summary>
+            <param name="query"></param>
+            <param name="userState"></param>
+            <param name="callback"></param>
+            <param name="taskFunc"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueryOperation.EntityQuery">
+            <summary>
+            The requested query.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueryOperation.Results">
+            <summary>
+            The results of the query.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueryOperation.ChangedEntities">
+             <summary>
+             The list of every entity that was either added or modified in the EntityManager's cache
+             as a result of this query.
+             </summary>
+             <remarks>
+             The <b>ChangedEntities</b> list may differ from the <see cref="P:IdeaBlade.EntityModel.EntityQueriedEventArgs.Results"/> 
+             list since the <b>Entities</b> will include only those entities directly queried, and not entities
+             fetched due to query inversion or use of an "Include".
+             <para>
+             Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
+             the result is undefined.
+             </para>
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueryOperation.WasFetched">
+            <summary>
+            Whether the operation completed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueryOperation.ResolvedFetchStrategy">
+            <summary>
+            The fetch strategy actually used to process the query.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.EntityQueryOperation`1">
+            <summary>
+            Information about an asynchronous query operation.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <remarks>
+            Returned by an <see cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync``1(IdeaBlade.EntityModel.IEntityQuery{``0})">EntityManager.ExecuteQueryAsync&lt;T&gt;</see> call.
+            You can use the <b>EntityQueryOperation</b> to track or cancel the request.  The <b>EntityQueryOperation</b> is also passed
+            to the callback method supplied to the async call.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityQueryOperation`1.#ctor(IdeaBlade.EntityModel.IEntityQuery{`0},System.Action{IdeaBlade.EntityModel.EntityQueryOperation{`0}},System.Object,System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{IdeaBlade.EntityModel.QueryResult{`0}}})">
+            <summary>
+            Created by DevForce when <see cref="M:IdeaBlade.EntityModel.EntityManager.ExecuteQueryAsync(IdeaBlade.EntityModel.IEntityQuery)">EntityManager.ExecuteQueryAsync</see> is called.
+            </summary>
+            <param name="query"></param>
+            <param name="userState"></param>
+            <param name="callback"></param>
+            <param name="taskFunc"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueryOperation`1.EntityQuery">
+            <summary>
+            The requested query.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueryOperation`1.Results">
+            <summary>
+            The results of the query.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueryOperation`1.ChangedEntities">
+             <summary>
+             The list of every entity that was either added or modified in the EntityManager's cache
+             as a result of this query.
+             </summary>
+             <remarks>
+             The <b>ChangedEntities</b> list may differ from the <see cref="P:IdeaBlade.EntityModel.EntityQueriedEventArgs.Results"/> 
+             list since the <b>Entities</b> will include only those entities directly queried, and not entities
+             fetched due to query inversion or use of an "Include".
+             <para>
+             Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
+             the result is undefined.
+             </para>
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueryOperation`1.WasFetched">
+            <summary>
+            Whether the operation completed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityQueryOperation`1.ResolvedFetchStrategy">
+            <summary>
+            The fetch strategy actually used to process the query.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.EntityRefetchedEventArgs">
+            <summary>
+            Arguments to the completion handler specified for an <see cref="M:IdeaBlade.EntityModel.EntityManager.RefetchEntitiesAsync(IdeaBlade.EntityModel.EntityKeyList,IdeaBlade.EntityModel.MergeStrategy,System.Threading.CancellationToken)"/> call.
+            </summary>
+            <remarks>
+            <para>
+            If you have called EntityManager.RefetchEntitiesAsync, the <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">Completed</see> event handler
+            will be called with an instance of <b>EntityRefetchedEventArgs</b> representing the results of the
+            query operation.  
+            </para>
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityRefetchedEventArgs.EntityKeys">
+            <summary>
+            The Entity keys that were 'refetched' during this operation.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityRefetchedEventArgs.ChangedEntities">
+             <summary>
+             The list of every entity that was either added or modified in the EntityManager's cache
+             as a result of this query.
+             </summary>
+             <remarks>
+             The <b>ChangedEntities</b> list may differ from the <see cref="P:IdeaBlade.EntityModel.EntityRefetchedEventArgs.Results"/> because of MergeStrategy.
+             <para>
+             Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
+             the result is undefined.
+             </para>
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityRefetchedEventArgs.Results">
+            <summary>
+            The results of the refetch.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.EntityRefetchOperation">
+            <summary>
+            Information about an asynchronous refetch operation.
+            </summary>
+            <remarks>
+            Returned by an EntityManager.RefetchEntitiesAsync call.
+            The <b>EntityRefetchOperation</b> is also passed to the callback method supplied to the async call.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityRefetchOperation.#ctor(System.Collections.Generic.IEnumerable{System.Collections.Generic.IEnumerable{IdeaBlade.EntityModel.EntityKey}},System.Action{IdeaBlade.EntityModel.EntityRefetchOperation},System.Object,System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{IdeaBlade.EntityModel.QueryResult[]}})">
+             <summary>
+            
+             </summary>
+             <param name="entityKeyGroups"></param>
+             <param name="userState"></param>
+             <param name="callback"></param>
+             <param name="taskFunc"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityRefetchOperation.EntityKeys">
+            <summary>
+            The requested query.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityRefetchOperation.Results">
+            <summary>
+            The results of the refetch.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityRefetchOperation.ChangedEntities">
+             <summary>
+             The list of every entity that was either added or modified in the EntityManager's cache
+             as a result of this query.
+             </summary>
+             <remarks>
+             The <b>ChangedEntities</b> list may differ from the <see cref="P:IdeaBlade.EntityModel.EntityRefetchedEventArgs.Results"/> because of MergeStrategy.
+             <para>
+             Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
+             the result is undefined.
+             </para>
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.EntitySaveOperation">
+            <summary>
+            Information about an asynchronous save operation.
+            </summary>
+            <remarks>
+            Returned by an <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChangesAsync">EntityManager.SaveChangesAsync</see> call.
+            You can use the <b>EntitySaveOperation</b> to track or cancel the request.  The <b>EntitySaveOperation</b> is also passed
+            to the callback method supplied to the async call.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntitySaveOperation.#ctor(System.Collections.IEnumerable,IdeaBlade.EntityModel.SaveOptions,System.Action{IdeaBlade.EntityModel.EntitySaveOperation},System.Object,System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{IdeaBlade.EntityModel.SaveResult}})">
+            <summary>
+            Returned by an <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChangesAsync">EntityManager.SaveChangesAsync</see> call.
+            </summary>
+            <param name="entities"></param>
+            <param name="saveOptions"></param>
+            <param name="userState"></param>
+            <param name="callback"></param>
+            <param name="taskFunc"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntitySaveOperation.CanCancel">
+            <summary>
+            Save operations may not be cancelled.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntitySaveOperation.Entities">
+            <summary>
+            Returns the entities saved.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntitySaveOperation.SaveResult">
+            <summary>
+            The result of the save operation.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntitySaveOperation.Exception">
+            <summary>
+            Returns the exception thrown if an error occurred during save processing.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.EntitySavedAsyncEventArgs">
+            <summary>
+            Arguments to the completion handler specified for an <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChangesAsync"/> call.
+            </summary>
+            <remarks>
+            If you have called EntityManager.SaveChangesAsync, the <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">EntitySaveOperation.Completed"&gt;</see> event handler
+            will be called with an instance of <b>EntitySavedAsyncEventArgs</b> representing the status of the
+            save operation.  
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntitySavedAsyncEventArgs.Entities">
+            <summary>
+            List of entities saved.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntitySavedAsyncEventArgs.SaveResult">
+            <summary>
+            The SaveResult for the operation.
+            </summary>
+            <remarks>
+            Note that the <b>SaveResult</b> will be returned even if an exception has occurred or the
+            operation was cancelled.  You can use <see cref="P:IdeaBlade.EntityModel.SaveResult.SaveStatus"/> to determine processing results.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntitySavedAsyncEventArgs.Exception">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions">
+            <summary>
+            Provides a set of static methods providing for asynchronous execution of scalar queries.
+            <seealso cref="N:System.Linq"/>
+            <seealso cref="T:IdeaBlade.EntityModel.IEntityScalarQuery`1"/> 
+            </summary>
+            <remarks>
+            To use these extensions, first convert your <see cref="T:IdeaBlade.EntityModel.IEntityQuery`1"/> to 
+            an <see cref="T:IdeaBlade.EntityModel.IEntityScalarQuery`1"/> using <see cref="M:IdeaBlade.EntityModel.EntityQueryExtensions.AsScalarAsync``1(IdeaBlade.EntityModel.IEntityQuery{``0})"/>.
+            <para>
+            Queries returning a scalar value are called "immediate execution" queries within LINQ.  These queries
+            don't actually exist as a query object, but execute immediately to return the desired value.  For example,
+            <code>_entityManager.Employees.First()</code> does not return a query, it instead executes immediately,
+            and synchronously, to return the first employee object.  When only asynchronous queries are supported,
+            for example in Silverlight applications, converting the query to the IEntityScalarQuery allows you
+            to then use the scalar methods in an asynchronous query.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.First(IdeaBlade.EntityModel.IEntityScalarQuery,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Returns the first element in the sequence.
+            </summary>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.First``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Returns the first element in the sequence.
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;First1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.First(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Returns the first element in the sequence that satisfies the specified condition.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;First2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.First``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Returns the first element in the sequence that satisfies the specified condition.
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;First2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.FirstOrDefault(IdeaBlade.EntityModel.IEntityScalarQuery,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Returns the first element in the sequence or a default value if the sequence contains no elements.
+            </summary>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;FirstOrDefault1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.FirstOrDefault``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Returns the first element in the sequence or a default value if the sequence contains no elements.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;FirstOrDefault1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.FirstOrDefault(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Returns the first element of a sequence that satisfies a specified condition or a default value if no such element is found.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;FirstOrDefault2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.FirstOrDefault``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Returns the first element of a sequence that satisfies a specified condition or a default value if no such element is found.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;FirstOrDefault2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.FirstOrNullEntity(IdeaBlade.EntityModel.IEntityScalarQuery,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Returns the first element in the sequence, or the appropriate NullEntity if the sequence contains no elements.
+            </summary>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;FirstOrNullEntity1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.FirstOrNullEntity``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Returns the first element in the sequence, or the appropriate NullEntity if the sequence contains no elements.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;FirstOrNullEntity1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.FirstOrNullEntity(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Returns the first element of a sequence that satisfies a specified condition, or the appropriate NullEntity if no such element is found.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;FirstOrNullEntity2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.FirstOrNullEntity``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Returns the first element of a sequence that satisfies a specified condition, or the appropriate NullEntity if no such element is found.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;FirstOrNullEntity2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Single(IdeaBlade.EntityModel.IEntityScalarQuery,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Returns the only element of a sequence, and throws an exception if there is not exactly one element in the sequence.
+            </summary>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Single1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Single``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Returns the only element of a sequence, and throws an exception if there is not exactly one element in the sequence.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Single1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Single(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Returns the only element of a sequence that satisfies a specified condition, and throws an exception if more than one such element exists.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Single2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Single``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Returns the only element of a sequence that satisfies a specified condition, and throws an exception if more than one such element exists.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Single2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.SingleOrDefault(IdeaBlade.EntityModel.IEntityScalarQuery,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Returns the only element of a sequence, or a default value if the sequence is empty; this method throws an exception if there is more than one element in the sequence.
+            </summary>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;SingleOrDefault1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.SingleOrDefault``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Returns the only element of a sequence, or a default value if the sequence is empty; this method throws an exception if there is more than one element in the sequence.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;SingleOrDefault1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.SingleOrDefault(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Returns the only element of a sequence that satisfies a specified condition or a default value if no such element exists; this method throws an exception if more than one element satisfies the condition.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;SingleOrDefault2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.SingleOrDefault``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Returns the only element of a sequence that satisfies a specified condition or a default value if no such element exists; this method throws an exception if more than one element satisfies the condition.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;SingleOrDefault2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.SingleOrNullEntity``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Returns the only element of a sequence, or the appropriate NullEntity if the sequence is empty; this method throws an exception if there is more than one element in the sequence.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;SingleOrNullEntity1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.SingleOrNullEntity``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Returns the only element of a sequence that satisfies a specified condition, or the appropriate NullEntity if no such element exists; this method throws an exception if more than one element satisfies the condition.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;SingleOrNullEntity2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Count(IdeaBlade.EntityModel.IEntityScalarQuery,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{System.Int32}},System.Object)">
+            <summary>
+            Returns the number of elements in a sequence.
+            </summary>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Count1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Count``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{System.Int32}},System.Object)">
+            <summary>
+            Returns the number of elements in a sequence.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Count1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Count(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{System.Int32}},System.Object)">
+            <summary>
+            Returns the number of elements in the specified sequence that satisfies a condition.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Count2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Count``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{System.Int32}},System.Object)">
+            <summary>
+            Returns the number of elements in the specified sequence that satisfies a condition.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Count2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.LongCount``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{System.Int64}},System.Object)">
+            <summary>
+            Returns an Int64 that represents the total number of elements in a sequence.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;LongCount1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.LongCount``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{System.Int64}},System.Object)">
+            <summary>
+            Returns an Int64 that represents the number of elements in a sequence that satisfy a condition.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;LongCount2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Min(IdeaBlade.EntityModel.IEntityScalarQuery,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Returns the minimum value of items in the sequence.
+            </summary>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Min1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Min``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Returns the minimum value of items in the sequence.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Min1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Min(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IProjectionSelector,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Invokes a projection function on each element of the sequence and returns the minimum resulting value.
+            </summary>
+            <param name="source"></param>
+            <param name="projectionSelector"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Min2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Min``2(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``1}},System.Object)">
+            <summary>
+            Invokes a projection function on each element of the sequence and returns the minimum resulting value.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="projection"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Min2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Max(IdeaBlade.EntityModel.IEntityScalarQuery,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Returns the maximum value of items in the sequence.
+            </summary>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Max1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Max``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Returns the maximum value of items in the sequence.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Max1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Max(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IProjectionSelector,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Invokes a projection function on each element of the sequence and returns the maximum resulting value.
+            </summary>
+            <param name="source"></param>
+            <param name="projectionSelector"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Max2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Max``2(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``1}},System.Object)">
+            <summary>
+            Invokes a projection function on each element of the sequence and returns the maximum resulting value.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="projection"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Max2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Sum(IdeaBlade.EntityModel.IEntityScalarQuery,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Computes the sum of a sequence of numeric values.
+            </summary>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Sum1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Sum``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Computes the sum of a sequence of numeric values.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Sum1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Sum(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IProjectionSelector,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Computes the sum of the sequence of numeric values that is obtained by invoking a projection function on each element of the input sequence.
+            </summary>
+            <param name="source"></param>
+            <param name="projectionSelector"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Sum2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Sum``2(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``1}},System.Object)">
+            <summary>
+            Computes the sum of the sequence of numeric values that is obtained by invoking a projection function on each element of the input sequence.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="projection"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Sum2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Average(IdeaBlade.EntityModel.IEntityScalarQuery,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Computes the average of a sequence of numeric values.
+            </summary>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Average1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Average``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``0}},System.Object)">
+            <summary>
+            Computes the average of a sequence of numeric values.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Average1&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Average(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IProjectionSelector,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object)">
+            <summary>
+            Computes the average of a sequence of numeric values that is obtained by invoking a projection function on each element of the input sequence.
+            </summary>
+            <param name="source"></param>
+            <param name="projectionSelector"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Average2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Average``2(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{``1}},System.Object)">
+            <summary>
+            Computes the average of a sequence of numeric values that is obtained by invoking a projection function on each element of the input sequence.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="projection"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Average2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Any(IdeaBlade.EntityModel.IEntityScalarQuery,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{System.Boolean}},System.Object)">
+            <summary>
+            Determines whether a sequence contains any elements.
+            </summary>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Any&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Any``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{System.Boolean}},System.Object)">
+            <summary>
+            Determines whether a sequence contains any elements.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Any&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Any(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{System.Boolean}},System.Object)">
+            <summary>
+            Determines whether any element of a sequence satisfies a condition.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Any2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Any``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{System.Boolean}},System.Object)">
+            <summary>
+            Determines whether any element of a sequence satisfies a condition.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Any2&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.All(IdeaBlade.EntityModel.IEntityScalarQuery,IdeaBlade.Core.IPredicateDescription,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{System.Boolean}},System.Object)">
+            <summary>
+            Determines whether all the elements of a sequence satisfy a condition.
+            </summary>
+            <param name="source"></param>
+            <param name="predicateDescription"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;All&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.All``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{System.Boolean}},System.Object)">
+            <summary>
+            Determines whether all the elements of a sequence satisfy a condition.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;All&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Contains(IdeaBlade.EntityModel.IEntityScalarQuery,System.Object,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{System.Boolean}},System.Object)">
+            <summary>
+            Determines whether a sequence contains any elements that match the specified element.
+            </summary>
+            <param name="source"></param>
+            <param name="item"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Any&quot;]/*"/>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Compat.EntityScalarQueryAsyncExtensions.Contains``1(IdeaBlade.EntityModel.IEntityScalarQuery{``0},``0,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{System.Boolean}},System.Object)">
+            <summary>
+            Determines whether a sequence contains any elements that match the specified element.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="item"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <returns></returns>
+            <!-- Failed to insert some or all of included XML --><include file="EntityScalarAsyncExtensions.Examples.xml" path="//Class[@name=&quot;EntityScalarAsyncExtensions&quot;]/method[@name=&quot;Any&quot;]/*"/>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.EntityScalarQueryOperation">
+            <summary>
+            Information about an asynchronous scalar query operation.
+            </summary>
+            <remarks>
+            Returned by the <see cref="T:IdeaBlade.EntityModel.EntityScalarAsyncExtensions"/> extension methods when a scalar query is executed
+            asynchronously.
+            You can use the <b>EntityScalarQueryOperation</b> to track or cancel the request.  The <b>EntityScalarQueryOperation</b> is also passed
+            to the callback method supplied to the async call.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarQueryOperation.#ctor(IdeaBlade.EntityModel.IEntityScalarQuery,System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation},System.Object,System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{IdeaBlade.EntityModel.QueryScalarResult}})">
+            <summary>
+            Created by DevForce when a scalar query is executed asynchronously.
+            </summary>
+            <param name="query"></param>
+            <param name="userState"></param>
+            <param name="callback"></param>
+            <param name="taskFunc"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityScalarQueryOperation.EntityQuery">
+            <summary>
+            The requested query.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityScalarQueryOperation.Result">
+            <summary>
+            The result of the query.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityScalarQueryOperation.WasFetched">
+            <summary>
+            Whether the operation completed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityScalarQueryOperation.ResolvedFetchStrategy">
+            <summary>
+            The fetch strategy actually used to process the query.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.EntityScalarQueryOperation`1">
+            <summary>
+            Information about an asynchronous scalar query operation.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <remarks>
+            Returned by the <see cref="T:IdeaBlade.EntityModel.EntityScalarAsyncExtensions"/> extension methods when a scalar query is executed
+            asynchronously.
+            You can use the <b>EntityScalarQueryOperation</b> to track or cancel the request.  The <b>EntityScalarQueryOperation</b> is also passed
+            to the callback method supplied to the async call.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.EntityScalarQueryOperation`1.#ctor(IdeaBlade.EntityModel.IEntityScalarQuery{`0},System.Action{IdeaBlade.EntityModel.EntityScalarQueryOperation{`0}},System.Object,System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{IdeaBlade.EntityModel.QueryScalarResult{`0}}})">
+            <summary>
+            Created by DevForce when a scalar query is executed asynchronously.
+            </summary>
+            <param name="query"></param>
+            <param name="userState"></param>
+            <param name="callback"></param>
+            <param name="taskFunc"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityScalarQueryOperation`1.EntityQuery">
+            <summary>
+            The requested query.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityScalarQueryOperation`1.Result">
+            <summary>
+            The result of the query.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityScalarQueryOperation`1.WasFetched">
+            <summary>
+            Whether the operation completed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.EntityScalarQueryOperation`1.ResolvedFetchStrategy">
+            <summary>
+            The fetch strategy actually used to process the query.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.InvokeServerMethodEventArgs">
+            <summary>
+            Arguments to a <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">InvokeServerMethodOperation.Completed"</see> event handler.
+            </summary>
+            <remarks>
+            The Completed handler will be called with an instance
+            of <b>InvokeServerMethodEventArgs</b> representing the status of the operation.  The <see cref="P:IdeaBlade.EntityModel.InvokeServerMethodEventArgs.Result"/>
+            will contain the user-defined data returned by the server method.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.InvokeServerMethodEventArgs.#ctor(System.String,System.String,System.Object,System.Object[])">
+            <summary>
+            Construct an instance of this class.  Internal use only.
+            </summary>
+            <param name="typeName"></param>
+            <param name="methodName"></param>
+            <param name="userState"></param>
+            <param name="args"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.InvokeServerMethodEventArgs.TypeName">
+            <summary>
+            The assembly-qualified type name of the method executed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.InvokeServerMethodEventArgs.MethodName">
+            <summary>
+            The name of the method executed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.InvokeServerMethodEventArgs.UserArguments">
+            <summary>
+            Arguments to the server method.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.InvokeServerMethodEventArgs.Result">
+            <summary>
+            Result returned by the method.
+            </summary>
+            <remarks>
+            Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
+            the result is undefined.
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.InvokeServerMethodOperation">
+            <summary>
+            Information about an asynchronous InvokeServerMethod operation.
+            </summary>
+            <remarks>
+            Returned by an <see cref="M:IdeaBlade.EntityModel.EntityManager.InvokeServerMethodAsync(IdeaBlade.EntityModel.ServerMethodDelegate,System.Threading.CancellationToken,System.Object[])">EntityManager.InvokeServerMethodAsync</see> call.
+            You can use the <b>InvokeServerMethodOperation</b> to track or cancel the request.  The <b>InvokeServerMethodOperation</b> is also passed
+            to the callback method supplied to the async call.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.InvokeServerMethodOperation.#ctor(System.String,System.String,System.Object,System.Action{IdeaBlade.EntityModel.InvokeServerMethodOperation},System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{System.Object}},System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="typeName"></param>
+            <param name="methodName"></param>
+            <param name="userState"></param>
+            <param name="callback"></param>
+            <param name="taskFunc"></param>
+            <param name="args"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.InvokeServerMethodOperation.Result">
+            <summary>
+            Returns the result of the asynchronous InvokeServerMethod operation.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.TaskAsyncState">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.TaskAsyncState.#ctor(System.Threading.Tasks.Task)">
+            <summary>
+            
+            </summary>
+            <param name="task"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.TaskAsyncState.Cancelled">
+            <summary>
+            Returns whether the operation was cancelled.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.TaskAsyncState.Completed">
+            <summary>
+            Returns whether the operation completed. 
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.TaskAsyncState.Error">
+            <summary>
+            The exception, if any, thrown by the underlying operation.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.AsyncState.#ctor(System.Boolean,System.Boolean,System.Exception)">
+            <summary>
+            Represents a mutable async state when a task is not used.
+            </summary>
+            <param name="cancelled"></param>
+            <param name="completed"></param>
+            <param name="error"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncState.Cancelled">
+            <summary>
+            Returns whether the operation was cancelled.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncState.Completed">
+            <summary>
+            Returns whether the operation completed. 
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.AsyncState.Error">
+            <summary>
+            The exception, if any, thrown by the underlying operation.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.LoginEventArgs">
+            <summary>
+            Arguments to a <see cref="E:IdeaBlade.EntityModel.BaseOperation`2.Completed">LoginOperation.Completed</see> event handler.
+            </summary>
+            <remarks>
+            The Completed handler will be called with an instance
+            of <b>LoginEventArgs</b> representing the status of the login operation.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.LoginEventArgs.#ctor(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions,System.Object)">
+            <summary>
+            Construct an instance of this class.  Internal use only.
+            </summary>
+            <param name="credential"></param>
+            <param name="options"></param>
+            <param name="userState"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.LoginEventArgs.LoginCredential">
+            <summary>
+            The credentials passed in the Login request.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.LoginEventArgs.LoginOptions">
+            <summary>
+            The options passed with the <b>LoginAsync</b> call.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.LoginEventArgs.AuthenticationContext">
+            <summary>
+            Returned by the login.
+            </summary>
+            <remarks>
+            Note an exception is returned when calling the getter if the asynchronous operation was cancelled or failed, since
+            the result is undefined.
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.LoginOperation">
+            <summary>
+            Information about an asynchronous login operation.
+            </summary>
+            <remarks>
+            Returned by an <see cref="M:IdeaBlade.EntityModel.Security.Authenticator.LoginAsync(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions)">Authenticator.LoginAsync</see> call.
+            You can use the <b>LoginOperation</b> to track or cancel the request.  The <b>LoginOperation</b> is also passed
+            to the callback method supplied to the async call.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.LoginOperation.#ctor(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.Security.LoginOptions,System.Action{IdeaBlade.EntityModel.LoginOperation},System.Object,System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{IdeaBlade.EntityModel.Security.IAuthenticationContext}})">
+            <summary>
+            
+            </summary>
+            <param name="credential"></param>
+            <param name="options"></param>
+            <param name="userCallback"></param>
+            <param name="userState"></param>
+            <param name="taskFunc"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.LoginOperation.AuthenticationContext">
+            <summary>
+            The <b>IAuthenticationContext</b> returned by the login.
+            </summary>
+        </member>
+    </members>
+</doc>

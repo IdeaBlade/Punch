@@ -1,0 +1,53 @@
+DevForce uses the .NET Text Template Transformation Toolkit (T4) and a DevForce default template
+to generate the entity model code for the associated EDMX model. In each project with an EDMX file 
+you’ll find a copy of our template. The template file’s name matches the EDMX file name, suffixed 
+with a ‘.tt’ extension to indicate that it is a ‘T4’ template. Nested under this template are the 
+“ReadMe” that you are reading now and one (or more) generated class file(s) which also bear the 
+name of the EDMX file. 
+
+You can regenerate the entity model class definition files based on this template at any time, 
+either by re-saving the associated EDMX file or by running the template’s “custom tool”. Right click
+the template.tt file and select “Run Custom Tool” from the context menu. Feel free to delete this
+ReadMe and the generated code file(s); they reappear next time you generate.
+
+DevForce ships with a default T4 template.  Like most T4 templates provided by Microsoft and other 
+vendors,  you can replace this template with your own custom version. Custom versions are 
+usually a copy of the default template with some minor modifications.  
+
+While DevForce supports this approach, we believe most of you will prefer a programmatic 
+approach to wrangling raw XML.
+
+Open our template in an XML editor and you’ll see it is much shorter that most T4 templates. 
+The template hands off the job of generating code to the DevForce ‘DomainModelTemplate’ class as we see here: 
+
+     var template = new DomainModelTemplate(this);
+     template.Generate();
+
+DomainModelTemplate reads “this” template, massages it, and emits another template which 
+(as you see in the second line) is the basis for code generation. Instead of replacing the template, 
+you can subclass DomainModelTemplate and override just those portions of the code generation you 
+need to customize.
+
+For example:
+
+ public class MyTemplate : DomainModelTemplate {
+    public MyTemplate(Microsoft.VisualStudio.TextTemplating.TextTransformation textTransformation) 
+      : base(textTransformation) {}
+
+    protected override void WriteEntityDataPropertyAttributes(EdmPropertyWrapper property) {
+      WriteAttribute("Foo(" + Quote(property.Name) + ")");
+      base.WriteEntityDataPropertyAttributes(property);
+    }
+
+The override of WriteEntityDataPropertyAttributes adds a FooAttribute to every property of every entity class.
+
+In practice, you receive detailed information about each moment of code generation; you can make broad or fine grained 
+decisions as you please.  
+
+The DomainModelTemplate class is located in the IdeaBlade.VisualStudio.OM.CodeGenerator.dll, but a copy of the file 
+is also located in the DevForce installation directory in file DomainModelTemplate.cs.
+
+For more information on customizing the template to your needs, see the online documentation for  
+"Customizing the DevForce Code Generation Template".
+
+

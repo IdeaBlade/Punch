@@ -1,0 +1,1063 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IdeaBlade.EntityModel.Edm</name>
+    </assembly>
+    <members>
+        <member name="T:IdeaBlade.EntityModel.Edm.SessionBundleExtensions">
+            <summary>
+            Extensions to the SessionBundle that are only relevent on the server.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.SessionBundleExtensions.GetServerSessionInfo(IdeaBlade.EntityModel.SessionBundle)">
+            <summary>
+            Retrieves session information related to this SessionBundle.  Internal use only.
+            </summary>
+            <param name="sessionBundle"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.ServerSessionInfo">
+            <summary>
+            Information about a persistent connection for a session.  Internal use only.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.ServerSessionInfo.PersistentConnectionMap">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.ServerSessionInfo.SessionLock">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.SessionScope">
+            <summary>
+            Internal use only.
+            </summary>
+            <remarks>
+            Intended to be used to wrap server side persistence operations that involve PersistentConnections.  The idea is use an
+            instance of this class in a using clause to guarantee cleanup of any locks taken.
+            This supports two kinds of persistence operations - a shared version which basically says that within the current
+            session locking is on a per connection basis, and an exclusive version which says that ...
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.SessionScope.#ctor(IdeaBlade.EntityModel.Edm.PersistentConnectionSessionType)">
+            <summary>
+            
+            </summary>
+            <param name="sessionType"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.SessionScope.System#IDisposable#Dispose">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.PersistentConnectionSessionType">
+            <summary>
+            Internal use only.
+            </summary>
+        </member>
+        <member name="F:IdeaBlade.EntityModel.Edm.PersistentConnectionSessionType.Shared">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:IdeaBlade.EntityModel.Edm.PersistentConnectionSessionType.Exclusive">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.PersistentConnectionMap">
+            <summary>
+            Collection of persistentConnections keyed by datasourceKeyName.  Internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.PersistentConnectionMap.ContainsKey(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="dataSourceKeyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.PersistentConnectionMap.Remove(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="dataSourceKeyName"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.PersistentConnectionMap.RemoveAll">
+            <summary>
+            Removes and closes all connections.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.PersistentConnectionMap.System#Collections#Generic#IEnumerable{IdeaBlade#EntityModel#Edm#PersistentConnection}#GetEnumerator">
+            <summary>
+            Returns an enumeration of SessionConnection objects;
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.PersistentConnectionMap.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.PersistentConnectionMap.ParentSessionInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.PersistentConnectionMap.Item(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="dataSourceKeyName"></param>
+            <returns></returns>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.PersistentConnectionMap.Keys">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.PersistentConnectionMap.Values">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.PersistentConnection">
+            <summary>
+            Internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.PersistentConnection.#ctor(IdeaBlade.EntityModel.Edm.ServerSessionInfo,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="sessionInfo"></param>
+            <param name="dataSourceKeyName"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.PersistentConnection.Lock">
+            <summary>
+            Returns true is lock was acquired and false if lock is already held on the current thread
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.PersistentConnection.DataSourceKeyName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.PersistentConnection.ParentSessionInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.PersistentConnection.EntityConnection">
+            <summary>
+            Access to this property is serialized meaning that the property will not return
+            while the EntityConnection is being used by any other process.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.PersistentConnection.DbConnection">
+            <summary>
+            Access to this property is serialized meaning that the property will not return
+            while the EntityConnection is being used by any other process.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.PersistentConnection.IsLocked">
+            <summary>
+            Is this PersistentConnection connection currently in use.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.EFContext">
+            <summary>
+            Wrapper for ObjectContext that handles disposal and locking issues when 'usePersistentDbConnections" is in use. 
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.DbContextBuilder">
+            <summary>
+            Dynamically constructs a DbContext from an EntityManager.  Used at both build and run time. 
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.IDbContextBuilder">
+            <summary>
+            Used to create "static" and dynamic DbContexts.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.DbContextBuilder.CreateInstance(System.String,System.String)">
+            <summary>
+            Create the dynamic DbContext instance.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.ConstantTransformVisitor.VisitConstant(System.Linq.Expressions.ConstantExpression)">
+            <summary>
+            
+            </summary>
+            <param name="ce"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.DbContextInfoBuilder">
+            <summary>
+            Used when a sub-typed Dbcontext is present.  This is a thin wrapper over the DbContextInfo (if EF4.1Update1).
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.DbContextInfoBuilder.CreateInstance(System.String,System.String)">
+            <summary>
+            Return a DbContext.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.DbContextBuilderFactory">
+            <summary>
+            Used at build and run time to build static and dyanmic DbContext information.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.DbContextBuilderFactory.GetBuildersInAssembly(System.Reflection.Assembly,System.Collections.Generic.IList{System.Type})">
+            <summary>
+            Called at build time to find CF models in the assembly.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.DbContextBuilderFactory.GetBuilderByName(System.Type)">
+            <summary>
+            Called at run time to get a builder for the specified EM or DbContext.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.DbContextBuilderFactory.GetEntitiesForEM(System.Type,System.Collections.Generic.IList{System.Type})">
+            <summary>
+            Return only those CF entities defined in the EM.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.DbKey">
+            <summary>
+            Represents the connection information to a database for a CodeFirst model.
+            </summary>
+            <remarks>
+            By default a <b>DbKey</b> is created from the connection information
+            for a matching element in the <see cref="P:System.Configuration.ConfigurationManager.ConnectionStrings">ConnectionStrings</see>
+            section of your configuration file.  You can override this default by specifying an
+            <see cref="T:IdeaBlade.Core.Configuration.EdmKeyElement">EdmKey</see> in the
+            IdeaBlade section of the configuration file. You can also create an EdmKey at run-time by 
+            implementing a custom <see cref="T:IdeaBlade.EntityModel.IDataSourceKeyResolver"/>.
+            <para>
+            An <b>DbKey</b> differs from an <see cref="T:IdeaBlade.EntityModel.Edm.EdmKey"/> in that its connection string does not contain
+            EDMX metadata information because a design-time model is not used.  As with the <b>EdmKey</b>, the <b>DbKey</b>
+            is used on only the server; your client application should use a <b>ClientEdmKey</b> when working with data source keys.
+            </para>
+            <para>
+            If the database does not exist or has changed it will be created when the <b>DbKey</b> is constructed, depending on the 
+            <b>IDatabaseInitializer</b> strategy in effect.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.EdmKey">
+            <summary>
+            Represents the connection information to a database.
+            </summary>
+            <remarks>
+            By default an <b>EdmKey</b> is created from the connection information
+            for a matching element in the <see cref="P:System.Configuration.ConfigurationManager.ConnectionStrings">ConnectionStrings</see>
+            section of your configuration file.  You can override this default by specifying an
+            <see cref="T:IdeaBlade.Core.Configuration.EdmKeyElement">EdmKey</see> in the
+            IdeaBlade section of the configuration file. You can also create an EdmKey at run-time by 
+            implementing a custom <see cref="T:IdeaBlade.EntityModel.IDataSourceKeyResolver"/>.
+            <para>
+            An <b>EdmKey</b> differs from its base type <see cref="T:IdeaBlade.EntityModel.ClientEdmKey"/> in that it contains
+            references to Entity Framework assemblies.  When working on the client side you should use the
+            <b>ClientEdmKey</b>, and when on the server use the <b>EdmKey</b>.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmKey.LocateEdmKey(System.String)">
+            <summary>
+            Finds information for the specified key name in the IdeaBlade configuration.
+            </summary>
+            <param name="keyName">Key name</param>
+            <returns>The specified EdmKey or null if not found.</returns>
+            <remarks>
+            If an EdmKey element with the specified name is not found in the IdeaBlade configuration
+            section then null is returned.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmKey.#ctor(IdeaBlade.Core.Configuration.EdmKeyElement)">
+            <summary>
+            Construct an instance of the class from an <see cref="T:IdeaBlade.Core.Configuration.EdmKeyElement"/>.  Internal use only.
+            </summary>
+            <param name="keyElement"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmKey.#ctor(System.String,System.String,System.Boolean,System.String)">
+            <summary>
+            Create an instance of this class specifying all values.
+            </summary>
+            <param name="name">Key name</param>
+            <param name="connectionString">Connection string</param>
+            <param name="logTraceString">Whether generated SQL should be logged</param>
+            <param name="tag">User-defined tag value</param>
+            <remarks>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmKey.#ctor(IdeaBlade.EntityModel.ClientEdmKey)">
+            <summary>
+            Create an <b>EdmKey</b> from a <see cref="T:IdeaBlade.EntityModel.ClientEdmKey"/>.
+            </summary>
+            <param name="clientKey"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmKey.CreateContext">
+            <summary>
+            Create an <see cref="T:System.Data.Objects.ObjectContext"/> for this key.  Internal use only.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmKey.GetOrCreatePersistentConnection">
+            <summary>
+            Retrieves or creates a persistence connection for the user session.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmKey.Initialize">
+            <summary>
+            Server-side initialization.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmKey.Equals(System.Object)">
+            <summary>
+            See <see cref="M:System.Object.Equals(System.Object)"/>.
+            </summary>
+            <param name="pObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmKey.GetHashCode">
+            <summary>
+            See <see cref="M:System.Object.GetHashCode"/>.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:IdeaBlade.EntityModel.Edm.EdmKey._metadataWorkspace">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:IdeaBlade.EntityModel.Edm.EdmKey._clientAssembly">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmKey.UsePersistentConnection">
+            <summary>
+            Whether persistent database connections are used for the user session.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmKey.EntityContainer">
+            <summary>
+            Returns the EntityContainer in the conceptual model.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmKey.MetadataWorkspace">
+            <summary>
+            Gets the Entity Framework <see cref="P:IdeaBlade.EntityModel.Edm.EdmKey.MetadataWorkspace"/> used by this key.  Internal use only.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmKey.ClientAssembly">
+            <summary>
+            Gets the assembly containing the sub-classed EntityManager.  Internal use only.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmKey.DbConnectionString">
+            <summary>
+            Returns the provider-specific connection string.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmKey.DbProviderName">
+            <summary>
+            Returns the underlying .NET data provider.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.DbKey.#ctor(IdeaBlade.Core.Configuration.EdmKeyElement)">
+            <summary>
+            Construct an instance of the class from an <see cref="T:IdeaBlade.Core.Configuration.EdmKeyElement"/>.  Internal use only.
+            </summary>
+            <param name="keyElement"></param>
+            <remarks>
+            A <b>DbKey</b> can be constructed from an EdmKey in the configuration file.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.DbKey.#ctor(System.String,System.String,System.Boolean,System.String)">
+            <summary>
+            Create an instance of this class specifying all values.
+            </summary>
+            <param name="name">Key name</param>
+            <param name="connectionString">Connection string</param>
+            <param name="logTraceString">Whether generated SQL should be logged</param>
+            <param name="tag">User-defined tag value</param>
+            <remarks>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.DbKey.#ctor(IdeaBlade.EntityModel.ClientEdmKey)">
+            <summary>
+            Create an <b>DbKey</b> from a <see cref="T:IdeaBlade.EntityModel.ClientEdmKey"/>.
+            </summary>
+            <param name="clientKey"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.DbKey.Initialize">
+            <summary>
+            Initializes a DbContext and appropriate metadata.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.DbKey.CreateContext">
+            <summary>
+            Create an <see cref="T:System.Data.Objects.ObjectContext"/> for this key.  Internal use only.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.DbKey.DbConnectionString">
+            <summary>
+            Returns the connection string.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.DbKey.DbProviderName">
+            <summary>
+            Returns the ProviderName from the connectionString element in the configuration, or an empty string if not found.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.EntityMetadataBuilder">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EntityMetadataBuilder.BuildEntityModelMetadata(System.Data.Metadata.Edm.MetadataWorkspace)">
+            <summary>
+            
+            </summary>
+            <param name="metadataWs"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EntityMetadataBuilder.#ctor(System.Data.Metadata.Edm.MetadataWorkspace)">
+            <summary>
+            
+            </summary>
+            <param name="metadataWs"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EntityMetadataBuilder.EntityModelMetadata">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.IEdmSaveExecutor">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.IEdmSaveExecutor.Save(IdeaBlade.EntityModel.DataSourceResolver,IdeaBlade.EntityModel.IDataSourceKey,IdeaBlade.EntityModel.SaveWorkState)">
+            <summary>
+            For internal use only.
+            </summary>
+            <param name="dsResolver"></param>
+            <param name="dsKey"></param>
+            <param name="workState"></param>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.EdmSaveExecutorFake">
+            <summary>
+            For internal use only.
+            </summary>
+            <remarks>
+            Helper class used by the DevForce framework to perform save operations
+            against Entity Framework managed data sources.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmSaveExecutorFake.#ctor">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmSaveExecutorFake.Save(IdeaBlade.EntityModel.DataSourceResolver,IdeaBlade.EntityModel.IDataSourceKey,IdeaBlade.EntityModel.SaveWorkState)">
+            <summary>
+            
+            </summary>
+            <param name="dataSourceResolver"></param>
+            <param name="dsKey"></param>
+            <param name="workState"></param>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.EdmQueryExecutorFake">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmQueryExecutorFake.#ctor">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmQueryExecutorFake.Initialize(IdeaBlade.Core.Composition.CompositionContext)">
+            <summary>
+            
+            </summary>
+            <param name="compositionContext"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmQueryExecutorFake.Execute(IdeaBlade.EntityModel.IEntityQuery,IdeaBlade.EntityModel.IDataSourceKey)">
+            <summary>
+            
+            </summary>
+            <param name="query"></param>
+            <param name="edmKey"></param>
+            <returns></returns>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmQueryExecutorFake.IsApplicable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmQueryExecutorFake.CompositionContext">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.EdmSaveExecutor">
+            <summary>
+            For internal use only.
+            </summary>
+            <remarks>
+            Helper class used by the DevForce framework to perform save operations
+            against Entity Framework managed data sources.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmSaveExecutor.#ctor">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmSaveExecutor.Save(IdeaBlade.EntityModel.DataSourceResolver,IdeaBlade.EntityModel.IDataSourceKey,IdeaBlade.EntityModel.SaveWorkState)">
+            <summary>
+            For internal use only. _workstate is modified.
+            </summary>
+            <param name="dataSourceResolver"></param>
+            <param name="dsKey"></param>
+            <param name="workState"></param>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.EdmMetadataFns">
+            <summary>
+            For internal use.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.IsPrimitiveType(System.Data.Metadata.Edm.EdmProperty)">
+            <summary>
+            
+            </summary>
+            <param name="property"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.IsComplexType(System.Data.Metadata.Edm.EdmProperty)">
+            <summary>
+            
+            </summary>
+            <param name="property"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.IsRefType(System.Data.Metadata.Edm.EdmProperty)">
+            <summary>
+            
+            </summary>
+            <param name="property"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.IsValueType(System.Data.Metadata.Edm.EdmProperty)">
+            <summary>
+            
+            </summary>
+            <param name="property"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.GetStoreGeneratedPattern(System.Data.Metadata.Edm.EdmProperty)">
+            <summary>
+            
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.GetElementType(System.Data.Metadata.Edm.TypeUsage)">
+            <summary>
+            If the passed in TypeUsage represents a collection this method returns final element
+            type of the collection, otherwise it returns the value passed in.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.GetClrType(System.Data.Metadata.Edm.TypeUsage)">
+            <summary>
+            If the passed in TypeUsage has an EdmType that is a PrimitiveType, this method returns
+            the corosponding Type object, otherwise it returns the Type object for Object.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.GetMaxLength(System.Data.Metadata.Edm.EdmProperty)">
+            <summary>
+            
+            </summary>
+            <param name="property"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.GetConcurrencyMode(System.Data.Metadata.Edm.EdmProperty)">
+            <summary>
+            
+            </summary>
+            <param name="property"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.IsNullable(System.Data.Metadata.Edm.EdmProperty)">
+            <summary>
+            True if the EdmProperty TypeUsage is Nullable, False otherwise.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.IsNullable(System.Data.Metadata.Edm.TypeUsage)">
+            <summary>
+            True if the TypeUsage is Nullable, False otherwise.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.IsPartOfKey(System.Data.Metadata.Edm.EdmProperty)">
+            <summary>
+            True if the EdmProperty is a key of its DeclaringType, False otherwise.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.IsCanonicalFunction(System.Data.Metadata.Edm.EdmFunction)">
+            <summary>
+            
+            </summary>
+            <param name="function"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.IsStoreFunction(System.Data.Metadata.Edm.EdmFunction)">
+            <summary>
+            
+            </summary>
+            <param name="function"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.Inverse(System.Data.Metadata.Edm.NavigationProperty)">
+            <summary>
+            Returns the NavigationProperty that is the other end of the same association set if it is
+            available, otherwise it returns null.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.IsSubtypeOf(System.Data.Metadata.Edm.EdmType,System.Data.Metadata.Edm.EdmType)">
+            <summary>
+            requires: firstType is not null
+            effects: if secondType is among the base types of the firstType, return true,
+            otherwise returns false.
+            when firstType is same as the secondType, return false.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.GetSubtypesOf(System.Data.Metadata.Edm.EntityType,System.Data.Metadata.Edm.ItemCollection,System.Boolean)">
+            <summary>
+            Returns the subtype of the EntityType in the current itemCollection
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataFns.TryGetStringMetadataPropertySetting(System.Data.Metadata.Edm.MetadataItem,System.String,System.String@)">
+            <summary>
+            
+            </summary>
+            <param name="item"></param>
+            <param name="propertyName"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.UdtTransformVisitor.VisitConstant(System.Linq.Expressions.ConstantExpression)">
+            <summary>
+            Convert EntityQueryProxy and EntityQuery to server-side ObjectQuery; other constants pass thru.
+            </summary>
+            <param name="ce"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.UdtMethod">
+            <summary>
+            Represents a user-defined method.  Currently this means either a 
+            query or RPC method.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.UdtQueryMethod">
+            <summary>
+            Represents a user-defined query method.
+            These methods are instance methods
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.UdtSaveMethod">
+            <summary>
+            Represents a user-defined save method.
+            These methods are instance methods
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.UdtInsertMethod">
+            <summary>
+            Represents a user-defined insert method.
+            These methods are instance methods
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.UdtUpdateMethod">
+            <summary>
+            Represents a user-defined update method.
+            These methods are instance methods
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.UdtDeleteMethod">
+            <summary>
+            Represents a user-defined delete method.
+            These methods are instance methods
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.RsmMethod">
+            <summary>
+            Represents an RSM (RPC) method - ie, a remote service method called
+            via InvokeServerMethod.
+            These are also loaded into the udt map, but only as used - we don't
+            probe for them.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmTransformVisitor.VisitConstant(System.Linq.Expressions.ConstantExpression)">
+            <summary>
+            Convert EntityFactoryProxy and EntityQuery to server-side ObjectQuery; other constants pass thru.
+            </summary>
+            <param name="ce"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.EdmStructuralInfo">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmStructuralInfo.#ctor(System.Data.Metadata.Edm.StructuralType,IdeaBlade.EntityModel.Edm.EdmKey)">
+            <summary>
+            For internal use only.
+            </summary>
+            <param name="structuralType"></param>
+            <param name="key"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmStructuralInfo.GetClientClrType(System.Data.Metadata.Edm.StructuralType,System.Reflection.Assembly)">
+            <summary>
+            
+            </summary>
+            <param name="structuralType"></param>
+            <param name="clientAssembly"></param>
+            <returns></returns>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmStructuralInfo.DefaultEntitySetName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmStructuralInfo.StructuralType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmStructuralInfo.ClientClrType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmStructuralInfo.ClientMetadata">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmStructuralInfo.ComplexTypeMap">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.ObjectQueryProcessor.ProcessResults(System.Object,System.Type,IdeaBlade.EntityModel.Edm.NavigationSet,IdeaBlade.EntityModel.QueryInfo)">
+            <summary>
+            
+            </summary>
+            <param name="result"></param>
+            <param name="elementType"></param>
+            <param name="navSet"></param>
+            <param name="queryInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.EdmComplexTypeInfo">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmComplexTypeInfo.#ctor(System.Data.Metadata.Edm.ComplexType,IdeaBlade.EntityModel.Edm.EdmKey)">
+            <summary>
+            For internal use only.
+            </summary>
+            <param name="complexType"></param>
+            <param name="key"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmComplexTypeInfo.ToClientClrType(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="clientClrObject"></param>
+            <returns></returns>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmComplexTypeInfo.ComplexType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.NavigationSet">
+            <summary>
+            Internal use only.
+            </summary>
+        </member>
+        <member name="F:IdeaBlade.EntityModel.Edm.NavigationSet.Empty">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.NavigationSet.#ctor">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.NavigationSet.#ctor(System.Type)">
+            <summary>
+            For internal use only.
+            </summary>
+            <param name="rootType"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.NavigationSet.#ctor(System.Collections.Generic.IEnumerable{IdeaBlade.EntityModel.Edm.NavigationPath})">
+            <summary>
+            For internal use only.
+            </summary>
+            <param name="navPaths"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.NavigationSet.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.NavigationSet.Add(IdeaBlade.EntityModel.Edm.NavigationPath)">
+            <summary>
+            
+            </summary>
+            <param name="navPath"></param>
+            <returns></returns>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.NavigationSet.HasError">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.NavigationSet.ErrorMessage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.NavigationSet.RootType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.NavigationSet.IsQueryCacheable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.NavigationSet.NavigationPaths">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.NavigationPath">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.NavigationPath.#ctor(System.Type,System.String)">
+            <summary>
+            For internal use only.
+            </summary>
+            <param name="rootType"></param>
+            <param name="propertyPath"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.NavigationPath.BuildNavigationPath(System.Type,System.Collections.Generic.IEnumerable{System.Reflection.PropertyInfo})">
+            <summary>
+            Takes a 'list' of properties and orders them to create a navigationPath starting at the rootType
+            </summary>
+            <param name="rootType"></param>
+            <param name="properties"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.NavigationPath.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.NavigationPath.ToPropertyPath">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.NavigationPath.IsSubsetOf(IdeaBlade.EntityModel.Edm.NavigationPath)">
+            <summary>
+            
+            </summary>
+            <param name="navPath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.NavigationPath.ContainsRootType">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.NavigationPath.GetItemType(System.Reflection.PropertyInfo)">
+            <summary>
+            
+            </summary>
+            <param name="pinfo"></param>
+            <returns></returns>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.NavigationPath.RootType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.NavigationPath.PropertyGetters">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.NavigationPath.Properties">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.EdmEntityTypeInfo">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmEntityTypeInfo.#ctor(System.Data.Metadata.Edm.EntityType,IdeaBlade.EntityModel.Edm.EdmKey,System.Collections.Generic.IList{System.Data.Metadata.Edm.EntitySetBase})">
+            <summary>
+            For internal use only.
+            </summary>
+            <param name="entityType"></param>
+            <param name="key"></param>
+            <param name="entitySets"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmEntityTypeInfo.SetKeyPropertyValues(System.Data.Objects.DataClasses.EntityObject,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <param name="keyValues"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmEntityTypeInfo.EdmEntityType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmEntityTypeInfo.DerivedTypes">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmEntityTypeInfo.SelfAndBaseEdmTypes">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmEntityTypeInfo.KeyPropertySetFns">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmEntityTypeInfo.ConcurrencyProperties">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmEntityTypeInfo.HasDerivedTypes">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.EdmMetadataHelper">
+            <summary>
+            Singleton providing EDM metadata information.  For internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataHelper.UpdateMapFor(IdeaBlade.EntityModel.Edm.EdmKey)">
+            <summary>
+            For internal use only.
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataHelper.GetEntityInfo(System.Data.Metadata.Edm.StructuralType)">
+            <summary>
+            
+            </summary>
+            <param name="structuralType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataHelper.GetComplexTypeInfo(System.Data.Metadata.Edm.StructuralType)">
+            <summary>
+            
+            </summary>
+            <param name="structuralType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataHelper.GetStructuralInfo(System.Data.Metadata.Edm.StructuralType)">
+            <summary>
+            
+            </summary>
+            <param name="structuralType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataHelper.GetEntityInfoForClientClrType(System.Type,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="clientClrType"></param>
+            <param name="throwIfNotFound"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">Thrown if metadata was not found for the type</exception>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataHelper.GetInverseNavigationProperty(System.Reflection.PropertyInfo)">
+            <summary>
+            
+            </summary>
+            <param name="pinfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Edm.EdmMetadataHelper.GetDerivedTypes(IdeaBlade.EntityModel.Edm.EdmEntityTypeInfo)">
+            <summary>
+            
+            </summary>
+            <param name="eti"></param>
+            <returns></returns>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Edm.EdmMetadataHelper.Instance">
+            <summary>
+            Returns the singleton instance.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.QueryInversionStatus">
+            <summary>
+            Query inversion enumeration.
+            </summary>
+        </member>
+        <member name="F:IdeaBlade.EntityModel.Edm.QueryInversionStatus.DoNotInvert">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:IdeaBlade.EntityModel.Edm.QueryInversionStatus.TryToInvert">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:IdeaBlade.EntityModel.Edm.QueryInversionStatus.MustInvert">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Edm.NavigationPropertyExpressionVisitor">
+            <summary>
+            Expression tree visitor that returns all Entity navigation paths for a given tree.
+            </summary>
+        </member>
+    </members>
+</doc>

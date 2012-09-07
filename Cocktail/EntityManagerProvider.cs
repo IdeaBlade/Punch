@@ -10,16 +10,16 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using Caliburn.Micro;
 using IdeaBlade.Core;
-using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Validation;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
 
 namespace Cocktail
 {
@@ -195,7 +195,7 @@ namespace Cocktail
 
         #endregion
 
-        internal OperationResult ResetFakeBackingStoreAsync()
+        internal Task ResetFakeBackingStoreAsync()
         {
             EnsureSampleData();
             return FakeBackingStore.Get(CompositionContext.Name).ResetAsync(_storeEcs);
@@ -246,16 +246,17 @@ namespace Cocktail
                                                  connectionOptions.IsFake));
                 return manager;
             }
-            catch (MissingMethodException)
+            catch (Exception inner)
             {
-                throw new MissingMethodException(string.Format(StringResources.MissingEntityManagerConstructor,
-                                                               typeof(T).Name));
+                throw new InvalidOperationException(string.Format(StringResources.MissingEntityManagerConstructor,
+                                                               typeof(T).Name), inner);
             }
         }
 
         private T CreateEntityManagerCore()
         {
-            if (Composition.IsRecomposing)
+            var compositionProvider = Composition.Provider as ISupportsRecomposition;
+            if (compositionProvider != null && compositionProvider.IsRecomposing)
                 throw new InvalidOperationException(StringResources.CreatingEntityManagerDuringRecompositionNotAllowed);
 
             Composition.BuildUp(this);
@@ -320,7 +321,7 @@ namespace Cocktail
                 if (_configuration.SyncInterceptor == null)
                 {
                     var syncInterceptorLocator =
-                        new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.NonShared, () => CompositionContext)
+                        new PartLocator<IEntityManagerSyncInterceptor>(true, () => CompositionContext)
                             .WithDefaultGenerator(() => new DefaultEntityManagerSyncInterceptor());
                     _configuration.WithSyncInterceptor(syncInterceptorLocator.GetPart());
                 }
@@ -337,7 +338,7 @@ namespace Cocktail
         private void OnQuerying(object sender, EntityQueryingEventArgs args)
         {
             // In design mode all queries must be forced to execute against the cache.
-            if (Execute.InDesignMode)
+            if (DesignTime.InDesignMode())
                 args.Query = args.Query.With(QueryStrategy.CacheOnly);
         }
 

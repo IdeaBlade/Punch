@@ -11,41 +11,27 @@
 // ====================================================================================================================
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 using Caliburn.Micro;
 using Cocktail;
 using Common;
-using Common.Errors;
-using Common.Factories;
 using Common.Messages;
 using Common.Toolbar;
-using Common.Workspace;
 using DomainServices;
 using IdeaBlade.EntityModel;
-using Action = System.Action;
 
 namespace TempHire.ViewModels.StaffingResource
 {
-    public class ResourceMgtWorkspace : LazyWorkspace<ResourceMgtViewModel>
-    {
-        public ResourceMgtWorkspace()
-            : base("Resource Management", false, 10)
-        {
-        }
-    }
-
     [Export]
     public class ResourceMgtViewModel : Conductor<IScreen>, IDiscoverableViewModel,
                                         IHandle<EntityChangedMessage>
     {
-        private readonly IPartFactory<StaffingResourceDetailViewModel> _detailFactory;
         private readonly IDialogManager _dialogManager;
-        private readonly IErrorHandler _errorHandler;
-        private readonly IPartFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
-        private readonly NavigationService<StaffingResourceDetailViewModel> _navigationService;
+        private readonly ExportFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
+        private readonly INavigator _navigator;
         private readonly DispatcherTimer _selectionChangeTimer;
         private readonly IToolbarManager _toolbar;
         private IScreen _retainedActiveItem;
@@ -53,22 +39,18 @@ namespace TempHire.ViewModels.StaffingResource
 
         [ImportingConstructor]
         public ResourceMgtViewModel(StaffingResourceSearchViewModel searchPane,
-                                    IPartFactory<StaffingResourceDetailViewModel> detailFactory,
-                                    IPartFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
-                                    IErrorHandler errorHandler, IDialogManager dialogManager,
-                                    IToolbarManager toolbar)
+                                    ExportFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
+                                    IDialogManager dialogManager, IToolbarManager toolbar)
         {
             SearchPane = searchPane;
-            _detailFactory = detailFactory;
             _nameEditorFactory = nameEditorFactory;
-            _errorHandler = errorHandler;
             _dialogManager = dialogManager;
             _toolbar = toolbar;
-            _navigationService = new NavigationService<StaffingResourceDetailViewModel>(this);
+            _navigator = new Navigator(this);
 
             PropertyChanged += OnPropertyChanged;
 
-            _selectionChangeTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 200) };
+            _selectionChangeTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 200)};
             _selectionChangeTimer.Tick += OnSelectionChangeElapsed;
         }
 
@@ -141,40 +123,49 @@ namespace TempHire.ViewModels.StaffingResource
             return this;
         }
 
-        public IEnumerable<IResult> Add()
+        public async void Add()
         {
-            var nameEditor = _nameEditorFactory.CreatePart();
-            yield return _dialogManager.ShowDialogAsync(nameEditor, DialogButtons.OkCancel);
+            try
+            {
+                var nameEditor = _nameEditorFactory.CreateExport().Value;
+                await _dialogManager.ShowDialogAsync(nameEditor, DialogButtons.OkCancel);
 
-            SearchPane.CurrentStaffingResource = null;
+                SearchPane.CurrentStaffingResource = null;
 
-            _navigationService.NavigateToAsync(
-                () => ActiveDetail ?? _detailFactory.CreatePart(),
-                target => target.Start(nameEditor.FirstName, nameEditor.MiddleName, nameEditor.LastName))
-                .ContinueWith(navigation => { if (navigation.Cancelled) UpdateCommands(); });
+                await _navigator.NavigateToAsync<StaffingResourceDetailViewModel>(
+                    target => target.Start(nameEditor.FirstName, nameEditor.MiddleName, nameEditor.LastName));
+            }
+            catch (TaskCanceledException)
+            {
+                UpdateCommands();
+            }
         }
 
-        public IEnumerable<IResult> Delete()
+        public async void Delete()
         {
-            yield return _dialogManager.ShowMessageAsync(
+            await _dialogManager.ShowMessageAsync(
                 string.Format("Are you sure you want to delete {0}?", ActiveStaffingResource.FullName),
                 DialogResult.Yes, DialogResult.No, DialogButtons.YesNo);
 
-            OperationResult operation;
-            using (ActiveDetail.Busy.GetTicket())
+            try
             {
-                ActiveUnitOfWork.StaffingResources.Delete(ActiveStaffingResource);
-                yield return operation = ActiveUnitOfWork.CommitAsync()
-                                             .ContinueWith(
-                                                 op => { if (!op.CompletedSuccessfully) ActiveUnitOfWork.Rollback(); })
-                                             .ContinueOnError();
-            }
+                using (ActiveDetail.Busy.GetTicket())
+                {
+                    ActiveUnitOfWork.StaffingResources.Delete(ActiveStaffingResource);
+                    await ActiveUnitOfWork.CommitAsync();
+                }
 
-            if (operation.CompletedSuccessfully)
                 ActiveItem.TryClose();
-
-            if (operation.HasError)
-                _errorHandler.HandleError(operation.Error);
+            }
+            catch (TaskCanceledException)
+            {
+                ActiveUnitOfWork.Rollback();
+            }
+            catch (Exception)
+            {
+                ActiveUnitOfWork.Rollback();
+                throw;
+            }
         }
 
         public void Edit()
@@ -182,17 +173,12 @@ namespace TempHire.ViewModels.StaffingResource
             ActiveDetail.Start(ActiveStaffingResource.Id, EditMode.Edit);
         }
 
-        public IEnumerable<IResult> Save()
+        public async void Save()
         {
-            OperationResult<SaveResult> saveOperation;
             using (ActiveDetail.Busy.GetTicket())
-                yield return saveOperation = ActiveUnitOfWork.CommitAsync().ContinueOnError();
+                await ActiveUnitOfWork.CommitAsync();
 
-            if (saveOperation.CompletedSuccessfully)
-                ActiveDetail.Start(ActiveStaffingResource.Id, EditMode.View);
-
-            if (saveOperation.HasError)
-                _errorHandler.HandleError(saveOperation.Error);
+            ActiveDetail.Start(ActiveStaffingResource.Id, EditMode.View);
         }
 
         public void Cancel()
@@ -206,9 +192,9 @@ namespace TempHire.ViewModels.StaffingResource
                 ActiveDetail.Start(ActiveStaffingResource.Id, EditMode.View);
         }
 
-        public IEnumerable<IResult> RefreshData()
+        public void RefreshData()
         {
-            return ActiveDetail.RefreshData();
+            ActiveDetail.RefreshData();
         }
 
         protected override void OnActivate()
@@ -217,18 +203,18 @@ namespace TempHire.ViewModels.StaffingResource
 
             Start();
             SearchPane.PropertyChanged += OnSearchPanePropertyChanged;
-            ((IActivate)SearchPane).Activate();
+            ((IActivate) SearchPane).Activate();
 
             if (_toolbarGroup == null)
             {
                 _toolbarGroup = new ToolbarGroup(10)
                                     {
-                                        new ToolbarAction(this, "Add", (Func<IEnumerable<IResult>>) Add),
-                                        new ToolbarAction(this, "Delete", (Func<IEnumerable<IResult>>) Delete),
-                                        new ToolbarAction(this, "Edit", (Action) Edit),
-                                        new ToolbarAction(this, "Save", (Func<IEnumerable<IResult>>) Save),
-                                        new ToolbarAction(this, "Cancel", (Action) Cancel),
-                                        new ToolbarAction(this, "Refresh", (Func<IEnumerable<IResult>>) RefreshData)
+                                        new ToolbarAction(this, "Add", Add),
+                                        new ToolbarAction(this, "Delete", Delete),
+                                        new ToolbarAction(this, "Edit", Edit),
+                                        new ToolbarAction(this, "Save", Save),
+                                        new ToolbarAction(this, "Cancel", Cancel),
+                                        new ToolbarAction(this, "Refresh", RefreshData)
                                     };
             }
             _toolbar.AddGroup(_toolbarGroup);
@@ -238,19 +224,29 @@ namespace TempHire.ViewModels.StaffingResource
         {
             base.OnDeactivate(close);
             SearchPane.PropertyChanged -= OnSearchPanePropertyChanged;
-            ((IDeactivate)SearchPane).Deactivate(close);
+            ((IDeactivate) SearchPane).Deactivate(close);
 
             _toolbar.RemoveGroup(_toolbarGroup);
         }
 
-        private void OnSelectionChangeElapsed(object sender, EventArgs e)
+        private async void OnSelectionChangeElapsed(object sender, EventArgs e)
         {
             _selectionChangeTimer.Stop();
             if (SearchPane.CurrentStaffingResource == null) return;
 
-            _navigationService.NavigateToAsync(() => ActiveDetail ?? _detailFactory.CreatePart(),
-                                               target => target.Start(SearchPane.CurrentStaffingResource.Id, EditMode.View))
-                .ContinueWith(navigation => { if (navigation.Cancelled) UpdateCommands(); });
+            try
+            {
+                if (ActiveStaffingResource != null && ActiveStaffingResource.Id == SearchPane.CurrentStaffingResource.Id)
+                    return;
+
+                await _navigator.NavigateToAsync<StaffingResourceDetailViewModel>(
+                    target => target.Start(SearchPane.CurrentStaffingResource.Id, EditMode.View));
+            }
+            catch (TaskCanceledException)
+            {
+                SearchPane.CurrentStaffingResource = null;
+                UpdateCommands();
+            }
         }
 
         private void OnSearchPanePropertyChanged(object sender, PropertyChangedEventArgs e)

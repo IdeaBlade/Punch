@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>IdeaBlade.Cocktail.Compat</id>
+    <version>2.0.0-beta1</version>
+    <title>Cocktail 2012 Compatibility Pack</title>
+    <authors>IdeaBlade</authors>
+    <owners>IdeaBlade</owners>
+    <licenseUrl>http://cocktail.ideablade.com/licensing</licenseUrl>
+    <projectUrl>http://cocktail.ideablade.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <summary>Optional limited Cocktail v1.0 backwards compatibility support.</summary>
+    <iconUrl>http://www.ideablade.com/images/icons/cocktail-icon-32.png</iconUrl>
+    <description>Cocktail is a blend of three popular frameworks: Caliburn.Micro + DevForce + Entity Framework.
+
+Line of business applications need to query and save database data, model the data as objects with business logic, and present those objects to the end user. Cocktail takes care of these fundamental responsibilities with loosely coupled, open source, and industry-leading components that are designed for change.
+    </description>
+    <releaseNotes>http://drc.ideablade.com/xwiki/bin/view/Documentation/cocktail-200-release-notes</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>Silverlight WPF SL5 SL Coroutine Asynchronous Caliburn.Micro DevForce Cocktail</tags>
+    <dependencies>
+      <dependency id="IdeaBlade.DevForce.Compat" version="[7.0.0-beta1]" />
+      <dependency id="IdeaBlade.Cocktail" version="[2.0.0-beta1]" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\Cocktail.Compat\Bin\Release\Cocktail.Compat.*" target="lib\net45" />
+
+    <file src="..\Cocktail.Compat\Bin.SL\Release\Cocktail.Compat.SL.*" target="lib\sl50" />
+
+    <file src="..\Cocktail.Compat\**\*.cs" target="src\Cocktail.Compat" />
+    <file src="..\Cocktail.Compat\**\*.xaml" target="src\Cocktail.Compat" />
+  </files>
+</package>

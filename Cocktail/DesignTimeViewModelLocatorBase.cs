@@ -59,25 +59,6 @@ namespace Cocktail
     public abstract class DesignTimeViewModelLocatorBase<T>
         where T : EntityManager
     {
-        // ReSharper disable StaticFieldInGenericType
-        private static readonly Func<bool> IsInDesignModeDefault = () => Execute.InDesignMode;
-        // ReSharper restore StaticFieldInGenericType
-
-        /// <summary>
-        /// Function to determine if in DesignMode. Can be replaced for testing.
-        /// </summary>
-        // ReSharper disable StaticFieldInGenericType
-        public static Func<bool> IsInDesignMode = IsInDesignModeDefault;
-        // ReSharper restore StaticFieldInGenericType
-
-        /// <summary>
-        /// Restore <see cref="IsInDesignMode"/> to default method. For testing.
-        /// </summary>
-        public static void ResetIsInDesignModeToDefault()
-        {
-            IsInDesignMode = IsInDesignModeDefault;
-        }
-
         /// <summary>
         /// Creates an instance of the concrete DesignTimeEntityManagerProvider
         /// </summary>

@@ -10,9 +10,9 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using Cocktail;
 using DomainModel;
 using DomainServices.Repositories;
@@ -20,7 +20,7 @@ using IdeaBlade.EntityModel;
 
 namespace TempHire
 {
-    [Export(typeof(IGlobalCache)), PartCreationPolicy(CreationPolicy.Shared)]
+    [Export(typeof (IGlobalCache)), PartCreationPolicy(CreationPolicy.Shared)]
     public class GlobalCache : IGlobalCache
     {
         private readonly IEntityManagerProvider<TempHireEntities> _entityManagerProvider;
@@ -33,11 +33,20 @@ namespace TempHire
             _entityManagerProvider = entityManagerProvider;
         }
 
+        private TempHireEntities EntityManager
+        {
+            get { return _entityManagerProvider.Manager; }
+        }
+
         #region IGlobalCache Members
 
-        public OperationResult LoadAsync(Action onSuccess = null, Action<Exception> onFail = null)
+        public Task LoadAsync()
         {
-            return Coroutine.StartParallel(InitializeCore, op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
+            return TaskFns.WhenAll(
+                EntityManager.PhoneNumberTypes.ExecuteAsync(),
+                EntityManager.AddressTypes.ExecuteAsync(),
+                EntityManager.RateTypes.ExecuteAsync(),
+                EntityManager.States.ExecuteAsync());
         }
 
         public IEnumerable<T> Get<T>() where T : class
@@ -46,19 +55,5 @@ namespace TempHire
         }
 
         #endregion
-
-        private TempHireEntities EntityManager
-        {
-            get { return _entityManagerProvider.Manager; }
-        }
-
-        private IEnumerable<INotifyCompleted> InitializeCore()
-        {
-            // Cache all lookup tables
-            yield return EntityManager.PhoneNumberTypes.ExecuteAsync();
-            yield return EntityManager.AddressTypes.ExecuteAsync();
-            yield return EntityManager.RateTypes.ExecuteAsync();
-            yield return EntityManager.States.ExecuteAsync();
-        }
     }
 }

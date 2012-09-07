@@ -11,13 +11,20 @@
 //====================================================================================================================
 
 using System;
-using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using Cocktail.Tests.Helpers;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
-using Microsoft.Silverlight.Testing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Test.Model;
+using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
+
+#if !NETFX_CORE
+using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#else
+using System.Composition;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#endif
 
 namespace Cocktail.Tests
 {
@@ -25,7 +32,6 @@ namespace Cocktail.Tests
     public class CompositionUnitTests : CocktailTestBase
     {
         [TestMethod]
-        [Tag("Composition")]
         public void ShouldDiscoverInjectedAuthenticationService()
         {
             var injectedService = new AuthenticationService();
@@ -35,8 +41,8 @@ namespace Cocktail.Tests
                 .WithName("ShouldDiscoverInjectedAuthenticationService");
 
             IAuthenticationService auth1 =
-                new PartLocator<IAuthenticationService>(CreationPolicy.Any, () => ctx).GetPart();
-            IAuthenticationService auth2 = new PartLocator<IAuthenticationService>(CreationPolicy.Any).GetPart();
+                new PartLocator<IAuthenticationService>(false, () => ctx).GetPart();
+            IAuthenticationService auth2 = new PartLocator<IAuthenticationService>(false).GetPart();
 
             Assert.IsNotNull(auth1, "AuthenticationServer should not be null");
             Assert.IsNull(auth2, "AuthenticationService should be null");
@@ -44,16 +50,14 @@ namespace Cocktail.Tests
         }
 
         [TestMethod]
-        [Tag("Composition")]
         public void ShouldDiscoverDefault()
         {
             CompositionContext context = CompositionContext.Default
                 .WithGenerator(typeof(IEntityManagerSyncInterceptor), () => new SyncInterceptor())
                 .WithName("ShouldDiscoverDefault");
 
-            var partLocator1 = new PartLocator<IEntityManagerSyncInterceptor>(CreationPolicy.Any, () => context);
-            PartLocator<IEntityManagerSyncInterceptor> partLocator2 = new PartLocator<IEntityManagerSyncInterceptor>(
-                CreationPolicy.Any)
+            var partLocator1 = new PartLocator<IEntityManagerSyncInterceptor>(false, () => context);
+            PartLocator<IEntityManagerSyncInterceptor> partLocator2 = new PartLocator<IEntityManagerSyncInterceptor>(false)
                 .WithDefaultGenerator(() => new DefaultEntityManagerSyncInterceptor());
 
             IEntityManagerSyncInterceptor obj1 = partLocator1.GetPart();
@@ -66,7 +70,6 @@ namespace Cocktail.Tests
         }
 
         [TestMethod]
-        [Tag("Composition")]
         public void ShouldReturnSharedInstance()
         {
             var instance1 = Composition.GetInstance<SharedObject>();
@@ -76,7 +79,6 @@ namespace Cocktail.Tests
         }
 
         [TestMethod]
-        [Tag("Composition")]
         public void ShouldReturnNonSharedInstance()
         {
             var instance1 = Composition.GetInstance<NonSharedObject>();
@@ -86,9 +88,17 @@ namespace Cocktail.Tests
         }
 
         [TestMethod]
-        [Tag("Composition")]
-        [Asynchronous, Timeout(10000)]
-        public void ShouldRaiseQueryEvents()
+        public void ShouldUseFactory()
+        {
+            var partLocator = new PartLocator<NonSharedObject>(true);
+            var instance = partLocator.GetPart();
+
+            Assert.IsNotNull(instance);
+        }
+
+        [TestMethod]
+        [Timeout(10000)]
+        public async Task ShouldRaiseQueryEvents()
         {
             var interceptor = new TestEntityManagerDelegate();
             CompositionContext contextWithEntityManagerDelegate = CompositionContext.Fake
@@ -99,38 +109,24 @@ namespace Cocktail.Tests
             IEntityManagerProvider<NorthwindIBEntities> emp =
                 EntityManagerProviderFactory.CreateTestEntityManagerProvider("ShouldRaiseQueryEvents");
 
-            DoItAsync(
-                () =>
-                {
-                    Assert.IsTrue(interceptor.QueriedRaised == 0);
-                    Assert.IsTrue(interceptor.QueryingRaised == 0);
-                    Assert.IsTrue(interceptor.FetchingRaised == 0);
+            Assert.IsTrue(interceptor.QueriedRaised == 0);
+            Assert.IsTrue(interceptor.QueryingRaised == 0);
+            Assert.IsTrue(interceptor.FetchingRaised == 0);
 
-                    EntityQuery<Customer> q = emp.Manager.Customers;
-                    var asyncFns = new Func<INotifyCompleted>[]
-                                           {
-                                               emp.InitializeFakeBackingStoreAsync,
-                                               () => q.ExecuteAsync(op =>
-                                                                        {
-                                                                            Assert.IsTrue(interceptor.QueriedRaised > 0);
-                                                                            Assert.IsTrue(interceptor.QueryingRaised > 0);
-                                                                            Assert.IsTrue(interceptor.FetchingRaised > 0);
+            await InitFakeBackingStoreAsync(emp.ConnectionOptions.CompositionContext.Name);
+            await emp.Manager.Customers.ExecuteAsync();
 
-                                                                            Assert.IsTrue(interceptor.QueryingRaised <
-                                                                                          interceptor.FetchingRaised);
-                                                                            Assert.IsTrue(interceptor.FetchingRaised <
-                                                                                          interceptor.QueriedRaised);
-                                                                        })
-                                           };
+            Assert.IsTrue(interceptor.QueriedRaised > 0);
+            Assert.IsTrue(interceptor.QueryingRaised > 0);
+            Assert.IsTrue(interceptor.FetchingRaised > 0);
 
-                    Coroutine.Start(asyncFns, op => TestComplete());
-                });
+            Assert.IsTrue(interceptor.QueryingRaised < interceptor.FetchingRaised);
+            Assert.IsTrue(interceptor.FetchingRaised < interceptor.QueriedRaised);
         }
 
         [TestMethod]
-        [Tag("Composition")]
-        [Asynchronous, Timeout(10000)]
-        public void ShouldRaiseSaveEvents()
+        [Timeout(10000)]
+        public async Task ShouldRaiseSaveEvents()
         {
             var interceptor = new TestEntityManagerDelegate();
             CompositionContext contextWithEntityManagerDelegate = CompositionContext.Fake
@@ -144,47 +140,31 @@ namespace Cocktail.Tests
             int entityChangedRaised = 0;
             emp.EntityChanged += (sender, args) => entityChangedRaised++;
 
-            DoItAsync(
-                () =>
-                {
-                    Assert.IsTrue(interceptor.SavingRaised == 0);
-                    Assert.IsTrue(interceptor.SavedRaised == 0);
-                    Assert.IsTrue(interceptor.EntityChangingRaised == 0);
-                    Assert.IsTrue(interceptor.EntityChangedRaised == 0);
+            Assert.IsTrue(interceptor.SavingRaised == 0);
+            Assert.IsTrue(interceptor.SavedRaised == 0);
+            Assert.IsTrue(interceptor.EntityChangingRaised == 0);
+            Assert.IsTrue(interceptor.EntityChangedRaised == 0);
 
-                    var customer = emp.Manager.CreateEntity<Customer>();
-                    emp.Manager.AddEntity(customer);
-                    customer.CompanyName = "Foo";
+            var customer = emp.Manager.CreateEntity<Customer>();
+            emp.Manager.AddEntity(customer);
+            customer.CompanyName = "Foo";
 
-                    var asyncFns = new Func<INotifyCompleted>[]
-                                           {
-                                               emp.InitializeFakeBackingStoreAsync,
-                                               () => emp.Manager.SaveChangesAsync(
-                                                   op =>
-                                                       {
-                                                           Assert.IsTrue(entityChangedRaised == 3);
-                                                           Assert.IsTrue(interceptor.SavingRaised > 0);
-                                                           Assert.IsTrue(interceptor.SavedRaised > 0);
-                                                           Assert.IsTrue(interceptor.EntityChangingRaised > 0);
-                                                           Assert.IsTrue(interceptor.EntityChangedRaised > 0);
+            await InitFakeBackingStoreAsync(emp.Manager.CompositionContext.Name);
+            await emp.Manager.SaveChangesAsync();
 
-                                                           Assert.IsTrue(interceptor.EntityChangingRaised <
-                                                                         interceptor.EntityChangedRaised);
-                                                           Assert.IsTrue(interceptor.SavingRaised <
-                                                                         interceptor.SavedRaised);
-                                                           Assert.IsTrue(interceptor.SavingRaised <
-                                                                         interceptor.EntityChangingRaised);
-                                                           Assert.IsTrue(interceptor.EntityChangedRaised <
-                                                                         interceptor.SavedRaised);
-                                                       })
-                                           };
+            Assert.IsTrue(entityChangedRaised == 3);
+            Assert.IsTrue(interceptor.SavingRaised > 0);
+            Assert.IsTrue(interceptor.SavedRaised > 0);
+            Assert.IsTrue(interceptor.EntityChangingRaised > 0);
+            Assert.IsTrue(interceptor.EntityChangedRaised > 0);
 
-                    Coroutine.Start(asyncFns, op => TestComplete());
-                });
+            Assert.IsTrue(interceptor.EntityChangingRaised < interceptor.EntityChangedRaised);
+            Assert.IsTrue(interceptor.SavingRaised < interceptor.SavedRaised);
+            Assert.IsTrue(interceptor.SavingRaised < interceptor.EntityChangingRaised);
+            Assert.IsTrue(interceptor.EntityChangedRaised < interceptor.SavedRaised);
         }
 
         [TestMethod]
-        [Tag("Composition")]
         public void ShouldRaiseClearedEvent()
         {
             var interceptor = new TestEntityManagerDelegate();
@@ -204,7 +184,6 @@ namespace Cocktail.Tests
         }
 
         [TestMethod]
-        [Tag("Composition")]
         public void ObjectManagerShouldCreateObject()
         {
             var objectManager = new ObjectManager<Guid, ICustomerRepository>();
@@ -218,7 +197,6 @@ namespace Cocktail.Tests
         }
 
         [TestMethod]
-        [Tag("Composition")]
         public void ObjectManagerShouldReturnNullIfObjectDoesntExist()
         {
             var objectManager = new ObjectManager<Guid, ICustomerRepository>();

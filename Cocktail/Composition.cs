@@ -12,12 +12,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using System.ComponentModel.Composition.Primitives;
-using System.Linq;
-using IdeaBlade.Core.Composition;
-using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
+using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
@@ -26,155 +21,153 @@ namespace Cocktail
     /// </summary>
     public static partial class Composition
     {
-        /// <summary>
-        ///   Returns the current catalog in use.
-        /// </summary>
-        /// <returns> Unless a custom catalog is provided through <see cref="Configure" />, this property returns <see cref="AggregateCatalog" /> </returns>
-        public static ComposablePartCatalog Catalog
+        private static ICompositionProvider _provider;
+
+        static Composition()
         {
-            get { return _catalog ?? AggregateCatalog; }
+            EntityManager.EntityManagerCreated += OnEntityManagerCreated;
+        }
+
+        internal static ICompositionProvider Provider
+        {
+            get
+            {
+                if (_provider == null)
+                    throw new InvalidOperationException(StringResources.CompositionProviderNotConfigured);
+                return _provider;
+            }
+        }
+
+        private static void OnEntityManagerCreated(object sender, EntityManagerCreatedEventArgs args)
+        {
+            if (!args.EntityManager.IsClient)
+                return;
+
+            var locator = new PartLocator<IAuthenticationService>(false, () => args.EntityManager.CompositionContext);
+            if (locator.IsAvailable)
+                args.EntityManager.AuthenticationContext = locator.GetPart().AuthenticationContext;
         }
 
         /// <summary>
-        ///   Returns the AggregateCatalog in use by DevForce.
+        ///   Sets the current <see cref="ICompositionProvider" />.
         /// </summary>
-        public static AggregateCatalog AggregateCatalog
+        public static void SetProvider(ICompositionProvider compositionProvider)
         {
-            get { return CompositionHost.Instance.Catalog; }
+            if (compositionProvider == null)
+                throw new ArgumentNullException(StringResources.CompositionProviderCannotBeNull);
+            _provider = compositionProvider;
+            ProviderChanged(null, EventArgs.Empty);
         }
 
         /// <summary>
-        ///   Returns the CompositionContainer in use.
-        /// </summary>
-        public static CompositionContainer Container
-        {
-            get { return _container ?? (_container = new CompositionContainer(Catalog)); }
-        }
-
-        internal static bool IsRecomposing { get; set; }
-
-        /// <summary>
-        ///   Executes composition on the container, including the changes in the specified <see cref="CompositionBatch" /> .
-        /// </summary>
-        /// <param name="compositionBatch"> Changes to the <see cref="CompositionContainer" /> to include during the composition. </param>
-        public static void Compose(CompositionBatch compositionBatch)
-        {
-            if (compositionBatch == null)
-                throw new ArgumentNullException("compositionBatch");
-
-            Container.Compose(compositionBatch);
-        }
-
-        /// <summary>
-        ///   Resets the CompositionContainer to it's initial state.
-        /// </summary>
-        /// <remarks>
-        ///   After calling <see cref="Clear" /> , <see cref="Configure" /> should be called to configure the new CompositionContainer.
-        /// </remarks>
-        public static void Clear()
-        {
-            if (_container != null)
-                _container.Dispose();
-            _container = null;
-            _catalog = null;
-
-            Cleared(null, EventArgs.Empty);
-        }
-
-        /// <summary>
-        ///   <para>Returns an instance of the custom implementation for the provided type.</para>
+        ///   Returns an instance of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instance. </typeparam>
-        /// <param name="requiredCreationPolicy"> Optionally specify whether the returned instance should be a shared, non-shared or any instance. </param>
-        /// <returns> The requested instance. </returns>
-        public static T GetInstance<T>(CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
+        public static T GetInstance<T>() where T : class
         {
-            var exports = GetExportsCore(typeof(T), null, requiredCreationPolicy).ToList();
-            if (!exports.Any())
-                throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
-                                                  typeof(T).FullName));
-
-            return exports.Select(e => e.Value).Cast<T>().First();
+            return GetLazyInstance<T>().Value;
         }
 
         /// <summary>
-        ///   <para>Returns all instances of the custom implementation for the provided type.</para>
+        ///   Returns an instance of the specified type.
+        /// </summary>
+        /// <typeparam name="T"> Type of the requested instance. </typeparam>
+        /// <returns> Null if instance is not present in the container. </returns>
+        public static T TryGetInstance<T>() where T : class
+        {
+            return Provider.TryGetInstance<T>();
+        }
+
+        /// <summary>
+        ///   Returns all instances of the specified type.
         /// </summary>
         /// <typeparam name="T"> Type of the requested instances. </typeparam>
-        /// <param name="requiredCreationPolicy"> Optionally specify whether the returned instances should be shared, non-shared or any instances. </param>
-        /// <returns> The requested instances. </returns>
-        public static IEnumerable<T> GetInstances<T>(CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
+        public static IEnumerable<T> GetInstances<T>() where T : class
         {
-            var exports = GetExportsCore(typeof(T), null, requiredCreationPolicy);
-            return exports.Select(e => e.Value).Cast<T>();
+            return Provider.GetInstances<T>();
         }
 
         /// <summary>
-        ///   <para>Returns an instance of the custom implementation for the provided type or contract name.</para>
+        ///   Returns an instance of the provided type or with the specified contract name or both.
         /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. </param>
-        /// <param name="key"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
-        /// <param name="requiredCreationPolicy"> Optionally specify whether the returned instance should be a shared, non-shared or any instance. </param>
-        /// <returns> The requested instance. </returns>
-        public static object GetInstance(Type serviceType, string key,
-                                         CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
+        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
+        /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
+        public static object GetInstance(Type serviceType, string contractName)
         {
-            var exports = GetExportsCore(serviceType, key, requiredCreationPolicy).ToList();
-            if (!exports.Any())
-                throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
-                                                  serviceType != null ? serviceType.ToString() : key));
-
-            return exports.First().Value;
+            return GetLazyInstance(serviceType, contractName).Value;
         }
 
         /// <summary>
-        ///   <para>Returns all instances of the custom implementation for the provided type.</para>
+        ///   Returns an instance of the specified type.
         /// </summary>
-        /// <param name="serviceType"> Type of the requested instances. </param>
-        /// <param name="requiredCreationPolicy"> Optionally specify whether the returned instances should be shared, non-shared or any instances. </param>
-        /// <returns> The requested instances. </returns>
-        public static IEnumerable<object> GetInstances(Type serviceType,
-                                                       CreationPolicy requiredCreationPolicy = CreationPolicy.Any)
+        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
+        /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
+        /// <returns> Null if instance is not present in the container. </returns>
+        public static object TryGetInstance(Type serviceType, string contractName)
         {
-            var exports = GetExportsCore(serviceType, null, requiredCreationPolicy);
-            return exports.Select(e => e.Value);
+            return Provider.TryGetInstance(serviceType, contractName);
         }
 
         /// <summary>
-        ///   Fired when the composition container is modified after initialization.
+        ///   Returns all instances of the provided type.
         /// </summary>
-        public static event EventHandler<RecomposedEventArgs> Recomposed
+        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
+        /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
+        public static IEnumerable<object> GetInstances(Type serviceType, string contractName)
         {
-            add { CompositionHost.Recomposed += value; }
-            remove { CompositionHost.Recomposed -= value; }
+            return Provider.GetInstances(serviceType, contractName);
         }
 
         /// <summary>
-        ///   Fired after <see cref="Clear" /> has been called to clear the current CompositionContainer.
+        ///   Returns a lazy instance of the specified type.
         /// </summary>
-        public static event EventHandler<EventArgs> Cleared = delegate { };
-
-        internal static IEnumerable<Export> GetExportsCore(Type serviceType, string key, CreationPolicy policy)
+        /// <typeparam name="T"> Type of the requested instance. </typeparam>
+        public static Lazy<T> GetLazyInstance<T>() where T : class
         {
-            var contractName = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
-            var requiredTypeIdentity = serviceType != null
-                                           ? AttributedModelServices.GetTypeIdentity(serviceType)
-                                           : null;
-            var importDef = new ContractBasedImportDefinition(
-                contractName,
-                requiredTypeIdentity,
-                Enumerable.Empty<KeyValuePair<string, Type>>(),
-                ImportCardinality.ZeroOrMore,
-                false,
-                true,
-                policy);
-
-            return Container.GetExports(importDef);
+            return Provider.GetInstance<T>();
         }
 
-        internal static bool ExportExists<T>()
+        /// <summary>
+        ///   Returns a lazy instance of the provided type or with the specified contract name or both.
+        /// </summary>
+        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
+        /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
+        public static Lazy<object> GetLazyInstance(Type serviceType, string contractName)
         {
-            return Container.GetExports<T>().Any();
+            return Provider.GetInstance(serviceType, contractName);
         }
+
+        /// <summary>
+        ///   Returns a factory that creates new instances of the specified type.
+        /// </summary>
+        /// <typeparam name="T"> Type of instance the factory creates. </typeparam>
+        public static ICompositionFactory<T> GetInstanceFactory<T>() where T : class
+        {
+            return Provider.GetInstanceFactory<T>();
+        }
+
+        /// <summary>
+        ///   Returns a factory that creates new instances of the specified type.
+        /// </summary>
+        /// <typeparam name="T"> Type of instance the factory creates. </typeparam>
+        /// <returns> Null if the container cannot provide a factory for the specified type. </returns>
+        public static ICompositionFactory<T> TryGetInstanceFactory<T>() where T : class
+        {
+            return Provider.TryGetInstanceFactory<T>();
+        }
+
+        /// <summary>
+        ///   Manually performs property dependency injection on the provided instance.
+        /// </summary>
+        /// <param name="instance"> The instance needing property injection. </param>
+        public static void BuildUp(object instance)
+        {
+            Provider.BuildUp(instance);
+        }
+
+        /// <summary>
+        ///   Event triggered after a new CompositionProvider was assigned through <see cref="SetProvider" />.
+        /// </summary>
+        internal static event EventHandler<EventArgs> ProviderChanged = delegate { };
     }
 }

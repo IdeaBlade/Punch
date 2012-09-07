@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>IdeaBlade.DevForce.Compat</id>
+    <title>DevForce 2012 Compatibility Pack</title>
+    <version>7.0.0-beta1</version>
+    <authors>IdeaBlade</authors>
+    <licenseUrl>http://www.ideablade.com/</licenseUrl>
+    <projectUrl>http://www.ideablade.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <summary>Optional limited DevForce 2010 backwards compatiblity support.</summary>
+    <iconUrl>http://www.ideablade.com/images/icons/devforce-icon-32.png</iconUrl>
+    <description>DevForce takes care of your application's infrastructure-the gap between your data-layer and client-layer where the difficult job of turning raw data into business objects and moving them to and from the client's screen takes place. DevForce fills this gap so you don't have to. Instead of building, maintaining, revising, and defending your application's infrastructure; you can focus on what you do best-application development.
+
+DevForce implements end-to-end n-tier architecture by exposing a generic web service on the server that takes a LINQ expression and returns business objects to the client over the internet.
+
+Write LINQ queries on the client and get back business objects with your own custom business logic-just like working with a 2-tier or client-server application.
+
+DevForce handles all the n-tier WCF communications, serialization, and marshaling for you.
+
+Learn more at www.ideablade.com.
+    </description>
+    <releaseNotes>http://drc.ideablade.com/xwiki/bin/view/Documentation/700-release-notes</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>Asynchronous, business objects, code-first, enterprise, entity framework, interception, linq, lob, model, mvvm, odata, persistence, poco, Silverlight, validation,, winforms, winrt, wpf, xaml</tags>
+    <dependencies>
+      <dependency id="IdeaBlade.DevForce.Core" version="[7.0.0-beta1]" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\Desktop Assemblies\IdeaBlade.EntityModel.Compat.dll" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.EntityModel.Compat.xml" target="lib\net45" />
+
+    <file src="..\Silverlight Assemblies\IdeaBlade.EntityModel.Compat.SL.dll" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.EntityModel.Compat.SL.xml" target="lib\sl50" />
+  </files>
+</package>

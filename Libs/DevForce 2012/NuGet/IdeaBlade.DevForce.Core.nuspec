@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>IdeaBlade.DevForce.Core</id>
+    <title>DevForce 2012 Client</title>
+    <version>7.0.0-beta1</version>
+    <authors>IdeaBlade</authors>
+    <licenseUrl>http://www.ideablade.com/</licenseUrl>
+    <projectUrl>http://www.ideablade.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <summary>DevForce is a framework for building and operating data-rich business applications for multiple client technologies.</summary>
+    <iconUrl>http://www.ideablade.com/images/icons/devforce-icon-32.png</iconUrl>
+    <description>DevForce takes care of your application's infrastructure-the gap between your data-layer and client-layer where the difficult job of turning raw data into business objects and moving them to and from the client's screen takes place. DevForce fills this gap so you don't have to. Instead of building, maintaining, revising, and defending your application's infrastructure; you can focus on what you do best-application development.
+
+DevForce implements end-to-end n-tier architecture by exposing a generic web service on the server that takes a LINQ expression and returns business objects to the client over the internet.
+
+Write LINQ queries on the client and get back business objects with your own custom business logic-just like working with a 2-tier or client-server application.
+
+DevForce handles all the n-tier WCF communications, serialization, and marshaling for you.
+
+Learn more at www.ideablade.com.
+    </description>
+    <releaseNotes>http://drc.ideablade.com/xwiki/bin/view/Documentation/700-release-notes</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>Asynchronous, business objects, code-first, enterprise, entity framework, interception, linq, lob, model, mvvm, odata, persistence, poco, Silverlight, validation,, winforms, winrt, wpf, xaml</tags>
+    <dependencies>
+      <group targetFramework="sl50">
+         <dependency id="Microsoft.CompilerServices.AsyncTargetingPack" />
+      </group>
+
+      <group targetFramework="winrt45">
+         <dependency id="Microsoft.Composition" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+	<frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="net45" />
+	<frameworkAssembly assemblyName="System.ComponentModel.Composition" targetFramework="net45" />
+	<frameworkAssembly assemblyName="System.Configuration" targetFramework="net45" />
+	<frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="net45" />
+        
+	<frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="sl50" />
+	<frameworkAssembly assemblyName="System.ComponentModel.Composition" targetFramework="sl50" />
+	<frameworkAssembly assemblyName="System.ComponentModel.Composition.Initialization" targetFramework="sl50" />
+	<frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="sl50" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="..\Desktop Assemblies\IdeaBlade.Core.dll" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.Core.xml" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.EntityModel.dll" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.EntityModel.xml" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.Linq.dll" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.Linq.xml" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.Validation.dll" target="lib\net45" />
+    <file src="..\Desktop Assemblies\IdeaBlade.Validation.xml" target="lib\net45" />
+
+    <file src="..\Silverlight Assemblies\IdeaBlade.Core.SL.dll" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.Core.SL.xml" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.EntityModel.SL.dll" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.EntityModel.SL.xml" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.Linq.SL.dll" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.Linq.SL.xml" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.Validation.SL.dll" target="lib\sl50" />
+    <file src="..\Silverlight Assemblies\IdeaBlade.Validation.SL.xml" target="lib\sl50" />
+
+    <file src="..\WinRTAssemblies\IdeaBlade.Core.WinRT.dll" target="lib\winrt45" />
+    <file src="..\WinRTAssemblies\IdeaBlade.Core.WinRT.xml" target="lib\winrt45" />
+    <file src="..\WinRTAssemblies\IdeaBlade.EntityModel.WinRT.dll" target="lib\winrt45" />
+    <file src="..\WinRTAssemblies\IdeaBlade.EntityModel.WinRT.xml" target="lib\winrt45" />
+    <file src="..\WinRTAssemblies\IdeaBlade.Linq.WinRT.dll" target="lib\winrt45" />
+    <file src="..\WinRTAssemblies\IdeaBlade.Linq.WinRT.xml" target="lib\winrt45" />
+    <file src="..\WinRTAssemblies\IdeaBlade.Validation.WinRT.dll" target="lib\winrt45" />
+    <file src="..\WinRTAssemblies\IdeaBlade.Validation.WinRT.xml" target="lib\winrt45" />
+
+    <file src="scripts\core\init.ps1" target="tools" />
+
+    <file src="..\Tools\IdeaBlade.VisualStudio.OM.Designer.11.0.vsix" target="tools" />
+    <file src="..\Tools\IdeaBlade.VisualStudio.TemplateInstaller.vsix" target="tools" />
+    <file src="..\Tools\setup.exe" target="tools" />
+  </files>
+</package>

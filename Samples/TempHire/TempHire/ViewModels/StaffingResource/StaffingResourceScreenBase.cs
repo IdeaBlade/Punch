@@ -14,7 +14,6 @@ using System;
 using Caliburn.Micro;
 using Cocktail;
 using Common;
-using Common.Errors;
 using DomainServices;
 
 #if HARNESS
@@ -30,16 +29,13 @@ namespace TempHire.ViewModels.StaffingResource
         private Guid _staffingResourceId;
         private IResourceMgtUnitOfWork _unitOfWork;
 
-        protected StaffingResourceScreenBase(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
-                                             IErrorHandler errorHandler)
+        protected StaffingResourceScreenBase(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager)
         {
             UnitOfWorkManager = unitOfWorkManager;
-            ErrorHandler = errorHandler;
             EditMode = EditMode.View;
         }
 
         public IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> UnitOfWorkManager { get; private set; }
-        public IErrorHandler ErrorHandler { get; private set; }
 
         public EditMode EditMode
         {
@@ -91,11 +87,7 @@ namespace TempHire.ViewModels.StaffingResource
 
         public virtual StaffingResourceScreenBase Start(Guid staffingResourceId, EditMode editMode)
         {
-            _unitOfWork = null;
-            _staffingResourceId = staffingResourceId;
-            EditMode = editMode;
-            UnitOfWork.StaffingResources.WithIdAsync(staffingResourceId, result => StaffingResource = result,
-                                                     ErrorHandler.HandleError);
+            LoadDataAsync(staffingResourceId, editMode);
             return this;
         }
 
@@ -108,6 +100,14 @@ namespace TempHire.ViewModels.StaffingResource
                 StaffingResource = null;
                 _unitOfWork = null;
             }
+        }
+
+        private async void LoadDataAsync(Guid staffingResourceId, EditMode editMode)
+        {
+            _unitOfWork = null;
+            _staffingResourceId = staffingResourceId;
+            EditMode = editMode;
+            StaffingResource = await UnitOfWork.StaffingResources.WithIdAsync(staffingResourceId);
         }
     }
 }

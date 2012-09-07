@@ -10,13 +10,12 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Reflection;
 using Caliburn.Micro;
 using IdeaBlade.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Action = System.Action;
 
 namespace Cocktail
@@ -25,7 +24,7 @@ namespace Cocktail
     public static class EventFns
     {
         private static readonly PartLocator<IEventAggregator> EventAggregatorLocator =
-            new PartLocator<IEventAggregator>(CreationPolicy.Shared);
+            new PartLocator<IEventAggregator>();
 
         /// <summary>Returns true if the provided object implements IHandle for the given messageType.</summary>
         /// <param name="handler">The object to be probed.</param>
@@ -33,8 +32,9 @@ namespace Cocktail
         /// <returns>True if the handler handles the given message type.</returns>
         public static bool IsHandler(object handler, Type messageType)
         {
+            
             IEnumerable<Type> interfaces = handler.GetType().GetInterfaces()
-                .Where(i => typeof(IHandle).IsAssignableFrom(i) && i.IsGenericType);
+                .Where(i => typeof(IHandle).IsAssignableFrom(i) && i.IsGenericType());
 
             return interfaces.Any(i => i.GetGenericArguments()[0].IsAssignableFrom(messageType));
         }
@@ -46,10 +46,10 @@ namespace Cocktail
         public static void Forward(object handler, object message)
         {
             IEnumerable<Type> interfaces = handler.GetType().GetInterfaces()
-                .Where(i => typeof(IHandle).IsAssignableFrom(i) && i.IsGenericType);
+                .Where(i => typeof(IHandle).IsAssignableFrom(i) && i.IsGenericType());
 
             IEnumerable<Type> handlers =
-                interfaces.Where(i => i.GetGenericArguments()[0].IsInstanceOfType(message));
+                interfaces.Where(i => i.GetGenericArguments()[0].IsAssignableFrom(message.GetType()));
             handlers.ForEach(
                 @interface =>
                 {

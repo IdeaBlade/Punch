@@ -14,9 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
-using Cocktail;
-using Common.Factories;
 
 namespace TempHire.ViewModels
 {
@@ -70,23 +69,20 @@ namespace TempHire.ViewModels
         }
 
         public ItemSelectorViewModel Start<T>(string label, string displayMemberPath,
-                                              Func<OperationResult<IEnumerable<T>>> items)
+                                              Func<Task<IEnumerable<T>>> loadItemsAsync)
         {
             Label = label;
             DisplayMemberPath = displayMemberPath;
 
-            items().ContinueWith(op =>
-                                     {
-                                         if (op.CompletedSuccessfully)
-                                             Items = new BindableCollection<object>(op.Result.Cast<object>());
-                                     });
+            LoadItemsAsync(loadItemsAsync);
 
             return this;
         }
-    }
 
-    [Export(typeof(IPartFactory<ItemSelectorViewModel>))]
-    public class ItemSelectorViewModelFactory : PartFactoryBase<ItemSelectorViewModel>
-    {
+        private async void LoadItemsAsync<T>(Func<Task<IEnumerable<T>>> loadItemsAsync)
+        {
+            var items = await loadItemsAsync();
+            Items = new BindableCollection<object>(items.Cast<object>());
+        }
     }
 }

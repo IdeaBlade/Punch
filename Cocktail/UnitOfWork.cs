@@ -11,6 +11,7 @@
 // ====================================================================================================================
 
 using System;
+using System.Threading.Tasks;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 
@@ -73,13 +74,14 @@ namespace Cocktail
         /// <summary>
         ///   Commits all pending changes to the underlying data source.
         /// </summary>
-        /// <param name="onSuccess"> Callback to be called if the commit was successful. </param>
-        /// <param name="onFail"> Callback to be called if the commit failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
-        public virtual OperationResult<SaveResult> CommitAsync(Action<SaveResult> onSuccess = null,
-                                                               Action<Exception> onFail = null)
+        public async virtual Task<SaveResult> CommitAsync()
         {
-            return EntityManager.SaveChangesAsync(op => op.OnComplete(onSuccess, onFail)).AsOperationResult();
+            var saveResult = await EntityManager.SaveChangesAsync();
+
+            if (saveResult.WasCancelled)
+                throw new TaskCanceledException();
+
+            return saveResult;
         }
 
         /// <summary>

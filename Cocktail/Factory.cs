@@ -10,11 +10,13 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using System.Threading;
+using IdeaBlade.Core.Reflection;
+using IdeaBlade.EntityModel;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using IdeaBlade.EntityModel;
+using System.Threading.Tasks;
 
 namespace Cocktail
 {
@@ -46,35 +48,28 @@ namespace Cocktail
         #region IFactory<T> Members
 
         /// <summary>
-        ///   Creates a new entity instance of type T.
+        /// Creates a new entity instance of type T.
         /// </summary>
-        /// <param name="onSuccess"> Callback to be called if the entity creation was successful. </param>
-        /// <param name="onFail"> Callback to be called if the entity creation failed. </param>
-        /// <returns> Asynchronous operation result. </returns>
-        public virtual OperationResult<T> CreateAsync(Action<T> onSuccess = null, Action<Exception> onFail = null)
+        /// <returns>The newly created entity attached to the underlying EntityManager.</returns>
+        public Task<T> CreateAsync()
         {
-            try
-            {
-                var methodInfo = FindFactoryMethod(typeof(T));
-                var instance =
-                    (T)(methodInfo != null ? methodInfo.Invoke(null, new object[0]) : Activator.CreateInstance<T>());
-                EntityManager.AddEntity(instance);
+            return CreateAsync(CancellationToken.None);
+        }
 
-                if (onSuccess != null)
-                    onSuccess(instance);
+        /// <summary>
+        /// Creates a new entity instance of type T.
+        /// </summary>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        /// <returns>The newly created entity attached to the underlying EntityManager.</returns>
+        public async virtual Task<T> CreateAsync(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
 
-                return OperationResult.FromResult(instance);
-            }
-            catch (Exception e)
-            {
-                if (onFail != null)
-                {
-                    onFail(e);
-                    return OperationResult.FromError<T>(e).ContinueOnError();
-                }
+            var methodInfo = FindFactoryMethod(typeof(T));
+            var instance = methodInfo != null ? methodInfo.Invoke(null, new object[0]) : Activator.CreateInstance<T>();
+            EntityManager.AddEntity(instance);
 
-                return OperationResult.FromError<T>(e);
-            }
+            return await TaskFns.FromResult((T) instance);
         }
 
         #endregion

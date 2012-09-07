@@ -12,10 +12,11 @@
 
 using System;
 using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using IdeaBlade.EntityModel.Security;
-using Action = System.Action;
 
 namespace Cocktail
 {
@@ -57,16 +58,20 @@ namespace Cocktail
         ConnectionOptions ConnectionOptions { get; }
 
         /// <summary>Login with the supplied credential.</summary>
-        /// <param name="credential">
-        /// 	<para>The supplied credential.</para>
-        /// </param>
-        /// <param name="onSuccess">Callback called when login was successful.</param>
-        /// <param name="onFail">Callback called when an error occurred during login.</param>
-        OperationResult LoginAsync(ILoginCredential credential, Action onSuccess = null, Action<Exception> onFail = null);
+        /// <param name="credential">The supplied credential.</param>
+        Task LoginAsync(ILoginCredential credential);
+
+        /// <summary>Login with the supplied credential.</summary>
+        /// <param name="credential">The supplied credential.</param>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        Task LoginAsync(ILoginCredential credential, CancellationToken cancellationToken);
 
         /// <summary>Logs out the current user.</summary>
-        /// <param name="callback">Callback called when logout completes.</param>
-        OperationResult LogoutAsync(Action callback = null);
+        Task LogoutAsync();
+
+        /// <summary>Logs out the current user.</summary>
+        /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
+        Task LogoutAsync(CancellationToken cancellationToken);
 
         /// <summary>Signals that a user successfully logged in.</summary>
         event EventHandler<EventArgs> LoggedIn;

@@ -1,0 +1,34 @@
+<Page x:Class="Todo.Views.MainPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+      xmlns:cal="using:Caliburn.Micro">
+
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock HorizontalAlignment="Left" Margin="120,40,0,0" TextWrapping="Wrap" Text="Cocktail Todos"
+                   VerticalAlignment="Top" FontSize="72" FontWeight="Bold" IsTapEnabled="False" IsRightTapEnabled="False"
+                   IsHoldingEnabled="False" IsDoubleTapEnabled="False" />
+        <TextBox x:Name="Description" HorizontalAlignment="Left" Margin="120,166,0,0" TextWrapping="Wrap"
+                 VerticalAlignment="Top" Width="600" FontSize="22" Height="40" />
+        <ListView x:Name="Todos" HorizontalAlignment="Left" Height="400" Margin="120,310,0,0" VerticalAlignment="Top"
+                  Width="682" SelectionMode="Multiple"
+                  cal:Message.Attach="[Event SelectionChanged] = [Action SelectionChanged($eventArgs)]">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding Completed}" IsEnabled="False" Margin="10,10,10,10" />
+                        <TextBlock Text="{Binding Description}" FontSize="22" Margin="10,10,0,10" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button x:Name="Add" Content="Add" HorizontalAlignment="Left" Margin="740,168,0,0" VerticalAlignment="Top" />
+        <Button x:Name="Complete" Content="Mark as complete" HorizontalAlignment="Left" Margin="120,220,0,0"
+                VerticalAlignment="Top" />
+        <Button x:Name="Delete" Content="Delete selected items" HorizontalAlignment="Left" Margin="290,220,0,0"
+                VerticalAlignment="Top" />
+        <Button x:Name="Archive" Content="Archive completed items" HorizontalAlignment="Left" Margin="490,220,0,0"
+                VerticalAlignment="Top" />
+        <CheckBox x:Name="ShowArchived" Content="Show archived" HorizontalAlignment="Left" Margin="120,270,0,0"
+                  VerticalAlignment="Top" Width="160" />
+    </Grid>
+</Page>

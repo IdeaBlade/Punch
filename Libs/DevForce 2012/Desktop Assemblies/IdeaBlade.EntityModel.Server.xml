@@ -1,0 +1,1151 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IdeaBlade.EntityModel.Server</name>
+    </assembly>
+    <members>
+        <member name="T:IdeaBlade.EntityModel.Server.CredentialEncryptor">
+            <summary>
+            Provides encryption/decryption services of LoginCredential.  Used by SessionManager.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.CredentialEncryptor.Encrypt(IdeaBlade.EntityModel.ILoginCredential,System.String)">
+            <summary>
+            Encrypts a LoginCredential.  For internal use only.
+            </summary>
+            <param name="credential"></param>
+            <param name="encryptionKey"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.CredentialEncryptor.Decrypt(System.String,System.String)">
+            <summary>
+            Decrypts a LoginCredential.  For internal use only.
+            </summary>
+            <param name="encryptedCredential"></param>
+            <param name="encryptionKey"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntityQueryExecutorProvider">
+            <summary>
+            Internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityQueryExecutorProvider.#ctor(IdeaBlade.Core.Composition.CompositionContext)">
+            <summary>
+            Internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityQueryExecutorProvider.AddExecutor(IdeaBlade.EntityModel.IEntityQueryExecutor)">
+            <summary>
+            
+            </summary>
+            <param name="executor"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityQueryExecutorProvider.GetExecutor(IdeaBlade.EntityModel.IEntityQuery)">
+            <summary>
+            
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntityServerErrorInterceptor">
+            <summary>
+            Provides server-side interception of exceptions.
+            </summary>
+            <remarks>
+            You can intercept errors which have been thrown on the server before they are sent
+            to the calling application. Use the <see cref="M:IdeaBlade.EntityModel.Server.EntityServerErrorInterceptor.OnError(IdeaBlade.EntityModel.Server.ErrorInterceptorArgs)"/> method to provide your
+            own processing of the exception, such as logging.  You may also replace the exception
+            with one more appropriate to the user or deployment.  For example, you may not want
+            guest users in a production deployment to see detailed error messages.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerErrorInterceptor.#ctor">
+            <summary>
+            Create an instance of this class.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerErrorInterceptor.OnError(IdeaBlade.EntityModel.Server.ErrorInterceptorArgs)">
+            <summary>
+            Called when an exception has been thrown on the server.
+            </summary>
+            <param name="args"></param>
+            <remarks>
+            Override this method to provide custom processing.  Use the information
+            in the <see cref="T:IdeaBlade.EntityModel.Server.ErrorInterceptorArgs"/> to identify the exception, and
+            the <see cref="P:IdeaBlade.EntityModel.Server.EntityServerErrorInterceptor.Principal"/> to identify the current user.
+            <para>
+            The default implementation logs the exception to the DevForce debug log.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerErrorInterceptor.Principal">
+            <summary>
+            Returns the current thread principal.  
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.ErrorInterceptorArgs">
+            <summary>
+            Arguments to the <see cref="M:IdeaBlade.EntityModel.Server.EntityServerErrorInterceptor.OnError(IdeaBlade.EntityModel.Server.ErrorInterceptorArgs)"/> method.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.ErrorInterceptorArgs.#ctor(System.Exception)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.ErrorInterceptorArgs.Exception">
+            <summary>
+            Gets or sets the exception which will be processed and returned to the client.
+            </summary>
+            <remarks>
+            The exception set here will be returned to the client.  You may replace the exception
+            originally thrown with another exception, for example to hide exception details. 
+            <para>
+            Use the <see cref="T:Exception.StackTrace"/> and <see cref="T:Exception.InnerException"/>
+            as well as the exception type to help identify the exception and where it came from.
+            Most exceptions will be some type of <see cref="T:IdeaBlade.EntityModel.EntityServerException"/> and will include the
+            <see cref="P:IdeaBlade.EntityModel.EntityServerException.FailureType"/> and <see cref="P:IdeaBlade.EntityModel.EntityServerException.OperationType"/>
+            to help identify the error.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.IEntityServer">
+            <summary>
+            For internal use only.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.IEntityServerContract">
+            <summary>
+            Service contract for the EntityServer WCF service.  Internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.IEntityServerContract.LoginSession(System.Guid)">
+            <summary>
+            Login with an existing session key.
+            </summary>
+            <param name="sessionKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.IEntityServerContract.Logout(IdeaBlade.EntityModel.SessionBundle)">
+            <summary>
+            Used to log off a given client session.
+            </summary>
+            <param name="sessionBundle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.IEntityServerContract.Fetch(IdeaBlade.EntityModel.SessionBundle,IdeaBlade.EntityModel.IEntityQuerySurrogate)">
+            <summary>
+            Executes the EntityQuery and returns the results.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.IEntityServerContract.SaveChanges(IdeaBlade.EntityModel.SaveWorkState)">
+            <summary>
+            Saves any changes to a DataSet back to the data source, with the save options specified.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.IEntityServerContract.GetRealIdMap(IdeaBlade.EntityModel.IdFixupWorkState)">
+            <summary>
+            Returns a mapping of temporary to real IDs.
+            </summary>
+            <remarks>
+            This is called before data is saved to the data source.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.IEntityServerContract.InvokeServerMethod(IdeaBlade.EntityModel.SessionBundle,IdeaBlade.EntityModel.InvokeServerMethodWorkState)">
+            <summary>
+            Invokes a static method for execution on the server.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.IEntityServiceContract">
+            <summary>
+            Service contract for the Entity Service. For internal use only.
+            </summary>
+            <remarks>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.IEntityServiceContract.GetEntityServerName(System.String,System.String)">
+            <summary>
+            Return the service name of an instance of an EntityServer service.
+            </summary>
+            <param name="dataSourceExtension"></param>
+            <param name="compositionContextName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.IEntityServiceContract.Ping">
+            <summary>
+            Determines whether the EntityService is responding.
+            </summary>
+            <returns>true if awake; otherwise raises exception</returns>
+            <remarks>
+            If the Ping fails an exception is thrown.
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor">
+            <summary>
+            Provides server-side interception of query processing.
+            </summary>
+            <remarks>
+            You may intercept and customize query processing at several points during the query lifecycle.
+            The query is first authorized before any further actions are taken:  see <see cref="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.DefaultAuthorization"/>,
+            <see cref="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.AuthorizeQuery"/> and <see cref="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.ClientCanQuery(System.Type)"/> for information.  Next the query can be filtered to modify the query
+            to be executed:  see <see cref="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.FilterQuery"/> and <see cref="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.QueryFilters"/> for more information.
+            Next the query is executed:  see <see cref="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.ExecuteQuery"/>.  Finally the query results can be
+            authorized:  see <see cref="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.ShouldAuthorizeQueryResult"/> and <see cref="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.AuthorizeQueryResult"/>.
+            Query processing can be cancelled at any point in the lifecycle.
+            <para>
+            At all times during the lifecycle you have access to the <see cref="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.Query"/> and the <see cref="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.Principal"/> for the
+            user issuing the query.  
+            </para>
+            <para>
+            A new instance of your <b>EntityServerQueryInterceptor</b> is created for each query request.  
+            </para>
+            </remarks>
+            <example>
+        <code lang="C#">
+          <![CDATA[
+
+// Server-side implementation of EntityServerQueryInterceptor
+public class EntityServerQueryManager : EntityServerQueryInterceptor {
+
+  // Always require explicit authorization attributes on entities.
+  protected override bool DefaultAuthorization {
+    get { return false; }
+  }
+
+  protected override bool FilterQuery()
+    // Add filters - let's restrict everything to UK.
+    QueryFilters.AddFilter<Customer>(q => q.Where(c => c.Country == "UK"));
+    QueryFilters.AddFilter<Employee>(q => q.Where(e => e.Country == "UK"));
+    return true;
+	}
+
+  // Log errors to any listening loggers.
+  protected override void OnError(Exception e, PersistenceFailure failureType) {
+    TraceFns.WriteLine("Query error: " + e.Message);  
+  }
+
+}
+       ]]>
+        </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.AuthorizeQuery">
+            <summary>
+            Override this method to intercept the query to provide custom authorization. 
+            </summary>
+            <returns></returns>
+            <remarks>
+            The default implementation first checks the <see cref="T:IdeaBlade.EntityModel.ClientQueryPermissions"/> for either the named
+            query or the entity, and then calls <see cref="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.ClientCanQuery(System.Type)"/> for all types involved in the
+            query to determine if the user is authorized.  If not authorized an exception is thrown.
+            </remarks>
+            <exception cref="T:IdeaBlade.EntityModel.EntityServerException">Thrown for authorization failure</exception>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.GetClientQueryPermission(IdeaBlade.EntityModel.EntityQuery)">
+            <summary>
+            Returns the permissions granted for this query and for this principal.
+            </summary>
+            <returns></returns>
+            <remarks>
+            Checks for any <see cref="T:IdeaBlade.EntityModel.ClientQueryPermissionsAttribute"/> defined on either the entity or the named query.
+            <para>
+            If the query is a named query then any attributes defined on it will be used to authorize the user for the query.
+            </para>
+            <para>
+            If no attributes are defined on the named query, or it's not a named query, then the entity type of the query is used to check the client query permissions. 
+            </para> 
+            <para>
+            If no client query permission attributes are specified then the <see cref="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.DefaultClientQueryPermissions"/> value is used.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.ClientCanQuery(System.Type)">
+            <summary>
+            May be overridden to control which types are allowed to be queried by the user.  
+            </summary>
+            <remarks>
+            The base implementation tests types 
+            for the <see cref="T:IdeaBlade.Core.DomainServices.AuthorizationAttribute">Authorization</see> and <see cref="T:IdeaBlade.EntityModel.ClientCanQueryAttribute">ClientCanQuery</see>
+            attributes.
+            </remarks>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.FilterQuery">
+            <summary>
+            May be overridden to perform any logic before the query is executed.  
+            classes.
+            </summary>
+            <returns></returns>
+            <remarks>
+            Filtering prior to execution can include adding to the <see cref="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.QueryFilters"/> collection or modifying the query directly 
+            using the Query.Filter method or the QueryFilterCollection classes.
+            <para>Returning "false" will cancel query execution.</para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.ExecuteQuery">
+            <summary>
+            May be overridden. Insure that base.ExecuteQuery is called to insure that the underlying query is executed.
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.AuthorizeQueryResult">
+            <summary>
+            Override to perform authorization on the results of the query.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.ForceResult(System.Object,IdeaBlade.EntityModel.Edm.NavigationSet,IdeaBlade.EntityModel.QueryInfo)">
+            <summary>
+            BETA feature - may be called to force the results of the query. The shape of the result being foreced must match that of the 
+            result of the query being executed.  This method can be called either before or after the execution of the query. 
+            </summary>
+            <param name="result"></param>
+            <param name="navSet"></param>
+            <param name="queryInfo"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.OnError(System.Exception,IdeaBlade.EntityModel.PersistenceFailure)">
+            <summary>
+            May be overridden to log errors;
+            </summary>
+            <param name="e"></param>
+            <param name="failureType"></param>
+            <remarks>
+            No logging is performed by the default implementation.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.Query">
+            <summary>
+            The current query. 
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.IsServerQuery">
+            <summary>
+            Returns true if the query was issued on the server.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.DefaultAuthorization">
+            <summary>
+            Override this property to change the default entity-level authorization.
+            </summary>
+            <remarks>
+            The <b>DefaultAuthorization</b> determines whether authorization succeeds if no authorization attributes are found.  By default this is 
+            "true", allowing all entities to be queried unless specific authorization attributes determine otherwise.  You can change the default in your
+            custom interceptor if you wish to by default disable authorization for all queries unless explicitly authorized.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.DefaultClientQueryPermissions">
+            <summary>
+            Override this property to change the default query permissions.
+            </summary>
+            <remarks>
+            By default all query permissions are allowed.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.Principal">
+            <summary>
+            The <see cref="T:System.Security.Principal.IPrincipal"/> from the user session requesting this operation.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.Context">
+            <summary>
+            Gets or sets a custom context object for this operation.
+            </summary>
+            <remarks>
+            Use the <b>Context</b> to track state between calls to this interceptor.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.EntityManager">
+            <summary>
+            Returns an <see cref="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.EntityManager"/>.
+            </summary>
+            <returns></returns>
+            <remarks>
+            Note that this is not the original client-side EntityManager on which the query request was made. It is a
+            server-side EntityManager, and its cache is empty.  
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.QueryFilters">
+            <summary>
+            May be added to in order to restrict how a query is executed.  These filters will be ignored on any queries that are not subclasses of EntityQuery.
+            </summary>
+            <remarks>
+            <b>QueryFilters</b> are applied during query execution and are not dependent on the setting of the <see cref="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.FilterQuery"/> property.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.ShouldAuthorizeQueryResult">
+            <summary>
+            Whether to perform authorization by entity type on the query result. Default is false.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.QueriedEntities">
+            <summary>
+            Returns a list of the entities queried.  This property is only available after the query has executed.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.ResultsForced">
+            <summary>
+            True if <see cref="M:IdeaBlade.EntityModel.Server.EntityServerQueryInterceptor.ForceResult(System.Object,IdeaBlade.EntityModel.Edm.NavigationSet,IdeaBlade.EntityModel.QueryInfo)"/> was called.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor">
+            <summary>
+            Provides server-side interception of save processing.
+            </summary>
+            <remarks>
+            You may intercept and customize save processing at several points during the save lifecycle.
+            The save request is first authorized before any further actions are taken:  see <see cref="P:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.DefaultAuthorization"/>,
+            <see cref="M:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.AuthorizeSave"/> and <see cref="M:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.ClientCanSave(System.Type)"/> for information.  
+            Next validation can be performed on the entities:  see <see cref="M:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.ValidateSave"/>.
+            Finally the save is executed:  see <see cref="M:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.ExecuteSave"/>.  
+            Save processing can be cancelled at any point in the lifecycle.
+            <para>
+            At all times during the lifecycle you have access to the <see cref="P:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.Principal"/> for the
+            user issuing the save.  
+            </para>
+            <para>
+            A new instance of your <b>EntityServerSaveInterceptor</b> is created for each save request.  
+            </para>
+            </remarks>
+            <example>
+        <code lang="C#">
+          <![CDATA[
+          
+// Server-side implementation of EntityServerSaveInterceptor          
+public class EntityServerSaveManager : EntityServerSaveInterceptor  {
+
+  // Always require explicit authorization attributes on entities.
+  protected override bool DefaultAuthorization {
+    get { return false; }
+  }
+
+  // Log errors to any listening loggers.
+  protected override void OnError(Exception e, PersistenceFailure failureType) {
+    TraceFns.WriteLine("Save error: " + e.Message);  
+  }
+
+  // Customized save logic.
+  protected override bool ExecuteSave() {
+
+    // Pre-save logic.
+    var em = EntityManager;
+    var addedEmps = em.FindEntities(EntityState.Added).OfType<Employee>();
+
+    // Mark any added emps with "Added at".
+    addedEmps.ForEach(emp => emp.Notes = "Added at" + DateTime.Now);
+
+    // Execute the save.
+    var ok = base.ExecuteSave();
+
+    // After save logic.  
+    if (ok) {
+      // Log any type of saved to an Employee.
+      var emps = EntityManager.FindEntities(EntityState.Added | EntityState.Deleted | EntityState.Modified).OfType<Employee>();
+      TraceFns.WriteLine("Emps saved: " + emps.Count());
+    }
+
+    return ok;
+  }
+}
+ ]]> </code>
+      </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.AuthorizeSave">
+            <summary>
+            May be overridden to perform any additional Authorization logic. 
+            </summary>
+            <returns></returns>
+            <remarks>
+            The default implementation calls <see cref="M:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.ClientCanSave(System.Type)"/> for all types involved in the
+            request to determine if the user is authorized.  If not authorized an exception is thrown.
+            </remarks>
+            <exception cref="T:IdeaBlade.EntityModel.EntityServerException">Thrown for authorization failure</exception>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.ClientCanSave(System.Type)">
+            <summary>
+            May be overridden to control which types are allowed to be saved by the user.  
+            </summary>
+            <remarks>
+            The base implementation tests types 
+            for the <see cref="T:IdeaBlade.Core.DomainServices.AuthorizationAttribute">Authorization</see> and <see cref="T:IdeaBlade.EntityModel.ClientCanSaveAttribute">ClientCanSave</see>
+            attributes.
+            </remarks>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.ValidateSave">
+            <summary>
+            May be overridden to perform any validation logic before the save is submitted.  
+            </summary>
+            <remarks>
+            The VerifierEngine used for validation is thread-safe and is shared across all Save operations.
+            </remarks>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.ExecuteSave">
+            <summary>
+            May be overridden to perform any logic both immediately before and after a save is executed.  
+            </summary>
+            <remarks>
+            Before save operations can include adding, modifying, deleting or removing entities from the local <see cref="P:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.EntityManager"/>.  
+            You must make sure to call base.ExecuteSave() to insure that the underlying save does occur.
+            </remarks>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.OnError(System.Exception,IdeaBlade.EntityModel.PersistenceFailure)">
+            <summary>
+            May be overridden to log errors;
+            </summary>
+            <param name="e"></param>
+            <param name="failureType"></param>
+            <remarks>
+            No logging is performed by the default implementation.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.DefaultAuthorization">
+            <summary>
+            Override this property to change the default entity-level authorization.
+            </summary>
+            <remarks>
+            The <b>DefaultAuthorization</b> determines whether authorization succeeds if no authorization attributes are found.  By default this is 
+            "true", allowing all entities to be saved unless specific authorization attributes determine otherwise.  You can change the default in your
+            custom interceptor if you wish to by default disable authorization for all saves unless explicitly authorized.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.Principal">
+            <summary>
+            The <see cref="T:System.Security.Principal.IPrincipal"/> from the user session requesting this operation.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.Context">
+            <summary>
+            Gets or sets a custom context object for this operation.
+            </summary>
+            <remarks>
+            Use the <b>Context</b> to track state between calls to this interceptor.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.EntityManager">
+            <summary>
+            Returns an <see cref="P:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.EntityManager"/> holding the entities to be saved.
+            </summary>
+            <returns></returns>
+            <remarks>
+            Note that this is not the original EntityManager on which the <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChanges">SaveChanges</see>
+            call was made.
+            </remarks>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.VerifierEngine">
+            <summary>
+            Returns the VerifierEngine which can be used for server-side validation.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.SaveOptions">
+            <summary>
+            The SaveOptions provided in the SaveChanges call.
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerSaveInterceptor.IsServerSave">
+            <summary>
+            Returns true if the save was issued on the server.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntityServerHost">
+            <summary>
+            Custom <see cref="T:System.ServiceModel.ServiceHost"/> for any EntityServer services.
+            </summary>
+            <remarks>
+            An EntityServer service is started either by IIS (via the EntityServerHostFactory) or
+            by the DevForce ServerConsole or ServerService.  
+            <para>
+            You can sub-type the <b>EntityServerHost</b> to customize the WCF service
+            for the EntityServers, although it is easier to use <see cref="T:IdeaBlade.EntityModel.Server.ServiceHostEvents"/>
+            for extensibility.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerHost.#ctor(System.Object,System.Uri[])">
+            <summary>
+            Creates an instance of this class.
+            </summary>
+            <param name="instance"></param>
+            <param name="baseAddresses"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerHost.CreateDescription(System.Collections.Generic.IDictionary{System.String,System.ServiceModel.Description.ContractDescription}@)">
+            <summary>
+            Called by base constructor.
+            </summary>
+            <param name="implementedContracts"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerHost.ApplyConfiguration">
+            <summary>
+            Also called by the base constructor after the description is created.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerHost.OnEndpointCreated(System.ServiceModel.Description.ServiceEndpoint)">
+            <summary>
+            Calls <see cref="M:IdeaBlade.EntityModel.Server.ServiceHostEvents.OnEndpointCreated(System.ServiceModel.Description.ServiceEndpoint)"/>.
+            </summary>
+            <param name="endpoint"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerHost.OnCreated">
+            <summary>
+            Calls <see cref="M:IdeaBlade.EntityModel.Server.ServiceHostEvents.OnServiceHostCreated(System.ServiceModel.ServiceHost)"/>.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerHost.AddBehaviors">
+            <summary>
+            Add service and endpoint behaviors.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerHost.AddEndpoints">
+            <summary>
+            Add endpoints for the service contracts.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerHost.AddEntityServerEndpoints(System.Uri,System.String)">
+            <summary>
+            Add endpoints for the EntityServer.
+            </summary>
+            <param name="baseAddress"></param>
+            <param name="contractName"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServerHost.DefaultServiceName">
+            <summary>
+            The default service name - "EntityServer".
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntityServiceHost">
+            <summary>
+            Custom <see cref="T:System.ServiceModel.ServiceHost"/> for the EntityService.
+            </summary>
+            <remarks>
+            You can sub-type the <b>EntityServiceHost</b> to customize the WCF service
+            for the EntityService, although it is easier to use <see cref="T:IdeaBlade.EntityModel.Server.ServiceHostEvents"/>
+            for extensibility.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServiceHost.#ctor">
+            <summary>
+            Creates an instance of this class.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServiceHost.#ctor(System.Uri[])">
+            <summary>
+            Creates an instance of this class.
+            </summary>
+            <param name="baseAddresses"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServiceHost.#ctor(System.Type,System.Uri[])">
+            <summary>
+            Creates an instance of this class.
+            </summary>
+            <param name="serviceType"></param>
+            <param name="baseAddresses"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServiceHost.CreateDescription(System.Collections.Generic.IDictionary{System.String,System.ServiceModel.Description.ContractDescription}@)">
+            <summary>
+            Called by base constructor.
+            </summary>
+            <param name="implementedContracts"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServiceHost.ApplyConfiguration">
+            <summary>
+            Also called by the base constructor after the description is created.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServiceHost.OnEndpointCreated(System.ServiceModel.Description.ServiceEndpoint)">
+            <summary>
+            Calls <see cref="M:IdeaBlade.EntityModel.Server.ServiceHostEvents.OnEndpointCreated(System.ServiceModel.Description.ServiceEndpoint)"/>.
+            </summary>
+            <param name="endpoint"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServiceHost.OnCreated">
+            <summary>
+            Calls <see cref="M:IdeaBlade.EntityModel.Server.ServiceHostEvents.OnServiceHostCreated(System.ServiceModel.ServiceHost)"/>.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServiceHost.AddBehaviors">
+            <summary>
+            Add service and endpoint behaviors.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServiceHost.AddEndpoints">
+            <summary>
+            Add endpoints for the service contracts.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServiceHost.AddEntityServiceEndpoints(System.Uri,System.String)">
+            <summary>
+            Add endpoints for the EntityService.
+            </summary>
+            <param name="baseAddress"></param>
+            <param name="contractName"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.EntityServiceHost.ServiceName">
+            <summary>
+            The name of the service.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntityServer">
+            <summary>
+            Internal use only.  DevForce Business Object Server.
+            </summary>
+            <remarks>
+            One instance of this class will reside on the Business Object Server
+            for each unique data source extension key and composition context name, and will communicate with the EntityManager(s) on each client machine.
+            <para>
+            The <b>EntityServer</b> uses Windows Communication Foundation for distributed communications.
+            An EntityServer is configured in the app.config file (web.config in IIS) 
+            using either the <see cref="T:IdeaBlade.Core.IdeaBladeConfig.ObjectServer"/> information
+            defined in the <b>IdeaBlade</b> section, or for more detailed control over the
+            configuration using the the <b>serviceModel</b> section.
+            Each EntityServer service is started by the <see cref="T:IdeaBlade.EntityModel.EntityService"/> as needed.
+            </para>
+            <para>
+            If the service is configured from the <b>IdeaBlade</b> section of the app.config,
+            the transport indicated by the <see cref="P:IdeaBlade.Core.Configuration.IdeaBladeConfig.ObjectServer.RemoteBaseUrl"/> is used, 
+            along with compressed binary encoding using the 
+            <see cref="T:IdeaBlade.Core.Wcf.Extensions.GZipMessageEncodingBindingElement"/>.  Only one service
+            endpoint is created.  If you wish to customize the endpoint, or add additional endpoints, then
+            you will need to use the <b>serviceModel</b> section to configure the service.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServer.#ctor(System.String,System.String)">
+            <summary>
+            Construct an EntityServer for the specified data source extension.  Internal use only.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServer.Login(IdeaBlade.EntityModel.ILoginCredential)">
+            <summary>
+            Validate a user's credentials.
+            </summary>
+            <param name="credential">Login credential</param>
+            <returns>Encrypted session bundle</returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServer.Logout(IdeaBlade.EntityModel.SessionBundle)">
+            <summary>
+            Logs a user off, discarding his session information.
+            </summary>
+            <param name="bundle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServer.GetRealIdMap(IdeaBlade.EntityModel.IdFixupWorkState)">
+            <summary>
+            Build and return a dictionary that maps temporary ids to real ids.
+            </summary>
+            <param name="workState"></param>
+            <returns></returns>
+            <remarks>
+            This will call the <see cref="M:IdeaBlade.EntityModel.IIdGenerator.GetRealIdMap(IdeaBlade.EntityModel.UniqueIdCollection,IdeaBlade.EntityModel.IDataSourceKey)"/> method in your custom
+            <see cref="T:IdeaBlade.EntityModel.IIdGenerator"/> implementation.
+            <para>This is still publicly available to support a ForceIdFixup call.  Note that ForceIdFixup will
+            throw an exception if any store-generated IDs require fixup, since these are only generated during 
+            the actual save processing.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServer.Fetch(IdeaBlade.EntityModel.SessionBundle,IdeaBlade.EntityModel.IEntityQuerySurrogate)">
+            <summary>
+            Return a DataQueryResultCollection that contains the results of a single EntityQuery. 
+            </summary>
+            <param name="sessionBundle"></param>
+            <param name="surrogate"></param>
+            <returns></returns>
+            <remarks>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServer.SaveChanges(IdeaBlade.EntityModel.SaveWorkState)">
+            <summary>
+            Saves the changes stored in the workState into the backend data source.
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServer.InvokeServerMethod(IdeaBlade.EntityModel.SessionBundle,IdeaBlade.EntityModel.InvokeServerMethodWorkState)">
+            <summary>
+            Invokes a static method for execution on the server.
+            </summary>
+            <param name="sessionBundle">Encrypted session bundle identifying the client</param>
+            <param name="workState"></param>
+            <returns>Any serializable object may be returned</returns>
+            <exception cref="T:System.Security.SecurityException">The method must be marked with the <see cref="T:IdeaBlade.EntityModel.AllowRpcAttribute"/></exception>
+            <remarks>
+            Called by the corresponding <see cref="T:IdeaBlade.EntityModel.EntityManager"/> method.
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.ServerLocalAuthenticationContext">
+            <summary>
+            Used by server-side EMs created by DevForce.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.ServiceHostEvents">
+            <summary>
+            Provides a means of customizing a ServiceHost.
+            </summary>
+            <remarks>
+            The WCF services comprising the BOS, the EntityService and all EntityServers, can be customized
+            prior to use by sub-typing this class and overriding the methods provided.  
+            </remarks>
+            <example>
+		   <code lang="C#">
+
+using System;
+using System.ComponentModel.Composition;
+using System.ServiceModel.Channels;
+using System.ServiceModel.Description;
+using IdeaBlade.EntityModel.Server;
+
+  public class MyServiceHostEvents : ServiceHostEvents {
+
+    // Called after an endpoint is created.
+     public override void OnEndpointCreated(ServiceEndpoint endpoint) {
+
+       // Here we'll tweak the binding to add message security. 
+       // Bindings used in DevForce are by default the CustomBinding type.
+      if (endpoint.Binding is CustomBinding) {
+
+        var binding = endpoint.Binding as CustomBinding;
+        var elements = binding.CreateBindingElements();
+
+        // This just inserts  the equivalent of a &lt;security authenticationMode="SspiNegotiated"&gt;
+        // element to the binding.
+        var sec = new SymmetricSecurityBindingElement();
+        sec.ProtectionTokenParameters = new System.ServiceModel.Security.Tokens.SspiSecurityTokenParameters();
+        elements.Insert(1, sec);
+
+        // Replace the binding on the endpoint.
+        endpoint.Binding = new CustomBinding(elements);
+      }
+
+      // Let's change the default timeouts too.
+      endpoint.Binding.ReceiveTimeout = new TimeSpan(0, 2, 0);
+      endpoint.Binding.SendTimeout = new TimeSpan(0, 2, 0);
+    }
+
+    // Called after the service has been configured but before it has opened.
+    public override void OnServiceHostCreated(System.ServiceModel.ServiceHost host) {
+
+      // Let's add a MEX endpoint and metadata behavior, using this utility function.
+      IdeaBlade.EntityModel.RemoteServiceFns.AddMexEndpoint(host);
+
+    }
+  }
+
+		   </code>
+	   </example>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.ServiceHostEvents.OnEndpointCreated(System.ServiceModel.Description.ServiceEndpoint)">
+            <summary>
+            Called when a ServiceEndpoint has been created.
+            </summary>
+            <param name="endpoint"></param>
+            <remarks>
+            Override this method if you need to customize the endpoint.  For example, you can modify the default timeout values, 
+            add security to the binding, or add additional endpoint behaviors.  The base implementation performs no action.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.ServiceHostEvents.OnServiceHostCreated(System.ServiceModel.ServiceHost)">
+            <summary>
+            Called when a ServiceHost has been created.
+            </summary>
+            <param name="host"></param>
+            <remarks>
+            Override this method to perform additional customization of the service before it is opened.  For example, you can add additional
+            endpoints and behaviors.  The base implementation performs no action.
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.SessionManager">
+            <summary>
+            Internal use only.  Used by the <see cref="T:IdeaBlade.EntityModel.Server.EntityServer"/> to manage user authentication.
+            </summary>
+            <remarks>
+            The <b>SessionManager</b> maintains a list of encrypted <see cref="T:IdeaBlade.EntityModel.SessionBundle"/>s representing
+            client sessions.  You may use the <see cref="P:IdeaBladeConfig.ObjectServer.SessionEncryptionKey"/>
+            to set the encryption key used.
+            <para>
+            The SessionManager is responsible for calling the <see cref="M:IdeaBlade.EntityModel.IEntityLoginManager.Login(IdeaBlade.EntityModel.ILoginCredential,IdeaBlade.EntityModel.EntityManager)"/> method of your custom
+            <see cref="T:IdeaBlade.EntityModel.IEntityLoginManager"/> implementation to retrieve user-specific security credentials.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.SessionManager.#ctor(IdeaBlade.EntityModel.Server.IEntityServer,IdeaBlade.Core.Composition.CompositionContext)">
+            <summary>
+            Create an instance of this class.  Internal use only.
+            </summary>
+            <param name="server"></param>
+            <param name="compositionContext"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.SessionManager.Login(IdeaBlade.EntityModel.ILoginCredential)">
+            <summary>
+            Validate a user's credentials.  Internal use only.
+            </summary>
+            <param name="credential"></param>
+            <returns></returns>
+            <remarks>The SessionManager keeps a map of encrypted SessionBundles identifying user sessions.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.SessionManager.Logout(System.Guid)">
+            <summary>
+            Logs a user off, discarding his session information.  Internal use only.
+            </summary>
+            <param name="sessionKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.SessionManager.Validate(IdeaBlade.EntityModel.SessionBundle,System.Boolean)">
+            <summary>
+            Will update the sessionMap's lastTouchedTs and will silently login if needed. 
+            </summary>
+            <param name="sessionBundle"></param>
+            <param name="loginIfNotInMap"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.SessionManager.GetPrincipal(IdeaBlade.EntityModel.SessionBundle,System.Boolean)">
+            <summary>
+            Returns the Principal for a session.  Internal use only.
+            </summary>
+            <param name="sessionBundle"></param>
+            <param name="loginIfNotInMap"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.SessionManager.GetPrincipalFromSessionKey(IdeaBlade.EntityModel.SessionBundle)">
+            <summary>Returns the principal from the session map, or null if not in map.</summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.SessionManager.GetPrincipalFromEncryptedCredential(IdeaBlade.EntityModel.SessionBundle)">
+            <summary>Called when the session is not in the map - essentially a real 'login' or 'load user'. </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntityServerPocoSaveAdapter">
+             <summary>
+             Base class for "adapter" based implementations of POCO save logic.
+             <seealso cref="T:IdeaBlade.EntityModel.PocoSaveMode"/>
+             <see cref="M:IdeaBlade.EntityModel.EntityManager.SaveChanges"/>
+             </summary>
+             <remarks>
+             Create a class which inherits from the <b>EntitySaveAdapter</b> to handle
+             save processing for POCO entities.  Override the <see cref="M:IdeaBlade.EntityModel.Server.EntityServerPocoSaveAdapter.InsertEntity(System.Object)"/>, <see cref="M:IdeaBlade.EntityModel.Server.EntityServerPocoSaveAdapter.UpdateEntity(System.Object,System.Object)"/>
+             and <see cref="M:IdeaBlade.EntityModel.Server.EntityServerPocoSaveAdapter.DeleteEntity(System.Object)"/> methods as needed.  Note that each POCO entity
+             to be saved will be passed to the method corresponding to the save action required.  Each
+             of these methods should handle entities of any POCO type.
+             <para>
+             Any entity with an EntityState of Added, Modified or Deleted and which is not backed by an EdmKey
+             will be passed to the <b>EntitySaveAdapter</b>.  
+             </para>
+             <para>
+             Be sure to place your implementation of <b>EntitySaveAdapter</b> in an assembly which
+             will be deployed to your BOS in n-tier implementations.  
+             </para>
+             <para>
+             Your implementation should contain a single parameterless constructor.
+            </para>
+             </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerPocoSaveAdapter.#ctor">
+            <summary>
+            Create an instance of this class.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerPocoSaveAdapter.BeforeSave(System.Collections.IEnumerable,IdeaBlade.EntityModel.SaveOptions)">
+            <summary>
+            Called prior to saving the entities in the list provided.
+            </summary>
+            <param name="entities"></param>
+            <param name="saveOptions"></param>
+            <remarks>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerPocoSaveAdapter.AfterSave">
+            <summary>
+            Called after saving.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerPocoSaveAdapter.InsertEntity(System.Object)">
+            <summary>
+            Called for each POCO entity with an EntityState of <see cref="F:IdeaBlade.EntityModel.EntityState.Added"/>.
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerPocoSaveAdapter.UpdateEntity(System.Object,System.Object)">
+            <summary>
+            Called for each POCO entity with an EntityState of <see cref="F:IdeaBlade.EntityModel.EntityState.Modified"/>.
+            </summary>
+            <param name="entity"></param>
+            <param name="originalEntity"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServerPocoSaveAdapter.DeleteEntity(System.Object)">
+            <summary>
+            Called for each POCO entity with an EntityState of <see cref="F:IdeaBlade.EntityModel.EntityState.Deleted"/>.
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntityServerController">
+            <summary>
+            Configure and start a WCF ServiceHost for an EntityServer.
+            </summary>
+            <remarks>This class is used only when the BOS is hosted by either the ServerConsole or
+            ServerService.  It is not used when the BOS is used in a hosted environment (IIS or WAS).
+            <para>The service host is stopped (closed) when the RemoteEntityService terminates. </para>
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntityServiceController">
+            <summary>
+            Service hosting logic for the EntityService.
+            </summary>
+            <remarks>The controller is used when the EntityService is hosted by either the ServerConsole or
+            ServerService; it is not used when the EntityService is used in a "hosted" environment (IIS or WAS).
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServiceController.Start(System.Boolean)">
+            <summary>
+            Start the service.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntityServiceController.Stop">
+            <summary>
+            Stop the service.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.ErrorBehaviorAttribute">
+            <summary>
+            Attribute applied to a service to install a custom error handling behavior.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.ErrorBehaviorAttribute.#ctor(System.Type)">
+            <summary>
+            Create an instance of this class.
+            </summary>
+            <param name="errorHandlerType"></param>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.ErrorBehaviorAttribute.#ctor(System.Type,IdeaBlade.EntityModel.Server.ErrorHandlerActivationContext)">
+            <summary>
+            Create an instance of this class.
+            </summary>
+            <param name="errorHandlerType"></param>
+            <param name="context"></param>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.RemoteEntityService">
+            <summary>
+            Internal use only. 
+            This class supports the DevForce Framework infrastructure 
+            and is not intended to be used directly from your code.
+            </summary>
+            <remarks>
+            A single instance of this class resides on the Business Object Server and receives and responds to 
+            requests from the <see cref="T:IdeaBlade.EntityModel.EntityManager"/>s on each client.
+            <para>
+            The <b>RemoteEntityService</b> uses Windows Communication Foundation for distributed communications.
+            The RemoteEntityService is configured using the <see cref="T:IdeaBlade.Core.IdeaBladeConfig.ObjectServer"/>
+            section in the <b>IdeaBlade configuration file</b> or using an app.config (web.config in IIS) file.
+            The <b>RemoteEntityService</b> is the "factory" for the Business Object Server - it responds to
+            client requests and starts EntityServer as needed.
+            </para>
+            <para>
+            If configuring the service from an app.config, use "EntityService" as the service name.
+            </para>
+            <para>
+            If the service is configured from the IdeaBlade configuration section, the transport indicated by the
+            <see cref="P:IdeaBladeConfig.ObjectServer.RemoteBaseUrl"/> is used, 
+            along with compressed binary encoding using the 
+            <see cref="T:IdeaBlade.Core.Wcf.Extensions.GZipMessageEncodingBindingElement"/>.  Only one service
+            endpoint is created.  If you wish to customize the endpoint, or add additional endpoints, then
+            you will need to use the app.config to configure the service.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.RemoteEntityService.#ctor">
+            <summary>
+            Do not use - called during service configuration.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.RemoteEntityService.GetEntityServerName(System.String,System.String)">
+            <summary>
+            Return the service name of a remote Entity Server.
+            </summary>
+            <param name="dataSourceExtension"></param>
+            <param name="compositionContextName"></param>
+            <returns></returns>
+            <remarks>
+            If the Entity Server is not running it is started.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.RemoteEntityService.GetHostedEntityServer(System.String)">
+            <summary>
+            In IIS, this will ensure the appropriate EntityServer service is started, and then return its address.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntitySaveTransactionManager">
+            <summary>
+            Internal use only. Performs save processing.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntitySaveTransactionManager.Save(IdeaBlade.EntityModel.Server.IEntityServer,IdeaBlade.EntityModel.SaveWorkState)">
+            <summary>
+            Perform save processing.  Transaction is committed or rolled back based on processing results.
+            </summary>
+            <param name="entityServer"></param>
+            <param name="workState"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntitySaveTransactionManager.SaveWithTransaction(IdeaBlade.EntityModel.Server.IEntityServer,IdeaBlade.EntityModel.SaveWorkState)">
+            <summary>
+            Save within a TransactionScope.  Inner transactions (such as that used by the
+            Entity Framework) will enlist in this transaction.  If doing any multi-DB (or
+            multi-EDMX) saves, you must use a TransactionScope to make the save fully transactional.
+            </summary>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntitySaveExecutor">
+            <summary>
+            Internal use only.  Performs actual save processing, regardless of TransactionManager implementation.
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.EntitySaveExecutor.Save(IdeaBlade.EntityModel.Server.IEntityServer,IdeaBlade.EntityModel.SaveWorkState)">
+            <summary>
+            Save processing.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.EntityServerErrorHandler">
+            <summary>
+            Custom error handler for the EntityServer service.
+            </summary>
+            <remarks>
+            Wraps exceptions thrown by EntityServer operations in a FaultException&lt;EntityServerFault&gt;.
+            This fault is deserialized back on the client into the appropriate Exception type.
+            </remarks>
+        </member>
+        <member name="T:IdeaBlade.EntityModel.Server.ErrorHandlerActivationContext">
+            <summary>
+            For internal use only.
+            </summary>
+            <remarks>
+            Provides context arguments to the internal <see cref="T:System.ServiceModel.Dispatcher.IErrorHandler"/> used by DevForce.
+            </remarks>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.ErrorHandlerActivationContext.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:IdeaBlade.EntityModel.Server.ErrorHandlerActivationContext.#ctor(System.String,IdeaBlade.Core.Composition.CompositionContext)">
+            <summary>
+            
+            </summary>
+            <param name="dataSourceExtension"></param>
+            <param name="compositionContext"></param>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.ErrorHandlerActivationContext.DataSourceExtension">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:IdeaBlade.EntityModel.Server.ErrorHandlerActivationContext.CompositionContext">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

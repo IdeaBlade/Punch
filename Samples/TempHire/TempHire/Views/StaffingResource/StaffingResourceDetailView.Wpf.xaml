@@ -1,18 +1,16 @@
 <UserControl x:Class="TempHire.Views.StaffingResource.StaffingResourceDetailView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:cal="http://www.caliburnproject.org"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="460"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" d:DesignHeight="460"
              d:DesignWidth="831"
              mc:Ignorable="d">
 
-    <extToolkit:BusyIndicator IsBusy="{Binding Busy.IsBusy}">
-        <extToolkit:BusyIndicator.BusyContent>
+    <xctk:BusyIndicator IsBusy="{Binding Busy.IsBusy}">
+        <xctk:BusyIndicator.BusyContent>
             <TextBlock Text="Please wait" />
-        </extToolkit:BusyIndicator.BusyContent>
+        </xctk:BusyIndicator.BusyContent>
 
         <Border x:Name="Visible">
             <Grid x:Name="LayoutRoot" Background="White">
@@ -33,5 +31,5 @@
                 </TabControl>
             </Grid>
         </Border>
-    </extToolkit:BusyIndicator>
+    </xctk:BusyIndicator>
 </UserControl>

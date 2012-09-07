@@ -11,7 +11,14 @@
 //====================================================================================================================
 
 using Cocktail.Tests.Helpers;
+
+#if !NETFX_CORE
+using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#else
+using System.Composition;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#endif
 
 namespace Cocktail.Tests
 {

@@ -1,23 +1,22 @@
-﻿//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+﻿// ====================================================================================================================
+//   Copyright (c) 2012 IdeaBlade
+// ====================================================================================================================
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+// ====================================================================================================================
+//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//   http://cocktail.ideablade.com/licensing
+// ====================================================================================================================
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;
-using Common.Factories;
 using DomainServices.Repositories;
 using IdeaBlade.EntityModel;
 using Security;
@@ -25,14 +24,14 @@ using Security;
 namespace TempHire.ViewModels.Login
 {
     [Export]
-    public class LoginViewModel : Screen, IResult
+    public class LoginViewModel : Screen
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IGlobalCache _globalCache;
         private readonly IWindowManager _windowManager;
         private string _failureMessage;
         private string _password;
-
+        private TaskCompletionSource<bool> _tcs;
         private string _username;
 
         [ImportingConstructor]
@@ -98,68 +97,57 @@ namespace TempHire.ViewModels.Login
             get { return !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password); }
         }
 
-        #region IResult Members
-
-        public void Execute(ActionExecutionContext context)
-        {
-            _windowManager.ShowDialog(this);
-        }
-
-        public event EventHandler<ResultCompletionEventArgs> Completed;
-
-        #endregion
-
-        public IEnumerable<IResult> Login()
+        public async void Login()
         {
             using (Busy.GetTicket())
             {
                 FailureMessage = "";
 
-                byte[] hash = CryptoHelper.GenerateKey(Password);
-                string password = Encoding.UTF8.GetString(hash, 0, hash.Length);
+                var hash = CryptoHelper.GenerateKey(Password);
+                var password = Encoding.UTF8.GetString(hash, 0, hash.Length);
                 var credential = new LoginCredential(Username, password, null);
                 // Clear username and password fields
                 Username = null;
                 Password = null;
 
-                OperationResult operation;
-                yield return operation = _authenticationService.LoginAsync(credential).ContinueOnError();
-
-                if (_authenticationService.IsLoggedIn)
+                try
                 {
+                    await _authenticationService.LoginAsync(credential);
+
                     if (_globalCache != null)
                     {
-                        yield return operation = _globalCache.LoadAsync().ContinueOnError();
-
-                        if (operation.HasError)
+                        try
                         {
-                            FailureMessage = "Failed to load global entity cache. Try again!";
-                            yield break;
+                            await _globalCache.LoadAsync();
+                        }
+                        catch (Exception e)
+                        {
+                            throw new Exception("Failed to load global entity cache. Try again!", e);
                         }
                     }
 
                     TryClose();
                 }
-
-                if (operation.HasError)
-                    FailureMessage = operation.Error.Message;
+                catch (Exception e)
+                {
+                    FailureMessage = e.Message;
+                }
             }
         }
 
-        public IEnumerable<IResult> KeyDown(KeyEventArgs args)
+        public void KeyDown(KeyEventArgs args)
         {
             if (args.Key != Key.Enter)
-                yield break;
+                return;
 
-            yield return Login().ToSequentialResult();
+            Login();
         }
 
-        private void OnComplete()
+        public Task ShowAsync()
         {
-            if (Completed == null) return;
-
-            var args = new ResultCompletionEventArgs();
-            EventFns.RaiseOnce(ref Completed, this, args);
+            _tcs = new TaskCompletionSource<bool>();
+            _windowManager.ShowDialog(this);
+            return _tcs.Task;
         }
 
         protected override void OnDeactivate(bool close)
@@ -167,12 +155,7 @@ namespace TempHire.ViewModels.Login
             base.OnDeactivate(close);
 
             if (close)
-                OnComplete();
+                _tcs.TrySetResult(true);
         }
-    }
-
-    [Export(typeof (IPartFactory<LoginViewModel>))]
-    public class LoginViewModelFactory : PartFactoryBase<LoginViewModel>
-    {
     }
 }

@@ -35,74 +35,42 @@ namespace Cocktail.Tests
         public void ShouldCancel()
         {
             TestWindowManager.Instance.TestDialogResult = DialogResult.Cancel;
-            var operation = _dialogManager.ShowMessageAsync("Test", DialogButtons.OkCancel);
+            var task = _dialogManager.ShowMessageAsync("Test", DialogButtons.OkCancel);
 
-            Assert.IsTrue(operation.DialogResult == DialogResult.Cancel);
-            Assert.IsTrue(operation.Cancelled);
-            Assert.IsTrue(operation.IsCompleted);
+            Assert.IsTrue(task.IsCanceled);
+            Assert.IsTrue(task.IsCompleted);
         }
 
         [TestMethod]
         public void ShouldNotCancel()
         {
             TestWindowManager.Instance.TestDialogResult = DialogResult.Ok;
-            var operation = _dialogManager.ShowMessageAsync("Test", DialogButtons.OkCancel);
+            var task = _dialogManager.ShowMessageAsync("Test", DialogButtons.OkCancel);
 
-            Assert.IsTrue(operation.DialogResult == DialogResult.Ok);
-            Assert.IsFalse(operation.Cancelled);
-            Assert.IsTrue(operation.IsCompleted);
+            Assert.IsTrue(task.Result == DialogResult.Ok);
+            Assert.IsFalse(task.IsCanceled);
+            Assert.IsTrue(task.IsCompleted);
         }
 
         [TestMethod]
         public void ShouldUseCustomCancel()
         {
             TestWindowManager.Instance.TestDialogResult = "Cancel";
-            var operation = _dialogManager.ShowMessageAsync("Test", null, "Cancel", new[] { "Ok", "Cancel" });
+            var task = _dialogManager.ShowMessageAsync("Test", null, "Cancel", new[] { "Ok", "Cancel" });
 
-            Assert.IsTrue(operation.DialogResult == "Cancel");
-            Assert.IsTrue(operation.Cancelled);
-            Assert.IsTrue(operation.IsCompleted);
+            Assert.IsTrue(task.IsCanceled);
+            Assert.IsTrue(task.IsCompleted);
         }
 
         [TestMethod]
         public void ShouldNotUseCustomCancel()
         {
             TestWindowManager.Instance.TestDialogResult = "Cancel";
-            var operation = _dialogManager.ShowMessageAsync("Test", null, null, new[] { "Ok", "Cancel" });
+            var task = _dialogManager.ShowMessageAsync("Test", null, null, new[] { "Ok", "Cancel" });
 
-            Assert.IsTrue(operation.DialogResult == "Cancel");
-            Assert.IsFalse(operation.Cancelled);
-            Assert.IsTrue(operation.IsCompleted);
-        }
-
-        [TestMethod]
-        public void ShouldBeIncomplete()
-        {
-            var operation = new ShowDialogResult<object>(null, null);
-
-            Assert.IsNull(operation.DialogResult);
-            Assert.IsFalse(operation.Cancelled);
-            Assert.IsFalse(operation.IsCompleted);
-        }
-
-        [TestMethod]
-        public void ShouldNotCancelTask()
-        {
-            TestWindowManager.Instance.TestDialogResult = DialogResult.Ok;
-            var task = _dialogManager.ShowMessageAsync("Test", DialogButtons.OkCancel).AsTask();
-
-            Assert.IsTrue(task.IsCompleted);
-            Assert.IsTrue(task.Result == DialogResult.Ok);
+            Assert.IsTrue(task.Result == "Cancel");
             Assert.IsFalse(task.IsCanceled);
-        }
-
-        [TestMethod]
-        public void ShouldCancelTask()
-        {
-            TestWindowManager.Instance.TestDialogResult = DialogResult.Cancel;
-            var task = _dialogManager.ShowMessageAsync("Test", DialogButtons.OkCancel).AsTask();
-
-            Assert.IsTrue(task.IsCanceled);
+            Assert.IsTrue(task.IsCompleted);
         }
 
         protected override void PrepareCompositionContainer(CompositionBatch batch)

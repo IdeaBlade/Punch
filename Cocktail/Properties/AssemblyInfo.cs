@@ -13,17 +13,23 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Windows.Markup;
 using System.Resources;
+
+#if !NETFX_CORE
+using System.Windows.Markup;
+#endif
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 #if SILVERLIGHT
 [assembly: AssemblyTitle("Cocktail.SL")]
+#elif NETFX_CORE
+[assembly: AssemblyTitle("Cocktail.WinRT")]
 #else
 [assembly: AssemblyTitle("Cocktail")]
 #endif
+
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("IdeaBlade")]
@@ -50,6 +56,13 @@ using System.Resources;
                                                      + "0fb13f01fb5d856e99c1e61777cf4772d29bad7e66ffb93fc5cbd63b395046c06ff57db6ecbeee"
                                                      + "4bdd6effc405878d65cfc4911708ed650da935d733fc5dc707f74910e025ac080543e01a6cc863"
                                                      + "b9f85ffc")]
+#elif NETFX_CORE
+[assembly: InternalsVisibleTo("Cocktail.Tests.WinRT")]
+[assembly: InternalsVisibleTo("IdeaBlade.Core.Metro, PublicKey=0024000004800000940000000602000000240000525341310004000001000100b3f302890eb528"
+                                                     + "1a7ab39b936ad9e0eded7c4a41abb440bead71ff5a31d51e865606b2a7e6d0b9dd0d92b113b9d1"
+                                                     + "0fb13f01fb5d856e99c1e61777cf4772d29bad7e66ffb93fc5cbd63b395046c06ff57db6ecbeee"
+                                                     + "4bdd6effc405878d65cfc4911708ed650da935d733fc5dc707f74910e025ac080543e01a6cc863"
+                                                     + "b9f85ffc")]
 #else
 [assembly: InternalsVisibleTo("Cocktail.Tests, PublicKey=00240000048000009400000006020000002400005253413100040000010001000711e4133e5919"
                                                      + "6b877f67b04088121b1d6c3a25cb8791422c56986774125d0b805da768e11c38bbe2a395a98611"
@@ -63,7 +76,9 @@ using System.Resources;
                                                      + "b9f85ffc")]
 #endif
 
+#if !NETFX_CORE
 [assembly: XmlnsDefinition("http://cocktail.ideablade.com", "Cocktail")]
+#endif
 
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -74,7 +89,7 @@ using System.Resources;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 #if SILVERLIGHT
 [assembly: Guid("0EE7DDF4-04AB-4048-B7C9-5B69DAEE5430")]
-#else
+#elif !NETFX_CORE
 [assembly: Guid("869C0A7C-3B83-44C0-8836-360EA78C9D6E")]
 #endif
 
@@ -87,5 +102,5 @@ using System.Resources;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.0.0.918")]
+[assembly: AssemblyVersion("2.0.0.1093")]
 

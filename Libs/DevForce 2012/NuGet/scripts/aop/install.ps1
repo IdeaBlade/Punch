@@ -17,4 +17,4 @@ $buildProject.Xml.Imports |
 
 # Add import to IdeaBlade.DevForce.Common.targets
 $import = Add-Import $relativePath $project.ProjectName
-$import.Condition = "Exists('$targets')"
+$import.Condition = "Exists('$relativePath')"

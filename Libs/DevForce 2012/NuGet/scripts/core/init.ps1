@@ -15,16 +15,15 @@ if ((Test-Path $extensionsTypesPath))
 
 if (!$extensionTypes -or !$extensionTypes.GetValue($extensionId))
 {
-    $parts = $DTE.FileName.split("\")
-    $parts[$parts.Count - 1] = "VSIXInstaller.exe"
+    $VSPath = [System.IO.Path]::GetDirectoryName($DTE.FileName)
 
-    $installer = [string]::Join("\", $parts) 
-    $extensionVsixPath = $toolsPath + "\$extensionVsix"
-    $templatesVsixPath = $toolsPath + "\$templatesVsix"
+    $installer = [System.IO.Path]::Combine($VSPath, "VSIXInstaller.exe") 
+    $extensionVsixPath = [System.IO.Path]::Combine($toolsPath, $extensionVsix)
+    $templatesVsixPath = [System.IO.Path]::Combine($toolsPath, $templatesVsix)
 
-    $process = [diagnostics.process]::Start($installer, "`"$extensionVsixPath`"")
+    $process = [System.Diagnostics.Process]::Start($installer, "`"$extensionVsixPath`"")
     $process.WaitForExit()
-    $process = [diagnostics.process]::Start($installer, "`"$templatesVsixPath`"")
+    $process = [System.Diagnostics.Process]::Start($installer, "`"$templatesVsixPath`"")
     $process.WaitForExit()
 
     [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
@@ -32,8 +31,8 @@ if (!$extensionTypes -or !$extensionTypes.GetValue($extensionId))
         "Extensions and Updates", [Windows.Forms.MessageBoxButtons]::OK, 
         [System.Windows.Forms.MessageBoxIcon]::Information) | Out-Null
 
-    $toolsSetup = $toolsPath + "\setup.exe"
-    [diagnostics.process]::Start($toolsSetup)
+    $toolsSetup = [System.IO.Path]::Combine($toolsPath, "setup.exe")
+    [System.Diagnostics.Process]::Start($toolsSetup)
 }
 else
 {

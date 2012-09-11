@@ -6,5 +6,5 @@
 $buildProject = $project | Get-MSBuildProject
 
 $buildProject.Xml.Imports | 
-    Where-Object { $_.Project.Contains("IdeaBlade") } | 
+    Where-Object { $_.Project.ToLowerInvariant().EndsWith("ideablade.devforce.common.targets") } | 
     ForEach-Object { $buildProject.Xml.RemoveChild($_) }

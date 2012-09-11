@@ -5,7 +5,7 @@
 if ($project.ExtenderNames.Contains("WebApplication"))
 {
     #if this is a web application, add IdeaBlade.EntityModel.Web.dll reference
-    $assembly = $installPath + "\lib\net45\IdeaBlade.EntityModel.Web.dll"
+    $assembly = [System.IO.Path]::Combine($installPath, "lib\net45\IdeaBlade.EntityModel.Web.dll")
     $project.Object.References.Add($assembly)
 }
 else

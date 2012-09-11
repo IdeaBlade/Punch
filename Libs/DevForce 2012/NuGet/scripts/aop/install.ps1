@@ -2,14 +2,19 @@
 
 #$project = Get-Project   # for testing
 
-# Add DevForce Code-First build tasks
-$solutionDir = Get-SolutionDir
-$projectRelative = $project.FullName.SubString($solutionDir.Length)
-$prefix = ""
-for ($i = 0; $i -lt ($projectRelative.Split("\").Count - 2); $i++) { $prefix = $prefix + "..\" }
+$targetsFile = [System.IO.Path]::Combine($toolsPath, "IdeaBlade.DevForce.Common.targets")
 
-$toolsRelative = $toolsPath.Replace($solutionDir + "\", $prefix)
+# Make the path to the targets file relative
+$projectUri = New-Object Uri("file://" + $project.FullName)
+$targetUri = New-Object Uri("file://" + $targetsFile)
+$relativePath = $projectUri.MakeRelativeUri($targetUri).ToString().Replace([System.IO.Path]::AltDirectorySeparatorChar, [System.IO.Path]::DirectorySeparatorChar)
 
-$targets = "$toolsRelative\IdeaBlade.DevForce.Common.targets"
-$import = Add-Import $targets $project.ProjectName
+# Remove previous imports to IdeaBlade.DevForce.Common.targets
+$buildProject = $project | Get-MSBuildProject
+$buildProject.Xml.Imports | 
+    Where-Object { $_.Project.ToLowerInvariant().EndsWith("ideablade.devforce.common.targets") } | 
+    ForEach-Object { $buildProject.Xml.RemoveChild($_) }
+
+# Add import to IdeaBlade.DevForce.Common.targets
+$import = Add-Import $relativePath $project.ProjectName
 $import.Condition = "Exists('$targets')"

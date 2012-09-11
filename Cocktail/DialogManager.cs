@@ -46,7 +46,7 @@ namespace Cocktail
         /// </param>
         /// <param name="cancelButton">
         /// Specifies the button taking on the special role of the cancel function. If the user clicks this button, 
-        /// the DialogOperationResult will be marked as cancelled.
+        /// the Task will be marked as cancelled.
         /// </param>
         /// <param name="title">Optional title of the dialog.</param>
         /// <typeparam name="T">
@@ -99,7 +99,7 @@ namespace Cocktail
         /// </param>
         /// <param name="cancelButton">
         /// Specifies the button taking on the special role of the cancel function. If the user clicks this button, 
-        /// the DialogOperationResult will be marked as cancelled.
+        /// the Task will be marked as cancelled.
         /// </param>
         /// <param name="title">Optional title of the message box.</param>
         /// <typeparam name="T">

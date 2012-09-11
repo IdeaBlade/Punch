@@ -92,7 +92,7 @@ namespace Cocktail
         /// Specifies the default button. The Enter key will be mapped to this button.
         /// </param>
         /// <param name="cancelButton">
-        /// Specifies the designated cancel button. If the user clicks this button, the DialogOperationResult will be marked as cancelled.
+        /// Specifies the designated cancel button. If the user clicks this button, the Task will be marked as cancelled.
         /// </param>
         /// <param name="title">Optional title of the dialog.</param>
         /// <typeparam name="T">
@@ -133,7 +133,7 @@ namespace Cocktail
         /// Specifies the default button. The Enter key will be mapped to this button.
         /// </param>
         /// <param name="cancelButton">
-        /// Specifies the designated cancel button. If the user clicks this button, the DialogOperationResult will be marked as cancelled.
+        /// Specifies the designated cancel button. If the user clicks this button, the Task will be marked as cancelled.
         /// </param>
         /// <param name="title">Optional title of the message box.</param>
         /// <typeparam name="T">

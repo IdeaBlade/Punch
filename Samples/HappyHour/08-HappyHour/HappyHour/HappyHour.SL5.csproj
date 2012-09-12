@@ -69,7 +69,7 @@
       <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\sl50\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.0.0-beta1\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL, Version=7.0.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

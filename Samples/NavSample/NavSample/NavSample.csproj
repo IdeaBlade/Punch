@@ -157,7 +157,7 @@
       <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\winrt45\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.WinRT">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\winrt45\Cocktail.Utils.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.0.0-beta1\lib\winrt45\Cocktail.Utils.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.WinRT">
       <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\winrt45\Cocktail.WinRT.dll</HintPath>

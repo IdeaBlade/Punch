@@ -95,7 +95,7 @@
       <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\sl50\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.0.0-beta1\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL">
       <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>

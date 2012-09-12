@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>IdeaBlade.Cocktail.Utils</id>
+    <version>2.0.0-beta1</version>
+    <title>Cocktail 2012 Utils</title>
+    <authors>IdeaBlade</authors>
+    <owners>IdeaBlade</owners>
+    <licenseUrl>http://cocktail.ideablade.com/licensing</licenseUrl>
+    <projectUrl>http://cocktail.ideablade.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <summary>Utility classes that can be used independently of Cocktail.</summary>
+    <iconUrl>http://www.ideablade.com/images/icons/cocktail-icon-32.png</iconUrl>
+    <description>Cocktail is a blend of three popular frameworks: Caliburn.Micro + DevForce + Entity Framework.
+
+Line of business applications need to query and save database data, model the data as objects with business logic, and present those objects to the end user. Cocktail takes care of these fundamental responsibilities with loosely coupled, open source, and industry-leading components that are designed for change.
+    </description>
+    <releaseNotes>http://drc.ideablade.com/xwiki/bin/view/Documentation/cocktail-200-release-notes</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>Silverlight WPF SL5 SL Coroutine Asynchronous Caliburn.Micro DevForce Cocktail</tags>
+  </metadata>
+  <files>
+    <file src="..\Cocktail.Utils\Bin\Release\Cocktail*.*" target="lib\net45" />
+
+    <file src="..\Cocktail.Utils\Bin.SL\Release\Cocktail*.*" target="lib\sl50" />
+
+    <file src="..\Cocktail.Utils\Bin.WinRT\AnyCPU\Release\Cocktail*.dll" target="lib\winrt45" />
+    <file src="..\Cocktail.Utils\Bin.WinRT\AnyCPU\Release\Cocktail*.xml" target="lib\winrt45" />
+
+    <file src="..\Cocktail.Utils\**\*.cs" target="src\Cocktail.Utils" />
+  </files>
+</package>

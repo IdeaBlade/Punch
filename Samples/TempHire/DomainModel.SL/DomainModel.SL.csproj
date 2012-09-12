@@ -88,7 +88,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.0.0-beta1\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Aop.SL">
       <HintPath>..\packages\IdeaBlade.DevForce.Aop.7.0.0-beta1\lib\sl50\IdeaBlade.Aop.SL.dll</HintPath>

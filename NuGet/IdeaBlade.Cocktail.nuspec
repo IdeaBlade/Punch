@@ -20,6 +20,7 @@ Line of business applications need to query and save database data, model the da
     <tags>MVVM Silverlight WPF SL5 SL Windows8 WinRT Metro Convention Screen Asynchronous Model-View-ViewModel Presentation UI ViewModel Caliburn.Micro DevForce ORM Entity Data LOB Enterprise</tags>
     <dependencies>
       <dependency id="IdeaBlade.DevForce.Core" version="[7.0.0-beta1]" />
+      <dependency id="IdeaBlade.Cocktail.Utils" />
     </dependencies>
   </metadata>
   <files>
@@ -27,24 +28,19 @@ Line of business applications need to query and save database data, model the da
     <file src="..\Cocktail\Bin\Release\Caliburn.Micro.dll" target="lib\net45" />
     <file src="..\Cocktail\Bin\Release\Caliburn.Micro.xml" target="lib\net45" />
     <file src="..\Cocktail\Bin\Release\System.Windows.Interactivity.*" target="lib\net45" />
-    <file src="..\Cocktail.Utils\Bin\Release\Cocktail*.*" target="lib\net45" />
 
     <file src="..\Cocktail\Bin.SL\Release\Cocktail*.*" target="lib\sl50" />
     <file src="..\Cocktail\Bin.SL\Release\Caliburn.Micro.dll" target="lib\sl50" />
     <file src="..\Cocktail\Bin.SL\Release\Caliburn.Micro.xml" target="lib\sl50" />
     <file src="..\Cocktail\Bin.SL\Release\System.Windows.Interactivity.*" target="lib\sl50" />
-    <file src="..\Cocktail.Utils\Bin.SL\Release\Cocktail*.*" target="lib\sl50" />
 
     <file src="..\Cocktail\Bin.WinRT\AnyCPU\Release\Cocktail*.dll" target="lib\winrt45" />
     <file src="..\Cocktail\Bin.WinRT\AnyCPU\Release\Cocktail*.xml" target="lib\winrt45" />
     <file src="..\Cocktail\Bin.WinRT\AnyCPU\Release\Caliburn.Micro.dll" target="lib\winrt45" />
     <file src="..\Cocktail\Bin.WinRT\AnyCPU\Release\Caliburn.Micro.xml" target="lib\winrt45" />
     <file src="..\Cocktail\Bin.WinRT\AnyCPU\Release\Windows.UI.Interactivity.*" target="lib\winrt45" />
-    <file src="..\Cocktail.Utils\Bin.WinRT\AnyCPU\Release\Cocktail*.dll" target="lib\winrt45" />
-    <file src="..\Cocktail.Utils\Bin.WinRT\AnyCPU\Release\Cocktail*.xml" target="lib\winrt45" />
 
     <file src="..\Cocktail\**\*.cs" target="src\Cocktail" />
     <file src="..\Cocktail\**\*.xaml" target="src\Cocktail" />
-    <file src="..\Cocktail.Utils\**\*.cs" target="src\Cocktail.Utils" />
   </files>
 </package>

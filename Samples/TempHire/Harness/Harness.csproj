@@ -68,7 +68,7 @@
       <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\net45\Cocktail.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\net45\Cocktail.Utils.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.0.0-beta1\lib\net45\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Aop">
       <HintPath>..\packages\IdeaBlade.DevForce.Aop.7.0.0-beta1\lib\net45\IdeaBlade.Aop.dll</HintPath>

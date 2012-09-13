@@ -34,6 +34,6 @@ namespace Cocktail.Tests.Helpers
 
         void DeleteCustomer(Customer customer);
 
-        Task<SaveResult> SaveAsync();
+        Task SaveAsync();
     }
 }

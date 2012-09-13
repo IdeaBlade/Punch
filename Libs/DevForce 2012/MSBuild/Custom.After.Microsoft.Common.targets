@@ -1,7 +1,0 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
-  <!--The following element was added by the IdeaBlade DevForce installation -->
-  <Import Project="..\IdeaBlade\DevForce2012\IdeaBlade.DevForce.Common.targets" Condition="Exists('..\IdeaBlade\DevForce2012\IdeaBlade.DevForce.Common.targets')" />
-
-
-</Project>

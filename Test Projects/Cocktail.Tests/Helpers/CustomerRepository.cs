@@ -85,7 +85,7 @@ namespace Cocktail.Tests.Helpers
         /// An example of a method to save pending changes.
         /// </summary>
         /// <returns>SaveResult</returns>
-        public Task<SaveResult> SaveAsync()
+        public Task SaveAsync()
         {
             return Manager.SaveChangesAsync();
         }

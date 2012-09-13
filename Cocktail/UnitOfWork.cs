@@ -76,10 +76,13 @@ namespace Cocktail
         /// </summary>
         public async virtual Task<SaveResult> CommitAsync()
         {
-            var saveResult = await EntityManager.SaveChangesAsync();
+            var saveResult = await EntityManager.TrySaveChangesAsync();
 
             if (saveResult.WasCancelled)
                 throw new TaskCanceledException();
+            
+            if (saveResult.Error != null && !saveResult.WasExceptionHandled)
+                throw saveResult.Error;
 
             return saveResult;
         }

@@ -14,6 +14,7 @@
   <ContentFiles>
     <ContentFile FileName="Cocktail.dxc" Moniker="..\Cocktail\Bin\Debug\Cocktail.dll" DocType="DX.NET" />
     <ContentFile FileName="Cocktail.Utils.dxc" Moniker="..\Cocktail.Utils\Bin\Debug\Cocktail.Utils.dll" DocType="DX.NET" />
+    <ContentFile FileName="Cocktail.Compat.dxc" Moniker="..\Cocktail.Compat\Bin\Debug\Cocktail.Compat.dll" DocType="DX.NET" />
   </ContentFiles>
   <ContentFromProjectPlugin />
   <Filters>
@@ -68,6 +69,23 @@
       <ExcludedItem>Cocktail~Cocktail.TraceLoggerProvider</ExcludedItem>
       <ExcludedItem>Cocktail~Cocktail.IEntityManagerSyncInterceptor</ExcludedItem>
       <ExcludedItem>Cocktail~Cocktail.AuthenticationManagerProvider</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.CoroutineOperationResult`1</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.EntityQueryOperationResult</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.EntityQueryOperationResult`1</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.EntityRefetchOperationResult</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.EntitySaveOperationResult</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.EntityScalarQueryOperationResult`1</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.InvokeServerMethodOperationResult`1</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.AlwaysCompleted</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.AlwaysCompleted+AlwaysCompletedArgs</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.SynchronousOperationResult`1</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.TaskOperationResult</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.TaskOperationResult`1</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.TaskNotifyCompleted</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.TaskNotifyCompletedArgs</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.CoroutineFns+--c__DisplayClass2+--c__DisplayClass4</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.TaskExtensions+--c__DisplayClass8+--c__DisplayClassb</ExcludedItem>
+      <ExcludedItem>Cocktail.Compat~Cocktail.TaskNotifyCompleted+--c__DisplayClass2+--c__DisplayClass4</ExcludedItem>
     </ExcludedItems>
   </Filters>
   <ComProjectPlugin />
@@ -75,6 +93,7 @@
   <DotNetAssemblies>
     <Assembly FileName="..\Cocktail\Bin\Debug\Cocktail.dll" RootTypeName="" />
     <Assembly FileName="..\Cocktail.Utils\Bin\Debug\Cocktail.Utils.dll" RootTypeName="" />
+    <Assembly FileName="..\Cocktail.Compat\Bin\Debug\Cocktail.Compat.dll" RootTypeName="" />
   </DotNetAssemblies>
   <DatabaseProjectPlugin>
     <Databases />

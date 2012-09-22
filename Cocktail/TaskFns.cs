@@ -11,7 +11,7 @@
 // ====================================================================================================================
 
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Cocktail
@@ -28,9 +28,7 @@ namespace Cocktail
         public static Task<T> FromResult<T>(T resultValue)
         {
 #if SILVERLIGHT
-             var tcs = new TaskCompletionSource<T>();
-             tcs.SetResult(resultValue);
-             return tcs.Task;
+            return TaskEx.FromResult(resultValue);
 #else
             return Task.FromResult(resultValue);
 #endif
@@ -57,23 +55,106 @@ namespace Cocktail
         }
 
         /// <summary>
-        /// Creates a task that will complete when all of the supplied tasks have completed
+        /// Creates a task that will complete when all of the provided collection of Tasks have completed
         /// </summary>
-        /// <param name="tasks">The tasks to wait on for completion.</param>
+        /// <returns>A task that represents the completion of all of the supplied tasks.</returns>
         public static Task WhenAll(params Task[] tasks)
         {
 #if SILVERLIGHT
-            return Task.Factory.ContinueWhenAll(
-                tasks,
-                completedTasks =>
-                    {
-                        if (completedTasks.Any(x => x.IsFaulted))
-                            throw new AggregateException(completedTasks.Where(x => x.IsFaulted).Select(x => x.Exception));
-                        if (completedTasks.Any(x => x.IsCanceled))
-                            throw new TaskCanceledException();
-                    });
+            return TaskEx.WhenAll(tasks);
 #else
             return Task.WhenAll(tasks);
+#endif
+        }
+
+        /// <summary>
+        /// Creates a task that will complete when all of the provided collection of Tasks have completed
+        /// </summary>
+        /// <returns>A task that represents the completion of all of the supplied tasks.</returns>
+        public static Task WhenAll(IEnumerable<Task> tasks)
+        {
+#if SILVERLIGHT
+            return TaskEx.WhenAll(tasks);
+#else
+            return Task.WhenAll(tasks);
+#endif
+        }
+
+        /// <summary>
+        /// Creates a task that will complete when all of the provided collection of Tasks have completed
+        /// </summary>
+        /// <returns>A task that represents the completion of all of the supplied tasks.</returns>
+        public static Task<T[]> WhenAll<T>(params Task<T>[] tasks)
+        {
+#if SILVERLIGHT
+            return TaskEx.WhenAll(tasks);
+#else
+            return Task.WhenAll(tasks);
+#endif
+        }
+
+        /// <summary>
+        /// Creates a task that will complete when all of the provided collection of Tasks have completed
+        /// </summary>
+        /// <returns>A task that represents the completion of all of the supplied tasks.</returns>
+        public static Task<T[]> WhenAll<T>(IEnumerable<Task<T>> tasks)
+        {
+#if SILVERLIGHT
+            return TaskEx.WhenAll(tasks);
+#else
+            return Task.WhenAll(tasks);
+#endif
+        }
+
+        /// <summary>
+        /// Creates a task that will complete when any of the supplied tasks have completed.
+        /// </summary>
+        /// <returns>A task that represents the completion of one of the supplied tasks. The return Task's Result is the task that completed.</returns>
+        public static Task<Task> WhenAny(params Task[] tasks)
+        {
+#if SILVERLIGHT
+            return TaskEx.WhenAny(tasks);
+#else
+            return Task.WhenAny(tasks);
+#endif
+        }
+
+        /// <summary>
+        /// Creates a task that will complete when any of the supplied tasks have completed.
+        /// </summary>
+        /// <returns>A task that represents the completion of one of the supplied tasks. The return Task's Result is the task that completed.</returns>
+        public static Task<Task> WhenAny(IEnumerable<Task> tasks)
+        {
+#if SILVERLIGHT
+            return TaskEx.WhenAny(tasks);
+#else
+            return Task.WhenAny(tasks);
+#endif
+        }
+
+        /// <summary>
+        /// Creates a task that will complete when any of the supplied tasks have completed.
+        /// </summary>
+        /// <returns>A task that represents the completion of one of the supplied tasks. The return Task's Result is the task that completed.</returns>
+        public static Task<Task<T>> WhenAny<T>(params Task<T>[] tasks)
+        {
+#if SILVERLIGHT
+            return TaskEx.WhenAny(tasks);
+#else
+            return Task.WhenAny(tasks);
+#endif
+        }
+
+        /// <summary>
+        /// Creates a task that will complete when any of the supplied tasks have completed.
+        /// </summary>
+        /// <returns>A task that represents the completion of one of the supplied tasks. The return Task's Result is the task that completed.</returns>
+        public static Task<Task<T>> WhenAny<T>(IEnumerable<Task<T>> tasks)
+        {
+#if SILVERLIGHT
+            return TaskEx.WhenAny(tasks);
+#else
+            return Task.WhenAny(tasks);
 #endif
         }
     }

@@ -10,7 +10,7 @@
 <#@ import namespace="IdeaBlade.VisualStudio.OM.CodeGenerator" #>
 <#@ import namespace="IdeaBlade.EntityModel.Edm.Metadata" #>
 <#
-	// Source for this file located at: C:\USERS\MARCEL\APPDATA\LOCAL\MICROSOFT\VISUALSTUDIO\11.0\EXTENSIONS\EIUKMFA1.WZN\DomainModelTemplate.tt
+	// Source for this file located at: C:\USERS\MARCEL\APPDATA\LOCAL\MICROSOFT\VISUALSTUDIO\11.0\EXTENSIONS\JAPJ4WCF.SJL\DomainModelTemplate.tt
 	// NorthwindIB.edmx  <--- This is needed so that "Transform Related Text Templates On Save" works correctly.
 	var template = new DomainModelTemplate(this);
 	template.Generate();

@@ -20,7 +20,7 @@ namespace Cocktail
     /// <summary>
     ///   Interface used to configure a NavigationService.
     /// </summary>
-    public interface INavigatorConfigurator : IHideObjectMembers
+    public partial interface INavigatorConfigurator : IHideObjectMembers
     {
         /// <summary>
         ///   Configures the close guard for the ActiveViewModel.
@@ -30,15 +30,6 @@ namespace Cocktail
         ///   if no guard is configured, <see cref="IGuardClose.CanClose" /> is automatically being called.
         /// </remarks>
         INavigatorConfigurator WithActiveItemGuard(Func<object, Task<bool>> guard);
-
-        /// <summary>
-        ///   Configures the guard for the target type.
-        /// </summary>
-        /// <param name="guard"> The target guard. </param>
-        /// <remarks>
-        ///   The target guard controls whether the target type is an authorized navigation target.
-        /// </remarks>
-        INavigatorConfigurator WithTargetGuard(Func<Type, Task<bool>> guard);
     }
 
     /// <summary>
@@ -239,40 +230,17 @@ namespace Cocktail
 
             return TaskFns.FromResult(true);
         }
-
-        /// <summary>
-        ///   Determines if the target ViewModel type is authorized.
-        /// </summary>
-        /// <param name="viewModelType"> The target ViewModel type. </param>
-        /// <returns> Return true if the target type is authorized. </returns>
-        private Task<bool> AuthorizeTargetAsync(Type viewModelType)
-        {
-            if (viewModelType == null) throw new ArgumentNullException("viewModelType");
-
-            if (_configuration.TargetGuard != null)
-                return _configuration.TargetGuard(viewModelType);
-
-            return TaskFns.FromResult(true);
-        }
     }
 
-    internal class NavigatorConfiguration : INavigatorConfigurator
+    internal partial class NavigatorConfiguration : INavigatorConfigurator
     {
         public Func<object, Task<bool>> ActiveItemGuard { get; private set; }
-
-        public Func<Type, Task<bool>> TargetGuard { get; private set; }
 
         #region INavigatorConfigurator Members
 
         public INavigatorConfigurator WithActiveItemGuard(Func<object, Task<bool>> guard)
         {
             ActiveItemGuard = guard;
-            return this;
-        }
-
-        public INavigatorConfigurator WithTargetGuard(Func<Type, Task<bool>> guard)
-        {
-            TargetGuard = guard;
             return this;
         }
 

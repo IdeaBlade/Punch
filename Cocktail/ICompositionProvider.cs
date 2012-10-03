@@ -55,25 +55,25 @@ namespace Cocktail
         IEnumerable<T> GetInstances<T>() where T : class;
 
         /// <summary>
-        ///   Returns a lazy instance of the provided type or with the specified contract name or both.
+        ///   Returns a lazy instance that matches the specified name and type.
         /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
-        /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
+        /// <param name="serviceType">The type to match.</param>
+        /// <param name="contractName">The name to match.</param>
         Lazy<object> GetInstance(Type serviceType, string contractName);
 
         /// <summary>
-        ///   Returns an instance of the specified type.
+        ///   Returns an instance that matches the specified name and type.
         /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
-        /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
+        /// <param name="serviceType">The type to match.</param>
+        /// <param name="contractName">The name to match.</param>
         /// <returns> Null if instance is not present in the container. </returns>
         object TryGetInstance(Type serviceType, string contractName);
 
         /// <summary>
-        ///   Returns all lazy instances of the provided type.
+        ///   Returns all instances that match the specified name and type.
         /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
-        /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
+        /// <param name="serviceType">The type to match.</param>
+        /// <param name="contractName">The name to match.</param>
         IEnumerable<object> GetInstances(Type serviceType, string contractName);
 
         /// <summary>

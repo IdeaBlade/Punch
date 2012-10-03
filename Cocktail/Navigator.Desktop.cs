@@ -16,6 +16,59 @@ using Caliburn.Micro;
 
 namespace Cocktail
 {
+    public partial interface INavigatorConfigurator
+    {
+        /// <summary>
+        ///   Configures the guard for the target type.
+        /// </summary>
+        /// <param name="guard"> The target guard. </param>
+        /// <remarks>
+        ///   The target guard controls whether the target type is an authorized navigation target.
+        /// </remarks>
+        INavigatorConfigurator WithTargetGuard(Func<Type, string, Task<bool>> guard);
+    }
+
+    public partial interface INavigator
+    {
+        /// <summary>
+        ///   Asynchronously navigates to a ViewModel instance that matches the specified name and type. 
+        ///   The navigation will be cancelled if the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="viewModelType"> The type to match. </param>
+        /// <param name="contractName"> The name to match. </param>
+        /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        /// <remarks>
+        ///   Not available in Windows 8 Store apps.
+        /// </remarks>
+        Task NavigateToAsync(Type viewModelType, string contractName, Func<object, Task> prepare);
+
+        /// <summary>
+        ///   Asynchronously navigates to a ViewModel instance that matches the specified name and type. 
+        ///   The navigation will be cancelled if the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="viewModelType"> The type to match. </param>
+        /// <param name="contractName"> The name to match. </param>
+        /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        /// <remarks>
+        ///   Not available in Windows 8 Store apps.
+        /// </remarks>
+        Task NavigateToAsync(Type viewModelType, string contractName, Action<object> prepare);
+
+        /// <summary>
+        ///   Asynchronously navigates to a ViewModel instance that matches the specified name and type. 
+        ///   The navigation will be cancelled if the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="viewModelType"> The type to match. </param>
+        /// <param name="contractName"> The name to match. </param>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        /// <remarks>
+        ///   Not available in Windows 8 Store apps.
+        /// </remarks>
+        Task NavigateToAsync(Type viewModelType, string contractName);
+    }
+
     public partial class Navigator
     {
         private readonly IConductActiveItem _conductor;
@@ -40,28 +93,124 @@ namespace Cocktail
         }
 
         /// <summary>
+        ///   Asynchronously navigates to a ViewModel instance that matches the specified name and type. 
+        ///   The navigation will be cancelled if the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="viewModelType"> The type to match. </param>
+        /// <param name="contractName"> The name to match. </param>
+        /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        /// <remarks>
+        ///   Not available in Windows 8 Store apps.
+        /// </remarks>
+        public async Task NavigateToAsync(Type viewModelType, string contractName, Func<object, Task> prepare)
+        {
+            if (viewModelType == null && string.IsNullOrEmpty(contractName))
+                throw new ArgumentNullException();
+            if (prepare == null)
+                throw new ArgumentNullException("prepare");
+
+            if (!await CanCloseAsync())
+                throw new TaskCanceledException();
+
+            if (!await AuthorizeTargetAsync(viewModelType, contractName))
+                throw new TaskCanceledException();
+
+            var target = Composition.GetInstance(viewModelType, contractName);
+            await prepare(target);
+
+            if (!ReferenceEquals(ActiveViewModel, target))
+                _conductor.ActivateItem(target);
+        }
+
+        /// <summary>
         ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
         ///   the current active ViewModel cannot be closed or the target type is not authorized.
         /// </summary>
         /// <param name="viewModelType"> The target ViewModel type. </param>
         /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        public async Task NavigateToAsync(Type viewModelType, Func<object, Task> prepare)
+        public Task NavigateToAsync(Type viewModelType, Func<object, Task> prepare)
         {
             if (viewModelType == null) throw new ArgumentNullException("viewModelType");
             if (prepare == null) throw new ArgumentNullException("prepare");
 
-            if (!await CanCloseAsync())
-                throw new TaskCanceledException();
+            return NavigateToAsync(viewModelType, null, prepare);
+        }
 
-            if (!await AuthorizeTargetAsync(viewModelType))
-                throw new TaskCanceledException();
+        /// <summary>
+        ///   Asynchronously navigates to a ViewModel instance that matches the specified name and type. 
+        ///   The navigation will be cancelled if the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="viewModelType"> The type to match. </param>
+        /// <param name="contractName"> The name to match. </param>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        /// <remarks>
+        ///   Not available in Windows 8 Store apps.
+        /// </remarks>
+        public Task NavigateToAsync(Type viewModelType, string contractName)
+        {
+            if (viewModelType == null && string.IsNullOrEmpty(contractName))
+                throw new ArgumentNullException();
 
-            var target = Composition.GetInstance(viewModelType, null);
-            await prepare(target);
+            return NavigateToAsync(viewModelType, contractName, viewModel => TaskFns.FromResult(true));
+        }
 
-            if (!ReferenceEquals(ActiveViewModel, target))
-                _conductor.ActivateItem(target);
+        /// <summary>
+        ///   Asynchronously navigates to a ViewModel instance that matches the specified name and type. 
+        ///   The navigation will be cancelled if the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="viewModelType"> The type to match. </param>
+        /// <param name="contractName"> The name to match. </param>
+        /// <param name="prepare"> An action to initialize the target ViewModel before it is activated. </param>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        /// <remarks>
+        ///   Not available in Windows 8 Store apps.
+        /// </remarks>
+        public Task NavigateToAsync(Type viewModelType, string contractName, Action<object> prepare)
+        {
+            if (viewModelType == null && string.IsNullOrEmpty(contractName))
+                throw new ArgumentNullException();
+            if (prepare == null)
+                throw new ArgumentNullException("prepare");
+
+            return NavigateToAsync(viewModelType, contractName, viewModel =>
+                                                                    {
+                                                                        prepare(viewModel);
+                                                                        return TaskFns.FromResult(true);
+                                                                    });
+        }
+
+        #endregion
+
+        /// <summary>
+        ///   Determines if the target ViewModel type is authorized.
+        /// </summary>
+        /// <param name="viewModelType"> The target ViewModel type. </param>
+        /// <param name="contractName">The target ViewModel contract name.</param>
+        /// <returns> Return true if the target type is authorized. </returns>
+        private Task<bool> AuthorizeTargetAsync(Type viewModelType, string contractName)
+        {
+            if (viewModelType == null && string.IsNullOrEmpty(contractName))
+                throw new ArgumentNullException();
+
+            if (_configuration.TargetGuard != null)
+                return _configuration.TargetGuard(viewModelType, contractName);
+
+            return TaskFns.FromResult(true);
+        }
+    }
+
+    internal partial class NavigatorConfiguration
+    {
+        public Func<Type, string, Task<bool>> TargetGuard { get; private set; }
+
+        #region INavigatorConfigurator Members
+
+        public INavigatorConfigurator WithTargetGuard(Func<Type, string, Task<bool>> guard)
+        {
+            TargetGuard = guard;
+            return this;
         }
 
         #endregion

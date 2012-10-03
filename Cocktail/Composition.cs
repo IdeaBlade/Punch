@@ -88,20 +88,20 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Returns an instance of the provided type or with the specified contract name or both.
+        ///   Returns an instance that matches the specified name and type.
         /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
-        /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
+        /// <param name="serviceType">The type to match.</param>
+        /// <param name="contractName">The name to match.</param>
         public static object GetInstance(Type serviceType, string contractName)
         {
             return GetLazyInstance(serviceType, contractName).Value;
         }
 
         /// <summary>
-        ///   Returns an instance of the specified type.
+        ///   Returns an instance that matches the specified name and type.
         /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
-        /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
+        /// <param name="serviceType">The type to match.</param>
+        /// <param name="contractName">The name to match.</param>
         /// <returns> Null if instance is not present in the container. </returns>
         public static object TryGetInstance(Type serviceType, string contractName)
         {
@@ -109,10 +109,10 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Returns all instances of the provided type.
+        ///   Returns all instances that match the specified name and type.
         /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
-        /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
+        /// <param name="serviceType">The type to match.</param>
+        /// <param name="contractName">The name to match.</param>
         public static IEnumerable<object> GetInstances(Type serviceType, string contractName)
         {
             return Provider.GetInstances(serviceType, contractName);
@@ -128,10 +128,10 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Returns a lazy instance of the provided type or with the specified contract name or both.
+        ///   Returns a lazy instance that matches the specified name and type.
         /// </summary>
-        /// <param name="serviceType"> The type of the requested instance. If no type is specified the contract name will be used. </param>
-        /// <param name="contractName"> The contract name of the instance requested. If no contract name is specified, the type will be used. </param>
+        /// <param name="serviceType">The type to match.</param>
+        /// <param name="contractName">The name to match.</param>
         public static Lazy<object> GetLazyInstance(Type serviceType, string contractName)
         {
             return Provider.GetInstance(serviceType, contractName);

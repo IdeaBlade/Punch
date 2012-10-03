@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>IdeaBlade.Cocktail</id>
-    <version>2.0.1-beta1</version>
+    <version>2.0.2-beta1</version>
     <title>Cocktail 2012</title>
     <authors>IdeaBlade</authors>
     <owners>IdeaBlade</owners>
@@ -19,7 +19,7 @@ Line of business applications need to query and save database data, model the da
     <copyright>Copyright 2012</copyright>
     <tags>MVVM Silverlight WPF SL5 SL Windows8 WinRT Metro Convention Screen Asynchronous Model-View-ViewModel Presentation UI ViewModel Caliburn.Micro DevForce ORM Entity Data LOB Enterprise</tags>
     <dependencies>
-      <dependency id="IdeaBlade.DevForce.Core" version="[7.0.0-beta1]" />
+      <dependency id="IdeaBlade.DevForce.Core" version="[7.0.1-beta1]" />
       <dependency id="IdeaBlade.Cocktail.Utils" />
     </dependencies>
   </metadata>

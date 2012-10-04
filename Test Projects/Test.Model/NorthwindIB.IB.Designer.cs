@@ -3,7 +3,7 @@
 //    Any changes made to this code will be lost the next time this 
 //    code is regenerated.
 // 
-//    Generated at: 8/7/2012 6:46:54 PM
+//    Generated at: 10/4/2012 4:54:30 AM
 //    DevForce version: 7.0.0.0
 //    Template version: 2.1.4
 // ------------------------------------------------------------------------------
@@ -16,7 +16,7 @@ using IbEm   = IdeaBlade.EntityModel;
 using IbCore = IdeaBlade.Core;
 using IbVal  = IdeaBlade.Validation;
 
-[module: IbCore.IdeaBladeLicense("CheGSWzmC/OYB0gn/l+G5BHsL8bjGEf3mS+0sAj8iknq9wvIe0BG4rPYKUzqxoiC")]
+[module: IbCore.IdeaBladeLicense("syL+PiXMoxc/9sBFYmwYQuCPuU5v4sQRkn9OQYkdpeGP6EeGqSKVXtUBHA6Hrg7V")]
 
 namespace Test.Model { 
 
@@ -51,6 +51,21 @@ namespace Test.Model {
     /// <summary>Gets the <see cref="T:IbEm.EntityQuery"/> associated with the given EntitySet name. </summary>
     public IbEm.EntityQuery<Customer> Customers {
       get { return new IbEm.EntityQuery<Customer>("Customers", this); }
+    }
+
+    /// <summary>Gets the <see cref="T:IbEm.EntityQuery"/> associated with the given EntitySet name. </summary>
+    public IbEm.EntityQuery<EntityWithInternalCtor> EntityWithInternalCtors {
+      get { return new IbEm.EntityQuery<EntityWithInternalCtor>("EntityWithInternalCtors", this); }
+    }
+
+    /// <summary>Gets the <see cref="T:IbEm.EntityQuery"/> associated with the given EntitySet name. </summary>
+    public IbEm.EntityQuery<EntityWithInternalFactoryMethod> EntityWithInternalFactoryMethods {
+      get { return new IbEm.EntityQuery<EntityWithInternalFactoryMethod>("EntityWithInternalFactoryMethods", this); }
+    }
+
+    /// <summary>Gets the <see cref="T:IbEm.EntityQuery"/> associated with the given EntitySet name. </summary>
+    public IbEm.EntityQuery<EntityWithPublicFactoryMethod> EntityWithPublicFactoryMethods {
+      get { return new IbEm.EntityQuery<EntityWithPublicFactoryMethod>("EntityWithPublicFactoryMethods", this); }
     }
     #endregion EntityQueries
   }
@@ -291,12 +306,180 @@ namespace Test.Model {
   }
   #endregion Customer class
 
+  #region EntityWithInternalCtor class
+
+  /// <summary>The auto-generated EntityWithInternalCtor class. </summary>
+  [DataContract(IsReference=true)]
+  [IbEm.DataSourceKeyName(@"NorthwindIBEntities")]
+  [IbEm.DefaultEntitySetName(@"NorthwindIBEntities.EntityWithInternalCtors")]
+  public partial class EntityWithInternalCtor : IbEm.Entity {
+
+    /// <summary>Returns the property path for the given expression. </summary>
+    /// <example>
+    /// Usage:
+    /// <code>
+    ///    var r = Employee.PathFor(e => e.Manager.City); // returns "Manager.City"
+    /// </code>
+    /// </example>
+    public static string PathFor(System.Linq.Expressions.Expression<System.Func<EntityWithInternalCtor, object>> expr) {
+      return IbCore.PropertyPath.For<EntityWithInternalCtor>(expr);
+    }
+
+    #region Data Properties
+
+    /// <summary>Gets or sets the Id. </summary>
+    [Key]
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="Id", AutoGenerateField=true)]
+    [IbVal.RequiredValueVerifier( ErrorMessageResourceName="EntityWithInternalCtor_Id")]
+    public int Id {
+      get { return PropertyMetadata.Id.GetValue(this); }
+      set { PropertyMetadata.Id.SetValue(this, value); }
+    }
+    #endregion Data Properties
+
+    #region Navigation properties
+    #endregion Navigation properties
+
+    #region EntityProperty definitions
+    public partial class PropertyMetadata {
+
+      /// Explicit static constructor ensures static fields are initialized.
+      static PropertyMetadata() {}
+
+      /// <summary>The Id <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<EntityWithInternalCtor, int> Id = new IbEm.DataEntityProperty<EntityWithInternalCtor, int>("Id", false, true, IbEm.ConcurrencyStrategy.None, false, null);
+    }
+    #endregion EntityProperty definitions
+
+    #region EntityPropertyNames
+    public new partial class EntityPropertyNames : IbEm.Entity.EntityPropertyNames {
+      public const String Id = "Id";
+    }
+    #endregion EntityPropertyNames
+  }
+  #endregion EntityWithInternalCtor class
+
+  #region EntityWithInternalFactoryMethod class
+
+  /// <summary>The auto-generated EntityWithInternalFactoryMethod class. </summary>
+  [DataContract(IsReference=true)]
+  [IbEm.DataSourceKeyName(@"NorthwindIBEntities")]
+  [IbEm.DefaultEntitySetName(@"NorthwindIBEntities.EntityWithInternalFactoryMethods")]
+  public partial class EntityWithInternalFactoryMethod : IbEm.Entity {
+
+    /// <summary>Returns the property path for the given expression. </summary>
+    /// <example>
+    /// Usage:
+    /// <code>
+    ///    var r = Employee.PathFor(e => e.Manager.City); // returns "Manager.City"
+    /// </code>
+    /// </example>
+    public static string PathFor(System.Linq.Expressions.Expression<System.Func<EntityWithInternalFactoryMethod, object>> expr) {
+      return IbCore.PropertyPath.For<EntityWithInternalFactoryMethod>(expr);
+    }
+
+    #region Data Properties
+
+    /// <summary>Gets or sets the Id. </summary>
+    [Key]
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="Id", AutoGenerateField=true)]
+    [IbVal.RequiredValueVerifier( ErrorMessageResourceName="EntityWithInternalFactoryMethod_Id")]
+    public int Id {
+      get { return PropertyMetadata.Id.GetValue(this); }
+      set { PropertyMetadata.Id.SetValue(this, value); }
+    }
+    #endregion Data Properties
+
+    #region Navigation properties
+    #endregion Navigation properties
+
+    #region EntityProperty definitions
+    public partial class PropertyMetadata {
+
+      /// Explicit static constructor ensures static fields are initialized.
+      static PropertyMetadata() {}
+
+      /// <summary>The Id <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<EntityWithInternalFactoryMethod, int> Id = new IbEm.DataEntityProperty<EntityWithInternalFactoryMethod, int>("Id", false, true, IbEm.ConcurrencyStrategy.None, false, null);
+    }
+    #endregion EntityProperty definitions
+
+    #region EntityPropertyNames
+    public new partial class EntityPropertyNames : IbEm.Entity.EntityPropertyNames {
+      public const String Id = "Id";
+    }
+    #endregion EntityPropertyNames
+  }
+  #endregion EntityWithInternalFactoryMethod class
+
+  #region EntityWithPublicFactoryMethod class
+
+  /// <summary>The auto-generated EntityWithPublicFactoryMethod class. </summary>
+  [DataContract(IsReference=true)]
+  [IbEm.DataSourceKeyName(@"NorthwindIBEntities")]
+  [IbEm.DefaultEntitySetName(@"NorthwindIBEntities.EntityWithPublicFactoryMethods")]
+  public partial class EntityWithPublicFactoryMethod : IbEm.Entity {
+
+    /// <summary>Returns the property path for the given expression. </summary>
+    /// <example>
+    /// Usage:
+    /// <code>
+    ///    var r = Employee.PathFor(e => e.Manager.City); // returns "Manager.City"
+    /// </code>
+    /// </example>
+    public static string PathFor(System.Linq.Expressions.Expression<System.Func<EntityWithPublicFactoryMethod, object>> expr) {
+      return IbCore.PropertyPath.For<EntityWithPublicFactoryMethod>(expr);
+    }
+
+    #region Data Properties
+
+    /// <summary>Gets or sets the Id. </summary>
+    [Key]
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="Id", AutoGenerateField=true)]
+    [IbVal.RequiredValueVerifier( ErrorMessageResourceName="EntityWithPublicFactoryMethod_Id")]
+    public int Id {
+      get { return PropertyMetadata.Id.GetValue(this); }
+      set { PropertyMetadata.Id.SetValue(this, value); }
+    }
+    #endregion Data Properties
+
+    #region Navigation properties
+    #endregion Navigation properties
+
+    #region EntityProperty definitions
+    public partial class PropertyMetadata {
+
+      /// Explicit static constructor ensures static fields are initialized.
+      static PropertyMetadata() {}
+
+      /// <summary>The Id <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<EntityWithPublicFactoryMethod, int> Id = new IbEm.DataEntityProperty<EntityWithPublicFactoryMethod, int>("Id", false, true, IbEm.ConcurrencyStrategy.None, false, null);
+    }
+    #endregion EntityProperty definitions
+
+    #region EntityPropertyNames
+    public new partial class EntityPropertyNames : IbEm.Entity.EntityPropertyNames {
+      public const String Id = "Id";
+    }
+    #endregion EntityPropertyNames
+  }
+  #endregion EntityWithPublicFactoryMethod class
+
   #region EntityRelations
 
   /// <summary>
   /// A generated class that returns the relations between entities in this model.
   /// </summary>
-  [IbCore.IdeaBladeGuid("1edf1c0a-846d-45a1-ad2f-907316722207", "2.1.4")]
+  [IbCore.IdeaBladeGuid("882c22f7-451e-4992-8df4-b67a49c1a2e7", "2.1.4")]
   public partial class EntityRelations : IbEm.IEntityRelations {
 
     /// Explicit static constructor ensures static fields are initialized.

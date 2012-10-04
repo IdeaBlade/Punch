@@ -65,11 +65,25 @@ namespace Cocktail
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var methodInfo = FindFactoryMethod(typeof(T));
-            var instance = methodInfo != null ? methodInfo.Invoke(null, new object[0]) : Activator.CreateInstance<T>();
-            EntityManager.AddEntity(instance);
+            T instance = null;
+            var methodInfo = FindFactoryMethod(typeof(T), false) ?? FindFactoryMethod(typeof(T), true);
+            if (methodInfo != null)
+            {
+                try
+                {
+                    instance = (T)methodInfo.Invoke(null, new object[0]);
+                }
+                catch (MemberAccessException)
+                {
+                    instance = null;
+                }
+            }
 
-            return await TaskFns.FromResult((T) instance);
+            if (methodInfo == null || instance == null)
+                instance = CreateInstance();
+
+            EntityManager.AddEntity(instance);
+            return await TaskFns.FromResult(instance);
         }
 
         #endregion
@@ -78,13 +92,30 @@ namespace Cocktail
         /// Locates a suitable factory method for the provided type.
         /// </summary>
         /// <param name="type">The type for which a factory method is needed.</param>
+        /// <param name="nonPublic">true if a public or nonpublic method can match; false if only a public method can match.</param>
         /// <returns>Null if no suitable factory method could be located.</returns>
-        protected virtual MethodInfo FindFactoryMethod(Type type)
+        protected virtual MethodInfo FindFactoryMethod(Type type, bool nonPublic)
         {
-            var candidates = type.GetMethods(BindingFlags.Public | BindingFlags.Static);
-            candidates = candidates.Where(c => c.ReturnType == type && !c.GetParameters().Any()).ToArray();
+            var bindingFlags = BindingFlags.Public | BindingFlags.Static;
+            if (nonPublic)
+                bindingFlags |= BindingFlags.NonPublic;
+
+            var candidates = type.GetMethods(bindingFlags)
+                .Where(x => x.ReturnType == type && !x.GetParameters().Any())
+                .ToArray();
 
             return candidates.Count() == 1 ? candidates.First() : null;
+        }
+
+        private T CreateInstance()
+        {
+            var ctors = typeof(T).GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            var ctor = ctors.FirstOrDefault(x => !x.GetParameters().Any());
+
+            if (ctor == null)
+                throw new MissingMemberException(StringResources.NoParameterlessCtor);
+
+            return (T) ctor.Invoke(new object[0]);
         }
     }
 }

@@ -270,4 +270,7 @@
   <data name="ViewNotFound" xml:space="preserve">
     <value>No view was found for {0}. See the log for searched views.</value>
   </data>
+  <data name="NoParameterlessCtor" xml:space="preserve">
+    <value>No parameterless constructor defined for this object.</value>
+  </data>
 </root>

@@ -30,9 +30,12 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="NorthwindIBModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="NorthwindIBEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:ib12="http://www.ideablade.com/edm/2012">
+      <Schema Namespace="NorthwindIBModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:ib12="http://www.ideablade.com/edm/2012">
+        <EntityContainer Name="NorthwindIBEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:ib12="http://www.ideablade.com/edm/2012" ib12:DevForceEnabled="True">
           <EntitySet Name="Customers" EntityType="NorthwindIBModel.Customer" />
+          <EntitySet Name="EntityWithInternalCtors" EntityType="NorthwindIBModel.EntityWithInternalCtor" />
+          <EntitySet Name="EntityWithInternalFactoryMethods" EntityType="NorthwindIBModel.EntityWithInternalFactoryMethod" />
+          <EntitySet Name="EntityWithPublicFactoryMethods" EntityType="NorthwindIBModel.EntityWithPublicFactoryMethod" />
         </EntityContainer>
         <EntityType Name="Customer">
           <Key>
@@ -51,6 +54,24 @@
           <Property Name="Phone" Type="String" MaxLength="24" Unicode="true" FixedLength="false" />
           <Property Name="Fax" Type="String" MaxLength="24" Unicode="true" FixedLength="false" />
           <Property Name="RowVersion" Type="Int32" />
+        </EntityType>
+        <EntityType Name="EntityWithInternalCtor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" a:StoreGeneratedPattern="None" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        </EntityType>
+        <EntityType Name="EntityWithInternalFactoryMethod">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" a:StoreGeneratedPattern="None" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        </EntityType>
+        <EntityType Name="EntityWithPublicFactoryMethod">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" a:StoreGeneratedPattern="None" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -95,6 +116,9 @@
     <Diagrams>
       <Diagram Name="NorthwindIB" ZoomLevel="80">
         <EntityTypeShape EntityType="NorthwindIBModel.Customer" Width="1.5" PointX="0.625" PointY="0.5" Height="3.5186979166666665" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthwindIBModel.EntityWithInternalCtor" Width="2.25" PointX="3" PointY="0.625" />
+        <EntityTypeShape EntityType="NorthwindIBModel.EntityWithInternalFactoryMethod" Width="2.625" PointX="4.5" PointY="2.875" />
+        <EntityTypeShape EntityType="NorthwindIBModel.EntityWithPublicFactoryMethod" Width="3.25" PointX="3.125" PointY="4.625" />
       </Diagram>
     </Diagrams>
   </Designer>

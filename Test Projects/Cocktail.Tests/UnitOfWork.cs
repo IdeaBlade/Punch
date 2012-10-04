@@ -319,5 +319,40 @@ namespace Cocktail.Tests
             await unitOfWork.CommitAsync()
                 .ContinueWith(task => Assert.IsTrue(task.IsCanceled, "Should be cancelled"));
         }
+
+        [TestMethod]
+        public void ShouldCreateEntityWithInternalCtor()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<EntityWithInternalCtor>(provider);
+
+            var task = unitOfWork.Factory.CreateAsync();
+            Assert.IsNotNull(task.Result);
+            Assert.IsTrue(task.Result.EntityAspect.EntityState.IsAdded());
+        }
+
+        [TestMethod]
+        public void ShouldCreateEntityWithInternalFactoryMethod()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<EntityWithInternalFactoryMethod>(provider);
+
+            var task = unitOfWork.Factory.CreateAsync();
+            Assert.IsNotNull(task.Result);
+            Assert.IsTrue(task.Result.Id == 100);
+            Assert.IsTrue(task.Result.EntityAspect.EntityState.IsAdded());
+        }
+
+        [TestMethod]
+        public void ShouldCreateEntityWithPublicFactoryMethod()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<EntityWithPublicFactoryMethod>(provider);
+
+            var task = unitOfWork.Factory.CreateAsync();
+            Assert.IsNotNull(task.Result);
+            Assert.IsTrue(task.Result.Id == 200);
+            Assert.IsTrue(task.Result.EntityAspect.EntityState.IsAdded());
+        }
     }
 }

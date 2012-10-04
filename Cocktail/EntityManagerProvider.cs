@@ -246,7 +246,7 @@ namespace Cocktail
                                                  connectionOptions.IsFake));
                 return manager;
             }
-            catch (Exception inner)
+            catch (MissingMemberException inner)
             {
                 throw new InvalidOperationException(string.Format(StringResources.MissingEntityManagerConstructor,
                                                                typeof(T).Name), inner);

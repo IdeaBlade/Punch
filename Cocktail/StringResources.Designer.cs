@@ -349,6 +349,15 @@ namespace Cocktail {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No parameterless constructor defined for this object..
+        /// </summary>
+        internal static string NoParameterlessCtor {
+            get {
+                return ResourceManager.GetString("NoParameterlessCtor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         internal static string Ok {

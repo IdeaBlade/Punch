@@ -89,29 +89,29 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.0.0-beta1\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.0.2-beta1\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Aop.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Aop.7.0.0-beta1\lib\sl50\IdeaBlade.Aop.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Aop.7.0.1-beta1\lib\sl50\IdeaBlade.Aop.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.1-beta1\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\sl50\IdeaBlade.EntityModel.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.1-beta1\lib\sl50\IdeaBlade.EntityModel.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\sl50\IdeaBlade.Linq.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.1-beta1\lib\sl50\IdeaBlade.Linq.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\sl50\IdeaBlade.Validation.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.1-beta1\lib\sl50\IdeaBlade.Validation.SL.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Silverlight5">
       <HintPath>..\packages\Microsoft.CompilerServices.AsyncTargetingPack.1.0.0\lib\sl50\Microsoft.CompilerServices.AsyncTargetingPack.Silverlight5.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="PostSharp.SL">
-      <HintPath>..\packages\PostSharp.2.1.7.11\lib\sl3\PostSharp.SL.dll</HintPath>
+      <HintPath>..\packages\PostSharp.2.1.7.18\lib\sl3\PostSharp.SL.dll</HintPath>
     </Reference>
     <Reference Include="system" />
     <Reference Include="System.ComponentModel.Composition, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -169,8 +169,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Import Project="..\packages\PostSharp.2.1.7.11\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.2.1.7.11\tools\PostSharp.targets')" />
-  <Import Project="..\packages\IdeaBlade.DevForce.Aop.7.0.0-beta1\tools\IdeaBlade.DevForce.Common.targets" Condition="Exists('..\packages\IdeaBlade.DevForce.Aop.7.0.0-beta1\tools\IdeaBlade.DevForce.Common.targets')" />
+  <Import Project="..\packages\PostSharp.2.1.7.18\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.2.1.7.18\tools\PostSharp.targets')" />
+  <Import Project="..\packages\IdeaBlade.DevForce.Aop.7.0.1-beta1\tools\IdeaBlade.DevForce.Common.targets" Condition="Exists('..\packages\IdeaBlade.DevForce.Aop.7.0.1-beta1\tools\IdeaBlade.DevForce.Common.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

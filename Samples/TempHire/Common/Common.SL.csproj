@@ -89,25 +89,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\sl50\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.2-beta1\lib\sl50\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\sl50\Cocktail.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.2-beta1\lib\sl50\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.0.0-beta1\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.0.2-beta1\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.1-beta1\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\sl50\IdeaBlade.EntityModel.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.1-beta1\lib\sl50\IdeaBlade.EntityModel.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\sl50\IdeaBlade.Linq.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.1-beta1\lib\sl50\IdeaBlade.Linq.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.0-beta1\lib\sl50\IdeaBlade.Validation.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.1-beta1\lib\sl50\IdeaBlade.Validation.SL.dll</HintPath>
     </Reference>
     <Reference Include="MefContrib.Silverlight">
       <HintPath>..\Libs\MefContrib\MefContrib.Silverlight.dll</HintPath>
@@ -140,7 +140,7 @@
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Navigation.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Interactivity">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.0-beta1\lib\sl50\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.0.2-beta1\lib\sl50\System.Windows.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Demo|AnyCPU'">

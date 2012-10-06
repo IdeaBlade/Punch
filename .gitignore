@@ -12,3 +12,6 @@ packages
 log*
 ClientBin*
 
+
+Samples/TempHire/TempHireWeb/App_Data/TempHire.sdf
+Samples/TempHire/TempHireWeb/App_Data/TempHire.Security.sdf

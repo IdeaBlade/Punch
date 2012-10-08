@@ -12,6 +12,13 @@ packages
 log*
 ClientBin*
 TestResults*/
-
 Samples/TempHire/TempHireWeb/App_Data/TempHire.sdf
 Samples/TempHire/TempHireWeb/App_Data/TempHire.Security.sdf
+Documentation/build*/
+Documentation/designtime
+Documentation/dotnetimages
+Documentation/images
+Documentation/script
+Documentation/scripts
+Documentation/stylesheets
+Documentation/flash

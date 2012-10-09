@@ -187,9 +187,6 @@
     <Compile Include="ViewModels\StaffingResource\StaffingResourceWorkExperienceViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\DomainModel\TempHireEntities.ibmmx">
-      <Link>TempHireEntities.ibmmx</Link>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>

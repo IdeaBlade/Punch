@@ -9,6 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CE4464
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Todo", "Todo\Todo.csproj", "{A6E88B44-2280-4C7F-88BB-B5890576899A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BB80F88F-3D2A-4D85-9A70-ECDFE9CB2178} = {BB80F88F-3D2A-4D85-9A70-ECDFE9CB2178}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoServer", "TodoServer\TodoServer.csproj", "{BB80F88F-3D2A-4D85-9A70-ECDFE9CB2178}"
 EndProject

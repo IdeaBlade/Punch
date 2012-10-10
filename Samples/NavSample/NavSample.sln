@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavSample", "NavSample\NavSample.csproj", "{C30A4707-C298-41DA-B2EC-9E6B400AB7E1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{779A5FE8-A468-48C1-A41A-C87993FD1A83} = {779A5FE8-A468-48C1-A41A-C87993FD1A83}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{779A5FE8-A468-48C1-A41A-C87993FD1A83}"
 EndProject

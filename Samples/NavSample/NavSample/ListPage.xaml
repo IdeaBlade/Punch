@@ -41,6 +41,6 @@
                        IsHitTestVisible="false" />
         </Grid>
         
-        <ProgressRing Grid.Row="2" IsActive="{Binding Busy.IsBusy}"/>
+        <ProgressRing Grid.Row="2" IsActive="{Binding Busy.IsBusy}" Foreground="White" Width="64" Height="64"/>
     </Grid>
 </Page>

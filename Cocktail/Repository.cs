@@ -179,7 +179,7 @@ namespace Cocktail
         public Task<IEnumerable<T>> AllAsync(
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
         {
-            return FindAsync(x => x, null, orderBy);
+            return FindAsync(x => true, orderBy, includeProperties);
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace Cocktail
             CancellationToken cancellationToken, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string includeProperties = null)
         {
-            return FindAsync(x => x, cancellationToken, null, orderBy);
+            return FindAsync(x => true, cancellationToken, orderBy, includeProperties);
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace Cocktail
         public Task<IEnumerable<T>> AllInDataSourceAsync(
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
         {
-            return FindInDataSourceAsync(x => x, null, orderBy);
+            return FindInDataSourceAsync(x => true, orderBy, includeProperties);
         }
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace Cocktail
             CancellationToken cancellationToken, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string includeProperties = null)
         {
-            return FindInDataSourceAsync(x => x, cancellationToken, null, orderBy);
+            return FindInDataSourceAsync(x => true, cancellationToken, orderBy, includeProperties);
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace Cocktail
         /// <returns> The list of retrieved entities. </returns>
         public IEnumerable<T> AllInCache(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
         {
-            return FindInCache(x => x, null, orderBy);
+            return FindInCache(x => true, orderBy);
         }
 
         /// <summary>

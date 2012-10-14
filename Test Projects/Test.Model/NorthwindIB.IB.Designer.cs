@@ -3,7 +3,7 @@
 //    Any changes made to this code will be lost the next time this 
 //    code is regenerated.
 // 
-//    Generated at: 10/4/2012 4:54:30 AM
+//    Generated at: 10/14/2012 12:18:38 PM
 //    DevForce version: 7.0.0.0
 //    Template version: 2.1.4
 // ------------------------------------------------------------------------------
@@ -16,7 +16,7 @@ using IbEm   = IdeaBlade.EntityModel;
 using IbCore = IdeaBlade.Core;
 using IbVal  = IdeaBlade.Validation;
 
-[module: IbCore.IdeaBladeLicense("syL+PiXMoxc/9sBFYmwYQuCPuU5v4sQRkn9OQYkdpeGP6EeGqSKVXtUBHA6Hrg7V")]
+[module: IbCore.IdeaBladeLicense("cufFrUYwFnZpj0Z58L/bmwACOHq22St5GyZCDkA/ukMKokj90Fp9KnkKItTgQp7N")]
 
 namespace Test.Model { 
 
@@ -66,6 +66,11 @@ namespace Test.Model {
     /// <summary>Gets the <see cref="T:IbEm.EntityQuery"/> associated with the given EntitySet name. </summary>
     public IbEm.EntityQuery<EntityWithPublicFactoryMethod> EntityWithPublicFactoryMethods {
       get { return new IbEm.EntityQuery<EntityWithPublicFactoryMethod>("EntityWithPublicFactoryMethods", this); }
+    }
+
+    /// <summary>Gets the <see cref="T:IbEm.EntityQuery"/> associated with the given EntitySet name. </summary>
+    public IbEm.EntityQuery<Order> Orders {
+      get { return new IbEm.EntityQuery<Order>("Orders", this); }
     }
     #endregion EntityQueries
   }
@@ -237,6 +242,14 @@ namespace Test.Model {
     #endregion Data Properties
 
     #region Navigation properties
+
+    /// <summary>Gets the Orders. </summary>
+    [DataMember]
+    [Bindable(false)]
+    [Display(Name="Orders", AutoGenerateField=false)]
+    public IbEm.RelatedEntityList<Order> Orders {
+      get { return PropertyMetadata.Orders.GetValue(this); }
+    }
     #endregion Navigation properties
 
     #region EntityProperty definitions
@@ -283,6 +296,9 @@ namespace Test.Model {
 
       /// <summary>The RowVersion <see cref="T:IbEm.DataEntityProperty"/>. </summary>
       public static readonly IbEm.DataEntityProperty<Customer, System.Nullable<int>> RowVersion = new IbEm.DataEntityProperty<Customer, System.Nullable<int>>("RowVersion", true, false, IbEm.ConcurrencyStrategy.None, false, null);
+
+      /// <summary>The Orders <see cref="T:IbEm.NavigationEntityProperty"/>. </summary>
+      public static readonly IbEm.NavigationListEntityProperty<Customer, Order> Orders = new IbEm.NavigationListEntityProperty<Customer, Order>("Orders", true, "FK_Order_Customer", IbEm.QueryDirection.ToRole1);
     }
     #endregion EntityProperty definitions
 
@@ -301,6 +317,7 @@ namespace Test.Model {
       public const String Phone = "Phone";
       public const String Fax = "Fax";
       public const String RowVersion = "RowVersion";
+      public const String Orders = "Orders";
     }
     #endregion EntityPropertyNames
   }
@@ -474,16 +491,289 @@ namespace Test.Model {
   }
   #endregion EntityWithPublicFactoryMethod class
 
+  #region Order class
+
+  /// <summary>The auto-generated Order class. </summary>
+  [DataContract(IsReference=true)]
+  [IbEm.DataSourceKeyName(@"NorthwindIBEntities")]
+  [IbEm.DefaultEntitySetName(@"NorthwindIBEntities.Orders")]
+  public partial class Order : IbEm.Entity {
+
+    /// <summary>Returns the property path for the given expression. </summary>
+    /// <example>
+    /// Usage:
+    /// <code>
+    ///    var r = Employee.PathFor(e => e.Manager.City); // returns "Manager.City"
+    /// </code>
+    /// </example>
+    public static string PathFor(System.Linq.Expressions.Expression<System.Func<Order, object>> expr) {
+      return IbCore.PropertyPath.For<Order>(expr);
+    }
+
+    #region Data Properties
+
+    /// <summary>Gets or sets the OrderID. </summary>
+    [Key]
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="OrderID", AutoGenerateField=true)]
+    [IbVal.RequiredValueVerifier( ErrorMessageResourceName="Order_OrderID")]
+    public int OrderID {
+      get { return PropertyMetadata.OrderID.GetValue(this); }
+      set { PropertyMetadata.OrderID.SetValue(this, value); }
+    }
+
+    /// <summary>Gets or sets the CustomerID. </summary>
+    [DataMember]
+    [Bindable(false)]
+    [Editable(true)]
+    [Display(Name="CustomerID", AutoGenerateField=false)]
+    public System.Nullable<System.Guid> CustomerID {
+      get { return PropertyMetadata.CustomerID.GetValue(this); }
+      set { PropertyMetadata.CustomerID.SetValue(this, value); }
+    }
+
+    /// <summary>Gets or sets the EmployeeID. </summary>
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="EmployeeID", AutoGenerateField=true)]
+    public System.Nullable<int> EmployeeID {
+      get { return PropertyMetadata.EmployeeID.GetValue(this); }
+      set { PropertyMetadata.EmployeeID.SetValue(this, value); }
+    }
+
+    /// <summary>Gets or sets the OrderDate. </summary>
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="OrderDate", AutoGenerateField=true)]
+    public System.Nullable<System.DateTime> OrderDate {
+      get { return PropertyMetadata.OrderDate.GetValue(this); }
+      set { PropertyMetadata.OrderDate.SetValue(this, value); }
+    }
+
+    /// <summary>Gets or sets the RequiredDate. </summary>
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="RequiredDate", AutoGenerateField=true)]
+    public System.Nullable<System.DateTime> RequiredDate {
+      get { return PropertyMetadata.RequiredDate.GetValue(this); }
+      set { PropertyMetadata.RequiredDate.SetValue(this, value); }
+    }
+
+    /// <summary>Gets or sets the ShippedDate. </summary>
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="ShippedDate", AutoGenerateField=true)]
+    public System.Nullable<System.DateTime> ShippedDate {
+      get { return PropertyMetadata.ShippedDate.GetValue(this); }
+      set { PropertyMetadata.ShippedDate.SetValue(this, value); }
+    }
+
+    /// <summary>Gets or sets the Freight. </summary>
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="Freight", AutoGenerateField=true)]
+    public System.Nullable<decimal> Freight {
+      get { return PropertyMetadata.Freight.GetValue(this); }
+      set { PropertyMetadata.Freight.SetValue(this, value); }
+    }
+
+    /// <summary>Gets or sets the ShipName. </summary>
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="ShipName", AutoGenerateField=true)]
+    [IbVal.StringLengthVerifier(MaxValue=40, IsRequired=false, ErrorMessageResourceName="Order_ShipName")]
+    public string ShipName {
+      get { return PropertyMetadata.ShipName.GetValue(this); }
+      set { PropertyMetadata.ShipName.SetValue(this, value); }
+    }
+
+    /// <summary>Gets or sets the ShipAddress. </summary>
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="ShipAddress", AutoGenerateField=true)]
+    [IbVal.StringLengthVerifier(MaxValue=60, IsRequired=false, ErrorMessageResourceName="Order_ShipAddress")]
+    public string ShipAddress {
+      get { return PropertyMetadata.ShipAddress.GetValue(this); }
+      set { PropertyMetadata.ShipAddress.SetValue(this, value); }
+    }
+
+    /// <summary>Gets or sets the ShipCity. </summary>
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="ShipCity", AutoGenerateField=true)]
+    [IbVal.StringLengthVerifier(MaxValue=15, IsRequired=false, ErrorMessageResourceName="Order_ShipCity")]
+    public string ShipCity {
+      get { return PropertyMetadata.ShipCity.GetValue(this); }
+      set { PropertyMetadata.ShipCity.SetValue(this, value); }
+    }
+
+    /// <summary>Gets or sets the ShipRegion. </summary>
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="ShipRegion", AutoGenerateField=true)]
+    [IbVal.StringLengthVerifier(MaxValue=15, IsRequired=false, ErrorMessageResourceName="Order_ShipRegion")]
+    public string ShipRegion {
+      get { return PropertyMetadata.ShipRegion.GetValue(this); }
+      set { PropertyMetadata.ShipRegion.SetValue(this, value); }
+    }
+
+    /// <summary>Gets or sets the ShipPostalCode. </summary>
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="ShipPostalCode", AutoGenerateField=true)]
+    [IbVal.StringLengthVerifier(MaxValue=10, IsRequired=false, ErrorMessageResourceName="Order_ShipPostalCode")]
+    public string ShipPostalCode {
+      get { return PropertyMetadata.ShipPostalCode.GetValue(this); }
+      set { PropertyMetadata.ShipPostalCode.SetValue(this, value); }
+    }
+
+    /// <summary>Gets or sets the ShipCountry. </summary>
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="ShipCountry", AutoGenerateField=true)]
+    [IbVal.StringLengthVerifier(MaxValue=15, IsRequired=false, ErrorMessageResourceName="Order_ShipCountry")]
+    public string ShipCountry {
+      get { return PropertyMetadata.ShipCountry.GetValue(this); }
+      set { PropertyMetadata.ShipCountry.SetValue(this, value); }
+    }
+
+    /// <summary>Gets or sets the RowVersion. </summary>
+    [DataMember]
+    [Bindable(true, BindingDirection.TwoWay)]
+    [Editable(true)]
+    [Display(Name="RowVersion", AutoGenerateField=true)]
+    [IbVal.RequiredValueVerifier( ErrorMessageResourceName="Order_RowVersion")]
+    public int RowVersion {
+      get { return PropertyMetadata.RowVersion.GetValue(this); }
+      set { PropertyMetadata.RowVersion.SetValue(this, value); }
+    }
+    #endregion Data Properties
+
+    #region Navigation properties
+
+    /// <summary>Gets or sets the Customer. </summary>
+    [DataMember]
+    [Bindable(false)]
+    [Display(Name="Customer", AutoGenerateField=false)]
+    public Customer Customer {
+      get { return PropertyMetadata.Customer.GetValue(this); }
+      set { PropertyMetadata.Customer.SetValue(this, value); }
+    }
+    #endregion Navigation properties
+
+    #region EntityProperty definitions
+    public partial class PropertyMetadata {
+
+      /// Explicit static constructor ensures static fields are initialized.
+      static PropertyMetadata() {}
+
+      /// <summary>The OrderID <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<Order, int> OrderID = new IbEm.DataEntityProperty<Order, int>("OrderID", false, true, IbEm.ConcurrencyStrategy.None, true, null);
+
+      /// <summary>The CustomerID <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<Order, System.Nullable<System.Guid>> CustomerID = new IbEm.DataEntityProperty<Order, System.Nullable<System.Guid>>("CustomerID", true, false, IbEm.ConcurrencyStrategy.None, false, "Customer");
+
+      /// <summary>The EmployeeID <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<Order, System.Nullable<int>> EmployeeID = new IbEm.DataEntityProperty<Order, System.Nullable<int>>("EmployeeID", true, false, IbEm.ConcurrencyStrategy.None, false, null);
+
+      /// <summary>The OrderDate <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<Order, System.Nullable<System.DateTime>> OrderDate = new IbEm.DataEntityProperty<Order, System.Nullable<System.DateTime>>("OrderDate", true, false, IbEm.ConcurrencyStrategy.None, false, null);
+
+      /// <summary>The RequiredDate <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<Order, System.Nullable<System.DateTime>> RequiredDate = new IbEm.DataEntityProperty<Order, System.Nullable<System.DateTime>>("RequiredDate", true, false, IbEm.ConcurrencyStrategy.None, false, null);
+
+      /// <summary>The ShippedDate <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<Order, System.Nullable<System.DateTime>> ShippedDate = new IbEm.DataEntityProperty<Order, System.Nullable<System.DateTime>>("ShippedDate", true, false, IbEm.ConcurrencyStrategy.None, false, null);
+
+      /// <summary>The Freight <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<Order, System.Nullable<decimal>> Freight = new IbEm.DataEntityProperty<Order, System.Nullable<decimal>>("Freight", true, false, IbEm.ConcurrencyStrategy.None, false, null);
+
+      /// <summary>The ShipName <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<Order, string> ShipName = new IbEm.DataEntityProperty<Order, string>("ShipName", true, false, IbEm.ConcurrencyStrategy.None, false, null);
+
+      /// <summary>The ShipAddress <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<Order, string> ShipAddress = new IbEm.DataEntityProperty<Order, string>("ShipAddress", true, false, IbEm.ConcurrencyStrategy.None, false, null);
+
+      /// <summary>The ShipCity <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<Order, string> ShipCity = new IbEm.DataEntityProperty<Order, string>("ShipCity", true, false, IbEm.ConcurrencyStrategy.None, false, null);
+
+      /// <summary>The ShipRegion <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<Order, string> ShipRegion = new IbEm.DataEntityProperty<Order, string>("ShipRegion", true, false, IbEm.ConcurrencyStrategy.None, false, null);
+
+      /// <summary>The ShipPostalCode <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<Order, string> ShipPostalCode = new IbEm.DataEntityProperty<Order, string>("ShipPostalCode", true, false, IbEm.ConcurrencyStrategy.None, false, null);
+
+      /// <summary>The ShipCountry <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<Order, string> ShipCountry = new IbEm.DataEntityProperty<Order, string>("ShipCountry", true, false, IbEm.ConcurrencyStrategy.None, false, null);
+
+      /// <summary>The RowVersion <see cref="T:IbEm.DataEntityProperty"/>. </summary>
+      public static readonly IbEm.DataEntityProperty<Order, int> RowVersion = new IbEm.DataEntityProperty<Order, int>("RowVersion", false, false, IbEm.ConcurrencyStrategy.None, false, null);
+
+      /// <summary>The Customer <see cref="T:IbEm.NavigationEntityProperty"/>. </summary>
+      public static readonly IbEm.NavigationScalarEntityProperty<Order, Customer> Customer = new IbEm.NavigationScalarEntityProperty<Order, Customer>("Customer", true, "FK_Order_Customer", IbEm.QueryDirection.ToRole2);
+    }
+    #endregion EntityProperty definitions
+
+    #region EntityPropertyNames
+    public new partial class EntityPropertyNames : IbEm.Entity.EntityPropertyNames {
+      public const String OrderID = "OrderID";
+      public const String CustomerID = "CustomerID";
+      public const String EmployeeID = "EmployeeID";
+      public const String OrderDate = "OrderDate";
+      public const String RequiredDate = "RequiredDate";
+      public const String ShippedDate = "ShippedDate";
+      public const String Freight = "Freight";
+      public const String ShipName = "ShipName";
+      public const String ShipAddress = "ShipAddress";
+      public const String ShipCity = "ShipCity";
+      public const String ShipRegion = "ShipRegion";
+      public const String ShipPostalCode = "ShipPostalCode";
+      public const String ShipCountry = "ShipCountry";
+      public const String RowVersion = "RowVersion";
+      public const String Customer = "Customer";
+    }
+    #endregion EntityPropertyNames
+  }
+  #endregion Order class
+
   #region EntityRelations
 
   /// <summary>
   /// A generated class that returns the relations between entities in this model.
   /// </summary>
-  [IbCore.IdeaBladeGuid("882c22f7-451e-4992-8df4-b67a49c1a2e7", "2.1.4")]
+  [IbCore.IdeaBladeGuid("1efc6c1b-6edb-4ac5-bcd5-5ca55d92ec35", "2.1.4")]
   public partial class EntityRelations : IbEm.IEntityRelations {
 
     /// Explicit static constructor ensures static fields are initialized.
     static EntityRelations() {}
+
+    /// <summary>
+    /// Represents the relationship between 
+    /// <see cref="Order"/> and <see cref="Customer"/>.
+    /// </summary>
+    public static IbEm.EntityRelation FK_Order_Customer = new IbEm.EntityRelation(
+      typeof(Order),
+      typeof(Customer),
+       new IbEm.DataEntityProperty[] { Order.PropertyMetadata.CustomerID},
+       new IbEm.DataEntityProperty[] { Customer.PropertyMetadata.CustomerID},
+      IbEm.Multiplicity.Many,
+      IbEm.Multiplicity.ZeroOrOne,
+      IbEm.OnDeleteMode.None,
+      IbEm.OnDeleteMode.None,
+      "FK_Order_Customer");
   }
   #endregion EntityRelations
 }

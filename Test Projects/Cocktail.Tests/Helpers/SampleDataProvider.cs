@@ -53,6 +53,23 @@ namespace Cocktail.Tests.Helpers
                                 };
             manager.AttachEntity(customer1);
 
+            for (int orderId = 1; orderId <= 3; orderId++)
+            {
+                var order = new Order()
+                                {
+                                    OrderID = orderId,
+                                    CustomerID = customer1.CustomerID,
+                                    OrderDate = DateTime.Now,
+                                    ShipAddress = "ShipAddress",
+                                    ShipCountry = "USA",
+                                    ShipPostalCode = "11111",
+                                    ShipName = "Receiving",
+                                    ShipCity = "City",
+                                    ShippedDate = DateTime.Now
+                                };
+                manager.AttachEntity(order);
+            }
+
             var customer2 = new Customer
                                 {
                                     CustomerID = CreateGuid(2),

@@ -4,9 +4,14 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="NorthwindIBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="NorthwindIBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="NorthwindIBModelStoreContainer">
-          <EntitySet Name="Customer" EntityType="NorthwindIBModel.Store.Customer" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Customer" EntityType="NorthwindIBModel.Store.Customer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Order" EntityType="NorthwindIBModel.Store.Order" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Order_Customer" Association="NorthwindIBModel.Store.FK_Order_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Customer">
           <Key>
@@ -26,8 +31,38 @@
           <Property Name="Fax" Type="nvarchar" MaxLength="24" />
           <Property Name="RowVersion" Type="int" />
         </EntityType>
-      </Schema>
-    </edmx:StorageModels>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="uniqueidentifier" />
+          <Property Name="EmployeeID" Type="int" />
+          <Property Name="OrderDate" Type="datetime" />
+          <Property Name="RequiredDate" Type="datetime" />
+          <Property Name="ShippedDate" Type="datetime" />
+          <Property Name="Freight" Type="money" />
+          <Property Name="ShipName" Type="nvarchar" MaxLength="40" />
+          <Property Name="ShipAddress" Type="nvarchar" MaxLength="60" />
+          <Property Name="ShipCity" Type="nvarchar" MaxLength="15" />
+          <Property Name="ShipRegion" Type="nvarchar" MaxLength="15" />
+          <Property Name="ShipPostalCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="ShipCountry" Type="nvarchar" MaxLength="15" />
+          <Property Name="RowVersion" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Order_Customer">
+          <End Role="Customer" Type="NorthwindIBModel.Store.Customer" Multiplicity="0..1" />
+          <End Role="Order" Type="NorthwindIBModel.Store.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="NorthwindIBModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:ib12="http://www.ideablade.com/edm/2012">
@@ -36,6 +71,11 @@
           <EntitySet Name="EntityWithInternalCtors" EntityType="NorthwindIBModel.EntityWithInternalCtor" />
           <EntitySet Name="EntityWithInternalFactoryMethods" EntityType="NorthwindIBModel.EntityWithInternalFactoryMethod" />
           <EntitySet Name="EntityWithPublicFactoryMethods" EntityType="NorthwindIBModel.EntityWithPublicFactoryMethod" />
+          <EntitySet Name="Orders" EntityType="NorthwindIBModel.Order" />
+          <AssociationSet Name="FK_Order_Customer" Association="NorthwindIBModel.FK_Order_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Customer">
           <Key>
@@ -54,6 +94,7 @@
           <Property Name="Phone" Type="String" MaxLength="24" Unicode="true" FixedLength="false" />
           <Property Name="Fax" Type="String" MaxLength="24" Unicode="true" FixedLength="false" />
           <Property Name="RowVersion" Type="Int32" />
+          <NavigationProperty Name="Orders" Relationship="NorthwindIBModel.FK_Order_Customer" FromRole="Customer" ToRole="Order" />
         </EntityType>
         <EntityType Name="EntityWithInternalCtor">
           <Key>
@@ -73,6 +114,38 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" a:StoreGeneratedPattern="None" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
         </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Type="Int32" Name="OrderID" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Guid" Name="CustomerID" />
+          <Property Type="Int32" Name="EmployeeID" />
+          <Property Type="DateTime" Name="OrderDate" Precision="3" />
+          <Property Type="DateTime" Name="RequiredDate" Precision="3" />
+          <Property Type="DateTime" Name="ShippedDate" Precision="3" />
+          <Property Type="Decimal" Name="Freight" Precision="19" Scale="4" />
+          <Property Type="String" Name="ShipName" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShipAddress" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShipCity" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShipRegion" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShipPostalCode" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShipCountry" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="RowVersion" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="NorthwindIBModel.FK_Order_Customer" FromRole="Order" ToRole="Customer" />
+        </EntityType>
+        <Association Name="FK_Order_Customer">
+          <End Type="NorthwindIBModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="NorthwindIBModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -94,6 +167,26 @@
             <ScalarProperty Name="Fax" ColumnName="Fax" />
             <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="NorthwindIBModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="ShipCountry" ColumnName="ShipCountry" />
+                <ScalarProperty Name="ShipPostalCode" ColumnName="ShipPostalCode" />
+                <ScalarProperty Name="ShipRegion" ColumnName="ShipRegion" />
+                <ScalarProperty Name="ShipCity" ColumnName="ShipCity" />
+                <ScalarProperty Name="ShipAddress" ColumnName="ShipAddress" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="Freight" ColumnName="Freight" />
+                <ScalarProperty Name="ShippedDate" ColumnName="ShippedDate" />
+                <ScalarProperty Name="RequiredDate" ColumnName="RequiredDate" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -116,9 +209,11 @@
     <Diagrams>
       <Diagram Name="NorthwindIB" ZoomLevel="80">
         <EntityTypeShape EntityType="NorthwindIBModel.Customer" Width="1.5" PointX="0.625" PointY="0.5" Height="3.5186979166666665" IsExpanded="true" />
-        <EntityTypeShape EntityType="NorthwindIBModel.EntityWithInternalCtor" Width="2.25" PointX="3" PointY="0.625" />
-        <EntityTypeShape EntityType="NorthwindIBModel.EntityWithInternalFactoryMethod" Width="2.625" PointX="4.5" PointY="2.875" />
-        <EntityTypeShape EntityType="NorthwindIBModel.EntityWithPublicFactoryMethod" Width="3.25" PointX="3.125" PointY="4.625" />
+        <EntityTypeShape EntityType="NorthwindIBModel.EntityWithInternalCtor" Width="2.25" PointX="7.625" PointY="0.5" />
+        <EntityTypeShape EntityType="NorthwindIBModel.EntityWithInternalFactoryMethod" Width="2.625" PointX="7.625" PointY="2.5" />
+        <EntityTypeShape EntityType="NorthwindIBModel.EntityWithPublicFactoryMethod" Width="3.25" PointX="7.625" PointY="4.5" />
+        <EntityTypeShape EntityType="NorthwindIBModel.Order" Width="1.5" PointX="3.75" PointY="1" />
+        <AssociationConnector Association="NorthwindIBModel.FK_Order_Customer" />
       </Diagram>
     </Diagrams>
   </Designer>

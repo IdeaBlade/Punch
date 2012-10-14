@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Cocktail.Tests.Helpers;
 using IdeaBlade.Core;
@@ -49,6 +50,55 @@ namespace Cocktail.Tests
 
             Assert.IsTrue(customers.Count() == expectedCount);
             Assert.IsTrue(unitOfWork.Entities.CountInCache() == expectedCount);
+        }
+
+        [TestMethod]
+        [Timeout(10000)]
+        public async Task ShouldRetrieveAllCustomersAndOrders()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+            unitOfWork.Clear();
+            var customers = await unitOfWork.Entities.AllAsync();
+            Assert.IsTrue(customers.Any());
+            Assert.IsFalse(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
+
+            unitOfWork.Clear();
+            customers = await unitOfWork.Entities.AllAsync(includeProperties: "Orders");
+            Assert.IsTrue(customers.Any());
+            Assert.IsTrue(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
+
+            unitOfWork.Clear();
+            customers = await unitOfWork.Entities.AllAsync(CancellationToken.None);
+            Assert.IsTrue(customers.Any());
+            Assert.IsFalse(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
+
+            unitOfWork.Clear();
+            customers = await unitOfWork.Entities.AllAsync(CancellationToken.None, includeProperties: "Orders");
+            Assert.IsTrue(customers.Any());
+            Assert.IsTrue(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
+
+            unitOfWork.Clear();
+            customers = await unitOfWork.Entities.AllInDataSourceAsync();
+            Assert.IsTrue(customers.Any());
+            Assert.IsFalse(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
+
+            unitOfWork.Clear();
+            customers = await unitOfWork.Entities.AllInDataSourceAsync(includeProperties: "Orders");
+            Assert.IsTrue(customers.Any());
+            Assert.IsTrue(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
+
+            unitOfWork.Clear();
+            customers = await unitOfWork.Entities.AllInDataSourceAsync(CancellationToken.None);
+            Assert.IsTrue(customers.Any());
+            Assert.IsFalse(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
+
+            unitOfWork.Clear();
+            customers = await unitOfWork.Entities.AllInDataSourceAsync(CancellationToken.None, includeProperties: "Orders");
+            Assert.IsTrue(customers.Any());
+            Assert.IsTrue(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
         }
 
         [TestMethod]
@@ -299,6 +349,38 @@ namespace Cocktail.Tests
             em.Querying += (sender, args) => args.Cancel = true;
 
             await unitOfWork.Entities.AllAsync()
+                .ContinueWith(task => Assert.IsTrue(task.IsCanceled, "Should be cancelled"));
+        }
+
+        [TestMethod]
+        [Timeout(10000)]
+        public async Task ShouldCancelQueryTaskWithToken()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+
+            var cts = new CancellationTokenSource();
+            cts.Cancel();
+            await unitOfWork.Entities.AllAsync(cts.Token)
+                .ContinueWith(task => Assert.IsTrue(task.IsCanceled, "Should be cancelled"));
+
+            await unitOfWork.Entities.AllInDataSourceAsync(cts.Token)
+                .ContinueWith(task => Assert.IsTrue(task.IsCanceled, "Should be cancelled"));
+        }
+
+        [TestMethod]
+        [Timeout(10000)]
+        public async Task ShouldCancelProjectionQueryTask()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+
+            var cts = new CancellationTokenSource();
+            cts.Cancel();
+            await unitOfWork.Entities.FindAsync(q => q.Select(x => x.CompanyName), cts.Token)
+                .ContinueWith(task => Assert.IsTrue(task.IsCanceled, "Should be cancelled"));
+
+            await unitOfWork.Entities.FindInDataSourceAsync(q => q.Select(x => x.CompanyName), cts.Token)
                 .ContinueWith(task => Assert.IsTrue(task.IsCanceled, "Should be cancelled"));
         }
 

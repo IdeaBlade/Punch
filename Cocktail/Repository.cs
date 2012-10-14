@@ -147,7 +147,7 @@ namespace Cocktail
                                                         Action<IEnumerable<T>> onSuccess = null,
                                                         Action<Exception> onFail = null)
         {
-            return FindAsync(x => x, null, orderBy, onSuccess, onFail);
+            return FindAsync(x => true, orderBy, includeProperties, onSuccess, onFail);
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace Cocktail
             Action<IEnumerable<T>> onSuccess = null,
             Action<Exception> onFail = null)
         {
-            return FindInDataSourceAsync(x => x, null, orderBy, onSuccess, onFail);
+            return FindInDataSourceAsync(x => true, orderBy, includeProperties, onSuccess, onFail);
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace Cocktail
         /// <returns> The list of retrieved entities. </returns>
         public IEnumerable<T> AllInCache(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
         {
-            return FindInCache(x => x, null, orderBy);
+            return FindInCache(x => true, orderBy);
         }
 
         /// <summary>

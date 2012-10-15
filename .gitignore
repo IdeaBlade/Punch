@@ -10,6 +10,7 @@ packages
 *.user
 *.bak
 log*
+*.nupkg
 ClientBin*
 TestResults*/
 Samples/TempHire/TempHireWeb/App_Data/TempHire.sdf

@@ -15,7 +15,7 @@
 
 Line of business applications need to query and save database data, model the data as objects with business logic, and present those objects to the end user. Cocktail takes care of these fundamental responsibilities with loosely coupled, open source, and industry-leading components that are designed for change.
     </description>
-    <releaseNotes>http://drc.ideablade.com/DevForce-2012/bin/view/Documentation/cocktail-200-release-notes</releaseNotes>
+    <releaseNotes>http://drc.ideablade.com/devforce-2012/bin/view/Documentation/cocktail-release-notes</releaseNotes>
     <copyright>Copyright 2012</copyright>
     <tags>Silverlight WPF SL5 SL Coroutine Asynchronous Caliburn.Micro DevForce Cocktail</tags>
     <dependencies>

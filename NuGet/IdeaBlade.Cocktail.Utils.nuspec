@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
     <id>IdeaBlade.Cocktail.Utils</id>
-    <version>2.0.3-beta1</version>
+    <version>2.0.4</version>
     <title>Cocktail 2012 Utils</title>
     <authors>IdeaBlade</authors>
     <owners>IdeaBlade</owners>
@@ -21,12 +21,9 @@ Line of business applications need to query and save database data, model the da
   </metadata>
   <files>
     <file src="..\Cocktail.Utils\Bin\Release\Cocktail*.*" target="lib\net45" />
-
     <file src="..\Cocktail.Utils\Bin.SL\Release\Cocktail*.*" target="lib\sl50" />
-
     <file src="..\Cocktail.Utils\Bin.WinRT\AnyCPU\Release\Cocktail*.dll" target="lib\netcore45" />
     <file src="..\Cocktail.Utils\Bin.WinRT\AnyCPU\Release\Cocktail*.xml" target="lib\netcore45" />
-
     <file src="..\Cocktail.Utils\**\*.cs" target="src\Cocktail.Utils" />
   </files>
 </package>

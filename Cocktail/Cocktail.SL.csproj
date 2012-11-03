@@ -142,6 +142,7 @@
     <Compile Include="EntityNotFoundException.cs" />
     <Compile Include="EventFns.cs" />
     <Compile Include="Factory.cs" />
+    <Compile Include="FakeParameterInfo.cs" />
     <Compile Include="FakeStoreEntityManagerProviderFns.cs" />
     <Compile Include="HarnessViewModel.Desktop.cs">
       <DependentUpon>HarnessViewModel.cs</DependentUpon>

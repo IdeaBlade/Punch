@@ -1,4 +1,4 @@
-﻿//====================================================================================================================
+//====================================================================================================================
 // Copyright (c) 2012 IdeaBlade
 //====================================================================================================================
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
@@ -62,4 +62,4 @@ using System.Windows.Markup;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("1.0.2.0")]
+[assembly: AssemblyVersion("1.0.3")]

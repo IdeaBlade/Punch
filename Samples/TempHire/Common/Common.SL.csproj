@@ -85,10 +85,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\Cocktail.Silverlight.1.0.1\lib\sl40\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.0.3\lib\sl40\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.0.1\lib\sl40\Cocktail.SL.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.0.3\lib\sl40\Cocktail.SL.dll</HintPath>
+    </Reference>
+    <Reference Include="Cocktail.Utils.SL">
+      <HintPath>..\packages\Cocktail.Silverlight.1.0.3\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL">
       <SpecificVersion>False</SpecificVersion>
@@ -116,8 +119,8 @@
     <Reference Include="System.Windows.Controls.Navigation">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.0.1\lib\sl40\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\packages\Cocktail.Silverlight.1.0.3\lib\sl40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Demo|AnyCPU'">

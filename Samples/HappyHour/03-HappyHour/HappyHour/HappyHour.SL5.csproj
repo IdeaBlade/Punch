@@ -63,13 +63,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\Cocktail.Silverlight.1.0.1\lib\sl50\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.0.3\lib\sl50\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.0.1\lib\sl50\Cocktail.SL.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.0.3\lib\sl50\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.0.1\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.0.3\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System.ComponentModel.Composition, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -79,7 +79,7 @@
     <Reference Include="system" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Interactivity">
-      <HintPath>..\packages\Cocktail.Silverlight.1.0.1\lib\sl50\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.0.3\lib\sl50\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>

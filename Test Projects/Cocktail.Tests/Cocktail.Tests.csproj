@@ -108,6 +108,7 @@
     <Compile Include="Helpers\CustomerListViewModel.cs" />
     <Compile Include="Helpers\CustomerRepository.cs" />
     <Compile Include="Helpers\EntityManagerProviderFactory.cs" />
+    <Compile Include="Helpers\GenericExport.cs" />
     <Compile Include="Helpers\ICustomerRepository.cs" />
     <Compile Include="Helpers\NonSharedObject.cs" />
     <Compile Include="Helpers\SampleDataProvider.cs" />

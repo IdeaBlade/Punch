@@ -211,22 +211,9 @@ namespace Cocktail
             Container.Compose(compositionBatch);
         }
 
-        private IEnumerable<Export> GetExportsCore(Type serviceType, string key)
+        private IEnumerable<Lazy<object>> GetExportsCore(Type serviceType, string key)
         {
-            var contractName = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
-            var requiredTypeIdentity = serviceType != null
-                                           ? AttributedModelServices.GetTypeIdentity(serviceType)
-                                           : null;
-            var importDef = new ContractBasedImportDefinition(
-                contractName,
-                requiredTypeIdentity,
-                Enumerable.Empty<KeyValuePair<string, Type>>(),
-                ImportCardinality.ZeroOrMore,
-                false,
-                true,
-                CreationPolicy.Any);
-
-            return Container.GetExports(importDef);
+            return Container.GetExports(serviceType, null, key);
         }
     }
 }

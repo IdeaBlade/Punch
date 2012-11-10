@@ -13,16 +13,13 @@
 using System;
 using System.Threading.Tasks;
 using Cocktail.Tests.Helpers;
-using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 using Test.Model;
 using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
 
 #if !NETFX_CORE
-using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #else
-using System.Composition;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #endif
 
@@ -42,7 +39,7 @@ namespace Cocktail.Tests
 
             IAuthenticationService auth1 =
                 new PartLocator<IAuthenticationService>(false, () => ctx).GetPart();
-            IAuthenticationService auth2 = new PartLocator<IAuthenticationService>(false).GetPart();
+            IAuthenticationService auth2 = new PartLocator<IAuthenticationService>().GetPart();
 
             Assert.IsNotNull(auth1, "AuthenticationServer should not be null");
             Assert.IsNull(auth2, "AuthenticationService should be null");
@@ -57,7 +54,7 @@ namespace Cocktail.Tests
                 .WithName("ShouldDiscoverDefault");
 
             var partLocator1 = new PartLocator<IEntityManagerSyncInterceptor>(false, () => context);
-            PartLocator<IEntityManagerSyncInterceptor> partLocator2 = new PartLocator<IEntityManagerSyncInterceptor>(false)
+            PartLocator<IEntityManagerSyncInterceptor> partLocator2 = new PartLocator<IEntityManagerSyncInterceptor>()
                 .WithDefaultGenerator(() => new DefaultEntityManagerSyncInterceptor());
 
             IEntityManagerSyncInterceptor obj1 = partLocator1.GetPart();
@@ -202,6 +199,25 @@ namespace Cocktail.Tests
             var objectManager = new ObjectManager<Guid, ICustomerRepository>();
             var obj = objectManager.TryGetObject(Guid.NewGuid());
             Assert.IsNull(obj);
+        }
+
+        [TestMethod]
+        public void ShouldGetGenericInstance()
+        {
+            var instance = Composition.TryGetInstance<GenericExport<object>>();
+
+            Assert.IsNotNull(instance);
+        }
+
+        [TestMethod]
+        public void ShouldGetGenericInstanceWithContractName()
+        {
+            var instance = Composition.TryGetInstance(typeof(GenericExportWithTypeAndContractName<object>),
+                                                      "ExportWithTypeAndContract");
+
+            
+            Assert.IsNotNull(instance);
+            Assert.IsTrue(instance is GenericExportWithTypeAndContractName<object>);
         }
     }
 }

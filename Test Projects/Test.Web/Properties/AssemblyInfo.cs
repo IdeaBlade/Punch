@@ -1,4 +1,4 @@
-﻿//====================================================================================================================
+//====================================================================================================================
 //Copyright (c) 2011 IdeaBlade
 //====================================================================================================================
 //Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
@@ -48,5 +48,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("2.0.4")]
-[assembly: AssemblyFileVersion("2.0.4")]
+[assembly: AssemblyVersion("2.0.5")]
+[assembly: AssemblyFileVersion("2.0.5")]

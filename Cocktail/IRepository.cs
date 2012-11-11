@@ -17,7 +17,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+#if !LIGHT
 using IdeaBlade.Core;
+#endif
 
 namespace Cocktail
 {

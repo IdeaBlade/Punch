@@ -13,7 +13,9 @@
 using System;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+#if !LIGHT
 using IdeaBlade.Core;
+#endif
 
 namespace Cocktail
 {
@@ -195,7 +197,7 @@ namespace Cocktail
             if (property == null)
                 return;
 
-#if SILVERLIGHT
+#if SILVERLIGHT || LIGHT
             property.SetValue(target, MessageBinder.CoerceValue(property.PropertyType, parameter, null), null);
 #else
             property.SetValue(target, MessageBinder.CoerceValue(property.PropertyType, parameter, null));

@@ -15,10 +15,14 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
+using System.ComponentModel.Composition.ReflectionModel;
 using System.Linq;
+using System.Reflection;
 using Caliburn.Micro;
+#if !LIGHT
 using IdeaBlade.Core.Composition;
 using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
+#endif
 
 namespace Cocktail
 {
@@ -70,7 +74,7 @@ namespace Cocktail
                 throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
                                                   typeof(T).FullName));
 
-            return new Lazy<T>(() => (T) exports.First().Value);
+            return new Lazy<T>(() => (T)exports.First().Value);
         }
 
         public T TryGetInstance<T>() where T : class
@@ -89,7 +93,7 @@ namespace Cocktail
         public IEnumerable<T> GetInstances<T>() where T : class
         {
             var exports = GetExportsCore(typeof(T), null);
-            return exports.Select(x => (T) x.Value);
+            return exports.Select(x => (T)x.Value);
         }
 
         /// <summary>
@@ -152,9 +156,11 @@ namespace Cocktail
         /// <param name="instance"> The instance needing property injection. </param>
         public void BuildUp(object instance)
         {
+#if !LIGHT
             // Skip if in design mode.
             if (DesignTime.InDesignMode())
                 return;
+#endif
 
             Container.SatisfyImportsOnce(instance);
         }
@@ -217,6 +223,17 @@ namespace Cocktail
             var requiredTypeIdentity = serviceType != null
                                            ? AttributedModelServices.GetTypeIdentity(serviceType)
                                            : null;
+
+#if SILVERLIGHT
+            var importDef = ReflectionModelServices.CreateImportDefinition(
+                new Lazy<ParameterInfo>(() => new FakeParameterInfo(serviceType)),
+                contractName,
+                requiredTypeIdentity,
+                Enumerable.Empty<KeyValuePair<string, Type>>(),
+                ImportCardinality.ZeroOrMore,
+                CreationPolicy.Any,
+                null);
+#else
             var importDef = new ContractBasedImportDefinition(
                 contractName,
                 requiredTypeIdentity,
@@ -225,6 +242,8 @@ namespace Cocktail
                 false,
                 true,
                 CreationPolicy.Any);
+#endif
+
 
             return Container.GetExports(importDef);
         }

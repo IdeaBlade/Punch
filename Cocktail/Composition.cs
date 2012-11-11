@@ -12,7 +12,9 @@
 
 using System;
 using System.Collections.Generic;
+#if!LIGHT
 using IdeaBlade.EntityModel;
+#endif
 
 namespace Cocktail
 {
@@ -25,7 +27,9 @@ namespace Cocktail
 
         static Composition()
         {
+#if !LIGHT
             EntityManager.EntityManagerCreated += OnEntityManagerCreated;
+#endif
         }
 
         internal static ICompositionProvider Provider
@@ -38,6 +42,7 @@ namespace Cocktail
             }
         }
 
+#if !LIGHT
         private static void OnEntityManagerCreated(object sender, EntityManagerCreatedEventArgs args)
         {
             if (!args.EntityManager.IsClient)
@@ -47,6 +52,7 @@ namespace Cocktail
             if (locator.IsAvailable)
                 args.EntityManager.AuthenticationContext = locator.GetPart().AuthenticationContext;
         }
+#endif
 
         /// <summary>
         ///   Sets the current <see cref="ICompositionProvider" />.

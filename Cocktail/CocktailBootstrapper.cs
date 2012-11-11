@@ -1,4 +1,5 @@
-﻿// ====================================================================================================================
+﻿
+// ====================================================================================================================
 //   Copyright (c) 2012 IdeaBlade
 // ====================================================================================================================
 //   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
@@ -19,7 +20,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
+#if !LIGHT
 using IdeaBlade.Core;
+#endif
 using Action = System.Action;
 
 namespace Cocktail
@@ -36,7 +39,9 @@ namespace Cocktail
         /// </summary>
         static CocktailBootstrapper()
         {
+#if !LIGHT
             DefaultDebugLogger.SetAsLogger();
+#endif
         }
 
         /// <summary>
@@ -141,7 +146,9 @@ namespace Cocktail
         /// </summary>
         static CocktailMefBootstrapper()
         {
+#if !LIGHT
             MefCompositionProvider.EnsureRequiredProbeAssemblies();
+#endif
         }
 
         /// <summary>
@@ -267,9 +274,9 @@ namespace Cocktail
 #if SILVERLIGHT
                 () => DisplayRootViewFor(Application, typeof (TRootModel))
 #else
-                () => DisplayRootViewFor(typeof(TRootModel))
+() => DisplayRootViewFor(typeof(TRootModel))
 #endif
-                );
+);
         }
     }
 }

@@ -12,7 +12,10 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+#if !LIGHT
 using IdeaBlade.Core;
+#endif
+
 
 namespace Cocktail
 {

@@ -27,7 +27,7 @@ namespace Cocktail
         /// <param name="resultValue"> The result value to store in the completed task. </param>
         public static Task<T> FromResult<T>(T resultValue)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || LIGHT
             return TaskEx.FromResult(resultValue);
 #else
             return Task.FromResult(resultValue);
@@ -60,7 +60,7 @@ namespace Cocktail
         /// <returns>A task that represents the completion of all of the supplied tasks.</returns>
         public static Task WhenAll(params Task[] tasks)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || LIGHT
             return TaskEx.WhenAll(tasks);
 #else
             return Task.WhenAll(tasks);
@@ -73,7 +73,7 @@ namespace Cocktail
         /// <returns>A task that represents the completion of all of the supplied tasks.</returns>
         public static Task WhenAll(IEnumerable<Task> tasks)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || LIGHT
             return TaskEx.WhenAll(tasks);
 #else
             return Task.WhenAll(tasks);
@@ -86,7 +86,7 @@ namespace Cocktail
         /// <returns>A task that represents the completion of all of the supplied tasks.</returns>
         public static Task<T[]> WhenAll<T>(params Task<T>[] tasks)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || LIGHT
             return TaskEx.WhenAll(tasks);
 #else
             return Task.WhenAll(tasks);
@@ -99,7 +99,7 @@ namespace Cocktail
         /// <returns>A task that represents the completion of all of the supplied tasks.</returns>
         public static Task<T[]> WhenAll<T>(IEnumerable<Task<T>> tasks)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || LIGHT
             return TaskEx.WhenAll(tasks);
 #else
             return Task.WhenAll(tasks);
@@ -112,7 +112,7 @@ namespace Cocktail
         /// <returns>A task that represents the completion of one of the supplied tasks. The return Task's Result is the task that completed.</returns>
         public static Task<Task> WhenAny(params Task[] tasks)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || LIGHT
             return TaskEx.WhenAny(tasks);
 #else
             return Task.WhenAny(tasks);
@@ -125,7 +125,7 @@ namespace Cocktail
         /// <returns>A task that represents the completion of one of the supplied tasks. The return Task's Result is the task that completed.</returns>
         public static Task<Task> WhenAny(IEnumerable<Task> tasks)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || LIGHT
             return TaskEx.WhenAny(tasks);
 #else
             return Task.WhenAny(tasks);
@@ -138,7 +138,7 @@ namespace Cocktail
         /// <returns>A task that represents the completion of one of the supplied tasks. The return Task's Result is the task that completed.</returns>
         public static Task<Task<T>> WhenAny<T>(params Task<T>[] tasks)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || LIGHT
             return TaskEx.WhenAny(tasks);
 #else
             return Task.WhenAny(tasks);
@@ -151,7 +151,7 @@ namespace Cocktail
         /// <returns>A task that represents the completion of one of the supplied tasks. The return Task's Result is the task that completed.</returns>
         public static Task<Task<T>> WhenAny<T>(IEnumerable<Task<T>> tasks)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || LIGHT
             return TaskEx.WhenAny(tasks);
 #else
             return Task.WhenAny(tasks);

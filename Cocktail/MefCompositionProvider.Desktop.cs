@@ -19,8 +19,10 @@ using System.ComponentModel.Composition.ReflectionModel;
 using System.Linq;
 using System.Reflection;
 using Caliburn.Micro;
+#if !LIGHT
 using IdeaBlade.Core.Composition;
 using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
+#endif
 
 namespace Cocktail
 {
@@ -154,9 +156,11 @@ namespace Cocktail
         /// <param name="instance"> The instance needing property injection. </param>
         public void BuildUp(object instance)
         {
+#if !LIGHT
             // Skip if in design mode.
             if (DesignTime.InDesignMode())
                 return;
+#endif
 
             Container.SatisfyImportsOnce(instance);
         }

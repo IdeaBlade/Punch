@@ -11,7 +11,9 @@
 //====================================================================================================================
 
 using Caliburn.Micro;
+#if !LIGHT
 using IdeaBlade.Core;
+#endif
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,12 +52,14 @@ namespace Cocktail
 
             IEnumerable<Type> handlers =
                 interfaces.Where(i => i.GetGenericArguments()[0].IsAssignableFrom(message.GetType()));
+
             handlers.ForEach(
                 @interface =>
                 {
                     MethodInfo method = @interface.GetMethod("Handle");
                     method.Invoke(handler, new[] { message });
                 });
+
         }
 
         /// <summary>Raises the given event and then clears all event handlers.</summary>

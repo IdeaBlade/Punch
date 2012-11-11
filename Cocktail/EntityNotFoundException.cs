@@ -10,10 +10,16 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using System;
+using System.Runtime.Serialization;
+
+#if !LIGHT
 using IdeaBlade.Core;
+#endif
 
 namespace Cocktail
 {
+#if !LIGHT
     /// <summary>
     ///   Exception thrown if an entity cannot be found.
     /// </summary>
@@ -27,4 +33,20 @@ namespace Cocktail
         {
         }
     }
+#else
+    /// <summary>
+    ///   Exception thrown if an entity cannot be found.
+    /// </summary>
+    public sealed class EntityNotFoundException : Exception
+    {
+        /// <summary>
+        ///   Initializes a new EntityNotFoundException.
+        /// </summary>
+        /// <param name="message"> A message added to describe the exception. </param>
+        public EntityNotFoundException(string message)
+            : base(message)
+        {
+        }
+    }
+#endif
 }

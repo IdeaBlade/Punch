@@ -12,8 +12,10 @@
 
 using System;
 using System.Threading.Tasks;
+#if !LIGHT
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
+#endif
 
 namespace Cocktail
 {
@@ -41,17 +43,24 @@ namespace Cocktail
         /// <summary>
         ///   Commits all pending changes to the underlying data source.
         /// </summary>
+#if !LIGHT
         Task<SaveResult> CommitAsync();
+#else
+        Task<bool> CommitAsync();    
+#endif
+
 
         /// <summary>
         ///   Rolls back all pending changes.
         /// </summary>
         void Rollback();
 
+#if !LIGHT
         /// <summary>
         ///   Fired whenever an entity associated with the current unit of work has changed in any significant manner.
         /// </summary>
         event EventHandler<EntityChangedEventArgs> EntityChanged;
+#endif
     }
 
     /// <summary>

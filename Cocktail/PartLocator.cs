@@ -10,22 +10,29 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using IdeaBlade.Core;
+
 using System;
 using System.Linq;
+
+#if !LIGHT
+using IdeaBlade.Core;
 using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
+#endif
 
 namespace Cocktail
 {
     internal class PartLocator<T> where T : class
     {
         private T _instance;
+#if !LIGHT
         private readonly Func<CompositionContext> _compositionContextDelegate;
+#endif
         private readonly bool _useFactory;
 
         private bool _probed;
         private Func<T> _defaultGenerator;
 
+#if !LIGHT
         internal PartLocator(bool useFactory = false, Func<CompositionContext> compositionContextDelegate = null)
         {
             _compositionContextDelegate = compositionContextDelegate ?? (() => CompositionContext.Default);
@@ -34,15 +41,27 @@ namespace Cocktail
             Composition.ProviderChanged +=
                 new EventHandler<EventArgs>(OnCompositionProviderChanged).MakeWeak(eh => Composition.ProviderChanged -= eh);
         }
+#else
+        internal PartLocator(bool useFactory = false)
+        {
+            _useFactory = useFactory;
+            _defaultGenerator = () => null;
+            Composition.ProviderChanged +=
+                new EventHandler<EventArgs>(OnCompositionProviderChanged).MakeWeak(eh => Composition.ProviderChanged -= eh);
+        }
+#endif
 
         internal PartLocator(PartLocator<T> partLocator)
         {
+#if !LIGHT
             _compositionContextDelegate = partLocator._compositionContextDelegate;
+#endif
             _useFactory = partLocator._useFactory;
             _defaultGenerator = partLocator._defaultGenerator;
             Composition.ProviderChanged +=
                 new EventHandler<EventArgs>(OnCompositionProviderChanged).MakeWeak(eh => Composition.ProviderChanged -= eh);
         }
+
 
         internal void OnCompositionProviderChanged(object sender, EventArgs e)
         {
@@ -58,6 +77,7 @@ namespace Cocktail
         {
             if (Probed) return _instance;
 
+#if !LIGHT
             // Look for the part in the CompositionContext first;
             _instance = CompositionContext.GetExportedInstance(typeof(T)) as T;
             if (_instance != null)
@@ -65,6 +85,7 @@ namespace Cocktail
                 WriteTrace();
                 return _instance;
             }
+#endif
 
             // Look for the part in the IoC container.
             if (_useFactory)
@@ -89,15 +110,19 @@ namespace Cocktail
 
         protected Func<T> DefaultGenerator { get { return _defaultGenerator; } }
 
+#if !LIGHT
         private CompositionContext CompositionContext { get { return _compositionContextDelegate() ?? CompositionContext.Default; } }
+#endif
 
         private void WriteTrace()
         {
+#if !LIGHT
             if (_instance != null)
                 TraceFns.WriteLine(String.Format(StringResources.ProbedForServiceAndFoundMatch, typeof(T).Name,
                                                  _instance.GetType().FullName));
             else
                 TraceFns.WriteLine(String.Format(StringResources.ProbedForServiceFoundNoMatch, typeof(T).Name));
+#endif
         }
 
         private T TryGetPartFromFactory()

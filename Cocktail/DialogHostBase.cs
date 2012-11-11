@@ -11,7 +11,9 @@
 // ====================================================================================================================
 
 using Caliburn.Micro;
+#if !LIGHT
 using IdeaBlade.Core.Composition;
+#endif
 using System;
 using System.Collections;
 using System.Collections.Generic;

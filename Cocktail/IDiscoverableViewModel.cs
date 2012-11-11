@@ -10,8 +10,10 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+#if !LIGHT
 using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
+#endif
 
 namespace Cocktail
 {

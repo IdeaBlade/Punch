@@ -20,12 +20,12 @@ namespace Cocktail
     /// <summary>
     ///   A factory that creates new instances of the specified type.
     /// </summary>
-    /// <typeparam name="T"> Type of instance to be created. </typeparam>
+    /// <typeparam name="T"> Type of instances to be created. </typeparam>
     public interface ICompositionFactory<T> : IHideObjectMembers
         where T : class
     {
         /// <summary>
-        ///   Creates new instance.
+        /// Creates and returns a new instance of T.
         /// </summary>
         T NewInstance();
     }

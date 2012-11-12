@@ -20,7 +20,7 @@ using System.Composition.Hosting;
 namespace Cocktail
 {
     /// <summary>
-    /// A factory that creates new instances that provide the specified MEF export.
+    /// An implementation of <see cref="ICompositionFactory{T}" /> which creates new instances using <see cref="ExportFactory{T}" />.
     /// </summary>
     public class MefCompositionFactory<T> : ICompositionFactory<T>
          where T : class
@@ -36,7 +36,7 @@ namespace Cocktail
         public ExportFactory<T> ExportFactory { get; set; }
 
         /// <summary>
-        /// Creates new instance.
+        /// Creates and returns a new instance of T.
         /// </summary>
         public T NewInstance()
         {

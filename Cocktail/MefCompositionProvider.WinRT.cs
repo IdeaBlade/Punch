@@ -108,6 +108,9 @@ namespace Cocktail
         {
             var factory = new MefCompositionFactory<T>();
             Container.SatisfyImports(factory);
+            if (factory.ExportFactory == null)
+                throw new CompositionFailedException(string.Format(StringResources.NoExportFound, typeof(T)));
+
             return factory;
         }
 

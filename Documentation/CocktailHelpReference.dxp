@@ -86,6 +86,7 @@
       <ExcludedItem>Cocktail.Compat~Cocktail.CoroutineFns+--c__DisplayClass2+--c__DisplayClass4</ExcludedItem>
       <ExcludedItem>Cocktail.Compat~Cocktail.TaskExtensions+--c__DisplayClass8+--c__DisplayClassb</ExcludedItem>
       <ExcludedItem>Cocktail.Compat~Cocktail.TaskNotifyCompleted+--c__DisplayClass2+--c__DisplayClass4</ExcludedItem>
+      <ExcludedItem>Cocktail~Cocktail.MefCompositionFactory`1</ExcludedItem>
     </ExcludedItems>
   </Filters>
   <ComProjectPlugin />

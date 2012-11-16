@@ -36,10 +36,9 @@ namespace Security
 
             var em = new SecurityEntities(entityManager);
             User user =
-                em.Users.FirstOrDefault(
-                    u => u.Username.ToUpper() == credential.UserName.ToUpper() && u.Password == credential.Password);
+                em.Users.FirstOrDefault(u => u.Username.ToUpper() == credential.UserName.ToUpper());
 
-            if (user == null)
+            if (user == null || !user.Authenticate(credential.Password))
                 throw new LoginException(LoginExceptionType.InvalidPassword, credential.Domain, credential.UserName);
 
             return new UserPrincipal(user.Id, new UserIdentity(user.Username, "FORM", true));

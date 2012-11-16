@@ -103,9 +103,7 @@ namespace TempHire.ViewModels.Login
             {
                 FailureMessage = "";
 
-                var hash = CryptoHelper.GenerateKey(Password);
-                var password = Encoding.UTF8.GetString(hash, 0, hash.Length);
-                var credential = new LoginCredential(Username, password, null);
+                var credential = new LoginCredential(Username, Password, null);
                 // Clear username and password fields
                 Username = null;
                 Password = null;

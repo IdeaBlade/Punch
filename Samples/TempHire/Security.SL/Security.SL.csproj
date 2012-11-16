@@ -88,9 +88,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Cocktail.Utils.SL, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.0.5\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
+    <Reference Include="Cocktail.Utils.SL">
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.0.6\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Aop.SL">
       <HintPath>..\packages\IdeaBlade.DevForce.Aop.7.0.2\lib\sl50\IdeaBlade.Aop.SL.dll</HintPath>

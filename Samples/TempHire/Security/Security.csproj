@@ -68,9 +68,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Cocktail.Utils, Version=2.0.6.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="Cocktail.Utils">
       <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.0.6\lib\net45\Cocktail.Utils.dll</HintPath>
     </Reference>

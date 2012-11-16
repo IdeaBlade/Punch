@@ -164,9 +164,12 @@
     <Compile Include="WeakRefDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Caliburn.Micro, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Caliburn.Micro, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Caliburn.Micro\WinRT\Debug\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.1.4\lib\win8\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Extensions">
+      <HintPath>..\packages\Caliburn.Micro.1.4\lib\win8\Caliburn.Micro.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.WinRT, Version=7.0.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -203,6 +206,10 @@
     <Reference Include="System.Composition.TypedParts, Version=1.0.16.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Composition.1.0.16\lib\netcore45\System.Composition.TypedParts.dll</HintPath>
+    </Reference>
+    <Reference Include="Windows.UI.Interactivity, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Windows.UI.Interactivity.1.0.2.0\lib\winrt45\Windows.UI.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -21,22 +21,14 @@ Line of business applications need to query and save database data, model the da
     <dependencies>
       <dependency id="IdeaBlade.DevForce.Core" version="[7.0.2]" />
       <dependency id="IdeaBlade.Cocktail.Utils" />
+      <dependency id="Caliburn.Micro" version="[1.4]" />
     </dependencies>
   </metadata>
   <files>
     <file src="..\Cocktail\Bin\Release\Cocktail*.*" target="lib\net45" />
-    <file src="..\Cocktail\Bin\Release\Caliburn.Micro.dll" target="lib\net45" />
-    <file src="..\Cocktail\Bin\Release\Caliburn.Micro.xml" target="lib\net45" />
-    <file src="..\Cocktail\Bin\Release\System.Windows.Interactivity.*" target="lib\net45" />
     <file src="..\Cocktail\Bin.SL\Release\Cocktail*.*" target="lib\sl50" />
-    <file src="..\Cocktail\Bin.SL\Release\Caliburn.Micro.dll" target="lib\sl50" />
-    <file src="..\Cocktail\Bin.SL\Release\Caliburn.Micro.xml" target="lib\sl50" />
-    <file src="..\Cocktail\Bin.SL\Release\System.Windows.Interactivity.*" target="lib\sl50" />
     <file src="..\Cocktail\Bin.WinRT\AnyCPU\Release\Cocktail*.dll" target="lib\netcore45" />
     <file src="..\Cocktail\Bin.WinRT\AnyCPU\Release\Cocktail*.xml" target="lib\netcore45" />
-    <file src="..\Cocktail\Bin.WinRT\AnyCPU\Release\Caliburn.Micro.dll" target="lib\netcore45" />
-    <file src="..\Cocktail\Bin.WinRT\AnyCPU\Release\Caliburn.Micro.xml" target="lib\netcore45" />
-    <file src="..\Cocktail\Bin.WinRT\AnyCPU\Release\Windows.UI.Interactivity.*" target="lib\netcore45" />
     <file src="..\Cocktail\**\*.cs" target="src\Cocktail" />
     <file src="..\Cocktail\**\*.xaml" target="src\Cocktail" />
   </files>

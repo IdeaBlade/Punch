@@ -400,33 +400,6 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Extension method to process the result of a paging operation.
-        /// </summary>
-        /// <param name="source"> The PageChangedOperation returned from an asynchronous paging operation."/> </param>
-        /// <param name="onSuccess"> A callback to be called if the paging was successful. </param>
-        /// <param name="onFail"> A callback to be called if the paging failed. </param>
-        /// <returns> Returns the PageChangedOperation passed to the method's source parameter. </returns>
-        //public static PageChangedOperation<T> OnComplete<T>(this PageChangedOperation<T> source,
-        //                                                    Action<Page<T>> onSuccess, Action<Exception> onFail)
-        //{
-        //    source.Completed += (s, args) =>
-        //                            {
-        //                                if (args.CompletedSuccessfully)
-        //                                {
-        //                                    if (onSuccess != null)
-        //                                        onSuccess(new Page<T>(args.PageIndex, source.PageWasFound, args.Results));
-        //                                }
-
-        //                                if (args.HasError && !args.IsErrorHandled && onFail != null)
-        //                                {
-        //                                    args.MarkErrorAsHandled();
-        //                                    onFail(args.Error);
-        //                                }
-        //                            };
-        //    return source;
-        //}
-
-        /// <summary>
         ///   Returns an implementation of <see cref="OperationResult" /> that wraps a DevForce asynchronous function.
         /// </summary>
         /// <param name="asyncOp"> DevForce asynchronous operation. </param>
@@ -557,16 +530,6 @@ namespace Cocktail
         {
             return new InvokeServerMethodOperationResult<T>(asyncOp);
         }
-
-        /// <summary>
-        ///   Returns an implementation of <see cref="OperationResult{T}" /> that wraps a DevForce asynchronous function and provides access to the operation's result value.
-        /// </summary>
-        /// <param name="asyncOp"> DevForce asynchronous operation. </param>
-        /// <returns> PageOperationResult encapsulating the provided DevForce asynchronous operation. </returns>
-        //public static PageOperationResult<T> AsOperationResult<T>(this PageChangedOperation<T> asyncOp)
-        //{
-        //    return new PageOperationResult<T>(asyncOp);
-        //}
 
         /// <summary>
         ///   Ensures that a Coroutine continues if the current operation encounters an error and prevents an unhandled exception from being thrown.

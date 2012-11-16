@@ -20,7 +20,7 @@ using System.Composition.Hosting;
 namespace Cocktail
 {
     /// <summary>
-    /// An implementation of <see cref="ICompositionFactory{T}" /> which creates new instances using <see cref="ExportFactory{T}" />.
+    /// An implementation of <see cref="ICompositionFactory{T}" /> which creates new instances using MEF />.
     /// </summary>
     public class MefCompositionFactory<T> : ICompositionFactory<T>
          where T : class

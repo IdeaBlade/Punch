@@ -11,7 +11,6 @@
 //====================================================================================================================
 
 using System.ComponentModel.Composition;
-using System.Text;
 using Cocktail;
 using DomainModel;
 using Security;
@@ -26,15 +25,12 @@ namespace DomainServices.SampleData
     {
         public void AddSampleData(TempHireEntities manager)
         {
-            var hash = CryptoHelper.GenerateKey("password");
-            var password = Encoding.UTF8.GetString(hash, 0, hash.Length);
-
             var user = new User
                            {
                                Id = CombGuid.NewGuid(),
-                               Username = "Admin",
-                               Password = password
+                               Username = "Admin"
                            };
+            user.SetPassword("password");
             manager.AttachEntity(user);
         }
     }

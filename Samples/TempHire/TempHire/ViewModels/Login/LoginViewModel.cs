@@ -13,14 +13,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Text;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Factories;
 using DomainServices.Repositories;
 using IdeaBlade.EntityModel;
-using Security;
 
 namespace TempHire.ViewModels.Login
 {
@@ -115,9 +113,7 @@ namespace TempHire.ViewModels.Login
             {
                 FailureMessage = "";
 
-                byte[] hash = CryptoHelper.GenerateKey(Password);
-                string password = Encoding.UTF8.GetString(hash, 0, hash.Length);
-                var credential = new LoginCredential(Username, password, null);
+                var credential = new LoginCredential(Username, Password, null);
                 // Clear username and password fields
                 Username = null;
                 Password = null;

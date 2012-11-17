@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityModelMetadata xmlns:i="http://www.w3.org/2001/XMLSchema-instance" z:Id="1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" xmlns="http://ideablade.com/EntityModel">
-  <CreatedOn>2012-04-30T10:56:36.2476425-07:00</CreatedOn>
-  <DevForceVersion z:Id="2">6.1.7.0</DevForceVersion>
+  <CreatedOn>2012-11-16T22:37:25.4006807-08:00</CreatedOn>
+  <DevForceVersion z:Id="2">6.1.9.0</DevForceVersion>
   <EncodedLicenseKey z:Id="3">2jUPwTTHoGj29Vi0/lQ5PfPy7bqIigdsS0Qk82eraQEx3EIsrw1oXfXoJrcyrInT</EncodedLicenseKey>
   <EntityMetadataSurrogates z:Id="4" z:Size="1">
     <EntityMetadataSurrogate z:Id="5">
@@ -41,23 +41,26 @@
         </DataEntityPropertySurrogate>
         <DataEntityPropertySurrogate z:Id="17">
           <ConcurrencyStrategy>None</ConcurrencyStrategy>
-          <DataTypeWrapper z:Ref="14" i:nil="true" />
+          <DataTypeWrapper z:Id="18" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
+            <d6p1:AssemblyQualifiedName z:Id="19">System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</d6p1:AssemblyQualifiedName>
+            <d6p1:IsNull>false</d6p1:IsNull>
+          </DataTypeWrapper>
           <EntityTypeWrapper z:Ref="10" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
-          <Name z:Id="18">Password</Name>
+          <Name z:Id="20">Password</Name>
           <Ordinal>2</Ordinal>
           <RelatedNavigationPropertyName i:nil="true" />
         </DataEntityPropertySurrogate>
       </DataProperties>
-      <DataSourceKeyName z:Id="19">SecurityEntities</DataSourceKeyName>
-      <DefaultEntityContainerName z:Id="20">SecurityDbContext</DefaultEntityContainerName>
-      <DefaultEntitySetName z:Id="21">SecurityDbContext.Users</DefaultEntitySetName>
+      <DataSourceKeyName z:Id="21">SecurityEntities</DataSourceKeyName>
+      <DefaultEntityContainerName z:Id="22">SecurityDbContext</DefaultEntityContainerName>
+      <DefaultEntitySetName z:Id="23">SecurityDbContext.Users</DefaultEntitySetName>
       <EntityTypeWrapper z:Ref="10" i:nil="true" />
-      <NavProperties z:Id="22" z:Size="0" />
+      <NavProperties z:Id="24" z:Size="0" />
     </EntityMetadataSurrogate>
   </EntityMetadataSurrogates>
-  <EntityRelationCollection z:Id="23" z:Size="0" />
+  <EntityRelationCollection z:Id="25" z:Size="0" />
 </EntityModelMetadata>

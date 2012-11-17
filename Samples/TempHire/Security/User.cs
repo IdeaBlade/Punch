@@ -12,6 +12,7 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Runtime.Serialization;
 using Cocktail;
 using IdeaBlade.Aop;
@@ -39,11 +40,45 @@ namespace Security
 
         [DataMember]
         [Required]
-        public string Password { get; set; }
+        public byte[] Password { get; set; }
 
         public static User Create()
         {
             return new User {Id = CombGuid.NewGuid()};
+        }
+
+        public void SetPassword(string password)
+        {
+            var key = CryptoHelper.GenerateKey(password);
+            var stream = new MemoryStream();
+
+            var length = CryptoHelper.EncryptToStream(
+                stream, key, cs =>
+                    {
+                        var writer = new StreamWriter(cs);
+                        writer.WriteLine(password);
+                        writer.Flush();
+                    });
+
+            var encryptedPassword = stream.GetBuffer();
+            Array.Resize(ref encryptedPassword, length);
+
+            Password = encryptedPassword;
+        }
+
+        public bool Authenticate(string password)
+        {
+            var key = CryptoHelper.GenerateKey(password);
+            var stream = new MemoryStream(Password);
+
+            var decryptedPassword = CryptoHelper.DecryptFromStream(
+                stream, key, cs =>
+                    {
+                        var reader = new StreamReader(cs);
+                        return reader.ReadLine();
+                    });
+
+            return password == decryptedPassword;
         }
     }
 }

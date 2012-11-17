@@ -12,7 +12,6 @@
 
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Text;
 using Cocktail;
 using IdeaBlade.EntityModel;
 
@@ -50,8 +49,8 @@ namespace Security
     {
         protected override void Seed(SecurityDbContext context)
         {
-            var password = Encoding.UTF8.GetString(CryptoHelper.GenerateKey("password"));
-            var user = new User { Id = CombGuid.NewGuid(), Username = "Admin", Password = password };
+            var user = new User { Id = CombGuid.NewGuid(), Username = "Admin" };
+            user.SetPassword("password");
 
             context.Users.Add(user);
         }

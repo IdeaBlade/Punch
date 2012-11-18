@@ -68,17 +68,24 @@ namespace Security
 
         public bool Authenticate(string password)
         {
-            var key = CryptoHelper.GenerateKey(password);
-            var stream = new MemoryStream(Password);
+            try
+            {
+                var key = CryptoHelper.GenerateKey(password);
+                var stream = new MemoryStream(Password);
 
-            var decryptedPassword = CryptoHelper.DecryptFromStream(
-                stream, key, cs =>
+                var decryptedPassword = CryptoHelper.DecryptFromStream(
+                    stream, key, cs =>
                     {
                         var reader = new StreamReader(cs);
                         return reader.ReadLine();
                     });
 
-            return password == decryptedPassword;
+                return password == decryptedPassword;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

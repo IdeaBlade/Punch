@@ -12,8 +12,6 @@
 
 using System;
 using Test.Model;
-using IdeaBlade.EntityModel;
-using IdeaBlade.Core;
 
 #if !NETFX_CORE
 using System.ComponentModel.Composition;

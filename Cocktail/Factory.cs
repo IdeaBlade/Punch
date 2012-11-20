@@ -11,12 +11,15 @@
 // ====================================================================================================================
 
 using System.Threading;
-using IdeaBlade.Core.Reflection;
 using IdeaBlade.EntityModel;
 using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+
+#if NETFX_CORE
+using IdeaBlade.Core.Reflection;
+#endif
 
 namespace Cocktail
 {

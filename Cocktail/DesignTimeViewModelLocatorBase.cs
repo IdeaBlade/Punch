@@ -10,8 +10,6 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System;
-using Caliburn.Micro;
 using IdeaBlade.EntityModel;
 
 namespace Cocktail

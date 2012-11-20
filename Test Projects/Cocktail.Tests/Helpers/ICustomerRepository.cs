@@ -13,8 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using IdeaBlade.Core.Composition;
-using IdeaBlade.EntityModel;
 using Test.Model;
 
 namespace Cocktail.Tests.Helpers

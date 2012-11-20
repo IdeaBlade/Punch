@@ -12,11 +12,14 @@
 
 using Caliburn.Micro;
 using IdeaBlade.Core;
-using IdeaBlade.Core.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+
+#if NETFX_CORE
+using IdeaBlade.Core.Reflection;
+#endif
 
 namespace Cocktail
 {

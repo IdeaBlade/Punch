@@ -11,24 +11,20 @@
 // ====================================================================================================================
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Cocktail.Tests.Helpers;
 using IdeaBlade.Core;
-using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
 using IdeaBlade.Linq;
 using Test.Model;
 using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
 
 #if !NETFX_CORE
-using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #else
-using System.Composition;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #endif
 

@@ -12,7 +12,6 @@
 
 using IdeaBlade.Core;
 using System;
-using System.Linq;
 using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
 
 namespace Cocktail

@@ -68,25 +68,10 @@ namespace Cocktail
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            T instance = null;
-            var methodInfo = FindFactoryMethod(typeof(T), false) ?? FindFactoryMethod(typeof(T), true);
-            if (methodInfo != null)
-            {
-                try
-                {
-                    instance = (T)methodInfo.Invoke(null, new object[0]);
-                }
-                catch (MemberAccessException)
-                {
-                    instance = null;
-                }
-            }
-
-            if (methodInfo == null || instance == null)
-                instance = CreateInstance();
-
+            var instance = await Task.Factory.StartNew(() => CreateInstance(), cancellationToken);
             EntityManager.AddEntity(instance);
-            return await TaskFns.FromResult(instance);
+
+            return instance;
         }
 
         #endregion
@@ -110,15 +95,38 @@ namespace Cocktail
             return candidates.Count() == 1 ? candidates.First() : null;
         }
 
-        private T CreateInstance()
+        private ConstructorInfo FindConstructor()
         {
             var ctors = typeof(T).GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            var ctor = ctors.FirstOrDefault(x => !x.GetParameters().Any());
+            return ctors.FirstOrDefault(x => !x.GetParameters().Any());
+        }
 
-            if (ctor == null)
-                throw new MissingMemberException(StringResources.NoParameterlessCtor);
+        private T CreateInstance()
+        {
+            T instance = null;
+            var methodInfo = FindFactoryMethod(typeof(T), false) ?? FindFactoryMethod(typeof(T), true);
+            if (methodInfo != null)
+            {
+                try
+                {
+                    instance = (T)methodInfo.Invoke(null, new object[0]);
+                }
+                catch (MemberAccessException)
+                {
+                    instance = null;
+                }
+            }
 
-            return (T) ctor.Invoke(new object[0]);
+            if (methodInfo == null || instance == null)
+            {
+                var ctor = FindConstructor();
+                if (ctor == null)
+                    throw new MissingMemberException(StringResources.NoParameterlessCtor);
+
+                instance = (T)ctor.Invoke(new object[0]);
+            }
+
+            return instance;
         }
     }
 }

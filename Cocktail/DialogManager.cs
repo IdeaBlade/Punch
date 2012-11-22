@@ -1,17 +1,19 @@
-//====================================================================================================================
-// Copyright (c) 2012 IdeaBlade
-//====================================================================================================================
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-//====================================================================================================================
-// USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-// http://cocktail.ideablade.com/licensing
-//====================================================================================================================
+//  ====================================================================================================================
+//    Copyright (c) 2012 IdeaBlade
+//  ====================================================================================================================
+//    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//    WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//    OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//    OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+//  ====================================================================================================================
+//    USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//    http://cocktail.ideablade.com/licensing
+//  ====================================================================================================================
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 
 namespace Cocktail
 {
@@ -22,17 +24,21 @@ namespace Cocktail
 
         /// <summary>Displays a modal dialog with a custom view model.</summary>
         /// <param name="content">The custom view model to host in the dialog.</param>
-        /// <param name="dialogButtons">
-        /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
+        /// <param name="commands">
+        ///     A list of commands that can be invoked as part of the dialog.
         /// </param>
         /// <param name="title">Optional title of the dialog.</param>
         /// <typeparam name="T">
-        /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
+        ///     User-defined dialog result type.
         /// </typeparam>
         /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        public DialogOperationResult<T> ShowDialogAsync<T>(object content, IEnumerable<T> dialogButtons, string title)
+        public DialogOperationResult<T> ShowDialogAsync<T>(IEnumerable<IDialogUICommand<T>> commands, object content,
+                                                           string title = null)
         {
-            var result = new ShowDialogResult<T>(content, dialogButtons, title);
+            var cmds = commands.ToList();
+            ThrowIfInvalidCommands(cmds);
+
+            var result = new ShowDialogResult<T>(content, cmds, title);
             result.Show();
             return result;
         }
@@ -40,97 +46,136 @@ namespace Cocktail
         /// <summary>Displays a modal dialog with a custom view model.</summary>
         /// <param name="content">The custom view model to host in the dialog.</param>
         /// <param name="dialogButtons">
-        /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
-        /// </param>
-        /// <param name="defaultButton"> 
-        /// Specifies the default button. The Enter key will be mapped to this button.
-        /// </param>
-        /// <param name="cancelButton">
-        /// Specifies the button taking on the special role of the cancel function. If the user clicks this button, 
-        /// the DialogOperationResult will be marked as cancelled.
+        ///     A value that indicates the button or buttons to display. See <see cref="DialogButtons" /> for predefined button sets.
         /// </param>
         /// <param name="title">Optional title of the dialog.</param>
         /// <typeparam name="T">
-        /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
+        ///     User-defined dialog result type. In most cases <see cref="object.ToString()" /> is used as the button content.
         /// </typeparam>
         /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        public DialogOperationResult<T> ShowDialogAsync<T>(object content, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
+        public DialogOperationResult<T> ShowDialogAsync<T>(object content, IEnumerable<T> dialogButtons, string title = null)
         {
-            var result = new ShowDialogResult<T>(content, dialogButtons, defaultButton, cancelButton, title);
-            result.Show();
-            return result;
+            if (dialogButtons == null) throw new ArgumentNullException("dialogButtons");
+
+            var commands = dialogButtons.Select(x => new DialogUICommand<T>(x)).Cast<IDialogUICommand<T>>();
+            return ShowDialogAsync(commands, content, title);
         }
 
         /// <summary>Displays a modal dialog with a custom view model.</summary>
         /// <param name="content">The custom view model to host in the dialog.</param>
         /// <param name="dialogButtons">
-        /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
+        ///     A value that indicates the button or buttons to display. See <see cref="DialogButtons" /> for predefined button sets.
+        /// </param>
+        /// <param name="defaultButton">
+        ///     Specifies the default button. The Enter key will be mapped to this button.
+        /// </param>
+        /// <param name="cancelButton">
+        ///     Specifies the button taking on the special role of the cancel function. If the user clicks this button,
+        ///     the DialogOperationResult will be marked as cancelled.
+        /// </param>
+        /// <param name="title">Optional title of the dialog.</param>
+        /// <typeparam name="T">
+        ///     User-defined dialog result type. In most cases <see cref="object.ToString()" /> is used as the button content.
+        /// </typeparam>
+        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
+        public DialogOperationResult<T> ShowDialogAsync<T>(object content, T defaultButton, T cancelButton,
+                                                           IEnumerable<T> dialogButtons, string title = null)
+        {
+            if (dialogButtons == null) throw new ArgumentNullException("dialogButtons");
+
+            var commands =
+                dialogButtons.Select(x => new DialogUICommand<T>(x, x.Equals(defaultButton), x.Equals(cancelButton)));
+            return ShowDialogAsync(commands.Cast<IDialogUICommand<T>>(), content, title);
+        }
+
+        /// <summary>Displays a modal dialog with a custom view model.</summary>
+        /// <param name="content">The custom view model to host in the dialog.</param>
+        /// <param name="dialogButtons">
+        ///     A value that indicates the button or buttons to display. See <see cref="DialogButtons" /> for predefined button sets.
         /// </param>
         /// <param name="title">Optional title of the dialog.</param>
         /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        public DialogOperationResult<DialogResult> ShowDialogAsync(object content, IEnumerable<DialogResult> dialogButtons, string title = null)
+        public DialogOperationResult<DialogResult> ShowDialogAsync(object content,
+                                                                   IEnumerable<DialogResult> dialogButtons,
+                                                                   string title = null)
         {
-            var result = new ShowDialogResult<DialogResult>(content, dialogButtons, DialogResult.Ok, DialogResult.Cancel, title);
-            result.Show();
-            return result;
+            if (dialogButtons == null) throw new ArgumentNullException("dialogButtons");
+
+            var commands = dialogButtons.Select(
+                x => new DialogUICommand<DialogResult>(x, x.Equals(DialogResult.Ok), x.Equals(DialogResult.Cancel)));
+            return ShowDialogAsync(commands.Cast<IDialogUICommand<DialogResult>>(), content, title);
         }
 
         /// <summary>Displays a modal message box.</summary>
         /// <param name="message">The message to display.</param>
-        /// <param name="dialogButtons">
-        /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
+        /// <param name="commands">
+        ///     A list of commands that can be invoked as part of the message box.
         /// </param>
         /// <param name="title">Optional title of the message box.</param>
         /// <typeparam name="T">
-        /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
+        ///     User-defined dialog result type.
         /// </typeparam>
         /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        public DialogOperationResult<T> ShowMessageAsync<T>(string message, IEnumerable<T> dialogButtons, string title)
+        public DialogOperationResult<T> ShowMessageAsync<T>(IEnumerable<IDialogUICommand<T>> commands, string message,
+                                                            string title = null)
         {
             var messageBox = CreateMessageBox(message);
-            var result = new ShowDialogResult<T>(messageBox, dialogButtons, title);
-            result.Show();
-            return result;
+            return ShowDialogAsync(commands, messageBox, title);
         }
 
         /// <summary>Displays a modal message box.</summary>
         /// <param name="message">The message to display.</param>
         /// <param name="dialogButtons">
-        /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
+        ///     A value that indicates the button or buttons to display. See <see cref="DialogButtons" /> for predefined button sets.
         /// </param>
-        /// <param name="defaultButton"> 
-        /// Specifies the default button. The Enter key will be mapped to this button.
+        /// <param name="title">Optional title of the message box.</param>
+        /// <typeparam name="T">
+        ///     User-defined dialog result type. In most cases <see cref="object.ToString()" /> is used as the button content.
+        /// </typeparam>
+        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
+        public DialogOperationResult<T> ShowMessageAsync<T>(string message, IEnumerable<T> dialogButtons, string title = null)
+        {
+            var messageBox = CreateMessageBox(message);
+            return ShowDialogAsync(messageBox, dialogButtons, title);
+        }
+
+        /// <summary>Displays a modal message box.</summary>
+        /// <param name="message">The message to display.</param>
+        /// <param name="dialogButtons">
+        ///     A value that indicates the button or buttons to display. See <see cref="DialogButtons" /> for predefined button sets.
+        /// </param>
+        /// <param name="defaultButton">
+        ///     Specifies the default button. The Enter key will be mapped to this button.
         /// </param>
         /// <param name="cancelButton">
-        /// Specifies the button taking on the special role of the cancel function. If the user clicks this button, 
-        /// the DialogOperationResult will be marked as cancelled.
+        ///     Specifies the button taking on the special role of the cancel function. If the user clicks this button,
+        ///     the DialogOperationResult will be marked as cancelled.
         /// </param>
         /// <param name="title">Optional title of the message box.</param>
         /// <typeparam name="T">
-        /// User-defined dialog result type. In most cases <see cref="object.ToString()"/> is used as the button content.
+        ///     User-defined dialog result type. In most cases <see cref="object.ToString()" /> is used as the button content.
         /// </typeparam>
         /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        public DialogOperationResult<T> ShowMessageAsync<T>(string message, T defaultButton, T cancelButton, IEnumerable<T> dialogButtons, string title = null)
+        public DialogOperationResult<T> ShowMessageAsync<T>(string message, T defaultButton, T cancelButton,
+                                                            IEnumerable<T> dialogButtons, string title = null)
         {
             var messageBox = CreateMessageBox(message);
-            var result = new ShowDialogResult<T>(messageBox, dialogButtons, defaultButton, cancelButton, title);
-            result.Show();
-            return result;
+            return ShowDialogAsync(messageBox, defaultButton, cancelButton, dialogButtons, title);
         }
 
         /// <summary>Displays a modal message box.</summary>
         /// <param name="message">The message to display.</param>
         /// <param name="dialogButtons">
-        /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
+        ///     A value that indicates the button or buttons to display. See <see cref="DialogButtons" /> for predefined button sets.
         /// </param>
         /// <param name="title">Optional title of the message box.</param>
         /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
-        public DialogOperationResult<DialogResult> ShowMessageAsync(string message, IEnumerable<DialogResult> dialogButtons, string title = null)
+        public DialogOperationResult<DialogResult> ShowMessageAsync(string message,
+                                                                    IEnumerable<DialogResult> dialogButtons,
+                                                                    string title = null)
         {
             var messageBox = CreateMessageBox(message);
-            var result = new ShowDialogResult<DialogResult>(messageBox, dialogButtons, DialogResult.Ok, DialogResult.Cancel, title);
-            result.Show();
-            return result;
+            return ShowDialogAsync(messageBox, dialogButtons, title);
         }
 
         #endregion
@@ -140,6 +185,20 @@ namespace Cocktail
             var messageBoxLocator = new PartLocator<MessageBoxBase>(CreationPolicy.NonShared)
                 .WithDefaultGenerator(() => new MessageBoxBase());
             return messageBoxLocator.GetPart().Start(message);
+        }
+
+        private void ThrowIfInvalidCommands<T>(IList<IDialogUICommand<T>> commands)
+        {
+            if (commands == null) throw new ArgumentNullException("commands");
+
+            if (commands.Count(x => x.IsDefaultCommand) > 1)
+                throw new InvalidOperationException("More than one default UI command.");
+
+            if (commands.Count(x => x.IsCancelCommand) > 1)
+                throw new InvalidOperationException("More than one cancel UI command.");
+
+            if (commands.GroupBy(x => x.DialogResult).Any(x => x.Count() > 1))
+                throw new InvalidOperationException("More than one UI command with same dialog result.");
         }
     }
 }

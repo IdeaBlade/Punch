@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />
+    <Compile Include="DialogUICommand.cs" />
     <Compile Include="EntityManagerProvider.NET.cs">
       <DependentUpon>EntityManagerProvider.cs</DependentUpon>
     </Compile>
@@ -92,6 +93,8 @@
     <Compile Include="IAuthenticationService.NET.cs">
       <DependentUpon>IAuthenticationService.cs</DependentUpon>
     </Compile>
+    <Compile Include="IDialogUICommand.cs" />
+    <Compile Include="IUICommand.cs" />
     <Compile Include="IFactory.cs" />
     <Compile Include="IPagerRepository.cs" />
     <Compile Include="IRepository.cs" />
@@ -164,6 +167,7 @@
     </Compile>
     <Compile Include="SyncDataMessage.cs" />
     <Compile Include="TraceLogger.cs" />
+    <Compile Include="UICommand.cs" />
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="ValueConverterConvention.cs" />
     <Compile Include="ValueConverterConventionRegistry.cs" />

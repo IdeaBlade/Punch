@@ -129,6 +129,7 @@
     <Compile Include="DialogOperationResult.Task.cs">
       <DependentUpon>DialogOperationResult.cs</DependentUpon>
     </Compile>
+    <Compile Include="DialogUICommand.cs" />
     <Compile Include="EntityManagerEventMessage.cs" />
     <Compile Include="EntityManagerProvider.cs" />
     <Compile Include="DefaultDebugLogger.cs" />
@@ -148,9 +149,11 @@
     <Compile Include="IConnectionOptionsResolver.cs" />
     <Compile Include="IDialogHost.cs" />
     <Compile Include="IDialogManager.cs" />
+    <Compile Include="IDialogUICommand.cs" />
     <Compile Include="IFactory.cs" />
     <Compile Include="IPagerRepository.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="IUICommand.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="LogFns.cs" />
     <Compile Include="MessageBoxBase.cs" />
@@ -199,6 +202,7 @@
     </Compile>
     <Compile Include="SyncDataMessage.cs" />
     <Compile Include="TraceLogger.cs" />
+    <Compile Include="UICommand.cs" />
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="ValueConverterConvention.cs" />
     <Compile Include="ValueConverterConventionRegistry.cs" />

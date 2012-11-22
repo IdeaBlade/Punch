@@ -72,6 +72,19 @@ namespace Cocktail
     {
         /// <summary>Displays a modal dialog with a custom view model.</summary>
         /// <param name="content">The custom view model to host in the dialog.</param>
+        /// <param name="commands">
+        ///     A list of commands that can be invoked as part of the dialog.
+        /// </param>
+        /// <param name="title">Optional title of the dialog.</param>
+        /// <typeparam name="T">
+        ///     User-defined dialog result type.
+        /// </typeparam>
+        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
+        DialogOperationResult<T> ShowDialogAsync<T>(IEnumerable<IDialogUICommand<T>> commands, object content,
+                                                    string title = null);
+            
+        /// <summary>Displays a modal dialog with a custom view model.</summary>
+        /// <param name="content">The custom view model to host in the dialog.</param>
         /// <param name="dialogButtons">
         /// A value that indicates the button or buttons to display. See <see cref="DialogButtons"/> for predefined button sets.
         /// </param>
@@ -111,6 +124,19 @@ namespace Cocktail
         DialogOperationResult<DialogResult> ShowDialogAsync(object content, IEnumerable<DialogResult> dialogButtons,
                                                        string title = null);
 
+        /// <summary>Displays a modal message box.</summary>
+        /// <param name="message">The message to display.</param>
+        /// <param name="commands">
+        ///     A list of commands that can be invoked as part of the message box.
+        /// </param>
+        /// <param name="title">Optional title of the message box.</param>
+        /// <typeparam name="T">
+        ///     User-defined dialog result type.
+        /// </typeparam>
+        /// <returns>A value representing the asynchronous operation of displaying the dialog.</returns>
+        DialogOperationResult<T> ShowMessageAsync<T>(IEnumerable<IDialogUICommand<T>> commands, string message,
+                                                     string title = null);
+            
         /// <summary>Displays a modal message box.</summary>
         /// <param name="message">The message to display.</param>
         /// <param name="dialogButtons">

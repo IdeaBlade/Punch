@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using Caliburn.Micro;
 
 namespace Cocktail
@@ -21,41 +22,22 @@ namespace Cocktail
     /// </summary>
     public class ShowDialogResult<T> : DialogOperationResult<T>
     {
-        private readonly T _cancelButton;
         private readonly object _content;
-        private readonly T _defaultButton;
-        private readonly IEnumerable<T> _dialogButtons;
+        private readonly IEnumerable<IDialogUICommand<T>> _commands;
         private readonly PartLocator<DialogHostBase> _dialogHostLocator;
-        private readonly bool _hasCancelButton;
-        private readonly bool _hasDefaultButton;
         private readonly string _title;
         private DialogHostBase _dialogHost;
 
-        internal ShowDialogResult(object content, IEnumerable<T> dialogButtons, string title = null)
+        internal ShowDialogResult(object content, IEnumerable<IDialogUICommand<T>> commands, string title = null)
         {
             _title = title;
             _content = content;
-            _dialogButtons = dialogButtons;
+            _commands = commands;
             _dialogHostLocator = new PartLocator<DialogHostBase>(CreationPolicy.NonShared)
                 .WithDefaultGenerator(() => new DialogHostBase());
         }
 
-        internal ShowDialogResult(object content, IEnumerable<T> dialogButtons, T cancelButton, string title = null)
-            : this(content, dialogButtons, title)
-        {
-            _hasCancelButton = true;
-            _cancelButton = cancelButton;
-        }
-
-        internal ShowDialogResult(object content, IEnumerable<T> dialogButtons, T defaultButton, T cancelButton,
-                                  string title = null)
-            : this(content, dialogButtons, cancelButton, title)
-        {
-            _hasDefaultButton = true;
-            _defaultButton = defaultButton;
-        }
-
-        /// <summary>
+            /// <summary>
         /// Internal use.
         /// </summary>
         [Import]
@@ -78,16 +60,12 @@ namespace Cocktail
         /// <value>Cancelled is set to true, if the user clicked the designated cancel button in response to the dialog or message box.</value>
         public override bool Cancelled
         {
-// ReSharper disable CompareNonConstrainedGenericWithNull
-            get { return _hasCancelButton && (DialogResult != null) && DialogResult.Equals(_cancelButton); }
-// ReSharper restore CompareNonConstrainedGenericWithNull
+            get { return _dialogHost != null && _dialogHost.InvokedCommand != null && _dialogHost.InvokedCommand.IsCancelCommand; }
         }
 
         internal void Show()
         {
-            _dialogHost = _dialogHostLocator.GetPart().Start(_title, _content, _dialogButtons,
-                                                             _hasDefaultButton ? (object) _defaultButton : null,
-                                                             _hasCancelButton ? (object) _cancelButton : null);
+            _dialogHost = _dialogHostLocator.GetPart().Start(_title, _content, _commands.Cast<IUICommand>());
             _dialogHost.Completed += OnCompleted;
             WindowManager.ShowDialog(_dialogHost);
         }

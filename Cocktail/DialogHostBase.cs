@@ -11,9 +11,9 @@
 // ====================================================================================================================
 
 using Caliburn.Micro;
+using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -38,11 +38,10 @@ namespace Cocktail
     [PartNotDiscoverable]
     public class DialogHostBase : Conductor<object>, IDialogHost
     {
-        private object _cancelButton;
-        private object _defaultButton;
         private IEnumerable<DialogButton> _dialogButtons;
         private object _dialogResult;
         private bool _isClosing;
+        private IUICommand _invokedCommand;
 
         static DialogHostBase()
         {
@@ -81,6 +80,20 @@ namespace Cocktail
         #region IDialogHost Members
 
         /// <summary>
+        /// Returns the command invoked by the user.
+        /// </summary>
+        public IUICommand InvokedCommand
+        {
+            get { return _invokedCommand; }
+            private set
+            {
+                if (Equals(value, _invokedCommand)) return;
+                _invokedCommand = value;
+                NotifyOfPropertyChange(() => InvokedCommand);
+            }
+        }
+
+        /// <summary>
         ///   Returns the user's response to the dialog or message box.
         /// </summary>
         public object DialogResult
@@ -95,7 +108,7 @@ namespace Cocktail
 
         DialogButton IDialogHost.GetButton(object value)
         {
-            return DialogButtons.First(b => b.Value.Equals(value));
+            return DialogButtons.First(b => b.DialogResult.Equals(value));
         }
 
         void IDialogHost.TryClose(object dialogResult)
@@ -104,6 +117,8 @@ namespace Cocktail
 
             IsClosing = true;
             DialogResult = dialogResult;
+            InvokedCommand =
+                _dialogButtons.Where(x => x.DialogResult.Equals(dialogResult)).Select(x => x.Command).FirstOrDefault();
             TryClose();
         }
 
@@ -117,14 +132,10 @@ namespace Cocktail
         /// <summary>
         ///   Initializes and starts the dialog host.
         /// </summary>
-        public DialogHostBase Start(string title, object content, IEnumerable dialogButtons, object defaultButton,
-                                    object cancelButton)
+        internal DialogHostBase Start(string title, object content, IEnumerable<IUICommand> commands)
         {
             DisplayName = title;
-            _dialogButtons =
-                new ObservableCollection<DialogButton>(dialogButtons.Cast<object>().Select(v => new DialogButton(v)));
-            _defaultButton = defaultButton;
-            _cancelButton = cancelButton;
+            _dialogButtons = new ObservableCollection<DialogButton>(commands.Select(cmd => new DialogButton(cmd, this)));
 
             ActivateItem(content);
             return this;
@@ -136,7 +147,8 @@ namespace Cocktail
         /// <param name="dialogButton"> The button that was clicked. </param>
         public void Close(DialogButton dialogButton)
         {
-            ((IDialogHost)this).TryClose(dialogButton.Value);
+            if (dialogButton.InvokeCommand())
+                ((IDialogHost)this).TryClose(dialogButton.DialogResult);
         }
 
         /// <summary>
@@ -147,7 +159,10 @@ namespace Cocktail
             base.OnDeactivate(close);
 
             if (close)
+            {
+                _dialogButtons.ForEach(x => x.Dispose());
                 OnComplete();
+            }
         }
 
         /// <summary>
@@ -181,12 +196,13 @@ namespace Cocktail
                 return;
             }
 
-            if (_cancelButton != null)
+            var cancelButton = _dialogButtons.FirstOrDefault(x => x.Command.IsCancelCommand);
+            if (cancelButton != null)
             {
-                var button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
-                if (button == null || !button.Enabled)
+                if (!cancelButton.Enabled)
                     return;
-                DialogResult = button.Value;
+                DialogResult = cancelButton.DialogResult;
+                InvokedCommand = cancelButton.Command;
                 base.CanClose(callback);
                 return;
             }
@@ -196,18 +212,18 @@ namespace Cocktail
 
         private void OnKeyDown(KeyEventArgs args)
         {
-            if (args.Key == Key.Escape && _cancelButton != null)
+            if (args.Key == Key.Escape && _dialogButtons.Any(x => x.Command.IsCancelCommand))
             {
-                var button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_cancelButton));
-                if (button == null || !button.Enabled)
+                var button = _dialogButtons.First(x => x.Command.IsCancelCommand);
+                if (!button.Enabled)
                     return;
                 Close(button);
             }
 
-            if (args.Key == Key.Enter && _defaultButton != null)
+            if (args.Key == Key.Enter && _dialogButtons.Any(x => x.Command.IsDefaultCommand))
             {
-                var button = _dialogButtons.FirstOrDefault(b => b.Value.Equals(_defaultButton));
-                if (button == null || !button.Enabled)
+                var button = _dialogButtons.First(x => x.Command.IsDefaultCommand);
+                if (!button.Enabled)
                     return;
                 Close(button);
             }
@@ -247,6 +263,7 @@ namespace Cocktail
 
                                                           _dialogHost.IsClosing = false;
                                                           _dialogHost.DialogResult = null;
+                                                          _dialogHost.InvokedCommand = null;
                                                       });
             }
 

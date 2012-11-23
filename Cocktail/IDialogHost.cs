@@ -17,6 +17,11 @@ namespace Cocktail
     /// <summary>Public interface to interact with the dialog host.</summary>
     public interface IDialogHost : IHideObjectMembers
     {
+        /// <summary>
+        /// Returns the command invoked by the user.
+        /// </summary>
+        IUICommand InvokedCommand { get; }
+
         /// <summary>Returns the user's response to a dialog or message box.</summary>
         object DialogResult { get; }
 

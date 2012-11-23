@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using System.Linq;
 using Caliburn.Micro;
 using Cocktail.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -50,6 +51,42 @@ namespace Cocktail.Tests
             Assert.IsTrue(task.Result == DialogResult.Ok);
             Assert.IsFalse(task.IsCanceled);
             Assert.IsTrue(task.IsCompleted);
+        }
+
+        [TestMethod]
+        public void ShouldInvokeCustomCommand()
+        {
+            var invokeCount = 0;
+
+            TestWindowManager.Instance.TestDialogResult = DialogResult.Ok;
+            var command = new DialogUICommand<DialogResult>(DialogResult.Ok);
+
+            command.Invoked += (sender, args) => invokeCount++;
+            ((IUICommand) command).Invoked += (sender, args) => invokeCount++;
+            var task = _dialogManager.ShowMessageAsync(new[] {command}, "Test");
+
+            Assert.IsTrue(invokeCount == 2);
+            Assert.IsTrue(task.Result == DialogResult.Ok);
+            Assert.IsFalse(task.IsCanceled);
+            Assert.IsTrue(task.IsCompleted);
+        }
+
+        [TestMethod]
+        public void ShouldCancelCommand()
+        {
+            var cmd1 = new DialogUICommand<DialogResult>(DialogResult.Ok);
+            cmd1.Invoked += (sender, args) => args.Cancel();
+            var button1 = new DialogButton(cmd1, new DialogHostBase());
+
+            Assert.IsFalse(button1.InvokeCommand());
+            Assert.IsTrue(cmd1.WasCancelled);
+
+            IUICommand cmd2 = new DialogUICommand<DialogResult>(DialogResult.Ok);
+            cmd2.Invoked += (sender, args) => args.Cancel();
+            var button2 = new DialogButton(cmd2, new DialogHostBase());
+
+            Assert.IsFalse(button2.InvokeCommand());
+            Assert.IsTrue(cmd2.WasCancelled);
         }
 
         [TestMethod]
@@ -105,9 +142,11 @@ namespace Cocktail.Tests
             {
                 ((IActivate)rootModel).Activate();
 
+                var dialogHost = (DialogHostBase)rootModel;
                 try
                 {
-                    ((DialogHostBase)rootModel).Close(new DialogButton(TestDialogResult));
+                    var button = dialogHost.DialogButtons.First(x => x.DialogResult.Equals(TestDialogResult));
+                    ((DialogHostBase)rootModel).Close(button);
                 }
                 catch (NotSupportedException)
                 {

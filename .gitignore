@@ -6,7 +6,7 @@ bin.*
 bin
 obj*
 packages
-*.DotSettings*
+*.DotSettings.user
 *.user
 *.bak
 *.nupkg

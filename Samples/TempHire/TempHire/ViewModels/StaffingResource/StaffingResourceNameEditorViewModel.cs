@@ -1,17 +1,6 @@
-// ====================================================================================================================
-//   Copyright (c) 2012 IdeaBlade
-// ====================================================================================================================
-//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-// ====================================================================================================================
-//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-//   http://cocktail.ideablade.com/licensing
-// ====================================================================================================================
-
 using System;
 using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Cocktail;
 using DomainServices;
@@ -21,19 +10,21 @@ namespace TempHire.ViewModels.StaffingResource
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceNameEditorViewModel : Screen
     {
-        private readonly IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
+        private readonly IDialogManager _dialogManager;
+        private readonly IUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
         private string _firstName;
         private string _lastName;
         private string _middleName;
-        private DialogButton _okButton;
+        private IDialogUICommand<DialogResult> _okCommand;
         private Guid _staffingResourceId;
         private IResourceMgtUnitOfWork _unitOfWork;
 
         [ImportingConstructor]
         public StaffingResourceNameEditorViewModel(
-            IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager)
+            IUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager, IDialogManager dialogManager)
         {
             _unitOfWorkManager = unitOfWorkManager;
+            _dialogManager = dialogManager;
         }
 
         private IResourceMgtUnitOfWork UnitOfWork
@@ -48,7 +39,7 @@ namespace TempHire.ViewModels.StaffingResource
             {
                 _firstName = value;
                 NotifyOfPropertyChange(() => FirstName);
-                OnCompleteChanged();
+                UpdateCommands();
             }
         }
 
@@ -59,7 +50,7 @@ namespace TempHire.ViewModels.StaffingResource
             {
                 _middleName = value;
                 NotifyOfPropertyChange(() => MiddleName);
-                OnCompleteChanged();
+                UpdateCommands();
             }
         }
 
@@ -70,11 +61,11 @@ namespace TempHire.ViewModels.StaffingResource
             {
                 _lastName = value;
                 NotifyOfPropertyChange(() => LastName);
-                OnCompleteChanged();
+                UpdateCommands();
             }
         }
 
-        public bool IsComplete
+        private bool IsComplete
         {
             get { return !string.IsNullOrWhiteSpace(FirstName) && !string.IsNullOrWhiteSpace(LastName); }
         }
@@ -95,6 +86,14 @@ namespace TempHire.ViewModels.StaffingResource
             LastName = staffingResource.LastName;
         }
 
+        public Task<DialogResult> ShowDialogAsync()
+        {
+            _okCommand = new DialogUICommand<DialogResult>(DialogResult.Ok, true) {Enabled = IsComplete};
+            var cancelCommand = new DialogUICommand<DialogResult>(DialogResult.Cancel, false, true);
+
+            return _dialogManager.ShowDialogAsync(new[] {_okCommand, cancelCommand}, this);
+        }
+
         public override void CanClose(Action<bool> callback)
         {
             if (!this.DialogHost().DialogResult.Equals(DialogResult.Cancel))
@@ -105,10 +104,10 @@ namespace TempHire.ViewModels.StaffingResource
                 base.CanClose(callback);
         }
 
-        private void OnCompleteChanged()
+        private void UpdateCommands()
         {
-            if (_okButton != null)
-                _okButton.Enabled = IsComplete;
+            if (_okCommand != null)
+                _okCommand.Enabled = IsComplete;
         }
 
         protected override void OnDeactivate(bool close)
@@ -117,13 +116,6 @@ namespace TempHire.ViewModels.StaffingResource
 
             if (close)
                 _unitOfWork = null;
-        }
-
-        protected override void OnInitialize()
-        {
-            base.OnInitialize();
-            _okButton = this.DialogHost().GetButton(DialogResult.Ok);
-            _okButton.Enabled = IsComplete;
         }
     }
 }

@@ -11,7 +11,6 @@
 // ====================================================================================================================
 
 using System.ComponentModel.Composition;
-using Cocktail;
 using DomainServices;
 
 namespace TempHire.ViewModels.StaffingResource
@@ -19,23 +18,20 @@ namespace TempHire.ViewModels.StaffingResource
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceSummaryViewModel : StaffingResourceScreenBase
     {
-        private readonly IDialogManager _dialogManager;
         private readonly ExportFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
 
         [ImportingConstructor]
-        public StaffingResourceSummaryViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
-                                                ExportFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
-                                                IDialogManager dialogManager)
+        public StaffingResourceSummaryViewModel(IUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
+                                                ExportFactory<StaffingResourceNameEditorViewModel> nameEditorFactory)
             : base(unitOfWorkManager)
         {
             _nameEditorFactory = nameEditorFactory;
-            _dialogManager = dialogManager;
         }
 
         public async void EditName()
         {
             var nameEditor = _nameEditorFactory.CreateExport().Value;
-            await _dialogManager.ShowDialogAsync(nameEditor.Start(StaffingResource.Id), DialogButtons.OkCancel);
+            await nameEditor.Start(StaffingResource.Id).ShowDialogAsync();
 
             StaffingResource.FirstName = nameEditor.FirstName;
             StaffingResource.MiddleName = nameEditor.MiddleName;

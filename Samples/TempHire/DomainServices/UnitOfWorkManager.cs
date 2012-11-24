@@ -10,16 +10,24 @@
 //    http://cocktail.ideablade.com/licensing
 //  ====================================================================================================================
 
-using System.ComponentModel.Composition;
+using System;
+using Cocktail;
 
 namespace DomainServices
 {
-    /// <summary>
-    ///     Used to share instances of the ResourceMgtUnitOfWork among composed view models.
-    /// </summary>
-    [Export(typeof(IUnitOfWorkManager<IResourceMgtUnitOfWork>))]
-    [PartCreationPolicy(CreationPolicy.Shared)]
-    public class ResourceMgtUnitOfWorkManager : UnitOfWorkManager<IResourceMgtUnitOfWork>
+    public interface IUnitOfWorkManager<T> where T : IUnitOfWork
     {
+        T Create();
+        T Get(Guid key);
+        void Add(Guid key, T unitOfWork);
+    }
+
+    public class UnitOfWorkManager<T> : ObjectManager<Guid, T>, IUnitOfWorkManager<T>
+        where T : class, IUnitOfWork
+    {
+        public T Get(Guid key)
+        {
+            return GetObject(key);
+        }
     }
 }

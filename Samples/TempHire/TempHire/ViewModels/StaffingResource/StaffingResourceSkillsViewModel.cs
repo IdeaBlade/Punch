@@ -29,7 +29,7 @@ namespace TempHire.ViewModels.StaffingResource
                                                    IHandle<SavedMessage>
     {
         [ImportingConstructor]
-        public StaffingResourceSkillsViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager)
+        public StaffingResourceSkillsViewModel(IUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager)
             : base(unitOfWorkManager)
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor

@@ -1,25 +1,23 @@
-﻿// ====================================================================================================================
-//   Copyright (c) 2012 IdeaBlade
-// ====================================================================================================================
-//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-//   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
-//   OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-//   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
-// ====================================================================================================================
-//   USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
-//   http://cocktail.ideablade.com/licensing
-// ====================================================================================================================
+﻿//  ====================================================================================================================
+//    Copyright (c) 2012 IdeaBlade
+//  ====================================================================================================================
+//    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+//    WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+//    OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+//    OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+//  ====================================================================================================================
+//    USE OF THIS SOFTWARE IS GOVERENED BY THE LICENSING TERMS WHICH CAN BE FOUND AT
+//    http://cocktail.ideablade.com/licensing
+//  ====================================================================================================================
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;
 using DomainServices.Repositories;
 using IdeaBlade.EntityModel;
-using Security;
 
 namespace TempHire.ViewModels.Login
 {
@@ -27,20 +25,20 @@ namespace TempHire.ViewModels.Login
     public class LoginViewModel : Screen
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly IDialogManager _dialogManager;
         private readonly IGlobalCache _globalCache;
-        private readonly IWindowManager _windowManager;
         private string _failureMessage;
+        private IDialogUICommand<DialogResult> _loginCommand;
         private string _password;
-        private TaskCompletionSource<bool> _tcs;
         private string _username;
 
         [ImportingConstructor]
-        public LoginViewModel(IAuthenticationService authenticationService, IWindowManager windowManager,
+        public LoginViewModel(IAuthenticationService authenticationService, IDialogManager dialogManager,
                               [Import(AllowDefault = true)] IGlobalCache globalCache)
         {
             Busy = new BusyWatcher();
             _authenticationService = authenticationService;
-            _windowManager = windowManager;
+            _dialogManager = dialogManager;
             _globalCache = globalCache;
 // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DisplayName = "";
@@ -61,7 +59,7 @@ namespace TempHire.ViewModels.Login
             {
                 _username = value;
                 NotifyOfPropertyChange(() => Username);
-                NotifyOfPropertyChange(() => CanLogin);
+                UpdateCommands();
             }
         }
 
@@ -72,7 +70,7 @@ namespace TempHire.ViewModels.Login
             {
                 _password = value;
                 NotifyOfPropertyChange(() => Password);
-                NotifyOfPropertyChange(() => CanLogin);
+                UpdateCommands();
             }
         }
 
@@ -92,12 +90,12 @@ namespace TempHire.ViewModels.Login
             get { return !string.IsNullOrWhiteSpace(_failureMessage); }
         }
 
-        public bool CanLogin
+        private bool CanLogin
         {
             get { return !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password); }
         }
 
-        public async void Login()
+        private async Task LoginAsync()
         {
             using (Busy.GetTicket())
             {
@@ -123,8 +121,6 @@ namespace TempHire.ViewModels.Login
                             throw new Exception("Failed to load global entity cache. Try again!", e);
                         }
                     }
-
-                    TryClose();
                 }
                 catch (Exception e)
                 {
@@ -133,27 +129,33 @@ namespace TempHire.ViewModels.Login
             }
         }
 
-        public void KeyDown(KeyEventArgs args)
-        {
-            if (args.Key != Key.Enter)
-                return;
-
-            Login();
-        }
-
         public Task ShowAsync()
         {
-            _tcs = new TaskCompletionSource<bool>();
-            _windowManager.ShowDialog(this);
-            return _tcs.Task;
+            var commands = new List<IDialogUICommand<DialogResult>>();
+            _loginCommand = new DialogUICommand<DialogResult>("Login", DialogResult.Ok, true);
+            _loginCommand.Invoked += async (sender, args) =>
+                {
+                    args.Cancel(); // Cancel command, we'll take it from here.
+
+                    await LoginAsync();
+
+                    if (_authenticationService.IsLoggedIn)
+                        args.DialogHost.TryClose(_loginCommand.DialogResult);
+                };
+            commands.Add(_loginCommand);
+
+#if !SILVERLIGHT
+            var closeCommand = new DialogUICommand<DialogResult>("Close", DialogResult.Cancel, false, true);
+            commands.Add(closeCommand);
+#endif
+
+            UpdateCommands();
+            return _dialogManager.ShowDialogAsync(commands, this);
         }
 
-        protected override void OnDeactivate(bool close)
+        private void UpdateCommands()
         {
-            base.OnDeactivate(close);
-
-            if (close)
-                _tcs.TrySetResult(true);
+            _loginCommand.Enabled = CanLogin;
         }
     }
 }

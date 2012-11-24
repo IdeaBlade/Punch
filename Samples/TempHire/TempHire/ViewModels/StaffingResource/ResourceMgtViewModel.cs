@@ -128,7 +128,7 @@ namespace TempHire.ViewModels.StaffingResource
             try
             {
                 var nameEditor = _nameEditorFactory.CreateExport().Value;
-                await _dialogManager.ShowDialogAsync(nameEditor, DialogButtons.OkCancel);
+                await nameEditor.ShowDialogAsync();
 
                 SearchPane.CurrentStaffingResource = null;
 

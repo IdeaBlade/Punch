@@ -26,7 +26,7 @@ namespace TempHire.ViewModels.StaffingResource
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class StaffingResourceSearchViewModel : Screen, IDiscoverableViewModel, IHarnessAware, IHandle<SavedMessage>
     {
-        private readonly IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
+        private readonly IUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
         private StaffingResourceListItem _currentStaffingResource;
         private BindableCollection<StaffingResourceListItem> _items;
 
@@ -34,7 +34,7 @@ namespace TempHire.ViewModels.StaffingResource
         private IResourceMgtUnitOfWork _unitOfWork;
 
         [ImportingConstructor]
-        public StaffingResourceSearchViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager)
+        public StaffingResourceSearchViewModel(IUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager)
         {
             _unitOfWorkManager = unitOfWorkManager;
             Busy = new BusyWatcher();

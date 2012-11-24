@@ -29,13 +29,13 @@ namespace TempHire.ViewModels.StaffingResource
         private Guid _staffingResourceId;
         private IResourceMgtUnitOfWork _unitOfWork;
 
-        protected StaffingResourceScreenBase(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager)
+        protected StaffingResourceScreenBase(IUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager)
         {
             UnitOfWorkManager = unitOfWorkManager;
             EditMode = EditMode.View;
         }
 
-        public IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> UnitOfWorkManager { get; private set; }
+        public IUnitOfWorkManager<IResourceMgtUnitOfWork> UnitOfWorkManager { get; private set; }
 
         public EditMode EditMode
         {

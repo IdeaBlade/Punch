@@ -10,6 +10,7 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -108,12 +109,14 @@ namespace TempHire.ViewModels
 
         public async Task Login()
         {
-            await _loginFactory.CreateExport().Value.ShowAsync();
-
-#if !SILVERLIGHT
-            if (!_authenticationService.IsLoggedIn)
+            try
+            {
+                await _loginFactory.CreateExport().Value.ShowAsync();
+            }
+            catch (TaskCanceledException)
+            {
                 TryClose();
-#endif
+            }
         }
 
         public async void Logout()

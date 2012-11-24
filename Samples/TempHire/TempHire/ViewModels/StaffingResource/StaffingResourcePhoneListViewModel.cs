@@ -30,7 +30,7 @@ namespace TempHire.ViewModels.StaffingResource
 
         [ImportingConstructor]
         public StaffingResourcePhoneListViewModel(
-            IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
+            IUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
             ExportFactory<ItemSelectorViewModel> phoneTypeSelectorFactory,
             IDialogManager dialogManager)
             : base(unitOfWorkManager)

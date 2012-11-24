@@ -34,14 +34,14 @@ namespace TempHire.ViewModels.StaffingResource
     {
         private readonly IDialogManager _dialogManager;
         private readonly IEnumerable<IStaffingResourceDetailSection> _sections;
-        private readonly IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
+        private readonly IUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
         private EditMode _editMode;
         private DomainModel.StaffingResource _staffingResource;
         private Guid _staffingResourceId;
         private IResourceMgtUnitOfWork _unitOfWork;
 
         [ImportingConstructor]
-        public StaffingResourceDetailViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
+        public StaffingResourceDetailViewModel(IUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                                StaffingResourceSummaryViewModel staffingResourceSummary,
                                                [ImportMany] IEnumerable<IStaffingResourceDetailSection> sections,
                                                IDialogManager dialogManager)

@@ -47,8 +47,7 @@ namespace TempHire.DesignTimeSupport
             {
                 return (StaffingResourceSummaryViewModel)
                        new StaffingResourceSummaryViewModel(
-                           new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider), null,
-                           DesignTimeDialogManager.Instance)
+                           new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider), null)
                            .Start(TempHireSampleDataProvider.CreateGuid(1), EditMode.View);
             }
         }
@@ -58,7 +57,7 @@ namespace TempHire.DesignTimeSupport
             get
             {
                 return new StaffingResourceNameEditorViewModel(
-                    new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider))
+                    new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider), DesignTimeDialogManager.Instance)
                     .Start(TempHireSampleDataProvider.CreateGuid(1));
             }
         }
@@ -82,7 +81,7 @@ namespace TempHire.DesignTimeSupport
                 var rm = new DesignTimeResourceMgtUnitOfWorkManager(EntityManagerProvider);
                 return new StaffingResourceDetailViewModel(
                     rm,
-                    new StaffingResourceSummaryViewModel(rm, null, DesignTimeDialogManager.Instance),
+                    new StaffingResourceSummaryViewModel(rm, null),
                     new IStaffingResourceDetailSection[]
                         {
                             new StaffingResourceContactInfoViewModel(
@@ -195,6 +194,11 @@ namespace TempHire.DesignTimeSupport
 
             #region IDialogManager Members
 
+            public Task<T> ShowDialogAsync<T>(IEnumerable<IDialogUICommand<T>> commands, object content, string title = null)
+            {
+                throw new NotImplementedException();
+            }
+
             public Task<T> ShowDialogAsync<T>(object content, IEnumerable<T> dialogButtons, string title = null)
             {
                 throw new NotImplementedException();
@@ -208,6 +212,11 @@ namespace TempHire.DesignTimeSupport
 
             public Task<DialogResult> ShowDialogAsync(object content, IEnumerable<DialogResult> dialogButtons,
                                                       string title = null)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<T> ShowMessageAsync<T>(IEnumerable<IDialogUICommand<T>> commands, string message, string title = null)
             {
                 throw new NotImplementedException();
             }

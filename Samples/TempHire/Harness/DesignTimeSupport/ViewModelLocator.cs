@@ -204,6 +204,11 @@ namespace TempHire.DesignTimeSupport
 
             #region IDialogManager Members
 
+            public DialogOperationResult<T> ShowDialogAsync<T>(IEnumerable<IDialogUICommand<T>> commands, object content, string title = null)
+            {
+                throw new NotImplementedException();
+            }
+
             public DialogOperationResult<T> ShowDialogAsync<T>(object content, IEnumerable<T> dialogButtons,
                                                                string title = null)
             {
@@ -219,6 +224,11 @@ namespace TempHire.DesignTimeSupport
             public DialogOperationResult<DialogResult> ShowDialogAsync(object content,
                                                                        IEnumerable<DialogResult> dialogButtons,
                                                                        string title = null)
+            {
+                throw new NotImplementedException();
+            }
+
+            public DialogOperationResult<T> ShowMessageAsync<T>(IEnumerable<IDialogUICommand<T>> commands, string message, string title = null)
             {
                 throw new NotImplementedException();
             }

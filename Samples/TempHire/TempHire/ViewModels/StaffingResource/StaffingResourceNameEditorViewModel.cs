@@ -24,7 +24,7 @@ namespace TempHire.ViewModels.StaffingResource
     public class StaffingResourceNameEditorViewModel : Screen
     {
         private readonly IErrorHandler _errorHandler;
-        private readonly IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
+        private readonly IUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
         private string _firstName;
         private string _lastName;
         private string _middleName;
@@ -33,7 +33,7 @@ namespace TempHire.ViewModels.StaffingResource
         private Guid _staffingResourceId;
 
         [ImportingConstructor]
-        public StaffingResourceNameEditorViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
+        public StaffingResourceNameEditorViewModel(IUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                                    IErrorHandler errorHandler)
         {
             _unitOfWorkManager = unitOfWorkManager;

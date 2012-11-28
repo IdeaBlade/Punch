@@ -87,10 +87,10 @@
       <HintPath>..\packages\Caliburn.Micro.1.4\lib\sl4\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.0.4\lib\sl40\Cocktail.SL.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.1.0\lib\sl40\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.0.4\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.1.0\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL" />
     <Reference Include="IdeaBlade.EntityModel.SL" />
@@ -111,7 +111,6 @@
   <ItemGroup>
     <Compile Include="Factories\StaffingResourceFactory.cs" />
     <Compile Include="IResourceMgtUnitOfWork.cs" />
-    <Compile Include="IResourceMgtUnitOfWorkManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IGlobalCache.cs" />
     <Compile Include="Repositories\GlobalCacheRepository.cs" />
@@ -122,6 +121,7 @@
     <Compile Include="ResourceMgtUnitOfWorkManager.cs" />
     <Compile Include="Services\IStaffingResourceSearchService.cs" />
     <Compile Include="Services\StaffingResourceSearchService.cs" />
+    <Compile Include="UnitOfWorkManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DomainModel.SL\DomainModel.SL.csproj">

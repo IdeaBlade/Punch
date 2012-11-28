@@ -68,10 +68,10 @@
       <HintPath>..\packages\Caliburn.Micro.1.4\lib\net40\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail">
-      <HintPath>..\packages\Cocktail.NET.1.0.4\lib\net40\Cocktail.dll</HintPath>
+      <HintPath>..\packages\Cocktail.NET.1.1.0\lib\net40\Cocktail.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\Cocktail.NET.1.0.4\lib\net40\Cocktail.Utils.dll</HintPath>
+      <HintPath>..\packages\Cocktail.NET.1.1.0\lib\net40\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

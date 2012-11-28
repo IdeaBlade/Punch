@@ -93,12 +93,8 @@ namespace TempHire.ViewModels
 
         public IEnumerable<IResult> Login()
         {
-            yield return _loginFactory.CreatePart();
-
-#if !SILVERLIGHT
-            if (!_authenticationService.IsLoggedIn)
-                TryClose();
-#endif
+            yield return _loginFactory.CreatePart().ShowAsync()
+                                      .ContinueWith(op => { if (op.Cancelled) TryClose(); });
         }
 
         public IEnumerable<IResult> Logout()

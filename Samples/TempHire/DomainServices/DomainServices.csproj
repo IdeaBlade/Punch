@@ -54,10 +54,10 @@
       <HintPath>..\packages\Caliburn.Micro.1.4\lib\net40\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail">
-      <HintPath>..\packages\Cocktail.NET.1.0.4\lib\net40\Cocktail.dll</HintPath>
+      <HintPath>..\packages\Cocktail.NET.1.1.0\lib\net40\Cocktail.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\Cocktail.NET.1.0.4\lib\net40\Cocktail.Utils.dll</HintPath>
+      <HintPath>..\packages\Cocktail.NET.1.1.0\lib\net40\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core" />
     <Reference Include="IdeaBlade.EntityModel" />
@@ -72,7 +72,6 @@
   <ItemGroup>
     <Compile Include="Factories\StaffingResourceFactory.cs" />
     <Compile Include="IResourceMgtUnitOfWork.cs" />
-    <Compile Include="IResourceMgtUnitOfWorkManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\GlobalCacheRepository.cs" />
     <Compile Include="Repositories\IGlobalCache.cs" />
@@ -83,6 +82,7 @@
     <Compile Include="SampleData\TempHireSampleDataProvider.cs" />
     <Compile Include="Services\IStaffingResourceSearchService.cs" />
     <Compile Include="Services\StaffingResourceSearchService.cs" />
+    <Compile Include="UnitOfWorkManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DomainModel\DomainModel.csproj">

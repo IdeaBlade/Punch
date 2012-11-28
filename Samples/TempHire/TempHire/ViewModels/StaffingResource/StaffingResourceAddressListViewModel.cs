@@ -31,12 +31,12 @@ namespace TempHire.ViewModels.StaffingResource
     {
         private readonly IPartFactory<ItemSelectorViewModel> _addressTypeSelectorFactory;
         private readonly IDialogManager _dialogManager;
-        private readonly IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
+        private readonly IUnitOfWorkManager<IResourceMgtUnitOfWork> _unitOfWorkManager;
         private BindableCollection<StaffingResourceAddressItemViewModel> _addresses;
         private BindableCollection<State> _states;
 
         [ImportingConstructor]
-        public StaffingResourceAddressListViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
+        public StaffingResourceAddressListViewModel(IUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                                     IPartFactory<ItemSelectorViewModel> addressTypeSelectorFactory,
                                                     IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(unitOfWorkManager, errorHandler)

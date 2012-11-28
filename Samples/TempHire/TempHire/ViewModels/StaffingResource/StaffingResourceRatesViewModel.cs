@@ -33,7 +33,7 @@ namespace TempHire.ViewModels.StaffingResource
         private readonly IPartFactory<ItemSelectorViewModel> _rateTypeSelectorFactory;
 
         [ImportingConstructor]
-        public StaffingResourceRatesViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
+        public StaffingResourceRatesViewModel(IUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                               IPartFactory<ItemSelectorViewModel> rateTypeSelectorFactory,
                                               IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(unitOfWorkManager, errorHandler)

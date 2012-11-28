@@ -10,10 +10,8 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Windows.Input;
 using Caliburn.Micro;
 using Cocktail;
 using Common.Factories;
@@ -23,27 +21,28 @@ using IdeaBlade.EntityModel;
 namespace TempHire.ViewModels.Login
 {
     [Export]
-    public class LoginViewModel : Screen, IResult
+    public class LoginViewModel : Screen
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly IDialogManager _dialogManager;
         private readonly IGlobalCache _globalCache;
-        private readonly IWindowManager _windowManager;
         private string _failureMessage;
+        private IDialogUICommand<DialogResult> _loginCommand;
         private string _password;
-
         private string _username;
+        private bool _cacheLoaded;
 
         [ImportingConstructor]
-        public LoginViewModel(IAuthenticationService authenticationService, IWindowManager windowManager,
+        public LoginViewModel(IAuthenticationService authenticationService, IDialogManager dialogManager,
                               [Import(AllowDefault = true)] IGlobalCache globalCache)
         {
             Busy = new BusyWatcher();
             _authenticationService = authenticationService;
-            _windowManager = windowManager;
+            _dialogManager = dialogManager;
             _globalCache = globalCache;
-// ReSharper disable DoNotCallOverridableMethodsInConstructor
+            // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DisplayName = "";
-// ReSharper restore DoNotCallOverridableMethodsInConstructor
+            // ReSharper restore DoNotCallOverridableMethodsInConstructor
 
 #if DEBUG
             _username = "Admin";
@@ -60,7 +59,7 @@ namespace TempHire.ViewModels.Login
             {
                 _username = value;
                 NotifyOfPropertyChange(() => Username);
-                NotifyOfPropertyChange(() => CanLogin);
+                UpdateCommands();
             }
         }
 
@@ -71,7 +70,7 @@ namespace TempHire.ViewModels.Login
             {
                 _password = value;
                 NotifyOfPropertyChange(() => Password);
-                NotifyOfPropertyChange(() => CanLogin);
+                UpdateCommands();
             }
         }
 
@@ -91,23 +90,12 @@ namespace TempHire.ViewModels.Login
             get { return !string.IsNullOrWhiteSpace(_failureMessage); }
         }
 
-        public bool CanLogin
+        private bool CanLogin
         {
             get { return !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password); }
         }
 
-        #region IResult Members
-
-        public void Execute(ActionExecutionContext context)
-        {
-            _windowManager.ShowDialog(this);
-        }
-
-        public event EventHandler<ResultCompletionEventArgs> Completed;
-
-        #endregion
-
-        public IEnumerable<IResult> Login()
+        private IEnumerable<IResult> LoginAsync()
         {
             using (Busy.GetTicket())
             {
@@ -127,14 +115,10 @@ namespace TempHire.ViewModels.Login
                     {
                         yield return operation = _globalCache.LoadAsync().ContinueOnError();
 
+                        _cacheLoaded = operation.CompletedSuccessfully;
                         if (operation.HasError)
-                        {
                             FailureMessage = "Failed to load global entity cache. Try again!";
-                            yield break;
-                        }
                     }
-
-                    TryClose();
                 }
 
                 if (operation.HasError)
@@ -142,28 +126,35 @@ namespace TempHire.ViewModels.Login
             }
         }
 
-        public IEnumerable<IResult> KeyDown(KeyEventArgs args)
+        public DialogOperationResult<DialogResult> ShowAsync()
         {
-            if (args.Key != Key.Enter)
-                yield break;
+            var commands = new List<IDialogUICommand<DialogResult>>();
+            _loginCommand = new DialogUICommand<DialogResult>("Login", DialogResult.Ok, true);
+            _loginCommand.Invoked += (sender, args) =>
+            {
+                args.Cancel(); // Cancel command, we'll take it from here.
 
-            yield return Login().ToSequentialResult();
+                LoginAsync().ToSequentialResult().Execute(
+                    _ =>
+                        {
+                            if (_authenticationService.IsLoggedIn && _cacheLoaded)
+                                args.DialogHost.TryClose(_loginCommand.DialogResult);
+                        });
+            };
+            commands.Add(_loginCommand);
+
+#if !SILVERLIGHT
+            var closeCommand = new DialogUICommand<DialogResult>("Close", DialogResult.Cancel, false, true);
+            commands.Add(closeCommand);
+#endif
+
+            UpdateCommands();
+            return _dialogManager.ShowDialogAsync(commands, this);
         }
 
-        private void OnComplete()
+        private void UpdateCommands()
         {
-            if (Completed == null) return;
-
-            var args = new ResultCompletionEventArgs();
-            EventFns.RaiseOnce(ref Completed, this, args);
-        }
-
-        protected override void OnDeactivate(bool close)
-        {
-            base.OnDeactivate(close);
-
-            if (close)
-                OnComplete();
+            _loginCommand.Enabled = CanLogin;
         }
     }
 

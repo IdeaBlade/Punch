@@ -32,7 +32,7 @@ namespace TempHire.ViewModels.StaffingResource
         private BindableCollection<StaffingResourcePhoneItemViewModel> _phoneNumbers;
 
         [ImportingConstructor]
-        public StaffingResourcePhoneListViewModel(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
+        public StaffingResourcePhoneListViewModel(IUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                                   IPartFactory<ItemSelectorViewModel> phoneTypeSelectorFactory,
                                                   IErrorHandler errorHandler, IDialogManager dialogManager)
             : base(unitOfWorkManager, errorHandler)

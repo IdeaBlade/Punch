@@ -30,7 +30,7 @@ namespace TempHire.ViewModels.StaffingResource
         private Guid _staffingResourceId;
         private IResourceMgtUnitOfWork _unitOfWork;
 
-        protected StaffingResourceScreenBase(IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
+        protected StaffingResourceScreenBase(IUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager,
                                              IErrorHandler errorHandler)
         {
             UnitOfWorkManager = unitOfWorkManager;
@@ -38,7 +38,7 @@ namespace TempHire.ViewModels.StaffingResource
             EditMode = EditMode.View;
         }
 
-        public IResourceMgtUnitOfWorkManager<IResourceMgtUnitOfWork> UnitOfWorkManager { get; private set; }
+        public IUnitOfWorkManager<IResourceMgtUnitOfWork> UnitOfWorkManager { get; private set; }
         public IErrorHandler ErrorHandler { get; private set; }
 
         public EditMode EditMode

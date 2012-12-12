@@ -197,10 +197,8 @@ namespace Cocktail
             }
 
             var cancelButton = _dialogButtons.FirstOrDefault(x => x.Command.IsCancelCommand);
-            if (cancelButton != null)
+            if (cancelButton != null && cancelButton.InvokeCommand())
             {
-                if (!cancelButton.Enabled)
-                    return;
                 DialogResult = cancelButton.DialogResult;
                 InvokedCommand = cancelButton.Command;
                 base.CanClose(callback);

@@ -72,6 +72,9 @@ namespace Cocktail
 
         bool IInvokeCommand.Invoke(IDialogHost dialogHost)
         {
+            if (!Enabled)
+                return false;
+
             var args = new DialogUICommandInvokedArgs(dialogHost, this);
             return OnInvoked(args);
         }

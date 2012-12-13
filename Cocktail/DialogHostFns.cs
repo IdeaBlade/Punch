@@ -10,19 +10,22 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using System;
 using Caliburn.Micro;
 
 namespace Cocktail
 {
     /// <summary>A collection of extension methods to interact with the dialog host.</summary>
+    [Obsolete("Replaced by DialogHost class. Will be removed in a later version of Cocktail.")]
     public static class DialogHostFns
     {
         /// <summary>Returns a reference to the dialog host if the provided ViewModel is currently hosted in the dialog host.</summary>
         /// <param name="source">The hosted ViewModel.</param>
         /// <returns>Null if the ViewModel is not currently hosted in a dialog host, otherwise a reference to the current dialog host.</returns>
+        [Obsolete("Replaced by DialogHost.GetCurrent(). Will be removed in a later version of Cocktail.")]
         public static IDialogHost DialogHost(this IChild source)
         {
-            return source.Parent as IDialogHost;
+            return Cocktail.DialogHost.GetCurrent(source);
         }
     }
 }

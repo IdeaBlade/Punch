@@ -10,6 +10,7 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+using Caliburn.Micro;
 using IdeaBlade.Core;
 
 namespace Cocktail
@@ -35,5 +36,19 @@ namespace Cocktail
         /// </summary>
         /// <param name="dialogResult">The simulated user response.</param>
         void TryClose(object dialogResult);
+    }
+
+    /// <summary>
+    /// A static class that provides access to the current DialogHost from within a hosted ViewModel.
+    /// </summary>
+    public static class DialogHost
+    {
+        /// <summary>Returns a reference to the dialog host if the provided ViewModel is currently hosted in the dialog host.</summary>
+        /// <param name="source">The hosted ViewModel.</param>
+        /// <returns>Null if the ViewModel is not currently hosted in a dialog host, otherwise a reference to the current dialog host.</returns>
+        public static IDialogHost GetCurrent(IChild source)
+        {
+            return source.Parent as IDialogHost;
+        }
     }
 }

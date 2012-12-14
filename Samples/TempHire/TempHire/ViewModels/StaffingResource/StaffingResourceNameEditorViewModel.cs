@@ -96,7 +96,8 @@ namespace TempHire.ViewModels.StaffingResource
 
         public override void CanClose(Action<bool> callback)
         {
-            if (!this.DialogHost().DialogResult.Equals(DialogResult.Cancel))
+            var dialogHost = DialogHost.GetCurrent(this);
+            if (!dialogHost.DialogResult.Equals(DialogResult.Cancel))
             {
                 callback(IsComplete);
             }

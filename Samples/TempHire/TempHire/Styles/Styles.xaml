@@ -91,7 +91,8 @@
         <Setter Property="FontSize" Value="10.667" />
         <Setter Property="Background" Value="#FFFF0000" />
         <Setter Property="Foreground" Value="#FFFFFFFF" />
-        <Setter Property="Padding" Value="3" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="MinHeight" Value="24" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="BorderBrush">

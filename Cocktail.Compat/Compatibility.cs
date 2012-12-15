@@ -17,6 +17,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using Caliburn.Micro;
+using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using Action = System.Action;
 
@@ -245,7 +246,7 @@ namespace Cocktail
             Action<IEnumerable<T>> onSuccess, Action<Exception> onFail)
             where T : class
         {
-            return source.AllAsync(orderBy, includeProperties).OnComplete(onSuccess, onFail);
+            return source.AllAsync(orderBy, options => FromIncludeProperties(options, includeProperties)).OnComplete(onSuccess, onFail);
         }
 
         /// <summary>
@@ -256,7 +257,8 @@ namespace Cocktail
             Action<IEnumerable<T>> onSuccess, Action<Exception> onFail)
             where T : class
         {
-            return source.AllInDataSourceAsync(orderBy, includeProperties).OnComplete(onSuccess, onFail);
+            return source.AllInDataSourceAsync(orderBy, options => FromIncludeProperties(options, includeProperties))
+                         .OnComplete(onSuccess, onFail);
         }
 
         /// <summary>
@@ -268,7 +270,8 @@ namespace Cocktail
             Action<IEnumerable<T>> onSuccess, Action<Exception> onFail)
             where T : class
         {
-            return source.FindAsync(predicate, orderBy, includeProperties).OnComplete(onSuccess, onFail);
+            return source.FindAsync(predicate, orderBy, options => FromIncludeProperties(options, includeProperties))
+                         .OnComplete(onSuccess, onFail);
         }
 
         /// <summary>
@@ -303,7 +306,9 @@ namespace Cocktail
             Action<IEnumerable<T>> onSuccess, Action<Exception> onFail)
             where T : class
         {
-            return source.FindInDataSourceAsync(predicate, orderBy, includeProperties).OnComplete(onSuccess, onFail);
+            return source.FindInDataSourceAsync(predicate, orderBy,
+                                                options => FromIncludeProperties(options, includeProperties))
+                         .OnComplete(onSuccess, onFail);
         }
 
         /// <summary>
@@ -356,6 +361,20 @@ namespace Cocktail
                 return source.NavigateToAsync<T>(target => prepareTargetAsync(target).AsTask());
 
             return source.NavigateToAsync<T>();
+        }
+
+
+        private static void FromIncludeProperties<TEntity>(IFetchOptions<TEntity> fetchOptions, string includeProperties)
+        {
+            if (string.IsNullOrWhiteSpace(includeProperties)) return;
+
+            ParseIncludeProperties(includeProperties)
+                .ForEach(x => fetchOptions.Include(x));
+        }
+
+        private static IEnumerable<string> ParseIncludeProperties(string includeProperties)
+        {
+            return includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

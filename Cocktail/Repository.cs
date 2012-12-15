@@ -23,7 +23,7 @@ using IdeaBlade.EntityModel;
 namespace Cocktail
 {
     /// <summary>
-    ///   A generic implementation of a repository.
+    ///     A generic implementation of a repository.
     /// </summary>
     /// <typeparam name="T"> The type of entity this repository retrieves. </typeparam>
     public class Repository<T> : IRepository<T> where T : class
@@ -32,7 +32,7 @@ namespace Cocktail
         private QueryStrategy _defaultQueryStrategy;
 
         /// <summary>
-        ///   Creates a new repository.
+        ///     Creates a new repository.
         /// </summary>
         /// <param name="entityManagerProvider"> The EntityMangerProvider to be used to obtain an EntityManager. </param>
         /// <param name="defaultQueryStrategy"> The optional default query strategy. </param>
@@ -43,7 +43,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Gets or sets the repository's default query strategy.
+        ///     Gets or sets the repository's default query strategy.
         /// </summary>
         public QueryStrategy DefaultQueryStrategy
         {
@@ -52,7 +52,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Returns the EntityManager used by this repository.
+        ///     Returns the EntityManager used by this repository.
         /// </summary>
         protected EntityManager EntityManager
         {
@@ -62,7 +62,7 @@ namespace Cocktail
         #region IRepository<T> Members
 
         /// <summary>
-        ///   Retrieves the entity matching the provided key with the repository's default query strategy.
+        ///     Retrieves the entity matching the provided key with the repository's default query strategy.
         /// </summary>
         /// <param name="keyValue"> The single primary key value. </param>
         /// <returns> The retrieved entity. </returns>
@@ -73,7 +73,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Retrieves the entity matching the provided key with the repository's default query strategy.
+        ///     Retrieves the entity matching the provided key with the repository's default query strategy.
         /// </summary>
         /// <param name="keyValue"> The single primary key value. </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
@@ -85,7 +85,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Retrieves the entity matching the provided key from the back-end data source.
+        ///     Retrieves the entity matching the provided key from the back-end data source.
         /// </summary>
         /// <param name="keyValue"> The single primary key value. </param>
         /// <returns> The retrieved entity. </returns>
@@ -96,7 +96,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Retrieves the entity matching the provided key from the back-end data source.
+        ///     Retrieves the entity matching the provided key from the back-end data source.
         /// </summary>
         /// <param name="keyValue"> The single primary key value. </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
@@ -108,7 +108,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Retrieves the entity matching the provided key with the repository's default query strategy.
+        ///     Retrieves the entity matching the provided key with the repository's default query strategy.
         /// </summary>
         /// <param name="keyValues"> The composite primary key values. </param>
         /// <returns> The retrieved entity. </returns>
@@ -119,7 +119,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Retrieves the entity matching the provided key with the repository's default query strategy.
+        ///     Retrieves the entity matching the provided key with the repository's default query strategy.
         /// </summary>
         /// <param name="keyValues"> The composite primary key values. </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
@@ -132,7 +132,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Retrieves the entity matching the provided key from the back-end data source.
+        ///     Retrieves the entity matching the provided key from the back-end data source.
         /// </summary>
         /// <param name="keyValues"> The composite primary key values. </param>
         /// <returns> The retrieved entity. </returns>
@@ -143,7 +143,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Retrieves the entity matching the provided key from the back-end data source.
+        ///     Retrieves the entity matching the provided key from the back-end data source.
         /// </summary>
         /// <param name="keyValues"> The composite primary key values. </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
@@ -156,7 +156,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Retrieves the entity matching the provided key from the entity cache.
+        ///     Retrieves the entity matching the provided key from the entity cache.
         /// </summary>
         /// <param name="keyValues"> The composite primary key values. </param>
         /// <returns> The retrieved entity. </returns>
@@ -171,69 +171,71 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Retrieves all entities with the repository's default query strategy.
+        ///     Retrieves all entities with the repository's default query strategy.
         /// </summary>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
-        public Task<IEnumerable<T>> AllAsync(
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
+        public Task<IEnumerable<T>> AllAsync(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                             Action<IFetchOptions<T>> fetchOptions = null)
         {
-            return FindAsync(x => true, orderBy, includeProperties);
+            return FindAsync(x => true, orderBy, fetchOptions);
         }
 
         /// <summary>
-        ///   Retrieves all entities with the repository's default query strategy.
-        /// </summary>
-        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
-        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
-        /// <returns> The list of retrieved entities. </returns>
-        public Task<IEnumerable<T>> AllAsync(
-            CancellationToken cancellationToken, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = null)
-        {
-            return FindAsync(x => true, cancellationToken, orderBy, includeProperties);
-        }
-
-        /// <summary>
-        ///   Retrieves all entities from the back-end data source.
-        /// </summary>
-        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
-        /// <returns> The list of retrieved entities. </returns>
-        public Task<IEnumerable<T>> AllInDataSourceAsync(
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
-        {
-            return FindInDataSourceAsync(x => true, orderBy, includeProperties);
-        }
-
-        /// <summary>
-        ///   Retrieves all entities from the back-end data source.
+        ///     Retrieves all entities with the repository's default query strategy.
         /// </summary>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
-        public Task<IEnumerable<T>> AllInDataSourceAsync(
-            CancellationToken cancellationToken, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = null)
+        public Task<IEnumerable<T>> AllAsync(CancellationToken cancellationToken,
+                                             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                             Action<IFetchOptions<T>> fetchOptions = null)
         {
-            return FindInDataSourceAsync(x => true, cancellationToken, orderBy, includeProperties);
+            return FindAsync(x => true, cancellationToken, orderBy, fetchOptions);
         }
 
         /// <summary>
-        ///   Retrieves all entities from the cache.
+        ///     Retrieves all entities from the back-end data source.
         /// </summary>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
-        public IEnumerable<T> AllInCache(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
+        public Task<IEnumerable<T>> AllInDataSourceAsync(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                                         Action<IFetchOptions<T>> fetchOptions = null)
         {
-            return FindInCache(x => true, orderBy);
+            return FindInDataSourceAsync(x => true, orderBy, fetchOptions);
         }
 
         /// <summary>
-        ///   Returns the number of entities.
+        ///     Retrieves all entities from the back-end data source.
+        /// </summary>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
+        /// <returns> The list of retrieved entities. </returns>
+        public Task<IEnumerable<T>> AllInDataSourceAsync(CancellationToken cancellationToken,
+                                                         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                                         Action<IFetchOptions<T>> fetchOptions = null)
+        {
+            return FindInDataSourceAsync(x => true, cancellationToken, orderBy, fetchOptions);
+        }
+
+        /// <summary>
+        ///     Retrieves all entities from the cache.
+        /// </summary>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
+        /// <returns> The list of retrieved entities. </returns>
+        public IEnumerable<T> AllInCache(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                         Action<IFetchOptions<T>> fetchOptions = null)
+        {
+            return FindInCache(x => true, orderBy, fetchOptions);
+        }
+
+        /// <summary>
+        ///     Returns the number of entities.
         /// </summary>
         /// <param name="predicate"> Optional predicate to filter the entities </param>
         /// <returns> The number of entities matching the optional expression. </returns>
@@ -245,7 +247,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Returns the number of entities in the cache.
+        ///     Returns the number of entities in the cache.
         /// </summary>
         /// <param name="predicate"> Optional predicate to filter the entities </param>
         /// <returns> The number of entities matching the optional expression. </returns>
@@ -257,256 +259,280 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy.
+        ///     Retrieves one or more entities matching the provided expression with the repository's default query strategy.
         /// </summary>
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
-        public Task<IEnumerable<T>> FindAsync(
-            Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = null)
+        public Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate,
+                                              Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                              Action<IFetchOptions<T>> fetchOptions = null)
         {
-            return FindAsync(predicate, CancellationToken.None, orderBy, includeProperties);
+            return FindAsync(predicate, CancellationToken.None, orderBy, fetchOptions);
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy.
+        ///     Retrieves one or more entities matching the provided expression with the repository's default query strategy.
         /// </summary>
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
-        public Task<IEnumerable<T>> FindAsync(
-            Expression<Func<T, bool>> predicate, CancellationToken cancellationToken,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
+        public Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken,
+                                              Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                              Action<IFetchOptions<T>> fetchOptions = null)
         {
             if (predicate == null)
                 throw new ArgumentNullException("predicate");
 
-            var query = GetFindQuery(predicate, orderBy, includeProperties);
+            var query = GetFindQuery(predicate, orderBy, fetchOptions);
             return query.ExecuteAsync(cancellationToken);
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
+        ///     Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
         /// </summary>
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         public Task<IEnumerable<TResult>> FindAsync<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null)
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null,
+            Action<IFetchOptions<TResult>> fetchOptions = null)
         {
-            return FindAsync(selector, CancellationToken.None, predicate, orderBy);
+            return FindAsync(selector, CancellationToken.None, predicate, orderBy, fetchOptions);
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy and projects the results into a different shape using the selector parameter.
+        ///     Retrieves one or more entities matching the provided expression with the repository's default query strategy and projects the results into a different shape using the selector parameter.
         /// </summary>
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         public Task<IEnumerable<TResult>> FindAsync<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, CancellationToken cancellationToken,
             Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null)
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null,
+            Action<IFetchOptions<TResult>> fetchOptions = null)
         {
             if (selector == null)
                 throw new ArgumentNullException("selector");
 
-            var query = GetFindQuery(selector, predicate, orderBy);
+            var query = GetFindQuery(selector, predicate, orderBy, fetchOptions);
             return query.ExecuteAsync(cancellationToken);
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy and projects the results into a different shape using the selector parameter.
+        ///     Retrieves one or more entities matching the provided expression with the repository's default query strategy and projects the results into a different shape using the selector parameter.
         /// </summary>
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
-        public Task<IEnumerable> FindAsync(
-            Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable, IOrderedQueryable> orderBy = null)
+        public Task<IEnumerable> FindAsync(Func<IQueryable<T>, IQueryable> selector,
+                                           Expression<Func<T, bool>> predicate = null,
+                                           Func<IQueryable, IOrderedQueryable> orderBy = null,
+                                           Action<IFetchOptions> fetchOptions = null)
         {
-            return FindAsync(selector, CancellationToken.None, predicate, orderBy);
+            return FindAsync(selector, CancellationToken.None, predicate, orderBy, fetchOptions);
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy and projects the results into a different shape using the selector parameter.
+        ///     Retrieves one or more entities matching the provided expression with the repository's default query strategy and projects the results into a different shape using the selector parameter.
         /// </summary>
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
-        public Task<IEnumerable> FindAsync(
-            Func<IQueryable<T>, IQueryable> selector, CancellationToken cancellationToken,
-            Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null)
+        public Task<IEnumerable> FindAsync(Func<IQueryable<T>, IQueryable> selector, CancellationToken cancellationToken,
+                                           Expression<Func<T, bool>> predicate = null,
+                                           Func<IQueryable, IOrderedQueryable> orderBy = null,
+                                           Action<IFetchOptions> fetchOptions = null)
         {
             if (selector == null)
                 throw new ArgumentNullException("selector");
 
-            var query = GetFindQuery(selector, predicate, orderBy);
+            var query = GetFindQuery(selector, predicate, orderBy, fetchOptions);
             return query.ExecuteAsync(cancellationToken);
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression from the back-end data source.
+        ///     Retrieves one or more entities matching the provided expression from the back-end data source.
         /// </summary>
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
-        public Task<IEnumerable<T>> FindInDataSourceAsync(
-            Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = null)
+        public Task<IEnumerable<T>> FindInDataSourceAsync(Expression<Func<T, bool>> predicate,
+                                                          Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                                          Action<IFetchOptions<T>> fetchOptions = null)
         {
-            return FindInDataSourceAsync(predicate, CancellationToken.None, orderBy, includeProperties);
+            return FindInDataSourceAsync(predicate, CancellationToken.None, orderBy, fetchOptions);
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression from the back-end data source.
+        ///     Retrieves one or more entities matching the provided expression from the back-end data source.
         /// </summary>
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
-        public Task<IEnumerable<T>> FindInDataSourceAsync(
-            Expression<Func<T, bool>> predicate, CancellationToken cancellationToken,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
+        public Task<IEnumerable<T>> FindInDataSourceAsync(Expression<Func<T, bool>> predicate,
+                                                          CancellationToken cancellationToken,
+                                                          Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                                          Action<IFetchOptions<T>> fetchOptions = null)
         {
             if (predicate == null)
                 throw new ArgumentNullException("predicate");
 
-            var query = GetFindQuery(predicate, orderBy, includeProperties).With(QueryStrategy.DataSourceOnly);
+            var query = GetFindQuery(predicate, orderBy, fetchOptions).With(QueryStrategy.DataSourceOnly);
             return query.ExecuteAsync(cancellationToken);
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
+        ///     Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
         /// </summary>
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         public Task<IEnumerable<TResult>> FindInDataSourceAsync<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null)
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null,
+            Action<IFetchOptions<TResult>> fetchOptions = null)
         {
-            return FindInDataSourceAsync(selector, CancellationToken.None, predicate, orderBy);
+            return FindInDataSourceAsync(selector, CancellationToken.None, predicate, orderBy, fetchOptions);
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
+        ///     Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
         /// </summary>
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         public Task<IEnumerable<TResult>> FindInDataSourceAsync<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, CancellationToken cancellationToken,
             Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null)
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null,
+            Action<IFetchOptions<TResult>> fetchOptions = null)
         {
             if (selector == null)
                 throw new ArgumentNullException("selector");
 
-            var query = GetFindQuery(selector, predicate, orderBy).With(QueryStrategy.DataSourceOnly);
+            var query = GetFindQuery(selector, predicate, orderBy, fetchOptions).With(QueryStrategy.DataSourceOnly);
             return query.ExecuteAsync(cancellationToken);
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
+        ///     Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
         /// </summary>
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
-        public Task<IEnumerable> FindInDataSourceAsync(
-            Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable, IOrderedQueryable> orderBy = null)
+        public Task<IEnumerable> FindInDataSourceAsync(Func<IQueryable<T>, IQueryable> selector,
+                                                       Expression<Func<T, bool>> predicate = null,
+                                                       Func<IQueryable, IOrderedQueryable> orderBy = null,
+                                                       Action<IFetchOptions> fetchOptions = null)
         {
-            return FindInDataSourceAsync(selector, CancellationToken.None, predicate, orderBy);
+            return FindInDataSourceAsync(selector, CancellationToken.None, predicate, orderBy, fetchOptions);
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
+        ///     Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
         /// </summary>
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
-        public Task<IEnumerable> FindInDataSourceAsync(
-            Func<IQueryable<T>, IQueryable> selector, CancellationToken cancellationToken,
-            Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null)
+        public Task<IEnumerable> FindInDataSourceAsync(Func<IQueryable<T>, IQueryable> selector,
+                                                       CancellationToken cancellationToken,
+                                                       Expression<Func<T, bool>> predicate = null,
+                                                       Func<IQueryable, IOrderedQueryable> orderBy = null,
+                                                       Action<IFetchOptions> fetchOptions = null)
         {
             if (selector == null)
                 throw new ArgumentNullException("selector");
 
-            var query = GetFindQuery(selector, predicate, orderBy).With(QueryStrategy.DataSourceOnly);
+            var query = GetFindQuery(selector, predicate, orderBy, fetchOptions).With(QueryStrategy.DataSourceOnly);
             return query.ExecuteAsync(cancellationToken);
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression from the cache.
+        ///     Retrieves one or more entities matching the provided expression from the cache.
         /// </summary>
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
         public IEnumerable<T> FindInCache(Expression<Func<T, bool>> predicate,
-                                          Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
+                                          Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                          Action<IFetchOptions<T>> fetchOptions = null)
         {
             if (predicate == null)
                 throw new ArgumentNullException("predicate");
 
-            return GetFindQuery(predicate, orderBy, null).With(QueryStrategy.CacheOnly).Execute();
+            return GetFindQuery(predicate, orderBy, fetchOptions).With(QueryStrategy.CacheOnly).Execute();
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression from the cache and projects the results into a different shape using the selector parameter.
+        ///     Retrieves one or more entities matching the provided expression from the cache and projects the results into a different shape using the selector parameter.
         /// </summary>
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
-        public IEnumerable<TResult> FindInCache<TResult>(
-            Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null)
+        public IEnumerable<TResult> FindInCache<TResult>(Func<IQueryable<T>, IQueryable<TResult>> selector,
+                                                         Expression<Func<T, bool>> predicate = null,
+                                                         Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy =
+                                                             null, Action<IFetchOptions<TResult>> fetchOptions = null)
         {
             if (selector == null)
                 throw new ArgumentNullException("selector");
 
-            return GetFindQuery(selector, predicate, orderBy).With(QueryStrategy.CacheOnly).Execute();
+            return GetFindQuery(selector, predicate, orderBy, fetchOptions).With(QueryStrategy.CacheOnly).Execute();
         }
 
         /// <summary>
-        ///   Retrieves one or more entities matching the provided expression from the cache and projects the results into a different shape using the selector parameter.
+        ///     Retrieves one or more entities matching the provided expression from the cache and projects the results into a different shape using the selector parameter.
         /// </summary>
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         public IEnumerable FindInCache(Func<IQueryable<T>, IQueryable> selector,
                                        Expression<Func<T, bool>> predicate = null,
-                                       Func<IQueryable, IOrderedQueryable> orderBy = null)
+                                       Func<IQueryable, IOrderedQueryable> orderBy = null,
+                                       Action<IFetchOptions> fetchOptions = null)
         {
             if (selector == null)
                 throw new ArgumentNullException("selector");
 
-            return GetFindQuery(selector, predicate, orderBy).With(QueryStrategy.CacheOnly).Execute();
+            return GetFindQuery(selector, predicate, orderBy, fetchOptions).With(QueryStrategy.CacheOnly).Execute();
         }
 
         /// <summary>
-        ///   Marks the specified entity as to be deleted.
+        ///     Marks the specified entity as to be deleted.
         /// </summary>
         /// <param name="entity"> Entity to be deleted. </param>
         public void Delete(T entity)
@@ -515,7 +541,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Marks the specified entities as to be deleted.
+        ///     Marks the specified entities as to be deleted.
         /// </summary>
         /// <param name="entities"> Entities to be deleted. </param>
         public void Delete(IEnumerable<T> entities)
@@ -524,7 +550,7 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Returns true if the entity matching the provided key is found in the cache.
+        ///     Returns true if the entity matching the provided key is found in the cache.
         /// </summary>
         /// <param name="keyValues"> The primary key values </param>
         public bool ExistsInCache(params object[] keyValues)
@@ -536,11 +562,11 @@ namespace Cocktail
         #endregion
 
         /// <summary>
-        ///   Returns the query to retrieve a single entity,
+        ///     Returns the query to retrieve a single entity,
         /// </summary>
         /// <param name="keyValues"> One ore more primary key values. </param>
         /// <remarks>
-        ///   Override to modify the query used to retrieve a single entity
+        ///     Override to modify the query used to retrieve a single entity
         /// </remarks>
         protected virtual IEntityQuery GetKeyQuery(params object[] keyValues)
         {
@@ -548,42 +574,48 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Returns the query to retrieve a list of entities.
+        ///     Returns the query to retrieve a list of entities.
         /// </summary>
         /// <param name="predicate"> The predicate expression used to qualify the list of entities. </param>
         /// <param name="orderBy"> Sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> An optional list of included properties. </param>
+        /// <param name="fetchOptions">Delegate to specify additional fetching options.</param>
         /// <remarks>
-        ///   Override to modify the query used to retrieve a list of entities
+        ///     Override to modify the query used to retrieve a list of entities
         /// </remarks>
         protected virtual IEntityQuery<T> GetFindQuery(Expression<Func<T, bool>> predicate,
                                                        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
-                                                       string includeProperties)
+                                                       Action<IFetchOptions<T>> fetchOptions)
         {
             IEntityQuery<T> query = EntityManager.GetQuery<T>();
             if (predicate != null)
                 query = query.Where(predicate);
             if (orderBy != null)
                 query = (IEntityQuery<T>) orderBy(query);
-            if (!string.IsNullOrWhiteSpace(includeProperties))
-                query = ParseIncludeProperties(includeProperties)
-                    .Aggregate(query, (q, includeProperty) => q.Include(includeProperty));
+
+            if (fetchOptions != null)
+            {
+                var options = new FetchOptions<T>(query);
+                fetchOptions(options);
+                query = options.Query;
+            }
 
             return query.With(DefaultQueryStrategy);
         }
 
         /// <summary>
-        ///   Returns the strongly typed query to retrieve a list of projected entities.
+        ///     Returns the strongly typed query to retrieve a list of projected entities.
         /// </summary>
         /// <param name="selector"> The selector used to project the entities. </param>
         /// <param name="predicate"> The predicate expression used to qualify the list of objects. </param>
         /// <param name="orderBy"> Sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Delegate to specify additional fetching options.</param>
         /// <remarks>
-        ///   Override to modify the query used to retrieve a list of objects.
+        ///     Override to modify the query used to retrieve a list of objects.
         /// </remarks>
         protected virtual IEntityQuery<TResult> GetFindQuery<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate,
-            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy)
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy,
+            Action<IFetchOptions<TResult>> fetchOptions)
         {
             IEntityQuery<T> baseQuery = EntityManager.GetQuery<T>();
             if (predicate != null)
@@ -593,21 +625,29 @@ namespace Cocktail
             if (orderBy != null)
                 query = (IEntityQuery<TResult>) orderBy(query);
 
+            if (fetchOptions != null)
+            {
+                var options = new FetchOptions<TResult>(query);
+                fetchOptions(options);
+                query = options.Query;
+            }
+
             return query.With(DefaultQueryStrategy);
         }
 
         /// <summary>
-        ///   Returns the query to retrieve a list of projected entities.
+        ///     Returns the query to retrieve a list of projected entities.
         /// </summary>
         /// <param name="selector"> The selector used to project the entities. </param>
         /// <param name="predicate"> The predicate expression used to qualify the list of objects. </param>
         /// <param name="orderBy"> Sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Delegate to specify additional fetching options.</param>
         /// <remarks>
-        ///   Override to modify the query used to retrieve a list of objects.
+        ///     Override to modify the query used to retrieve a list of objects.
         /// </remarks>
         protected virtual IEntityQuery GetFindQuery(
             Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate,
-            Func<IQueryable, IOrderedQueryable> orderBy)
+            Func<IQueryable, IOrderedQueryable> orderBy, Action<IFetchOptions> fetchOptions)
         {
             IEntityQuery<T> baseQuery = EntityManager.GetQuery<T>();
             if (predicate != null)
@@ -616,6 +656,13 @@ namespace Cocktail
             var query = selector(baseQuery);
             if (orderBy != null)
                 query = orderBy(query);
+
+            if (fetchOptions != null)
+            {
+                var options = new FetchOptions((ITypedEntityQuery) query);
+                fetchOptions(options);
+                query = (IQueryable) options.Query;
+            }
 
             return ((IEntityQuery) query).With(DefaultQueryStrategy);
         }
@@ -633,14 +680,84 @@ namespace Cocktail
             return (T) entities.First();
         }
 
-        private IEnumerable<string> ParseIncludeProperties(string includeProperties)
-        {
-            return includeProperties.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
-        }
-
         private string ShouldHaveExactlyOneEntityErrorMessage(IEntityQuery entityQuery, int count)
         {
             return string.Format(StringResources.ShouldHaveExactlyOneEntityErrorMessage, typeof(T), entityQuery, count);
+        }
+    }
+
+    internal class FetchOptions : IFetchOptions
+    {
+        public FetchOptions(ITypedEntityQuery query)
+        {
+            Query = query;
+        }
+
+        public ITypedEntityQuery Query { get; private set; }
+
+        public IFetchOptions Skip(int count)
+        {
+            Query = Query.Skip(count);
+            return this;
+        }
+
+        public IFetchOptions Take(int count)
+        {
+            Query = Query.Take(count);
+            return this;
+        }
+
+        public IFetchOptions Distinct()
+        {
+            Query = Query.Distinct();
+            return this;
+        }
+
+        public IFetchOptions Include(string propertyPath)
+        {
+            Query = Query.Include(propertyPath);
+            return this;
+        }
+    }
+
+    internal class FetchOptions<T> : IFetchOptions<T>
+    {
+        public FetchOptions(IEntityQuery<T> query)
+        {
+            if (query == null) throw new ArgumentNullException("query");
+            Query = query;
+        }
+
+        public IEntityQuery<T> Query { get; private set; }
+
+        public IFetchOptions<T> Take(int count)
+        {
+            Query = Query.Take(count);
+            return this;
+        }
+
+        public IFetchOptions<T> Distinct()
+        {
+            Query = Query.Distinct();
+            return this;
+        }
+
+        public IFetchOptions<T> Include(string propertyPath)
+        {
+            Query = Query.Include(propertyPath);
+            return this;
+        }
+
+        public IFetchOptions<T> Include(Expression<Func<T, object>> expr)
+        {
+            Query = Query.Include(expr);
+            return this;
+        }
+
+        public IFetchOptions<T> Skip(int count)
+        {
+            Query = Query.Skip(count);
+            return this;
         }
     }
 }

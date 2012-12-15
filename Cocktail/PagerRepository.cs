@@ -19,13 +19,13 @@ using IdeaBlade.EntityModel;
 namespace Cocktail
 {
     /// <summary>
-    ///   A generic implementation of a repository which allows paging of entity and object results.
+    ///     A generic implementation of a repository which allows paging of entity and object results.
     /// </summary>
     /// <typeparam name="T"> The type of entity this repository retrieves. </typeparam>
     public class PagerRepository<T> : Repository<T>, IPagerRepository<T> where T : class
     {
         /// <summary>
-        ///   Creates a new repository.
+        ///     Creates a new repository.
         /// </summary>
         /// <param name="entityManagerProvider"> The EntityMangerProvider to be used to obtain an EntityManager. </param>
         /// <param name="defaultQueryStrategy"> The optional default query strategy. </param>
@@ -37,41 +37,47 @@ namespace Cocktail
         #region IPagerRepository<T> Members
 
         /// <summary>
-        ///   Returns a pager which allows entities to be paged.
+        ///     Returns a pager which allows entities to be paged.
         /// </summary>
         /// <param name="sortSelector"> Required sorting criteria. </param>
         /// <param name="pageSize"> The desired page size. </param>
         /// <param name="predicate"> Optional predicate to filter the paged entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
-        /// <returns> <see cref="IPager{T}" /> which allows the entities to be paged. </returns>
+        /// <param name="fetchOptions"></param>
+        /// <returns>
+        ///     <see cref="IPager{T}" /> which allows the entities to be paged.
+        /// </returns>
         public IPager<T> Pager(ISortSelector sortSelector, int pageSize, Expression<Func<T, bool>> predicate = null,
-                               string includeProperties = null)
+                               Action<IFetchOptions<T>> fetchOptions = null)
         {
             if (sortSelector == null)
                 throw new ArgumentNullException("sortSelector");
 
-            var query = GetFindQuery(predicate, null, includeProperties);
+            var query = GetFindQuery(predicate, null, fetchOptions);
             return new Pager<T>(query, sortSelector, pageSize);
         }
 
         /// <summary>
-        ///   Returns a pager which allows shaped entities to be paged.
+        ///     Returns a pager which allows shaped entities to be paged.
         /// </summary>
         /// <param name="selector"> The selector used to shape the entities. </param>
         /// <param name="pageSize"> The desired page size. </param>
         /// <param name="sortSelector"> Required sorting criteria. </param>
         /// <param name="predicate"> Optional predicate to filter the paged entities. </param>
+        /// <param name="fetchOptions"></param>
         /// <typeparam name="TResult"> The shape of the result. </typeparam>
-        /// <returns> <see cref="IPager{T}" /> which allows the shaped entities to be paged. </returns>
+        /// <returns>
+        ///     <see cref="IPager{T}" /> which allows the shaped entities to be paged.
+        /// </returns>
         public IPager<TResult> Pager<TResult>(Func<IQueryable<T>, IQueryable<TResult>> selector, int pageSize,
-                                              ISortSelector sortSelector, Expression<Func<T, bool>> predicate = null)
+                                              ISortSelector sortSelector, Expression<Func<T, bool>> predicate = null,
+                                              Action<IFetchOptions<TResult>> fetchOptions = null)
         {
             if (selector == null)
                 throw new ArgumentNullException("selector");
             if (sortSelector == null)
                 throw new ArgumentNullException("sortSelector");
 
-            var query = GetFindQuery(selector, predicate, null);
+            var query = GetFindQuery(selector, predicate, null, fetchOptions);
 
             // If TResult is not an entity type, then the query strategy must be set to DataSourceOnly
             // otherwise the EntityQueryPager doesn't return any data. This appears to be a bug in DevForce.

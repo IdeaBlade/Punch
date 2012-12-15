@@ -62,7 +62,7 @@ namespace Cocktail.Tests
             Assert.IsFalse(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
 
             unitOfWork.Clear();
-            customers = await unitOfWork.Entities.AllAsync(includeProperties: "Orders");
+            customers = await unitOfWork.Entities.AllAsync(fetchOptions: options => options.Include(x => x.Orders));
             Assert.IsTrue(customers.Any());
             Assert.IsTrue(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
 
@@ -72,7 +72,7 @@ namespace Cocktail.Tests
             Assert.IsFalse(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
 
             unitOfWork.Clear();
-            customers = await unitOfWork.Entities.AllAsync(CancellationToken.None, includeProperties: "Orders");
+            customers = await unitOfWork.Entities.AllAsync(CancellationToken.None, fetchOptions: options => options.Include("Orders"));
             Assert.IsTrue(customers.Any());
             Assert.IsTrue(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
 
@@ -82,7 +82,7 @@ namespace Cocktail.Tests
             Assert.IsFalse(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
 
             unitOfWork.Clear();
-            customers = await unitOfWork.Entities.AllInDataSourceAsync(includeProperties: "Orders");
+            customers = await unitOfWork.Entities.AllInDataSourceAsync(fetchOptions: options => options.Include("Orders"));
             Assert.IsTrue(customers.Any());
             Assert.IsTrue(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
 
@@ -92,9 +92,84 @@ namespace Cocktail.Tests
             Assert.IsFalse(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
 
             unitOfWork.Clear();
-            customers = await unitOfWork.Entities.AllInDataSourceAsync(CancellationToken.None, includeProperties: "Orders");
+            customers = await unitOfWork.Entities.AllInDataSourceAsync(CancellationToken.None, fetchOptions: options => options.Include("Orders"));
             Assert.IsTrue(customers.Any());
             Assert.IsTrue(provider.Manager.FindEntities<Order>(EntityState.AllButDetached).Any());
+        }
+
+        [TestMethod]
+        [Timeout(10000)]
+        public async Task ShouldRetrieveTopCustomers()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+
+            var customers = await unitOfWork.Entities.AllAsync(fetchOptions: options => options.Take(2));
+            Assert.IsTrue(customers.Count() == 2);
+        }
+
+        [TestMethod]
+        [Timeout(10000)]
+        public async Task ShouldRetrieveSkipAndTakeCustomers()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+
+            var all = await unitOfWork.Entities.AllAsync();
+            var customers = await unitOfWork.Entities.AllAsync(fetchOptions: options => options.Skip(1).Take(2));
+            Assert.IsTrue(customers.Count() == 2);
+            Assert.IsTrue(all.ToArray()[1].CustomerID == customers.ToArray()[0].CustomerID);
+        }
+
+        [TestMethod]
+        [Timeout(10000)]
+        public async Task ShouldRetrieveOrderProjectionAndCustomer()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+
+            var orders = await unitOfWork.Entities.FindAsync(
+                q => q.SelectMany(x => x.Orders), fetchOptions: options => options.Include(x => x.Customer));
+
+            Assert.IsTrue(orders.Any());
+            var customers = provider.Manager.FindEntities<Customer>(EntityState.AllButDetached);
+            Assert.IsTrue(customers.Any());
+        }
+
+        [TestMethod]
+        [Timeout(10000)]
+        public async Task ShouldRetrieveDistinctCities()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+
+            var cities = await unitOfWork.Entities.FindAsync(
+                q => q.Select(x => x.City), fetchOptions: options => options.Distinct());
+            Assert.IsTrue(cities.Any());
+            Assert.IsTrue(cities.GroupBy(x => x).All(x => x.Count() == 1));
+        }
+
+        [TestMethod]
+        [Timeout(10000)]
+        public async Task ShouldRetrieveDistinctCitiesDynamic()
+        {
+            var provider = EntityManagerProviderFactory.CreateTestEntityManagerProvider();
+            var unitOfWork = new UnitOfWork<Customer>(provider);
+
+            await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
+
+            var cities = await unitOfWork.Entities.FindAsync(
+                q => q.Select(new ProjectionSelector("City")), fetchOptions: options => options.Distinct());
+            Assert.IsTrue(cities.Cast<string>().Any());
+            Assert.IsTrue(cities.Cast<string>().GroupBy(x => x).All(x => x.Count() == 1));
         }
 
         [TestMethod]
@@ -228,9 +303,7 @@ namespace Cocktail.Tests
             var unitOfWork = new UnitOfWork<Customer>(provider);
 
             await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
-            var result = await unitOfWork.Entities.FindAsync(q => q.Select(x => x.CompanyName),
-                                                                     x => x.City == "SomeCity",
-                                                                     q => q.OrderBy(x => x));
+            var result = await unitOfWork.Entities.FindAsync(q => q.Select(x => x.CompanyName), x => x.City == "SomeCity", q => q.OrderBy(x => x));
 
             Assert.IsTrue(result.Any());
         }
@@ -244,14 +317,12 @@ namespace Cocktail.Tests
 
             await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
             var customers = await unitOfWork.Entities.FindInDataSourceAsync(x => x.City == "SomeCity",
-                                                                                 q => q.OrderBy(x => x.CompanyName));
+                                                                            q => q.OrderBy(x => x.CompanyName));
 
             Assert.IsTrue(customers.Any());
 
             var names = unitOfWork.Entities.FindInCache(
-                            q => q.Select(x => x.CompanyName),
-                            x => x.City == "SomeCity",
-                            q => q.OrderBy(x => x));
+                            q => q.Select(x => x.CompanyName), x => x.City == "SomeCity", q => q.OrderBy(x => x));
             Assert.IsTrue(names.Count() == customers.Count());
             Assert.IsTrue(
                 names.All((value, index) => customers.ElementAt(index).CompanyName == value));
@@ -276,9 +347,8 @@ namespace Cocktail.Tests
             var sortSelector = new SortSelector("CompanyName");
 
             await InitFakeBackingStoreAsync(CompositionContext.Fake.Name);
-            var result = await unitOfWork.Entities.FindAsync(q => q.Select(selector),
-                                                             pd.ToPredicate<Customer>(),
-                                                             q => q.OrderBySelector(sortSelector));
+            var result = await unitOfWork.Entities.FindAsync(
+                q => q.Select(selector), pd.ToPredicate<Customer>(), q => q.OrderBySelector(sortSelector));
 
             Assert.IsTrue(result.Cast<object>().Any());
         }

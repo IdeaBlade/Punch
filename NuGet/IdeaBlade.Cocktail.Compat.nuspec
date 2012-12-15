@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>IdeaBlade.Cocktail.Compat</id>
-    <version>2.1.1</version>
+    <version>2.2.0</version>
     <title>Cocktail 2012 Compatibility Pack</title>
     <authors>IdeaBlade</authors>
     <owners>IdeaBlade</owners>
@@ -20,7 +20,7 @@ Line of business applications need to query and save database data, model the da
     <tags>Silverlight WPF SL5 SL Coroutine Asynchronous Caliburn.Micro DevForce Cocktail</tags>
     <dependencies>
       <dependency id="IdeaBlade.DevForce.Compat" version="[7.0.3]" />
-      <dependency id="IdeaBlade.Cocktail" version="[2.1.1]" />
+      <dependency id="IdeaBlade.Cocktail" version="[2.2.0]" />
     </dependencies>
   </metadata>
   <files>

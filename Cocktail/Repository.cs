@@ -760,4 +760,195 @@ namespace Cocktail
             return this;
         }
     }
+
+    /// <summary>
+    /// Obsolete repository method signatures. Will be removed in a future version.
+    /// </summary>
+    public static class ObsoleteRepositoryMethods
+    {
+        /// <summary>
+        ///     Retrieves all entities with the repository's default query strategy.
+        /// </summary>
+        /// <param name="this">The current repository</param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns> The list of retrieved entities. </returns>
+        [Obsolete(
+            "Use the fetchOptions parameter to configure eager fetching. This method will be removed in a future version."
+            )]
+        public static Task<IEnumerable<T>> AllAsync<T>(this IRepository<T> @this,
+                                                       Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                                       string includeProperties = null) where T : class
+        {
+            return @this.AllAsync(orderBy, options => FromIncludeProperties(options, includeProperties));
+        }
+
+        /// <summary>
+        ///     Retrieves all entities with the repository's default query strategy.
+        /// </summary>
+        /// <param name="this">The current repository</param>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns> The list of retrieved entities. </returns>
+        [Obsolete(
+            "Use the fetchOptions parameter to configure eager fetching. This method will be removed in a future version."
+            )]
+        public static Task<IEnumerable<T>> AllAsync<T>(this IRepository<T> @this, CancellationToken cancellationToken,
+                                                       Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                                       string includeProperties = null) where T : class
+        {
+            return @this.AllAsync(cancellationToken, orderBy,
+                                  options => FromIncludeProperties(options, includeProperties));
+        }
+
+        /// <summary>
+        ///     Retrieves all entities from the back-end data source.
+        /// </summary>
+        /// <param name="this">The current repository</param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns> The list of retrieved entities. </returns>
+        [Obsolete(
+            "Use the fetchOptions parameter to configure eager fetching. This method will be removed in a future version."
+            )]
+        public static Task<IEnumerable<T>> AllInDataSourceAsync<T>(
+            this IRepository<T> @this, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string includeProperties = null) where T : class
+        {
+            return @this.AllInDataSourceAsync(orderBy, options => FromIncludeProperties(options, includeProperties));
+        }
+
+        /// <summary>
+        ///     Retrieves all entities from the back-end data source.
+        /// </summary>
+        /// <param name="this">The current repository</param>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns> The list of retrieved entities. </returns>
+        [Obsolete(
+            "Use the fetchOptions parameter to configure eager fetching. This method will be removed in a future version."
+            )]
+        public static Task<IEnumerable<T>> AllInDataSourceAsync<T>(
+            this IRepository<T> @this, CancellationToken cancellationToken,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null) where T : class
+        {
+            return @this.AllInDataSourceAsync(cancellationToken, orderBy,
+                                              options => FromIncludeProperties(options, includeProperties));
+        }
+
+        /// <summary>
+        ///     Retrieves one or more entities matching the provided expression with the repository's default query strategy.
+        /// </summary>
+        /// <param name="this">The current repository</param>
+        /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns> The list of retrieved entities. </returns>
+        [Obsolete(
+            "Use the fetchOptions parameter to configure eager fetching. This method will be removed in a future version."
+            )]
+        public static Task<IEnumerable<T>> FindAsync<T>(this IRepository<T> @this, Expression<Func<T, bool>> predicate,
+                                                        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                                        string includeProperties = null) where T : class
+        {
+            return @this.FindAsync(predicate, orderBy, options => FromIncludeProperties(options, includeProperties));
+        }
+
+        /// <summary>
+        ///     Retrieves one or more entities matching the provided expression with the repository's default query strategy.
+        /// </summary>
+        /// <param name="this">The current repository</param>
+        /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns> The list of retrieved entities. </returns>
+        [Obsolete(
+            "Use the fetchOptions parameter to configure eager fetching. This method will be removed in a future version."
+            )]
+        public static Task<IEnumerable<T>> FindAsync<T>(this IRepository<T> @this, Expression<Func<T, bool>> predicate,
+                                                        CancellationToken cancellationToken,
+                                                        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                                        string includeProperties = null) where T : class
+        {
+            return @this.FindAsync(predicate, cancellationToken, orderBy,
+                                   options => FromIncludeProperties(options, includeProperties));
+        }
+
+        /// <summary>
+        ///     Retrieves one or more entities matching the provided expression from the back-end data source.
+        /// </summary>
+        /// <param name="this">The current repository</param>
+        /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns> The list of retrieved entities. </returns>
+        [Obsolete(
+            "Use the fetchOptions parameter to configure eager fetching. This method will be removed in a future version."
+            )]
+        public static Task<IEnumerable<T>> FindInDataSourceAsync<T>(
+            this IRepository<T> @this, Expression<Func<T, bool>> predicate,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null) where T : class
+        {
+            return @this.FindInDataSourceAsync(predicate, orderBy,
+                                               options => FromIncludeProperties(options, includeProperties));
+        }
+
+        /// <summary>
+        ///     Retrieves one or more entities matching the provided expression from the back-end data source.
+        /// </summary>
+        /// <param name="this">The current repository</param>
+        /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
+        /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
+        /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns> The list of retrieved entities. </returns>
+        [Obsolete(
+            "Use the fetchOptions parameter to configure eager fetching. This method will be removed in a future version."
+            )]
+        public static Task<IEnumerable<T>> FindInDataSourceAsync<T>(
+            this IRepository<T> @this, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null) where T : class
+        {
+            return @this.FindInDataSourceAsync(predicate, cancellationToken, orderBy,
+                                               options => FromIncludeProperties(options, includeProperties));
+        }
+
+        /// <summary>
+        ///     Returns a pager which allows entities to be paged.
+        /// </summary>
+        /// <param name="this">The current repository</param>
+        /// <param name="sortSelector"> Required sorting criteria. </param>
+        /// <param name="pageSize"> The desired page size. </param>
+        /// <param name="predicate"> Optional predicate to filter the paged entities. </param>
+        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <returns>
+        ///     <see cref="IPager{T}" /> which allows the entities to be paged.
+        /// </returns>
+        [Obsolete(
+            "Use the fetchOptions parameter to configure eager fetching. This method will be removed in a future version."
+            )]
+        public static IPager<T> Pager<T>(this IPagerRepository<T> @this, ISortSelector sortSelector, int pageSize,
+                                         Expression<Func<T, bool>> predicate = null,
+                                         string includeProperties = null) where T : class
+        {
+            return @this.Pager(sortSelector, pageSize, predicate,
+                               options => FromIncludeProperties(options, includeProperties));
+        }
+
+        private static void FromIncludeProperties<TEntity>(IFetchOptions<TEntity> fetchOptions, string includeProperties)
+        {
+            if (string.IsNullOrWhiteSpace(includeProperties)) return;
+
+            ParseIncludeProperties(includeProperties)
+                .ForEach(x => fetchOptions.Include(x));
+        }
+
+        private static IEnumerable<string> ParseIncludeProperties(string includeProperties)
+        {
+            return includeProperties.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+        }
+    }
 }

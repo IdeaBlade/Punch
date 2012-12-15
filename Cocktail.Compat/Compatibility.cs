@@ -363,7 +363,6 @@ namespace Cocktail
             return source.NavigateToAsync<T>();
         }
 
-
         private static void FromIncludeProperties<TEntity>(IFetchOptions<TEntity> fetchOptions, string includeProperties)
         {
             if (string.IsNullOrWhiteSpace(includeProperties)) return;

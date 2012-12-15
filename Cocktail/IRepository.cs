@@ -410,7 +410,7 @@ namespace Cocktail
     /// <summary>
     /// A fluent generic interface to specify additional data fetching options.
     /// </summary>
-    public interface IFetchOptions<T>
+    public interface IFetchOptions<T> : IHideObjectMembers
     {
         /// <summary>
         /// Bypasses a specified number of elements in a sequence and then returns the remaining elements.

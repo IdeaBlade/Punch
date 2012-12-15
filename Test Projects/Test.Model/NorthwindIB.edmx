@@ -1,4 +1,4 @@
-﻿
+﻿<?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
@@ -31,7 +31,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="NorthwindIBModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:ib10="http://www.ideablade.com/edm/2010">
-        <EntityContainer Name="NorthwindIBEntities" annotation:LazyLoadingEnabled="true" ib10:Template="CodeFirst">
+        <EntityContainer Name="NorthwindIBEntities" annotation:LazyLoadingEnabled="true" ib10:Template="CodeFirst" ib10:DevForceEnabled="true">
           <EntitySet Name="Customers" EntityType="NorthwindIBModel.Customer" />
         </EntityContainer>
         <EntityType Name="Customer">

@@ -5,8 +5,8 @@
 // and then make all subsequent modifications manually.  To avoid losing your
 // changes, rename and move this code file so that it will not be re-generated.
 // 
-//    Generated at: 1/9/2012 10:48:24 PM
-//    DevForce version: 6.1.4.1
+//    Generated at: 12/15/2012 1:46:13 PM
+//    DevForce version: 6.1.11.0
 //    Template version: 2.1.4
 // ------------------------------------------------------------------------------
 using System;
@@ -18,6 +18,10 @@ using IbEm   = IdeaBlade.EntityModel;
 using IbCore = IdeaBlade.Core;
 using IbVal  = IdeaBlade.Validation;
 using IbAop  = IdeaBlade.Aop;
+
+#if !SILVERLIGHT
+using System.ComponentModel.DataAnnotations.Schema;
+#endif
 
 namespace Test.Model { 
 

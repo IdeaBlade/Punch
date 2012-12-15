@@ -17,8 +17,8 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
-    <DontImportPostSharp>True</DontImportPostSharp>
     <SkipPostSharp>True</SkipPostSharp>
+    <DontImportPostSharp>True</DontImportPostSharp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -67,35 +67,33 @@
       <HintPath>..\packages\Caliburn.Micro.1.4\lib\net40\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.1.1\lib\net45\Cocktail.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.2.0\lib\net45\Cocktail.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.1.1\lib\net45\Cocktail.Utils.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.2.0\lib\net45\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core, Version=7.0.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.2\lib\net45\IdeaBlade.Core.dll</HintPath>
+    <Reference Include="IdeaBlade.Core">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.3\lib\net45\IdeaBlade.Core.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel, Version=7.0.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.2\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.3\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.2\lib\net45\IdeaBlade.Linq.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.3\lib\net45\IdeaBlade.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.Validation, Version=7.0.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.2\lib\net45\IdeaBlade.Validation.dll</HintPath>
+    <Reference Include="IdeaBlade.Validation">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.3\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
     <Reference Include="MefContrib">
       <HintPath>..\Libs\MefContrib\MefContrib.dll</HintPath>
     </Reference>
-    <Reference Include="PostSharp">
-      <HintPath>..\packages\PostSharp.2.1.7.22\lib\net20\PostSharp.dll</HintPath>
+    <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PostSharp.2.1.7.28\lib\net20\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -270,7 +268,7 @@
     if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\PostSharp.2.1.7.22\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.2.1.7.22\tools\PostSharp.targets')" />
+  <Import Project="..\packages\PostSharp.2.1.7.28\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.2.1.7.28\tools\PostSharp.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

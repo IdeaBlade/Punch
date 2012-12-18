@@ -189,7 +189,7 @@ namespace Cocktail
         /// <param name="sortSelector"> Required sorting criteria. </param>
         /// <param name="pageSize"> The desired page size. </param>
         /// <param name="predicate"> Optional predicate to filter the paged entities. </param>
-        /// <param name="fetchOptions"></param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> <see cref="IPager{T}" /> which allows the entities to be paged. </returns>
         IPager<T> Pager(ISortSelector sortSelector, int pageSize, Expression<Func<T, bool>> predicate = null,
                         Action<IFetchOptions<T>> fetchOptions = null);
@@ -201,7 +201,7 @@ namespace Cocktail
         /// <param name="pageSize"> The desired page size. </param>
         /// <param name="sortSelector"> Required sorting criteria. </param>
         /// <param name="predicate"> Optional predicate to filter the paged entities. </param>
-        /// <param name="fetchOptions"></param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <typeparam name="TResult"> The shape of the result. </typeparam>
         /// <returns> <see cref="IPager{T}" /> which allows the shaped entities to be paged. </returns>
         IPager<TResult> Pager<TResult>(Func<IQueryable<T>, IQueryable<TResult>> selector, int pageSize,

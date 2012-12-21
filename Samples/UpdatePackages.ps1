@@ -10,7 +10,7 @@
     }
 
     # Update packages
-    nuget update $solution.FullName
+    nuget update $solution.FullName -Id IdeaBlade.Cocktail -Id IdeaBlade.Cocktail.Utils -Id IdeaBlade.DevForce.Core -Id IdeaBlade.DevForce.Aop -Id IdeaBlade.DevForce.Server
 
     # Delete packages folder. It will be restored on next build
     if (Test-Path -Path $packages)

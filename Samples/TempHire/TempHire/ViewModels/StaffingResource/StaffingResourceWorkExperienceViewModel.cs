@@ -16,6 +16,7 @@ using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
+using Cocktail;
 using Common;
 using Common.Messages;
 using DomainModel;
@@ -33,6 +34,8 @@ namespace TempHire.ViewModels.StaffingResource
             IUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager)
             : base(unitOfWorkManager)
         {
+            EventFns.Subscribe(this);
+
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DisplayName = "Work Experience";
             // ReSharper restore DoNotCallOverridableMethodsInConstructor

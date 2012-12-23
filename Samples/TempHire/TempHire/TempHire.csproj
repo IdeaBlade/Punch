@@ -88,9 +88,6 @@
     <Reference Include="IdeaBlade.Validation">
       <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.3\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
-    <Reference Include="MefContrib">
-      <HintPath>..\Libs\MefContrib\MefContrib.dll</HintPath>
-    </Reference>
     <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\PostSharp.2.1.7.28\lib\net20\PostSharp.dll</HintPath>

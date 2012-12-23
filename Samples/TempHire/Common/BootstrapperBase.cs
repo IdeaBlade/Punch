@@ -12,14 +12,10 @@
 
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Primitives;
-using Caliburn.Micro;
 using Cocktail;
 using Common.Errors;
 using Common.Messages;
 using IdeaBlade.EntityModel;
-using MefContrib.Hosting.Interception;
-using MefContrib.Hosting.Interception.Configuration;
 
 #if SILVERLIGHT
 using System.Windows;
@@ -29,7 +25,7 @@ using System.Windows.Threading;
 
 namespace Common
 {
-    public class BootstrapperBase<T> : CocktailMefBootstrapper<T>, IExportedValueInterceptor
+    public class BootstrapperBase<T> : CocktailMefBootstrapper<T>
     {
         // Automatically instantiate and hold all discovered MessageProcessors
         [ImportMany(RequiredCreationPolicy = CreationPolicy.Shared)]
@@ -37,16 +33,6 @@ namespace Common
 
         [Import]
         public IErrorHandler ErrorHandler { get; set; }
-
-        #region IExportedValueInterceptor Members
-
-        object IExportedValueInterceptor.Intercept(object value)
-        {
-            SubscribeToEventAggregator(value);
-            return value;
-        }
-
-        #endregion
 
 #if SILVERLIGHT
         protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
@@ -62,12 +48,6 @@ namespace Common
         }
 #endif
 
-        protected override void BuildUp(object instance)
-        {
-            base.BuildUp(instance);
-            SubscribeToEventAggregator(instance);
-        }
-
 #if !SILVERLIGHT
         protected override void StartRuntime()
         {
@@ -82,22 +62,5 @@ namespace Common
                     };
         }
 #endif
-
-        // Use InterceptingCatalog from MefContrib to centrally handle EventAggregator subscriptions.
-        protected override ComposablePartCatalog PrepareCompositionCatalog()
-        {
-            var cfg = new InterceptionConfiguration().AddInterceptor(this);
-            return new InterceptingCatalog(base.PrepareCompositionCatalog(), cfg);
-        }
-
-        private void SubscribeToEventAggregator(object instance)
-        {
-            if (instance is IHandle)
-            {
-                LogFns.DebugWriteLine(string.Format("Automatically subscribing instance of {0} to EventAggregator.",
-                                                    instance.GetType().Name));
-                EventFns.Subscribe(instance);
-            }
-        }
     }
 }

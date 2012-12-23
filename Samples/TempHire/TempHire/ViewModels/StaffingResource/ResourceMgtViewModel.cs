@@ -42,6 +42,8 @@ namespace TempHire.ViewModels.StaffingResource
                                     ExportFactory<StaffingResourceNameEditorViewModel> nameEditorFactory,
                                     IDialogManager dialogManager, IToolbarManager toolbar)
         {
+            EventFns.Subscribe(this);
+
             SearchPane = searchPane;
             _nameEditorFactory = nameEditorFactory;
             _dialogManager = dialogManager;

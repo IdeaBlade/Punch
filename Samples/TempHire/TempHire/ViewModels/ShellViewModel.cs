@@ -10,7 +10,6 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -38,6 +37,8 @@ namespace TempHire.ViewModels
         public ShellViewModel([ImportMany] IEnumerable<IWorkspace> workspaces, IToolbarManager toolbar,
                               IAuthenticationService authenticationService, ExportFactory<LoginViewModel> loginFactory)
         {
+            EventFns.Subscribe(this);
+
             Toolbar = toolbar;
             _workspaces = workspaces;
             _authenticationService = authenticationService;

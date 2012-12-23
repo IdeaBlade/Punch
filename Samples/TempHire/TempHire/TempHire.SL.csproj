@@ -113,9 +113,6 @@
     <Reference Include="IdeaBlade.Validation.SL">
       <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.3\lib\sl50\IdeaBlade.Validation.SL.dll</HintPath>
     </Reference>
-    <Reference Include="MefContrib.Silverlight">
-      <HintPath>..\Libs\MefContrib\MefContrib.Silverlight.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Silverlight5">
       <HintPath>..\packages\Microsoft.CompilerServices.AsyncTargetingPack.1.0.0\lib\sl50\Microsoft.CompilerServices.AsyncTargetingPack.Silverlight5.dll</HintPath>
     </Reference>

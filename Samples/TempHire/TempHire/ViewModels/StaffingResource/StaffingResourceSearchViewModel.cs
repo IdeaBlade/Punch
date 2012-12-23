@@ -36,6 +36,8 @@ namespace TempHire.ViewModels.StaffingResource
         [ImportingConstructor]
         public StaffingResourceSearchViewModel(IUnitOfWorkManager<IResourceMgtUnitOfWork> unitOfWorkManager)
         {
+            EventFns.Subscribe(this);
+
             _unitOfWorkManager = unitOfWorkManager;
             Busy = new BusyWatcher();
         }

@@ -135,7 +135,7 @@
     <None Include="DevForce.cf" />
     <None Include="packages.config" />
     <EmbeddedResource Include="SecurityEntities.ibmmx">
-      <HashCode>-135095570</HashCode>
+      <HashCode>-767534202</HashCode>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

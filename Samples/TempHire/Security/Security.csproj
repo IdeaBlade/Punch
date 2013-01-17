@@ -67,11 +67,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Caliburn.Micro.1.4\lib\net40\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail">
-      <HintPath>..\packages\Cocktail.NET.1.1.0\lib\net40\Cocktail.dll</HintPath>
+    <Reference Include="Cocktail, Version=1.1.1.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Cocktail.NET.1.1.1\lib\net40\Cocktail.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\Cocktail.NET.1.1.0\lib\net40\Cocktail.Utils.dll</HintPath>
+    <Reference Include="Cocktail.Utils, Version=1.1.1.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Cocktail.NET.1.1.1\lib\net40\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -94,7 +96,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
-      <HintPath>..\packages\PostSharp.2.1.7.22\lib\net20\PostSharp.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PostSharp.2.1.7.28\lib\net20\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -136,7 +139,7 @@
     <None Include="DevForce.cf" />
     <None Include="packages.config" />
     <EmbeddedResource Include="SecurityEntities.ibmmx">
-      <HashCode>-135095570</HashCode>
+      <HashCode>-767534202</HashCode>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -148,8 +151,8 @@
     if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8854.2\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\PostSharp.2.1.7.22\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.2.1.7.22\tools\PostSharp.targets')" />
-  <Import Project="..\packages\IdeaBlade.DevForce-2010.Aop.6.1.9\tools\IdeaBlade.DevForce.Common.targets" Condition="Exists('..\packages\IdeaBlade.DevForce-2010.Aop.6.1.9\tools\IdeaBlade.DevForce.Common.targets')" />
+  <Import Project="..\packages\PostSharp.2.1.7.28\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.2.1.7.28\tools\PostSharp.targets')" />
+  <Import Project="..\packages\IdeaBlade.DevForce-2010.Aop.6.1.11\tools\IdeaBlade.DevForce.Common.targets" Condition="Exists('..\packages\IdeaBlade.DevForce-2010.Aop.6.1.11\tools\IdeaBlade.DevForce.Common.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

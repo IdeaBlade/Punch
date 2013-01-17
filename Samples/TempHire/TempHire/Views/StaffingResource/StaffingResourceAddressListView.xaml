@@ -63,6 +63,7 @@
                                  Text="{Binding Item.Address1,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
+                                                UpdateSourceTrigger=PropertyChanged,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />
@@ -80,6 +81,7 @@
                                  Text="{Binding Item.Address2,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
+                                                UpdateSourceTrigger=PropertyChanged,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />
@@ -97,6 +99,7 @@
                                  Text="{Binding Item.City,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
+                                                UpdateSourceTrigger=PropertyChanged,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />
@@ -135,6 +138,7 @@
                                  Text="{Binding Item.Zipcode,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
+                                                UpdateSourceTrigger=PropertyChanged,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />
@@ -149,16 +153,16 @@
                                     Height="25"
                                     Margin="10"
                                     HorizontalAlignment="Center"
-                                    cal:Message.Attach="SetPrimary($dataContext)"
                                     Content="Set Primary"
-                                    IsEnabled="{Binding CanSetPrimary}" />
+                                    IsEnabled="{Binding CanSetPrimary}"
+                                    cal:Message.Attach="SetPrimary($dataContext)" />
                             <Button Width="80"
                                     Height="25"
                                     Margin="10"
                                     HorizontalAlignment="Center"
-                                    cal:Message.Attach="Delete($dataContext)"
                                     Content="Delete"
-                                    IsEnabled="{Binding CanDelete}" />
+                                    IsEnabled="{Binding CanDelete}"
+                                    cal:Message.Attach="Delete($dataContext)" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

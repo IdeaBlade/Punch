@@ -45,6 +45,7 @@
                  Text="{Binding StaffingResource.Summary,
                                 ValidatesOnDataErrors=True,
                                 ValidatesOnExceptions=True,
+                                UpdateSourceTrigger=PropertyChanged,
                                 Mode=TwoWay}"
                  TextWrapping="Wrap"
                  VerticalScrollBarVisibility="Auto">

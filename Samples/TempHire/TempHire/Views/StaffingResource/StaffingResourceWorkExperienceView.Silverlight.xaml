@@ -115,6 +115,7 @@
                                  IsReadOnly="{Binding ElementName=LayoutRoot,
                                                       Path=DataContext.IsReadOnly}"
                                  Text="{Binding PositionTitle,
+                                                UpdateSourceTrigger=PropertyChanged,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />
@@ -126,6 +127,7 @@
                                  IsReadOnly="{Binding ElementName=LayoutRoot,
                                                       Path=DataContext.IsReadOnly}"
                                  Text="{Binding Location,
+                                                UpdateSourceTrigger=PropertyChanged,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />
@@ -144,6 +146,7 @@
                                  IsReadOnly="{Binding ElementName=LayoutRoot,
                                                       Path=DataContext.IsReadOnly}"
                                  Text="{Binding Company,
+                                                UpdateSourceTrigger=PropertyChanged,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />
@@ -164,6 +167,7 @@
                                  IsReadOnly="{Binding ElementName=LayoutRoot,
                                                       Path=DataContext.IsReadOnly}"
                                  Text="{Binding Description,
+                                                UpdateSourceTrigger=PropertyChanged,
                                                 Mode=TwoWay}"
                                  TextWrapping="Wrap">
                             <i:Interaction.Behaviors>
@@ -177,11 +181,11 @@
                                     Orientation="Vertical">
                             <Button Width="60"
                                     HorizontalAlignment="Center"
-                                    cal:Message.Attach="Delete($dataContext)"
                                     Content="Delete"
                                     IsEnabled="{Binding ElementName=LayoutRoot,
                                                         Path=DataContext.IsReadOnly,
-                                                        Converter={StaticResource InverseBooleanConverter}}" />
+                                                        Converter={StaticResource InverseBooleanConverter}}"
+                                    cal:Message.Attach="Delete($dataContext)" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

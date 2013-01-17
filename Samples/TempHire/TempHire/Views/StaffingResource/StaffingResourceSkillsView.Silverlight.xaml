@@ -73,6 +73,7 @@
                                  IsReadOnly="{Binding ElementName=LayoutRoot,
                                                       Path=DataContext.IsReadOnly}"
                                  Text="{Binding Description,
+                                                UpdateSourceTrigger=PropertyChanged,
                                                 Mode=TwoWay}"
                                  TextAlignment="Left">
                             <i:Interaction.Behaviors>
@@ -86,11 +87,11 @@
                             <Button Width="60"
                                     Margin="2"
                                     HorizontalAlignment="Left"
-                                    cal:Message.Attach="Delete($dataContext)"
                                     Content="Delete"
                                     IsEnabled="{Binding ElementName=LayoutRoot,
                                                         Path=DataContext.IsReadOnly,
-                                                        Converter={StaticResource InverseBooleanConverter}}" />
+                                                        Converter={StaticResource InverseBooleanConverter}}"
+                                    cal:Message.Attach="Delete($dataContext)" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

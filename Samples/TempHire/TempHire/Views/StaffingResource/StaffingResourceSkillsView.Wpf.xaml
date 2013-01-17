@@ -1,8 +1,8 @@
 <UserControl x:Class="TempHire.Views.StaffingResource.StaffingResourceSkillsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:common="http://temphire.ideablade.com/common"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:common="http://temphire.ideablade.com/common"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -72,6 +72,7 @@
                                  IsReadOnly="{Binding ElementName=LayoutRoot,
                                                       Path=DataContext.IsReadOnly}"
                                  Text="{Binding Description,
+                                                UpdateSourceTrigger=PropertyChanged,
                                                 Mode=TwoWay}"
                                  TextAlignment="Left">
                             <i:Interaction.Behaviors>
@@ -85,11 +86,11 @@
                             <Button Width="60"
                                     Margin="2"
                                     HorizontalAlignment="Left"
-                                    cal:Message.Attach="Delete($dataContext)"
                                     Content="Delete"
                                     IsEnabled="{Binding ElementName=LayoutRoot,
                                                         Path=DataContext.IsReadOnly,
-                                                        Converter={StaticResource InverseBooleanConverter}}" />
+                                                        Converter={StaticResource InverseBooleanConverter}}"
+                                    cal:Message.Attach="Delete($dataContext)" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

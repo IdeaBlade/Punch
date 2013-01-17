@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
                     xmlns:System="clr-namespace:System;assembly=mscorlib"
-                    xmlns:System_Windows_Controls_Primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=System.Windows.Controls">
+                    xmlns:System_Windows_Controls_Primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=System.Windows.Controls"
+                    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk">
 
     <Style TargetType="TextBox">
         <Setter Property="BorderThickness" Value="1" />
@@ -1195,7 +1195,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="sdk:DataGrid">
         <Setter Property="RowBackground" Value="#AAEAEFF4" />
         <Setter Property="AlternatingRowBackground" Value="#00FFFFFF" />
@@ -1474,7 +1474,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="sdk:DataGridColumnHeader">
         <Setter Property="Foreground" Value="#FFFFFFFF" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -1614,7 +1614,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="sdk:TabItem">
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Background" Value="#FF1F3B53" />

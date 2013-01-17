@@ -53,6 +53,7 @@
                                  Text="{Binding Item.AreaCode,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
+                                                UpdateSourceTrigger=PropertyChanged,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />
@@ -66,6 +67,7 @@
                                  Text="{Binding Item.Number,
                                                 ValidatesOnDataErrors=True,
                                                 ValidatesOnExceptions=True,
+                                                UpdateSourceTrigger=PropertyChanged,
                                                 Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <common:SelectAllOnFocusBehavior />
@@ -79,16 +81,16 @@
                                     Height="25"
                                     Margin="10,2,2,2"
                                     HorizontalAlignment="Left"
-                                    cal:Message.Attach="SetPrimary($dataContext)"
                                     Content="Set Primary"
-                                    IsEnabled="{Binding CanSetPrimary}" />
+                                    IsEnabled="{Binding CanSetPrimary}"
+                                    cal:Message.Attach="SetPrimary($dataContext)" />
                             <Button Width="60"
                                     Height="25"
                                     Margin="2"
                                     HorizontalAlignment="Left"
-                                    cal:Message.Attach="Delete($dataContext)"
                                     Content="Delete"
-                                    IsEnabled="{Binding CanDelete}" />
+                                    IsEnabled="{Binding CanDelete}"
+                                    cal:Message.Attach="Delete($dataContext)" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

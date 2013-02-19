@@ -54,4 +54,4 @@ using System.Windows.Markup;
 //      Build Number
 //      Revision
 
-[assembly: AssemblyVersion("2.2.0")]
+[assembly: AssemblyVersion("2.2.1")]

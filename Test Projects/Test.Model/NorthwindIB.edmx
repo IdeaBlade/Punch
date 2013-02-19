@@ -66,7 +66,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="NorthwindIBModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:ib12="http://www.ideablade.com/edm/2012">
-        <EntityContainer Name="NorthwindIBEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:ib12="http://www.ideablade.com/edm/2012" ib12:DevForceEnabled="True">
+        <EntityContainer Name="NorthwindIBEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:ib12="http://www.ideablade.com/edm/2012" ib12:DevForceEnabled="true">
           <EntitySet Name="Customers" EntityType="NorthwindIBModel.Customer" />
           <EntitySet Name="EntityWithInternalCtors" EntityType="NorthwindIBModel.EntityWithInternalCtor" />
           <EntitySet Name="EntityWithInternalFactoryMethods" EntityType="NorthwindIBModel.EntityWithInternalFactoryMethod" />

@@ -102,7 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="NorthwindIB.edmx">
-      <LastGenOutput>NorthwindIB.Designer.cs</LastGenOutput>
       <EntityManagerName>.NorthwindIBEntities</EntityManagerName>
       <CodeGenNamespace>__default__</CodeGenNamespace>
     </EntityDeploy>

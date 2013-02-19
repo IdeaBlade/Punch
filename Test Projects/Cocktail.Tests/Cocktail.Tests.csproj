@@ -50,29 +50,29 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Caliburn.Micro.1.4.1\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core, Version=7.0.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Core, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.3\lib\net45\IdeaBlade.Core.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.1.0\lib\net45\IdeaBlade.Core.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel, Version=7.0.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.EntityModel, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.3\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.1.0\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Edm, Version=7.0.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.EntityModel.Edm, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.0.3\lib\net45\IdeaBlade.EntityModel.Edm.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.1.0\lib\net45\IdeaBlade.EntityModel.Edm.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Server, Version=7.0.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.EntityModel.Server, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.0.3\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.1.0\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq, Version=7.0.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Linq, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.3\lib\net45\IdeaBlade.Linq.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.1.0\lib\net45\IdeaBlade.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Validation, Version=7.0.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Validation, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.0.3\lib\net45\IdeaBlade.Validation.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.1.0\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />

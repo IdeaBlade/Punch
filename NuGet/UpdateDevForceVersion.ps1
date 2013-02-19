@@ -15,6 +15,12 @@ else
         {
             $d.version = "[$version]"
         }
+
+        # Update group dependencies
+        foreach ($d in $nuspec.package.metadata.dependencies.group.dependency | ? { $_.id -match "IdeaBlade.DevForce" -and $_.version})
+        {
+            $d.version = "[$version]"
+        }
         
         $nuspec.Save($file.FullName)
     }

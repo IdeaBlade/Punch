@@ -16,7 +16,9 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
+using System.Reflection;
 using Caliburn.Micro;
+using IdeaBlade.Core;
 using IdeaBlade.Core.Composition;
 using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 
@@ -27,6 +29,8 @@ namespace Cocktail
     /// </summary>
     internal partial class MefCompositionProvider : ISupportsRecomposition
     {
+        private List<Assembly> _probeAssemblies;
+        private AggregateCatalog _defaultCatalog;
         private ComposablePartCatalog _catalog;
         private CompositionContainer _container;
 
@@ -45,7 +49,40 @@ namespace Cocktail
         /// </summary>
         public ComposablePartCatalog DefaultCatalog
         {
-            get { return CompositionHost.Instance.Container.Catalog; }
+            get
+            {
+                if (_defaultCatalog == null)
+                {
+                    _probeAssemblies = CompositionHost.Instance.ProbeAssemblies.ToList();
+                    var mainCatalog = new AggregateCatalog(_probeAssemblies.Select(x => new AssemblyCatalog(x)));
+                    _defaultCatalog = new AggregateCatalog(mainCatalog);
+
+                    CompositionHost.Recomposed += new EventHandler<RecomposedEventArgs>(OnRecomposed)
+                        .MakeWeak(x => CompositionHost.Recomposed -= x);
+                }
+                return _defaultCatalog;
+            }
+        }
+
+        internal void OnRecomposed(object sender, RecomposedEventArgs args)
+        {
+            // Determine new assemblies in the DevForce catalog
+            var newAssemblies = CompositionHost.Instance.ProbeAssemblies
+                                               .Where(x => !_probeAssemblies.Contains(x))
+                                               .ToList();
+            
+            // Add an AggregateCatalog containing the new assemblies to the DefaultCatalog
+            if (newAssemblies.Any())
+            {
+                var catalog = new AggregateCatalog(newAssemblies.Select(x => new AssemblyCatalog(x)));
+                _defaultCatalog.Catalogs.Add(catalog);
+                _probeAssemblies.AddRange(newAssemblies);
+            }
+
+            // Notify clients of the recomposition
+            var handlers = Recomposed;
+            if (handlers != null)
+                handlers(sender, args);
         }
 
         /// <summary>
@@ -170,11 +207,7 @@ namespace Cocktail
         /// <summary>
         ///   Fired when the composition container is modified after initialization.
         /// </summary>
-        public event EventHandler<RecomposedEventArgs> Recomposed
-        {
-            add { CompositionHost.Recomposed += value; }
-            remove { CompositionHost.Recomposed -= value; }
-        }
+        public event EventHandler<RecomposedEventArgs> Recomposed;
 
         #endregion
 

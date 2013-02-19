@@ -3,8 +3,8 @@
 //    Any changes made to this code will be lost the next time this 
 //    code is regenerated.
 // 
-//    Generated at: 2/19/2013 11:23:09 AM
-//    DevForce version: 7.0.3.0
+//    Generated at: 2/19/2013 12:01:19 PM
+//    DevForce version: 7.1.0.0
 //    Template version: 2.1.4
 // ------------------------------------------------------------------------------
 using System;
@@ -16,7 +16,7 @@ using IbEm   = IdeaBlade.EntityModel;
 using IbCore = IdeaBlade.Core;
 using IbVal  = IdeaBlade.Validation;
 
-[module: IbCore.IdeaBladeLicense("aksHkvSfhGovpGULs5+/LXcNNuJFRbRt6vyhbwnixHNQFaleUY2GrBnVa7FgaZuM")]
+[module: IbCore.IdeaBladeLicense("sWwpwf/Y6Kdy2XszZN+nBhvCUCaOBAgpKfxaPk+7/BL1rSmBrSl1wrlH4Wq90IlD")]
 
 namespace Test.Model { 
 
@@ -754,7 +754,7 @@ namespace Test.Model {
   /// <summary>
   /// A generated class that returns the relations between entities in this model.
   /// </summary>
-  [IbCore.IdeaBladeGuid("22cd519b-8df8-4c37-9f7f-e8e3d6a1bc00", "2.1.4")]
+  [IbCore.IdeaBladeGuid("0cf8fc3f-786b-4bfc-a38a-49ef33743bbb", "2.1.4")]
   public partial class EntityRelations : IbEm.IEntityRelations {
 
     /// Explicit static constructor ensures static fields are initialized.

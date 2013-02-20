@@ -3,8 +3,8 @@
 //    Any changes made to this code will be lost the next time this 
 //    code is regenerated.
 // 
-//    Generated at: 8/24/2012 6:03:55 PM
-//    DevForce version: 7.0.0.0
+//    Generated at: 2/19/2013 6:15:33 PM
+//    DevForce version: 7.1.0.0
 //    Template version: 2.1.4
 // ------------------------------------------------------------------------------
 using System;
@@ -16,7 +16,7 @@ using IbEm   = IdeaBlade.EntityModel;
 using IbCore = IdeaBlade.Core;
 using IbVal  = IdeaBlade.Validation;
 
-[module: IbCore.IdeaBladeLicense("DcdmOIhWifrP4DwMOQL/ay8WEjsjkA9R/aBAmBfHHsCzQVC+bURrKJy7B/s+Uiuw")]
+[module: IbCore.IdeaBladeLicense("NEJIzIhS6rGlkhEISx1iIqTnMs91gqWM0ocjwRaE7GyycLtXk5tAJWYN1x/mwNai")]
 
 namespace TodoServer { 
 
@@ -162,7 +162,7 @@ namespace TodoServer {
   /// <summary>
   /// A generated class that returns the relations between entities in this model.
   /// </summary>
-  [IbCore.IdeaBladeGuid("59acdf8c-c989-426e-b8c5-8f1e62b3a986", "2.1.4")]
+  [IbCore.IdeaBladeGuid("be430c8f-75a2-4629-899a-5f7fc8bf9ff3", "2.1.4")]
   public partial class EntityRelations : IbEm.IEntityRelations {
 
     /// Explicit static constructor ensures static fields are initialized.

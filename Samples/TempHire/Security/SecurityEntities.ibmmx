@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityModelMetadata xmlns:i="http://www.w3.org/2001/XMLSchema-instance" z:Id="1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" xmlns="http://ideablade.com/EntityModel">
-  <CreatedOn>2013-01-07T12:48:20.7083792+09:00</CreatedOn>
-  <DevForceVersion z:Id="2">7.0.3.0</DevForceVersion>
+  <CreatedOn>2013-02-19T16:01:13.8653183-08:00</CreatedOn>
+  <DevForceVersion z:Id="2">7.1.0.0</DevForceVersion>
   <EncodedLicenseKey z:Id="3">NVfc6Y1pRrzB2ha275RadlkFCchdz4Y9ptpssKkHUDSLIR7u56FCHgvC93e910FA</EncodedLicenseKey>
   <EntityMetadataSurrogates z:Id="4" z:Size="1">
     <EntityMetadataSurrogate z:Id="5">
@@ -17,6 +17,7 @@
             <d6p1:IsNull>false</d6p1:IsNull>
           </EntityTypeWrapper>
           <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsComputed>false</IsComputed>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>true</IsPartOfKey>
@@ -32,6 +33,7 @@
           </DataTypeWrapper>
           <EntityTypeWrapper z:Ref="10" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsComputed>false</IsComputed>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>
@@ -47,6 +49,7 @@
           </DataTypeWrapper>
           <EntityTypeWrapper z:Ref="10" i:nil="true" />
           <IsAutoIncrementing>false</IsAutoIncrementing>
+          <IsComputed>false</IsComputed>
           <IsNativeProperty>true</IsNativeProperty>
           <IsNullable>false</IsNullable>
           <IsPartOfKey>false</IsPartOfKey>

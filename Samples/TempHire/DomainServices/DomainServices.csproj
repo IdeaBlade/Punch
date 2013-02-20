@@ -55,25 +55,29 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\Caliburn.Micro.1.4\lib\net40\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.1.4.1\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.2.0\lib\net45\Cocktail.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.2.1\lib\net45\Cocktail.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.2.0\lib\net45\Cocktail.Utils.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.2.1\lib\net45\Cocktail.Utils.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.3\lib\net45\IdeaBlade.Core.dll</HintPath>
+    <Reference Include="IdeaBlade.Core, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.0\lib\net45\IdeaBlade.Core.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.3\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.0\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.3\lib\net45\IdeaBlade.Linq.dll</HintPath>
+    <Reference Include="IdeaBlade.Linq, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.0\lib\net45\IdeaBlade.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Validation">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.0.3\lib\net45\IdeaBlade.Validation.dll</HintPath>
+    <Reference Include="IdeaBlade.Validation, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.0\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -82,8 +86,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Interactivity">
-      <HintPath>..\packages\Caliburn.Micro.1.4\lib\net40\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Caliburn.Micro.1.4.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

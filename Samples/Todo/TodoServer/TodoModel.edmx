@@ -11,8 +11,8 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="TodoModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
-        <EntityContainer Name="TodoModelContainer" annotation:LazyLoadingEnabled="true" a:EntityManagerName="TodoEntities" xmlns:a="http://www.ideablade.com/edm/2012" a:DataSourceKey="TodoEntities">
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="TodoModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false" xmlns:ib12="http://www.ideablade.com/edm/2012">
+        <EntityContainer Name="TodoModelContainer" annotation:LazyLoadingEnabled="true" a:EntityManagerName="TodoEntities" xmlns:a="http://www.ideablade.com/edm/2012" a:DataSourceKey="TodoEntities" a:DevForceEnabled="true">
           <EntitySet Name="TodoItems" EntityType="TodoModel.TodoItem" />
         </EntityContainer>
         <EntityType Name="TodoItem">

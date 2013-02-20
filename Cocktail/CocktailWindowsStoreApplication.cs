@@ -313,7 +313,7 @@ namespace Cocktail
         /// <returns> A list of assemblies to inspect. </returns>
         protected override IEnumerable<Assembly> SelectAssemblies()
         {
-            return CompositionHost.Instance.ProbeAssemblies;
+            return _compositionProvider.GetProbeAssemblies();
         }
 
         /// <summary>

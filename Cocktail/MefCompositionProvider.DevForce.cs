@@ -10,18 +10,42 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using System.Collections.Generic;
+using System.Reflection;
+using Caliburn.Micro;
 using IdeaBlade.Core;
+using IdeaBlade.Core.Composition;
 using IdeaBlade.Core.Reflection;
 
 namespace Cocktail
 {
     internal partial class MefCompositionProvider
     {
-#if !NETFX_CORE
-        internal static void EnsureRequiredProbeAssemblies()
+        static MefCompositionProvider()
         {
-            IdeaBladeConfig.Instance.ProbeAssemblyNames.Add(typeof(EntityManagerProvider<>).GetAssembly().FullName);
+            // Ignore known assemblies that DevForce should not add to its catalog
+            CompositionHost.IgnorePatterns.Add("Caliburn.Micro*");
+            CompositionHost.IgnorePatterns.Add("Windows.UI.Interactivity*");
+            CompositionHost.IgnorePatterns.Add("Cocktail.Utils*");
+            CompositionHost.IgnorePatterns.Add("Cocktail.Compat*");
+            CompositionHost.IgnorePatterns.Add("Cocktail.dll");
+            CompositionHost.IgnorePatterns.Add("Cocktail.SL.dll");
+            CompositionHost.IgnorePatterns.Add("Cocktail.WinRT.dll");
         }
+
+        public IEnumerable<Assembly> GetProbeAssemblies()
+        {
+            IEnumerable<Assembly> probeAssemblies = CompositionHost.Instance.ProbeAssemblies;
+            
+            // Add Cocktail assembly
+            probeAssemblies = probeAssemblies.Concat(GetType().GetAssembly());
+
+#if NETFX_CORE
+            // Add Caliburn.Micro in order to export the EventAggregator by convention
+            probeAssemblies = probeAssemblies.Concat(typeof(EventAggregator).GetAssembly());
 #endif
+
+            return probeAssemblies.Distinct(x => x);
+        }
     }
 }

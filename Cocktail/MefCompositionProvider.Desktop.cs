@@ -53,7 +53,7 @@ namespace Cocktail
             {
                 if (_defaultCatalog == null)
                 {
-                    _probeAssemblies = CompositionHost.Instance.ProbeAssemblies.ToList();
+                    _probeAssemblies = GetProbeAssemblies().ToList();
                     var mainCatalog = new AggregateCatalog(_probeAssemblies.Select(x => new AssemblyCatalog(x)));
                     _defaultCatalog = new AggregateCatalog(mainCatalog);
 
@@ -67,9 +67,9 @@ namespace Cocktail
         internal void OnRecomposed(object sender, RecomposedEventArgs args)
         {
             // Determine new assemblies in the DevForce catalog
-            var newAssemblies = CompositionHost.Instance.ProbeAssemblies
-                                               .Where(x => !_probeAssemblies.Contains(x))
-                                               .ToList();
+            var newAssemblies = GetProbeAssemblies()
+                .Where(x => !_probeAssemblies.Contains(x))
+                .ToList();
             
             // Add an AggregateCatalog containing the new assemblies to the DefaultCatalog
             if (newAssemblies.Any())

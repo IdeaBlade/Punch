@@ -137,14 +137,6 @@ namespace Cocktail
         private MefCompositionProvider _compositionProvider;
 
         /// <summary>
-        ///   Static initialization
-        /// </summary>
-        static CocktailMefBootstrapper()
-        {
-            MefCompositionProvider.EnsureRequiredProbeAssemblies();
-        }
-
-        /// <summary>
         ///   Creates an instance of CocktailMefBootstrapper.
         /// </summary>
         /// <param name="useApplication"> Optionally specify if the bootstrapper should hook into the application object. </param>

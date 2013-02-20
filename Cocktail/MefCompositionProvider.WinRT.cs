@@ -16,6 +16,7 @@ using System.Composition;
 using System.Composition.Convention;
 using System.Composition.Hosting;
 using System.Composition.Hosting.Core;
+using System.Linq;
 using System.Reflection;
 using Caliburn.Micro;
 
@@ -65,7 +66,7 @@ namespace Cocktail
                     .Shared();
 
                 // Build ContainerConfiguration with the list of assemblies discovered by DevForce
-                var assemblies = IdeaBlade.Core.Composition.CompositionHost.Instance.ProbeAssemblies;
+                var assemblies = GetProbeAssemblies().ToList();
                 _configuration = new ContainerConfiguration()
                     .WithProvider(_valueExports) // Provider for manually injected singletons
                     .WithAssemblies(assemblies, Conventions);

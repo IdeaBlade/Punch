@@ -20,19 +20,21 @@ namespace Cocktail
 {
     internal partial class MefCompositionProvider
     {
-        private readonly Dictionary<string, XapDownloadOperation> XapDownloadOperations =
+        private readonly Dictionary<string, XapDownloadOperation> _xapDownloadOperations =
             new Dictionary<string, XapDownloadOperation>();
 
         /// <summary>Asynchronously downloads a XAP file and adds all exported parts to the catalog.</summary>
         /// <param name="relativeUri">The relative URI for the XAP file to be downloaded.</param>
-        /// <returns>The asynchronous download <see cref="Task"/>.</returns>
+        /// <returns>
+        ///     The asynchronous download <see cref="Task" />.
+        /// </returns>
         public Task AddXapAsync(string relativeUri)
         {
             XapDownloadOperation operation;
-            if (XapDownloadOperations.TryGetValue(relativeUri, out operation) && !operation.Task.IsFaulted)
+            if (_xapDownloadOperations.TryGetValue(relativeUri, out operation) && !operation.Task.IsFaulted)
                 return operation.Task;
 
-            operation = XapDownloadOperations[relativeUri] = new XapDownloadOperation(relativeUri, this);
+            operation = _xapDownloadOperations[relativeUri] = new XapDownloadOperation(relativeUri, this);
             return operation.Task;
         }
     }
@@ -40,8 +42,8 @@ namespace Cocktail
     internal class XapDownloadOperation
     {
         private readonly MefCompositionProvider _compositionProvider;
-        private readonly DynamicXap _xap;
         private readonly TaskCompletionSource<bool> _tcs;
+        private readonly DynamicXap _xap;
 
         public XapDownloadOperation(string xapUri, MefCompositionProvider compositionProvider)
         {
@@ -69,12 +71,13 @@ namespace Cocktail
                 _compositionProvider.IsRecomposing = true;
                 try
                 {
+                    CompositionHost.Recomposed += OnRecomposed;
                     CompositionHost.Add(_xap);
-                    _tcs.SetResult(true);
+                    _tcs.TrySetResult(true);
                 }
                 catch (Exception e)
                 {
-                    _tcs.SetException(e);
+                    _tcs.TrySetException(e);
                 }
                 finally
                 {
@@ -83,6 +86,14 @@ namespace Cocktail
             }
             else
                 _tcs.SetException(args.Error);
+        }
+
+        private void OnRecomposed(object sender, RecomposedEventArgs args)
+        {
+            if (args.HasError)
+                _tcs.TrySetException(args.XapLoadError);
+
+            CompositionHost.Recomposed -= OnRecomposed;
         }
     }
 }

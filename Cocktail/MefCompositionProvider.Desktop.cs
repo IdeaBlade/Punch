@@ -66,6 +66,8 @@ namespace Cocktail
 
         internal void OnRecomposed(object sender, RecomposedEventArgs args)
         {
+            if (args.HasError) return;
+
             // Determine new assemblies in the DevForce catalog
             var newAssemblies = GetProbeAssemblies()
                 .Where(x => !_probeAssemblies.Contains(x))

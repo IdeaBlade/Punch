@@ -250,11 +250,7 @@ namespace Cocktail
             base.OnStartup(sender, e);
 
             WhenCompleted(
-#if SILVERLIGHT
-                () => DisplayRootViewFor(Application, typeof (TRootModel))
-#else
                 () => DisplayRootViewFor(typeof(TRootModel))
-#endif
             );
         }
     }

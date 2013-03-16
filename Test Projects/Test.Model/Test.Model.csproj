@@ -40,11 +40,10 @@
     <AssemblyOriginatorKeyFile>Cocktail.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="EntityFramework">
       <HintPath>..\..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Aop, Version=6.1.11.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
+    <Reference Include="IdeaBlade.Aop, Version=6.1.12.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
     <Reference Include="IdeaBlade.Core">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -56,7 +55,7 @@
     </Reference>
     <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\PostSharp.2.1.7.28\lib\net20\PostSharp.dll</HintPath>
+      <HintPath>..\..\packages\PostSharp.2.1.7.29\lib\net20\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -94,7 +93,7 @@
     <None Include="Cocktail.snk" />
     <None Include="DevForce.cf" />
     <EmbeddedResource Include="NorthwindIBEntities.ibmmx">
-      <HashCode>740720244</HashCode>
+      <HashCode>1710438205</HashCode>
     </EmbeddedResource>
     <None Include="NorthwindIB.edmx.ReadMe">
       <AutoGen>True</AutoGen>
@@ -120,8 +119,8 @@
     if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8854.2\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\..\packages\PostSharp.2.1.7.28\tools\PostSharp.targets" Condition="Exists('..\..\packages\PostSharp.2.1.7.28\tools\PostSharp.targets')" />
-  <Import Project="..\..\packages\IdeaBlade.DevForce-2010.Aop.6.1.11\tools\IdeaBlade.DevForce.Common.targets" Condition="Exists('..\..\packages\IdeaBlade.DevForce-2010.Aop.6.1.11\tools\IdeaBlade.DevForce.Common.targets')" />
+  <Import Project="..\..\packages\PostSharp.2.1.7.29\tools\PostSharp.targets" Condition="Exists('..\..\packages\PostSharp.2.1.7.29\tools\PostSharp.targets')" />
+  <Import Project="..\..\packages\IdeaBlade.DevForce-2010.Aop.6.1.12\tools\IdeaBlade.DevForce.Common.targets" Condition="Exists('..\..\packages\IdeaBlade.DevForce-2010.Aop.6.1.12\tools\IdeaBlade.DevForce.Common.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

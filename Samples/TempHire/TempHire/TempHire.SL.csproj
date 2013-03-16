@@ -90,14 +90,17 @@
     <NoConfig>true</NoConfig>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\Caliburn.Micro.1.4\lib\sl4\Caliburn.Micro.dll</HintPath>
+    <Reference Include="Caliburn.Micro, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Caliburn.Micro.1.5.0\lib\sl4\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.1.1\lib\sl40\Cocktail.SL.dll</HintPath>
+    <Reference Include="Cocktail.SL, Version=1.1.2.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Cocktail.Silverlight.1.1.2\lib\sl40\Cocktail.SL.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.1.1\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
+    <Reference Include="Cocktail.Utils.SL, Version=1.1.2.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Cocktail.Silverlight.1.1.2\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.SL">
     </Reference>
@@ -132,8 +135,8 @@
     <Reference Include="System.Windows.Controls.Toolkit">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="System.Windows.Interactivity">
-      <HintPath>..\packages\Caliburn.Micro.1.4\lib\sl4\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.1.5.0\lib\sl4\System.Windows.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -168,7 +171,9 @@
     <Compile Include="ViewModels\StaffingResource\StaffingResourceWorkExperienceViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -281,4 +286,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>

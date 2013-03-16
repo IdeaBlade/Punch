@@ -84,16 +84,19 @@
     <NoConfig>true</NoConfig>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\Caliburn.Micro.1.4\lib\sl4\Caliburn.Micro.dll</HintPath>
+    <Reference Include="Caliburn.Micro, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Caliburn.Micro.1.5.0\lib\sl4\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.1.1\lib\sl40\Cocktail.SL.dll</HintPath>
+    <Reference Include="Cocktail.SL, Version=1.1.2.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Cocktail.Silverlight.1.1.2\lib\sl40\Cocktail.SL.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.1.1\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
+    <Reference Include="Cocktail.Utils.SL, Version=1.1.2.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Cocktail.Silverlight.1.1.2\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Aop.SL, Version=6.1.11.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
+    <Reference Include="IdeaBlade.Aop.SL, Version=6.1.12.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
     <Reference Include="IdeaBlade.Core.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -105,7 +108,7 @@
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="PostSharp.SL">
-      <HintPath>..\packages\PostSharp.2.1.7.28\lib\sl3\PostSharp.SL.dll</HintPath>
+      <HintPath>..\packages\PostSharp.2.1.7.29\lib\sl3\PostSharp.SL.dll</HintPath>
     </Reference>
     <Reference Include="system" />
     <Reference Include="System.ComponentModel.Composition, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -114,11 +117,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.1.4\lib\sl4\System.Windows.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Interactivity">
-      <HintPath>..\packages\Caliburn.Micro.1.4\lib\sl4\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.1.5.0\lib\sl4\System.Windows.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Demo|AnyCPU'">
@@ -165,7 +166,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Import Project="..\packages\PostSharp.2.1.7.28\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.2.1.7.28\tools\PostSharp.targets')" />
+  <Import Project="..\packages\PostSharp.2.1.7.29\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.2.1.7.29\tools\PostSharp.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

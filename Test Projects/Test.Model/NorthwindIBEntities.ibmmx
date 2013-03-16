@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityModelMetadata xmlns:i="http://www.w3.org/2001/XMLSchema-instance" z:Id="1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" xmlns="http://ideablade.com/EntityModel">
-  <CreatedOn>2012-08-09T22:01:56.6592124-07:00</CreatedOn>
-  <DevForceVersion z:Id="2">6.1.8.0</DevForceVersion>
-  <EncodedLicenseKey z:Id="3">jKmWYQJGOoj/5AQyNHlrTxL6VYKFhJ+gbSTEf9bTbmdX7WxpNmqaMW7SskaDaxbB</EncodedLicenseKey>
+  <CreatedOn>2013-03-16T12:49:00.313642-07:00</CreatedOn>
+  <DevForceVersion z:Id="2">6.1.11.0</DevForceVersion>
+  <EncodedLicenseKey z:Id="3">9pm8sPDyDHga+4YpbxrsOE+alQ6/Bapuq6PzIkLCQeGAg9ykCjdDE9OtyFbItk3O</EncodedLicenseKey>
   <EntityMetadataSurrogates z:Id="4" z:Size="1">
     <EntityMetadataSurrogate z:Id="5">
       <DataProperties z:Id="6" z:Size="13">
@@ -13,7 +13,7 @@
             <d6p1:IsNull>false</d6p1:IsNull>
           </DataTypeWrapper>
           <EntityTypeWrapper z:Id="10" xmlns:d6p1="http://ideablade.com/Core" i:type="d6p1:TypeWrapper">
-            <d6p1:AssemblyQualifiedName z:Id="11">Test.Model.Customer, Test.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a</d6p1:AssemblyQualifiedName>
+            <d6p1:AssemblyQualifiedName z:Id="11">Test.Model.Customer, Test.Model, Version=1.1.1.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a</d6p1:AssemblyQualifiedName>
             <d6p1:IsNull>false</d6p1:IsNull>
           </EntityTypeWrapper>
           <IsAutoIncrementing>false</IsAutoIncrementing>

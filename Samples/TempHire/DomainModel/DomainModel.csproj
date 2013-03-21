@@ -70,41 +70,41 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.2.1\lib\net45\Cocktail.Utils.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.2.2\lib\net45\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Aop, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Aop, Version=7.1.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Aop.7.1.0\lib\net45\IdeaBlade.Aop.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Aop.7.1.1\lib\net45\IdeaBlade.Aop.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Core, Version=7.1.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.0\lib\net45\IdeaBlade.Core.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.1\lib\net45\IdeaBlade.Core.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.EntityModel, Version=7.1.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.0\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.1\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Edm, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.EntityModel.Edm, Version=7.1.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.1.0\lib\net45\IdeaBlade.EntityModel.Edm.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.1.1\lib\net45\IdeaBlade.EntityModel.Edm.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Server, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.EntityModel.Server, Version=7.1.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.1.0\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.1.1\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Linq, Version=7.1.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.0\lib\net45\IdeaBlade.Linq.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.1\lib\net45\IdeaBlade.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Validation, Version=7.1.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Validation, Version=7.1.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.0\lib\net45\IdeaBlade.Validation.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.1\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
     <Reference Include="PostSharp">
-      <HintPath>..\packages\PostSharp.2.1.7.28\lib\net20\PostSharp.dll</HintPath>
+      <HintPath>..\packages\PostSharp.2.1.7.30\lib\net20\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -163,8 +163,8 @@
     if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\PostSharp.2.1.7.28\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.2.1.7.28\tools\PostSharp.targets')" />
-  <Import Project="..\packages\IdeaBlade.DevForce.Aop.7.1.0\tools\IdeaBlade.DevForce.Common.targets" Condition="Exists('..\packages\IdeaBlade.DevForce.Aop.7.1.0\tools\IdeaBlade.DevForce.Common.targets')" />
+  <Import Project="..\packages\PostSharp.2.1.7.30\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.2.1.7.30\tools\PostSharp.targets')" />
+  <Import Project="..\packages\IdeaBlade.DevForce.Aop.7.1.1\tools\IdeaBlade.DevForce.Common.targets" Condition="Exists('..\packages\IdeaBlade.DevForce.Aop.7.1.1\tools\IdeaBlade.DevForce.Common.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

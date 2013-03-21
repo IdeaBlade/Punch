@@ -27,17 +27,9 @@ namespace Cocktail
     /// <summary>
     ///   Abstract base class to configure the framework.
     /// </summary>
-    public abstract class CocktailBootstrapper : Bootstrapper
+    public abstract class CocktailBootstrapper : BootstrapperBase
     {
         private Task _task;
-
-        /// <summary>
-        ///   Static initialization
-        /// </summary>
-        static CocktailBootstrapper()
-        {
-            DefaultDebugLogger.SetAsLogger();
-        }
 
         /// <summary>
         ///   Creates an instance of CocktailBootstrapper.
@@ -46,6 +38,8 @@ namespace Cocktail
         protected CocktailBootstrapper(bool useApplication = true)
             : base(useApplication)
         {
+            DefaultDebugLogger.SetAsLogger();
+            Start();
         }
 
         /// <summary>

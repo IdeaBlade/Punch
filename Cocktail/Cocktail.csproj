@@ -176,11 +176,11 @@
     <Compile Include="WeakRefDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Desktop\DialogHostView.xaml">
+    <Page Include="DialogHostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Desktop\HarnessView.xaml">
+    <Page Include="HarnessView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

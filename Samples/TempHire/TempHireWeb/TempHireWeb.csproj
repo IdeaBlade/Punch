@@ -14,7 +14,7 @@
     <AssemblyName>TempHireWeb</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
-    <SilverlightApplicationList>{FD6E0F30-F43E-44C8-A030-CC0F2B19E052}|..\TempHire\TempHire.csproj|ClientBin|False,{3CDF9103-91FB-417E-81A8-AEC269276939}|..\Harness\Harness.csproj|ClientBin|False</SilverlightApplicationList>
+    <SilverlightApplicationList>{3CDF9103-91FB-417E-81A8-AEC269276939}|..\Harness.SL\Harness.SL.csproj|ClientBin|False,{FD6E0F30-F43E-44C8-A030-CC0F2B19E052}|..\TempHire.SL\TempHire.SL.csproj|ClientBin|False</SilverlightApplicationList>
     <SkipPostSharp>True</SkipPostSharp>
     <PublishDatabases>false</PublishDatabases>
     <DeployIisAppPath>Default Web Site/TempHire</DeployIisAppPath>

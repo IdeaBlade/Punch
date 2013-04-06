@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DD374D18-BED3-42B6-8795-EFEEF3752C0C}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DomainServices</RootNamespace>
+    <AssemblyName>DomainServices.SL</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <SkipPostSharp>True</SkipPostSharp>
+    <BaseOutputPath>Bin</BaseOutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)</IntermediateOutputPath>
+    <OutputPath>$(BaseOutputPath)\$(Configuration)</OutputPath>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Fakestore|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Fakestore\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;FAKESTORE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>Bin.SL\Debug\DomainServices.SL.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <NoConfig>true</NoConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Demo|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Demo\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>Bin.SL\Debug\DomainServices.SL.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <NoConfig>true</NoConfig>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Caliburn.Micro.1.5.0\lib\sl4\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Cocktail.SL, Version=1.1.2.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Cocktail.Silverlight.1.1.2\lib\sl40\Cocktail.SL.dll</HintPath>
+    </Reference>
+    <Reference Include="Cocktail.Utils.SL, Version=1.1.2.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Cocktail.Silverlight.1.1.2\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.Core.SL" />
+    <Reference Include="IdeaBlade.EntityModel.SL" />
+    <Reference Include="IdeaBlade.Validation.SL" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System.ComponentModel.Composition, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.ComponentModel.Composition.Initialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.1.4\lib\sl4\System.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.1.5.0\lib\sl4\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DomainModel.SL\DomainModel.SL.csproj">
+      <Project>{77A1A2B1-66E8-4141-8405-87AB13775FB8}</Project>
+      <Name>DomainModel.SL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Security.SL\Security.SL.csproj">
+      <Project>{DD97F37C-E978-4483-B0BC-CFC49940B560}</Project>
+      <Name>Security.SL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\DomainServices\Factories\StaffingResourceFactory.cs">
+      <Link>Factories\StaffingResourceFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\DomainServices\IResourceMgtUnitOfWork.cs">
+      <Link>IResourceMgtUnitOfWork.cs</Link>
+    </Compile>
+    <Compile Include="..\DomainServices\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\DomainServices\Repositories\GlobalCacheRepository.cs">
+      <Link>Repositories\GlobalCacheRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\DomainServices\Repositories\IGlobalCache.cs">
+      <Link>Repositories\IGlobalCache.cs</Link>
+    </Compile>
+    <Compile Include="..\DomainServices\Repositories\StaffingResourceRepository.cs">
+      <Link>Repositories\StaffingResourceRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\DomainServices\ResourceMgtUnitOfWork.cs">
+      <Link>ResourceMgtUnitOfWork.cs</Link>
+    </Compile>
+    <Compile Include="..\DomainServices\ResourceMgtUnitOfWorkManager.cs">
+      <Link>ResourceMgtUnitOfWorkManager.cs</Link>
+    </Compile>
+    <Compile Include="..\DomainServices\SampleData\SecuritySampleDataProvider.cs">
+      <Link>SampleData\SecuritySampleDataProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\DomainServices\SampleData\TempHireSampleDataProvider.cs">
+      <Link>SampleData\TempHireSampleDataProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\DomainServices\Services\IStaffingResourceSearchService.cs">
+      <Link>Services\IStaffingResourceSearchService.cs</Link>
+    </Compile>
+    <Compile Include="..\DomainServices\Services\StaffingResourceSearchService.cs">
+      <Link>Services\StaffingResourceSearchService.cs</Link>
+    </Compile>
+    <Compile Include="..\DomainServices\UnitOfWorkManager.cs">
+      <Link>UnitOfWorkManager.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

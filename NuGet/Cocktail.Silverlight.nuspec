@@ -19,10 +19,10 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\Cocktail\Bin.SL\Release\Cocktail*.*" target="lib\sl40" />
-    <file src="..\Cocktail\Bin.SL5\Release\Cocktail*.*" target="lib\sl50" />
-    <file src="..\Cocktail.Utils\Bin.SL\Release\Cocktail*.*" target="lib\sl40" />
-    <file src="..\Cocktail.Utils\Bin.SL5\Release\Cocktail*.*" target="lib\sl50" />
+    <file src="..\Cocktail.SL\Bin\Release\Cocktail*.*" target="lib\sl40" />
+    <file src="..\Cocktail.SL5\Bin\Release\Cocktail*.*" target="lib\sl50" />
+    <file src="..\Cocktail.Utils.SL\Bin\Release\Cocktail*.*" target="lib\sl40" />
+    <file src="..\Cocktail.Utils.SL5\Bin\Release\Cocktail*.*" target="lib\sl50" />
     <file src="..\Cocktail\**\*.cs" target="src\Cocktail" />
     <file src="..\Cocktail\**\*.xaml" target="src\Cocktail" />
     <file src="..\Cocktail.Utils\**\*.cs" target="src\Cocktail.Utils" />

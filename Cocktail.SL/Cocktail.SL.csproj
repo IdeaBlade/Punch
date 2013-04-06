@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7ECA6212-BDB6-4325-946E-97D9C227E468}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cocktail</RootNamespace>
+    <AssemblyName>Cocktail.SL</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <BaseOutputPath>Bin</BaseOutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)</IntermediateOutputPath>
+    <OutputPath>$(BaseOutputPath)\$(Configuration)</OutputPath>
+    <DocumentationFile>$(BaseOutputPath)\$(Configuration)\Cocktail.SL.xml</DocumentationFile>
+    <SkipPostSharp>True</SkipPostSharp>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;SILVERLIGHT4</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE;SILVERLIGHT;SILVERLIGHT4</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\Cocktail\Cocktail.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Caliburn.Micro.1.5.0\lib\sl4\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.Core.SL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="IdeaBlade.EntityModel.SL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="IdeaBlade.Validation.SL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="IdeaBlade.Linq.SL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="mscorlib">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.ComponentModel.Composition.Initialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.ComponentModel.DataAnnotations, Version=2.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="system">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.1.4\lib\sl4\System.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Navigation, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.1.5.0\lib\sl4\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Cocktail\AuthenticationService.cs" />
+    <Compile Include="..\Cocktail\BinaryToImageSourceConverter.cs" />
+    <Compile Include="..\Cocktail\BusyWatcher.cs" />
+    <Compile Include="..\Cocktail\Composition.Client.cs">
+      <Link>Composition.Client.cs</Link>
+      <DependentUpon>Composition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\Cocktail\Composition.cs">
+      <Link>Composition.cs</Link>
+    </Compile>
+    <Compile Include="..\Cocktail\Composition.Silverlight.cs">
+      <Link>Composition.Silverlight.cs</Link>
+      <DependentUpon>Composition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\Cocktail\ConnectionOptions.cs" />
+    <Compile Include="..\Cocktail\DesignTimeViewModelLocatorBase.cs" />
+    <Compile Include="..\Cocktail\DialogButton.cs" />
+    <Compile Include="..\Cocktail\DialogHostFns.cs" />
+    <Compile Include="..\Cocktail\DialogHostBase.cs" />
+    <Compile Include="..\Cocktail\DialogManager.cs" />
+    <Compile Include="..\Cocktail\DialogOperationResult.cs" />
+    <Compile Include="..\Cocktail\DialogUICommand.cs" />
+    <Compile Include="..\Cocktail\EntityManagerEventMessage.cs" />
+    <Compile Include="..\Cocktail\EntityManagerProvider.cs" />
+    <Compile Include="..\Cocktail\DefaultDebugLogger.cs" />
+    <Compile Include="..\Cocktail\DataChangedEventArgs.cs" />
+    <Compile Include="..\Cocktail\DefaultEntityManagerSyncInterceptor.cs" />
+    <Compile Include="..\Cocktail\EntityManagerDelegate.cs" />
+    <Compile Include="..\Cocktail\EntityManagerSyncInterceptor.cs" />
+    <Compile Include="..\Cocktail\EntityManagerWrapper.cs" />
+    <Compile Include="..\Cocktail\EntityNotFoundException.cs" />
+    <Compile Include="..\Cocktail\EventFns.cs" />
+    <Compile Include="..\Cocktail\CoroutineFns.cs" />
+    <Compile Include="..\Cocktail\Factory.cs" />
+    <Compile Include="..\Cocktail\FakeStoreEntityManagerProviderFns.cs" />
+    <Compile Include="..\Cocktail\IBusyWatcher.cs" />
+    <Compile Include="..\Cocktail\IConnectionOptionsResolver.cs" />
+    <Compile Include="..\Cocktail\IDialogHost.cs" />
+    <Compile Include="..\Cocktail\IDialogManager.cs" />
+    <Compile Include="..\Cocktail\IDialogUICommand.cs" />
+    <Compile Include="..\Cocktail\IFactory.cs" />
+    <Compile Include="..\Cocktail\IPagerRepository.cs" />
+    <Compile Include="..\Cocktail\IRepository.cs" />
+    <Compile Include="..\Cocktail\IUICommand.cs" />
+    <Compile Include="..\Cocktail\IUnitOfWork.cs" />
+    <Compile Include="..\Cocktail\LogFns.cs" />
+    <Compile Include="..\Cocktail\MessageBoxBase.cs" />
+    <Compile Include="..\Cocktail\MessageBoxView.xaml.cs">
+      <DependentUpon>MessageBoxView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\Cocktail\NavigationService.cs" />
+    <Compile Include="..\Cocktail\OperationFns.cs" />
+    <Compile Include="..\Cocktail\FakeBackingStore.cs" />
+    <Compile Include="..\Cocktail\FrameworkBootstrapper.cs" />
+    <Compile Include="..\Cocktail\OperationResult.cs" />
+    <Compile Include="..\Cocktail\IAuthenticationService.cs" />
+    <Compile Include="..\Cocktail\IDiscoverableViewModel.cs" />
+    <Compile Include="..\Cocktail\IEntityManagerProvider.cs" />
+    <Compile Include="..\Cocktail\IEntityManagerSyncInterceptor.cs" />
+    <Compile Include="..\Cocktail\IHarnessAware.cs" />
+    <Compile Include="..\Cocktail\ISampleDataProvider.cs" />
+    <Compile Include="..\Cocktail\IValidationErrorNotification.cs" />
+    <Compile Include="..\Cocktail\NavigateResult.cs" />
+    <Compile Include="..\Cocktail\ObjectManager.cs" />
+    <Compile Include="..\Cocktail\Pager.cs" />
+    <Compile Include="..\Cocktail\PagerRepository.cs" />
+    <Compile Include="..\Cocktail\PartLocator.cs" />
+    <Compile Include="..\Cocktail\PathToImageSourceConverter.cs" />
+    <Compile Include="..\Cocktail\PrincipalChangedMessage.cs" />
+    <Compile Include="..\Cocktail\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Cocktail\HarnessViewModel.cs" />
+    <Compile Include="..\Cocktail\Repository.cs" />
+    <Compile Include="..\Cocktail\ShowDialogResult.cs" />
+    <Compile Include="..\Cocktail\StringResources.Designer.cs">
+      <Link>StringResources.Designer.cs</Link>
+      <DependentUpon>StringResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="DialogHostView.xaml.cs">
+      <DependentUpon>DialogHostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HarnessView.xaml.cs">
+      <DependentUpon>HarnessView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\Cocktail\SyncDataMessage.cs" />
+    <Compile Include="..\Cocktail\TraceLogger.cs" />
+    <Compile Include="..\Cocktail\UICommand.cs" />
+    <Compile Include="..\Cocktail\UnitOfWork.cs" />
+    <Compile Include="..\Cocktail\ValueConverterConvention.cs" />
+    <Compile Include="..\Cocktail\ValueConverterConventionRegistry.cs" />
+    <Compile Include="..\Cocktail\VisualStates.cs" />
+    <Compile Include="..\Cocktail\WeakRefDictionary.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="..\Cocktail\MessageBoxView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DialogHostView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HarnessView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Cocktail\Cocktail.snk" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Cocktail\StringResources.resx">
+      <Link>StringResources.resx</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+      <UserProperties DocumentXCommentEditorState="&lt;HtmlEditState&gt;&#xA;  &lt;Attributes&gt;&#xA;    &lt;Attribute key=&quot;dtscrollpos&quot; valuetype=&quot;integer&quot;&gt;0&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;lang_VB&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;lang_VBUsage&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;lang_CS&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;lang_CPP2005&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;inheritedMembers&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;protectedMembers&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;SyntaxGroup_SelectedTab&quot; valuetype=&quot;string&quot;&gt;SyntaxTab_VB&lt;/Attribute&gt;&#xA;  &lt;/Attributes&gt;&#xA;&lt;/HtmlEditState&gt;" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "$(SolutionDir)Bin\Silverlight 4\$(ConfigurationName)"
+xcopy "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\Silverlight 4\$(ConfigurationName)" /y
+xcopy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)Bin\Silverlight 4\$(ConfigurationName)" /y
+</PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

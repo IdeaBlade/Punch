@@ -26,19 +26,10 @@ namespace Cocktail
     /// <summary>
     /// Abstract base class for the FrameworkBootstrapper
     /// </summary>
-    public abstract class FrameworkBootstrapper : Bootstrapper
+    public abstract class FrameworkBootstrapper : BootstrapperBase
     {
         private bool _completed;
         private Action _completedActions;
-
-        /// <summary>
-        /// Static initialization
-        /// </summary>
-        static FrameworkBootstrapper()
-        {
-            DefaultDebugLogger.SetAsLogger();
-            Composition.EnsureRequiredProbeAssemblies();
-        }
 
         /// <summary>
         /// Creates an instance of FrameworkBootstrapper.
@@ -47,6 +38,9 @@ namespace Cocktail
         protected FrameworkBootstrapper(bool useApplication = true)
             : base(useApplication)
         {
+            DefaultDebugLogger.SetAsLogger();
+            Composition.EnsureRequiredProbeAssemblies();
+            Start();
         }
 
         /// <summary>Override to add additional exports to the CompositionHost during configuration.</summary>

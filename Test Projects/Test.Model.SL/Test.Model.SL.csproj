@@ -56,7 +56,7 @@
     <AssemblyOriginatorKeyFile>..\Test.Model\Cocktail.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IdeaBlade.Aop.SL, Version=6.1.12.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
+    <Reference Include="IdeaBlade.Aop.SL, Version=6.1.13.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
     <Reference Include="IdeaBlade.Core.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -67,9 +67,8 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="PostSharp.SL, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\PostSharp.2.1.7.29\lib\sl3\PostSharp.SL.dll</HintPath>
+    <Reference Include="PostSharp.SL">
+      <HintPath>..\..\packages\PostSharp.2.1.7.30\lib\sl3\PostSharp.SL.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Runtime.Serialization" />
@@ -85,6 +84,7 @@
     <Compile Include="..\Test.Model\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="RequiresPostSharp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Test.Model\Cocktail.snk" />
@@ -100,7 +100,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Import Project="..\..\packages\PostSharp.2.1.7.29\tools\PostSharp.targets" Condition="Exists('..\..\packages\PostSharp.2.1.7.29\tools\PostSharp.targets')" />
+  <Import Project="..\..\packages\PostSharp.2.1.7.30\tools\PostSharp.targets" Condition="Exists('..\..\packages\PostSharp.2.1.7.30\tools\PostSharp.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

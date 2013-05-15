@@ -19,7 +19,7 @@ Line of business applications need to query and save database data, model the da
     <copyright>Copyright 2013</copyright>
     <tags>Silverlight WPF SL5 SL Coroutine Asynchronous Caliburn.Micro DevForce Cocktail</tags>
     <dependencies>
-      <dependency id="IdeaBlade.DevForce.Compat" version="[7.1.1]" />
+      <dependency id="IdeaBlade.DevForce.Compat" version="[7.1.2]" />
       <dependency id="IdeaBlade.Cocktail" version="[2.3.0]" />
     </dependencies>
   </metadata>
@@ -28,7 +28,5 @@ Line of business applications need to query and save database data, model the da
     <file src="..\Cocktail.Compat.SL\Bin\Release\Cocktail.Compat.SL.*" target="lib\sl50" />
     <file src="..\Cocktail.Compat\**\*.cs" target="src\Cocktail.Compat" />
     <file src="..\Cocktail.Compat\**\*.xaml" target="src\Cocktail.Compat" />
-    <file src="..\Cocktail.Compat.SL\**\*.cs" target="src\Cocktail.Compat" />
-    <file src="..\Cocktail.Compat.SL\**\*.xaml" target="src\Cocktail.Compat" />
   </files>
 </package>

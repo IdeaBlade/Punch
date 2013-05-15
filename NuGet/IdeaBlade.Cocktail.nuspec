@@ -20,12 +20,12 @@ Line of business applications need to query and save database data, model the da
     <tags>MVVM Silverlight WPF SL5 SL Windows8 WinRT Metro Convention Screen Asynchronous Model-View-ViewModel Presentation UI ViewModel Caliburn.Micro DevForce ORM Entity Data LOB Enterprise</tags>
     <dependencies>
       <group>
-        <dependency id="IdeaBlade.DevForce.Core" version="[7.1.1]" />
+        <dependency id="IdeaBlade.DevForce.Core" version="[7.1.2]" />
         <dependency id="IdeaBlade.Cocktail.Utils" />
         <dependency id="Caliburn.Micro" version="[1.5.1]" />
       </group>
       <group targetFramework="net45">
-        <dependency id="IdeaBlade.DevForce.Core" version="[7.1.1]" />
+        <dependency id="IdeaBlade.DevForce.Core" version="[7.1.2]" />
         <dependency id="IdeaBlade.Cocktail.Utils" />
         <dependency id="Caliburn.Micro" version="1.5.1" />
       </group>
@@ -38,9 +38,5 @@ Line of business applications need to query and save database data, model the da
     <file src="..\Cocktail.WinRT\Bin\AnyCPU\Release\Cocktail*.xml" target="lib\netcore45" />
     <file src="..\Cocktail\**\*.cs" target="src\Cocktail" />
     <file src="..\Cocktail\**\*.xaml" target="src\Cocktail" />
-    <file src="..\Cocktail.SL\**\*.cs" target="src\Cocktail" />
-    <file src="..\Cocktail.SL\**\*.xaml" target="src\Cocktail" />
-    <file src="..\Cocktail.WinRT\**\*.cs" target="src\Cocktail" />
-    <file src="..\Cocktail.WinRT\**\*.xaml" target="src\Cocktail" />
   </files>
 </package>

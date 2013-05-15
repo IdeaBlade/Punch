@@ -25,7 +25,5 @@ Line of business applications need to query and save database data, model the da
     <file src="..\Cocktail.Utils.WinRT\Bin\AnyCPU\Release\Cocktail*.dll" target="lib\netcore45" />
     <file src="..\Cocktail.Utils.WinRT\Bin\AnyCPU\Release\Cocktail*.xml" target="lib\netcore45" />
     <file src="..\Cocktail.Utils\**\*.cs" target="src\Cocktail.Utils" />
-    <file src="..\Cocktail.Utils.SL\**\*.cs" target="src\Cocktail.Utils" />
-    <file src="..\Cocktail.Utils.WinRT\**\*.cs" target="src\Cocktail.Utils" />
   </files>
 </package>

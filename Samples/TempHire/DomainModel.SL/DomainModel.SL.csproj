@@ -88,27 +88,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.2.2\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.3.0\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Aop.SL, Version=7.1.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Aop.7.1.1\lib\sl50\IdeaBlade.Aop.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.Aop.SL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Aop.7.1.2\lib\sl50\IdeaBlade.Aop.SL.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core.SL, Version=7.1.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.1\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.Core.SL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.2\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.SL, Version=7.1.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.1\lib\sl50\IdeaBlade.EntityModel.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel.SL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.2\lib\sl50\IdeaBlade.EntityModel.SL.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq.SL, Version=7.1.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.1\lib\sl50\IdeaBlade.Linq.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.Linq.SL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.2\lib\sl50\IdeaBlade.Linq.SL.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Validation.SL, Version=7.1.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.1\lib\sl50\IdeaBlade.Validation.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.Validation.SL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.1.2\lib\sl50\IdeaBlade.Validation.SL.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Silverlight5, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

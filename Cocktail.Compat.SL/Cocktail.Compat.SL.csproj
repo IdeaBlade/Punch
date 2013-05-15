@@ -19,8 +19,8 @@
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <BaseOutputPath>Bin.SL</BaseOutputPath>
-    <IntermediateOutputPath>obj.SL\$(Configuration)</IntermediateOutputPath>
+    <BaseOutputPath>Bin</BaseOutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)</IntermediateOutputPath>
     <OutputPath>$(BaseOutputPath)\$(Configuration)</OutputPath>
     <DocumentationFile>$(BaseOutputPath)\$(Configuration)\Cocktail.Compat.SL.xml</DocumentationFile>
   </PropertyGroup>
@@ -100,34 +100,39 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AwaiterFns.cs" />
-    <Compile Include="Compatibility.cs" />
-    <Compile Include="CoroutineFns.cs" />
-    <Compile Include="IAwaitable.cs" />
-    <Compile Include="OperationFns.cs" />
-    <Compile Include="OperationResult.cs" />
-    <Compile Include="OperationResult.Task.cs">
+    <Compile Include="..\Cocktail.Compat\AwaiterFns.cs" />
+    <Compile Include="..\Cocktail.Compat\Compatibility.cs" />
+    <Compile Include="..\Cocktail.Compat\CoroutineFns.cs" />
+    <Compile Include="..\Cocktail.Compat\IAwaitable.cs" />
+    <Compile Include="..\Cocktail.Compat\OperationFns.cs" />
+    <Compile Include="..\Cocktail.Compat\OperationResult.cs" />
+    <Compile Include="..\Cocktail.Compat\OperationResult.Task.cs">
       <DependentUpon>OperationResult.cs</DependentUpon>
     </Compile>
-    <Compile Include="PageOperationResult.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringResources.Designer.cs">
+    <Compile Include="..\Cocktail.Compat\PageOperationResult.cs" />
+    <Compile Include="..\Cocktail.Compat\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Cocktail.Compat\StringResources.Designer.cs">
+      <Link>StringResources.Designer.cs</Link>
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TaskExtensions.cs" />
+    <Compile Include="..\Cocktail.Compat\TaskExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Cocktail.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cocktail\Cocktail.SL.csproj">
+    <EmbeddedResource Include="..\Cocktail.Compat\StringResources.resx">
+      <Link>StringResources.resx</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cocktail.SL\Cocktail.SL.csproj">
       <Project>{65fce695-2e91-4245-86d6-3fb3486aefad}</Project>
       <Name>Cocktail.SL</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="StringResources.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>

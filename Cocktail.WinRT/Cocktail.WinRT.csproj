@@ -14,8 +14,8 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <BaseOutputPath>Bin.WinRT</BaseOutputPath>
-    <IntermediateOutputPath>obj.WinRT\$(Platform)\$(Configuration)</IntermediateOutputPath>
+    <BaseOutputPath>Bin</BaseOutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)</IntermediateOutputPath>
     <OutputPath>$(BaseOutputPath)\$(Platform)\$(Configuration)</OutputPath>
     <DocumentationFile>$(BaseOutputPath)\$(Platform)\$(Configuration)\Cocktail.WinRT.xml</DocumentationFile>
     <SkipPostSharp>True</SkipPostSharp>
@@ -98,70 +98,73 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AuthenticationService.cs" />
-    <Compile Include="BusyWatcher.cs" />
-    <Compile Include="CocktailWindowsStoreApplication.cs" />
-    <Compile Include="Composition.cs" />
-    <Compile Include="ConnectionOptions.cs" />
-    <Compile Include="DataChangedEventArgs.cs" />
-    <Compile Include="DefaultDebugLogger.cs" />
-    <Compile Include="DefaultEntityManagerSyncInterceptor.cs" />
-    <Compile Include="DesignTime.cs" />
-    <Compile Include="DesignTimeViewModelLocatorBase.cs" />
-    <Compile Include="EntityManagerDelegate.cs" />
-    <Compile Include="EntityManagerEventMessage.cs" />
-    <Compile Include="EntityManagerProvider.cs" />
-    <Compile Include="EntityManagerSyncInterceptor.cs" />
-    <Compile Include="EntityManagerWrapper.cs" />
-    <Compile Include="EntityNotFoundException.cs" />
-    <Compile Include="EventFns.cs" />
-    <Compile Include="Factory.cs" />
-    <Compile Include="FakeBackingStore.cs" />
-    <Compile Include="FakeStoreEntityManagerProviderFns.cs" />
-    <Compile Include="IAuthenticationService.cs" />
-    <Compile Include="IBusyWatcher.cs" />
-    <Compile Include="ICompositionProvider.cs" />
-    <Compile Include="IConnectionOptionsResolver.cs" />
-    <Compile Include="IDiscoverableViewModel.cs" />
-    <Compile Include="IEntityManagerProvider.cs" />
-    <Compile Include="IEntityManagerSyncInterceptor.cs" />
-    <Compile Include="IFactory.cs" />
-    <Compile Include="IHarnessAware.cs" />
-    <Compile Include="IPagerRepository.cs" />
-    <Compile Include="IRepository.cs" />
-    <Compile Include="ISampleDataProvider.cs" />
-    <Compile Include="IUnitOfWork.cs" />
-    <Compile Include="IValidationErrorNotification.cs" />
-    <Compile Include="LogFns.cs" />
-    <Compile Include="MefCompositionFactory.cs" />
-    <Compile Include="MefCompositionProvider.DevForce.cs">
+    <Compile Include="..\Cocktail\AuthenticationService.cs" />
+    <Compile Include="..\Cocktail\BusyWatcher.cs" />
+    <Compile Include="..\Cocktail\CocktailWindowsStoreApplication.cs" />
+    <Compile Include="..\Cocktail\Composition.cs" />
+    <Compile Include="..\Cocktail\ConnectionOptions.cs" />
+    <Compile Include="..\Cocktail\DataChangedEventArgs.cs" />
+    <Compile Include="..\Cocktail\DefaultDebugLogger.cs" />
+    <Compile Include="..\Cocktail\DefaultEntityManagerSyncInterceptor.cs" />
+    <Compile Include="..\Cocktail\DesignTime.cs" />
+    <Compile Include="..\Cocktail\DesignTimeViewModelLocatorBase.cs" />
+    <Compile Include="..\Cocktail\EntityManagerDelegate.cs" />
+    <Compile Include="..\Cocktail\EntityManagerEventMessage.cs" />
+    <Compile Include="..\Cocktail\EntityManagerProvider.cs" />
+    <Compile Include="..\Cocktail\EntityManagerSyncInterceptor.cs" />
+    <Compile Include="..\Cocktail\EntityManagerWrapper.cs" />
+    <Compile Include="..\Cocktail\EntityNotFoundException.cs" />
+    <Compile Include="..\Cocktail\EventFns.cs" />
+    <Compile Include="..\Cocktail\Factory.cs" />
+    <Compile Include="..\Cocktail\FakeBackingStore.cs" />
+    <Compile Include="..\Cocktail\FakeStoreEntityManagerProviderFns.cs" />
+    <Compile Include="..\Cocktail\IAuthenticationService.cs" />
+    <Compile Include="..\Cocktail\IBusyWatcher.cs" />
+    <Compile Include="..\Cocktail\ICompositionProvider.cs" />
+    <Compile Include="..\Cocktail\IConnectionOptionsResolver.cs" />
+    <Compile Include="..\Cocktail\IDiscoverableViewModel.cs" />
+    <Compile Include="..\Cocktail\IEntityManagerProvider.cs" />
+    <Compile Include="..\Cocktail\IEntityManagerSyncInterceptor.cs" />
+    <Compile Include="..\Cocktail\IFactory.cs" />
+    <Compile Include="..\Cocktail\IHarnessAware.cs" />
+    <Compile Include="..\Cocktail\IPagerRepository.cs" />
+    <Compile Include="..\Cocktail\IRepository.cs" />
+    <Compile Include="..\Cocktail\ISampleDataProvider.cs" />
+    <Compile Include="..\Cocktail\IUnitOfWork.cs" />
+    <Compile Include="..\Cocktail\IValidationErrorNotification.cs" />
+    <Compile Include="..\Cocktail\LogFns.cs" />
+    <Compile Include="..\Cocktail\MefCompositionFactory.cs" />
+    <Compile Include="..\Cocktail\MefCompositionProvider.DevForce.cs">
       <DependentUpon>MefCompositionProvider.WinRT.cs</DependentUpon>
     </Compile>
-    <Compile Include="MefCompositionProvider.WinRT.cs" />
-    <Compile Include="Navigator.cs" />
-    <Compile Include="Navigator.WinRT.cs">
+    <Compile Include="..\Cocktail\MefCompositionProvider.WinRT.cs" />
+    <Compile Include="..\Cocktail\Navigator.cs" />
+    <Compile Include="..\Cocktail\Navigator.WinRT.cs">
       <DependentUpon>Navigator.cs</DependentUpon>
     </Compile>
-    <Compile Include="ObjectManager.cs" />
-    <Compile Include="Pager.cs" />
-    <Compile Include="PagerRepository.cs" />
-    <Compile Include="PartLocator.cs" />
-    <Compile Include="PrincipalChangedMessage.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionExtensions.cs">
+    <Compile Include="..\Cocktail\ObjectManager.cs" />
+    <Compile Include="..\Cocktail\Pager.cs" />
+    <Compile Include="..\Cocktail\PagerRepository.cs" />
+    <Compile Include="..\Cocktail\PartLocator.cs" />
+    <Compile Include="..\Cocktail\PrincipalChangedMessage.cs" />
+    <Compile Include="..\Cocktail\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Cocktail\ReflectionExtensions.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Repository.cs" />
-    <Compile Include="StringResources1.Designer.cs">
+    <Compile Include="..\Cocktail\Repository.cs" />
+    <Compile Include="..\Cocktail\StringResources.WinRT.Designer.cs">
+      <Link>StringResources.WinRT.Designer.cs</Link>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SyncDataMessage.cs" />
-    <Compile Include="TaskFns.cs" />
-    <Compile Include="TraceLogger.cs" />
-    <Compile Include="UnitOfWork.cs" />
-    <Compile Include="WeakRefDictionary.cs" />
+    <Compile Include="..\Cocktail\SyncDataMessage.cs" />
+    <Compile Include="..\Cocktail\TaskFns.cs" />
+    <Compile Include="..\Cocktail\TraceLogger.cs" />
+    <Compile Include="..\Cocktail\UnitOfWork.cs" />
+    <Compile Include="..\Cocktail\WeakRefDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
@@ -214,9 +217,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="StringResources.resx">
+    <EmbeddedResource Include="..\Cocktail\StringResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>StringResources1.Designer.cs</LastGenOutput>
+      <LastGenOutput>StringResources.WinRT.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

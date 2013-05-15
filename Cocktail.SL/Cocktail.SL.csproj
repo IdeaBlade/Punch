@@ -17,8 +17,8 @@
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <BaseOutputPath>Bin.SL</BaseOutputPath>
-    <IntermediateOutputPath>obj.SL\$(Configuration)</IntermediateOutputPath>
+    <BaseOutputPath>Bin</BaseOutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)</IntermediateOutputPath>
     <OutputPath>$(BaseOutputPath)\$(Configuration)</OutputPath>
     <DocumentationFile>$(BaseOutputPath)\$(Configuration)\Cocktail.SL.xml</DocumentationFile>
     <SkipPostSharp>True</SkipPostSharp>
@@ -118,132 +118,131 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthenticationService.cs" />
-    <Compile Include="BinaryToImageSourceConverter.cs" />
-    <Compile Include="BusyWatcher.cs" />
-    <Compile Include="CocktailBootstrapper.cs" />
-    <Compile Include="Composition.Silverlight.cs">
+    <Compile Include="..\Cocktail\AuthenticationService.cs" />
+    <Compile Include="..\Cocktail\BinaryToImageSourceConverter.cs" />
+    <Compile Include="..\Cocktail\BusyWatcher.cs" />
+    <Compile Include="..\Cocktail\CocktailBootstrapper.cs" />
+    <Compile Include="..\Cocktail\Composition.Silverlight.cs">
       <DependentUpon>Composition.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConnectionOptions.cs" />
-    <Compile Include="DesignTime.cs" />
-    <Compile Include="DesignTimeViewModelLocatorBase.cs" />
-    <Compile Include="Dialog.cs" />
-    <Compile Include="DialogButton.cs" />
-    <Compile Include="DialogHostFns.cs" />
-    <Compile Include="DialogHostBase.cs" />
-    <Compile Include="DialogManager.cs" />
-    <Compile Include="DialogUICommand.cs" />
-    <Compile Include="EntityManagerEventMessage.cs" />
-    <Compile Include="EntityManagerProvider.cs" />
-    <Compile Include="DefaultDebugLogger.cs" />
-    <Compile Include="Composition.cs" />
-    <Compile Include="DataChangedEventArgs.cs" />
-    <Compile Include="DefaultEntityManagerSyncInterceptor.cs" />
-    <Compile Include="EntityManagerDelegate.cs" />
-    <Compile Include="EntityManagerSyncInterceptor.cs" />
-    <Compile Include="EntityManagerWrapper.cs" />
-    <Compile Include="EntityNotFoundException.cs" />
-    <Compile Include="EventFns.cs" />
-    <Compile Include="Factory.cs" />
-    <Compile Include="FakeStoreEntityManagerProviderFns.cs" />
-    <Compile Include="HarnessViewModel.Desktop.cs">
+    <Compile Include="..\Cocktail\ConnectionOptions.cs" />
+    <Compile Include="..\Cocktail\DesignTime.cs" />
+    <Compile Include="..\Cocktail\DesignTimeViewModelLocatorBase.cs" />
+    <Compile Include="..\Cocktail\Dialog.cs" />
+    <Compile Include="..\Cocktail\DialogButton.cs" />
+    <Compile Include="..\Cocktail\DialogHostFns.cs" />
+    <Compile Include="..\Cocktail\DialogHostBase.cs" />
+    <Compile Include="..\Cocktail\DialogManager.cs" />
+    <Compile Include="..\Cocktail\DialogUICommand.cs" />
+    <Compile Include="..\Cocktail\EntityManagerEventMessage.cs" />
+    <Compile Include="..\Cocktail\EntityManagerProvider.cs" />
+    <Compile Include="..\Cocktail\DefaultDebugLogger.cs" />
+    <Compile Include="..\Cocktail\Composition.cs" />
+    <Compile Include="..\Cocktail\DataChangedEventArgs.cs" />
+    <Compile Include="..\Cocktail\DefaultEntityManagerSyncInterceptor.cs" />
+    <Compile Include="..\Cocktail\EntityManagerDelegate.cs" />
+    <Compile Include="..\Cocktail\EntityManagerSyncInterceptor.cs" />
+    <Compile Include="..\Cocktail\EntityManagerWrapper.cs" />
+    <Compile Include="..\Cocktail\EntityNotFoundException.cs" />
+    <Compile Include="..\Cocktail\EventFns.cs" />
+    <Compile Include="..\Cocktail\Factory.cs" />
+    <Compile Include="..\Cocktail\FakeStoreEntityManagerProviderFns.cs" />
+    <Compile Include="..\Cocktail\HarnessViewModel.Desktop.cs">
       <DependentUpon>HarnessViewModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="IBusyWatcher.cs" />
-    <Compile Include="ICompositionProvider.cs" />
-    <Compile Include="ICompositionProvider.Silverlight.cs">
+    <Compile Include="..\Cocktail\IBusyWatcher.cs" />
+    <Compile Include="..\Cocktail\ICompositionProvider.cs" />
+    <Compile Include="..\Cocktail\ICompositionProvider.Silverlight.cs">
       <DependentUpon>ICompositionProvider.cs</DependentUpon>
     </Compile>
-    <Compile Include="IConnectionOptionsResolver.cs" />
-    <Compile Include="IDialogHost.cs" />
-    <Compile Include="IDialogManager.cs" />
-    <Compile Include="IDialogUICommand.cs" />
-    <Compile Include="IFactory.cs" />
-    <Compile Include="IPagerRepository.cs" />
-    <Compile Include="IRepository.cs" />
-    <Compile Include="IUICommand.cs" />
-    <Compile Include="IUnitOfWork.cs" />
-    <Compile Include="LogFns.cs" />
-    <Compile Include="MefCompositionFactory.cs" />
-    <Compile Include="MefCompositionProvider.Desktop.cs" />
-    <Compile Include="MefCompositionProvider.DevForce.cs">
+    <Compile Include="..\Cocktail\IConnectionOptionsResolver.cs" />
+    <Compile Include="..\Cocktail\IDialogHost.cs" />
+    <Compile Include="..\Cocktail\IDialogManager.cs" />
+    <Compile Include="..\Cocktail\IDialogUICommand.cs" />
+    <Compile Include="..\Cocktail\IFactory.cs" />
+    <Compile Include="..\Cocktail\IPagerRepository.cs" />
+    <Compile Include="..\Cocktail\IRepository.cs" />
+    <Compile Include="..\Cocktail\IUICommand.cs" />
+    <Compile Include="..\Cocktail\IUnitOfWork.cs" />
+    <Compile Include="..\Cocktail\LogFns.cs" />
+    <Compile Include="..\Cocktail\MefCompositionFactory.cs" />
+    <Compile Include="..\Cocktail\MefCompositionProvider.Desktop.cs" />
+    <Compile Include="..\Cocktail\MefCompositionProvider.DevForce.cs">
       <DependentUpon>MefCompositionProvider.Desktop.cs</DependentUpon>
     </Compile>
-    <Compile Include="MefCompositionProvider.Silverlight.cs">
+    <Compile Include="..\Cocktail\MefCompositionProvider.Silverlight.cs">
       <DependentUpon>MefCompositionProvider.Desktop.cs</DependentUpon>
     </Compile>
-    <Compile Include="MessageBoxBase.cs" />
-    <Compile Include="MessageBoxView.xaml.cs">
+    <Compile Include="..\Cocktail\MessageBoxBase.cs" />
+    <Compile Include="..\Cocktail\MessageBoxView.xaml.cs">
       <DependentUpon>MessageBoxView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FakeBackingStore.cs" />
-    <Compile Include="IAuthenticationService.cs" />
-    <Compile Include="IDiscoverableViewModel.cs" />
-    <Compile Include="IEntityManagerProvider.cs" />
-    <Compile Include="IEntityManagerSyncInterceptor.cs" />
-    <Compile Include="IHarnessAware.cs" />
-    <Compile Include="ISampleDataProvider.cs" />
-    <Compile Include="IValidationErrorNotification.cs" />
-    <Compile Include="Navigator.cs" />
-    <Compile Include="Navigator.Desktop.cs">
+    <Compile Include="..\Cocktail\FakeBackingStore.cs" />
+    <Compile Include="..\Cocktail\IAuthenticationService.cs" />
+    <Compile Include="..\Cocktail\IDiscoverableViewModel.cs" />
+    <Compile Include="..\Cocktail\IEntityManagerProvider.cs" />
+    <Compile Include="..\Cocktail\IEntityManagerSyncInterceptor.cs" />
+    <Compile Include="..\Cocktail\IHarnessAware.cs" />
+    <Compile Include="..\Cocktail\ISampleDataProvider.cs" />
+    <Compile Include="..\Cocktail\IValidationErrorNotification.cs" />
+    <Compile Include="..\Cocktail\Navigator.cs" />
+    <Compile Include="..\Cocktail\Navigator.Desktop.cs">
       <DependentUpon>Navigator.cs</DependentUpon>
     </Compile>
-    <Compile Include="ObjectManager.cs" />
-    <Compile Include="Pager.cs" />
-    <Compile Include="PagerRepository.cs" />
-    <Compile Include="PartLocator.cs" />
-    <Compile Include="PathToImageSourceConverter.cs" />
-    <Compile Include="PrincipalChangedMessage.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HarnessViewModel.cs" />
-    <Compile Include="ReflectionExtensions.cs" />
-    <Compile Include="Repository.cs" />
-    <Compile Include="Silverlight\DialogHostView.xaml.cs">
-      <DependentUpon>DialogHostView.xaml</DependentUpon>
+    <Compile Include="..\Cocktail\ObjectManager.cs" />
+    <Compile Include="..\Cocktail\Pager.cs" />
+    <Compile Include="..\Cocktail\PagerRepository.cs" />
+    <Compile Include="..\Cocktail\PartLocator.cs" />
+    <Compile Include="..\Cocktail\PathToImageSourceConverter.cs" />
+    <Compile Include="..\Cocktail\PrincipalChangedMessage.cs" />
+    <Compile Include="..\Cocktail\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Silverlight\HarnessView.xaml.cs">
-      <DependentUpon>HarnessView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="StringResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
+    <Compile Include="..\Cocktail\HarnessViewModel.cs" />
+    <Compile Include="..\Cocktail\ReflectionExtensions.cs" />
+    <Compile Include="..\Cocktail\Repository.cs" />
+    <Compile Include="..\Cocktail\StringResources.Designer.cs">
+      <Link>StringResources.Designer.cs</Link>
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SyncDataMessage.cs" />
-    <Compile Include="TaskFns.cs" />
-    <Compile Include="TraceLogger.cs" />
-    <Compile Include="UICommand.cs" />
-    <Compile Include="UnitOfWork.cs" />
-    <Compile Include="ValueConverterConvention.cs" />
-    <Compile Include="ValueConverterConventionRegistry.cs" />
-    <Compile Include="VisualStates.cs" />
-    <Compile Include="WeakRefDictionary.cs" />
+    <Compile Include="..\Cocktail\SyncDataMessage.cs" />
+    <Compile Include="..\Cocktail\TaskFns.cs" />
+    <Compile Include="..\Cocktail\TraceLogger.cs" />
+    <Compile Include="..\Cocktail\UICommand.cs" />
+    <Compile Include="..\Cocktail\UnitOfWork.cs" />
+    <Compile Include="..\Cocktail\ValueConverterConvention.cs" />
+    <Compile Include="..\Cocktail\ValueConverterConventionRegistry.cs" />
+    <Compile Include="..\Cocktail\VisualStates.cs" />
+    <Compile Include="..\Cocktail\WeakRefDictionary.cs" />
+    <Compile Include="DialogHostView.xaml.cs">
+      <DependentUpon>DialogHostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HarnessView.xaml.cs">
+      <DependentUpon>HarnessView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MessageBoxView.xaml">
+    <Page Include="..\Cocktail\MessageBoxView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Silverlight\DialogHostView.xaml">
+    <Page Include="DialogHostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Silverlight\HarnessView.xaml">
+    <Page Include="HarnessView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="StringResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>StringResources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Cocktail.snk" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Cocktail\StringResources.resx">
+      <Link>StringResources.resx</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>

@@ -33,10 +33,14 @@ Line of business applications need to query and save database data, model the da
   </metadata>
   <files>
     <file src="..\Cocktail\Bin\Release\Cocktail*.*" target="lib\net45" />
-    <file src="..\Cocktail\Bin.SL\Release\Cocktail*.*" target="lib\sl50" />
-    <file src="..\Cocktail\Bin.WinRT\AnyCPU\Release\Cocktail*.dll" target="lib\netcore45" />
-    <file src="..\Cocktail\Bin.WinRT\AnyCPU\Release\Cocktail*.xml" target="lib\netcore45" />
+    <file src="..\Cocktail.SL\Bin\Release\Cocktail*.*" target="lib\sl50" />
+    <file src="..\Cocktail.WinRT\Bin\AnyCPU\Release\Cocktail*.dll" target="lib\netcore45" />
+    <file src="..\Cocktail.WinRT\Bin\AnyCPU\Release\Cocktail*.xml" target="lib\netcore45" />
     <file src="..\Cocktail\**\*.cs" target="src\Cocktail" />
     <file src="..\Cocktail\**\*.xaml" target="src\Cocktail" />
+    <file src="..\Cocktail.SL\**\*.cs" target="src\Cocktail" />
+    <file src="..\Cocktail.SL\**\*.xaml" target="src\Cocktail" />
+    <file src="..\Cocktail.WinRT\**\*.cs" target="src\Cocktail" />
+    <file src="..\Cocktail.WinRT\**\*.xaml" target="src\Cocktail" />
   </files>
 </package>

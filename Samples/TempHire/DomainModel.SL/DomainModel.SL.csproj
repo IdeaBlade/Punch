@@ -17,7 +17,7 @@
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <BaseOutputPath>Bin.SL</BaseOutputPath>
+    <BaseOutputPath>Bin</BaseOutputPath>
     <OutputPath>$(BaseOutputPath)\$(Configuration)</OutputPath>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>

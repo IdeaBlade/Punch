@@ -18,8 +18,8 @@
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <SkipPostSharp>True</SkipPostSharp>
-    <BaseOutputPath>Bin.SL</BaseOutputPath>
-    <IntermediateOutputPath>obj.SL\$(Configuration)</IntermediateOutputPath>
+    <BaseOutputPath>Bin</BaseOutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)</IntermediateOutputPath>
     <OutputPath>$(BaseOutputPath)\$(Configuration)</OutputPath>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
@@ -145,42 +145,89 @@
     </Reference>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Demo|AnyCPU'">
-    <Compile Include="DemoConnectionOptionsResolver.cs" />
+    <Compile Include="..\Common\DemoConnectionOptionsResolver.cs">
+      <Link>DemoConnectionOptionsResolver.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviors\InitialFocusBehavior.cs" />
-    <Compile Include="Behaviors\ScrollIntoViewBehavior.cs" />
-    <Compile Include="Behaviors\SelectAllOnFocusBehavior.cs" />
-    <Compile Include="BootstrapperBase.cs" />
-    <Compile Include="EditMode.cs" />
-    <Compile Include="Messages\EntityChangedMessage.cs" />
-    <Compile Include="Security\IUserService.cs" />
-    <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="Converters\SourceToTabItemsConverter.cs" />
-    <Compile Include="Errors\ErrorHandler.cs" />
-    <Compile Include="Errors\IErrorHandler.cs" />
-    <Compile Include="Messages\IMessageProcessor.cs" />
-    <Compile Include="Messages\MessageProcessor.cs" />
-    <Compile Include="Messages\SavedMessage.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Toolbar\IToolbarManager.cs" />
-    <Compile Include="Toolbar\ToolbarAction.cs" />
-    <Compile Include="Toolbar\ToolbarManager.cs" />
-    <Compile Include="Validation\ValidationErrorHandler.cs" />
-    <Compile Include="Validation\ValidationErrorMessage.cs" />
-    <Compile Include="Validation\ValidationErrorMessageProcessor.cs" />
-    <Compile Include="Validation\ValidationErrorsViewModel.cs" />
-    <Compile Include="Workspace\IWorkspace.cs" />
-    <Compile Include="Workspace\Workspace.cs" />
+    <Compile Include="..\Common\Behaviors\InitialFocusBehavior.cs">
+      <Link>Behaviors\InitialFocusBehavior.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Behaviors\ScrollIntoViewBehavior.cs">
+      <Link>Behaviors\ScrollIntoViewBehavior.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Behaviors\SelectAllOnFocusBehavior.cs">
+      <Link>Behaviors\SelectAllOnFocusBehavior.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\BootstrapperBase.cs">
+      <Link>BootstrapperBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Converters\InverseBooleanConverter.cs">
+      <Link>Converters\InverseBooleanConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Converters\SourceToTabItemsConverter.cs">
+      <Link>Converters\SourceToTabItemsConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\EditMode.cs">
+      <Link>EditMode.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Errors\ErrorHandler.cs">
+      <Link>Errors\ErrorHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Errors\IErrorHandler.cs">
+      <Link>Errors\IErrorHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Messages\EntityChangedMessage.cs">
+      <Link>Messages\EntityChangedMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Messages\IMessageProcessor.cs">
+      <Link>Messages\IMessageProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Messages\MessageProcessor.cs">
+      <Link>Messages\MessageProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Messages\SavedMessage.cs">
+      <Link>Messages\SavedMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Security\IUserService.cs">
+      <Link>Security\IUserService.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Toolbar\IToolbarManager.cs">
+      <Link>Toolbar\IToolbarManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Toolbar\ToolbarAction.cs">
+      <Link>Toolbar\ToolbarAction.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Toolbar\ToolbarManager.cs">
+      <Link>Toolbar\ToolbarManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Validation\ValidationErrorHandler.cs">
+      <Link>Validation\ValidationErrorHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Validation\ValidationErrorMessage.cs">
+      <Link>Validation\ValidationErrorMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Validation\ValidationErrorMessageProcessor.cs">
+      <Link>Validation\ValidationErrorMessageProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Validation\ValidationErrorsViewModel.cs">
+      <Link>Validation\ValidationErrorsViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Workspace\IWorkspace.cs">
+      <Link>Workspace\IWorkspace.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Workspace\Workspace.cs">
+      <Link>Workspace\Workspace.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Validation\ValidationErrorsView.Silverlight.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\error_button.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Security.SL\Security.SL.csproj">
@@ -191,6 +238,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\Common\Images\error_button.png">
+      <Link>Images\error_button.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

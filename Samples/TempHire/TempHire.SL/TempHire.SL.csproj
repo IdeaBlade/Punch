@@ -3,14 +3,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3CDF9103-91FB-417E-81A8-AEC269276939}</ProjectGuid>
+    <ProjectGuid>{FD6E0F30-F43E-44C8-A030-CC0F2B19E052}</ProjectGuid>
     <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TempHire</RootNamespace>
-    <AssemblyName>Harness</AssemblyName>
+    <AssemblyName>TempHire</AssemblyName>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
@@ -19,40 +19,27 @@
     </SupportedCultures>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
-    <XapFilename>Harness.xap</XapFilename>
+    <XapFilename>TempHire.xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
-    <SilverlightAppEntry>Harness.App</SilverlightAppEntry>
-    <TestPageFileName>HarnessTestPage.html</TestPageFileName>
+    <SilverlightAppEntry>TempHire.App</SilverlightAppEntry>
+    <TestPageFileName>TestPage.html</TestPageFileName>
     <CreateTestPage>true</CreateTestPage>
     <ValidateXaml>true</ValidateXaml>
-    <EnableOutOfBrowser>false</EnableOutOfBrowser>
-    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
-    <UsePlatformExtensions>false</UsePlatformExtensions>
-    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <LinkedServerProject>
-    </LinkedServerProject>
-    <Utf8Output>true</Utf8Output>
-    <ExpressionBlendVersion>4.0.20901.0</ExpressionBlendVersion>
+    <ThrowErrorsInValidation>false</ThrowErrorsInValidation>
     <SkipPostSharp>True</SkipPostSharp>
-    <BaseOutputPath>Bin.SL</BaseOutputPath>
-    <IntermediateOutputPath>obj.SL\$(Configuration)</IntermediateOutputPath>
+    <BaseOutputPath>Bin</BaseOutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)</IntermediateOutputPath>
     <OutputPath>$(BaseOutputPath)\$(Configuration)</OutputPath>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <DontImportPostSharp>True</DontImportPostSharp>
   </PropertyGroup>
-  <!-- This property group is only here to support building this project using the 
-       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
-       to set the TargetFrameworkVersion to v3.5 -->
-  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;HARNESS</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -71,30 +58,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Fakestore|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;HARNESS;FAKESTORE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;FAKESTORE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>Bin\Debug\Harness.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <NoConfig>true</NoConfig>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Demo|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Demo\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;HARNESS</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>Bin.SL\Debug\Harness.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>Bin\Debug\TempHire.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
@@ -103,6 +71,26 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <NoConfig>true</NoConfig>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Demo|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Demo\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;DEMO</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>Bin\Debug\TempHire.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
     <NoConfig>true</NoConfig>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -136,16 +124,16 @@
       <HintPath>..\packages\Microsoft.CompilerServices.AsyncTargetingPack.1.0.0\lib\sl50\Microsoft.CompilerServices.AsyncTargetingPack.Silverlight5.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
+    <Reference Include="system" />
     <Reference Include="System.ComponentModel.Composition, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.ComponentModel.Composition.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition.Initialization, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.ComponentModel.DataAnnotations, Version=5.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
-    <Reference Include="system" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Windows.Controls, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.1.4\lib\sl5\System.Windows.Controls.dll</HintPath>
     </Reference>
@@ -169,8 +157,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\TempHire\AppBootstrapper.cs">
+      <Link>AppBootstrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\Authentication\TempHireAuthenticationService.cs">
+      <Link>Authentication\TempHireAuthenticationService.cs</Link>
+    </Compile>
     <Compile Include="..\TempHire\EntityManagerDelegate.cs">
       <Link>EntityManagerDelegate.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\EntityManagerProviderFactory.cs">
+      <Link>EntityManagerProviderFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\GlobalCache.cs">
+      <Link>GlobalCache.cs</Link>
+    </Compile>
+    <Compile Include="..\TempHire\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="..\TempHire\SyncInterceptor.cs">
       <Link>SyncInterceptor.cs</Link>
@@ -235,27 +238,22 @@
     <Compile Include="App.Silverlight.xaml.cs">
       <DependentUpon>App.Silverlight.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="Authentication\FakeAuthenticationService.cs" />
-    <Compile Include="DesignTimeSupport\DesignTimeResourceMgtUnitOfWorkManager.cs" />
-    <Compile Include="DesignTimeSupport\ViewModelLocator.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.SL.csproj">
-      <Project>{3D676816-91A4-4B53-877E-95FE5B348480}</Project>
+    <ProjectReference Include="..\Common.SL\Common.SL.csproj">
+      <Project>{3d676816-91a4-4b53-877e-95fe5b348480}</Project>
       <Name>Common.SL</Name>
     </ProjectReference>
     <ProjectReference Include="..\DomainModel.SL\DomainModel.SL.csproj">
       <Project>{77A1A2B1-66E8-4141-8405-87AB13775FB8}</Project>
       <Name>DomainModel.SL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DomainServices\DomainServices.SL.csproj">
-      <Project>{DD374D18-BED3-42B6-8795-EFEEF3752C0C}</Project>
+    <ProjectReference Include="..\DomainServices.SL\DomainServices.SL.csproj">
+      <Project>{dd374d18-bed3-42b6-8795-efeef3752c0c}</Project>
       <Name>DomainServices.SL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Security.SL\Security.SL.csproj">
@@ -263,17 +261,21 @@
       <Name>Security.SL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Resource Include="..\TempHire\Styles\Styles.Silverlight.xaml">
-      <Link>Styles\Styles.Silverlight.xaml</Link>
+    <ApplicationDefinition Include="App.Silverlight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Resource Include="Styles\Styles.Silverlight.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Resource Include="..\TempHire\Styles\Styles.xaml">
+    <Page Include="..\TempHire\Styles\Styles.xaml">
       <Link>Styles\Styles.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Resource>
+    </Page>
     <Page Include="..\TempHire\Views\HomeView.xaml">
       <Link>Views\HomeView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -281,16 +283,6 @@
     </Page>
     <Page Include="..\TempHire\Views\ItemSelectorView.xaml">
       <Link>Views\ItemSelectorView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\Login\LoginView.Silverlight.xaml">
-      <Link>Views\Login\LoginView.Silverlight.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\ShellView.Silverlight.xaml">
-      <Link>Views\ShellView.Silverlight.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -309,11 +301,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceDetailView.Silverlight.xaml">
-      <Link>Views\StaffingResource\StaffingResourceDetailView.Silverlight.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceNameEditorView.xaml">
       <Link>Views\StaffingResource\StaffingResourceNameEditorView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -324,40 +311,44 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceRatesView.Silverlight.xaml">
-      <Link>Views\StaffingResource\StaffingResourceRatesView.Silverlight.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSearchView.Silverlight.xaml">
-      <Link>Views\StaffingResource\StaffingResourceSearchView.Silverlight.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSkillsView.Silverlight.xaml">
-      <Link>Views\StaffingResource\StaffingResourceSkillsView.Silverlight.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceSummaryView.xaml">
       <Link>Views\StaffingResource\StaffingResourceSummaryView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\TempHire\Views\StaffingResource\StaffingResourceWorkExperienceView.Silverlight.xaml">
-      <Link>Views\StaffingResource\StaffingResourceWorkExperienceView.Silverlight.xaml</Link>
+    <Page Include="Views\Login\LoginView.Silverlight.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <ApplicationDefinition Include="App.Silverlight.xaml">
+    <Page Include="Views\ShellView.Silverlight.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </ApplicationDefinition>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceDetailView.Silverlight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceRatesView.Silverlight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceSearchView.Silverlight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceSkillsView.Silverlight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StaffingResource\StaffingResourceWorkExperienceView.Silverlight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
+
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">

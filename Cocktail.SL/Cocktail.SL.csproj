@@ -160,6 +160,9 @@
     <Compile Include="..\Cocktail\IDialogManager.cs" />
     <Compile Include="..\Cocktail\IDialogUICommand.cs" />
     <Compile Include="..\Cocktail\IFactory.cs" />
+    <Compile Include="..\Cocktail\INavigationTarget.cs">
+      <Link>INavigationTarget.cs</Link>
+    </Compile>
     <Compile Include="..\Cocktail\IPagerRepository.cs" />
     <Compile Include="..\Cocktail\IRepository.cs" />
     <Compile Include="..\Cocktail\IUICommand.cs" />

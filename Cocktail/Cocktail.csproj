@@ -109,6 +109,7 @@
     </Compile>
     <Compile Include="ICompositionProvider.cs" />
     <Compile Include="IDialogUICommand.cs" />
+    <Compile Include="INavigationTarget.cs" />
     <Compile Include="IUICommand.cs" />
     <Compile Include="IFactory.cs" />
     <Compile Include="IPagerRepository.cs" />

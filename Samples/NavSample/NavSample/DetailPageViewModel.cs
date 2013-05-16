@@ -6,7 +6,7 @@ using IdeaBlade.EntityModel;
 
 namespace NavSample
 {
-    public class DetailPageViewModel : Screen
+    public class DetailPageViewModel : Screen, INavigationTarget
     {
         private readonly ErrorHandler _errorHandler;
         private readonly INavigator _navigator;
@@ -109,6 +109,19 @@ namespace NavSample
                 callback(false);
             else
                 base.CanClose(callback);
+        }
+
+        public void OnNavigatedTo(NavigationArgs args)
+        {
+            Start((Guid)args.Parameter);
+        }
+
+        public void OnNavigatingFrom(NavigationCancelArgs args)
+        {
+        }
+
+        public void OnNavigatedFrom(NavigationArgs args)
+        {
         }
     }
 }

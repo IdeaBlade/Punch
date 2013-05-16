@@ -65,8 +65,9 @@ namespace Cocktail
         ///   the current active ViewModel cannot be closed or the target type is not authorized.
         /// </summary>
         /// <param name="viewModelType"> The target ViewModel type. </param>
+        /// <param name="parameter">An optional parameter to be sent to the target view model. <seealso cref="INavigationTarget"/></param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        Task NavigateToAsync(Type viewModelType);
+        Task NavigateToAsync(Type viewModelType, object parameter = null);
 
         /// <summary>
         ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
@@ -91,8 +92,9 @@ namespace Cocktail
         ///   the current active ViewModel cannot be closed or the target type is not authorized.
         /// </summary>
         /// <typeparam name="T"> The target ViewModel type. </typeparam>
+        /// <param name="parameter">An optional parameter to be sent to the target view model. <seealso cref="INavigationTarget"/></param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        Task NavigateToAsync<T>();
+        Task NavigateToAsync<T>(object parameter = null);
     }
 
     /// <summary>
@@ -121,19 +123,6 @@ namespace Cocktail
                                                           prepare(viewModel);
                                                           return TaskFns.FromResult(true);
                                                       });
-        }
-
-        /// <summary>
-        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
-        ///   the current active ViewModel cannot be closed or the target type is not authorized.
-        /// </summary>
-        /// <param name="viewModelType"> The target ViewModel type. </param>
-        /// <returns> A <see cref="Task" /> to await completion. </returns>
-        public Task NavigateToAsync(Type viewModelType)
-        {
-            if (viewModelType == null) throw new ArgumentNullException("viewModelType");
-
-            return NavigateToAsync(viewModelType, viewModel => TaskFns.FromResult(true));
         }
 
         /// <summary>
@@ -173,10 +162,11 @@ namespace Cocktail
         ///   the current active ViewModel cannot be closed or the target type is not authorized.
         /// </summary>
         /// <typeparam name="T"> The target ViewModel type. </typeparam>
+        /// <param name="parameter">An optional parameter to be sent to the target view model. <seealso cref="INavigationTarget"/></param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        public Task NavigateToAsync<T>()
+        public Task NavigateToAsync<T>(object parameter = null)
         {
-            return NavigateToAsync<T>(viewModel => TaskFns.FromResult(true));
+            return NavigateToAsync(typeof(T), parameter);
         }
 
         #endregion

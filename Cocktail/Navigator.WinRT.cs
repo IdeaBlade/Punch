@@ -158,10 +158,24 @@ namespace Cocktail
             if (viewModelType == null) throw new ArgumentNullException("viewModelType");
             if (prepare == null) throw new ArgumentNullException("prepare");
 
-            if (_conductor != null)
-                return NavigateWithConductor(viewModelType, prepare);
+            return NavigateToAsync(viewModelType, (object) prepare);
+        }
 
-            return NavigateWithFrame(viewModelType, prepare);
+        /// <summary>
+        ///   Asynchronously navigates to an instance of the provided ViewModel type. The navigation will be cancelled if 
+        ///   the current active ViewModel cannot be closed or the target type is not authorized.
+        /// </summary>
+        /// <param name="viewModelType"> The target ViewModel type. </param>
+        /// <param name="parameter">An optional parameter to be sent to the target view model. <seealso cref="INavigationTarget"/></param>
+        /// <returns> A <see cref="Task" /> to await completion. </returns>
+        public Task NavigateToAsync(Type viewModelType, object parameter = null)
+        {
+            if (viewModelType == null) throw new ArgumentNullException("viewModelType");
+
+            if (_conductor != null)
+                return NavigateWithConductor(viewModelType, parameter);
+
+            return NavigateWithFrame(viewModelType, parameter);
         }
 
         #endregion
@@ -171,25 +185,50 @@ namespace Cocktail
             if (!await CanCloseAsync())
                 return false;
 
-            if (!await AuthorizeTargetAsync(viewModelType))
-                return false;
+            var navigatingFrom = ActiveViewModel as INavigationTarget;
+            if (navigatingFrom != null)
+            {
+                var args = new NavigationCancelArgs();
+                navigatingFrom.OnNavigatingFrom(args);
+                if (args.IsCanceled)
+                    throw new TaskCanceledException();
+            }
+
+            if (viewModelType != null)
+                return await AuthorizeTargetAsync(viewModelType);
 
             return true;
         }
 
-        private async Task NavigateWithConductor(Type viewModelType, Func<object, Task> prepare)
+        private async Task NavigateWithConductor(Type viewModelType, object parameter)
         {
             if (!await GuardAsync(viewModelType))
                 throw new TaskCanceledException();
 
             var target = Composition.GetInstance(viewModelType, null);
-            await prepare(target);
+            var prepareAction = parameter as Func<object, Task>;
+            var navigatingFrom = ActiveViewModel as INavigationTarget;
+            var navigatingTo = target as INavigationTarget;
+            NavigationArgs navigationArgs;
+            if (prepareAction != null)
+            {
+                await prepareAction(target);
+                navigationArgs = new NavigationArgs(null);
+            }
+            else
+                navigationArgs = new NavigationArgs(parameter);
+
+            if (navigatingTo != null)
+                navigatingTo.OnNavigatedTo(navigationArgs);
 
             if (!ReferenceEquals(ActiveViewModel, target))
                 _conductor.ActivateItem(target);
+
+            if (navigatingFrom != null)
+                navigatingFrom.OnNavigatedFrom(navigationArgs); 
         }
 
-        private async Task NavigateWithFrame(Type viewModelType, Func<object, Task> prepare)
+        private async Task NavigateWithFrame(Type viewModelType, object parameter)
         {
             if (_tcs != null)
                 throw new InvalidOperationException(StringResources.PendingNavigation);
@@ -203,9 +242,14 @@ namespace Cocktail
                 if (!await GuardAsync(viewModelType))
                     throw new TaskCanceledException();
 
+                var navigatingFrom = ActiveViewModel as INavigationTarget;
+                var prepareAction = parameter as Func<object, Task>;
                 _tcs = new TaskCompletionSource<bool>();
-                if (!_frameAdapter.Navigate(viewType, prepare))
+                if (!_frameAdapter.Navigate(viewType, parameter))
                     _tcs.TrySetCanceled();
+
+                if (navigatingFrom != null)
+                    navigatingFrom.OnNavigatedFrom(new NavigationArgs(prepareAction == null ? parameter : null));
 
                 await _tcs.Task;
             }
@@ -222,11 +266,15 @@ namespace Cocktail
 
             try
             {
-                if (!await CanCloseAsync())
+                if (!await GuardAsync(null))
                     throw new TaskCanceledException();
 
+                var navigatingFrom = ActiveViewModel as INavigationTarget;
                 _tcs = new TaskCompletionSource<bool>();
                 _frameAdapter.GoForward();
+
+                if (navigatingFrom != null)
+                    navigatingFrom.OnNavigatedFrom(new NavigationArgs(null));
 
                 await _tcs.Task;
             }
@@ -243,11 +291,15 @@ namespace Cocktail
 
             try
             {
-                if (!await CanCloseAsync())
+                if (!await GuardAsync(null))
                     throw new TaskCanceledException();
 
+                var navigatingFrom = ActiveViewModel as INavigationTarget;
                 _tcs = new TaskCompletionSource<bool>();
                 _frameAdapter.GoBack();
+
+                if (navigatingFrom != null)
+                    navigatingFrom.OnNavigatedFrom(new NavigationArgs(null));
 
                 await _tcs.Task;
             }
@@ -257,7 +309,7 @@ namespace Cocktail
             }
         }
 
-        private void OnNavigated(object sender, NavigationEventArgs args)
+        private async void OnNavigated(object sender, NavigationEventArgs args)
         {
             if (_frameAdapter.HasError)
             {
@@ -265,20 +317,35 @@ namespace Cocktail
                 return;
             }
 
-            var prepareAsync = args.Parameter as Func<object, Task>;
-            if (prepareAsync != null)
-                prepareAsync(ActiveViewModel)
-                    .ContinueWith(task =>
-                                      {
-                                          if (task.IsFaulted)
-                                              _tcs.TrySetException(task.Exception);
-                                          else if (task.IsCanceled)
-                                              _tcs.TrySetCanceled();
-                                          else
-                                              _tcs.TrySetResult(true);
-                                      });
-            else if (_tcs != null)
-                _tcs.TrySetResult(true);
+            try
+            {
+                var prepareAction = args.Parameter as Func<object, Task>;
+                var navigatingTo = ActiveViewModel as INavigationTarget;
+
+                NavigationArgs navigationArgs;
+                if (prepareAction != null)
+                {
+                    await prepareAction(ActiveViewModel);
+                    navigationArgs = new NavigationArgs(null);
+                }
+                else
+                    navigationArgs = new NavigationArgs(args.Parameter);
+
+                if (navigatingTo != null)
+                    navigatingTo.OnNavigatedTo(navigationArgs);
+
+                if (_tcs != null)
+                    _tcs.TrySetResult(true);
+            }
+            catch (Exception e)
+            {
+                if (_tcs == null) return;
+
+                if (e is TaskCanceledException)
+                    _tcs.TrySetCanceled();
+                else
+                    _tcs.TrySetException(e);
+            }
         }
 
         private void OnNavigationStopped(object sender, NavigationEventArgs args)

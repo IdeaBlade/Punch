@@ -127,6 +127,9 @@
     <Compile Include="..\Cocktail\IEntityManagerSyncInterceptor.cs" />
     <Compile Include="..\Cocktail\IFactory.cs" />
     <Compile Include="..\Cocktail\IHarnessAware.cs" />
+    <Compile Include="..\Cocktail\INavigationTarget.cs">
+      <Link>INavigationTarget.cs</Link>
+    </Compile>
     <Compile Include="..\Cocktail\IPagerRepository.cs" />
     <Compile Include="..\Cocktail\IRepository.cs" />
     <Compile Include="..\Cocktail\ISampleDataProvider.cs" />

@@ -154,7 +154,7 @@ namespace Cocktail
                 RootNavigator = CreateRootNavigator(rootFrame);
 
                 if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                    await RestoreApplicationStateAsync();
+                    await RestoreApplicationStateAsync(rootFrame);
 
                 // Place the root frame in the current Window
                 Window.Current.Content = rootFrame;
@@ -165,8 +165,7 @@ namespace Cocktail
                 // When the navigation stack isn't restored, navigate to the first page,
                 // configuring the new page by passing the arguments that were pass to the app
                 // as a navigation parameter.
-                await RootNavigator.NavigateToAsync(
-                    _rootViewModelType, target => Navigator.TryInjectParameter(target, args.Arguments, "Arguments"));
+                await RootNavigator.NavigateToAsync(_rootViewModelType, args.Arguments);
             }
 
             // Ensure the current window is active
@@ -177,7 +176,7 @@ namespace Cocktail
         ///   Invoked if app is launched after it had previously been terminated. Override to restore saved application state.
         /// </summary>
         /// <returns> </returns>
-        protected virtual Task RestoreApplicationStateAsync()
+        protected virtual Task RestoreApplicationStateAsync(Frame rootFrame)
         {
             return Task.FromResult(true);
         }

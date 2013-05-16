@@ -9,7 +9,7 @@ packages
 *.DotSettings.user
 *.user
 *.bak
-log*
+*DebugLog*
 *.nupkg
 ClientBin*
 TestResults*/

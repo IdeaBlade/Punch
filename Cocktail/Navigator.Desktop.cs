@@ -62,7 +62,7 @@ namespace Cocktail
         /// </summary>
         /// <param name="viewModelType"> The type to match. </param>
         /// <param name="contractName"> The name to match. </param>
-        /// <param name="parameter">An optional parameter to be sent to the target view model. <seealso cref="INavigationTarget"/></param>
+        /// <param name="parameter">An optional parameter to be sent to the target view model. See <see cref="INavigationTarget"/></param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
         /// <remarks>
         ///   Not available in Windows 8 Store apps.
@@ -99,7 +99,7 @@ namespace Cocktail
         /// </summary>
         /// <param name="viewModelType"> The type to match. </param>
         /// <param name="contractName"> The name to match. </param>
-        /// <param name="parameter">An optional parameter to be sent to the target view model. <seealso cref="INavigationTarget"/></param>
+        /// <param name="parameter">An optional parameter to be sent to the target view model. See <see cref="INavigationTarget"/></param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
         /// <remarks>
         ///   Not available in Windows 8 Store apps.
@@ -166,7 +166,7 @@ namespace Cocktail
         ///   the current active ViewModel cannot be closed or the target type is not authorized.
         /// </summary>
         /// <param name="viewModelType"> The target ViewModel type. </param>
-        /// <param name="parameter">An optional parameter to be sent to the target view model. <seealso cref="INavigationTarget"/></param>
+        /// <param name="parameter">An optional parameter to be sent to the target view model. See <see cref="INavigationTarget"/></param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
         public Task NavigateToAsync(Type viewModelType, object parameter = null)
         {

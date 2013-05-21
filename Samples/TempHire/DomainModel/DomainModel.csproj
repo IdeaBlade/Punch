@@ -68,18 +68,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Caliburn.Micro.1.5.1\lib\net40\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail, Version=1.1.3.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Cocktail.NET.1.1.3\lib\net40\Cocktail.dll</HintPath>
+    <Reference Include="Cocktail">
+      <HintPath>..\packages\Cocktail.NET.1.1.4\lib\net40\Cocktail.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail.Utils, Version=1.1.3.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Cocktail.NET.1.1.3\lib\net40\Cocktail.Utils.dll</HintPath>
+    <Reference Include="Cocktail.Utils">
+      <HintPath>..\packages\Cocktail.NET.1.1.4\lib\net40\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Aop, Version=6.1.13.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
+    <Reference Include="IdeaBlade.Aop, Version=6.1.14.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
     <Reference Include="IdeaBlade.Core">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
@@ -160,7 +158,7 @@
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\PostSharp.2.1.7.30\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.2.1.7.30\tools\PostSharp.targets')" />
-  <Import Project="..\packages\IdeaBlade.DevForce-2010.Aop.6.1.13\tools\IdeaBlade.DevForce.Common.targets" Condition="Exists('..\packages\IdeaBlade.DevForce-2010.Aop.6.1.13\tools\IdeaBlade.DevForce.Common.targets')" />
+  <Import Project="..\packages\IdeaBlade.DevForce-2010.Aop.6.1.14\tools\IdeaBlade.DevForce.Common.targets" Condition="Exists('..\packages\IdeaBlade.DevForce-2010.Aop.6.1.14\tools\IdeaBlade.DevForce.Common.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

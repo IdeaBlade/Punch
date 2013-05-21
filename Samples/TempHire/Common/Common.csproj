@@ -55,13 +55,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Caliburn.Micro.1.5.1\lib\net40\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail, Version=1.1.3.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Cocktail.NET.1.1.3\lib\net40\Cocktail.dll</HintPath>
+    <Reference Include="Cocktail">
+      <HintPath>..\packages\Cocktail.NET.1.1.4\lib\net40\Cocktail.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail.Utils, Version=1.1.3.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Cocktail.NET.1.1.3\lib\net40\Cocktail.Utils.dll</HintPath>
+    <Reference Include="Cocktail.Utils">
+      <HintPath>..\packages\Cocktail.NET.1.1.4\lib\net40\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core">
       <Private>True</Private>

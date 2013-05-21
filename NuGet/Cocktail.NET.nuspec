@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Cocktail.NET</id>
-    <version>1.1.3</version>
+    <version>1.1.4</version>
     <title>Cocktail 2010 (.NET 4)</title>
     <authors>Marcel Good,Ward Bell,Rob Eisenberg</authors>
     <owners>IdeaBlade</owners>
@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <summary>Cocktail is an application development platform that takes the pain out of the development of data-driven rich XAML applications.</summary>
     <description>Cocktail is an application development platform that takes the pain out of the development of data-driven rich XAML applications.</description>
-    <releaseNotes>http://drc.ideablade.com/xwiki/bin/view/Documentation/cocktail-111-release-notes</releaseNotes>
+    <releaseNotes>http://drc.ideablade.com/xwiki/bin/view/Documentation/cocktail-release-notes</releaseNotes>
     <copyright>Copyright 2012</copyright>
     <tags>MVVM Silverlight WPF SL4 SL5 SL Convention Screen Coroutine Model-View-ViewModel Presentation UI ViewModel Caliburn.Micro DevForce ORM Entity Data LOB Enterprise</tags>
     <dependencies>

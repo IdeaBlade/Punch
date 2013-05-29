@@ -574,6 +574,15 @@ namespace Cocktail
         }
 
         /// <summary>
+        /// Returns the base query used for Find/All operations. Override to use named queries instead of the default queries.
+        /// </summary>
+        /// <returns>Returns the query used as the base for composing the final Find/All queries.</returns>
+        protected virtual IEntityQuery<T> GetFindBaseQuery()
+        {
+            return EntityManager.GetQuery<T>();
+        }
+
+        /// <summary>
         ///     Returns the query to retrieve a list of entities.
         /// </summary>
         /// <param name="predicate"> The predicate expression used to qualify the list of entities. </param>
@@ -586,7 +595,7 @@ namespace Cocktail
                                                        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
                                                        Action<IFetchOptions<T>> fetchOptions)
         {
-            IEntityQuery<T> query = EntityManager.GetQuery<T>();
+            IEntityQuery<T> query = GetFindBaseQuery();
             if (predicate != null)
                 query = query.Where(predicate);
             if (orderBy != null)
@@ -617,7 +626,7 @@ namespace Cocktail
             Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy,
             Action<IFetchOptions<TResult>> fetchOptions)
         {
-            IEntityQuery<T> baseQuery = EntityManager.GetQuery<T>();
+            IEntityQuery<T> baseQuery = GetFindBaseQuery();
             if (predicate != null)
                 baseQuery = baseQuery.Where(predicate);
 
@@ -649,7 +658,7 @@ namespace Cocktail
             Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate,
             Func<IQueryable, IOrderedQueryable> orderBy, Action<IFetchOptions> fetchOptions)
         {
-            IEntityQuery<T> baseQuery = EntityManager.GetQuery<T>();
+            IEntityQuery<T> baseQuery = GetFindBaseQuery();
             if (predicate != null)
                 baseQuery = baseQuery.Where(predicate);
 

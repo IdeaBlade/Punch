@@ -39,7 +39,10 @@ namespace Cocktail
             ((INotifyPropertyChanged) _command).PropertyChanged += CommandPropertyChanged;
         }
 
-        internal object DialogResult
+        /// <summary>
+        /// Returns the DialogResult associated with this button.
+        /// </summary>
+        public object DialogResult
         {
             get { return ((IHasDialogResult) _command).DialogResult; }
         }
@@ -86,7 +89,11 @@ namespace Cocktail
             ((INotifyPropertyChanged) _command).PropertyChanged -= CommandPropertyChanged;
         }
 
-        internal bool InvokeCommand()
+        /// <summary>
+        /// Invokes the command associated with this button.
+        /// </summary>
+        /// <returns>Returns false if the command was cancelled, otherwise true.</returns>
+        public bool InvokeCommand()
         {
             return ((IInvokeCommand) _command).Invoke(_dialogHost);
         }

@@ -80,12 +80,12 @@ namespace Cocktail
         #region IDialogHost Members
 
         /// <summary>
-        /// Returns the command invoked by the user.
+        /// Gets or sets the command invoked by the user.
         /// </summary>
         public IUICommand InvokedCommand
         {
             get { return _invokedCommand; }
-            private set
+            protected set
             {
                 if (Equals(value, _invokedCommand)) return;
                 _invokedCommand = value;
@@ -94,12 +94,12 @@ namespace Cocktail
         }
 
         /// <summary>
-        ///   Returns the user's response to the dialog or message box.
+        ///   Gets or sets the user's response to the dialog or message box.
         /// </summary>
         public object DialogResult
         {
             get { return _dialogResult; }
-            private set
+            protected set
             {
                 _dialogResult = value;
                 NotifyOfPropertyChange(() => DialogResult);
@@ -208,7 +208,11 @@ namespace Cocktail
             callback(false);
         }
 
-        private void OnKeyDown(KeyEventArgs args)
+        /// <summary>
+        /// Override to handle pressed keys in the dialog.
+        /// </summary>
+        /// <param name="args">Data associated with the key event.</param>
+        protected virtual void OnKeyDown(KeyEventArgs args)
         {
             if (args.Key == Key.Escape && _dialogButtons.Any(x => x.Command.IsCancelCommand))
             {
@@ -227,7 +231,10 @@ namespace Cocktail
             }
         }
 
-        private bool IsClosing
+        /// <summary>
+        /// Indicates whether the dialog is in the process of closing.
+        /// </summary>
+        protected bool IsClosing
         {
             get { return _isClosing; }
             set

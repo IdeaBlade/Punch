@@ -112,38 +112,22 @@ namespace Cocktail
             if (!await CanCloseAsync())
                 throw new TaskCanceledException();
 
-            var navigatingFrom = ActiveViewModel as INavigationTarget;
-            if (navigatingFrom != null)
-            {
-                var args = new NavigationCancelArgs();
-                navigatingFrom.OnNavigatingFrom(args);
-                if (args.IsCanceled)
-                    throw new TaskCanceledException();
-            }
+            await (ActiveViewModel as INavigationTarget).OnNavigatingFromAsync();
 
             if (!await AuthorizeTargetAsync(viewModelType, contractName))
                 throw new TaskCanceledException();
 
             var target = Composition.GetInstance(viewModelType, contractName);
             var prepareAction = parameter as Func<object, Task>;
-            var navigatingTo = target as INavigationTarget;
-            NavigationArgs navigationArgs;
             if (prepareAction != null)
-            {
                 await prepareAction(target);
-                navigationArgs = new NavigationArgs(null);
-            }
-            else
-                navigationArgs = new NavigationArgs(parameter);
 
-            if (navigatingTo != null)
-                navigatingTo.OnNavigatedTo(navigationArgs);
+            await (target as INavigationTarget).OnNavigatedToAsync(prepareAction == null ? parameter : null);
 
             if (!ReferenceEquals(ActiveViewModel, target))
                 _conductor.ActivateItem(target);
 
-            if (navigatingFrom != null)
-                navigatingFrom.OnNavigatedFrom(navigationArgs);
+            await (ActiveViewModel as INavigationTarget).OnNavigatedFromAsync(prepareAction == null ? parameter : null);
         }
 
         /// <summary>

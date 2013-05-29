@@ -10,12 +10,85 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using System;
+using System.Threading.Tasks;
+
 namespace Cocktail
 {
     /// <summary>
+    ///     Provides data for the <see cref="INavigationTarget.OnNavigatingFrom" /> callback that can be used to cancel a navigation request.
+    /// </summary>
+    public class NavigationCancelArgs
+    {
+        private TaskCompletionSource<bool> _tcs;
+
+        /// <summary>
+        ///     Specifies whether a pending navigation should be canceled.
+        /// </summary>
+        public bool IsCanceled
+        {
+            get
+            {
+                return Task.IsCanceled;
+            }
+        }
+
+        /// <summary>
+        ///     Cancel the current navigation request.
+        /// </summary>
+        public void Cancel()
+        {
+            EnsureTaskCompletionSource();
+            _tcs.SetCanceled();
+        }
+
+        /// <summary>
+        /// Defers continuation of the current navigation until one of the following methods is called: <see cref="Complete"/>, <see cref="Fail"/>, <see cref="Cancel"/>
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown if Defer has previously been called or the navigation no longer allows deferal.</exception>
+        public void Defer()
+        {
+            if (_tcs != null)
+                throw new InvalidOperationException("The state of the current navigation no longer allows deferal.");
+
+            EnsureTaskCompletionSource();
+        }
+
+        /// <summary>
+        /// Signals to the current navigation that it can continue successfully.
+        /// </summary>
+        public void Complete()
+        {
+            EnsureTaskCompletionSource();
+            _tcs.SetResult(true);
+        }
+
+        /// <summary>
+        /// Signals to the current navigation that it must continue with the provided error.
+        /// </summary>
+        /// <param name="error">The reason why the navigation failed.</param>
+        public void Fail(Exception error)
+        {
+            EnsureTaskCompletionSource();
+            _tcs.SetException(error);
+        }
+
+        internal Task Task
+        {
+            get { return _tcs != null ? _tcs.Task : TaskFns.FromResult(true); }
+        }
+
+        private void EnsureTaskCompletionSource()
+        {
+            if (_tcs == null)
+                _tcs = new TaskCompletionSource<bool>();
+        }
+    }
+
+    /// <summary>
     ///     Provides data for navigation methods that cannot cancel the navigation request.
     /// </summary>
-    public class NavigationArgs
+    public class NavigationArgs : NavigationCancelArgs
     {
         /// <summary>
         ///     Creates a new instance.
@@ -30,25 +103,6 @@ namespace Cocktail
         ///     Gets the parameter passed to the target view model.
         /// </summary>
         public object Parameter { get; private set; }
-    }
-
-    /// <summary>
-    ///     Provides data for the <see cref="INavigationTarget.OnNavigatingFrom" /> callback that can be used to cancel a navigation request.
-    /// </summary>
-    public class NavigationCancelArgs
-    {
-        /// <summary>
-        ///     Specifies whether a pending navigation should be canceled.
-        /// </summary>
-        public bool IsCanceled { get; private set; }
-
-        /// <summary>
-        ///     Cancel the current navigation request.
-        /// </summary>
-        public void Cancel()
-        {
-            IsCanceled = true;
-        }
     }
 
     /// <summary>
@@ -73,5 +127,35 @@ namespace Cocktail
         /// </summary>
         /// <param name="args"></param>
         void OnNavigatedFrom(NavigationArgs args);
+    }
+
+    internal static class NavigationTargetHelper
+    {
+        internal static async Task OnNavigatedToAsync(this INavigationTarget target, object parameter)
+        {
+            if (target == null) return;
+
+            var args = new NavigationArgs(parameter);
+            target.OnNavigatedTo(args);
+            await args.Task;
+        }
+
+        internal static async Task OnNavigatingFromAsync(this INavigationTarget target)
+        {
+            if (target == null) return;
+
+            var args = new NavigationCancelArgs();
+            target.OnNavigatingFrom(args);
+            await args.Task;
+        }
+
+        internal static async Task OnNavigatedFromAsync(this INavigationTarget target, object parameter)
+        {
+            if (target == null) return;
+
+            var args = new NavigationArgs(parameter);
+            target.OnNavigatedFrom(args);
+            await args.Task;
+        }
     }
 }

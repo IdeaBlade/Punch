@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Caliburn.Micro;
 using Cocktail;
 using IdeaBlade.Core;
@@ -10,10 +11,11 @@ namespace NavSample
     {
         private readonly ErrorHandler _errorHandler;
         private readonly INavigator _navigator;
-        private readonly IUnitOfWork<Customer> _unitOfWork;
+        private readonly ICustomerUnitOfWork _unitOfWork;
         private Customer _customer;
+        private bool _restored;
 
-        public DetailPageViewModel(INavigator navigator, IUnitOfWork<Customer> unitOfWork, ErrorHandler errorHandler)
+        public DetailPageViewModel(INavigator navigator, ICustomerUnitOfWork unitOfWork, ErrorHandler errorHandler)
         {
             _navigator = navigator;
             _unitOfWork = unitOfWork;
@@ -59,7 +61,10 @@ namespace NavSample
         {
             try
             {
-                Customer = await _unitOfWork.Entities.WithIdAsync(customerId);
+                if (_restored)
+                    Customer = _unitOfWork.Entities.WithIdFromCache(customerId);
+                else
+                    Customer = await _unitOfWork.Entities.WithIdAsync(customerId);
             }
             catch (Exception e)
             {
@@ -123,5 +128,20 @@ namespace NavSample
         public void OnNavigatedFrom(NavigationArgs args)
         {
         }
+
+        public void LoadState(object navigationParameter, Dictionary<string, object> pageState, Dictionary<string, object> sharedState)
+        {
+            if (!_unitOfWork.IsRestored && sharedState.ContainsKey("uow"))
+                _unitOfWork.Restore((EntityCacheState)sharedState["uow"]);
+
+            _restored = pageState != null;
+        }
+
+        public void SaveState(Dictionary<string, object> pageState, Dictionary<string, object> sharedState)
+        {
+            sharedState["uow"] = _unitOfWork.GetCacheState();
+        }
+
+        public string PageKey { get; set; }
     }
 }

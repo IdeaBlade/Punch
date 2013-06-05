@@ -150,7 +150,7 @@ namespace Cocktail
             {
                 await InitializeRuntimeAsync();
 
-                rootFrame = CreateApplicationFrame();
+                rootFrame = CreateAndRegisterApplicationFrame();
                 RootNavigator = CreateRootNavigator(rootFrame);
 
                 if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
@@ -173,12 +173,36 @@ namespace Cocktail
         }
 
         /// <summary>
+        /// Enables automatic app session state restore. After calling this method, session state saved through 
+        /// <see cref="INavigationTarget.SaveState"/> is automatically saved to disk and restored as the app suspends and resumes. 
+        /// </summary>
+        protected void EnableAutomaticSessionRestore()
+        {
+            SuspensionManager.AutomaticSessionRestoreEnabled = true;
+        }
+
+        /// <summary>
         ///   Invoked if app is launched after it had previously been terminated. Override to restore saved application state.
         /// </summary>
         /// <returns> </returns>
-        protected virtual Task RestoreApplicationStateAsync(Frame rootFrame)
+        protected virtual async Task RestoreApplicationStateAsync(Frame rootFrame)
         {
-            return Task.FromResult(true);
+            if (!SuspensionManager.AutomaticSessionRestoreEnabled) return;
+
+            // Restore the saved session state
+            try
+            {
+                await SuspensionManager.RestoreAsync();
+
+                // Workaround: Navigate to dummy page and back to trigger the necessary event to bind view and view model
+                rootFrame.Navigate(typeof(Page));
+                rootFrame.GoBack();
+            }
+            catch (SuspensionManagerException)
+            {
+                //Something went wrong restoring state.
+                //Assume there is no state and continue
+            }
         }
 
         /// <summary>
@@ -192,8 +216,13 @@ namespace Cocktail
         ///   Override to perform operations when the app transitions from Running state to Suspended state.
         /// </summary>
         /// <param name="e"> </param>
-        protected virtual void OnSuspending(SuspendingEventArgs e)
+        protected virtual async void OnSuspending(SuspendingEventArgs e)
         {
+            if (!SuspensionManager.AutomaticSessionRestoreEnabled) return;
+
+            var deferral = e.SuspendingOperation.GetDeferral();
+            await SuspensionManager.SaveAsync();
+            deferral.Complete();
         }
 
         /// <summary>
@@ -210,6 +239,16 @@ namespace Cocktail
         protected virtual Frame CreateApplicationFrame()
         {
             return new Frame();
+        }
+
+        /// <summary>
+        ///   Creates the app's root <see cref="Frame" /> control and registers it with the internal SuspensionManager.
+        /// </summary>
+        protected Frame CreateAndRegisterApplicationFrame()
+        {
+            var appFrame = CreateApplicationFrame();
+            SuspensionManager.RegisterFrame(appFrame, "AppFrame");
+            return appFrame;
         }
 
         /// <summary>

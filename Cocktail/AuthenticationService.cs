@@ -62,6 +62,8 @@ namespace Cocktail
         {
             _configuration = new AuthenticationServiceConfiguration();
             _authenticationContext = LoggedOutAuthenticationContext.Instance;
+
+            EventFns.Subscribe(this);
         }
 
         #region Implementation of IAuthenticationService

@@ -124,10 +124,11 @@ namespace Cocktail
 
             await (target as INavigationTarget).OnNavigatedToAsync(prepareAction == null ? parameter : null);
 
+            var currentViewModel = ActiveViewModel as INavigationTarget;
             if (!ReferenceEquals(ActiveViewModel, target))
                 _conductor.ActivateItem(target);
 
-            await (ActiveViewModel as INavigationTarget).OnNavigatedFromAsync(prepareAction == null ? parameter : null);
+            await currentViewModel.OnNavigatedFromAsync(prepareAction == null ? parameter : null);
         }
 
         /// <summary>

@@ -11,7 +11,13 @@
 // ====================================================================================================================
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+
+#if NETFX_CORE
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+#endif
 
 namespace Cocktail
 {
@@ -108,7 +114,7 @@ namespace Cocktail
     /// <summary>
     ///     An optional interface for a view model to add code that responds to navigation events.
     /// </summary>
-    public interface INavigationTarget
+    public partial interface INavigationTarget
     {
         /// <summary>
         ///     Invoked when the view model becomes the current active view model at the end of a navigation request.
@@ -157,5 +163,66 @@ namespace Cocktail
             target.OnNavigatedFrom(args);
             await args.Task;
         }
+
+#if NETFX_CORE
+        
+        internal static void LoadState(this INavigationTarget target, Frame frame, NavigationEventArgs eventArgs)
+        {
+            if (target == null) return;
+
+            // Returning to a cached page through navigation shouldn't trigger state loading
+            if (target.PageKey != null) return;
+
+            var frameState = SuspensionManager.SessionStateForFrame(frame);
+            target.PageKey = "Page-" + frame.BackStackDepth;
+
+            var sharedState = frameState.ContainsKey("Shared")
+                                  ? (Dictionary<String, Object>) frameState["Shared"]
+                                  : new Dictionary<string, object>();
+
+            if (eventArgs.NavigationMode == NavigationMode.New)
+            {
+                // Clear existing state for forward navigation when adding a new page to the
+                // navigation stack
+                var nextPageKey = target.PageKey;
+                var nextPageIndex = frame.BackStackDepth;
+                while (frameState.Remove(nextPageKey))
+                {
+                    nextPageIndex++;
+                    nextPageKey = "Page-" + nextPageIndex;
+                }
+
+                // Pass the navigation parameter to the new page
+                target.LoadState(eventArgs.Parameter, null, sharedState);
+            }
+            else
+            {
+                // Pass the navigation parameter and preserved page state to the page, using
+                // the same strategy for loading suspended state and recreating pages discarded
+                // from cache
+                object pageState;
+                frameState.TryGetValue(target.PageKey, out pageState);
+                target.LoadState(eventArgs.Parameter, (Dictionary<String, Object>) pageState, sharedState);
+            }
+        }
+
+        internal static void SaveState(this INavigationTarget target, Frame frame)
+        {
+            if (target == null) return;
+
+            var frameState = SuspensionManager.SessionStateForFrame(frame);
+
+            var sharedState = frameState.ContainsKey("Shared")
+                      ? (Dictionary<String, Object>)frameState["Shared"]
+                      : new Dictionary<string, object>();
+
+            var pageState = new Dictionary<String, Object>();
+            target.SaveState(pageState, sharedState);
+
+            frameState[target.PageKey] = pageState;
+            frameState["Shared"] = sharedState;
+        }
+
+#endif
     }
 }

@@ -1,21 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
+using IdeaBlade.EntityModel;
 
 namespace NavSample
 {
-    public class ListPageViewModel : Screen
+    public class ListPageViewModel : Screen, INavigationTarget
     {
         private readonly ErrorHandler _errorHandler;
         private readonly INavigator _navigator;
-        private readonly IUnitOfWork<Customer> _unitOfWork;
+        private readonly ICustomerUnitOfWork _unitOfWork;
         private BindableCollection<Customer> _customers;
         private string _searchText;
         private Customer _selectedCustomer;
+        private bool _restored;
 
         // Inject Cocktail root navigation service
-        public ListPageViewModel(INavigator navigator, IUnitOfWork<Customer> unitOfWork, ErrorHandler errorHandler)
+        public ListPageViewModel(INavigator navigator, ICustomerUnitOfWork unitOfWork, ErrorHandler errorHandler)
         {
             _navigator = navigator;
             _unitOfWork = unitOfWork;
@@ -65,20 +68,18 @@ namespace NavSample
             }
         }
 
-        protected override void OnInitialize()
-        {
-            base.OnInitialize();
-            Start();
-        }
-
         public async void Start()
         {
             try
             {
                 using (Busy.GetTicket())
                 {
-                    var customers =
-                        await _unitOfWork.Entities.AllAsync(q => q.OrderBy(x => x.CompanyName));
+                    IEnumerable<Customer> customers;
+                    if (_restored)
+                        customers = _unitOfWork.Entities.AllInCache(q => q.OrderBy(x => x.CompanyName));
+                    else
+                        customers = await _unitOfWork.Entities.AllAsync(q => q.OrderBy(x => x.CompanyName));
+
                     Customers = new BindableCollection<Customer>(customers);
                 }
             }
@@ -135,5 +136,33 @@ namespace NavSample
                 _errorHandler.Handle(e);
             }
         }
+
+        public void OnNavigatedTo(NavigationArgs args)
+        {
+            Start();
+        }
+
+        public void OnNavigatingFrom(NavigationCancelArgs args)
+        {
+        }
+
+        public void OnNavigatedFrom(NavigationArgs args)
+        {
+        }
+
+        public void LoadState(object navigationParameter, Dictionary<string, object> pageState, Dictionary<string, object> sharedState)
+        {
+            if (!_unitOfWork.IsRestored && sharedState.ContainsKey("uow"))
+                _unitOfWork.Restore((EntityCacheState)sharedState["uow"]);
+        
+            _restored = pageState != null;
+        }
+
+        public void SaveState(Dictionary<string, object> pageState, Dictionary<string, object> sharedState)
+        {
+            sharedState["uow"] = _unitOfWork.GetCacheState();
+        }
+
+        public string PageKey { get; set; }
     }
 }

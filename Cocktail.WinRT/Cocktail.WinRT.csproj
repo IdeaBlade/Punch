@@ -99,6 +99,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Cocktail\AuthenticationService.cs" />
+    <Compile Include="..\Cocktail\AuthenticationService.WinRT.cs">
+      <Link>AuthenticationService.WinRT.cs</Link>
+      <DependentUpon>AuthenticationService.cs</DependentUpon>
+    </Compile>
     <Compile Include="..\Cocktail\BusyWatcher.cs" />
     <Compile Include="..\Cocktail\CocktailWindowsStoreApplication.cs" />
     <Compile Include="..\Cocktail\Composition.cs" />
@@ -168,6 +172,8 @@
     <Compile Include="..\Cocktail\TraceLogger.cs" />
     <Compile Include="..\Cocktail\UnitOfWork.cs" />
     <Compile Include="..\Cocktail\WeakRefDictionary.cs" />
+    <Compile Include="INavigationTarget.WinRT.cs" />
+    <Compile Include="SuspensionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">

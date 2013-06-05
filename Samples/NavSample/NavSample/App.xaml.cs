@@ -11,6 +11,7 @@ namespace NavSample
         public App() : base(typeof (ListPageViewModel))
         {
             InitializeComponent();
+            EnableAutomaticSessionRestore();
         }
 
         protected override void StartRuntime()

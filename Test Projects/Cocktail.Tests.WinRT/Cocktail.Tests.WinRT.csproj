@@ -188,10 +188,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\..\packages\Caliburn.Micro.1.5.1\lib\win8\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\..\packages\Caliburn.Micro.1.5.2\lib\win8\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Caliburn.Micro.Extensions">
-      <HintPath>..\..\packages\Caliburn.Micro.1.5.1\lib\win8\Caliburn.Micro.Extensions.dll</HintPath>
+      <HintPath>..\..\packages\Caliburn.Micro.1.5.2\lib\win8\Caliburn.Micro.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Callisto">
       <HintPath>..\..\packages\Callisto.1.2.6\lib\winrt45\Callisto.dll</HintPath>

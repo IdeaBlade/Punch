@@ -104,21 +104,21 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="IdeaBlade.Core.WinRT, Version=7.1.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Core.WinRT, Version=7.2.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.1.2\lib\winrt45\IdeaBlade.Core.WinRT.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.2.0\lib\winrt45\IdeaBlade.Core.WinRT.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.WinRT, Version=7.1.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.EntityModel.WinRT, Version=7.2.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.1.2\lib\winrt45\IdeaBlade.EntityModel.WinRT.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.2.0\lib\winrt45\IdeaBlade.EntityModel.WinRT.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq.WinRT, Version=7.1.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Linq.WinRT, Version=7.2.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.1.2\lib\winrt45\IdeaBlade.Linq.WinRT.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.2.0\lib\winrt45\IdeaBlade.Linq.WinRT.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Validation.WinRT, Version=7.1.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Validation.WinRT, Version=7.2.0.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.1.2\lib\winrt45\IdeaBlade.Validation.WinRT.dll</HintPath>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.2.0\lib\winrt45\IdeaBlade.Validation.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.AttributedModel, Version=1.0.16.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

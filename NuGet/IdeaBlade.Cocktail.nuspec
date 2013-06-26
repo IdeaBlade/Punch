@@ -22,7 +22,7 @@ Line of business applications need to query and save database data, model the da
       <group>
         <dependency id="IdeaBlade.DevForce.Core" version="[7.1.2]" />
         <dependency id="IdeaBlade.Cocktail.Utils" />
-        <dependency id="Caliburn.Micro" version="[1.5.2]" />
+        <dependency id="Caliburn.Micro" version="[1.5.2, 1.6)" />
       </group>
       <group targetFramework="net45">
         <dependency id="IdeaBlade.DevForce.Core" version="[7.1.2]" />

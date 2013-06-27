@@ -18,7 +18,6 @@
     <WarningLevel>4</WarningLevel>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <SkipPostSharp>True</SkipPostSharp>
     <DontImportPostSharp>True</DontImportPostSharp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -82,7 +81,8 @@
     <Reference Include="IdeaBlade.Validation">
       <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.0\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
-    <Reference Include="PostSharp">
+    <Reference Include="PostSharp, Version=3.0.28.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\PostSharp.3.0.28\lib\net20\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -180,6 +180,7 @@
       <SubType>Code</SubType>
     </Compile>
     <AppDesigner Include="Properties\" />
+    <Compile Include="RequiresPostSharp.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

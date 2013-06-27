@@ -15,7 +15,6 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
-    <SkipPostSharp>True</SkipPostSharp>
     <DontImportPostSharp>True</DontImportPostSharp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -76,7 +75,8 @@
     <Reference Include="IdeaBlade.Validation">
       <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.0\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
-    <Reference Include="PostSharp">
+    <Reference Include="PostSharp, Version=3.0.28.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\PostSharp.3.0.28\lib\net20\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -109,6 +109,7 @@
     <Compile Include="Messages\MessageProcessor.cs" />
     <Compile Include="Messages\SavedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequiresPostSharp.cs" />
     <Compile Include="Security\IUserService.cs" />
     <Compile Include="Toolbar\IToolbarManager.cs" />
     <Compile Include="Toolbar\ToolbarAction.cs" />

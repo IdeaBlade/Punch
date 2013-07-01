@@ -86,9 +86,8 @@
     <Reference Include="IdeaBlade.Validation">
       <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.0\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
-    <Reference Include="PostSharp, Version=3.0.28.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\PostSharp.3.0.28\lib\net20\PostSharp.dll</HintPath>
+    <Reference Include="PostSharp">
+      <HintPath>..\packages\PostSharp.3.0.30\lib\net20\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -263,7 +262,7 @@
     if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\PostSharp.3.0.28\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.3.0.28\tools\PostSharp.targets')" />
+  <Import Project="..\packages\PostSharp.3.0.30\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.3.0.30\tools\PostSharp.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

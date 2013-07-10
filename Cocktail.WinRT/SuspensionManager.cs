@@ -45,6 +45,12 @@ namespace Cocktail
         private static readonly List<WeakReference<Frame>> RegisteredFrames = new List<WeakReference<Frame>>();
         private static List<Type> _knownTypes;
 
+        private static readonly PartLocator<IAuthenticationService> AuthenticationServiceLocator =
+            new PartLocator<IAuthenticationService>();
+
+        private static readonly PartLocator<INavigator> RootNavigatorLocator =
+            new PartLocator<INavigator>();
+
         /// <summary>
         ///     Provides access to global session state for the current session.  This state is
         ///     serialized by <see cref="SaveAsync" /> and restored by
@@ -83,8 +89,11 @@ namespace Cocktail
         {
             try
             {
-                // Give other components a chance to save their state before saving
-                EventFns.Publish(new Suspending(SessionState));
+                // Notify Root Navigator and AuthenticationService that we are suspending
+                if (RootNavigatorLocator.IsAvailable)
+                    EventFns.Forward(RootNavigatorLocator.GetPart(), new Suspending(SessionState));
+                if (AuthenticationServiceLocator.IsAvailable)
+                    EventFns.Forward(AuthenticationServiceLocator.GetPart(), new Suspending(SessionState));
 
                 // Save the navigation state for all registered frames
                 foreach (var weakFrameReference in RegisteredFrames)
@@ -146,9 +155,11 @@ namespace Cocktail
                     _sessionState = (Dictionary<string, object>) serializer.ReadObject(inStream.AsStreamForRead());
                 }
 
-                // Allow other components to restore their state before we restore the registered frames
-                EnsureAuthenticationService();
-                EventFns.Publish(new Restoring(SessionState));
+                // Notify Root Navigator and AuthenticationService that we are restoring
+                if (RootNavigatorLocator.IsAvailable)
+                    EventFns.Forward(RootNavigatorLocator.GetPart(), new Restoring(SessionState));
+                if (AuthenticationServiceLocator.IsAvailable)
+                    EventFns.Forward(AuthenticationServiceLocator.GetPart(), new Restoring(SessionState));
 
                 // Restore any registered frames to their saved state
                 foreach (var weakFrameReference in RegisteredFrames)
@@ -165,12 +176,6 @@ namespace Cocktail
             {
                 throw new SuspensionManagerException(e);
             }
-        }
-
-        private static void EnsureAuthenticationService()
-        {
-            // Ensure that the authentication service is instantiated and subscribed to the EventAggregator
-            Composition.TryGetInstance<IAuthenticationService>();
         }
 
         /// <summary>

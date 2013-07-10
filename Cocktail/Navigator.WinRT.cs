@@ -86,8 +86,6 @@ namespace Cocktail
             _frameAdapter.Navigated += OnNavigated;
             _frameAdapter.NavigationFailed += OnNavigationFailed;
             _frameAdapter.NavigationStopped += OnNavigationStopped;
-
-            EventFns.Subscribe(this);
         }
 
         #region INavigator Members

@@ -154,10 +154,10 @@
       <HintPath>..\packages\Callisto.1.2.6\lib\winrt45\Callisto.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.WinRT">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.4.0\lib\netcore45\Cocktail.Utils.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.4.1\lib\netcore45\Cocktail.Utils.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.WinRT">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.4.0\lib\netcore45\Cocktail.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.4.1\lib\netcore45\Cocktail.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.WinRT">
       <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.0\lib\winrt45\IdeaBlade.Core.WinRT.dll</HintPath>

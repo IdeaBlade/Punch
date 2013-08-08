@@ -165,22 +165,22 @@
       <HintPath>..\packages\Callisto.1.2.9\lib\winrt45\Callisto.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.WinRT">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.4.1\lib\netcore45\Cocktail.Utils.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.4.2\lib\netcore45\Cocktail.Utils.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.WinRT">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.4.1\lib\netcore45\Cocktail.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.4.2\lib\netcore45\Cocktail.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.WinRT">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.0\lib\winrt45\IdeaBlade.Core.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.1\lib\winrt45\IdeaBlade.Core.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.WinRT">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.0\lib\winrt45\IdeaBlade.EntityModel.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.1\lib\winrt45\IdeaBlade.EntityModel.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq.WinRT">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.0\lib\winrt45\IdeaBlade.Linq.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.1\lib\winrt45\IdeaBlade.Linq.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation.WinRT">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.0\lib\winrt45\IdeaBlade.Validation.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.1\lib\winrt45\IdeaBlade.Validation.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.AttributedModel">
       <HintPath>..\packages\Microsoft.Composition.1.0.17\lib\portable-net45+win8\System.Composition.AttributedModel.dll</HintPath>

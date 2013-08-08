@@ -19,7 +19,7 @@ Line of business applications need to query and save database data, model the da
     <copyright>Copyright 2013</copyright>
     <tags>Silverlight WPF SL5 SL Coroutine Asynchronous Caliburn.Micro DevForce Cocktail</tags>
     <dependencies>
-      <dependency id="IdeaBlade.DevForce.Compat" version="[7.2.0]" />
+      <dependency id="IdeaBlade.DevForce.Compat" version="[7.2.1]" />
       <dependency id="IdeaBlade.Cocktail" version="[2.4.2]" />
     </dependencies>
   </metadata>

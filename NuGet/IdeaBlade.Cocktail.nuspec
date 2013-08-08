@@ -20,12 +20,12 @@ Line of business applications need to query and save database data, model the da
     <tags>MVVM Silverlight WPF SL5 SL Windows8 WinRT Metro Convention Screen Asynchronous Model-View-ViewModel Presentation UI ViewModel Caliburn.Micro DevForce ORM Entity Data LOB Enterprise</tags>
     <dependencies>
       <group>
-        <dependency id="IdeaBlade.DevForce.Core" version="[7.2.0]" />
+        <dependency id="IdeaBlade.DevForce.Core" version="[7.2.1]" />
         <dependency id="IdeaBlade.Cocktail.Utils" />
         <dependency id="Caliburn.Micro" version="[1.5.2]" />
       </group>
       <group targetFramework="net45">
-        <dependency id="IdeaBlade.DevForce.Core" version="[7.2.0]" />
+        <dependency id="IdeaBlade.DevForce.Core" version="[7.2.1]" />
         <dependency id="IdeaBlade.Cocktail.Utils" />
         <dependency id="Caliburn.Micro" version="[1.5.2, 1.6)" />
       </group>

@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Cocktail.NET</id>
-    <version>1.1.4</version>
+    <version>1.1.5</version>
     <title>Cocktail 2010 (.NET 4)</title>
     <authors>Marcel Good,Ward Bell,Rob Eisenberg</authors>
     <owners>IdeaBlade</owners>
@@ -15,7 +15,7 @@
     <copyright>Copyright 2012</copyright>
     <tags>MVVM Silverlight WPF SL4 SL5 SL Convention Screen Coroutine Model-View-ViewModel Presentation UI ViewModel Caliburn.Micro DevForce ORM Entity Data LOB Enterprise</tags>
     <dependencies>
-      <dependency id="Caliburn.Micro" version="1.5.1" />
+      <dependency id="Caliburn.Micro" version="[1.5.2, 1.6)" />
     </dependencies>
   </metadata>
   <files>

@@ -85,15 +85,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\Caliburn.Micro.1.5.1\lib\sl4\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\sl4\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.1.4\lib\sl40\Cocktail.SL.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.1.5\lib\sl40\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.1.4\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.1.5\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Aop.SL, Version=6.1.14.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
+    <Reference Include="IdeaBlade.Aop.SL, Version=6.1.15.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
     <Reference Include="IdeaBlade.Core.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -117,7 +117,7 @@
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.1.5.1\lib\sl4\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\sl4\System.Windows.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Demo|AnyCPU'">

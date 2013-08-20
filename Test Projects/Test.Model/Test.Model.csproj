@@ -120,7 +120,7 @@
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8854.2\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\..\packages\PostSharp.2.1.7.30\tools\PostSharp.targets" Condition="Exists('..\..\packages\PostSharp.2.1.7.30\tools\PostSharp.targets')" />
-  <Import Project="..\..\packages\IdeaBlade.DevForce-2010.Aop.6.1.15-rc\tools\IdeaBlade.DevForce.Common.targets" Condition="Exists('..\..\packages\IdeaBlade.DevForce-2010.Aop.6.1.15-rc\tools\IdeaBlade.DevForce.Common.targets')" />
+  <Import Project="..\..\packages\IdeaBlade.DevForce-2010.Aop.6.1.15\tools\IdeaBlade.DevForce.Common.targets" Condition="Exists('..\..\packages\IdeaBlade.DevForce-2010.Aop.6.1.15\tools\IdeaBlade.DevForce.Common.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

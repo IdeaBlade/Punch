@@ -11,6 +11,7 @@
 //====================================================================================================================
 
 using System.Threading.Tasks;
+using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using IdeaBlade.EntityModel.Security;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
@@ -21,6 +22,10 @@ namespace Cocktail.Tests.Helpers
     {
         static CocktailTestBase()
         {
+            IdeaBladeConfig.Instance.ObjectServer.RemoteBaseUrl = "http://localhost";
+            IdeaBladeConfig.Instance.ObjectServer.ServerPort = 9009;
+            IdeaBladeConfig.Instance.ObjectServer.ServiceName = "EntityService.svc";
+
             EntityManager.EntityManagerCreated += OnEntityManagerCreated;
         }
 

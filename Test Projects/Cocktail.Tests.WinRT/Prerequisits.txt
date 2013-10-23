@@ -1,0 +1,4 @@
+﻿Must enabled loopback exemption:
+
+checknetisolation loopbackexempt –a –n=a09415dc-7f26-40ac-8005-d471cec02ec9_pvmnf45jfddew <-- Replace with correct package family name.
+

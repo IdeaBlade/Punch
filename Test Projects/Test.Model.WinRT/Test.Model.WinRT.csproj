@@ -96,7 +96,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Test.Model\NorthwindIB.IB.Designer.cs" />
+    <Compile Include="..\Test.Model\NorthwindIB.IB.Designer.cs">
+      <Link>NorthwindIB.IB.Designer.cs</Link>
+    </Compile>
     <Compile Include="..\Test.Model\PageProjection.cs" />
     <Compile Include="..\Test.Model\PartialEntities.cs" />
     <Compile Include="..\Test.Model\Properties\AssemblyInfo.cs">
@@ -104,40 +106,45 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="IdeaBlade.Core.WinRT, Version=7.2.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.2.1\lib\winrt45\IdeaBlade.Core.WinRT.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.EntityModel.WinRT, Version=7.2.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.2.1\lib\winrt45\IdeaBlade.EntityModel.WinRT.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.Linq.WinRT, Version=7.2.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.2.1\lib\winrt45\IdeaBlade.Linq.WinRT.dll</HintPath>
-    </Reference>
-    <Reference Include="IdeaBlade.Validation.WinRT, Version=7.2.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.2.1\lib\winrt45\IdeaBlade.Validation.WinRT.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.AttributedModel">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.17\lib\portable-net45+win8\System.Composition.AttributedModel.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Convention">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.17\lib\portable-net45+win8\System.Composition.Convention.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Hosting">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.17\lib\portable-net45+win8\System.Composition.Hosting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Runtime">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.17\lib\portable-net45+win8\System.Composition.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.TypedParts">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.17\lib\portable-net45+win8\System.Composition.TypedParts.dll</HintPath>
-    </Reference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Reference Include="IdeaBlade.Core.WinRT, Version=7.2.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.2.2\lib\winrt45\IdeaBlade.Core.WinRT.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.EntityModel.WinRT, Version=7.2.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.2.2\lib\winrt45\IdeaBlade.EntityModel.WinRT.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.Linq.WinRT, Version=7.2.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.2.2\lib\winrt45\IdeaBlade.Linq.WinRT.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.Validation.WinRT, Version=7.2.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.2.2\lib\winrt45\IdeaBlade.Validation.WinRT.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.AttributedModel, Version=1.0.17.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.Composition.1.0.17\lib\portable-net45+win8\System.Composition.AttributedModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Convention, Version=1.0.17.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.Composition.1.0.17\lib\portable-net45+win8\System.Composition.Convention.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Hosting, Version=1.0.17.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.Composition.1.0.17\lib\portable-net45+win8\System.Composition.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Runtime, Version=1.0.17.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.Composition.1.0.17\lib\portable-net45+win8\System.Composition.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.TypedParts, Version=1.0.17.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.Composition.1.0.17\lib\portable-net45+win8\System.Composition.TypedParts.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

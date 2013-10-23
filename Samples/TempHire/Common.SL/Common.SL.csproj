@@ -92,22 +92,22 @@
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\sl5\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.4.2\lib\sl50\Cocktail.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.4.3\lib\sl50\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.4.2\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.4.3\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.1\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.2\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.1\lib\sl50\IdeaBlade.EntityModel.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.2\lib\sl50\IdeaBlade.EntityModel.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.1\lib\sl50\IdeaBlade.Linq.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.2\lib\sl50\IdeaBlade.Linq.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.1\lib\sl50\IdeaBlade.Validation.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.2\lib\sl50\IdeaBlade.Validation.SL.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Silverlight5">
       <HintPath>..\packages\Microsoft.CompilerServices.AsyncTargetingPack.1.0.0\lib\sl50\Microsoft.CompilerServices.AsyncTargetingPack.Silverlight5.dll</HintPath>

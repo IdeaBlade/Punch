@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="abc59995-b2a4-469e-8f9e-756ee28e6f88" Publisher="CN=Marcel" Version="1.0.0.0" />
+  <Identity Name="abc59995-b2a4-469e-8f9e-756ee28e6f88" Publisher="CN=IdeaBlade" Version="1.0.0.0" />
   <Properties>
     <DisplayName>NavSample</DisplayName>
     <PublisherDisplayName>Marcel</PublisherDisplayName>

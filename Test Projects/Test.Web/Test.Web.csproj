@@ -56,9 +56,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.2.2\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Edm, Version=7.2.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.2.2\lib\net45\IdeaBlade.EntityModel.Edm.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel.Edm.EF5">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.2.2\lib\net45\IdeaBlade.EntityModel.Edm.EF5.dll</HintPath>
+    </Reference>
+    <Reference Include="IdeaBlade.EntityModel.Edm.EF6">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.2.2\lib\net45\IdeaBlade.EntityModel.Edm.EF6.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.Server, Version=7.2.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

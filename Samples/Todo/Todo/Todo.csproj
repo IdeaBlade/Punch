@@ -15,6 +15,7 @@
     <PackageCertificateKeyFile>Todo_TemporaryKey.pfx</PackageCertificateKeyFile>
     <RestorePackages>true</RestorePackages>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <PackageCertificateThumbprint>BACB547C535B1A41EEF1F02AA7177E4110E1AE9B</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

@@ -116,9 +116,8 @@
       <HintPath>..\packages\Microsoft.CompilerServices.AsyncTargetingPack.1.0.0\lib\sl50\Microsoft.CompilerServices.AsyncTargetingPack.Silverlight5.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="PostSharp, Version=3.0.38.3, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\PostSharp.3.0.38\lib\portable-windows8+net40+sl4+wp7\PostSharp.dll</HintPath>
+    <Reference Include="PostSharp">
+      <HintPath>..\packages\PostSharp.3.0.39\lib\portable-windows8+net40+sl4+wp7\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="system" />
     <Reference Include="System.ComponentModel.Composition, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -175,7 +174,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Import Project="..\packages\PostSharp.3.0.38\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.3.0.38\tools\PostSharp.targets')" />
+  <Import Project="..\packages\PostSharp.3.0.39\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.3.0.39\tools\PostSharp.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

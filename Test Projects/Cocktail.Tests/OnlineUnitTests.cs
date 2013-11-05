@@ -190,5 +190,39 @@ namespace Cocktail.Tests
             Assert.IsTrue(authSvc.ConnectionOptions.IsFake);
             Assert.IsFalse(authSvc.ConnectionOptions.IsDesignTime);
         }
+
+        [TestMethod]
+        [Timeout(10000)]
+        public async Task ShouldSyncBetweenDifferentEMTypes()
+        {
+            var context = CompositionContext
+                .Fake
+                .WithGenerator(typeof(IEntityManagerSyncInterceptor), () => new SyncInterceptor())
+                .WithName("ShouldSyncBetweenDifferentEMTypes");
+            CompositionContextResolver.Add(context);
+
+            var connectionOptions =
+                ConnectionOptions.Default.WithCompositionContext(context.Name)
+                                 .WithName("ShouldSyncBetweenDifferentEMTypes");
+            ConnectionOptionsResolver.Add(connectionOptions);
+
+            var emp1 = new EntityManagerProvider<EntityManager>()
+                .Configure(x => x.WithConnectionOptions(connectionOptions.Name));
+            var emp2 = new EntityManagerProvider<NorthwindIBEntities>()
+                .Configure(x => x.WithConnectionOptions(connectionOptions.Name));
+
+            await InitFakeBackingStoreAsync(context.Name);
+
+            var customer = emp1.Manager.FindEntities<Customer>(EntityState.AllButDetached).FirstOrDefault();
+            Assert.IsNull(customer);
+
+            customer = await emp2.Manager.Customers.AsScalarAsync().FirstOrDefault();
+            customer.CompanyName = "Foo";
+            await emp2.Manager.SaveChangesAsync();
+
+            customer = emp1.Manager.FindEntities<Customer>(EntityState.AllButDetached).FirstOrDefault();
+            Assert.IsNotNull(customer);
+            Assert.IsTrue(customer.CompanyName == "Foo");
+        }
     }
 }

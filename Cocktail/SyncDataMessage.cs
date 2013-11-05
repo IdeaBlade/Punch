@@ -18,16 +18,14 @@ namespace Cocktail
     /// <summary>
     /// Internal use.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    internal class SyncDataMessage<T>
-        where T : EntityManager
+    internal class SyncDataMessage
     {
         private readonly IEnumerable<EntityKey> _deletedEntityKeys;
         private readonly IEnumerable<object> _savedEntities;
-        private readonly IEntityManagerProvider<T> _source;
+        private readonly IEntityManagerProvider _source;
 
         /// <summary>Internal use.</summary>
-        public SyncDataMessage(IEntityManagerProvider<T> source, IEnumerable<object> savedEntities,
+        public SyncDataMessage(IEntityManagerProvider source, IEnumerable<object> savedEntities,
                         IEnumerable<EntityKey> deletedEntityKeys)
         {
             _source = source;
@@ -35,7 +33,7 @@ namespace Cocktail
             _deletedEntityKeys = deletedEntityKeys ?? new List<EntityKey>();
         }
 
-        public IEntityManagerProvider<T> Source
+        public IEntityManagerProvider Source
         {
             get { return _source; }
         }
@@ -53,7 +51,7 @@ namespace Cocktail
         }
 
         /// <summary>Internal use.</summary>
-        public bool IsSameProviderAs(IEntityManagerProvider<T> provider)
+        public bool IsSameProviderAs(IEntityManagerProvider provider)
         {
             return ReferenceEquals(provider, _source);
         }

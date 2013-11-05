@@ -68,7 +68,7 @@ namespace Cocktail
     ///   Manages and provides an EntityManager.
     /// </summary>
     /// <typeparam name="T"> The type of the EntityManager </typeparam>
-    public partial class EntityManagerProvider<T> : IEntityManagerProvider<T>, IHandle<SyncDataMessage<T>>, IHandle<PrincipalChangedMessage>
+    public partial class EntityManagerProvider<T> : IEntityManagerProvider<T>, IHandle<SyncDataMessage>, IHandle<PrincipalChangedMessage>
         where T : EntityManager
     {
         private readonly EntityManagerProviderConfiguration<T> _configuration;
@@ -173,7 +173,7 @@ namespace Cocktail
         /// <summary>
         ///   Internal use.
         /// </summary>
-        void IHandle<SyncDataMessage<T>>.Handle(SyncDataMessage<T> syncData)
+        void IHandle<SyncDataMessage>.Handle(SyncDataMessage syncData)
         {
             if (syncData.IsSameProviderAs(this)) return;
 
@@ -430,7 +430,7 @@ namespace Cocktail
 
         private void PublishEntities(IEnumerable<object> exportEntities)
         {
-            var syncData = new SyncDataMessage<T>(this, exportEntities, _deletedEntityKeys);
+            var syncData = new SyncDataMessage(this, exportEntities, _deletedEntityKeys);
             EventFns.Publish(syncData);
 
             // Signal to our clients that data has changed

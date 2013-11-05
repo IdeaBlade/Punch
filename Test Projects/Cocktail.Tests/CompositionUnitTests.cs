@@ -12,6 +12,7 @@
 
 using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using Cocktail.Tests.Helpers;
 using IdeaBlade.Core.Composition;
 using IdeaBlade.EntityModel;
@@ -45,7 +46,7 @@ namespace Cocktail.Tests
 
         [TestMethod]
         [Tag("Composition")]
-        public void ShouldDiscoverDefault()
+        public void ShouldDiscoverDefaultSyncInterceptor()
         {
             CompositionContext context = CompositionContext.Default
                 .WithGenerator(typeof(IEntityManagerSyncInterceptor), () => new SyncInterceptor())
@@ -63,6 +64,14 @@ namespace Cocktail.Tests
             IEntityManagerSyncInterceptor obj2 = partLocator2.GetPart();
             Assert.IsTrue(obj2.GetType() == typeof(DefaultEntityManagerSyncInterceptor),
                           "Should have found the DefaultSyncInterceptor");
+        }
+
+        [TestMethod]
+        [Tag("Composition")]
+        public void ShouldNotDiscoverAnySyncInterceptors()
+        {
+            var interceptors = Composition.GetInstances<IEntityManagerSyncInterceptor>().ToList();
+            Assert.IsFalse(interceptors.Any());
         }
 
         [TestMethod]

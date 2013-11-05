@@ -66,10 +66,10 @@
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\sl4\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.1.5\lib\sl40\Cocktail.SL.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.1.6\lib\sl40\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.1.5\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.1.6\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System.ComponentModel.Composition, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />

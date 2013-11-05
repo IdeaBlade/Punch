@@ -88,12 +88,12 @@
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\sl4\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.1.5\lib\sl40\Cocktail.SL.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.1.6\lib\sl40\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\Cocktail.Silverlight.1.1.5\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\Cocktail.Silverlight.1.1.6\lib\sl40\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Aop.SL, Version=6.1.15.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
+    <Reference Include="IdeaBlade.Aop.SL, Version=6.1.16.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL" />
     <Reference Include="IdeaBlade.Core.SL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>

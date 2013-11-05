@@ -10,11 +10,18 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
+#if NETFX_CORE
+using System.Composition;
+#else
+using System.ComponentModel.Composition;
+#endif
+
 namespace Cocktail
 {
     /// <summary>
     /// Internal use.
     /// </summary>
+    [PartNotDiscoverable]
     internal class DefaultEntityManagerSyncInterceptor : IEntityManagerSyncInterceptor
     {
         #region IEntityManagerSyncInterceptor Members

@@ -184,9 +184,16 @@ namespace Cocktail
                 .ToList();
             if (removers.Any()) Manager.RemoveEntities(removers, false);
 
-            // Merge saved entities
-            var mergers = syncData.SavedEntities.Where(SyncInterceptor.ShouldImportEntity);
-            Manager.ImportEntities(mergers, MergeStrategy.PreserveChangesUpdateOriginal);
+            // Merge saved entities, may take several passes
+            var savedEntities = syncData.SavedEntities.ToList();
+            List<object> mergers;
+            do
+            {
+                mergers = savedEntities.Where(SyncInterceptor.ShouldImportEntity).ToList();
+                Manager.ImportEntities(mergers, MergeStrategy.PreserveChangesUpdateOriginal);
+
+                savedEntities = savedEntities.Except(mergers).ToList();
+            } while (mergers.Any());
 
             // Signal to our clients that data has changed
             if (syncData.SavedEntities.Any() || syncData.DeletedEntityKeys.Any())

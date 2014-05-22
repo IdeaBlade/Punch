@@ -64,24 +64,23 @@
     <Reference Include="Caliburn.Micro">
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\sl5\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core.SL, Version=7.2.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Core.SL, Version=7.2.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.2\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.3\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.SL, Version=7.2.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.EntityModel.SL, Version=7.2.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.2\lib\sl50\IdeaBlade.EntityModel.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.3\lib\sl50\IdeaBlade.EntityModel.SL.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq.SL, Version=7.2.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Linq.SL, Version=7.2.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.2\lib\sl50\IdeaBlade.Linq.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.3\lib\sl50\IdeaBlade.Linq.SL.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Validation.SL, Version=7.2.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Validation.SL, Version=7.2.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.2\lib\sl50\IdeaBlade.Validation.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.3\lib\sl50\IdeaBlade.Validation.SL.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Silverlight5, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Silverlight5">
       <HintPath>..\packages\Microsoft.CompilerServices.AsyncTargetingPack.1.0.1\lib\sl50\Microsoft.CompilerServices.AsyncTargetingPack.Silverlight5.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">

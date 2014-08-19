@@ -71,5 +71,11 @@ namespace TempHire.ViewModels.StaffingResource
             ActivateItem(StaffingResourcePhoneList.Start(staffingResourceId, editMode));
             return this;
         }
+        
+        public void Stop()
+        {
+            if (StaffingResourceAddressList != null) StaffingResourceAddressList.Stop();
+            if (StaffingResourcePhoneList != null) StaffingResourcePhoneList.Stop();
+        }
     }
 }

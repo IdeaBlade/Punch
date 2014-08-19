@@ -109,5 +109,11 @@ namespace TempHire.ViewModels.StaffingResource
             EditMode = editMode;
             StaffingResource = await UnitOfWork.StaffingResources.WithIdAsync(staffingResourceId);
         }
+
+        public void Stop()
+        {
+            StaffingResource = null;
+            _unitOfWork = null;
+        }
     }
 }

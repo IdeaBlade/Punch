@@ -21,5 +21,7 @@ namespace TempHire.ViewModels.StaffingResource
         int Index { get; }
 
         void Start(Guid staffingResourceId, EditMode editMode);
+
+        void Stop();
     }
 }

@@ -188,6 +188,7 @@ namespace TempHire.ViewModels.StaffingResource
             {
                 StaffingResource = null;
                 _unitOfWork = null;
+                _sections.ForEach(s => s.Stop());
             }
         }
 

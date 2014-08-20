@@ -27,7 +27,7 @@ namespace TempHire.ViewModels.StaffingResource
 {
     [Export]
     public class ResourceMgtViewModel : Conductor<IScreen>, IDiscoverableViewModel,
-                                        IHandle<EntityChangedMessage>
+                                        IHandle<EntityChangedMessage>, INavigationTarget
     {
         private readonly IDialogManager _dialogManager;
         private readonly ExportFactory<StaffingResourceNameEditorViewModel> _nameEditorFactory;
@@ -228,6 +228,12 @@ namespace TempHire.ViewModels.StaffingResource
             SearchPane.PropertyChanged -= OnSearchPanePropertyChanged;
             ((IDeactivate) SearchPane).Deactivate(close);
 
+            if (_retainedActiveItem != null)
+            {
+                _retainedActiveItem.PropertyChanged -= OnActiveDetailPropertyChanged;
+                _retainedActiveItem = null;
+            }
+
             _toolbar.RemoveGroup(_toolbarGroup);
         }
 
@@ -287,6 +293,24 @@ namespace TempHire.ViewModels.StaffingResource
             NotifyOfPropertyChange(() => CanRefreshData);
             NotifyOfPropertyChange(() => CanEdit);
             NotifyOfPropertyChange(() => CanAdd);
+        }
+
+        public void OnNavigatedFrom(NavigationArgs args)
+        {
+        }
+
+        public void OnNavigatedTo(NavigationArgs args)
+        {
+        }
+
+        public void OnNavigatingFrom(NavigationCancelArgs args)
+        {
+            // We need to explicity close the active item when navigating away.
+            // This is due to a potential bug in Caliburn.Micro. While CM properly deactivates the active item,
+            // it doesn't set ActiveItem to null. Since ResourceMgtViewModel is a singleton, this will 
+            // cause the last active item and all of its dependencies to stay in memory, even though 
+            // the user effectively closed the resource management module. 
+            if (ActiveItem != null) ActiveItem.TryClose();
         }
     }
 }

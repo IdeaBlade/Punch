@@ -7,20 +7,14 @@ using IdeaBlade.EntityModel;
 
 namespace NavSample
 {
-    public class DetailPageViewModel : Screen, INavigationTarget
+    public class DetailPageViewModel : PageViewModel
     {
-        private readonly ErrorHandler _errorHandler;
-        private readonly INavigator _navigator;
-        private readonly ICustomerUnitOfWork _unitOfWork;
         private Customer _customer;
-        private bool _restored;
 
         public DetailPageViewModel(INavigator navigator, ICustomerUnitOfWork unitOfWork, ErrorHandler errorHandler)
+            : base(navigator, unitOfWork, errorHandler)
         {
-            _navigator = navigator;
-            _unitOfWork = unitOfWork;
-            _errorHandler = errorHandler;
-            _unitOfWork.EntityChanged += new EventHandler<EntityChangedEventArgs>(UnitOfWorkOnEntityChanged)
+            UnitOfWork.EntityChanged += new EventHandler<EntityChangedEventArgs>(UnitOfWorkOnEntityChanged)
                 .MakeWeak(eh => unitOfWork.EntityChanged -= eh);
         }
 
@@ -37,17 +31,17 @@ namespace NavSample
 
         public bool CanGoBack
         {
-            get { return _navigator.CanGoBack && !_unitOfWork.HasChanges(); }
+            get { return Navigator.CanGoBack && !UnitOfWork.HasChanges(); }
         }
 
         public bool CanSave
         {
-            get { return _unitOfWork.HasChanges(); }
+            get { return UnitOfWork.HasChanges(); }
         }
 
         public bool CanDiscard
         {
-            get { return _unitOfWork.HasChanges(); }
+            get { return UnitOfWork.HasChanges(); }
         }
 
         private void UnitOfWorkOnEntityChanged(object sender, EntityChangedEventArgs entityChangedEventArgs)
@@ -61,14 +55,14 @@ namespace NavSample
         {
             try
             {
-                if (_restored)
-                    Customer = _unitOfWork.Entities.WithIdFromCache(customerId);
+                if (IsRestored)
+                    Customer = UnitOfWork.Entities.WithIdFromCache(customerId);
                 else
-                    Customer = await _unitOfWork.Entities.WithIdAsync(customerId);
+                    Customer = await UnitOfWork.Entities.WithIdAsync(customerId);
             }
             catch (Exception e)
             {
-                _errorHandler.Handle(e);
+                ErrorHandler.Handle(e);
             }
         }
 
@@ -76,11 +70,11 @@ namespace NavSample
         {
             try
             {
-                await _navigator.GoBackAsync();
+                await Navigator.GoBackAsync();
             }
             catch (Exception e)
             {
-                _errorHandler.Handle(e);
+                ErrorHandler.Handle(e);
             }
         }
 
@@ -88,11 +82,11 @@ namespace NavSample
         {
             try
             {
-                await _unitOfWork.CommitAsync();
+                await UnitOfWork.CommitAsync();
             }
             catch (Exception e)
             {
-                _errorHandler.Handle(e);
+                ErrorHandler.Handle(e);
             }
         }
 
@@ -100,48 +94,25 @@ namespace NavSample
         {
             try
             {
-                _unitOfWork.Rollback();
+                UnitOfWork.Rollback();
             }
             catch (Exception e)
             {
-                _errorHandler.Handle(e);
+                ErrorHandler.Handle(e);
             }
         }
 
         public override void CanClose(Action<bool> callback)
         {
-            if (_unitOfWork.HasChanges())
+            if (UnitOfWork.HasChanges())
                 callback(false);
             else
                 base.CanClose(callback);
         }
 
-        public void OnNavigatedTo(NavigationArgs args)
+        public override void OnNavigatedTo(NavigationArgs args)
         {
             Start((Guid)args.Parameter);
         }
-
-        public void OnNavigatingFrom(NavigationCancelArgs args)
-        {
-        }
-
-        public void OnNavigatedFrom(NavigationArgs args)
-        {
-        }
-
-        public void LoadState(object navigationParameter, Dictionary<string, object> pageState, Dictionary<string, object> sharedState)
-        {
-            if (!_unitOfWork.IsRestored && sharedState.ContainsKey("uow"))
-                _unitOfWork.Restore((EntityCacheState)sharedState["uow"]);
-
-            _restored = pageState != null;
-        }
-
-        public void SaveState(Dictionary<string, object> pageState, Dictionary<string, object> sharedState)
-        {
-            sharedState["uow"] = _unitOfWork.GetCacheState();
-        }
-
-        public string PageKey { get; set; }
     }
 }

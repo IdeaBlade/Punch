@@ -4,25 +4,20 @@ using System.Linq;
 using Caliburn.Micro;
 using Cocktail;
 using IdeaBlade.EntityModel;
+using System.Linq.Expressions;
 
 namespace NavSample
 {
-    public class ListPageViewModel : Screen, INavigationTarget
+    public class ListPageViewModel : PageViewModel
     {
-        private readonly ErrorHandler _errorHandler;
-        private readonly INavigator _navigator;
-        private readonly ICustomerUnitOfWork _unitOfWork;
         private BindableCollection<Customer> _customers;
         private string _searchText;
         private Customer _selectedCustomer;
-        private bool _restored;
 
         // Inject Cocktail root navigation service
-        public ListPageViewModel(INavigator navigator, ICustomerUnitOfWork unitOfWork, ErrorHandler errorHandler)
+        public ListPageViewModel(INavigator navigator, ICustomerUnitOfWork unitOfWork, ErrorHandler errorHandler) 
+            : base(navigator, unitOfWork, errorHandler)
         {
-            _navigator = navigator;
-            _unitOfWork = unitOfWork;
-            _errorHandler = errorHandler;
             Busy = new BusyWatcher();
         }
 
@@ -54,7 +49,7 @@ namespace NavSample
 
         public bool CanGoBack
         {
-            get { return _navigator.CanGoBack; }
+            get { return Navigator.CanGoBack; }
         }
 
         public string SearchText
@@ -74,18 +69,18 @@ namespace NavSample
             {
                 using (Busy.GetTicket())
                 {
-                    IEnumerable<Customer> customers;
-                    if (_restored)
-                        customers = _unitOfWork.Entities.AllInCache(q => q.OrderBy(x => x.CompanyName));
-                    else
-                        customers = await _unitOfWork.Entities.AllAsync(q => q.OrderBy(x => x.CompanyName));
+                    Func<IQueryable<Customer>, IOrderedQueryable<Customer>> orderBy = q => q.OrderBy(x => x.CompanyName);
 
-                    Customers = new BindableCollection<Customer>(customers);
+                    if (!string.IsNullOrEmpty(SearchText))
+                        Search(IsRestored);
+                    else
+                        Customers = new BindableCollection<Customer>(
+                            IsRestored ? UnitOfWork.Entities.AllInCache(orderBy) : await UnitOfWork.Entities.AllAsync(orderBy));
                 }
             }
             catch (Exception e)
             {
-                _errorHandler.Handle(e);
+                ErrorHandler.Handle(e);
             }
         }
 
@@ -93,15 +88,15 @@ namespace NavSample
         {
             try
             {
-                await _navigator.GoBackAsync();
+                await Navigator.GoBackAsync();
             }
             catch (Exception e)
             {
-                _errorHandler.Handle(e);
+                ErrorHandler.Handle(e);
             }
         }
 
-        public async void Search()
+        public async void Search(bool cache)
         {
             try
             {
@@ -113,14 +108,16 @@ namespace NavSample
                         return;
                     }
 
-                    var customers = await _unitOfWork.Entities.FindAsync(
-                        x => x.CompanyName.Contains(SearchText), q => q.OrderBy(x => x.CompanyName));
-                    Customers = new BindableCollection<Customer>(customers);
+                    Expression<Func<Customer, bool>> predicate = x => x.CompanyName.Contains(SearchText);
+                    Func<IQueryable<Customer>, IOrderedQueryable<Customer>> orderBy = q => q.OrderBy(x => x.CompanyName);
+
+                    Customers = new BindableCollection<Customer>(
+                        cache ? UnitOfWork.Entities.FindInCache(predicate, orderBy) : await UnitOfWork.Entities.FindAsync(predicate, orderBy));
                 }
             }
             catch (Exception e)
             {
-                _errorHandler.Handle(e);
+                ErrorHandler.Handle(e);
             }
         }
 
@@ -129,40 +126,31 @@ namespace NavSample
             try
             {
                 // Navigate to detail page and initialize page with the selected customer.
-                await _navigator.NavigateToAsync<DetailPageViewModel>(_selectedCustomer.CustomerID);
+                await Navigator.NavigateToAsync<DetailPageViewModel>(_selectedCustomer.CustomerID);
             }
             catch (Exception e)
             {
-                _errorHandler.Handle(e);
+                ErrorHandler.Handle(e);
             }
         }
 
-        public void OnNavigatedTo(NavigationArgs args)
+        public override void OnNavigatedTo(NavigationArgs args)
         {
             Start();
         }
 
-        public void OnNavigatingFrom(NavigationCancelArgs args)
+        public override void LoadState(object navigationParameter, Dictionary<string, object> pageState, Dictionary<string, object> sharedState)
         {
+            base.LoadState(navigationParameter, pageState, sharedState);
+
+            SearchText = pageState != null ? (string)pageState["SearchText"] : null;
         }
 
-        public void OnNavigatedFrom(NavigationArgs args)
+        public override void SaveState(Dictionary<string, object> pageState, Dictionary<string, object> sharedState)
         {
-        }
+            base.SaveState(pageState, sharedState);
 
-        public void LoadState(object navigationParameter, Dictionary<string, object> pageState, Dictionary<string, object> sharedState)
-        {
-            if (!_unitOfWork.IsRestored && sharedState.ContainsKey("uow"))
-                _unitOfWork.Restore((EntityCacheState)sharedState["uow"]);
-        
-            _restored = pageState != null;
+            pageState["SearchText"] = SearchText;
         }
-
-        public void SaveState(Dictionary<string, object> pageState, Dictionary<string, object> sharedState)
-        {
-            sharedState["uow"] = _unitOfWork.GetCacheState();
-        }
-
-        public string PageKey { get; set; }
     }
 }

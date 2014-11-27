@@ -93,7 +93,7 @@ namespace Cocktail
         ///   Executes the result using the specified context.
         /// </summary>
         /// <param name="context"> The context. </param>
-        void IResult.Execute(ActionExecutionContext context)
+        void IResult.Execute(CoroutineExecutionContext context)
         {
             _asyncOp.WhenCompleted(OnComplete);
         }

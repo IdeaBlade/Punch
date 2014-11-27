@@ -109,7 +109,7 @@ namespace Cocktail
         {
             if (!EventAggregatorLocator.IsAvailable)
                 return false;
-            EventAggregatorLocator.GetPart().Publish(message);
+            EventAggregatorLocator.GetPart().PublishOnUIThread(message);
             return true;
         }
 

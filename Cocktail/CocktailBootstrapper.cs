@@ -39,7 +39,7 @@ namespace Cocktail
             : base(useApplication)
         {
             DefaultDebugLogger.SetAsLogger();
-            Start();
+            Initialize();
         }
 
         /// <summary>

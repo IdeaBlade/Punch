@@ -49,7 +49,7 @@ namespace Cocktail
         /// </summary>
         /// <param name="source"> The IResult to be converted. </param>
         /// <param name="context"> Optional execution context. </param>
-        public static Task AsTask(this IResult source, ActionExecutionContext context = null)
+        public static Task AsTask(this IResult source, CoroutineExecutionContext context = null)
         {
             var tcs = new TaskCompletionSource<bool>();
             source.Completed += (sender, args) =>

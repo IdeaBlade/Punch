@@ -75,9 +75,6 @@ namespace Cocktail
         /// </summary>
         protected virtual void StartRuntime()
         {
-            Execute.InitializeWithDispatcher();
-
-            EventAggregator.DefaultPublicationThreadMarshaller = Execute.OnUIThread;
             AssemblySource.Instance.AddRange(SelectAssemblies());
 
             PrepareApplication();

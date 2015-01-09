@@ -66,10 +66,10 @@
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.4.5\lib\net45\Cocktail.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.4.6\lib\net45\Cocktail.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.4.5\lib\net45\Cocktail.Utils.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.4.6\lib\net45\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
@@ -80,35 +80,35 @@
     <Reference Include="EntityFramework.SqlServerCompact">
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.1\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core, Version=7.2.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Core, Version=7.2.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.4\lib\net45\IdeaBlade.Core.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\net45\IdeaBlade.Core.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel, Version=7.2.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.EntityModel, Version=7.2.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.4\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.Edm.EF5">
-      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.2.4\lib\net45\IdeaBlade.EntityModel.Edm.EF5.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.2.5\lib\net45\IdeaBlade.EntityModel.Edm.EF5.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.Edm.EF6">
-      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.2.4\lib\net45\IdeaBlade.EntityModel.Edm.EF6.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.2.5\lib\net45\IdeaBlade.EntityModel.Edm.EF6.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Server, Version=7.2.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.EntityModel.Server, Version=7.2.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.2.4\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.2.5\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq, Version=7.2.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Linq, Version=7.2.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.4\lib\net45\IdeaBlade.Linq.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\net45\IdeaBlade.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Validation, Version=7.2.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Validation, Version=7.2.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.4\lib\net45\IdeaBlade.Validation.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
-    <Reference Include="PostSharp, Version=3.1.48.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+    <Reference Include="PostSharp, Version=3.1.57.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\PostSharp.3.1.48\lib\net20\PostSharp.dll</HintPath>
+      <HintPath>..\packages\PostSharp.3.1.57\lib\net20\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -278,10 +278,10 @@
     if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\PostSharp.3.1.48\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.3.1.48\tools\PostSharp.targets')" />
+  <Import Project="..\packages\PostSharp.3.1.57\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.3.1.57\tools\PostSharp.targets')" />
   <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">
-    <Error Condition="!Exists('..\packages\PostSharp.3.1.48\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
-    <Error Condition="Exists('..\packages\PostSharp.3.1.48\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="!Exists('..\packages\PostSharp.3.1.57\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="Exists('..\packages\PostSharp.3.1.57\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

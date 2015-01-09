@@ -185,21 +185,21 @@
     <Reference Include="Callisto">
       <HintPath>..\packages\Callisto.1.2.6\lib\winrt45\Callisto.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core.WinRT, Version=7.2.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Core.WinRT, Version=7.2.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.4\lib\winrt45\IdeaBlade.Core.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\netcore45\IdeaBlade.Core.WinRT.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.WinRT, Version=7.2.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.EntityModel.WinRT, Version=7.2.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.4\lib\winrt45\IdeaBlade.EntityModel.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\netcore45\IdeaBlade.EntityModel.WinRT.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq.WinRT, Version=7.2.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Linq.WinRT, Version=7.2.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.4\lib\winrt45\IdeaBlade.Linq.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\netcore45\IdeaBlade.Linq.WinRT.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Validation.WinRT, Version=7.2.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+    <Reference Include="IdeaBlade.Validation.WinRT, Version=7.2.5.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.4\lib\winrt45\IdeaBlade.Validation.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\netcore45\IdeaBlade.Validation.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.AttributedModel">
       <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>

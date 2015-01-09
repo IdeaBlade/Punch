@@ -104,7 +104,7 @@ namespace Cocktail
         /// <remarks>
         ///   Not available in Windows 8 Store apps.
         /// </remarks>
-        public async Task NavigateToAsync(Type viewModelType, string contractName, object parameter = null)
+        public virtual async Task NavigateToAsync(Type viewModelType, string contractName, object parameter = null)
         {
             if (viewModelType == null && string.IsNullOrEmpty(contractName))
                 throw new ArgumentNullException();

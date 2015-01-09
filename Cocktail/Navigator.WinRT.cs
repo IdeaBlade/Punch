@@ -171,7 +171,7 @@ namespace Cocktail
         /// <param name="viewModelType"> The target ViewModel type. </param>
         /// <param name="parameter">An optional parameter to be sent to the target view model. See <see cref="INavigationTarget"/></param>
         /// <returns> A <see cref="Task" /> to await completion. </returns>
-        public Task NavigateToAsync(Type viewModelType, object parameter = null)
+        public virtual Task NavigateToAsync(Type viewModelType, object parameter = null)
         {
             if (viewModelType == null) throw new ArgumentNullException("viewModelType");
 

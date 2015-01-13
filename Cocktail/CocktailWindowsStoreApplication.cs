@@ -103,6 +103,7 @@ namespace Cocktail
                 return;
             _isInitialized = true;
 
+            PlatformProvider.Current = new XamlPlatformProvider();
             StartRuntime();
             await StartRuntimeAsync();
         }
@@ -260,6 +261,7 @@ namespace Cocktail
                 return;
             _isInitialized = true;
 
+            PlatformProvider.Current = new XamlPlatformProvider(); 
             try
             {
                 StartDesignTime();

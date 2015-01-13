@@ -10,11 +10,12 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System.Threading.Tasks;
+using Caliburn.Micro;
 using IdeaBlade.Core;
 using IdeaBlade.EntityModel;
 using IdeaBlade.EntityModel.Security;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using System.Threading.Tasks;
 
 namespace Cocktail.Tests.Helpers
 {
@@ -50,6 +51,8 @@ namespace Cocktail.Tests.Helpers
             var compositionProvider = new MefCompositionProvider();
             Authenticator.Instance.DefaultAuthenticationContext = null;
             Composition.SetProvider(compositionProvider);
+
+            PlatformProvider.Current = new TestPlatformProvider();
 
             Context();
         }

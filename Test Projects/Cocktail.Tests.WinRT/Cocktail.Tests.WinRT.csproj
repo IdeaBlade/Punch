@@ -156,6 +156,9 @@
     <Compile Include="..\Cocktail.Tests\Helpers\TestEventHandler.cs">
       <Link>Helpers\TestEventHandler.cs</Link>
     </Compile>
+    <Compile Include="..\Cocktail.Tests\Helpers\TestPlatformProvider.cs">
+      <Link>Helpers\TestPlatformProvider.cs</Link>
+    </Compile>
     <Compile Include="..\Cocktail.Tests\Helpers\ViewModelLocator.cs">
       <Link>Helpers\ViewModelLocator.cs</Link>
     </Compile>

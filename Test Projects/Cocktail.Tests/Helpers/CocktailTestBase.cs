@@ -10,11 +10,12 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using System.ComponentModel.Composition.Hosting;
-using System.Threading.Tasks;
+using Caliburn.Micro;
 using IdeaBlade.EntityModel;
 using IdeaBlade.EntityModel.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.ComponentModel.Composition.Hosting;
+using System.Threading.Tasks;
 
 namespace Cocktail.Tests.Helpers
 {
@@ -50,6 +51,8 @@ namespace Cocktail.Tests.Helpers
             PrepareCompositionContainer(batch);
             compositionProvider.Configure(batch);
             Composition.SetProvider(compositionProvider);
+
+            PlatformProvider.Current = new TestPlatformProvider();
 
             Context();
         }

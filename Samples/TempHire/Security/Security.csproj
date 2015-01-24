@@ -69,7 +69,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.5.0\lib\net45\Cocktail.Utils.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.5.1\lib\net45\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

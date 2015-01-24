@@ -23,7 +23,7 @@
             <TextBlock Margin="0,15,0,0"
                        FontFamily="Verdana"
                        FontSize="16"
-                       Text="Our simple resource management application demonstrates a data-rich multi-screen business application — the type of application that Cocktail makes easier to build."
+                       Text="Our simple resource management application demonstrates a data-rich multi-screen business application — the type of application that Punch makes easier to build."
                        TextWrapping="Wrap" />
             <TextBlock Margin="0,15,0,0"
                        FontFamily="Verdana"
@@ -33,7 +33,7 @@
             <TextBlock Margin="0,15,0,0"
                        FontFamily="Verdana"
                        FontSize="16"
-                       Text="After you've explored the application, download the source to see the technology and techniques that make Cocktail such a powerful development tool."
+                       Text="After you've explored the application, download the source to see the technology and techniques that make Punch such a powerful development tool."
                        TextWrapping="Wrap" />
         </StackPanel>
     </Grid>

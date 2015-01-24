@@ -95,10 +95,10 @@
       <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\sl5\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.5.0\lib\sl50\Cocktail.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.5.1\lib\sl50\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.5.0\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.5.1\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL">
       <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>

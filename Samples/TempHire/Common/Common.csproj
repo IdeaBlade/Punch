@@ -61,26 +61,27 @@
       <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.5.1\lib\net45\Cocktail.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.5.2\lib\net45\Cocktail.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.5.1\lib\net45\Cocktail.Utils.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.5.2\lib\net45\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\net45\IdeaBlade.Core.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.6\lib\net45\IdeaBlade.Core.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.6\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\net45\IdeaBlade.Linq.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.6\lib\net45\IdeaBlade.Linq.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\net45\IdeaBlade.Validation.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.6\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
-    <Reference Include="PostSharp, Version=3.1.57.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+    <Reference Include="PostSharp, Version=3.1.60.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PostSharp.3.1.60\lib\net20\PostSharp.dll</HintPath>
       <Private>True</Private>
-      <HintPath>..\packages\PostSharp.3.1.57\lib\net20\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -143,10 +144,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\PostSharp.3.1.57\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.3.1.57\tools\PostSharp.targets')" />
+  <Import Project="..\packages\PostSharp.3.1.60\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.3.1.60\tools\PostSharp.targets')" />
   <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">
-    <Error Condition="!Exists('..\packages\PostSharp.3.1.57\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
-    <Error Condition="Exists('..\packages\PostSharp.3.1.57\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="!Exists('..\packages\PostSharp.3.1.60\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="Exists('..\packages\PostSharp.3.1.60\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

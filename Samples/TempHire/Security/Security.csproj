@@ -69,7 +69,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.5.1\lib\net45\Cocktail.Utils.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.5.2\lib\net45\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -84,23 +84,24 @@
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.1\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Aop">
-      <HintPath>..\packages\IdeaBlade.DevForce.Aop.7.2.5\lib\net45\IdeaBlade.Aop.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Aop.7.2.6\lib\net45\IdeaBlade.Aop.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\net45\IdeaBlade.Core.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.6\lib\net45\IdeaBlade.Core.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.6\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\net45\IdeaBlade.Linq.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.6\lib\net45\IdeaBlade.Linq.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\net45\IdeaBlade.Validation.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.6\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
-    <Reference Include="PostSharp, Version=3.1.57.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+    <Reference Include="PostSharp, Version=3.1.60.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PostSharp.3.1.60\lib\net20\PostSharp.dll</HintPath>
       <Private>True</Private>
-      <HintPath>..\packages\PostSharp.3.1.57\lib\net20\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -146,10 +147,10 @@
     xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\IdeaBlade.DevForce.Aop.7.2.4\tools\IdeaBlade.DevForce.Common.targets" Condition="Exists('..\packages\IdeaBlade.DevForce.Aop.7.2.4\tools\IdeaBlade.DevForce.Common.targets')" />
-  <Import Project="..\packages\PostSharp.3.1.57\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.3.1.57\tools\PostSharp.targets')" />
+  <Import Project="..\packages\PostSharp.3.1.60\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.3.1.60\tools\PostSharp.targets')" />
   <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">
-    <Error Condition="!Exists('..\packages\PostSharp.3.1.57\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
-    <Error Condition="Exists('..\packages\PostSharp.3.1.57\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="!Exists('..\packages\PostSharp.3.1.60\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="Exists('..\packages\PostSharp.3.1.60\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -15,7 +15,7 @@
     <PackageCertificateKeyFile>Todo_TemporaryKey.pfx</PackageCertificateKeyFile>
     <RestorePackages>true</RestorePackages>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <PackageCertificateThumbprint>BACB547C535B1A41EEF1F02AA7177E4110E1AE9B</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>1C3191C036AEF6C40DC8ABAA6278FDA501BD119C</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -158,37 +158,37 @@
       <HintPath>..\packages\Callisto.1.3.1\lib\winrt45\Callisto.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.WinRT">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.5.1\lib\netcore45\Cocktail.Utils.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.5.2\lib\netcore45\Cocktail.Utils.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.WinRT">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.5.1\lib\netcore45\Cocktail.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.5.2\lib\netcore45\Cocktail.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.WinRT">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\netcore45\IdeaBlade.Core.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.6\lib\netcore45\IdeaBlade.Core.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.EntityModel.WinRT">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\netcore45\IdeaBlade.EntityModel.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.6\lib\netcore45\IdeaBlade.EntityModel.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Linq.WinRT">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\netcore45\IdeaBlade.Linq.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.6\lib\netcore45\IdeaBlade.Linq.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Validation.WinRT">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.5\lib\netcore45\IdeaBlade.Validation.WinRT.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.6\lib\netcore45\IdeaBlade.Validation.WinRT.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.AttributedModel">
-      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.Convention">
-      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.Hosting">
-      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.Runtime">
-      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.TypedParts">
-      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
     </Reference>
     <Reference Include="Windows.UI.Interactivity">
       <HintPath>..\packages\Windows.UI.Interactivity.1.3.0.0\lib\win8\Windows.UI.Interactivity.dll</HintPath>

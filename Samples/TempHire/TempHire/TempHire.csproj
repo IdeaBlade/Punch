@@ -63,16 +63,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\Caliburn.Micro.Core.2.0.1\lib\net45\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.Core.2.0.2\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Caliburn.Micro.Platform">
-      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.2.0.2\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.5.2\lib\net45\Cocktail.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.5.3\lib\net45\Cocktail.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.5.2\lib\net45\Cocktail.Utils.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.5.3\lib\net45\Cocktail.Utils.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
@@ -110,9 +110,8 @@
       <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.6\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
     <Reference Include="PostSharp, Version=3.1.60.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\PostSharp.3.1.60\lib\net20\PostSharp.dll</HintPath>
       <Private>True</Private>
+      <HintPath>..\packages\PostSharp.3.1.60\lib\net20\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -123,9 +122,7 @@
       <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Windows.Interactivity">
-      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />

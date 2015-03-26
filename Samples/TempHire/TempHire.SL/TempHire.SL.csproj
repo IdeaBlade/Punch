@@ -95,16 +95,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
-      <HintPath>..\packages\Caliburn.Micro.Core.2.0.1\lib\sl5\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.Core.2.0.2\lib\sl5\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Caliburn.Micro.Platform">
-      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\sl5\Caliburn.Micro.Platform.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.2.0.2\lib\sl5\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.5.2\lib\sl50\Cocktail.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.5.3\lib\sl50\Cocktail.SL.dll</HintPath>
     </Reference>
     <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.5.2\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.5.3\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
     </Reference>
     <Reference Include="IdeaBlade.Core.SL">
       <HintPath>..\packages\IdeaBlade.DevForce.Core.7.2.6\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>
@@ -151,9 +151,7 @@
     <Reference Include="System.Windows.Controls.Toolkit">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="System.Windows.Interactivity">
-      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\sl5\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\TempHire\AppBootstrapper.cs">

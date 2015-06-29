@@ -10,10 +10,15 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
+using IdeaBlade.EntityModel;
 using System.Collections;
 using System.Collections.Generic;
+
+#if SILVERLIGHT
+using Microsoft.Runtime.CompilerServices;
+#else
 using System.Runtime.CompilerServices;
-using IdeaBlade.EntityModel;
+#endif
 
 namespace Cocktail
 {

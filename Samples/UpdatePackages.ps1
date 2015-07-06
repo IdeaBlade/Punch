@@ -15,7 +15,7 @@
     nuget update $solution.FullName -Id IdeaBlade.DevForce.Core
     nuget update $solution.FullName -Id IdeaBlade.DevForce.Aop
     nuget update $solution.FullName -Id IdeaBlade.DevForce.Server
-    nuget update $solution.FullName -Id PostSharp
+    #nuget update $solution.FullName -Id PostSharp
 
     # Delete packages folder. It will be restored on next build
     if (Test-Path -Path $packages)

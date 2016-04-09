@@ -12,7 +12,7 @@ foreach ($nuspecFile in Get-ChildItem ./*.nuspec)
     
     # Build package
     Write-Host "Building package $packageFileName" -foregroundcolor green
-    nuget pack $nuspecFile.FullName -Symbols
+    .\nuget pack $nuspecFile.FullName -Symbols
     
     if (Test-Path $repository)
     {

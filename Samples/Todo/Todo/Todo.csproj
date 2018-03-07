@@ -160,23 +160,29 @@
     <Reference Include="Caliburn.Micro.Platform">
       <HintPath>..\packages\Caliburn.Micro.2.0.2\lib\win81\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail.Utils.WinRT">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.6.0\lib\netcore45\Cocktail.Utils.WinRT.dll</HintPath>
+    <Reference Include="Cocktail.Utils.WinRT, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.6.2\lib\netcore45\Cocktail.Utils.WinRT.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Cocktail.WinRT">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.6.0\lib\netcore45\Cocktail.WinRT.dll</HintPath>
+    <Reference Include="Cocktail.WinRT, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.6.2\lib\netcore45\Cocktail.WinRT.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.Core.WinRT">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.3.0\lib\netcore45\IdeaBlade.Core.WinRT.dll</HintPath>
+    <Reference Include="IdeaBlade.Core.WinRT, Version=7.5.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.1\lib\netcore451\IdeaBlade.Core.WinRT.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.WinRT">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.3.0\lib\netcore45\IdeaBlade.EntityModel.WinRT.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel.WinRT, Version=7.5.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.1\lib\netcore451\IdeaBlade.EntityModel.WinRT.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.Linq.WinRT">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.3.0\lib\netcore45\IdeaBlade.Linq.WinRT.dll</HintPath>
+    <Reference Include="IdeaBlade.Linq.WinRT, Version=7.5.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.1\lib\netcore451\IdeaBlade.Linq.WinRT.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.Validation.WinRT">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.3.0\lib\netcore45\IdeaBlade.Validation.WinRT.dll</HintPath>
+    <Reference Include="IdeaBlade.Validation.WinRT, Version=7.5.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.1\lib\netcore451\IdeaBlade.Validation.WinRT.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Composition.AttributedModel">
       <HintPath>..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>

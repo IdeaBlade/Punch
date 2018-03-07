@@ -22,6 +22,8 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\TempHire\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <DontImportPostSharp>True</DontImportPostSharp>
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
@@ -87,23 +89,29 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Cocktail.Utils.SL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.6.0\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
+    <Reference Include="Cocktail.Utils.SL, Version=2.6.2.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.6.2\lib\sl50\Cocktail.Utils.SL.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.Aop.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Aop.7.3.0\lib\sl50\IdeaBlade.Aop.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.Aop.SL, Version=7.5.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Aop.7.5.1\lib\sl5\IdeaBlade.Aop.SL.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.Core.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.3.0\lib\sl50\IdeaBlade.Core.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.Core.SL, Version=7.5.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.1\lib\sl5\IdeaBlade.Core.SL.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.3.0\lib\sl50\IdeaBlade.EntityModel.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel.SL, Version=7.5.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.1\lib\sl5\IdeaBlade.EntityModel.SL.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.Linq.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.3.0\lib\sl50\IdeaBlade.Linq.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.Linq.SL, Version=7.5.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.1\lib\sl5\IdeaBlade.Linq.SL.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.Validation.SL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.3.0\lib\sl50\IdeaBlade.Validation.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.Validation.SL, Version=7.5.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.1\lib\sl5\IdeaBlade.Validation.SL.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\sl4\Microsoft.Threading.Tasks.dll</HintPath>
@@ -115,8 +123,8 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\sl4\Microsoft.Threading.Tasks.Extensions.Silverlight.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="PostSharp">
-      <HintPath>..\packages\PostSharp.3.1.66\lib\portable-windows8+net40+sl5+wp8+wpa81\PostSharp.dll</HintPath>
+    <Reference Include="PostSharp, Version=3.1.75.3, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostSharp.3.1.75\lib\portable-windows8+net40+sl5+wp8+wpa81\PostSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.ComponentModel.Composition, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -125,15 +133,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.ComponentModel.DataAnnotations.dll</HintPath>
     </Reference>
-    <Reference Include="System.IO">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.8\lib\sl5\System.IO.dll</HintPath>
+    <Reference Include="System.IO, Version=1.5.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\sl5\System.IO.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Runtime">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.8\lib\sl5\System.Runtime.dll</HintPath>
+    <Reference Include="System.Runtime, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\sl5\System.Runtime.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.8\lib\sl5\System.Threading.Tasks.dll</HintPath>
+    <Reference Include="System.Threading.Tasks, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\sl5\System.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />
@@ -190,6 +201,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
@@ -200,10 +212,17 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="..\packages\PostSharp.3.1.66\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.3.1.66\tools\PostSharp.targets')" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <Import Project="..\packages\PostSharp.3.1.75\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.3.1.75\tools\PostSharp.targets')" />
   <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">
-    <Error Condition="!Exists('..\packages\PostSharp.3.1.66\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
-    <Error Condition="Exists('..\packages\PostSharp.3.1.66\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="!Exists('..\packages\PostSharp.3.1.75\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="Exists('..\packages\PostSharp.3.1.75\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -64,24 +64,24 @@
     <Reference Include="Caliburn.Micro.Platform">
       <HintPath>..\packages\Caliburn.Micro.2.0.2\lib\sl5\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core.SL, Version=7.5.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.1\lib\sl5\IdeaBlade.Core.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.Core.SL, Version=7.5.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.2\lib\sl5\IdeaBlade.Core.SL.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Compat.SL, Version=7.5.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Compat.7.5.1\lib\sl5\IdeaBlade.EntityModel.Compat.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel.Compat.SL, Version=7.5.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Compat.7.5.2\lib\sl5\IdeaBlade.EntityModel.Compat.SL.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.SL, Version=7.5.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.1\lib\sl5\IdeaBlade.EntityModel.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel.SL, Version=7.5.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.2\lib\sl5\IdeaBlade.EntityModel.SL.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.Linq.SL, Version=7.5.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.1\lib\sl5\IdeaBlade.Linq.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.Linq.SL, Version=7.5.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.2\lib\sl5\IdeaBlade.Linq.SL.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.Validation.SL, Version=7.5.1.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.1\lib\sl5\IdeaBlade.Validation.SL.dll</HintPath>
+    <Reference Include="IdeaBlade.Validation.SL, Version=7.5.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.2\lib\sl5\IdeaBlade.Validation.SL.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">

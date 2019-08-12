@@ -47,20 +47,20 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core, Version=7.5.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.2\lib\net45\IdeaBlade.Core.dll</HintPath>
+    <Reference Include="IdeaBlade.Core, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.3\lib\net45\IdeaBlade.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel, Version=7.5.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.2\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.3\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.Linq, Version=7.5.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.2\lib\net45\IdeaBlade.Linq.dll</HintPath>
+    <Reference Include="IdeaBlade.Linq, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.3\lib\net45\IdeaBlade.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IdeaBlade.Validation, Version=7.5.2.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.2\lib\net45\IdeaBlade.Validation.dll</HintPath>
+    <Reference Include="IdeaBlade.Validation, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.3\lib\net45\IdeaBlade.Validation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -25,6 +26,9 @@
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,42 +50,36 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.3\lib\net45\IdeaBlade.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="IdeaBlade.Core, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.4\lib\net45\IdeaBlade.Core.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.3\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="IdeaBlade.EntityModel, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.4\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Edm.EF5, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.5.3\lib\net45\IdeaBlade.EntityModel.Edm.EF5.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="IdeaBlade.EntityModel.Edm.EF5, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.5.4\lib\net45\IdeaBlade.EntityModel.Edm.EF5.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Edm.EF6, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.5.3\lib\net45\IdeaBlade.EntityModel.Edm.EF6.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="IdeaBlade.EntityModel.Edm.EF6, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.5.4\lib\net45\IdeaBlade.EntityModel.Edm.EF6.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Server, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.5.3\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="IdeaBlade.EntityModel.Server, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.5.4\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Web">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.5.3\tools\lib\net45\IdeaBlade.EntityModel.Web.dll</HintPath>
+    <Reference Include="IdeaBlade.EntityModel.Web, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Server.7.5.4\tools\lib\net45\IdeaBlade.EntityModel.Web.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.3\lib\net45\IdeaBlade.Linq.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="IdeaBlade.Linq, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.4\lib\net45\IdeaBlade.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Validation, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.3\lib\net45\IdeaBlade.Validation.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="IdeaBlade.Validation, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IdeaBlade.DevForce.Core.7.5.4\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -116,7 +114,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -154,4 +152,12 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
 </Project>

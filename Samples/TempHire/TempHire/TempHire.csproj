@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TempHire</RootNamespace>
     <AssemblyName>TempHire</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -62,56 +62,47 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Caliburn.Micro">
+    <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.Core.2.0.2\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Caliburn.Micro.Platform">
+    <Reference Include="Caliburn.Micro.Platform, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.2.0.2\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail, Version=2.6.4.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.2.6.4\lib\net45\Cocktail.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Cocktail, Version=2.6.5.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.Cocktail.2.6.5\lib\net45\Cocktail.dll</HintPath>
     </Reference>
-    <Reference Include="Cocktail.Utils, Version=2.6.4.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.6.4\lib\net45\Cocktail.Utils.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Cocktail.Utils, Version=2.6.5.0, Culture=neutral, PublicKeyToken=7d8c7326b555a04a, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.Cocktail.Utils.2.6.5\lib\net45\Cocktail.Utils.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServerCompact">
+    <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.1\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Core, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.3\lib\net45\IdeaBlade.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="IdeaBlade.Core, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.4\lib\net45\IdeaBlade.Core.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.3\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="IdeaBlade.EntityModel, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.4\lib\net45\IdeaBlade.EntityModel.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Edm.EF5, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.5.3\lib\net45\IdeaBlade.EntityModel.Edm.EF5.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="IdeaBlade.EntityModel.Edm.EF5, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.5.4\lib\net45\IdeaBlade.EntityModel.Edm.EF5.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Edm.EF6, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.5.3\lib\net45\IdeaBlade.EntityModel.Edm.EF6.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="IdeaBlade.EntityModel.Edm.EF6, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.5.4\lib\net45\IdeaBlade.EntityModel.Edm.EF6.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.EntityModel.Server, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.5.3\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="IdeaBlade.EntityModel.Server, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Server.7.5.4\lib\net45\IdeaBlade.EntityModel.Server.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Linq, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.3\lib\net45\IdeaBlade.Linq.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="IdeaBlade.Linq, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.4\lib\net45\IdeaBlade.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="IdeaBlade.Validation, Version=7.5.3.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.3\lib\net45\IdeaBlade.Validation.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="IdeaBlade.Validation, Version=7.5.4.0, Culture=neutral, PublicKeyToken=287b5094865421c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdeaBlade.DevForce.Core.7.5.4\lib\net45\IdeaBlade.Validation.dll</HintPath>
     </Reference>
     <Reference Include="PostSharp, Version=3.1.75.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
       <HintPath>..\packages\PostSharp.3.1.75\lib\net20\PostSharp.dll</HintPath>
@@ -122,7 +113,6 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <Private>True</Private>
       <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
@@ -133,7 +123,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WPFToolkit.Extended">
+    <Reference Include="WPFToolkit.Extended, Version=1.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>..\packages\Extended.Wpf.Toolkit.1.6.0\lib\net40\WPFToolkit.Extended.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -187,7 +177,7 @@
       <Name>DomainServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\Security\Security.csproj">
-      <Project>{5DA86954-CB04-4E4B-815D-D1D38B8501B4}</Project>
+      <Project>{5da86954-cb04-4e4b-815d-d1d38b8501b4}</Project>
       <Name>Security</Name>
     </ProjectReference>
   </ItemGroup>
@@ -267,9 +257,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
     <Page Include="Styles\Styles.Wpf.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

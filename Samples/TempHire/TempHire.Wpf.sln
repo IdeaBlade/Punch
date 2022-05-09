@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempHire", "TempHire\TempHire.csproj", "{1E7FB7CF-DBFE-4A11-B574-2ED6636CFF7E}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harness", "Harness\Harness.csproj", "{AEE7F04F-20BB-4589-944C-CEDCAE62E4A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainServices", "DomainServices\DomainServices.csproj", "{AA010C45-D661-46AC-97E2-7E111ACB99F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempHire2", "TempHire2\TempHire2.csproj", "{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -118,8 +120,29 @@ Global
 		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AA010C45-D661-46AC-97E2-7E111ACB99F1}.Release|x86.ActiveCfg = Release|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Debug|x86.Build.0 = Debug|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Fakestore|Any CPU.ActiveCfg = Debug|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Fakestore|Any CPU.Build.0 = Debug|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Fakestore|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Fakestore|Mixed Platforms.Build.0 = Debug|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Fakestore|x86.ActiveCfg = Debug|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Fakestore|x86.Build.0 = Debug|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Release|x86.ActiveCfg = Release|Any CPU
+		{871A5D90-ACCA-4E17-A887-9A1E8CA4ADF5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9B49A7E7-A34C-4AA9-B313-9813BD3633CA}
 	EndGlobalSection
 EndGlobal

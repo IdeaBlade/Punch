@@ -7,7 +7,7 @@ Punch
 > TempHire sample in this repository to Angular, Breeze 3 and .NET with the help of AI, with every
 > ported file naming the file it came from.
 >
-> Need to take a Punch or DevForce application forward? [IdeaBlade](https://www.ideablade.com),
+> Need to take a Punch or DevForce application forward? [IdeaBlade](https://www.ideablade.com/products/devforce-modernization/),
 > the creators of DevForce, can help.
 
 Punch is an application development platform that takes the pain out of the development of data-driven rich XAML applications. It is a blend of three popular frameworks: Caliburn.Micro + DevForce + Entity Framework. Line of business applications need to query and save database data, model the data as objects with business logic, and present those objects to the end user. Punch takes care of these fundamental responsibilities with loosely coupled, open source, and industry-leading components that are designed for change.
